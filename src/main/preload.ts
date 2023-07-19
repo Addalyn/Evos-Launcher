@@ -2,9 +2,14 @@
 /* eslint no-unused-vars: off */
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
-export type Channels = 'ipc-example';
+export type Channels =
+  | 'getAssetPath'
+  | 'open-file-dialog'
+  | 'selected-file'
+  | 'launch-game';
 
 const electronHandler = {
+  isPackaged: process.env.NODE_ENV === 'production',
   ipcRenderer: {
     sendMessage(channel: Channels, ...args: unknown[]) {
       ipcRenderer.send(channel, ...args);
@@ -20,6 +25,12 @@ const electronHandler = {
     },
     once(channel: Channels, func: (...args: unknown[]) => void) {
       ipcRenderer.once(channel, (_event, ...args) => func(...args));
+    },
+    openFileDialog() {
+      ipcRenderer.send('open-file-dialog');
+    },
+    getSelectedFile() {
+      return ipcRenderer.invoke('open-file-dialog');
     },
   },
 };

@@ -9,9 +9,10 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import { spawn } from 'child_process';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
@@ -25,10 +26,25 @@ class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
-ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
-  event.reply('ipc-example', msgTemplate('pong'));
+ipcMain.on('launch-game', (event, args) => {
+  console.log(
+    'Launcing game: ',
+    `${args.exePath} ${args.launchOptions.join(' ')}`
+  );
+
+  const childProcess = spawn(args.exePath, args.launchOptions);
+
+  // Handle the output of the executable (optional)
+  childProcess.stdout.on('data', (data) => {
+    console.log(`Executable output: ${data}`);
+  });
+
+  // Handle errors (optional)
+  childProcess.on('error', (err) => {
+    console.error(
+      `Error occurred while launching the executable: ${err.message}`
+    );
+  });
 });
 
 if (process.env.NODE_ENV === 'production') {
@@ -36,8 +52,7 @@ if (process.env.NODE_ENV === 'production') {
   sourceMapSupport.install();
 }
 
-const isDebug =
-  process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
+const isDebug = true; //  process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 
 if (isDebug) {
   require('electron-debug')();
@@ -71,17 +86,42 @@ const createWindow = async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
+    width: 1200,
     height: 728,
-    icon: getAssetPath('icon.png'),
+    minWidth: 550,
+    minHeight: 400,
+    autoHideMenuBar: true,
+    icon: getAssetPath('logo.png'),
     webPreferences: {
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
+      nodeIntegration: true,
+      contextIsolation: true,
+      webSecurity: true,
     },
   });
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
+
+  ipcMain.on('getAssetPath', (event) => {
+    const assetPath = getAssetPath('./');
+    event.reply('getAssetPath', assetPath);
+  });
+
+  ipcMain.handle('open-file-dialog', async () => {
+    const files = await dialog.showOpenDialog({
+      properties: ['openFile'],
+      filters: [{ name: 'Atlas Reactor Executable', extensions: ['exe'] }],
+    });
+
+    const selectedFilePath = files.filePaths[0];
+
+    if (selectedFilePath && selectedFilePath.endsWith('AtlasReactor.exe')) {
+      return selectedFilePath;
+    }
+    return null;
+  });
 
   mainWindow.on('ready-to-show', () => {
     if (!mainWindow) {

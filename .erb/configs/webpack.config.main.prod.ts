@@ -15,6 +15,11 @@ import deleteSourceMaps from '../scripts/delete-source-maps';
 checkNodeEnv('production');
 deleteSourceMaps();
 
+const handler = (percentage: any, message: any, ...args: any[]) => {
+  // e.g. Output each progress message directly to the console:
+  console.info(message, ...args);
+};
+
 const configuration: webpack.Configuration = {
   devtool: 'source-map',
 
@@ -63,7 +68,7 @@ const configuration: webpack.Configuration = {
       DEBUG_PROD: false,
       START_MINIMIZED: false,
     }),
-
+    new webpack.ProgressPlugin(handler),
     new webpack.DefinePlugin({
       'process.type': '"browser"',
     }),

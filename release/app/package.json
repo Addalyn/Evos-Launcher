@@ -1,12 +1,12 @@
 {
-  "name": "electron-react-boilerplate",
-  "version": "4.6.0",
-  "description": "A foundation for scalable desktop apps",
+  "name": "evoslauncher",
+  "version": "1.0.0",
+  "description": "A Atlas Reactor Launcher built with Electron, React",
   "license": "MIT",
   "author": {
-    "name": "Electron React Boilerplate Maintainers",
-    "email": "electronreactboilerplate@gmail.com",
-    "url": "https://github.com/electron-react-boilerplate"
+    "name": "Babymillie",
+    "email": "dev@addalyn.baby",
+    "url": "https://github.com/Addalyn/Evos-Launcher"
   },
   "main": "./dist/main/main.js",
   "scripts": {
