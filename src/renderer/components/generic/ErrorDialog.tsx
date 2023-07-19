@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import { DialogProps } from '@mui/material/Dialog/Dialog';
 import { EvosError } from '../../lib/Error';
 import BaseDialog from './BaseDialog';
