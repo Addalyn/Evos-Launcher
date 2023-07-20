@@ -52,7 +52,7 @@ ipcMain.on('launch-game', (event, args) => {
       );
       const launchOptions = [
         '-s',
-        `localhost:6050`, // ${args.launchOptions.ip}:${args.launchOptions.port}
+        `${args.launchOptions.ip}:${args.launchOptions.port}`,
         '-t',
         `${app.getPath('temp')}\\authTicket.xml`,
       ];
