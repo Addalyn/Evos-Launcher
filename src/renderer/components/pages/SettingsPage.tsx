@@ -7,6 +7,9 @@ import {
   InputAdornment,
   Paper,
   TextField,
+  Switch,
+  FormControlLabel,
+  FormGroup,
 } from '@mui/material';
 import { logoSmall } from 'renderer/lib/Resources';
 import EvosStore from 'renderer/lib/EvosStore';
@@ -37,7 +40,15 @@ function truncateDynamicPath(filePath: string, maxChars: number) {
 }
 
 export default function SettingsPage() {
-  const { ip, gamePort, setGamePort, exePath, setExePath } = EvosStore();
+  const {
+    ip,
+    gamePort,
+    setGamePort,
+    exePath,
+    setExePath,
+    experimental,
+    setExperimental,
+  } = EvosStore();
   const [password, setPassword] = useState('');
   const signOut = useSignOut();
   const navigate = useNavigate();
@@ -173,6 +184,22 @@ export default function SettingsPage() {
               margin="normal"
               fullWidth
             />
+          </Grid>
+        </Grid>
+      </Paper>
+      <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12}>
+            <FormGroup>
+              <FormControlLabel
+                control={<Switch />}
+                label="Enable Experimental Ticketing System, disabling this requires AtlasReactorConfig.json to be created"
+                checked={experimental === 'true'}
+                onChange={() => {
+                  setExperimental(experimental === 'true' ? 'false' : 'true');
+                }}
+              />
+            </FormGroup>
           </Grid>
         </Grid>
       </Paper>

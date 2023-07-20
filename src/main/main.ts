@@ -9,6 +9,7 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
+import fs from 'fs';
 import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
@@ -27,24 +28,45 @@ class AppUpdater {
 let mainWindow: BrowserWindow | null = null;
 
 ipcMain.on('launch-game', (event, args) => {
-  console.log(
-    'Launcing game: ',
-    `${args.exePath} ${args.launchOptions.join(' ')}`
-  );
+  if (args.launchOptions.token) {
+    const ticket = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<authTicket version="1.2">
+    <ticket>
+        <channelId>0</channelId>
+        <token>${args.launchOptions.token}</token>
+    </ticket>
+    <account>
+        <accountId>0</accountId>
+        <email>${args.launchOptions.accountId}</email>
+        <glyphTag>${args.launchOptions.handle}</glyphTag>
+        <accountStatus>ACTIVE</accountStatus>
+        <accountCurrency>USD</accountCurrency>
+    </account>
+</authTicket>`;
 
-  const childProcess = spawn(args.exePath, args.launchOptions);
-
-  // Handle the output of the executable (optional)
-  childProcess.stdout.on('data', (data) => {
-    console.log(`Executable output: ${data}`);
-  });
-
-  // Handle errors (optional)
-  childProcess.on('error', (err) => {
-    console.error(
-      `Error occurred while launching the executable: ${err.message}`
-    );
-  });
+    try {
+      fs.writeFileSync(
+        `${app.getPath('temp')}\\authTicket.xml`,
+        ticket,
+        'utf-8'
+      );
+      const launchOptions = [
+        '-s',
+        `localhost:6050`, // ${args.launchOptions.ip}:${args.launchOptions.port}
+        '-t',
+        `${app.getPath('temp')}\\authTicket.xml`,
+      ];
+      spawn(args.exePath, launchOptions);
+    } catch (e) {
+      console.log('Failed to write file', e);
+    }
+  } else {
+    const launchOptions = [
+      '-s',
+      `${args.launchOptions.ip}:${args.launchOptions.port}`,
+    ];
+    spawn(args.exePath, launchOptions);
+  }
 });
 
 if (process.env.NODE_ENV === 'production') {

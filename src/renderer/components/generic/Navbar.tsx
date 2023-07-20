@@ -60,7 +60,7 @@ export default function NavBar() {
   const mode = evosStore.mode as PaletteMode;
   const location = useLocation();
 
-  const { toggleMode, age, exePath } = evosStore;
+  const { toggleMode, age, exePath, experimental } = evosStore;
 
   const { width } = useWindowDimensions();
 
@@ -90,11 +90,26 @@ export default function NavBar() {
 
   const handleLaunchGameClick = () => {
     if (exePath.endsWith('AtlasReactor.exe')) {
-      // const ticketFile = '';
-      window.electron.ipcRenderer.sendMessage('launch-game', {
-        exePath,
-        launchOptions: [], //  launchOptions: ['-s', `${ip}:${gamePort}}`, '-t', ticketFile], -  Not implemented yet
-      });
+      if (experimental === 'true') {
+        window.electron.ipcRenderer.sendMessage('launch-game', {
+          exePath,
+          launchOptions: {
+            ip: evosStore.ip,
+            port: evosStore.gamePort,
+            token: localStorage.getItem('_auth') ?? '', // TODO: repleace with gameLogin token
+            accountId: auth()?.handle ?? '',
+            handle: auth()?.handle ?? '',
+          },
+        });
+      } else {
+        window.electron.ipcRenderer.sendMessage('launch-game', {
+          exePath,
+          launchOptions: {
+            ip: evosStore.ip,
+            port: evosStore.gamePort,
+          },
+        });
+      }
     }
   };
 

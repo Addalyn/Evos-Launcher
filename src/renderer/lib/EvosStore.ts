@@ -13,6 +13,8 @@ interface EvosStoreState {
   setExePath: (exePath: string) => void;
   gamePort: string;
   setGamePort: (gamePort: string) => void;
+  experimental: string;
+  setExperimental: (experimental: string) => void;
 }
 
 const EvosStore = create<EvosStoreState>((set, get) => ({
@@ -46,6 +48,11 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   setGamePort: (gamePort: string) => {
     localStorage.setItem('gamePort', gamePort);
     set({ gamePort });
+  },
+  experimental: localStorage.getItem('experimental') || 'false',
+  setExperimental: (experimental: string) => {
+    localStorage.setItem('experimental', experimental.toString());
+    set({ experimental });
   },
 }));
 
