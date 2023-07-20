@@ -9,7 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+git@github.com:Addalyn/Evos-Launcher.git"
+    "url": "git@github.com:Addalyn/Evos-Launcher.git"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ]
   },
   "license": "MIT",
   "author": {
@@ -212,6 +217,12 @@
       "target": [
         "nsis"
       ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true
     },
     "linux": {
       "target": [
