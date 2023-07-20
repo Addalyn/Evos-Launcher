@@ -37,6 +37,11 @@ const page = (title: string, content: React.ReactNode) => {
 export default function App() {
   const evosStore = EvosStore();
   const mode = evosStore.mode as PaletteMode;
+  const { activeUser } = evosStore;
+
+  const isAuthenticated = () => {
+    return activeUser !== null && activeUser?.token !== '';
+  };
 
   const theme = React.useMemo(
     () =>
@@ -97,10 +102,28 @@ export default function App() {
               path="/login"
               element={page(
                 'Login',
-                <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                <>
                   <NavBar />
-                  <Login />
-                </Box>
+                  <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    {isAuthenticated() ? (
+                      <>
+                        <Toolbar />
+                        <Login />
+                      </>
+                    ) : (
+                      <Box
+                        sx={{
+                          marginTop: 8,
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <Login />
+                      </Box>
+                    )}
+                  </Box>
+                </>
               )}
             />
           </Routes>

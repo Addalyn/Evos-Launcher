@@ -14,16 +14,13 @@ import {
 import { logoSmall } from 'renderer/lib/Resources';
 import EvosStore from 'renderer/lib/EvosStore';
 
-import { useSignOut } from 'react-auth-kit';
-import { useNavigate } from 'react-router-dom';
-
 function truncateDynamicPath(filePath: string, maxChars: number) {
   if (filePath === '') return filePath;
   const parts = filePath.split('\\');
   const fileName = parts.pop() as string;
   const driveLetter = parts.shift() as string;
 
-  let truncatedPath = `${driveLetter}:`;
+  let truncatedPath = `${driveLetter}`;
   let currentChars = driveLetter.length + 1 + fileName.length;
 
   parts.reduce((acc, part) => {
@@ -48,10 +45,11 @@ export default function SettingsPage() {
     setExePath,
     experimental,
     setExperimental,
+    activeUser,
+    updateAuthenticatedUsers,
   } = EvosStore();
+
   const [password, setPassword] = useState('');
-  const signOut = useSignOut();
-  const navigate = useNavigate();
 
   const handleGamePortChange = (event: { target: { value: string } }) => {
     if (event.target.value === '') {
@@ -61,15 +59,40 @@ export default function SettingsPage() {
     setGamePort(event.target.value);
   };
 
-  const handleSelectFileClick = async () => {
-    const filePath = await window.electron.ipcRenderer.getSelectedFile();
+  const signOut = () => {
+    updateAuthenticatedUsers(
+      activeUser?.user as string,
+      '',
+      activeUser?.handle as string,
+      activeUser?.banner as number,
+      activeUser?.configFile as string
+    );
+  };
+
+  const handleSelectFileClick = async (config: boolean) => {
+    const filePath = await window.electron.ipcRenderer.getSelectedFile(config);
+    if (config) {
+      updateAuthenticatedUsers(
+        activeUser?.user as string,
+        activeUser?.token as string,
+        activeUser?.handle as string,
+        activeUser?.banner as number,
+        (filePath as string) || ('' as string)
+      );
+      return;
+    }
     setExePath(filePath || '');
   };
 
   const handleResetClick = () => {
     localStorage.clear();
-    signOut();
-    navigate('/login');
+    window.location.href = '/login';
+  };
+
+  const handleDeleteClick = () => {
+    localStorage.removeItem('authenticatedUsers');
+    localStorage.removeItem('activeUser');
+    window.location.href = '/login';
   };
 
   const handlePasswordResetClick = (event: { preventDefault: () => void }) => {
@@ -120,6 +143,55 @@ export default function SettingsPage() {
         <Grid container spacing={2} alignItems="center">
           <Grid item xs={7}>
             <TextField
+              placeholder={`Atlas Reactor config file for account ${activeUser?.handle}`}
+              value={truncateDynamicPath(
+                activeUser?.configFile === undefined
+                  ? ''
+                  : activeUser?.configFile,
+                45
+              )}
+              style={{ flexGrow: 1, marginRight: '1em' }}
+              variant="outlined"
+              disabled
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Avatar
+                      alt="logo"
+                      variant="square"
+                      src={logoSmall()}
+                      sx={{
+                        flexShrink: 1,
+                        width: 40,
+                        height: 40,
+                      }}
+                    />
+                  </InputAdornment>
+                ),
+              }}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={5}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleSelectFileClick(true)}
+              fullWidth
+              sx={{
+                height: '56px',
+                backgroundColor: (theme) => theme.palette.primary.light,
+              }}
+            >
+              Select Config File
+            </Button>
+          </Grid>
+        </Grid>
+      </Paper>
+      <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={7}>
+            <TextField
               placeholder="Atlas Reactor path"
               value={truncateDynamicPath(exePath, 45)}
               style={{ flexGrow: 1, marginRight: '1em' }}
@@ -148,7 +220,7 @@ export default function SettingsPage() {
             <Button
               variant="contained"
               color="primary"
-              onClick={handleSelectFileClick}
+              onClick={() => handleSelectFileClick(false)}
               fullWidth
               sx={{
                 height: '56px',
@@ -193,8 +265,9 @@ export default function SettingsPage() {
             <FormGroup>
               <FormControlLabel
                 control={<Switch />}
-                label="Enable Experimental Ticketing System, disabling this requires AtlasReactorConfig.json to be created"
+                label="Enable Experimental Ticketing System, disabling this requires AtlasReactorConfig.json to be selected"
                 checked={experimental === 'true'}
+                disabled
                 onChange={() => {
                   setExperimental(experimental === 'true' ? 'false' : 'true');
                 }}
@@ -205,7 +278,18 @@ export default function SettingsPage() {
       </Paper>
       <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={12}>
+          <Grid item xs={6}>
+            <Button
+              variant="contained"
+              color="error"
+              fullWidth
+              onClick={handleDeleteClick}
+              sx={{ height: '56px' }}
+            >
+              Delete All Accounts (this will log you out)
+            </Button>
+          </Grid>
+          <Grid item xs={6}>
             <Button
               variant="contained"
               color="error"

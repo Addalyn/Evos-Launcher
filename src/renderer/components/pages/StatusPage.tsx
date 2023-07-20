@@ -1,6 +1,5 @@
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuthHeader, useSignOut } from 'react-auth-kit';
 import { LinearProgress, Paper, Typography } from '@mui/material';
 import EvosStore from 'renderer/lib/EvosStore';
 import { getStatus, Status } from '../../lib/Evos';
@@ -26,18 +25,29 @@ function StatusPage() {
   const [error, setError] = useState<EvosError>();
   const [status, setStatus] = useState<Status>();
   const [updateTime, setUpdateTime] = useState<Date>();
-  const { setAge } = EvosStore();
-  const signOut = useSignOut();
+  const { setAge, activeUser, updateAuthenticatedUsers } = EvosStore();
 
-  const authHeader = useAuthHeader()();
   const navigate = useNavigate();
 
-  if (
-    localStorage.getItem('ip') === undefined ||
-    localStorage.getItem('ip') === null
-  ) {
-    navigate('/login');
-  }
+  useEffect(() => {
+    if (
+      localStorage.getItem('ip') === undefined ||
+      localStorage.getItem('ip') === null
+    ) {
+      navigate('/login');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const signOut = () => {
+    updateAuthenticatedUsers(
+      activeUser?.user as string,
+      '',
+      activeUser?.handle as string,
+      activeUser?.banner as number,
+      activeUser?.configFile as string
+    );
+  };
 
   const players = useMemo(
     () => GroupBy((p) => p.accountId, status?.players),
@@ -57,7 +67,7 @@ function StatusPage() {
 
   useInterval(() => {
     // eslint-disable-next-line promise/catch-or-return
-    getStatus(authHeader)
+    getStatus(activeUser?.token ?? '')
       // eslint-disable-next-line promise/always-return
       .then((resp) => {
         setStatus(resp.data);

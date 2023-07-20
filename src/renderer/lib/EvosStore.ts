@@ -1,12 +1,40 @@
 import { create } from 'zustand';
 
-interface EvosStoreState {
+export type AuthenticatedUser = {
+  user: string;
+  token: string;
+  handle: string;
+  banner: number;
+  configFile?: string;
+};
+
+export interface EvosStoreState {
   mode: string;
   toggleMode: () => void;
   ip: string;
   setIp: (ip: string) => void;
-  userName: string;
-  setUserName: (userName: string) => void;
+  authenticatedUsers: {
+    user: string;
+    token: string;
+    handle: string;
+    banner: number;
+    configFile?: string;
+  }[];
+  setAuthenticatedUsers: (
+    user: string,
+    token: string,
+    handle: string,
+    banner: number
+  ) => void;
+  updateAuthenticatedUsers: (
+    user: string,
+    token: string,
+    handle: string,
+    banner: number,
+    configFile?: string
+  ) => void;
+  activeUser: AuthenticatedUser | null;
+  switchUser: (user: string) => void;
   age: number;
   setAge: (status: number) => void;
   exePath: string;
@@ -15,6 +43,7 @@ interface EvosStoreState {
   setGamePort: (gamePort: string) => void;
   experimental: string;
   setExperimental: (experimental: string) => void;
+  logoutUser: (user: string) => void;
 }
 
 const EvosStore = create<EvosStoreState>((set, get) => ({
@@ -30,10 +59,64 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     localStorage.setItem('ip', ip);
     set({ ip });
   },
-  userName: localStorage.getItem('userName') || '',
-  setUserName: (userName: string) => {
-    localStorage.setItem('userName', userName);
-    set({ userName });
+  authenticatedUsers:
+    JSON.parse(localStorage.getItem('authenticatedUsers') as string) || [],
+  setAuthenticatedUsers: (user, token, handle, banner) => {
+    const currentAuthenticatedUsers = get().authenticatedUsers;
+    const updatedAuthenticatedUsers = [
+      ...currentAuthenticatedUsers,
+      { user, token, handle, banner },
+    ];
+    localStorage.setItem(
+      'authenticatedUsers',
+      JSON.stringify(updatedAuthenticatedUsers)
+    );
+    set({ authenticatedUsers: updatedAuthenticatedUsers });
+  },
+  updateAuthenticatedUsers: (user, token, handle, banner, configFile) => {
+    const currentAuthenticatedUsers = get().authenticatedUsers;
+    const updatedAuthenticatedUsers = currentAuthenticatedUsers.map(
+      (authUser) => {
+        if (authUser.user === user) {
+          return { user, token, handle, banner, configFile };
+        }
+        return authUser;
+      }
+    );
+    localStorage.setItem(
+      'authenticatedUsers',
+      JSON.stringify(updatedAuthenticatedUsers)
+    );
+    set({ authenticatedUsers: updatedAuthenticatedUsers });
+    // update user
+    get().switchUser(user);
+  },
+  logoutUser: (user) => {
+    const currentAuthenticatedUsers = get().authenticatedUsers;
+    const updatedAuthenticatedUsers = currentAuthenticatedUsers.filter(
+      (authUser) => authUser.user !== user
+    );
+    localStorage.setItem(
+      'authenticatedUsers',
+      JSON.stringify(updatedAuthenticatedUsers)
+    );
+    set({ authenticatedUsers: updatedAuthenticatedUsers });
+  },
+  activeUser: JSON.parse(localStorage.getItem('activeUser') as string) || null,
+  switchUser: (user) => {
+    if (user === '') {
+      localStorage.removeItem('activeUser');
+      set({ activeUser: null });
+      return;
+    }
+    const currentAuthenticatedUsers = get().authenticatedUsers;
+    const selectedUser = currentAuthenticatedUsers.find(
+      (authUser) => authUser.user === user
+    );
+    if (selectedUser) {
+      localStorage.setItem('activeUser', JSON.stringify(selectedUser));
+      set({ activeUser: selectedUser });
+    }
   },
   age: 0,
   setAge: (age: number) => {

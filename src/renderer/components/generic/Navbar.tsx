@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { useAuthUser, useIsAuthenticated, useSignOut } from 'react-auth-kit';
 import {
   Button,
   Divider,
@@ -16,12 +15,13 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Menu,
   MenuItem,
   Paper,
   Stack,
   Tooltip,
   Typography,
+  ListSubheader,
+  Select,
 } from '@mui/material';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
@@ -60,32 +60,45 @@ export default function NavBar() {
   const mode = evosStore.mode as PaletteMode;
   const location = useLocation();
 
-  const { toggleMode, age, exePath, experimental } = evosStore;
+  const {
+    toggleMode,
+    age,
+    exePath,
+    experimental,
+    updateAuthenticatedUsers,
+    activeUser,
+    switchUser,
+    authenticatedUsers,
+  } = evosStore;
 
   const { width } = useWindowDimensions();
 
   const drawerWidth = width !== null && width < 916 ? 60 : 240;
 
-  const [anchorUserMenu, setAnchorUserMenu] = useState<null | HTMLElement>(
-    null
-  );
-  const isAuthenticated = useIsAuthenticated();
-  const signOut = useSignOut();
-  const auth = useAuthUser();
   const navigate = useNavigate();
 
-  const handleUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorUserMenu(event.currentTarget);
-  };
-
-  const handleUserMenuClose = () => {
-    setAnchorUserMenu(null);
-  };
-
   const handleLogOut = () => {
-    handleUserMenuClose();
-    signOut();
+    updateAuthenticatedUsers(
+      activeUser?.user as string,
+      '',
+      activeUser?.handle as string,
+      activeUser?.banner as number,
+      activeUser?.configFile as string
+    );
     navigate('/login');
+  };
+
+  const handleAddUser = () => {
+    navigate('/login');
+  };
+
+  const isAuthenticated = () => {
+    return activeUser !== null && activeUser?.token !== '';
+  };
+
+  const handleSwitchUser = (event: React.MouseEvent<HTMLElement>) => {
+    const user = event.currentTarget.innerText.split('#')[0];
+    switchUser(user);
   };
 
   const handleLaunchGameClick = () => {
@@ -96,9 +109,9 @@ export default function NavBar() {
           launchOptions: {
             ip: evosStore.ip,
             port: evosStore.gamePort,
-            token: localStorage.getItem('_auth') ?? '', // TODO: repleace with gameLogin token
-            accountId: auth()?.handle ?? '',
-            handle: auth()?.handle ?? '',
+            token: '', // TODO: repleace with gameLogin token get it from server
+            accountId: '', // get this from server
+            handle: '', // get this from server
           },
         });
       } else {
@@ -107,6 +120,7 @@ export default function NavBar() {
           launchOptions: {
             ip: evosStore.ip,
             port: evosStore.gamePort,
+            config: activeUser?.configFile,
           },
         });
       }
@@ -188,41 +202,70 @@ export default function NavBar() {
             </Stack>
             <Box sx={{ flexGrow: 0 }}>
               {isAuthenticated() && (
-                <>
-                  <Stack
-                    direction="row"
-                    alignItems="center"
-                    sx={{ cursor: 'pointer' }}
-                    onClick={handleUserMenu}
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  sx={{ cursor: 'pointer' }}
+                >
+                  <Select
+                    value={activeUser?.handle}
+                    label=""
+                    sx={{ width: '100%', maxHeight: '36.5px' }}
                   >
-                    <Typography>{auth()?.handle}</Typography>
-                    <Avatar
-                      alt="Avatar"
-                      src={playerBanner(
-                        BannerType.foreground,
-                        auth()?.banner ?? 65
-                      )}
-                      sx={{ width: 64, height: 64 }}
-                    />
-                  </Stack>
-                  <Menu
-                    id="menu-appbar"
-                    anchorEl={anchorUserMenu}
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'right',
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    open={Boolean(anchorUserMenu)}
-                    onClose={handleUserMenuClose}
-                  >
-                    <MenuItem onClick={handleLogOut}>Log out</MenuItem>
-                  </Menu>
-                </>
+                    <ListSubheader>Accounts</ListSubheader>
+                    {authenticatedUsers.map((user) => (
+                      <MenuItem
+                        value={user.handle}
+                        key={user.user}
+                        onClick={handleSwitchUser}
+                      >
+                        <div
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            width: '100%',
+                            maxHeight: '36.5px',
+                          }}
+                        >
+                          {user?.handle}
+                          <Avatar
+                            alt="Avatar"
+                            src={playerBanner(
+                              BannerType.foreground,
+                              user.banner ?? 65
+                            )}
+                            sx={{ width: 64, height: 64, marginRight: '16px' }}
+                          />
+                        </div>
+                      </MenuItem>
+                    ))}
+                    <ListSubheader>Actions</ListSubheader>
+                    <MenuItem onClick={handleAddUser}>
+                      <div
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          width: '100%',
+                          minHeight: '36.5px',
+                        }}
+                      >
+                        Add Account
+                      </div>
+                    </MenuItem>
+                    <MenuItem onClick={handleLogOut}>
+                      <div
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          width: '100%',
+                          minHeight: '36.5px',
+                        }}
+                      >
+                        Logout
+                      </div>
+                    </MenuItem>
+                  </Select>
+                </Stack>
               )}
               {!isAuthenticated() && (
                 <NavLink
@@ -256,10 +299,11 @@ export default function NavBar() {
           >
             <Paper sx={{ height: '100vh', boxShadow: 'none' }}>
               <List>
-                {pages.map((page) => (
-                  <>
+                {pages.map((page, index) => (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <React.Fragment key={index}>
                     {page.title === 'Settings' ? (
-                      <Divider key={`${page.title}-devider`} />
+                      <Divider key={`${page.title}-divider`} />
                     ) : null}
                     <ListItem
                       key={page.title}
@@ -277,7 +321,7 @@ export default function NavBar() {
                         />
                       </ListItemButton>
                     </ListItem>
-                  </>
+                  </React.Fragment>
                 ))}
               </List>
             </Paper>

@@ -102,7 +102,6 @@
     "electron-settings": "^4.0.2",
     "electron-updater": "^5.3.0",
     "react": "^18.2.0",
-    "react-auth-kit": "^2.12.4",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.2",
     "zustand": "^4.3.9"

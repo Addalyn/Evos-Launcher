@@ -29,8 +29,8 @@ const electronHandler = {
     openFileDialog() {
       ipcRenderer.send('open-file-dialog');
     },
-    getSelectedFile() {
-      return ipcRenderer.invoke('open-file-dialog');
+    getSelectedFile(config: boolean) {
+      return ipcRenderer.invoke('open-file-dialog', config);
     },
   },
 };

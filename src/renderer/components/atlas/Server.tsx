@@ -10,10 +10,14 @@ interface Props {
 }
 
 export default function Server({ info, game, playerData }: Props) {
+  // Hide servers that matches any of these conditions
+  // Sinse servers can get stuck in a state, we don't want to show them
   if (game === undefined) {
     return null;
   }
-
+  if (game.id === null) {
+    return null;
+  }
   if (game.status === 'None') {
     return null;
   }

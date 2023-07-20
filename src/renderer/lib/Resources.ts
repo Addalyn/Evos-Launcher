@@ -5,9 +5,9 @@ export enum BannerType {
   foreground = 'Foreground',
 }
 
-const path = !window.electron.isPackaged
-  ? 'https://raw.githubusercontent.com/Addalyn/Evos-Launcher/main/assets'
-  : '../../../assets';
+const path = window?.electron?.isPackaged
+  ? '../../../assets'
+  : 'https://raw.githubusercontent.com/Addalyn/Evos-Launcher/main/assets';
 
 export function logo() {
   return `${path}/img/logo.png`;

@@ -135,6 +135,6 @@ export function login(
 export function getStatus(authHeader: string) {
   const baseUrl = `https://${localStorage.getItem('ip')}`;
   return axios.get<Status>(`${baseUrl}/api/lobby/status`, {
-    headers: { Authorization: authHeader },
+    headers: { Authorization: `bearer ${authHeader}` },
   });
 }

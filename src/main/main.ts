@@ -27,54 +27,13 @@ class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
-ipcMain.on('launch-game', (event, args) => {
-  if (args.launchOptions.token) {
-    const ticket = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<authTicket version="1.2">
-    <ticket>
-        <channelId>0</channelId>
-        <token>${args.launchOptions.token}</token>
-    </ticket>
-    <account>
-        <accountId>0</accountId>
-        <email>${args.launchOptions.accountId}</email>
-        <glyphTag>${args.launchOptions.handle}</glyphTag>
-        <accountStatus>ACTIVE</accountStatus>
-        <accountCurrency>USD</accountCurrency>
-    </account>
-</authTicket>`;
-
-    try {
-      fs.writeFileSync(
-        `${app.getPath('temp')}\\authTicket.xml`,
-        ticket,
-        'utf-8'
-      );
-      const launchOptions = [
-        '-s',
-        `${args.launchOptions.ip}:${args.launchOptions.port}`,
-        '-t',
-        `${app.getPath('temp')}\\authTicket.xml`,
-      ];
-      spawn(args.exePath, launchOptions);
-    } catch (e) {
-      console.log('Failed to write file', e);
-    }
-  } else {
-    const launchOptions = [
-      '-s',
-      `${args.launchOptions.ip}:${args.launchOptions.port}`,
-    ];
-    spawn(args.exePath, launchOptions);
-  }
-});
-
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
 }
 
-const isDebug = true; //  process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
+const isDebug =
+  process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 
 if (isDebug) {
   require('electron-debug')();
@@ -126,12 +85,76 @@ const createWindow = async () => {
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
 
+  ipcMain.on('launch-game', (event, args) => {
+    if (args.launchOptions.token) {
+      const ticket = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<authTicket version="1.2">
+    <ticket>
+        <channelId>0</channelId>
+        <token>${args.launchOptions.token}</token>
+    </ticket>
+    <account>
+        <accountId>0</accountId>
+        <email>${args.launchOptions.accountId}</email>
+        <glyphTag>${args.launchOptions.handle}</glyphTag>
+        <accountStatus>ACTIVE</accountStatus>
+        <accountCurrency>USD</accountCurrency>
+    </account>
+</authTicket>`;
+
+      try {
+        fs.writeFileSync(
+          `${app.getPath('temp')}\\authTicket.xml`,
+          ticket,
+          'utf-8'
+        );
+        const launchOptions = [
+          '-s',
+          `${args.launchOptions.ip}:${args.launchOptions.port}`,
+          '-t',
+          `${app.getPath('temp')}\\authTicket.xml`,
+        ];
+        spawn(args.exePath, launchOptions);
+      } catch (e) {
+        console.log('Failed to write file', e);
+      }
+    } else {
+      const launchOptions = [
+        '-s',
+        `${args.launchOptions.ip}:${args.launchOptions.port}`,
+      ];
+
+      if (
+        args.launchOptions.config !== undefined &&
+        args.launchOptions.config !== ''
+      ) {
+        launchOptions.push('-c', args.launchOptions.config);
+      }
+
+      spawn(args.exePath, launchOptions);
+    }
+  });
+
   ipcMain.on('getAssetPath', (event) => {
     const assetPath = getAssetPath('./');
     event.reply('getAssetPath', assetPath);
   });
 
-  ipcMain.handle('open-file-dialog', async () => {
+  ipcMain.handle('open-file-dialog', async (event, config) => {
+    if (config) {
+      const files = await dialog.showOpenDialog({
+        properties: ['openFile'],
+        filters: [{ name: 'Atlas Reactor Config', extensions: ['json'] }],
+      });
+
+      const selectedFilePath = files.filePaths[0];
+
+      if (selectedFilePath && selectedFilePath.endsWith('.json')) {
+        return selectedFilePath;
+      }
+      return null;
+    }
+
     const files = await dialog.showOpenDialog({
       properties: ['openFile'],
       filters: [{ name: 'Atlas Reactor Executable', extensions: ['exe'] }],
@@ -142,6 +165,7 @@ const createWindow = async () => {
     if (selectedFilePath && selectedFilePath.endsWith('AtlasReactor.exe')) {
       return selectedFilePath;
     }
+
     return null;
   });
 
