@@ -43,8 +43,8 @@ export default function SettingsPage() {
     setGamePort,
     exePath,
     setExePath,
-    experimental,
-    setExperimental,
+    ticketEnabled,
+    setTicketEnabled,
     activeUser,
     updateAuthenticatedUsers,
   } = EvosStore();
@@ -85,14 +85,16 @@ export default function SettingsPage() {
   };
 
   const handleResetClick = () => {
-    localStorage.clear();
+    window.electron.store.clear();
     window.location.href = '/login';
   };
 
   const handleDeleteClick = () => {
-    localStorage.removeItem('authenticatedUsers');
-    localStorage.removeItem('activeUser');
-    window.location.href = '/login';
+    window.electron.store.removeItem('activeUser');
+    setTimeout(() => {
+      window.electron.store.removeItem('authenticatedUsers');
+      window.location.href = '/login';
+    }, 100);
   };
 
   const handlePasswordResetClick = (event: { preventDefault: () => void }) => {
@@ -178,6 +180,7 @@ export default function SettingsPage() {
               color="primary"
               onClick={() => handleSelectFileClick(true)}
               fullWidth
+              disabled={ticketEnabled === 'true'}
               sx={{
                 height: '56px',
                 backgroundColor: (theme) => theme.palette.primary.light,
@@ -265,14 +268,17 @@ export default function SettingsPage() {
             <FormGroup>
               <FormControlLabel
                 control={<Switch />}
-                label="Enable Experimental Ticketing System, disabling this requires AtlasReactorConfig.json to be selected"
-                checked={experimental === 'true'}
-                disabled
+                label="Enable Ticket System"
+                checked={ticketEnabled === 'true'}
                 onChange={() => {
-                  setExperimental(experimental === 'true' ? 'false' : 'true');
+                  setTicketEnabled(ticketEnabled === 'true' ? 'false' : 'true');
                 }}
               />
             </FormGroup>
+            <span style={{ fontSize: '0.8em' }}>
+              disabling this requires AtlasReactorConfig.json to be selected and
+              created (not recommended)
+            </span>
           </Grid>
         </Grid>
       </Paper>

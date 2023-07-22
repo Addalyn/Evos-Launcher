@@ -40,7 +40,11 @@ export default function App() {
   const { activeUser } = evosStore;
 
   const isAuthenticated = () => {
-    return activeUser !== null && activeUser?.token !== '';
+    return (
+      activeUser !== null &&
+      Object.keys(activeUser).length !== 0 &&
+      activeUser.token !== ''
+    );
   };
 
   const theme = React.useMemo(

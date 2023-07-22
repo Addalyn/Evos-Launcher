@@ -1,31 +1,36 @@
+/* eslint-disable no-console */
 import { create } from 'zustand';
 
-export type AuthenticatedUser = {
+export interface AuthUser {
   user: string;
   token: string;
   handle: string;
   banner: number;
   configFile?: string;
-};
+}
 
 export interface EvosStoreState {
+  getFromStorage(arg0: string): any;
   mode: string;
-  toggleMode: () => void;
   ip: string;
+  authenticatedUsers: AuthUser[];
+  activeUser: AuthUser | null;
+  age: number;
+  exePath: string;
+  gamePort: string;
+  ticketEnabled: string;
+  init: () => void;
+  toggleMode: () => void;
   setIp: (ip: string) => void;
-  authenticatedUsers: {
-    user: string;
-    token: string;
-    handle: string;
-    banner: number;
-    configFile?: string;
-  }[];
   setAuthenticatedUsers: (
     user: string,
     token: string,
     handle: string,
     banner: number
   ) => void;
+  setGamePort: (gamePort: string) => void;
+  setExePath: (exePath: string) => void;
+  setTicketEnabled: (ticketEnabled: string) => void;
   updateAuthenticatedUsers: (
     user: string,
     token: string,
@@ -33,110 +38,220 @@ export interface EvosStoreState {
     banner: number,
     configFile?: string
   ) => void;
-  activeUser: AuthenticatedUser | null;
   switchUser: (user: string) => void;
-  age: number;
-  setAge: (status: number) => void;
-  exePath: string;
-  setExePath: (exePath: string) => void;
-  gamePort: string;
-  setGamePort: (gamePort: string) => void;
-  experimental: string;
-  setExperimental: (experimental: string) => void;
-  logoutUser: (user: string) => void;
+  setAge: (age: number) => void;
+  addAccoutState: boolean;
+  setAddAccountState: (state: boolean) => void;
 }
 
 const EvosStore = create<EvosStoreState>((set, get) => ({
-  mode: localStorage.getItem('mode') || 'dark',
-  toggleMode: () => {
-    localStorage.setItem('mode', get().mode === 'dark' ? 'light' : 'dark');
-    set((state) => ({
-      mode: state.mode === 'dark' ? 'light' : 'dark',
-    }));
+  addAccoutState: false,
+  setAddAccountState: (state: boolean) => {
+    set({ addAccoutState: state });
   },
-  ip: localStorage.getItem('ip') || '',
-  setIp: (ip: string) => {
-    localStorage.setItem('ip', ip);
+  mode: 'dark', // Default value while fetching from storage.
+  ip: '',
+  authenticatedUsers: [],
+  activeUser: null,
+  age: 0,
+  exePath: '',
+  gamePort: '6050',
+  ticketEnabled: 'false',
+
+  // Helper async function to fetch values from storage
+  getFromStorage: async <T>(key: string): Promise<T | null> => {
+    try {
+      const value = await window.electron.store.getItem(key);
+      return value || null;
+    } catch (error) {
+      console.error(`Error while fetching ${key} from storage:`, error);
+      return null;
+    }
+  },
+
+  init: async () => {
+    const [
+      mode,
+      ip,
+      authenticatedUsers,
+      activeUser,
+      age,
+      exePath,
+      gamePort,
+      ticketEnabled,
+    ] = await Promise.all([
+      get().getFromStorage('mode') as string,
+      get().getFromStorage('ip') as string,
+      get().getFromStorage('authenticatedUsers') as AuthUser[],
+      get().getFromStorage('activeUser') as AuthUser | null,
+      get().getFromStorage('age') as number,
+      get().getFromStorage('exePath') as string,
+      get().getFromStorage('gamePort') as string,
+      get().getFromStorage('ticketEnabled') as string,
+    ]);
+
+    let users: AuthUser[] = [];
+
+    if (authenticatedUsers !== null && authenticatedUsers.length !== 0) {
+      users = JSON.parse(authenticatedUsers.toString());
+    }
+
+    set({
+      mode: mode || 'dark',
+      ip: ip || '',
+      authenticatedUsers: users || [],
+      activeUser: activeUser || null,
+      age: age || 0,
+      exePath: exePath || '',
+      gamePort: gamePort || '6050',
+      ticketEnabled: ticketEnabled || 'true',
+    });
+
+    get().switchUser((activeUser?.user || users[0]?.user || '').toLowerCase());
+  },
+
+  toggleMode: async () => {
+    const newMode = get().mode === 'dark' ? 'light' : 'dark';
+    set({ mode: newMode });
+
+    try {
+      await window.electron.store.setItem('mode', newMode);
+    } catch (error) {
+      console.error('Error while saving mode to storage:', error);
+    }
+  },
+
+  setIp: async (ip: string) => {
     set({ ip });
+
+    try {
+      await window.electron.store.setItem('ip', ip);
+    } catch (error) {
+      console.error('Error while saving ip to storage:', error);
+    }
   },
-  authenticatedUsers:
-    JSON.parse(localStorage.getItem('authenticatedUsers') as string) || [],
-  setAuthenticatedUsers: (user, token, handle, banner) => {
+
+  setExePath: async (exePath: string) => {
+    set({ exePath });
+
+    try {
+      await window.electron.store.setItem('exePath', exePath);
+    } catch (error) {
+      console.error('Error while saving exePath to storage:', error);
+    }
+  },
+
+  setTicketEnabled: async (ticketEnabled: string) => {
+    set({ ticketEnabled });
+
+    try {
+      await window.electron.store.setItem('ticketEnabled', ticketEnabled);
+    } catch (error) {
+      console.error('Error while saving ticketEnabled to storage:', error);
+    }
+  },
+
+  setGamePort: async (gamePort: string) => {
+    set({ gamePort });
+
+    try {
+      await window.electron.store.setItem('gamePort', gamePort);
+    } catch (error) {
+      console.error('Error while saving gamePort to storage:', error);
+    }
+  },
+
+  setAuthenticatedUsers: async (
+    user: string,
+    token: string,
+    handle: string,
+    banner: number
+  ) => {
     const currentAuthenticatedUsers = get().authenticatedUsers;
     const updatedAuthenticatedUsers = [
       ...currentAuthenticatedUsers,
       { user, token, handle, banner },
     ];
-    localStorage.setItem(
-      'authenticatedUsers',
-      JSON.stringify(updatedAuthenticatedUsers)
-    );
     set({ authenticatedUsers: updatedAuthenticatedUsers });
+
+    try {
+      await window.electron.store.setItem(
+        'authenticatedUsers',
+        JSON.stringify(updatedAuthenticatedUsers)
+      );
+    } catch (error) {
+      console.error('Error while saving authenticatedUsers to storage:', error);
+    }
   },
-  updateAuthenticatedUsers: (user, token, handle, banner, configFile) => {
+
+  updateAuthenticatedUsers: async (
+    user: string,
+    token: string,
+    handle: string,
+    banner: number,
+    configFile?: string
+  ) => {
     const currentAuthenticatedUsers = get().authenticatedUsers;
-    const updatedAuthenticatedUsers = currentAuthenticatedUsers.map(
-      (authUser) => {
-        if (authUser.user === user) {
-          return { user, token, handle, banner, configFile };
+    if (currentAuthenticatedUsers !== null) {
+      const updatedAuthenticatedUsers = currentAuthenticatedUsers.map(
+        (authUser: AuthUser) => {
+          if (authUser.user === user) {
+            return { user, token, handle, banner, configFile } as AuthUser;
+          }
+          return authUser as AuthUser;
         }
-        return authUser;
+      );
+      set({ authenticatedUsers: updatedAuthenticatedUsers });
+
+      try {
+        await window.electron.store.setItem(
+          'authenticatedUsers',
+          JSON.stringify(updatedAuthenticatedUsers)
+        );
+      } catch (error) {
+        console.error(
+          'Error while saving authenticatedUsers to storage:',
+          error
+        );
       }
-    );
-    localStorage.setItem(
-      'authenticatedUsers',
-      JSON.stringify(updatedAuthenticatedUsers)
-    );
-    set({ authenticatedUsers: updatedAuthenticatedUsers });
+    }
+
     // update user
-    get().switchUser(user);
+    get().switchUser(user.toLowerCase());
   },
-  logoutUser: (user) => {
-    const currentAuthenticatedUsers = get().authenticatedUsers;
-    const updatedAuthenticatedUsers = currentAuthenticatedUsers.filter(
-      (authUser) => authUser.user !== user
-    );
-    localStorage.setItem(
-      'authenticatedUsers',
-      JSON.stringify(updatedAuthenticatedUsers)
-    );
-    set({ authenticatedUsers: updatedAuthenticatedUsers });
-  },
-  activeUser: JSON.parse(localStorage.getItem('activeUser') as string) || null,
-  switchUser: (user) => {
-    if (user === '') {
-      localStorage.removeItem('activeUser');
-      set({ activeUser: null });
-      return;
+
+  switchUser: async (user: string) => {
+    if (user !== undefined && user === '') {
+      await window.electron.store.removeItem('activeUser');
     }
     const currentAuthenticatedUsers = get().authenticatedUsers;
-    const selectedUser = currentAuthenticatedUsers.find(
-      (authUser) => authUser.user === user
-    );
-    if (selectedUser) {
-      localStorage.setItem('activeUser', JSON.stringify(selectedUser));
-      set({ activeUser: selectedUser });
+
+    if (
+      currentAuthenticatedUsers !== null &&
+      currentAuthenticatedUsers.length !== 0
+    ) {
+      const selectedUser = currentAuthenticatedUsers.find(
+        (authUser) => authUser.user === user
+      );
+
+      if (selectedUser) {
+        set({ activeUser: selectedUser });
+
+        try {
+          await window.electron.store.setItem('activeUser', selectedUser);
+        } catch (error) {
+          console.error('Error while saving activeUser to storage:', error);
+        }
+      }
     }
   },
-  age: 0,
+
   setAge: (age: number) => {
     set({ age });
   },
-  exePath: localStorage.getItem('exePath') || '',
-  setExePath: (exePath: string) => {
-    localStorage.setItem('exePath', exePath);
-    set({ exePath });
-  },
-  gamePort: localStorage.getItem('gamePort') || '6050',
-  setGamePort: (gamePort: string) => {
-    localStorage.setItem('gamePort', gamePort);
-    set({ gamePort });
-  },
-  experimental: localStorage.getItem('experimental') || 'false',
-  setExperimental: (experimental: string) => {
-    localStorage.setItem('experimental', experimental.toString());
-    set({ experimental });
-  },
 }));
+
+// Call the init function to fetch and set the values from storage.
+EvosStore.getState().init();
 
 export default EvosStore;

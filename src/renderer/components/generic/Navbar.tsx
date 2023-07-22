@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -29,7 +29,10 @@ import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
 import EvosStore from 'renderer/lib/EvosStore';
 import useWindowDimensions from 'renderer/lib/useWindowDimensions';
+import { getTicket } from 'renderer/lib/Evos';
+import { EvosError, processError } from 'renderer/lib/Error';
 import { BannerType, logo, logoSmall, playerBanner } from '../../lib/Resources';
+import ErrorDialog from './ErrorDialog';
 
 type PaletteMode = 'light' | 'dark';
 
@@ -64,13 +67,14 @@ export default function NavBar() {
     toggleMode,
     age,
     exePath,
-    experimental,
+    ticketEnabled,
     updateAuthenticatedUsers,
     activeUser,
     switchUser,
     authenticatedUsers,
+    setAddAccountState,
   } = evosStore;
-
+  const [error, setError] = useState<EvosError>();
   const { width } = useWindowDimensions();
 
   const drawerWidth = width !== null && width < 916 ? 60 : 240;
@@ -89,31 +93,43 @@ export default function NavBar() {
   };
 
   const handleAddUser = () => {
+    setAddAccountState(true);
     navigate('/login');
   };
 
   const isAuthenticated = () => {
-    return activeUser !== null && activeUser?.token !== '';
+    return (
+      activeUser !== null &&
+      Object.keys(activeUser).length !== 0 &&
+      activeUser.token !== ''
+    );
   };
 
   const handleSwitchUser = (event: React.MouseEvent<HTMLElement>) => {
-    const user = event.currentTarget.innerText.split('#')[0];
+    const user = event.currentTarget.innerText.split('#')[0].toLowerCase();
     switchUser(user);
+    setAddAccountState(false);
+    navigate('/');
+    window.location.reload();
   };
 
   const handleLaunchGameClick = () => {
     if (exePath.endsWith('AtlasReactor.exe')) {
-      if (experimental === 'true') {
-        window.electron.ipcRenderer.sendMessage('launch-game', {
-          exePath,
-          launchOptions: {
-            ip: evosStore.ip,
-            port: evosStore.gamePort,
-            token: '', // TODO: repleace with gameLogin token get it from server
-            accountId: '', // get this from server
-            handle: '', // get this from server
-          },
-        });
+      if (ticketEnabled === 'true') {
+        // eslint-disable-next-line promise/catch-or-return
+        getTicket(activeUser?.token ?? '')
+          // eslint-disable-next-line promise/always-return
+          .then((resp) => {
+            window.electron.ipcRenderer.sendMessage('launch-game', {
+              exePath,
+              launchOptions: {
+                ip: evosStore.ip,
+                port: evosStore.gamePort,
+                ticket: resp.data,
+              },
+            });
+          })
+          .catch((e) => processError(e, setError, navigate, () => {}));
       } else {
         window.electron.ipcRenderer.sendMessage('launch-game', {
           exePath,
@@ -129,6 +145,9 @@ export default function NavBar() {
 
   return (
     <>
+      {error && (
+        <ErrorDialog error={error} onDismiss={() => setError(undefined)} />
+      )}
       <AppBar
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}

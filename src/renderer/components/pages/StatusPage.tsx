@@ -25,14 +25,17 @@ function StatusPage() {
   const [error, setError] = useState<EvosError>();
   const [status, setStatus] = useState<Status>();
   const [updateTime, setUpdateTime] = useState<Date>();
-  const { setAge, activeUser, updateAuthenticatedUsers } = EvosStore();
+  const { ip, setAge, activeUser, updateAuthenticatedUsers } = EvosStore();
 
   const navigate = useNavigate();
 
   useEffect(() => {
     if (
-      localStorage.getItem('ip') === undefined ||
-      localStorage.getItem('ip') === null
+      ip === undefined ||
+      ip === null ||
+      ip === '' ||
+      activeUser === null ||
+      activeUser?.token === ''
     ) {
       navigate('/login');
     }

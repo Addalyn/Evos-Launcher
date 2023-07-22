@@ -118,12 +118,13 @@ export function cap(txt: string): string {
   return txt.charAt(0).toUpperCase() + txt.slice(1);
 }
 
-export function login(
+export async function login(
   abort: AbortController,
   username: string,
   password: string
 ) {
-  const baseUrl = `https://${localStorage.getItem('ip')}`;
+  const ip = await window.electron.store.getItem('ip');
+  const baseUrl = `https://${ip}`;
 
   return axios.post<LoginResponse>(
     `${baseUrl}/api/login`,
@@ -132,9 +133,18 @@ export function login(
   );
 }
 
-export function getStatus(authHeader: string) {
-  const baseUrl = `https://${localStorage.getItem('ip')}`;
+export async function getStatus(authHeader: string) {
+  const ip = await window.electron.store.getItem('ip');
+  const baseUrl = `https://${ip}`;
   return axios.get<Status>(`${baseUrl}/api/lobby/status`, {
+    headers: { Authorization: `bearer ${authHeader}` },
+  });
+}
+
+export async function getTicket(authHeader: string) {
+  const ip = await window.electron.store.getItem('ip');
+  const baseUrl = `https://${ip}`;
+  return axios.get<Status>(`${baseUrl}/api/ticket`, {
     headers: { Authorization: `bearer ${authHeader}` },
   });
 }

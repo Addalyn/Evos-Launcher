@@ -6,7 +6,7 @@ import { Paper, MenuItem, Select, ListSubheader, Avatar } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import EvosStore, { AuthenticatedUser } from 'renderer/lib/EvosStore';
+import EvosStore, { AuthUser } from 'renderer/lib/EvosStore';
 import { login } from 'renderer/lib/Evos';
 import { EvosError, processError } from 'renderer/lib/Error';
 import { BannerType, playerBanner } from 'renderer/lib/Resources';
@@ -20,11 +20,14 @@ export default function Login() {
     switchUser,
     activeUser,
     updateAuthenticatedUsers,
+    addAccoutState,
+    setAddAccountState,
   } = EvosStore();
 
-  const [addUser, setAddUser] = useState(false);
+  const [addUser, setAddUser] = useState(addAccoutState);
   const navigate = useNavigate();
   const [error, setError] = useState<EvosError>();
+  const [usernameOrIp, setUsernameOrIp] = useState('');
 
   const isAuthenticated = () => {
     return activeUser !== null && activeUser?.token !== '';
@@ -43,6 +46,7 @@ export default function Login() {
 
     if (formIp) {
       setIp(formIp);
+      setUsernameOrIp('');
       return;
     }
 
@@ -60,7 +64,7 @@ export default function Login() {
         if (authenticatedUsers.find((u) => u.user === user)) {
           const authenticatedUser = authenticatedUsers.find(
             (u) => u.user === user
-          ) as AuthenticatedUser;
+          ) as AuthUser;
           updateAuthenticatedUsers(
             authenticatedUser.user,
             resp.data.token,
@@ -77,8 +81,9 @@ export default function Login() {
           );
           switchUser(user);
         }
-
+        setAddAccountState(false);
         navigate('/');
+        window.location.reload();
         return null;
       })
       // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -98,8 +103,9 @@ export default function Login() {
   const handleResetClick = () => {
     setIp('');
     setError(undefined);
-    localStorage.clear();
+    window.electron.store.clear();
   };
+
   return (
     <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
       {ip ? (
@@ -123,6 +129,8 @@ export default function Login() {
                 name="username"
                 autoComplete=""
                 autoFocus
+                value={usernameOrIp}
+                onChange={(e) => setUsernameOrIp(e.target.value)}
               />
             ) : (
               <Select
@@ -132,6 +140,10 @@ export default function Login() {
                 id="username"
                 name="username"
                 sx={{ width: '100%' }}
+                onChange={(e) => {
+                  switchUser(e.target.value.toLowerCase() as string);
+                  navigate('/');
+                }}
               >
                 <ListSubheader>Accounts</ListSubheader>
                 {authenticatedUsers.map((user) => (
@@ -241,6 +253,8 @@ export default function Login() {
               name="ip"
               autoComplete=""
               autoFocus
+              value={usernameOrIp}
+              onChange={(e) => setUsernameOrIp(e.target.value)}
             />
             <Button
               type="submit"

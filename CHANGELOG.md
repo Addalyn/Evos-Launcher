@@ -1,3 +1,10 @@
+# 1.1.0
+
+- Enable tickets! no longer need to create a json file TODO: allow account creation
+- Add config so values stay after reopening the app
+- moved everything to config
+- Fix allot of other things
+
 # 1.0.4
 
 - Add multi user support

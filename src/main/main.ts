@@ -10,12 +10,47 @@
  */
 import path from 'path';
 import fs from 'fs';
-import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  shell,
+  ipcMain,
+  dialog,
+  globalShortcut,
+} from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { spawn } from 'child_process';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+
+interface AuthUser {
+  user: string;
+  token: string;
+  handle: string;
+  banner: number;
+  configFile?: string;
+}
+
+interface Config {
+  mode: string;
+  ip: string;
+  authenticatedUsers: AuthUser[];
+  activeUser: AuthUser | null;
+  exePath: string;
+  gamePort: string;
+  ticketEnabled: string;
+}
+
+const defaultConfig: Config = {
+  mode: 'dark',
+  ip: '',
+  authenticatedUsers: [],
+  activeUser: null,
+  exePath: '',
+  gamePort: '6050',
+  ticketEnabled: 'true',
+};
 
 class AppUpdater {
   constructor() {
@@ -26,6 +61,8 @@ class AppUpdater {
 }
 
 let mainWindow: BrowserWindow | null = null;
+
+const configFilePath = path.join(app.getPath('userData'), 'config.json');
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -83,24 +120,58 @@ const createWindow = async () => {
     },
   });
 
+  globalShortcut.register('CmdOrCtrl+F12', () => {
+    mainWindow?.webContents.toggleDevTools();
+  });
+
   mainWindow.loadURL(resolveHtmlPath('index.html'));
 
+  const fileExists = await fs.promises
+    .access(configFilePath, fs.constants.F_OK)
+    .then(() => true)
+    .catch(() => false);
+
+  async function createConfigFile() {
+    if (!fileExists) {
+      console.log('Config file does not exist, creating it...');
+      // Write the default config to the file
+      await fs.promises.writeFile(
+        configFilePath,
+        JSON.stringify(defaultConfig, null, 2),
+        'utf-8'
+      );
+    }
+  }
+  createConfigFile();
+  ipcMain.handle('write-file', (event, args) => {
+    fs.writeFileSync(
+      configFilePath,
+      JSON.stringify(args.data, null, 2),
+      'utf-8'
+    );
+  });
+
+  ipcMain.handle('read-file', async () => {
+    try {
+      const config = await fs.promises.readFile(configFilePath, 'utf-8');
+      return JSON.parse(config);
+    } catch (error) {
+      console.error('Error while reading or creating the config file:', error);
+      return null;
+    }
+  });
+
+  ipcMain.handle('clear-file', () => {
+    fs.writeFileSync(
+      configFilePath,
+      JSON.stringify(defaultConfig, null, 2),
+      'utf-8'
+    );
+  });
+
   ipcMain.on('launch-game', (event, args) => {
-    if (args.launchOptions.token) {
-      const ticket = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<authTicket version="1.2">
-    <ticket>
-        <channelId>0</channelId>
-        <token>${args.launchOptions.token}</token>
-    </ticket>
-    <account>
-        <accountId>0</accountId>
-        <email>${args.launchOptions.accountId}</email>
-        <glyphTag>${args.launchOptions.handle}</glyphTag>
-        <accountStatus>ACTIVE</accountStatus>
-        <accountCurrency>USD</accountCurrency>
-    </account>
-</authTicket>`;
+    if (args.launchOptions.ticket) {
+      const { ticket } = args.launchOptions;
 
       try {
         fs.writeFileSync(
