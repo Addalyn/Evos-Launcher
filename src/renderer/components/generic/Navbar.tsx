@@ -29,7 +29,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
 import EvosStore from 'renderer/lib/EvosStore';
 import useWindowDimensions from 'renderer/lib/useWindowDimensions';
-import { getTicket } from 'renderer/lib/Evos';
+import { getTicket, logout } from 'renderer/lib/Evos';
 import { EvosError, processError } from 'renderer/lib/Error';
 import { BannerType, logo, logoSmall, playerBanner } from '../../lib/Resources';
 import ErrorDialog from './ErrorDialog';
@@ -72,7 +72,6 @@ export default function NavBar() {
     activeUser,
     switchUser,
     authenticatedUsers,
-    setAddAccountState,
   } = evosStore;
   const [error, setError] = useState<EvosError>();
   const { width } = useWindowDimensions();
@@ -82,6 +81,7 @@ export default function NavBar() {
   const navigate = useNavigate();
 
   const handleLogOut = () => {
+    logout(activeUser?.token ?? '');
     updateAuthenticatedUsers(
       activeUser?.user as string,
       '',
@@ -93,8 +93,7 @@ export default function NavBar() {
   };
 
   const handleAddUser = () => {
-    setAddAccountState(true);
-    navigate('/login');
+    navigate('/add-account');
   };
 
   const isAuthenticated = () => {
@@ -108,7 +107,6 @@ export default function NavBar() {
   const handleSwitchUser = (event: React.MouseEvent<HTMLElement>) => {
     const user = event.currentTarget.innerText.split('#')[0].toLowerCase();
     switchUser(user);
-    setAddAccountState(false);
     navigate('/');
     window.location.reload();
   };
@@ -129,7 +127,7 @@ export default function NavBar() {
               },
             });
           })
-          .catch((e) => processError(e, setError, navigate, () => {}));
+          .catch((e) => processError(e, setError, navigate, handleLogOut));
       } else {
         window.electron.ipcRenderer.sendMessage('launch-game', {
           exePath,

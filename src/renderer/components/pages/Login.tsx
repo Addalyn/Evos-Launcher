@@ -20,11 +20,9 @@ export default function Login() {
     switchUser,
     activeUser,
     updateAuthenticatedUsers,
-    addAccoutState,
-    setAddAccountState,
   } = EvosStore();
 
-  const [addUser, setAddUser] = useState(addAccoutState);
+  const [addUser, setAddUser] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState<EvosError>();
   const [usernameOrIp, setUsernameOrIp] = useState('');
@@ -79,9 +77,9 @@ export default function Login() {
             resp.data.handle,
             resp.data.banner
           );
-          switchUser(user);
         }
-        setAddAccountState(false);
+        setAddUser(false);
+        switchUser(user);
         navigate('/');
         window.location.reload();
         return null;
@@ -111,7 +109,7 @@ export default function Login() {
       {ip ? (
         <>
           <Typography component="h1" variant="h5">
-            {!isAuthenticated() ? 'Sign in' : 'Add Account'}
+            Sign in
           </Typography>
           <Box
             component="form"
@@ -220,11 +218,10 @@ export default function Login() {
               </Grid>
               <Grid item xs={3}>
                 <Button
-                  href="#s"
+                  onClick={() => navigate('/register')}
                   sx={{
                     textDecoration: 'none',
                     color: 'grey',
-                    pointerEvents: 'none',
                   }}
                 >
                   Sign Up

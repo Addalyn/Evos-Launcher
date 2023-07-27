@@ -25,7 +25,7 @@ function StatusPage() {
   const [error, setError] = useState<EvosError>();
   const [status, setStatus] = useState<Status>();
   const [updateTime, setUpdateTime] = useState<Date>();
-  const { ip, setAge, activeUser, updateAuthenticatedUsers } = EvosStore();
+  const { ip, setAge, activeUser } = EvosStore();
 
   const navigate = useNavigate();
 
@@ -41,16 +41,6 @@ function StatusPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const signOut = () => {
-    updateAuthenticatedUsers(
-      activeUser?.user as string,
-      '',
-      activeUser?.handle as string,
-      activeUser?.banner as number,
-      activeUser?.configFile as string
-    );
-  };
 
   const players = useMemo(
     () => GroupBy((p) => p.accountId, status?.players),
@@ -70,14 +60,14 @@ function StatusPage() {
 
   useInterval(() => {
     // eslint-disable-next-line promise/catch-or-return
-    getStatus(activeUser?.token ?? '')
+    getStatus()
       // eslint-disable-next-line promise/always-return
       .then((resp) => {
         setStatus(resp.data);
         setUpdateTime(new Date());
         setAge(0);
       })
-      .catch((e) => processError(e, setError, navigate, signOut))
+      .catch((e) => processError(e, setError, navigate, () => {}))
       .then(() => setLoading(false));
   }, updatePeriodMs);
 

@@ -133,12 +133,33 @@ export async function login(
   );
 }
 
-export async function getStatus(authHeader: string) {
+export async function register(
+  abort: AbortController,
+  username: string,
+  password: string
+) {
   const ip = await window.electron.store.getItem('ip');
   const baseUrl = `https://${ip}`;
-  return axios.get<Status>(`${baseUrl}/api/lobby/status`, {
+
+  return axios.post<LoginResponse>(
+    `${baseUrl}/api/register`,
+    { UserName: username, Password: password },
+    { signal: abort.signal }
+  );
+}
+
+export async function logout(authHeader: string) {
+  const ip = await window.electron.store.getItem('ip');
+  const baseUrl = `https://${ip}`;
+  return axios.get<Status>(`${baseUrl}/api/logout`, {
     headers: { Authorization: `bearer ${authHeader}` },
   });
+}
+
+export async function getStatus() {
+  const ip = await window.electron.store.getItem('ip');
+  const baseUrl = `https://${ip}`;
+  return axios.get<Status>(`${baseUrl}/api/lobby/status`);
 }
 
 export async function getTicket(authHeader: string) {

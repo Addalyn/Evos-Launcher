@@ -13,6 +13,8 @@ import {
 } from '@mui/material';
 import { logoSmall } from 'renderer/lib/Resources';
 import EvosStore from 'renderer/lib/EvosStore';
+import { logout } from 'renderer/lib/Evos';
+import { useNavigate } from 'react-router-dom';
 
 function truncateDynamicPath(filePath: string, maxChars: number) {
   if (filePath === '') return filePath;
@@ -50,6 +52,7 @@ export default function SettingsPage() {
   } = EvosStore();
 
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleGamePortChange = (event: { target: { value: string } }) => {
     if (event.target.value === '') {
@@ -86,14 +89,17 @@ export default function SettingsPage() {
 
   const handleResetClick = () => {
     window.electron.store.clear();
-    window.location.href = '/login';
+    navigate('/login');
+    window.location.reload();
   };
 
   const handleDeleteClick = () => {
-    window.electron.store.removeItem('activeUser');
+    window.electron.store.removeItem('authenticatedUsers');
     setTimeout(() => {
-      window.electron.store.removeItem('authenticatedUsers');
-      window.location.href = '/login';
+      logout(activeUser?.token ?? '');
+      window.electron.store.removeItem('activeUser');
+      navigate('/login');
+      window.location.reload();
     }, 100);
   };
 

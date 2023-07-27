@@ -40,15 +40,9 @@ export interface EvosStoreState {
   ) => void;
   switchUser: (user: string) => void;
   setAge: (age: number) => void;
-  addAccoutState: boolean;
-  setAddAccountState: (state: boolean) => void;
 }
 
 const EvosStore = create<EvosStoreState>((set, get) => ({
-  addAccoutState: false,
-  setAddAccountState: (state: boolean) => {
-    set({ addAccoutState: state });
-  },
   mode: 'dark', // Default value while fetching from storage.
   ip: '',
   authenticatedUsers: [],

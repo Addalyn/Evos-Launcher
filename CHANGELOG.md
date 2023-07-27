@@ -1,3 +1,10 @@
+# 1.1.1
+
+- Alow Registering for account
+- Move AddAccount and register to its own page
+- Clear unused store items
+- Only check for login if they try to login with ticket
+
 # 1.1.0
 
 - Enable tickets! no longer need to create a json file TODO: allow account creation

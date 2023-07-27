@@ -15,6 +15,8 @@ import NavBar from './components/generic/Navbar';
 import EvosStore from './lib/EvosStore';
 import StatusPage from './components/pages/StatusPage';
 import SettingsPage from './components/pages/SettingsPage';
+import AddAccount from './components/pages/AddAccount';
+import Register from './components/pages/Register';
 
 interface PageProps {
   title: string;
@@ -37,15 +39,6 @@ const page = (title: string, content: React.ReactNode) => {
 export default function App() {
   const evosStore = EvosStore();
   const mode = evosStore.mode as PaletteMode;
-  const { activeUser } = evosStore;
-
-  const isAuthenticated = () => {
-    return (
-      activeUser !== null &&
-      Object.keys(activeUser).length !== 0 &&
-      activeUser.token !== ''
-    );
-  };
 
   const theme = React.useMemo(
     () =>
@@ -103,29 +96,56 @@ export default function App() {
               )}
             />
             <Route
+              path="/add-account"
+              element={page(
+                'Add Account',
+                <>
+                  <NavBar />
+                  <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <Toolbar />
+                    <AddAccount />
+                  </Box>
+                </>
+              )}
+            />
+            <Route
               path="/login"
               element={page(
                 'Login',
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
-                    {isAuthenticated() ? (
-                      <>
-                        <Toolbar />
-                        <Login />
-                      </>
-                    ) : (
-                      <Box
-                        sx={{
-                          marginTop: 8,
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'center',
-                        }}
-                      >
-                        <Login />
-                      </Box>
-                    )}
+                    <Box
+                      sx={{
+                        marginTop: 8,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Login />
+                    </Box>
+                  </Box>
+                </>
+              )}
+            />
+            <Route
+              path="/register"
+              element={page(
+                'Register',
+                <>
+                  <NavBar />
+                  <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <Box
+                      sx={{
+                        marginTop: 8,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Register />
+                    </Box>
                   </Box>
                 </>
               )}
