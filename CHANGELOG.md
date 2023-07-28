@@ -1,3 +1,12 @@
+# 1.1.2
+
+- Add About and Changelog page
+- Changelog includes Evos Launcher, Evos (Lobby server) and HC (Game Server) fetching from github
+- About page fetches README.md
+- Add new image for no character info (When map is in freelancher select or Loadlayout select)
+- Renamed some Pages to (Page)Page.tsx
+- Tell players not to add a port number or http(s) in the ip field
+
 # 1.1.1
 
 - Alow Registering for account

@@ -11,7 +11,7 @@ import { login } from 'renderer/lib/Evos';
 import { EvosError, processError } from 'renderer/lib/Error';
 import { BannerType, playerBanner } from 'renderer/lib/Resources';
 
-export default function Login() {
+export default function LoginPage() {
   const {
     ip,
     setIp,
@@ -234,6 +234,8 @@ export default function Login() {
         <>
           <Typography component="h1" variant="h5">
             Enter the ip or address of the Atlas Reactor server
+            <br />
+            (no port nr and no http(s)://)
           </Typography>
           <Box
             component="form"

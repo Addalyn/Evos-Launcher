@@ -25,6 +25,8 @@ import {
 } from '@mui/material';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import InfoIcon from '@mui/icons-material/Info';
 import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
 import EvosStore from 'renderer/lib/EvosStore';
@@ -39,6 +41,8 @@ type PaletteMode = 'light' | 'dark';
 const pages = [
   { title: 'Status', href: '/', icon: <HomeIcon /> },
   { title: 'Settings', href: '/settings', icon: <SettingsIcon /> },
+  { title: 'About', href: '/about', icon: <InfoIcon /> },
+  { title: 'Changelog', href: '/changelog', icon: <GitHubIcon /> },
 ];
 
 function RoundToNearest5(x: number) {

@@ -10,7 +10,7 @@ import EvosStore, { AuthUser } from 'renderer/lib/EvosStore';
 import { register } from 'renderer/lib/Evos';
 import { EvosError, processError } from 'renderer/lib/Error';
 
-export default function Register() {
+export default function RegisterPage() {
   const {
     setIp,
     setAuthenticatedUsers,

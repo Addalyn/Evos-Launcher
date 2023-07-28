@@ -10,13 +10,15 @@ import {
   Toolbar,
 } from '@mui/material';
 
-import Login from './components/pages/Login';
 import NavBar from './components/generic/Navbar';
 import EvosStore from './lib/EvosStore';
 import StatusPage from './components/pages/StatusPage';
 import SettingsPage from './components/pages/SettingsPage';
-import AddAccount from './components/pages/AddAccount';
-import Register from './components/pages/Register';
+import AboutPage from './components/pages/AboutPage';
+import ChangeLogPage from './components/pages/ChangeLogPage';
+import AddAccountPage from './components/pages/AddAccountPage';
+import LoginPage from './components/pages/LoginPage';
+import RegisterPage from './components/pages/RegisterPage';
 
 interface PageProps {
   title: string;
@@ -96,6 +98,32 @@ export default function App() {
               )}
             />
             <Route
+              path="/about"
+              element={page(
+                'About',
+                <>
+                  <NavBar />
+                  <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <Toolbar />
+                    <AboutPage />
+                  </Box>
+                </>
+              )}
+            />
+            <Route
+              path="/changelog"
+              element={page(
+                'Changelog',
+                <>
+                  <NavBar />
+                  <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <Toolbar />
+                    <ChangeLogPage />
+                  </Box>
+                </>
+              )}
+            />
+            <Route
               path="/add-account"
               element={page(
                 'Add Account',
@@ -103,7 +131,7 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
-                    <AddAccount />
+                    <AddAccountPage />
                   </Box>
                 </>
               )}
@@ -123,7 +151,7 @@ export default function App() {
                         alignItems: 'center',
                       }}
                     >
-                      <Login />
+                      <LoginPage />
                     </Box>
                   </Box>
                 </>
@@ -144,7 +172,7 @@ export default function App() {
                         alignItems: 'center',
                       }}
                     >
-                      <Register />
+                      <RegisterPage />
                     </Box>
                   </Box>
                 </>

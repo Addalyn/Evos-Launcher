@@ -22,9 +22,6 @@ export function playerBanner(type: BannerType, id: number) {
 }
 
 export function characterIcon(characterType: CharacterType) {
-  if (characterType === CharacterType.None) {
-    return `${path}/logo.png`;
-  }
   return `${path}/img/characters/icons/${characterType}.png`;
 }
 
