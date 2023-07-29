@@ -17,10 +17,11 @@ import {
   ipcMain,
   dialog,
   globalShortcut,
+  IpcMainEvent,
 } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import { spawn } from 'child_process';
+import { ChildProcess, spawn } from 'child_process';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
@@ -52,6 +53,20 @@ const defaultConfig: Config = {
   ticketEnabled: 'true',
 };
 
+interface Games {
+  [key: string]: ChildProcess;
+}
+
+const games: Games = {};
+
+interface LaunchOptions {
+  ip: string;
+  port: number;
+  name: string;
+  config?: string;
+  ticket?: string;
+  exePath: string;
+}
 class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -106,7 +121,7 @@ const createWindow = async () => {
     show: false,
     width: 1200,
     height: 728,
-    minWidth: 550,
+    minWidth: 750,
     minHeight: 400,
     autoHideMenuBar: true,
     icon: getAssetPath('logo.png'),
@@ -169,42 +184,67 @@ const createWindow = async () => {
     );
   });
 
-  ipcMain.on('launch-game', (event, args) => {
-    if (args.launchOptions.ticket) {
-      const { ticket } = args.launchOptions;
-
-      try {
-        fs.writeFileSync(
-          `${app.getPath('temp')}\\authTicket.xml`,
-          ticket,
-          'utf-8'
-        );
-        const launchOptions = [
-          '-s',
-          `${args.launchOptions.ip}:${args.launchOptions.port}`,
-          '-t',
-          `${app.getPath('temp')}\\authTicket.xml`,
-        ];
-        spawn(args.exePath, launchOptions);
-      } catch (e) {
-        console.log('Failed to write file', e);
-      }
-    } else {
-      const launchOptions = [
-        '-s',
-        `${args.launchOptions.ip}:${args.launchOptions.port}`,
-      ];
-
-      if (
-        args.launchOptions.config !== undefined &&
-        args.launchOptions.config !== ''
-      ) {
-        launchOptions.push('-c', args.launchOptions.config);
-      }
-
-      spawn(args.exePath, launchOptions);
+  ipcMain.on('close-game', async (event, args) => {
+    const { response } = await dialog.showMessageBox({
+      type: 'question',
+      buttons: ['Yes', 'No'],
+      title: 'Confirm',
+      message: 'Are you sure you want to close the game?',
+    });
+    if (response === 0) {
+      event.reply('setActiveGame', [args, false]);
+      games[args].kill();
     }
   });
+
+  ipcMain.on(
+    'launch-game',
+    (event: IpcMainEvent, args: { launchOptions: LaunchOptions }) => {
+      const { launchOptions } = args;
+      if (launchOptions.ticket) {
+        const { ticket } = launchOptions;
+        const tempPath = app.getPath('temp');
+        const authTicketPath = path.join(tempPath, 'authTicket.xml');
+
+        try {
+          fs.writeFileSync(authTicketPath, ticket, 'utf-8');
+          const launchOptionsWithTicket = [
+            '-s',
+            `${launchOptions.ip}:${launchOptions.port}`,
+            '-t',
+            authTicketPath,
+          ];
+          event.reply('setActiveGame', [launchOptions.name, true]);
+          games[launchOptions.name] = spawn(
+            launchOptions.exePath,
+            launchOptionsWithTicket
+          );
+          games[launchOptions.name].on('close', () => {
+            event.reply('setActiveGame', [launchOptions.name, false]);
+          });
+        } catch (e) {
+          console.log('Failed to write file', e);
+        }
+      } else {
+        const launchOptionsWithoutTicket = [
+          '-s',
+          `${launchOptions.ip}:${launchOptions.port}`,
+        ];
+
+        if (launchOptions.config !== undefined && launchOptions.config !== '') {
+          launchOptionsWithoutTicket.push('-c', launchOptions.config);
+        }
+        event.reply('setActiveGame', [launchOptions.name, true]);
+        games[launchOptions.name] = spawn(
+          launchOptions.exePath,
+          launchOptionsWithoutTicket
+        );
+        games[launchOptions.name].on('close', () => {
+          event.reply('setActiveGame', [launchOptions.name, false]);
+        });
+      }
+    }
+  );
 
   ipcMain.on('getAssetPath', (event) => {
     const assetPath = getAssetPath('./');

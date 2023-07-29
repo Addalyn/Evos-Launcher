@@ -33,7 +33,7 @@ import EvosStore from 'renderer/lib/EvosStore';
 import useWindowDimensions from 'renderer/lib/useWindowDimensions';
 import { getTicket, logout } from 'renderer/lib/Evos';
 import { EvosError, processError } from 'renderer/lib/Error';
-import { BannerType, logo, logoSmall, playerBanner } from '../../lib/Resources';
+import { BannerType, logo, playerBanner } from '../../lib/Resources';
 import ErrorDialog from './ErrorDialog';
 
 type PaletteMode = 'light' | 'dark';
@@ -79,7 +79,9 @@ export default function NavBar() {
   } = evosStore;
   const [error, setError] = useState<EvosError>();
   const { width } = useWindowDimensions();
-
+  const [activeGames, setActiveGames] = useState<{
+    [username: string]: boolean;
+  }>({});
   const drawerWidth = width !== null && width < 916 ? 60 : 240;
 
   const navigate = useNavigate();
@@ -112,39 +114,66 @@ export default function NavBar() {
     const user = event.currentTarget.innerText.split('#')[0].toLowerCase();
     switchUser(user);
     navigate('/');
-    window.location.reload();
   };
+
+  const handleSetActiveGame = (event: any) => {
+    setActiveGames((prevActiveGames) => ({
+      ...prevActiveGames,
+      [event[0]]: event[1],
+    }));
+  };
+
+  window.electron.ipcRenderer.on('setActiveGame', handleSetActiveGame);
 
   const handleLaunchGameClick = () => {
-    if (exePath.endsWith('AtlasReactor.exe')) {
-      if (ticketEnabled === 'true') {
-        // eslint-disable-next-line promise/catch-or-return
-        getTicket(activeUser?.token ?? '')
-          // eslint-disable-next-line promise/always-return
-          .then((resp) => {
-            window.electron.ipcRenderer.sendMessage('launch-game', {
+    if (!activeGames[activeUser?.user as string]) {
+      if (exePath.endsWith('AtlasReactor.exe')) {
+        const userName = (activeUser?.user as string) ?? '';
+        if (ticketEnabled === 'true') {
+          // eslint-disable-next-line promise/catch-or-return
+          getTicket(activeUser?.token ?? '')
+            // eslint-disable-next-line promise/always-return
+            .then((resp) => {
+              window.electron.ipcRenderer.sendMessage('launch-game', {
+                launchOptions: {
+                  exePath,
+                  ip: evosStore.ip,
+                  port: evosStore.gamePort,
+                  ticket: resp.data,
+                  name: userName,
+                },
+              });
+            })
+            .catch((e) => processError(e, setError, navigate, handleLogOut));
+        } else {
+          window.electron.ipcRenderer.sendMessage('launch-game', {
+            launchOptions: {
               exePath,
-              launchOptions: {
-                ip: evosStore.ip,
-                port: evosStore.gamePort,
-                ticket: resp.data,
-              },
-            });
-          })
-          .catch((e) => processError(e, setError, navigate, handleLogOut));
-      } else {
-        window.electron.ipcRenderer.sendMessage('launch-game', {
-          exePath,
-          launchOptions: {
-            ip: evosStore.ip,
-            port: evosStore.gamePort,
-            config: activeUser?.configFile,
-          },
-        });
+              ip: evosStore.ip,
+              port: evosStore.gamePort,
+              config: activeUser?.configFile,
+              name: userName,
+            },
+          });
+        }
       }
+    } else {
+      window.electron.ipcRenderer.sendMessage(
+        'close-game',
+        activeUser?.user as string
+      );
     }
   };
-
+  let tooltipTitle = '';
+  if (exePath.endsWith('AtlasReactor.exe')) {
+    if (activeGames[activeUser?.user as string]) {
+      tooltipTitle = `Kill Atlas Reactor for ${activeUser?.handle}`;
+    } else {
+      tooltipTitle = `Play Atlas Reactor as ${activeUser?.handle}`;
+    }
+  } else {
+    tooltipTitle = 'Select your Atlas Reactor Executable in Settings first';
+  }
   return (
     <>
       {error && (
@@ -167,17 +196,6 @@ export default function NavBar() {
                 display: { xs: 'none', md: 'flex' },
               }}
             />
-            <Avatar
-              alt="logo"
-              variant="square"
-              src={logoSmall()}
-              sx={{
-                flexShrink: 1,
-                width: 40,
-                height: 40,
-                display: { xs: 'flex', md: 'none' },
-              }}
-            />
             {isAuthenticated() && (
               <Stack
                 direction="row"
@@ -187,23 +205,22 @@ export default function NavBar() {
                   justifyContent: 'flex-end',
                 }}
               >
-                <Tooltip
-                  title={
-                    exePath.endsWith('AtlasReactor.exe')
-                      ? 'Launch Atlas Reactor'
-                      : 'Select your Atlas Reactor Executable in Settings first'
-                  }
-                >
+                <Tooltip title={tooltipTitle}>
                   <span>
                     <Button
                       variant="contained"
                       sx={{
-                        backgroundColor: (theme) => theme.palette.primary.light,
+                        backgroundColor: (theme) =>
+                          activeGames[activeUser?.user as string]
+                            ? theme.palette.error.dark
+                            : theme.palette.primary.light,
                       }}
                       disabled={!exePath.endsWith('AtlasReactor.exe')}
                       onClick={handleLaunchGameClick}
                     >
-                      Play Atlas Reactor
+                      {activeGames[activeUser?.user as string]
+                        ? `Kill Atlas Reactor for ${activeUser?.user}`
+                        : `Play Atlas Reactor as ${activeUser?.user}`}
                     </Button>
                   </span>
                 </Tooltip>

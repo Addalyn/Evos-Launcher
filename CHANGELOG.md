@@ -1,3 +1,8 @@
+# 1.1.3
+
+- Add ability to kill the game if its launched (able to kill per user launched)
+- make errors a bit nicer and say if the server is offline
+
 # 1.1.2
 
 - Add About and Changelog page

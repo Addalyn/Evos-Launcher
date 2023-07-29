@@ -7,7 +7,9 @@ export type Channels =
   | 'getAssetPath'
   | 'open-file-dialog'
   | 'selected-file'
-  | 'launch-game';
+  | 'launch-game'
+  | 'setActiveGame'
+  | 'close-game';
 
 const electronHandler = {
   isPackaged: process.env.NODE_ENV === 'production',

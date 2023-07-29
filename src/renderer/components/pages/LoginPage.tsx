@@ -2,7 +2,15 @@ import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { Paper, MenuItem, Select, ListSubheader, Avatar } from '@mui/material';
+import {
+  Paper,
+  MenuItem,
+  Select,
+  ListSubheader,
+  Avatar,
+  Alert,
+  AlertTitle,
+} from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -78,10 +86,10 @@ export default function LoginPage() {
             resp.data.banner
           );
         }
+        setError(undefined);
         setAddUser(false);
         switchUser(user);
         navigate('/');
-        window.location.reload();
         return null;
       })
       // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -189,7 +197,12 @@ export default function LoginPage() {
               id="password"
               autoComplete="current-password"
             />
-            {error && error.text}
+            {error && (
+              <Alert severity="error">
+                <AlertTitle>Error</AlertTitle>
+                {error.text}
+              </Alert>
+            )}
             <Button
               type="submit"
               fullWidth

@@ -17,14 +17,14 @@ export function processError(
   } else if (error.response?.status === 403) {
     setError({ text: 'Access denied' });
   } else if (error.response?.status === 400) {
-    setError({ text: 'Bad request' });
+    setError({ text: 'Bad request try again' });
   } else if (
     !error.response ||
     error.response?.status === 500 ||
     error.response?.status === 502
   ) {
-    setError({ text: 'Service unavailable' });
+    setError({ text: 'Altas Reactor Server is offline' });
   } else {
-    setError({ text: 'Unknown error' });
+    setError({ text: 'Unknown error try again' });
   }
 }

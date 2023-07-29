@@ -1,11 +1,16 @@
 import { useMemo, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LinearProgress, Paper, Typography } from '@mui/material';
+import {
+  LinearProgress,
+  Paper,
+  Typography,
+  Alert,
+  AlertTitle,
+} from '@mui/material';
 import EvosStore from 'renderer/lib/EvosStore';
 import { getStatus, Status } from '../../lib/Evos';
 
 import { EvosError, processError } from '../../lib/Error';
-import ErrorDialog from '../generic/ErrorDialog';
 import useInterval from '../../lib/useInterval';
 import useHasFocus from '../../lib/useHasFocus';
 import Server from '../atlas/Server';
@@ -63,6 +68,7 @@ function StatusPage() {
     getStatus()
       // eslint-disable-next-line promise/always-return
       .then((resp) => {
+        setError(undefined);
         setStatus(resp.data);
         setUpdateTime(new Date());
         setAge(0);
@@ -92,7 +98,10 @@ function StatusPage() {
     <>
       {loading && <LinearProgress />}
       {error && (
-        <ErrorDialog error={error} onDismiss={() => setError(undefined)} />
+        <Alert severity="error">
+          <AlertTitle>Error</AlertTitle>
+          {error.text}
+        </Alert>
       )}
       {players?.size === 0 && (
         <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
