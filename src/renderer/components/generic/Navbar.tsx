@@ -29,6 +29,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import InfoIcon from '@mui/icons-material/Info';
 import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
+import DownloadIcon from '@mui/icons-material/Download';
 import EvosStore from 'renderer/lib/EvosStore';
 import useWindowDimensions from 'renderer/lib/useWindowDimensions';
 import { getTicket, logout } from 'renderer/lib/Evos';
@@ -41,6 +42,7 @@ type PaletteMode = 'light' | 'dark';
 const pages = [
   { title: 'Status', href: '/', icon: <HomeIcon /> },
   { title: 'Settings', href: '/settings', icon: <SettingsIcon /> },
+  { title: 'Download', href: '/download', icon: <DownloadIcon /> },
   { title: 'About', href: '/about', icon: <InfoIcon /> },
   { title: 'Changelog', href: '/changelog', icon: <GitHubIcon /> },
 ];
@@ -76,6 +78,7 @@ export default function NavBar() {
     activeUser,
     switchUser,
     authenticatedUsers,
+    isDownloading,
   } = evosStore;
   const [error, setError] = useState<EvosError>();
   const { width } = useWindowDimensions();
@@ -215,7 +218,9 @@ export default function NavBar() {
                             ? theme.palette.error.dark
                             : theme.palette.primary.light,
                       }}
-                      disabled={!exePath.endsWith('AtlasReactor.exe')}
+                      disabled={
+                        !exePath.endsWith('AtlasReactor.exe') || isDownloading
+                      }
                       onClick={handleLaunchGameClick}
                     >
                       {activeGames[activeUser?.user as string]
@@ -248,6 +253,7 @@ export default function NavBar() {
                   <Select
                     value={activeUser?.handle}
                     label=""
+                    disabled={isDownloading}
                     sx={{ width: '100%', maxHeight: '36.5px' }}
                   >
                     <ListSubheader>Accounts</ListSubheader>
@@ -347,8 +353,9 @@ export default function NavBar() {
                       key={page.title}
                       disablePadding
                       sx={{ display: 'block' }}
+                      disabled={isDownloading}
                       onClick={() => {
-                        navigate(page.href);
+                        if (!isDownloading) navigate(page.href);
                       }}
                     >
                       <ListItemButton>

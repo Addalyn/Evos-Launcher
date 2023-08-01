@@ -6,10 +6,15 @@ import { AuthUser } from 'renderer/lib/EvosStore';
 export type Channels =
   | 'getAssetPath'
   | 'open-file-dialog'
+  | 'open-folder-dialog'
   | 'selected-file'
   | 'launch-game'
   | 'setActiveGame'
-  | 'close-game';
+  | 'close-game'
+  | 'download-progress'
+  | 'download-progress-completed'
+  | 'cancel-download-game'
+  | 'message';
 
 const electronHandler = {
   isPackaged: process.env.NODE_ENV === 'production',
@@ -34,6 +39,18 @@ const electronHandler = {
     },
     getSelectedFile(config: boolean) {
       return ipcRenderer.invoke('open-file-dialog', config);
+    },
+    openFolderDialog() {
+      ipcRenderer.send('open-folder-dialog');
+    },
+    getSelectedFolder() {
+      return ipcRenderer.invoke('open-folder-dialog');
+    },
+    downloadGame(downloadPath: string) {
+      ipcRenderer.invoke('download-game', downloadPath);
+    },
+    cancelDownloadGame() {
+      ipcRenderer.invoke('cancel-download-game');
     },
   },
   store: {

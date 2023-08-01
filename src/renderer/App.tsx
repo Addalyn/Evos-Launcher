@@ -19,6 +19,8 @@ import ChangeLogPage from './components/pages/ChangeLogPage';
 import AddAccountPage from './components/pages/AddAccountPage';
 import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
+import DownloadPage from './components/pages/DownloadPage';
+import Updater from './components/generic/Updater';
 
 interface PageProps {
   title: string;
@@ -79,6 +81,7 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
+                    <Updater />
                     <StatusPage />
                   </Box>
                 </>
@@ -92,6 +95,7 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
+                    <Updater />
                     <SettingsPage />
                   </Box>
                 </>
@@ -105,6 +109,7 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
+                    <Updater />
                     <AboutPage />
                   </Box>
                 </>
@@ -118,7 +123,22 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
+                    <Updater />
                     <ChangeLogPage />
+                  </Box>
+                </>
+              )}
+            />
+            <Route
+              path="/download"
+              element={page(
+                'Download Atlas Reactor',
+                <>
+                  <NavBar />
+                  <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <Toolbar />
+                    <Updater />
+                    <DownloadPage />
                   </Box>
                 </>
               )}
@@ -131,6 +151,7 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
+                    <Updater />
                     <AddAccountPage />
                   </Box>
                 </>
@@ -151,6 +172,7 @@ export default function App() {
                         alignItems: 'center',
                       }}
                     >
+                      <Updater />
                       <LoginPage />
                     </Box>
                   </Box>
@@ -172,6 +194,7 @@ export default function App() {
                         alignItems: 'center',
                       }}
                     >
+                      <Updater />
                       <RegisterPage />
                     </Box>
                   </Box>

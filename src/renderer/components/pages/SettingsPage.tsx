@@ -16,7 +16,7 @@ import EvosStore from 'renderer/lib/EvosStore';
 import { logout } from 'renderer/lib/Evos';
 import { useNavigate } from 'react-router-dom';
 
-function truncateDynamicPath(filePath: string, maxChars: number) {
+export function truncateDynamicPath(filePath: string, maxChars: number) {
   if (filePath === '') return filePath;
   const parts = filePath.split('\\');
   const fileName = parts.pop() as string;

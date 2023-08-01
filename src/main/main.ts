@@ -1,13 +1,6 @@
+/* eslint-disable import/no-cycle */
+/* eslint-disable import/prefer-default-export */
 /* eslint global-require: off, no-console: off, promise/always-return: off */
-
-/**
- * This module executes inside of electron's main process. You can start
- * electron renderer process from here and communicate with the other processes
- * through IPC.
- *
- * When running `npm run build` or `npm run build:main`, this file is compiled to
- * `./src/main.js` using webpack. This gives us some performance wins.
- */
 import path from 'path';
 import fs from 'fs';
 import {
@@ -19,11 +12,14 @@ import {
   globalShortcut,
   IpcMainEvent,
 } from 'electron';
+import { Worker as NativeWorker } from 'worker_threads';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { ChildProcess, spawn } from 'child_process';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+import { oauthConfig } from './discord/config/config';
+import AuthClient from './discord/services/auth';
 
 interface AuthUser {
   user: string;
@@ -67,17 +63,12 @@ interface LaunchOptions {
   ticket?: string;
   exePath: string;
 }
-class AppUpdater {
-  constructor() {
-    log.transports.file.level = 'info';
-    autoUpdater.logger = log;
-    autoUpdater.checkForUpdatesAndNotify();
-  }
-}
-
 let mainWindow: BrowserWindow | null = null;
+let authClient: AuthClient | null = null;
+log.transports.file.level = 'info';
 
 const configFilePath = path.join(app.getPath('userData'), 'config.json');
+let globalDownloadPath = '';
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -91,6 +82,67 @@ if (isDebug) {
   require('electron-debug')();
 }
 
+let worker: NativeWorker | null = null;
+
+function sendStatusToWindow(win: BrowserWindow, text: string) {
+  log.info(text);
+  win.webContents.send('message', text);
+}
+
+async function startDownload(downloadPath: string) {
+  worker = new NativeWorker(path.join(__dirname, 'downloadWorker.js'), {
+    workerData: { downloadPath },
+  });
+
+  worker.on('message', (message) => {
+    switch (message.type) {
+      case 'progress':
+        mainWindow?.webContents.send('download-progress', message.data);
+        break;
+      case 'result':
+        if (message.data) {
+          mainWindow?.webContents.send('download-progress-completed', {
+            text: 'Download/Repair complete!',
+          });
+        } else {
+          mainWindow?.webContents.send('download-progress-completed', {
+            text: 'Error while downloading files.',
+          });
+        }
+        break;
+      case 'error':
+        mainWindow?.webContents.send('download-progress-completed', {
+          text: `Error while downloading files.`,
+        });
+        break;
+      default:
+        break;
+    }
+  });
+
+  worker.on('error', (error) => {
+    log.info('Worker thread error:', error);
+  });
+
+  worker.on('exit', (code) => {
+    if (code !== 0) {
+      log.info('Worker thread exited with code:', code);
+    }
+  });
+}
+
+export const setAuthResult = (status: boolean) => {
+  if (status) {
+    startDownload(globalDownloadPath);
+  } else {
+    mainWindow?.webContents.send('download-progress-completed', {
+      text: 'You must authenticate with our Discord server and have the correct role.',
+    });
+  }
+
+  authClient?.stopListening();
+};
+
 const installExtensions = async () => {
   const installer = require('electron-devtools-installer');
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
@@ -101,7 +153,7 @@ const installExtensions = async () => {
       extensions.map((name) => installer[name]),
       forceDownload
     )
-    .catch(console.log);
+    .catch(log.info);
 };
 
 const createWindow = async () => {
@@ -148,7 +200,7 @@ const createWindow = async () => {
 
   async function createConfigFile() {
     if (!fileExists) {
-      console.log('Config file does not exist, creating it...');
+      log.info('Config file does not exist, creating it...');
       // Write the default config to the file
       await fs.promises.writeFile(
         configFilePath,
@@ -171,7 +223,7 @@ const createWindow = async () => {
       const config = await fs.promises.readFile(configFilePath, 'utf-8');
       return JSON.parse(config);
     } catch (error) {
-      console.error('Error while reading or creating the config file:', error);
+      log.info('Error while reading or creating the config file:', error);
       return null;
     }
   });
@@ -223,7 +275,7 @@ const createWindow = async () => {
             event.reply('setActiveGame', [launchOptions.name, false]);
           });
         } catch (e) {
-          console.log('Failed to write file', e);
+          log.info('Failed to write file', e);
         }
       } else {
         const launchOptionsWithoutTicket = [
@@ -280,6 +332,38 @@ const createWindow = async () => {
     return null;
   });
 
+  ipcMain.handle('cancel-download-game', async () => {
+    worker?.terminate();
+  });
+
+  ipcMain.handle('download-game', async (event, downloadPath: string) => {
+    if (oauthConfig.client_id !== '') {
+      if (!authClient || !authClient.isListening()) {
+        authClient = new AuthClient(oauthConfig);
+      }
+      authClient.openBrowser();
+      globalDownloadPath = downloadPath;
+    } else {
+      mainWindow?.webContents.send('download-progress-completed', {
+        text: 'Unexpected error, please restart Evos Launcher.',
+      });
+    }
+  });
+
+  ipcMain.handle('open-folder-dialog', async () => {
+    const files = await dialog.showOpenDialog({
+      properties: ['openDirectory'],
+    });
+
+    const selectedFilePath = files.filePaths[0];
+
+    if (selectedFilePath) {
+      return selectedFilePath;
+    }
+
+    return null;
+  });
+
   mainWindow.on('ready-to-show', () => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined');
@@ -289,6 +373,35 @@ const createWindow = async () => {
     } else {
       mainWindow.show();
     }
+
+    autoUpdater.on('checking-for-update', () => {
+      sendStatusToWindow(mainWindow as BrowserWindow, 'Checking for update...');
+    });
+    autoUpdater.on('update-available', () => {
+      sendStatusToWindow(mainWindow as BrowserWindow, 'Update available.');
+    });
+    autoUpdater.on('update-not-available', () => {
+      sendStatusToWindow(mainWindow as BrowserWindow, '');
+    });
+    autoUpdater.on('error', (err) => {
+      sendStatusToWindow(
+        mainWindow as BrowserWindow,
+        `Error in auto-updater. ${err}`
+      );
+    });
+    autoUpdater.on('download-progress', (progressObj) => {
+      let logMessage = `Download speed: ${progressObj.bytesPerSecond}`;
+      logMessage = `${logMessage} - Downloaded ${progressObj.percent}%`;
+      logMessage = `${logMessage} (${progressObj.transferred}/${progressObj.total})`;
+      sendStatusToWindow(mainWindow as BrowserWindow, logMessage);
+    });
+    autoUpdater.on('update-downloaded', () => {
+      sendStatusToWindow(
+        mainWindow as BrowserWindow,
+        'Update downloaded, Restart Evos Launcher to apply the update.'
+      );
+    });
+    autoUpdater.checkForUpdates();
   });
 
   mainWindow.on('closed', () => {
@@ -303,10 +416,6 @@ const createWindow = async () => {
     shell.openExternal(edata.url);
     return { action: 'deny' };
   });
-
-  // Remove this if your app does not use auto updates
-  // eslint-disable-next-line
-  new AppUpdater();
 };
 
 /**
@@ -331,4 +440,4 @@ app
       if (mainWindow === null) createWindow();
     });
   })
-  .catch(console.log);
+  .catch(log.info);

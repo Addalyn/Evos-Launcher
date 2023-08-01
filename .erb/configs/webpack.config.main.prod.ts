@@ -30,6 +30,10 @@ const configuration: webpack.Configuration = {
   entry: {
     main: path.join(webpackPaths.srcMainPath, 'main.ts'),
     preload: path.join(webpackPaths.srcMainPath, 'preload.ts'),
+    downloadWorker: path.join(
+      webpackPaths.srcMainPath,
+      'download/downloadWorker.js'
+    ),
   },
 
   output: {

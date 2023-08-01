@@ -45,7 +45,7 @@ function StatusPage() {
       navigate('/login');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [ip, activeUser]);
 
   const players = useMemo(
     () => GroupBy((p) => p.accountId, status?.players),

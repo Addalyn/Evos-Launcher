@@ -1,3 +1,9 @@
+# 1.2.0
+
+- Add ability to download said game, this is not the preferred way; use official means first. You must be in our discord and have the correct role in order to use it.
+- Fix going to login page if you are still logged in.
+- Show in launcher if update is available.
+
 # 1.1.3
 
 - Add ability to kill the game if its launched (able to kill per user launched)

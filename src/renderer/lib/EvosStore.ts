@@ -17,8 +17,11 @@ export interface EvosStoreState {
   activeUser: AuthUser | null;
   age: number;
   exePath: string;
+  folderPath: string;
   gamePort: string;
   ticketEnabled: string;
+  isDownloading: boolean;
+  setIsDownloading: (isDownloading: boolean) => void;
   init: () => void;
   toggleMode: () => void;
   setIp: (ip: string) => void;
@@ -30,6 +33,7 @@ export interface EvosStoreState {
   ) => void;
   setGamePort: (gamePort: string) => void;
   setExePath: (exePath: string) => void;
+  setFolderPath: (folderPath: string) => void;
   setTicketEnabled: (ticketEnabled: string) => void;
   updateAuthenticatedUsers: (
     user: string,
@@ -49,9 +53,10 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   activeUser: null,
   age: 0,
   exePath: '',
+  folderPath: '',
   gamePort: '6050',
   ticketEnabled: 'false',
-
+  isDownloading: false,
   // Helper async function to fetch values from storage
   getFromStorage: async <T>(key: string): Promise<T | null> => {
     try {
@@ -71,6 +76,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       activeUser,
       age,
       exePath,
+      folderPath,
       gamePort,
       ticketEnabled,
     ] = await Promise.all([
@@ -80,6 +86,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       get().getFromStorage('activeUser') as AuthUser | null,
       get().getFromStorage('age') as number,
       get().getFromStorage('exePath') as string,
+      get().getFromStorage('folderPath') as string,
       get().getFromStorage('gamePort') as string,
       get().getFromStorage('ticketEnabled') as string,
     ]);
@@ -97,6 +104,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       activeUser: activeUser || null,
       age: age || 0,
       exePath: exePath || '',
+      folderPath: folderPath || '',
       gamePort: gamePort || '6050',
       ticketEnabled: ticketEnabled || 'true',
     });
@@ -125,6 +133,10 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     }
   },
 
+  setIsDownloading: async (isDownloading: boolean) => {
+    set({ isDownloading });
+  },
+
   setExePath: async (exePath: string) => {
     set({ exePath });
 
@@ -132,6 +144,16 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       await window.electron.store.setItem('exePath', exePath);
     } catch (error) {
       console.error('Error while saving exePath to storage:', error);
+    }
+  },
+
+  setFolderPath: async (folderPath: string) => {
+    set({ folderPath });
+
+    try {
+      await window.electron.store.setItem('folderPath', folderPath);
+    } catch (error) {
+      console.error('Error while saving folderPath to storage:', error);
     }
   },
 
