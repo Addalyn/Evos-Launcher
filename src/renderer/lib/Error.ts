@@ -13,18 +13,20 @@ export function processError(
     signOut();
     navigate('/login');
   } else if (error.response?.status === 404) {
-    setError({ text: 'Not found' });
+    setError({ text: 'Not found.' });
   } else if (error.response?.status === 403) {
-    setError({ text: 'Access denied' });
+    setError({ text: 'Access denied.' });
   } else if (error.response?.status === 400) {
-    setError({ text: 'Bad request try again' });
+    setError({
+      text: error.response?.data?.message ?? 'Bad request.',
+    });
   } else if (
     !error.response ||
     error.response?.status === 500 ||
     error.response?.status === 502
   ) {
-    setError({ text: 'Altas Reactor Server is offline' });
+    setError({ text: 'Altas Reactor Server is offline.' });
   } else {
-    setError({ text: 'Unknown error try again' });
+    setError({ text: 'Unknown error try again.' });
   }
 }

@@ -1,8 +1,12 @@
+# 1.2.2
+
+- Small error handling fix
+
 # 1.2.1
 
 - Add form validation to login and register and add account
 - Register account now requires a Unique code to sign up, this code is given to you by a Developer
-  To get a code you must be in our discord and request access to our testing server in #support
+  To get a code you must be in our discord and request access to our testing server in #beta-access
 - Add a -nolog in the launching of atlas reactor suposently thats a fix for crashing when you use multiple game instances
 
 # 1.2.0
