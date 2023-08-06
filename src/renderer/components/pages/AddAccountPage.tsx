@@ -1,5 +1,9 @@
-import { FormEvent, useState } from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { Paper, Alert, AlertTitle } from '@mui/material';
@@ -9,6 +13,15 @@ import Typography from '@mui/material/Typography';
 import EvosStore, { AuthUser } from 'renderer/lib/EvosStore';
 import { login } from 'renderer/lib/Evos';
 import { EvosError, processError } from 'renderer/lib/Error';
+
+const validationSchemaUser = z.object({
+  username: z
+    .string()
+    .min(2, { message: 'Username must be atleast 2 characters' }),
+  password: z.string().min(1, { message: 'Password is required' }),
+});
+
+type ValidationSchemaUser = z.infer<typeof validationSchemaUser>;
 
 export default function AddAccount() {
   const {
@@ -21,23 +34,27 @@ export default function AddAccount() {
 
   const navigate = useNavigate();
   const [error, setError] = useState<EvosError>();
-  const [username, setUsername] = useState('');
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    let user = data.get('username') as string;
-    const pass = data.get('password') as string;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ValidationSchemaUser>({
+    resolver: zodResolver(validationSchemaUser),
+  });
 
-    if (!user || !pass) {
+  const onSubmit: SubmitHandler<ValidationSchemaUser> = async (data) => {
+    const { username, password } = data;
+
+    if (!username || !password) {
       return;
     }
 
-    user = user.toLowerCase();
+    const user = username.toLowerCase();
 
     const abort = new AbortController();
 
-    login(abort, user, pass)
+    login(abort, user, password)
       // eslint-disable-next-line promise/always-return
       .then((resp) => {
         if (authenticatedUsers.find((u) => u.user === user)) {
@@ -89,29 +106,37 @@ export default function AddAccount() {
       <Typography component="h1" variant="h5">
         Add Account
       </Typography>
-      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+      <Box
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+        sx={{ mt: 1 }}
+      >
         <TextField
           margin="normal"
           required
           fullWidth
           id="username"
           label="Username"
-          name="username"
           autoComplete=""
           autoFocus
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          {...register('username')}
         />
+        {errors.username && (
+          <Alert severity="warning">{errors.username?.message}</Alert>
+        )}
         <TextField
           margin="normal"
           required
           fullWidth
-          name="password"
           label="Password"
           type="password"
           id="password"
-          autoComplete="current-password"
+          {...register('password')}
         />
+        {errors.password && (
+          <Alert severity="warning">{errors.password?.message}</Alert>
+        )}
         {error && (
           <Alert severity="error">
             <AlertTitle>Error</AlertTitle>

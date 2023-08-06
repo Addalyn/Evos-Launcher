@@ -265,6 +265,7 @@ const createWindow = async () => {
             `${launchOptions.ip}:${launchOptions.port}`,
             '-t',
             authTicketPath,
+            '-nolog',
           ];
           event.reply('setActiveGame', [launchOptions.name, true]);
           games[launchOptions.name] = spawn(
@@ -281,6 +282,7 @@ const createWindow = async () => {
         const launchOptionsWithoutTicket = [
           '-s',
           `${launchOptions.ip}:${launchOptions.port}`,
+          '-nolog',
         ];
 
         if (launchOptions.config !== undefined && launchOptions.config !== '') {

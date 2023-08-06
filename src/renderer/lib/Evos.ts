@@ -133,17 +133,18 @@ export async function login(
   );
 }
 
-export async function register(
+export async function registerAccount(
   abort: AbortController,
   username: string,
-  password: string
+  password: string,
+  code: string
 ) {
   const ip = await window.electron.store.getItem('ip');
   const baseUrl = `https://${ip}`;
 
   return axios.post<LoginResponse>(
     `${baseUrl}/api/register`,
-    { UserName: username, Password: password },
+    { UserName: username, Password: password, Code: code },
     { signal: abort.signal }
   );
 }

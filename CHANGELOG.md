@@ -1,3 +1,10 @@
+# 1.2.1
+
+- Add form validation to login and register and add account
+- Register account now requires a Unique code to sign up, this code is given to you by a Developer
+  To get a code you must be in our discord and request access to our testing server in #support
+- Add a -nolog in the launching of atlas reactor suposently thats a fix for crashing when you use multiple game instances
+
 # 1.2.0
 
 - Add ability to download said game, this is not the preferred way; use official means first. You must be in our discord and have the correct role in order to use it.

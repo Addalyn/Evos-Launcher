@@ -1,5 +1,9 @@
-import { FormEvent, useState } from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { Paper, Alert, AlertTitle } from '@mui/material';
@@ -7,8 +11,33 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import EvosStore, { AuthUser } from 'renderer/lib/EvosStore';
-import { register } from 'renderer/lib/Evos';
+import { registerAccount } from 'renderer/lib/Evos';
 import { EvosError, processError } from 'renderer/lib/Error';
+
+const validationSchema = z
+  .object({
+    username: z
+      .string()
+      .min(2, { message: 'Username must be atleast 2 characters' }),
+    password: z
+      .string()
+      .min(5, { message: 'Password must be atleast 5 characters' }),
+    confirmPassword: z
+      .string()
+      .min(5, { message: 'Confirm Password must be atleast 5 characters' }),
+    code: z
+      .string()
+      .regex(
+        /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/,
+        { message: 'Please provide a valid Code.' }
+      ),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ['confirmPassword'],
+    message: "Password don't match",
+  });
+
+type ValidationSchema = z.infer<typeof validationSchema>;
 
 export default function RegisterPage() {
   const {
@@ -21,23 +50,27 @@ export default function RegisterPage() {
 
   const navigate = useNavigate();
   const [error, setError] = useState<EvosError>();
-  const [username, setUsername] = useState('');
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    let user = data.get('username') as string;
-    const pass = data.get('password') as string;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ValidationSchema>({
+    resolver: zodResolver(validationSchema),
+  });
 
-    if (!user || !pass) {
+  const onSubmit: SubmitHandler<ValidationSchema> = async (data) => {
+    const { username, password, code } = data;
+
+    if (!username || !password || !code) {
       return;
     }
 
-    user = user.toLowerCase();
+    const user = username.toLowerCase();
 
     const abort = new AbortController();
 
-    register(abort, user, pass)
+    registerAccount(abort, user, password, code)
       // eslint-disable-next-line promise/always-return
       .then((resp) => {
         if (authenticatedUsers.find((u) => u.user === user)) {
@@ -85,33 +118,71 @@ export default function RegisterPage() {
   };
 
   return (
-    <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
+    <Paper
+      elevation={3}
+      style={{ padding: '1em', margin: '1em', width: '578px' }}
+    >
       <Typography component="h1" variant="h5">
-        Add Account
+        Register Account
       </Typography>
-      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+      <Box
+        component="form"
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+        sx={{ mt: 1 }}
+      >
         <TextField
           margin="normal"
           required
           fullWidth
           id="username"
           label="Username"
-          name="username"
           autoComplete=""
           autoFocus
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          {...register('username')}
         />
+        {errors.username && (
+          <Alert severity="warning">{errors.username?.message}</Alert>
+        )}
         <TextField
           margin="normal"
           required
           fullWidth
-          name="password"
           label="Password"
           type="password"
           id="password"
           autoComplete="current-password"
+          {...register('password')}
         />
+        {errors.password && (
+          <Alert severity="warning">{errors.password?.message}</Alert>
+        )}
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          label="Confirm Password"
+          type="password"
+          id="confirmPassword"
+          autoComplete="current-password"
+          {...register('confirmPassword')}
+        />
+        {errors.confirmPassword && (
+          <Alert severity="warning">{errors.confirmPassword?.message}</Alert>
+        )}
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          label="Code"
+          type="text"
+          id="code"
+          autoComplete="current-code"
+          {...register('code')}
+        />
+        {errors.code && (
+          <Alert severity="warning">{errors.code?.message}</Alert>
+        )}
         {error && (
           <Alert severity="error">
             <AlertTitle>Error</AlertTitle>

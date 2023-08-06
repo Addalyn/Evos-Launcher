@@ -147,56 +147,57 @@ export default function SettingsPage() {
           </Grid>
         </Grid>
       </Paper>
-      <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
-        <Grid container spacing={2} alignItems="center">
-          <Grid item xs={7}>
-            <TextField
-              placeholder={`Atlas Reactor config file for account ${activeUser?.handle}`}
-              value={truncateDynamicPath(
-                activeUser?.configFile === undefined
-                  ? ''
-                  : activeUser?.configFile,
-                45
-              )}
-              style={{ flexGrow: 1, marginRight: '1em' }}
-              variant="outlined"
-              disabled
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Avatar
-                      alt="logo"
-                      variant="square"
-                      src={logoSmall()}
-                      sx={{
-                        flexShrink: 1,
-                        width: 40,
-                        height: 40,
-                      }}
-                    />
-                  </InputAdornment>
-                ),
-              }}
-              fullWidth
-            />
+      {ticketEnabled === 'false' && (
+        <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item xs={7}>
+              <TextField
+                placeholder={`Atlas Reactor config file for account ${activeUser?.handle}`}
+                value={truncateDynamicPath(
+                  activeUser?.configFile === undefined
+                    ? ''
+                    : activeUser?.configFile,
+                  45
+                )}
+                style={{ flexGrow: 1, marginRight: '1em' }}
+                variant="outlined"
+                disabled
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Avatar
+                        alt="logo"
+                        variant="square"
+                        src={logoSmall()}
+                        sx={{
+                          flexShrink: 1,
+                          width: 40,
+                          height: 40,
+                        }}
+                      />
+                    </InputAdornment>
+                  ),
+                }}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={5}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => handleSelectFileClick(true)}
+                fullWidth
+                sx={{
+                  height: '56px',
+                  backgroundColor: (theme) => theme.palette.primary.light,
+                }}
+              >
+                Select Config File
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={5}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => handleSelectFileClick(true)}
-              fullWidth
-              disabled={ticketEnabled === 'true'}
-              sx={{
-                height: '56px',
-                backgroundColor: (theme) => theme.palette.primary.light,
-              }}
-            >
-              Select Config File
-            </Button>
-          </Grid>
-        </Grid>
-      </Paper>
+        </Paper>
+      )}
       <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
         <Grid container spacing={2} alignItems="center">
           <Grid item xs={7}>

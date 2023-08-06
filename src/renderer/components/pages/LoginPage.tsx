@@ -1,5 +1,9 @@
-import { FormEvent, useState } from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import {
@@ -18,6 +22,16 @@ import EvosStore, { AuthUser } from 'renderer/lib/EvosStore';
 import { login } from 'renderer/lib/Evos';
 import { EvosError, processError } from 'renderer/lib/Error';
 import { BannerType, playerBanner } from 'renderer/lib/Resources';
+import IpComponent from '../generic/IpComponent';
+
+const validationSchemaUser = z.object({
+  username: z
+    .string()
+    .min(2, { message: 'Username must be atleast 2 characters' }),
+  password: z.string().min(1, { message: 'Password is required' }),
+});
+
+type ValidationSchemaUser = z.infer<typeof validationSchemaUser>;
 
 export default function LoginPage() {
   const {
@@ -33,7 +47,6 @@ export default function LoginPage() {
   const [addUser, setAddUser] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState<EvosError>();
-  const [usernameOrIp, setUsernameOrIp] = useState('');
 
   const isAuthenticated = () => {
     return activeUser !== null && activeUser?.token !== '';
@@ -43,28 +56,26 @@ export default function LoginPage() {
     setAddUser(true);
   };
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    let user = data.get('username') as string;
-    const pass = data.get('password') as string;
-    const formIp = data.get('ip') as string;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ValidationSchemaUser>({
+    resolver: zodResolver(validationSchemaUser),
+  });
 
-    if (formIp) {
-      setIp(formIp);
-      setUsernameOrIp('');
+  const onSubmit: SubmitHandler<ValidationSchemaUser> = async (data) => {
+    const { username, password } = data;
+
+    if (!username || !password) {
       return;
     }
 
-    if (!user || !pass) {
-      return;
-    }
-
-    user = user.toLowerCase();
+    const user = username.toLowerCase();
 
     const abort = new AbortController();
 
-    login(abort, user, pass)
+    login(abort, user, password)
       // eslint-disable-next-line promise/always-return
       .then((resp) => {
         if (authenticatedUsers.find((u) => u.user === user)) {
@@ -113,7 +124,10 @@ export default function LoginPage() {
   };
 
   return (
-    <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
+    <Paper
+      elevation={3}
+      style={{ padding: '1em', margin: '1em', width: '578px' }}
+    >
       {ip ? (
         <>
           <Typography component="h1" variant="h5">
@@ -121,7 +135,7 @@ export default function LoginPage() {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
             noValidate
             sx={{ mt: 1 }}
           >
@@ -132,11 +146,9 @@ export default function LoginPage() {
                 fullWidth
                 id="username"
                 label="Username"
-                name="username"
                 autoComplete=""
                 autoFocus
-                value={usernameOrIp}
-                onChange={(e) => setUsernameOrIp(e.target.value)}
+                {...register('username')}
               />
             ) : (
               <Select
@@ -144,7 +156,7 @@ export default function LoginPage() {
                 value={activeUser?.user}
                 label=""
                 id="username"
-                name="username"
+                {...register('username')}
                 sx={{ width: '100%' }}
                 onChange={(e) => {
                   switchUser(e.target.value.toLowerCase() as string);
@@ -187,16 +199,21 @@ export default function LoginPage() {
                 </MenuItem>
               </Select>
             )}
+            {errors.username && (
+              <Alert severity="warning">{errors.username?.message}</Alert>
+            )}
             <TextField
               margin="normal"
               required
               fullWidth
-              name="password"
               label="Password"
               type="password"
               id="password"
-              autoComplete="current-password"
+              {...register('password')}
             />
+            {errors.password && (
+              <Alert severity="warning">{errors.password?.message}</Alert>
+            )}
             {error && (
               <Alert severity="error">
                 <AlertTitle>Error</AlertTitle>
@@ -244,44 +261,7 @@ export default function LoginPage() {
           </Box>
         </>
       ) : (
-        <>
-          <Typography component="h1" variant="h5">
-            Enter the ip or address of the Atlas Reactor server
-            <br />
-            (no port nr and no http(s)://)
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="ip"
-              label="IP or Hostname"
-              name="ip"
-              autoComplete=""
-              autoFocus
-              value={usernameOrIp}
-              onChange={(e) => setUsernameOrIp(e.target.value)}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{
-                mt: 3,
-                mb: 2,
-                backgroundColor: (theme) => theme.palette.primary.light,
-              }}
-            >
-              Submit
-            </Button>
-          </Box>
-        </>
+        <IpComponent />
       )}
     </Paper>
   );
