@@ -35,6 +35,8 @@ export interface EvosStoreState {
   setExePath: (exePath: string) => void;
   setFolderPath: (folderPath: string) => void;
   setTicketEnabled: (ticketEnabled: string) => void;
+  setNoLogEnabled: (noLogEnabled: string) => void;
+  noLogEnabled: string;
   updateAuthenticatedUsers: (
     user: string,
     token: string,
@@ -57,6 +59,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   gamePort: '6050',
   ticketEnabled: 'false',
   isDownloading: false,
+  noLogEnabled: 'false',
   // Helper async function to fetch values from storage
   getFromStorage: async <T>(key: string): Promise<T | null> => {
     try {
@@ -79,6 +82,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       folderPath,
       gamePort,
       ticketEnabled,
+      noLogEnabled,
     ] = await Promise.all([
       get().getFromStorage('mode') as string,
       get().getFromStorage('ip') as string,
@@ -89,6 +93,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       get().getFromStorage('folderPath') as string,
       get().getFromStorage('gamePort') as string,
       get().getFromStorage('ticketEnabled') as string,
+      get().getFromStorage('noLogEnabled') as string,
     ]);
 
     let users: AuthUser[] = [];
@@ -107,6 +112,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       folderPath: folderPath || '',
       gamePort: gamePort || '6050',
       ticketEnabled: ticketEnabled || 'true',
+      noLogEnabled: noLogEnabled || 'false',
     });
 
     get().switchUser((activeUser?.user || users[0]?.user || '').toLowerCase());
@@ -164,6 +170,15 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       await window.electron.store.setItem('ticketEnabled', ticketEnabled);
     } catch (error) {
       console.error('Error while saving ticketEnabled to storage:', error);
+    }
+  },
+
+  setNoLogEnabled: async (noLogEnabled) => {
+    set({ noLogEnabled });
+    try {
+      await window.electron.store.setItem('noLogEnabled', noLogEnabled);
+    } catch (error) {
+      console.error('Error while saving noLogEnabled to storage:', error);
     }
   },
 

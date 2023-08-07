@@ -47,6 +47,8 @@ export default function SettingsPage() {
     setExePath,
     ticketEnabled,
     setTicketEnabled,
+    noLogEnabled,
+    setNoLogEnabled,
     activeUser,
     updateAuthenticatedUsers,
   } = EvosStore();
@@ -285,6 +287,29 @@ export default function SettingsPage() {
             <span style={{ fontSize: '0.8em' }}>
               disabling this requires AtlasReactorConfig.json to be selected and
               created (not recommended)
+            </span>
+          </Grid>
+        </Grid>
+      </Paper>
+      <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12}>
+            <FormGroup>
+              <FormControlLabel
+                control={<Switch />}
+                label="Add -nolog to launch options"
+                checked={noLogEnabled === 'true'}
+                onChange={() => {
+                  setNoLogEnabled(noLogEnabled === 'true' ? 'false' : 'true');
+                }}
+              />
+            </FormGroup>
+            <span style={{ fontSize: '0.8em' }}>
+              If you&apos;re experiencing crashes across multiple accounts,
+              consider trying this solution. Keep in mind, though, that while it
+              might help alleviate the issue, there&apos;s also a chance it
+              could potentially exacerbate the problem and lead to further
+              crashes, especially if you do not use multiple accounts.
             </span>
           </Grid>
         </Grid>

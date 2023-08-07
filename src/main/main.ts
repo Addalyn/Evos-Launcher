@@ -62,6 +62,7 @@ interface LaunchOptions {
   config?: string;
   ticket?: string;
   exePath: string;
+  noLogEnabled: string;
 }
 let mainWindow: BrowserWindow | null = null;
 let authClient: AuthClient | null = null;
@@ -265,8 +266,13 @@ const createWindow = async () => {
             `${launchOptions.ip}:${launchOptions.port}`,
             '-t',
             authTicketPath,
-            '-nolog',
           ];
+          if (
+            launchOptions.noLogEnabled !== undefined &&
+            launchOptions.noLogEnabled !== 'false'
+          ) {
+            launchOptionsWithTicket.push('-nolog');
+          }
           event.reply('setActiveGame', [launchOptions.name, true]);
           games[launchOptions.name] = spawn(
             launchOptions.exePath,
@@ -282,9 +288,13 @@ const createWindow = async () => {
         const launchOptionsWithoutTicket = [
           '-s',
           `${launchOptions.ip}:${launchOptions.port}`,
-          '-nolog',
         ];
-
+        if (
+          launchOptions.noLogEnabled !== undefined &&
+          launchOptions.noLogEnabled !== 'false'
+        ) {
+          launchOptionsWithoutTicket.push('-nolog');
+        }
         if (launchOptions.config !== undefined && launchOptions.config !== '') {
           launchOptionsWithoutTicket.push('-c', launchOptions.config);
         }

@@ -1,3 +1,8 @@
+# 1.2.3
+
+- Revert just adding -nolog
+- Make -nolog a toggle option in the settings. disabled by default.
+
 # 1.2.2
 
 - Small error handling fix

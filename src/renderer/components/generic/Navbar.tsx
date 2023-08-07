@@ -79,6 +79,7 @@ export default function NavBar() {
     switchUser,
     authenticatedUsers,
     isDownloading,
+    noLogEnabled,
   } = evosStore;
   const [error, setError] = useState<EvosError>();
   const { width } = useWindowDimensions();
@@ -144,6 +145,7 @@ export default function NavBar() {
                   port: evosStore.gamePort,
                   ticket: resp.data,
                   name: userName,
+                  noLogEnabled,
                 },
               });
             })
@@ -156,6 +158,7 @@ export default function NavBar() {
               port: evosStore.gamePort,
               config: activeUser?.configFile,
               name: userName,
+              noLogEnabled,
             },
           });
         }
