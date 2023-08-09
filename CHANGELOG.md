@@ -1,3 +1,10 @@
+# 1.2.4
+
+- Allow Capital letters in username
+- Add a compatability check for old config files that had lowercase usernames
+- Fix the Add account option in the dropdown menu
+- Fix deleting acounts and reseting application
+
 # 1.2.3
 
 - Revert just adding -nolog

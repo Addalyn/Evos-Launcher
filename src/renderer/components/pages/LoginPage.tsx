@@ -71,16 +71,14 @@ export default function LoginPage() {
       return;
     }
 
-    const user = username.toLowerCase();
-
     const abort = new AbortController();
 
-    login(abort, user, password)
+    login(abort, username, password)
       // eslint-disable-next-line promise/always-return
       .then((resp) => {
-        if (authenticatedUsers.find((u) => u.user === user)) {
+        if (authenticatedUsers.find((u) => u.user === username)) {
           const authenticatedUser = authenticatedUsers.find(
-            (u) => u.user === user
+            (u) => u.user === username
           ) as AuthUser;
           updateAuthenticatedUsers(
             authenticatedUser.user,
@@ -91,7 +89,7 @@ export default function LoginPage() {
           );
         } else {
           setAuthenticatedUsers(
-            user,
+            username,
             resp.data.token,
             resp.data.handle,
             resp.data.banner
@@ -99,7 +97,7 @@ export default function LoginPage() {
         }
         setError(undefined);
         setAddUser(false);
-        switchUser(user);
+        switchUser(username);
         navigate('/');
         return null;
       })
@@ -159,7 +157,8 @@ export default function LoginPage() {
                 {...register('username')}
                 sx={{ width: '100%' }}
                 onChange={(e) => {
-                  switchUser(e.target.value.toLowerCase() as string);
+                  if (!e.target.value) return;
+                  switchUser(e.target.value as string);
                   navigate('/');
                 }}
               >

@@ -66,16 +66,14 @@ export default function RegisterPage() {
       return;
     }
 
-    const user = username.toLowerCase();
-
     const abort = new AbortController();
 
-    registerAccount(abort, user, password, code)
+    registerAccount(abort, username, password, code) // Send username instead of user as username can be any capitalization
       // eslint-disable-next-line promise/always-return
       .then((resp) => {
-        if (authenticatedUsers.find((u) => u.user === user)) {
+        if (authenticatedUsers.find((u) => u.user === username)) {
           const authenticatedUser = authenticatedUsers.find(
-            (u) => u.user === user
+            (u) => u.user === username
           ) as AuthUser;
           updateAuthenticatedUsers(
             authenticatedUser.user,
@@ -86,14 +84,14 @@ export default function RegisterPage() {
           );
         } else {
           setAuthenticatedUsers(
-            user,
+            username,
             resp.data.token,
             resp.data.handle,
             resp.data.banner
           );
         }
         setError(undefined);
-        switchUser(user);
+        switchUser(username);
         navigate('/');
         return null;
       })

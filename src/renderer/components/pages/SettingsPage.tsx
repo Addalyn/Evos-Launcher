@@ -51,6 +51,7 @@ export default function SettingsPage() {
     setNoLogEnabled,
     activeUser,
     updateAuthenticatedUsers,
+    authenticatedUsers,
   } = EvosStore();
 
   const [password, setPassword] = useState('');
@@ -90,19 +91,26 @@ export default function SettingsPage() {
   };
 
   const handleResetClick = () => {
+    authenticatedUsers.forEach(async (user) => {
+      await logout(user.token);
+    });
     window.electron.store.clear();
-    navigate('/login');
-    window.location.reload();
+    setTimeout(() => {
+      navigate('/login');
+      window.location.reload();
+    }, 500);
   };
 
   const handleDeleteClick = () => {
+    authenticatedUsers.forEach(async (user) => {
+      await logout(user.token);
+    });
     window.electron.store.removeItem('authenticatedUsers');
     setTimeout(() => {
-      logout(activeUser?.token ?? '');
       window.electron.store.removeItem('activeUser');
       navigate('/login');
       window.location.reload();
-    }, 100);
+    }, 500);
   };
 
   const handlePasswordResetClick = (event: { preventDefault: () => void }) => {

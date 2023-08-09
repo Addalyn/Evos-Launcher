@@ -115,7 +115,7 @@ export default function NavBar() {
   };
 
   const handleSwitchUser = (event: React.MouseEvent<HTMLElement>) => {
-    const user = event.currentTarget.innerText.split('#')[0].toLowerCase();
+    const user = event.currentTarget.innerText.split('#')[0];
     switchUser(user);
     navigate('/');
   };

@@ -50,16 +50,14 @@ export default function AddAccount() {
       return;
     }
 
-    const user = username.toLowerCase();
-
     const abort = new AbortController();
 
-    login(abort, user, password)
+    login(abort, username, password)
       // eslint-disable-next-line promise/always-return
       .then((resp) => {
-        if (authenticatedUsers.find((u) => u.user === user)) {
+        if (authenticatedUsers.find((u) => u.user === username)) {
           const authenticatedUser = authenticatedUsers.find(
-            (u) => u.user === user
+            (u) => u.user === username
           ) as AuthUser;
           updateAuthenticatedUsers(
             authenticatedUser.user,
@@ -70,7 +68,7 @@ export default function AddAccount() {
           );
         } else {
           setAuthenticatedUsers(
-            user,
+            username,
             resp.data.token,
             resp.data.handle,
             resp.data.banner
@@ -78,7 +76,7 @@ export default function AddAccount() {
         }
         setError(undefined);
         navigate('/');
-        switchUser(user);
+        switchUser(username);
         return null;
       })
       // eslint-disable-next-line @typescript-eslint/no-shadow

@@ -115,7 +115,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       noLogEnabled: noLogEnabled || 'false',
     });
 
-    get().switchUser((activeUser?.user || users[0]?.user || '').toLowerCase());
+    get().switchUser(activeUser?.user || users[0]?.user || '');
   },
 
   toggleMode: async () => {
@@ -248,7 +248,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     }
 
     // update user
-    get().switchUser(user.toLowerCase());
+    get().switchUser(user);
   },
 
   switchUser: async (user: string) => {
@@ -262,7 +262,8 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       currentAuthenticatedUsers.length !== 0
     ) {
       const selectedUser = currentAuthenticatedUsers.find(
-        (authUser) => authUser.user === user
+        (authUser) =>
+          authUser.user === user || authUser.user === user.toLowerCase() // Comaptibility with old config files
       );
 
       if (selectedUser) {
