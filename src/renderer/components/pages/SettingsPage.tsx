@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import MD5 from 'crypto-js/md5';
+
 import {
   Avatar,
   Button,
@@ -41,6 +43,7 @@ export function truncateDynamicPath(filePath: string, maxChars: number) {
 export default function SettingsPage() {
   const {
     ip,
+    oldIp,
     gamePort,
     setGamePort,
     exePath,
@@ -52,6 +55,10 @@ export default function SettingsPage() {
     activeUser,
     updateAuthenticatedUsers,
     authenticatedUsers,
+    proxyEnabled,
+    setProxyEnabled,
+    setOldIp,
+    setIp,
   } = EvosStore();
 
   const [password, setPassword] = useState('');
@@ -66,6 +73,7 @@ export default function SettingsPage() {
   };
 
   const signOut = () => {
+    logout(activeUser?.token ?? '');
     updateAuthenticatedUsers(
       activeUser?.user as string,
       '',
@@ -73,6 +81,7 @@ export default function SettingsPage() {
       activeUser?.banner as number,
       activeUser?.configFile as string
     );
+    navigate('/login');
   };
 
   const handleSelectFileClick = async (config: boolean) => {
@@ -258,7 +267,7 @@ export default function SettingsPage() {
             <TextField
               label="IP Address (if you wish to reset this, then reset the application)"
               variant="outlined"
-              value={ip}
+              value={proxyEnabled === 'true' ? oldIp : ip}
               disabled
               placeholder="Enter IP address"
               margin="normal"
@@ -295,6 +304,47 @@ export default function SettingsPage() {
             <span style={{ fontSize: '0.8em' }}>
               disabling this requires AtlasReactorConfig.json to be selected and
               created (not recommended)
+            </span>
+          </Grid>
+        </Grid>
+      </Paper>
+      <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12}>
+            <FormGroup>
+              <FormControlLabel
+                control={<Switch />}
+                label="Use a proxy server (experimental)"
+                checked={proxyEnabled === 'true'}
+                onChange={() => {
+                  if (proxyEnabled === 'true') {
+                    setIp(oldIp);
+                    setTimeout(() => {
+                      setProxyEnabled('false');
+                    }, 100);
+                    signOut();
+                    return;
+                  }
+                  setOldIp(ip);
+                  setTimeout(() => {
+                    setIp('arproxy.addalyn.baby');
+                  }, 100);
+                  setTimeout(() => {
+                    setProxyEnabled('true');
+                  }, 100);
+
+                  signOut();
+                }}
+                disabled={
+                  MD5(ip).toString() !== '625a4f5430a34d3d469dd286fe3e3ef5' &&
+                  oldIp === ''
+                }
+              />
+            </FormGroup>
+            <span style={{ fontSize: '0.8em' }}>
+              Use a proxy server to connect to the game. This is useful if you
+              are having connection issues.
+              <br /> * Toggling this will log you out.
             </span>
           </Grid>
         </Grid>

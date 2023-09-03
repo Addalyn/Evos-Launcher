@@ -59,8 +59,8 @@ const electronHandler = {
     async setItem(key: string, value: string | AuthUser): Promise<void> {
       if (this.isWriting) {
         // If a write operation is already in progress, wait until it completes.
-        await new Promise((resolve) => setTimeout(resolve, 100));
-        return this.setItem(key, value);
+        await new Promise((resolve) => setTimeout(resolve, 200));
+        this.isWriting = false;
       }
 
       this.isWriting = true;
