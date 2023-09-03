@@ -1,3 +1,11 @@
+# 1.2.5
+
+- Add a experimantal proxy option in the settings,
+  if you are having issues connecting to the lobby server you can try enabling this.
+  this will reroute your traffic to a proxy server that will then connect to the lobby server.
+  This is not a fix for everyone and is not recommended to use,
+  unless you have to.
+
 # 1.2.4
 
 - Allow Capital letters in username
