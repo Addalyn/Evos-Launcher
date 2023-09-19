@@ -1,3 +1,7 @@
+# 1.2.7
+
+- Fix splash screen use png instead of webp
+
 # 1.2.6
 
 - Add a splash screen while the app is loading
