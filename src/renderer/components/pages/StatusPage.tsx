@@ -35,15 +35,17 @@ function StatusPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (
-      ip === undefined ||
-      ip === null ||
-      ip === '' ||
-      activeUser === null ||
-      activeUser?.token === ''
-    ) {
-      navigate('/login');
-    }
+    setTimeout(() => {
+      if (
+        ip === undefined ||
+        ip === null ||
+        ip === '' ||
+        activeUser === null ||
+        activeUser?.token === ''
+      ) {
+        navigate('/login');
+      }
+    }, 500);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ip, activeUser]);
 

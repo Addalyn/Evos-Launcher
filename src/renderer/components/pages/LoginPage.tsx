@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -51,6 +51,19 @@ export default function LoginPage() {
   const isAuthenticated = () => {
     return activeUser !== null && activeUser?.token !== '';
   };
+
+  useEffect(() => {
+    if (
+      ip !== undefined &&
+      authenticatedUsers !== null &&
+      activeUser !== null &&
+      activeUser?.token !== '' &&
+      addUser === false
+    ) {
+      navigate('/');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [addUser, authenticatedUsers, activeUser, ip]);
 
   const handleAddUser = () => {
     setAddUser(true);

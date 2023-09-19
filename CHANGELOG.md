@@ -1,3 +1,8 @@
+# 1.2.6
+
+- Add a splash screen while the app is loading
+- Implemented additional checks to minimize the need for users to re-login unnecessarily.
+
 # 1.2.5
 
 - Add a experimantal proxy option in the settings,

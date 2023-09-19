@@ -67,6 +67,10 @@ export default function App() {
     [mode]
   );
 
+  if (evosStore === null) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

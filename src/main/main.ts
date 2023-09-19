@@ -188,11 +188,22 @@ const createWindow = async () => {
     },
   });
 
+  const splash = new BrowserWindow({
+    width: 600,
+    height: 300,
+    transparent: true,
+    frame: false,
+    alwaysOnTop: true,
+    icon: getAssetPath('logo.png'),
+  });
+
   globalShortcut.register('CmdOrCtrl+F12', () => {
     mainWindow?.webContents.toggleDevTools();
   });
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
+  splash.loadURL(getAssetPath('splash.html'));
+  splash.center();
 
   const fileExists = await fs.promises
     .access(configFilePath, fs.constants.F_OK)
@@ -383,7 +394,14 @@ const createWindow = async () => {
     if (process.env.START_MINIMIZED) {
       mainWindow.minimize();
     } else {
-      mainWindow.show();
+      setTimeout(() => {
+        if (!splash.isDestroyed()) {
+          splash.close();
+        }
+        if (mainWindow) {
+          mainWindow.show();
+        }
+      }, 2000);
     }
 
     autoUpdater.on('checking-for-update', () => {
