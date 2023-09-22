@@ -1,6 +1,7 @@
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/jsx-no-useless-fragment */
 import { ButtonBase, styled, Typography, useTheme } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { PlayerData } from '../../lib/Evos';
 import { BgImage } from '../generic/BasicComponents';
 import { BannerType, playerBanner } from '../../lib/Resources';
@@ -27,6 +28,13 @@ function Player({ info, greyOut }: Props) {
   if (info) {
     [username, discriminator] = info.handle.split('#', 2);
   }
+  const navigate = useNavigate();
+  const handleClick = () => {
+    if (!info) {
+      return;
+    }
+    navigate(`/playerstats?player=${encodeURIComponent(info.handle)}`);
+  };
 
   const theme = useTheme();
 
@@ -44,6 +52,7 @@ function Player({ info, greyOut }: Props) {
       <ButtonBase
         focusRipple
         key={info?.handle}
+        onClick={handleClick}
         style={{
           width: 240,
           height: 52,

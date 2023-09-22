@@ -30,6 +30,8 @@ import InfoIcon from '@mui/icons-material/Info';
 import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
 import DownloadIcon from '@mui/icons-material/Download';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import HistoryIcon from '@mui/icons-material/History';
 import EvosStore from 'renderer/lib/EvosStore';
 import useWindowDimensions from 'renderer/lib/useWindowDimensions';
 import { getTicket, logout } from 'renderer/lib/Evos';
@@ -41,6 +43,9 @@ type PaletteMode = 'light' | 'dark';
 
 const pages = [
   { title: 'Status', href: '/', icon: <HomeIcon /> },
+  { title: 'Global Stats', href: '/stats', icon: <BarChartIcon /> },
+  { title: 'Persional Stats', href: '/playerstats', icon: <BarChartIcon /> },
+  { title: 'Previous Games', href: '/previousgames', icon: <HistoryIcon /> },
   { title: 'Settings', href: '/settings', icon: <SettingsIcon /> },
   { title: 'Download', href: '/download', icon: <DownloadIcon /> },
   { title: 'About', href: '/about', icon: <InfoIcon /> },

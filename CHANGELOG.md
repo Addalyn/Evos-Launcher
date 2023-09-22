@@ -1,3 +1,9 @@
+# 1.3.0
+
+- Add global stats
+- Add Personal/Players stats
+- Add Previous matches
+
 # 1.2.7
 
 - Fix splash screen use png instead of webp

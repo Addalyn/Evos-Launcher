@@ -21,6 +21,9 @@ import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
 import DownloadPage from './components/pages/DownloadPage';
 import Updater from './components/generic/Updater';
+import StatsPage from './components/pages/StatsPage';
+import PreviousGamesPage from './components/pages/PreviousGamesPage';
+import PlayerStatsPage from './components/pages/PlayerStatsPage';
 
 interface PageProps {
   title: string;
@@ -201,6 +204,48 @@ export default function App() {
                       <Updater />
                       <RegisterPage />
                     </Box>
+                  </Box>
+                </>
+              )}
+            />
+            <Route
+              path="/stats"
+              element={page(
+                'Stats',
+                <>
+                  <NavBar />
+                  <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <Toolbar />
+                    <Updater />
+                    <StatsPage />
+                  </Box>
+                </>
+              )}
+            />
+            <Route
+              path="/playerstats"
+              element={page(
+                'Player Stats',
+                <>
+                  <NavBar />
+                  <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <Toolbar />
+                    <Updater />
+                    <PlayerStatsPage />
+                  </Box>
+                </>
+              )}
+            />
+            <Route
+              path="/previousgames"
+              element={page(
+                'Previous Games',
+                <>
+                  <NavBar />
+                  <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <Toolbar />
+                    <Updater />
+                    <PreviousGamesPage />
                   </Box>
                 </>
               )}

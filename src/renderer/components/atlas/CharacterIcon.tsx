@@ -1,6 +1,7 @@
 /* eslint-disable react/require-default-props */
 import { ButtonBase, Tooltip, useTheme } from '@mui/material';
 
+import { useNavigate } from 'react-router-dom';
 import { CharacterType, PlayerData } from '../../lib/Evos';
 import { BgImage } from '../generic/BasicComponents';
 import { characterIcon } from '../../lib/Resources';
@@ -22,7 +23,13 @@ export function CharacterIcon({
   noTooltip,
 }: CharacterIconProps) {
   const theme = useTheme();
-
+  const navigate = useNavigate();
+  const handleClick = () => {
+    if (!data) {
+      return;
+    }
+    navigate(`/playerstats?player=${encodeURIComponent(data.handle)}`);
+  };
   let transformOuter;
   let transformInner;
   if (isTeamA || rightSkew) {
@@ -45,6 +52,7 @@ export function CharacterIcon({
 
   const content = (
     <ButtonBase
+      onClick={handleClick}
       focusRipple
       style={{
         width: 80,
