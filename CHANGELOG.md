@@ -1,3 +1,8 @@
+# 1.3.1
+
+- Fix Typo
+- Fix MVP,Damage,Healing,Tank calculations
+
 # 1.3.0
 
 - Add global stats

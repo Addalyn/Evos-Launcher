@@ -44,7 +44,7 @@ type PaletteMode = 'light' | 'dark';
 const pages = [
   { title: 'Status', href: '/', icon: <HomeIcon /> },
   { title: 'Global Stats', href: '/stats', icon: <BarChartIcon /> },
-  { title: 'Persional Stats', href: '/playerstats', icon: <BarChartIcon /> },
+  { title: 'Personal Stats', href: '/playerstats', icon: <BarChartIcon /> },
   { title: 'Previous Games', href: '/previousgames', icon: <HistoryIcon /> },
   { title: 'Settings', href: '/settings', icon: <SettingsIcon /> },
   { title: 'Download', href: '/download', icon: <DownloadIcon /> },

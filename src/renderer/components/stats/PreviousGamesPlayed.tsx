@@ -136,11 +136,11 @@ const calculateMVPBadge = (player: Player, players: Player[]) => {
   let mvpPlayer = player;
   let maxCombinedScore =
     (player.damage + player.healing - player.damage_received) /
-    (player.deaths || 1);
+    (player.deaths + 1);
 
   players.forEach((p) => {
     const combinedScore =
-      (p.damage + p.healing - p.damage_received) / (p.deaths || 1);
+      (p.damage + p.healing - p.damage_received) / (p.deaths + 1);
 
     if (combinedScore > maxCombinedScore) {
       maxCombinedScore = combinedScore;
@@ -153,10 +153,10 @@ const calculateMVPBadge = (player: Player, players: Player[]) => {
 
 const calculateHealerBadge = (player: Player, players: Player[]) => {
   let healerPlayer = player;
-  let maxHealing = player.healing / (player.deaths || 1);
+  let maxHealing = player.healing / (player.deaths + 1);
 
   players.forEach((p) => {
-    const healingPerLife = p.healing / (p.deaths || 1);
+    const healingPerLife = p.healing / (p.deaths + 1);
     if (healingPerLife > maxHealing) {
       maxHealing = healingPerLife;
       healerPlayer = p;
@@ -168,10 +168,10 @@ const calculateHealerBadge = (player: Player, players: Player[]) => {
 
 const calculateDamageBadge = (player: Player, players: Player[]) => {
   let damagePlayer = player;
-  let maxDamage = player.damage / (player.deaths || 1);
+  let maxDamage = player.damage / (player.deaths + 1);
 
   players.forEach((p) => {
-    const damagePerLife = p.damage / (p.deaths || 1);
+    const damagePerLife = p.damage / (p.deaths + 1);
     if (damagePerLife > maxDamage) {
       maxDamage = damagePerLife;
       damagePlayer = p;
@@ -183,10 +183,10 @@ const calculateDamageBadge = (player: Player, players: Player[]) => {
 
 const calculateTankBadge = (player: Player, players: Player[]) => {
   let tankPlayer = player;
-  let maxDamageReceived = player.damage_received / (player.deaths || 1);
+  let maxDamageReceived = player.damage_received / (player.deaths + 1);
 
   players.forEach((p) => {
-    const damageReceivedPerLife = p.damage_received / (p.deaths || 1);
+    const damageReceivedPerLife = p.damage_received / (p.deaths + 1);
     if (damageReceivedPerLife > maxDamageReceived) {
       maxDamageReceived = damageReceivedPerLife;
       tankPlayer = p;
