@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { strapiClient } from './strapi';
 
 export interface LoginResponse {
   handle: string;
@@ -102,6 +103,11 @@ export interface GameData {
   teamBScore: number;
 }
 
+export interface DataItem {
+  total: string;
+  user: string;
+}
+
 export interface Status {
   players: PlayerData[];
   groups: GroupData[];
@@ -169,4 +175,19 @@ export async function getTicket(authHeader: string) {
   return axios.get<Status>(`${baseUrl}/api/ticket`, {
     headers: { Authorization: `bearer ${authHeader}` },
   });
+}
+
+export async function fetchGameInfo(action: string) {
+  try {
+    const strapi = strapiClient.from(`stats/${action}`).select();
+
+    const { data, error } = await strapi.get();
+
+    if (error) {
+      return [] as DataItem[];
+    }
+    return data as DataItem[];
+  } catch (error) {
+    return [] as DataItem[];
+  }
 }

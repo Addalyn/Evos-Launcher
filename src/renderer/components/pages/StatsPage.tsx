@@ -6,6 +6,12 @@ import useWindowDimensions from 'renderer/lib/useWindowDimensions';
 import GamesPlayedMontly from '../stats/GamesPlayedMontly';
 import GamesPlayedCharacter from '../stats/GamesPlayedCharacter';
 import TopGamesPlayedBy from '../stats/TopGamesPlayedBy';
+import TopGamesTakeDowns from '../stats/TopGamesTakeDowns';
+import TopGamesDeathsBy from '../stats/TopGamesDeathsBy';
+import TopGamesDeathBlowsBy from '../stats/TopGamesDeathBlowsBy';
+import TopGamesDamageBy from '../stats/TopGamesDamageBy';
+import TopGamesHealedBy from '../stats/TopGamesHealedBy';
+import TopGamesDamageReceivedBy from '../stats/TopGamesDamageReceivedBy';
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -130,6 +136,66 @@ export default function StatsPage() {
         }}
       >
         <TopGamesPlayedBy />
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <TopGamesTakeDowns />
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <TopGamesDeathsBy />
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <TopGamesDeathBlowsBy />
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <TopGamesDamageBy />
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <TopGamesHealedBy />
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <TopGamesDamageReceivedBy />
       </Paper>
     </>
   );

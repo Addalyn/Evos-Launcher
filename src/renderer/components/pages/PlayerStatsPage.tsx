@@ -1,12 +1,13 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useMemo, useState } from 'react';
-import { Box, Paper, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Paper, Tab, Tabs, Typography, Grid } from '@mui/material';
 import useWindowDimensions from 'renderer/lib/useWindowDimensions';
 import EvosStore from 'renderer/lib/EvosStore';
 import { useLocation } from 'react-router-dom';
 import GamesPlayedMontly from '../stats/GamesPlayedMontly';
 import GamesPlayedCharacter from '../stats/GamesPlayedCharacter';
+import PlayerStats from '../stats/PlayerStats';
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -98,6 +99,35 @@ export default function PlayerStatsPage() {
 
   return (
     <>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          padding: '1em',
+        }}
+      >
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <PlayerStats action="totaltakedowns" player={playerSearch} />
+          </Grid>
+          <Grid item xs={4}>
+            <PlayerStats action="totaldeaths" player={playerSearch} />
+          </Grid>
+          <Grid item xs={4}>
+            <PlayerStats action="totaldeathblows" player={playerSearch} />
+          </Grid>
+          <Grid item xs={4}>
+            <PlayerStats action="totaldamage" player={playerSearch} />
+          </Grid>
+          <Grid item xs={4}>
+            <PlayerStats action="totalhealing" player={playerSearch} />
+          </Grid>
+          <Grid item xs={4}>
+            <PlayerStats action="totaldamagereceived" player={playerSearch} />
+          </Grid>
+        </Grid>
+      </Paper>
       <Paper
         sx={{
           borderBottom: 1,

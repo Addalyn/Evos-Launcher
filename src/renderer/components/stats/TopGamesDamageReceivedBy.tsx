@@ -36,19 +36,19 @@ const options = {
     },
     title: {
       display: true,
-      text: 'Top 20 players by games played',
+      text: 'Top 20 players by damage received',
     },
   },
 };
 
-export default function TopGamesPlayedBy() {
+export default function TopGamesDamageReceivedBy() {
   const [gameData, setGameData] = useState([]);
   const [names, setNames] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       const data: DataItem[] = (await fetchGameInfo(
-        'totalgames'
+        'totaldamagereceived'
       )) as DataItem[];
       setGameData([]);
       setNames([]);
@@ -68,7 +68,7 @@ export default function TopGamesPlayedBy() {
     labels: names,
     datasets: [
       {
-        label: 'Games Played',
+        label: 'Damage Received',
         data: gameData,
         backgroundColor: 'rgba(144,202,249,0.5)',
       },

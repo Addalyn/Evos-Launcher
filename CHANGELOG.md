@@ -1,3 +1,7 @@
+# 1.3.2
+
+- More stats
+
 # 1.3.1
 
 - Fix Typo

@@ -36,19 +36,19 @@ const options = {
     },
     title: {
       display: true,
-      text: 'Top 20 players by games played',
+      text: 'Top 20 players by deaths',
     },
   },
 };
 
-export default function TopGamesPlayedBy() {
+export default function TopGamesDeathsBy() {
   const [gameData, setGameData] = useState([]);
   const [names, setNames] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       const data: DataItem[] = (await fetchGameInfo(
-        'totalgames'
+        'totaldeaths'
       )) as DataItem[];
       setGameData([]);
       setNames([]);
@@ -68,7 +68,7 @@ export default function TopGamesPlayedBy() {
     labels: names,
     datasets: [
       {
-        label: 'Games Played',
+        label: 'Deaths',
         data: gameData,
         backgroundColor: 'rgba(144,202,249,0.5)',
       },

@@ -138,7 +138,12 @@ export default function GamesPlayedMonthly({ map, player }: Props) {
       },
       title: {
         display: true,
-        text: `Games Played ${player !== '' ? `by ${player} ` : ''}Per Month`,
+        text: `Games Played ${
+          player !== '' ? `by ${player} ` : ''
+        }Per Month, With a total of ${gameData.reduce(
+          (a, b) => a + b,
+          0
+        )} games played`,
       },
     },
   };
