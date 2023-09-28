@@ -21,41 +21,85 @@ ChartJS.register(
   Legend
 );
 
+interface Props {
+  map: string;
+  player: string;
+}
+
 const names = [
-  'Khita',
-  'Asana',
-  'Zuki',
+  /* Firepower */
+  'Blackburn',
+  'Celeste',
   'Elle',
-  'Titus',
-  // 'Meridian',
-  'Aurora',
-  // 'Magnus',
-  'Juno',
-  // 'Lex',
-  'Dr. Finn',
   'Gremolitions Inc.',
-  // 'Vonn',
-  'Phaedra',
-  'Orion',
-  'Helio',
+  'Grey',
+  'Juno',
+  'Kaigin',
+  // 'Lex',
+  'Lockwood',
   // 'Nev',
-  'Rask',
-  'Rampart',
+  'Nix',
+  'OZ',
   'PuP',
   'Tol-Ren',
-  // 'Isadora',
-  'Lockwood',
-  'Su-Ren',
-  'Nix',
-  'Blackburn',
-  'Garrison',
-  'Quark',
-  'Kaigin',
-  'Celeste',
-  'Grey',
-  'OZ',
+  // 'Vonn',
+  'Zuki',
+  /* Frontline */
+  'Asana',
   'Brynn',
+  'Garrison',
+  // 'Isadora',
+  // 'Magnus',
+  'Phaedra',
+  'Rampart',
+  'Rask',
+  'Titus',
+  /* Support */
+  'Aurora',
+  'Dr. Finn',
+  'Helio',
+  'Khita',
+  // 'Meridian',
+  'Orion',
+  'Quark',
+  'Su-Ren',
 ];
+
+const characterCategories: { [key: string]: string } = {
+  Blackburn: 'Firepower',
+  Celeste: 'Firepower',
+  Elle: 'Firepower',
+  'Gremolitions Inc.': 'Firepower',
+  Grey: 'Firepower',
+  Juno: 'Firepower',
+  Kaigin: 'Firepower',
+  Lockwood: 'Firepower',
+  Nix: 'Firepower',
+  OZ: 'Firepower',
+  PuP: 'Firepower',
+  'Tol-Ren': 'Firepower',
+  Zuki: 'Firepower',
+  Asana: 'Frontline',
+  Brynn: 'Frontline',
+  Garrison: 'Frontline',
+  Phaedra: 'Frontline',
+  Rampart: 'Frontline',
+  Rask: 'Frontline',
+  Titus: 'Frontline',
+  Aurora: 'Support',
+  'Dr. Finn': 'Support',
+  Helio: 'Support',
+  Khita: 'Support',
+  Orion: 'Support',
+  Quark: 'Support',
+  'Su-Ren': 'Support',
+};
+
+const categoryColors: { [key: string]: string } = {
+  Firepower: 'rgba(255, 99, 132, 0.5)',
+  Frontline: 'rgba(54, 162, 235, 0.5)',
+  Support: 'rgba(75, 192, 192, 0.5)',
+};
 
 const fetchInfo = async (character: string, map: string, player: string) => {
   try {
@@ -83,11 +127,6 @@ const fetchInfo = async (character: string, map: string, player: string) => {
   }
 };
 
-interface Props {
-  map: string;
-  player: string;
-}
-
 export default function GamesPlayedCharacter({ map, player }: Props) {
   const [gameData, setGameData] = useState([]);
 
@@ -103,6 +142,11 @@ export default function GamesPlayedCharacter({ map, player }: Props) {
     setGameData([]);
     fetchData();
   }, [map, player]);
+
+  const characterColors = names.map((character) => {
+    const category = characterCategories[character];
+    return categoryColors[category] || 'rgba(144, 202, 249, 0.5)';
+  });
 
   // Calculate the total games played per month
   const gamesPlayedPerMonth = gameData.map((gamesInMonth) => gamesInMonth || 0);
@@ -129,7 +173,7 @@ export default function GamesPlayedCharacter({ map, player }: Props) {
       {
         label: `Games Played ${player !== '' ? `by ${player}` : ''}`,
         data: gamesPlayedPerMonth,
-        backgroundColor: 'rgba(144,202,249,0.5)',
+        backgroundColor: characterColors,
       },
     ],
   };

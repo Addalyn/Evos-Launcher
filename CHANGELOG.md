@@ -1,3 +1,7 @@
+# 1.3.4
+
+- Reorder characters and gave them a color based on their role
+
 # 1.3.3
 
 - Now with even more stats
