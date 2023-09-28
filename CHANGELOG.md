@@ -1,3 +1,9 @@
+# 1.3.3
+
+- Now with even more stats
+  Add Win Losses and Winrate to the personal stats
+  Plus graph with per map stats per month
+
 # 1.3.2
 
 - More stats

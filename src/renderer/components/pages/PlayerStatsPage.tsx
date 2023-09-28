@@ -8,6 +8,8 @@ import { useLocation } from 'react-router-dom';
 import GamesPlayedMontly from '../stats/GamesPlayedMontly';
 import GamesPlayedCharacter from '../stats/GamesPlayedCharacter';
 import PlayerStats from '../stats/PlayerStats';
+import PlayerWinRate from '../stats/PlayerStatsWinRate';
+import GamesWinsMontly from '../stats/GamesWinsMontly';
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -53,6 +55,7 @@ interface ReadOnlyURLSearchParams extends URLSearchParams {
 export default function PlayerStatsPage() {
   const [value, setValue] = useState(0);
   const [value1, setValue1] = useState(0);
+  const [value2, setValue2] = useState(0);
   const [playerSearch, setPlayerSearch] = useState('');
   const { width } = useWindowDimensions();
   const { activeUser } = EvosStore();
@@ -81,7 +84,9 @@ export default function PlayerStatsPage() {
   const handleChange1 = (event: React.SyntheticEvent, newValue: number) => {
     setValue1(newValue);
   };
-
+  const handleChange2 = (event: React.SyntheticEvent, newValue: number) => {
+    setValue2(newValue);
+  };
   const mapTabs = [
     'All Maps',
     'Omni Reactor Core',
@@ -126,6 +131,7 @@ export default function PlayerStatsPage() {
           <Grid item xs={4}>
             <PlayerStats action="totaldamagereceived" player={playerSearch} />
           </Grid>
+          <PlayerWinRate player={playerSearch} />
         </Grid>
       </Paper>
       <Paper
@@ -176,6 +182,32 @@ export default function PlayerStatsPage() {
         </Tabs>
         {mapTabs.map((map, index) => (
           <CustomTabPanel key={index} value={value1} index={index}>
+            <GamesWinsMontly map={map} player={playerSearch} />
+          </CustomTabPanel>
+        ))}
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <Tabs
+          value={value2}
+          onChange={handleChange2}
+          aria-label="Map Tabs"
+          variant="scrollable"
+          scrollButtons="auto"
+          sx={{ width: drawerWidth }}
+        >
+          {mapTabs.map((label, index) => (
+            <Tab label={label} key={index} {...a11yProps(index)} />
+          ))}
+        </Tabs>
+        {mapTabs.map((map, index) => (
+          <CustomTabPanel key={index} value={value2} index={index}>
             <GamesPlayedCharacter map={map} player={playerSearch} />
           </CustomTabPanel>
         ))}
