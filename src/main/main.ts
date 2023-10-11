@@ -174,7 +174,7 @@ const createWindow = async () => {
     show: false,
     width: 1200,
     height: 728,
-    minWidth: 750,
+    minWidth: 800,
     minHeight: 400,
     autoHideMenuBar: true,
     icon: getAssetPath('logo.png'),
@@ -184,7 +184,8 @@ const createWindow = async () => {
         : path.join(__dirname, '../../.erb/dll/preload.js'),
       nodeIntegration: true,
       contextIsolation: true,
-      webSecurity: true,
+      webSecurity: false,
+      allowRunningInsecureContent: true,
     },
   });
 
@@ -437,6 +438,16 @@ const createWindow = async () => {
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
+
+  app.on(
+    'certificate-error',
+    (event, webContents, url, error, certificate, callback) => {
+      // Prevent having error
+      event.preventDefault();
+      // and continue
+      callback(true);
+    }
+  );
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();

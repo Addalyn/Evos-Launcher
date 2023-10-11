@@ -1,61 +1,47 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import { Box, Button, TextField, Typography, Alert } from '@mui/material';
-import { z } from 'zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import React, { useState } from 'react'; // Import useState
+import {
+  Box,
+  Button,
+  Typography,
+  FormControl,
+  Select,
+  MenuItem,
+} from '@mui/material';
 import EvosStore from 'renderer/lib/EvosStore';
-
-const validationSchema = z.object({
-  ipadress: z.union([
-    z.string().ip({
-      message: 'Invalid Ip Adress or Hostname (no port nr and no http(s)://)',
-    }),
-    z.string().regex(/^(?:[a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/),
-  ]),
-});
-
-type ValidationSchema = z.infer<typeof validationSchema>;
 
 function IpComponent() {
   const { setIp } = EvosStore();
+  const [selectedIp, setSelectedIp] = useState('evos-emu.com'); // Initialize the state
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ValidationSchema>({
-    resolver: zodResolver(validationSchema),
-  });
+  const onSubmit = () => {
+    setIp(selectedIp); // Use the selectedIp state
+  };
 
-  const onSubmit: SubmitHandler<ValidationSchema> = async (data) => {
-    const { ipadress } = data;
-    setIp(ipadress);
+  const handleSelectChange = (event: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    setSelectedIp(event.target.value); // Update the selectedIp state
   };
 
   return (
     <>
       <Typography component="h1" variant="h5">
-        Enter the ip or address of the Atlas Reactor server
+        Select the IP you wish to connect to
       </Typography>
-      <Box
-        component="form"
-        onSubmit={handleSubmit(onSubmit)}
-        noValidate
-        sx={{ mt: 1 }}
-      >
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          id="ip"
-          label="IP or Hostname"
-          autoComplete=""
-          autoFocus
-          {...register('ipadress')}
-        />
-        {errors.ipadress && (
-          <Alert severity="warning">{errors.ipadress?.message}</Alert>
-        )}
+      <Box component="form" onSubmit={onSubmit} noValidate sx={{ mt: 1 }}>
+        <FormControl fullWidth>
+          <Select value={selectedIp} onChange={handleSelectChange}>
+            {' '}
+            {/* Set value and onChange */}
+            <MenuItem value="evos-emu.com">evos-emu.com (No Proxy)</MenuItem>
+            <MenuItem value="arproxy.addalyn.baby">
+              evos-emu.com (Proxy in Germany)
+            </MenuItem>
+            <MenuItem value="arproxy2.addalyn.baby">
+              evos-emu.com (Proxy in France)
+            </MenuItem>
+          </Select>
+        </FormControl>
         <Button
           type="submit"
           fullWidth

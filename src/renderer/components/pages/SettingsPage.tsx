@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-import MD5 from 'crypto-js/md5';
-
 import {
   Avatar,
   Button,
@@ -12,6 +10,9 @@ import {
   Switch,
   FormControlLabel,
   FormGroup,
+  FormControl,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import { logoSmall } from 'renderer/lib/Resources';
 import EvosStore from 'renderer/lib/EvosStore';
@@ -43,9 +44,6 @@ export function truncateDynamicPath(filePath: string, maxChars: number) {
 export default function SettingsPage() {
   const {
     ip,
-    oldIp,
-    gamePort,
-    setGamePort,
     exePath,
     setExePath,
     ticketEnabled,
@@ -55,22 +53,11 @@ export default function SettingsPage() {
     activeUser,
     updateAuthenticatedUsers,
     authenticatedUsers,
-    proxyEnabled,
-    setProxyEnabled,
-    setOldIp,
     setIp,
   } = EvosStore();
 
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-
-  const handleGamePortChange = (event: { target: { value: string } }) => {
-    if (event.target.value === '') {
-      setGamePort('6050');
-      return;
-    }
-    setGamePort(event.target.value);
-  };
 
   const signOut = () => {
     logout(activeUser?.token ?? '');
@@ -124,6 +111,12 @@ export default function SettingsPage() {
 
   const handlePasswordResetClick = (event: { preventDefault: () => void }) => {
     event.preventDefault();
+    signOut();
+  };
+
+  const handleChange = (event: { target: { value: any } }) => {
+    const selectedValue = event.target.value;
+    setIp(selectedValue);
     signOut();
   };
 
@@ -263,28 +256,20 @@ export default function SettingsPage() {
       </Paper>
       <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={6}>
-            <TextField
-              label="IP Address (if you wish to reset this, then reset the application)"
-              variant="outlined"
-              value={proxyEnabled === 'true' ? oldIp : ip}
-              disabled
-              placeholder="Enter IP address"
-              margin="normal"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              label="Game Port (defaults to 6050)"
-              variant="outlined"
-              value={gamePort}
-              onChange={handleGamePortChange}
-              type="number"
-              placeholder="Enter game port number"
-              margin="normal"
-              fullWidth
-            />
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <Select value={ip} onChange={handleChange}>
+                <MenuItem value="evos-emu.com">
+                  evos-emu.com (No Proxy)
+                </MenuItem>
+                <MenuItem value="arproxy.addalyn.baby">
+                  evos-emu.com (Proxy in Germany)
+                </MenuItem>
+                <MenuItem value="arproxy2.addalyn.baby">
+                  evos-emu.com (Proxy in France)
+                </MenuItem>
+              </Select>
+            </FormControl>
           </Grid>
         </Grid>
       </Paper>
@@ -304,47 +289,6 @@ export default function SettingsPage() {
             <span style={{ fontSize: '0.8em' }}>
               disabling this requires AtlasReactorConfig.json to be selected and
               created (not recommended)
-            </span>
-          </Grid>
-        </Grid>
-      </Paper>
-      <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
-        <Grid container spacing={2} alignItems="center">
-          <Grid item xs={12}>
-            <FormGroup>
-              <FormControlLabel
-                control={<Switch />}
-                label="Use a proxy server (experimental)"
-                checked={proxyEnabled === 'true'}
-                onChange={() => {
-                  if (proxyEnabled === 'true') {
-                    setIp(oldIp);
-                    setTimeout(() => {
-                      setProxyEnabled('false');
-                    }, 100);
-                    signOut();
-                    return;
-                  }
-                  setOldIp(ip);
-                  setTimeout(() => {
-                    setIp('arproxy.addalyn.baby');
-                  }, 100);
-                  setTimeout(() => {
-                    setProxyEnabled('true');
-                  }, 100);
-
-                  signOut();
-                }}
-                disabled={
-                  MD5(ip).toString() !== '625a4f5430a34d3d469dd286fe3e3ef5' &&
-                  oldIp === ''
-                }
-              />
-            </FormGroup>
-            <span style={{ fontSize: '0.8em' }}>
-              Use a proxy server to connect to the game. This is useful if you
-              are having connection issues.
-              <br /> * Toggling this will log you out.
             </span>
           </Grid>
         </Grid>

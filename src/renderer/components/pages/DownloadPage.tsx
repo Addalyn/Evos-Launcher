@@ -45,7 +45,7 @@ function LinearProgressWithLabel(
         <Box sx={{ width: '100%', mr: 1 }}>
           <LinearProgress variant="determinate" {...props} />
         </Box>
-        <Box sx={{ minWidth: 150 }}>
+        <Box sx={{ minWidth: 200 }}>
           <Typography variant="body2" color="text.secondary">
             {`${Math.round(props.value)}%`} {(props.bytes / 1000000).toFixed(3)}
             /{(props.totalbytes / 1000000).toFixed(3)} MB

@@ -12,6 +12,7 @@ import TopGamesDeathBlowsBy from '../stats/TopGamesDeathBlowsBy';
 import TopGamesDamageBy from '../stats/TopGamesDamageBy';
 import TopGamesHealedBy from '../stats/TopGamesHealedBy';
 import TopGamesDamageReceivedBy from '../stats/TopGamesDamageReceivedBy';
+import GamesPlayedServer from '../stats/GamesPlayedServer';
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -126,6 +127,16 @@ export default function StatsPage() {
             <GamesPlayedCharacter map={map} player="" />
           </CustomTabPanel>
         ))}
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <GamesPlayedServer />
       </Paper>
       <Paper
         sx={{

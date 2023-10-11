@@ -16,6 +16,8 @@ const downloadOptions = {
 
 async function streamWithProgress(length, reader, writer, progressCallback) {
   let bytesDone = 0;
+  let lastUpdate = 0;
+  const updateInterval = Math.ceil(length / 4); // Update every 25%
 
   while (true) {
     const { done, value } = await reader.read();
@@ -30,11 +32,14 @@ async function streamWithProgress(length, reader, writer, progressCallback) {
       throw new Error('Empty chunk received during download');
     } else {
       writer.write(Buffer.from(value));
-      if (progressCallback) {
-        bytesDone += value.length;
-        const percent =
-          length === 0 ? null : Math.floor((bytesDone / length) * 100);
-        progressCallback(bytesDone, percent);
+      bytesDone += value.length;
+
+      if (bytesDone - lastUpdate >= updateInterval) {
+        const percent = Math.floor((bytesDone / length) * 100);
+        if (progressCallback) {
+          progressCallback(bytesDone, percent);
+        }
+        lastUpdate = bytesDone;
       }
     }
   }
@@ -63,7 +68,7 @@ async function download(sourceUrl, targetFile, progressCallback) {
   const finalLength = Number(response.headers.get('Content-Length')) || 0;
   const reader = body.getReader();
   const writer = fs.createWriteStream(targetFile);
-
+  progressCallback(0, 0);
   await streamWithProgress(finalLength, reader, writer, progressCallback);
   writer.end();
   return true;

@@ -50,6 +50,10 @@ type Game = {
   score: string;
   map: string;
   stats: Player[];
+  gametype: string;
+  server: string;
+  version: string;
+  channelid: string;
 };
 
 type Team = {
@@ -314,24 +318,42 @@ export default function PreviousGamesPlayed() {
           }}
         >
           <Grid container spacing={2} sx={{ padding: '1em' }}>
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               <Typography variant="subtitle1" gutterBottom>
-                Map: {game.map}
+                Map: {game.map}{' '}
+                <a
+                  href={`https://ptb.discord.com/channels/600425662452465701/${game.channelid}/${game.gameid}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                >
+                  (Show in Discord)
+                </a>
               </Typography>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               <Typography variant="subtitle1" gutterBottom>
                 Score: {game.score}
               </Typography>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               <Typography variant="subtitle1" gutterBottom>
                 Turns: {game.turns}
               </Typography>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               <Typography variant="subtitle1" gutterBottom>
                 Played: {formatDate(game.date)}
+              </Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <Typography variant="subtitle1" gutterBottom>
+                Type: {game.gametype}
+              </Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <Typography variant="subtitle1" gutterBottom>
+                Version: {game.version}
               </Typography>
             </Grid>
           </Grid>

@@ -13,7 +13,6 @@ export interface EvosStoreState {
   getFromStorage(arg0: string): any;
   mode: string;
   ip: string;
-  oldIp: string;
   authenticatedUsers: AuthUser[];
   activeUser: AuthUser | null;
   age: number;
@@ -21,11 +20,9 @@ export interface EvosStoreState {
   folderPath: string;
   gamePort: string;
   ticketEnabled: string;
-  proxyEnabled: string;
   isDownloading: boolean;
   noLogEnabled: string;
   setIsDownloading: (isDownloading: boolean) => void;
-  setProxyEnabled: (proxyEnabled: string) => void;
   init: () => void;
   toggleMode: () => void;
   setIp: (ip: string) => void;
@@ -40,7 +37,6 @@ export interface EvosStoreState {
   setFolderPath: (folderPath: string) => void;
   setTicketEnabled: (ticketEnabled: string) => void;
   setNoLogEnabled: (noLogEnabled: string) => void;
-  setOldIp: (oldIp: string) => void;
   updateAuthenticatedUsers: (
     user: string,
     token: string,
@@ -55,7 +51,6 @@ export interface EvosStoreState {
 const EvosStore = create<EvosStoreState>((set, get) => ({
   mode: 'dark', // Default value while fetching from storage.
   ip: '',
-  oldIp: '',
   authenticatedUsers: [],
   activeUser: null,
   age: 0,
@@ -63,7 +58,6 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   folderPath: '',
   gamePort: '6050',
   ticketEnabled: 'false',
-  proxyEnabled: 'false',
   isDownloading: false,
   noLogEnabled: 'false',
   // Helper async function to fetch values from storage
@@ -89,8 +83,6 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       gamePort,
       ticketEnabled,
       noLogEnabled,
-      proxyEnabled,
-      oldIp,
     ] = await Promise.all([
       get().getFromStorage('mode') as string,
       get().getFromStorage('ip') as string,
@@ -102,8 +94,6 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       get().getFromStorage('gamePort') as string,
       get().getFromStorage('ticketEnabled') as string,
       get().getFromStorage('noLogEnabled') as string,
-      get().getFromStorage('proxyEnabled') as string,
-      get().getFromStorage('oldIp') as string,
     ]);
 
     let users: AuthUser[] = [];
@@ -122,22 +112,10 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       folderPath: folderPath || '',
       gamePort: gamePort || '6050',
       ticketEnabled: ticketEnabled || 'true',
-      proxyEnabled: proxyEnabled || 'false',
       noLogEnabled: noLogEnabled || 'false',
-      oldIp: oldIp || '',
     });
 
     get().switchUser(activeUser?.user || users[0]?.user || '');
-  },
-
-  setProxyEnabled: async (proxyEnabled: string) => {
-    set({ proxyEnabled });
-
-    try {
-      await window.electron.store.setItem('proxyEnabled', proxyEnabled);
-    } catch (error) {
-      console.error('Error while saving proxyEnabled to storage:', error);
-    }
   },
 
   toggleMode: async () => {
@@ -158,16 +136,6 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       await window.electron.store.setItem('ip', ip);
     } catch (error) {
       console.error('Error while saving ip to storage:', error);
-    }
-  },
-
-  setOldIp: async (oldIp: string) => {
-    set({ oldIp });
-
-    try {
-      await window.electron.store.setItem('oldIp', oldIp);
-    } catch (error) {
-      console.error('Error while saving oldIp to storage:', error);
     }
   },
 

@@ -1,3 +1,12 @@
+# 1.3.5
+
+- Add a second proxy server
+- No longer needing to enter the ip adress, but able to select it from a dropdown menu (main, proxy1, proxy2) this in settings and first time setup
+- removed port option this will never change anyway
+- Added in global stats a new stat of most played gameserver
+- Added in previous games type of game , and server played on also option to click the map to point to discord game info
+- fixed downloading the game no longer freezes the launcher
+
 # 1.3.4
 
 - Reorder characters and gave them a color based on their role

@@ -16,6 +16,7 @@ interface DataSubItem {
 interface DataItem {
   id: number;
   teamwin: string;
+  gametype: string;
   stats: DataSubItem[];
 }
 
@@ -30,7 +31,7 @@ export async function fetchGameInfo(playerName: string) {
           fields: ['team', 'user'],
         },
       ]);
-
+    strapi.equalTo('gametype', 'PvP');
     strapi.filterDeep('stats.user', 'contains', playerName);
     strapi.paginate(1, 100000);
 
