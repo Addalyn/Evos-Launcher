@@ -1,3 +1,7 @@
+# 1.3.6
+
+- Add meridian to the stats.
+
 # 1.3.5
 
 - Add a second proxy server
