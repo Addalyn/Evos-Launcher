@@ -54,6 +54,8 @@ export default function SettingsPage() {
     updateAuthenticatedUsers,
     authenticatedUsers,
     setIp,
+    showAllChat,
+    setShowAllChat,
   } = EvosStore();
 
   const [password, setPassword] = useState('');
@@ -279,7 +281,7 @@ export default function SettingsPage() {
             <FormGroup>
               <FormControlLabel
                 control={<Switch />}
-                label="Enable Ticket System"
+                label="Enable Ticket System (Recommended)"
                 checked={ticketEnabled === 'true'}
                 onChange={() => {
                   setTicketEnabled(ticketEnabled === 'true' ? 'false' : 'true');
@@ -289,6 +291,30 @@ export default function SettingsPage() {
             <span style={{ fontSize: '0.8em' }}>
               disabling this requires AtlasReactorConfig.json to be selected and
               created (not recommended)
+            </span>
+          </Grid>
+        </Grid>
+      </Paper>
+      <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12}>
+            <FormGroup>
+              <FormControlLabel
+                control={<Switch />}
+                label="Enable All Chat (Recommended)"
+                checked={showAllChat === 'true'}
+                onChange={() => {
+                  setShowAllChat(showAllChat === 'true' ? 'false' : 'true');
+                }}
+              />
+            </FormGroup>
+            <span style={{ fontSize: '0.8em' }}>
+              Disabling this feature will prevent you from viewing any in-game
+              chat. It is not advisable, as it may cause you to miss important
+              messages, such as announcements about remakes made in all chat.
+              <br />
+              When you disable/enable all chat in game, it will just be reset
+              back to whatever this setting is.
             </span>
           </Grid>
         </Grid>

@@ -1,3 +1,8 @@
+# 1.3.7
+
+- Enable all chat in game by default, the only way to disable it is to go to the settings of launcher and disable it over there.
+  this is the only setting that i will do like this, all other settings will be in the game itself.
+
 # 1.3.6
 
 - Add meridian to the stats.

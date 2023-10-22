@@ -22,6 +22,8 @@ export interface EvosStoreState {
   ticketEnabled: string;
   isDownloading: boolean;
   noLogEnabled: string;
+  showAllChat: string;
+  setShowAllChat: (showAllChat: string) => void;
   setIsDownloading: (isDownloading: boolean) => void;
   init: () => void;
   toggleMode: () => void;
@@ -60,6 +62,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   ticketEnabled: 'false',
   isDownloading: false,
   noLogEnabled: 'false',
+  showAllChat: 'true',
   // Helper async function to fetch values from storage
   getFromStorage: async <T>(key: string): Promise<T | null> => {
     try {
@@ -83,6 +86,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       gamePort,
       ticketEnabled,
       noLogEnabled,
+      showAllChat,
     ] = await Promise.all([
       get().getFromStorage('mode') as string,
       get().getFromStorage('ip') as string,
@@ -94,6 +98,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       get().getFromStorage('gamePort') as string,
       get().getFromStorage('ticketEnabled') as string,
       get().getFromStorage('noLogEnabled') as string,
+      get().getFromStorage('showAllChat') as string,
     ]);
 
     let users: AuthUser[] = [];
@@ -113,9 +118,20 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       gamePort: gamePort || '6050',
       ticketEnabled: ticketEnabled || 'true',
       noLogEnabled: noLogEnabled || 'false',
+      showAllChat: showAllChat || 'true',
     });
 
     get().switchUser(activeUser?.user || users[0]?.user || '');
+  },
+
+  setShowAllChat: (showAllChat: string) => {
+    set({ showAllChat });
+
+    try {
+      window.electron.store.setItem('showAllChat', showAllChat);
+    } catch (error) {
+      console.error('Error while saving showAllChat to storage:', error);
+    }
   },
 
   toggleMode: async () => {

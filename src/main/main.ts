@@ -12,6 +12,8 @@ import {
   globalShortcut,
   IpcMainEvent,
 } from 'electron';
+// @ts-ignore
+import { registry } from 'windows';
 import { Worker as NativeWorker } from 'worker_threads';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
@@ -264,8 +266,25 @@ const createWindow = async () => {
 
   ipcMain.on(
     'launch-game',
-    (event: IpcMainEvent, args: { launchOptions: LaunchOptions }) => {
+    async (event: IpcMainEvent, args: { launchOptions: LaunchOptions }) => {
       const { launchOptions } = args;
+      let enableAllChat = 1;
+      try {
+        const data = await fs.promises.readFile(configFilePath, 'utf-8');
+        const config = JSON.parse(data);
+        enableAllChat = config.showAllChat === 'true' ? 1 : 0;
+      } catch (error) {
+        log.info('Error while reading the config file:', error);
+      }
+
+      // Try Enabling All Chat based on config, will not work for the first time they launch the game, but works for any other times, and only on windows
+      try {
+        const x = registry('HKCU/Software/Trion Worlds/Atlas Reactor');
+        x.add('OptionsShowAllChat_h3656758089', enableAllChat);
+      } catch (err) {
+        console.log(err);
+      }
+
       if (launchOptions.ticket) {
         const { ticket } = launchOptions;
         const tempPath = app.getPath('temp');
