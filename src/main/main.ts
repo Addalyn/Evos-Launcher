@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable func-names */
 /* eslint-disable import/no-cycle */
 /* eslint-disable import/prefer-default-export */
 /* eslint global-require: off, no-console: off, promise/always-return: off */
@@ -12,8 +14,7 @@ import {
   globalShortcut,
   IpcMainEvent,
 } from 'electron';
-// @ts-ignore
-import { registry } from 'windows';
+import regedit from 'regedit';
 import { Worker as NativeWorker } from 'worker_threads';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
@@ -279,8 +280,31 @@ const createWindow = async () => {
 
       // Try Enabling All Chat based on config, will not work for the first time they launch the game, but works for any other times, and only on windows
       try {
-        const x = registry('HKCU/Software/Trion Worlds/Atlas Reactor');
-        x.add('OptionsShowAllChat_h3656758089', enableAllChat);
+        regedit.setExternalVBSLocation(getAssetPath('vbs'));
+        const valuesToPut = {
+          'HKCU\\Software\\Trion Worlds\\Atlas Reactor': {
+            OptionsShowAllChat_h3656758089: {
+              value: enableAllChat,
+              type: 'REG_DWORD',
+            },
+          },
+        };
+
+        regedit.createKey(
+          // @ts-ignore
+          'HKCU\\Software\\Trion Worlds\\Atlas Reactor',
+          // @ts-ignore
+          function (a, b) {
+            // @ts-ignore
+            regedit.putValue(valuesToPut, (err) => {
+              if (err) {
+                console.log('[ERROR] Problem writing to registry.', err);
+              } else {
+                console.log('[OK] Wrote to registry.');
+              }
+            });
+          }
+        );
       } catch (err) {
         console.log(err);
       }

@@ -1,3 +1,7 @@
+# 1.3.8 - The Fix
+
+- Fix for some people that 1.3.7 is not working
+
 # 1.3.7
 
 - Enable all chat in game by default, the only way to disable it is to go to the settings of launcher and disable it over there.
