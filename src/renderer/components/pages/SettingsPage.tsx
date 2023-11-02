@@ -264,7 +264,7 @@ export default function SettingsPage() {
             </Button>
           </Grid>
           <Grid item xs={2}>
-            <Tooltip title="Only works if you have the game already installed in steam, or using the steamdeck">
+            <Tooltip title="Only works if you have the game already installed in steam">
               <Button
                 variant="contained"
                 color="primary"
