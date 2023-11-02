@@ -5,6 +5,7 @@
 /* eslint global-require: off, no-console: off, promise/always-return: off */
 import path from 'path';
 import fs from 'fs';
+import util from 'util';
 import {
   app,
   BrowserWindow,
@@ -23,6 +24,12 @@ import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import { oauthConfig } from './discord/config/config';
 import AuthClient from './discord/services/auth';
+
+const vbsDirectory = path.join(
+  path.dirname(app.getPath('exe')),
+  './resources/assets/vbs'
+);
+regedit.setExternalVBSLocation(vbsDirectory);
 
 interface AuthUser {
   user: string;
@@ -73,6 +80,79 @@ log.transports.file.level = 'info';
 
 const configFilePath = path.join(app.getPath('userData'), 'config.json');
 let globalDownloadPath = '';
+
+interface VDFObject {
+  [key: string]: string | VDFObject;
+}
+
+async function parseVDF(
+  vdfString: string,
+  targetAppId: string
+): Promise<string | undefined> {
+  const lines = vdfString.split('\n');
+  const stack: VDFObject[] = [];
+  const result: VDFObject = {};
+  let pathForAppId: string | undefined;
+  let currentPath: string | undefined;
+
+  lines.forEach((line) => {
+    const matches = line.match(/"(.+?)"\s+"(.+?)"/);
+    if (matches) {
+      const key = matches[1];
+      const value = matches[2];
+
+      if (key === 'path') {
+        currentPath = value;
+      }
+
+      if (stack.length === 0) {
+        result[key] = value;
+      } else {
+        const currentObject = stack[stack.length - 1];
+        currentObject[key] = value;
+      }
+
+      if (key === targetAppId) {
+        pathForAppId = currentPath;
+      }
+    } else if (line.trim() === '{') {
+      const newObject: VDFObject = {};
+      if (stack.length === 0) {
+        result.apps = newObject;
+      } else {
+        const currentObject = stack[stack.length - 1];
+        currentObject.apps = newObject;
+      }
+      stack.push(newObject);
+    } else if (line.trim() === '}') {
+      stack.pop();
+      if (stack.length === 0) {
+        currentPath = undefined; // Reset path when exiting the top-level object
+      }
+    }
+  });
+
+  return pathForAppId;
+}
+
+async function readAndParseVDF(filePath: string, targetAppId: string) {
+  try {
+    const data = await fs.promises.readFile(filePath, 'utf-8');
+    return parseVDF(data, targetAppId);
+  } catch (error) {
+    console.error(
+      `Error reading or parsing the VDF file at ${filePath}:`,
+      error
+    );
+    return null;
+  }
+}
+
+function convertLinuxPathToWindows(linuxPath: string, relativePath: string) {
+  const pathParts = relativePath.split('/');
+  const winPath = path.join('Z:', ...[linuxPath, ...pathParts]);
+  return winPath;
+}
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -280,7 +360,6 @@ const createWindow = async () => {
 
       // Try Enabling All Chat based on config, will not work for the first time they launch the game, but works for any other times, and only on windows
       try {
-        regedit.setExternalVBSLocation(getAssetPath('vbs'));
         const valuesToPut = {
           'HKCU\\Software\\Trion Worlds\\Atlas Reactor': {
             OptionsShowAllChat_h3656758089: {
@@ -368,6 +447,77 @@ const createWindow = async () => {
   ipcMain.on('getAssetPath', (event) => {
     const assetPath = getAssetPath('./');
     event.reply('getAssetPath', assetPath);
+  });
+
+  ipcMain.handle('search-for-game', async (event) => {
+    console.log('Searching for the game');
+    const targetAppId = '402570';
+    let searchGamePatch = null;
+    let foundGamePath = null;
+
+    // windows
+    try {
+      const regKey = [
+        'HKLM\\SOFTWARE\\WOW6432Node\\Valve\\Steam',
+        'HKLM\\SOFTWARE\\Valve\\Steam',
+      ];
+
+      const registryList = await regedit.promisified.list(regKey);
+      console.log(registryList);
+
+      if (registryList[regKey[0]]?.values?.InstallPath?.value) {
+        searchGamePatch = registryList[regKey[0]]?.values?.InstallPath?.value;
+      }
+
+      if (registryList[regKey[1]]?.values?.InstallPath?.value) {
+        searchGamePatch = registryList[regKey[1]]?.values?.InstallPath?.value;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    try {
+      if (searchGamePatch) {
+        const vdfPath = `${searchGamePatch}\\steamapps\\libraryfolders.vdf`;
+        const pathOfGame = await readAndParseVDF(vdfPath, targetAppId);
+        if (pathOfGame) {
+          console.log(`Path for appid ${targetAppId}: ${pathOfGame}`);
+          foundGamePath = `${pathOfGame}\\steamapps\\common\\Atlas Reactor\\Games\\Atlas Reactor\\Live\\Win64\\AtlasReactor.exe`;
+        } else {
+          console.log(`Appid ${targetAppId} not found.`);
+        }
+      } else {
+        console.log('Steam installation path not found.');
+      }
+    } catch (error) {
+      console.error('Error reading or parsing the VDF file:', error);
+    }
+
+    // Steam Deck?
+    if (!foundGamePath) {
+      try {
+        const vdfPath = `Z:\\home\\deck\\.local\\share\\Steam\\steamapps\\libraryfolders.vdf`;
+        const pathOfGame = await readAndParseVDF(vdfPath, targetAppId);
+        if (pathOfGame) {
+          console.log(`Path for appid ${targetAppId}: ${pathOfGame}`);
+          foundGamePath = convertLinuxPathToWindows(
+            `${pathOfGame}`,
+            'steamapps/common/Atlas Reactor/Games/Atlas Reactor/Live/Win64/AtlasReactor.exe'
+          );
+        } else {
+          console.log(`Appid ${targetAppId} not found.`);
+        }
+      } catch (error) {
+        console.error('Error reading or parsing the VDF file:', error);
+      }
+    }
+
+    if (!foundGamePath) {
+      return null;
+    }
+
+    foundGamePath = foundGamePath.replace(/\\\\/g, '\\');
+    return foundGamePath;
   });
 
   ipcMain.handle('open-file-dialog', async (event, config) => {

@@ -6,6 +6,7 @@ import { AuthUser } from 'renderer/lib/EvosStore';
 export type Channels =
   | 'getAssetPath'
   | 'open-file-dialog'
+  | 'search-for-game'
   | 'open-folder-dialog'
   | 'selected-file'
   | 'launch-game'
@@ -39,6 +40,9 @@ const electronHandler = {
     },
     getSelectedFile(config: boolean) {
       return ipcRenderer.invoke('open-file-dialog', config);
+    },
+    searchForGame() {
+      return ipcRenderer.invoke('search-for-game');
     },
     openFolderDialog() {
       ipcRenderer.send('open-folder-dialog');

@@ -57,8 +57,13 @@ function LinearProgressWithLabel(
 }
 
 function DownloadPage() {
-  const { folderPath, setFolderPath, isDownloading, setIsDownloading } =
-    EvosStore();
+  const {
+    folderPath,
+    setFolderPath,
+    isDownloading,
+    setIsDownloading,
+    setExePath,
+  } = EvosStore();
   const [progressFile, setProgressFile] = useState('');
   const [progress, setProgress] = useState(0);
   const [bytes, setBytes] = useState(0);
@@ -96,6 +101,7 @@ function DownloadPage() {
   function handleComplete(event: any) {
     setIsDownloading(false);
     setCompleted(event.text);
+    setExePath(`${folderPath}\\Win64\\AtlasReactor.exe`);
   }
 
   window.electron.ipcRenderer.on('download-progress', handleProgressBar);

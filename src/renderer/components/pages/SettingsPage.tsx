@@ -13,6 +13,7 @@ import {
   FormControl,
   Select,
   MenuItem,
+  Tooltip,
 } from '@mui/material';
 import { logoSmall } from 'renderer/lib/Resources';
 import EvosStore from 'renderer/lib/EvosStore';
@@ -83,6 +84,14 @@ export default function SettingsPage() {
         activeUser?.banner as number,
         (filePath as string) || ('' as string)
       );
+      return;
+    }
+    setExePath(filePath || '');
+  };
+
+  const handleSearch = async () => {
+    const filePath = await window.electron.ipcRenderer.searchForGame();
+    if (filePath === null) {
       return;
     }
     setExePath(filePath || '');
@@ -214,7 +223,7 @@ export default function SettingsPage() {
       )}
       <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={7}>
+          <Grid item xs={6}>
             <TextField
               placeholder="Atlas Reactor path"
               value={truncateDynamicPath(exePath, 45)}
@@ -240,7 +249,7 @@ export default function SettingsPage() {
               fullWidth
             />
           </Grid>
-          <Grid item xs={5}>
+          <Grid item xs={4}>
             <Button
               variant="contained"
               color="primary"
@@ -253,6 +262,22 @@ export default function SettingsPage() {
             >
               Select Atlas Reactor.exe
             </Button>
+          </Grid>
+          <Grid item xs={2}>
+            <Tooltip title="Only works if you have the game already installed in steam, or using the steamdeck">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => handleSearch()}
+                fullWidth
+                sx={{
+                  height: '56px',
+                  backgroundColor: (theme) => theme.palette.primary.light,
+                }}
+              >
+                Search
+              </Button>
+            </Tooltip>
           </Grid>
         </Grid>
       </Paper>

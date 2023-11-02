@@ -1,3 +1,9 @@
+# 1.3.9 - The exe search
+
+- Fixed the all chat option not working, now it realy should work for everyone
+- Added an option to search for the game location if you have steam installed and the game is installed on steam
+- Optionaly if you downloaded the game true launcher it will automaticly also set the path to the game
+
 # 1.3.8 - The Fix
 
 - Fix for some people that 1.3.7 is not working
