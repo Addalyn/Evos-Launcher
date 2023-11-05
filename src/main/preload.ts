@@ -15,6 +15,7 @@ export type Channels =
   | 'download-progress'
   | 'download-progress-completed'
   | 'cancel-download-game'
+  | 'quitAndInstall'
   | 'message';
 
 const electronHandler = {
@@ -55,6 +56,9 @@ const electronHandler = {
     },
     cancelDownloadGame() {
       ipcRenderer.invoke('cancel-download-game');
+    },
+    restartApp() {
+      ipcRenderer.invoke('quitAndInstall');
     },
   },
   store: {

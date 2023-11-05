@@ -116,6 +116,10 @@ export interface Status {
   games: GameData[];
 }
 
+export interface Text {
+  text: string;
+}
+
 export function asDate(date?: string): Date | undefined {
   return date ? new Date(date) : undefined;
 }
@@ -163,10 +167,36 @@ export async function logout(authHeader: string) {
   });
 }
 
+export async function changePassword(authHeader: string, password: string) {
+  const ip = await window.electron.store.getItem('ip');
+  const baseUrl = `https://${ip}`;
+  return axios.put(
+    `${baseUrl}/api/account/changePassword`,
+    {
+      Password: password,
+    },
+    {
+      headers: { Authorization: `bearer ${authHeader}` },
+    }
+  );
+}
+
 export async function getStatus() {
   const ip = await window.electron.store.getItem('ip');
   const baseUrl = `https://${ip}`;
   return axios.get<Status>(`${baseUrl}/api/lobby/status`);
+}
+
+export async function getMotd() {
+  const ip = await window.electron.store.getItem('ip');
+  const baseUrl = `https://${ip}`;
+  return axios.get<Text>(`${baseUrl}/api/lobby/motd`);
+}
+
+export async function getNotification() {
+  const ip = await window.electron.store.getItem('ip');
+  const baseUrl = `https://${ip}`;
+  return axios.get<Text>(`${baseUrl}/api/lobby/notification`);
 }
 
 export async function getTicket(authHeader: string) {

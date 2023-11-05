@@ -255,7 +255,7 @@ const createWindow = async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1200,
+    width: 1250,
     height: 728,
     minWidth: 800,
     minHeight: 400,
@@ -518,6 +518,10 @@ const createWindow = async () => {
 
     foundGamePath = foundGamePath.replace(/\\\\/g, '\\');
     return foundGamePath;
+  });
+
+  ipcMain.handle('quitAndInstall', async () => {
+    autoUpdater.quitAndInstall(true, true);
   });
 
   ipcMain.handle('open-file-dialog', async (event, config) => {

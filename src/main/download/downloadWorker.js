@@ -7,7 +7,7 @@ const path = require('path');
 const util = require('util');
 
 const delayCheckFiles = 100;
-const delayDownloadFiles = 1000;
+const delayDownloadFiles = 500;
 const globaldownloadFile = 'https://media.addalyn.baby/getfileurls.json';
 const downloadOptions = {
   manifest: '',

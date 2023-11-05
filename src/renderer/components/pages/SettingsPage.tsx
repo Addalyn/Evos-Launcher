@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import { logoSmall } from 'renderer/lib/Resources';
 import EvosStore from 'renderer/lib/EvosStore';
-import { logout } from 'renderer/lib/Evos';
+import { changePassword, logout } from 'renderer/lib/Evos';
 import { useNavigate } from 'react-router-dom';
 
 export function truncateDynamicPath(filePath: string, maxChars: number) {
@@ -60,6 +60,8 @@ export default function SettingsPage() {
   } = EvosStore();
 
   const [password, setPassword] = useState('');
+  const [password1, setPassword1] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const signOut = () => {
@@ -122,6 +124,24 @@ export default function SettingsPage() {
 
   const handlePasswordResetClick = (event: { preventDefault: () => void }) => {
     event.preventDefault();
+    if (password !== password1) {
+      setError('Passwords do not match');
+      return;
+    }
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters');
+      return;
+    }
+    if (password.length > 20) {
+      setError('Password must be less than 20 characters');
+      return;
+    }
+    if (password.includes(' ')) {
+      setError('Password cannot contain spaces');
+      return;
+    }
+    setError('');
+    changePassword(activeUser?.token ?? '', password);
     signOut();
   };
 
@@ -139,20 +159,31 @@ export default function SettingsPage() {
           spacing={2}
           sx={{ justifyContent: 'center', alignItems: 'center' }}
         >
-          <Grid item xs={9}>
+          <Grid item xs={4}>
             <TextField
-              label="Change Password (not implemented yet)"
+              label="Change Password"
               variant="outlined"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              disabled
               placeholder="Enter a new password"
               margin="normal"
               type="password"
               fullWidth
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={4}>
+            <TextField
+              label="Confirm Password"
+              variant="outlined"
+              value={password1}
+              onChange={(e) => setPassword1(e.target.value)}
+              placeholder="Enter a new password"
+              margin="normal"
+              type="password"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={4}>
             <Button
               variant="contained"
               color="primary"
@@ -162,12 +193,16 @@ export default function SettingsPage() {
                 marginTop: '8px',
                 backgroundColor: (theme) => theme.palette.primary.light,
               }}
-              disabled
               onClick={handlePasswordResetClick}
             >
               Submit
             </Button>
           </Grid>
+          {error !== '' && (
+            <Grid item xs={12}>
+              <span style={{ color: 'red' }}>{error}</span>
+            </Grid>
+          )}
         </Grid>
       </Paper>
       {ticketEnabled === 'false' && (

@@ -24,6 +24,7 @@ import Updater from './components/generic/Updater';
 import StatsPage from './components/pages/StatsPage';
 import PreviousGamesPage from './components/pages/PreviousGamesPage';
 import PlayerStatsPage from './components/pages/PlayerStatsPage';
+import NotificationMessage from './components/generic/NotificationMessage';
 
 interface PageProps {
   title: string;
@@ -88,6 +89,7 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
+                    <NotificationMessage />
                     <Updater />
                     <StatusPage />
                   </Box>
@@ -102,6 +104,7 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
+                    <NotificationMessage />
                     <Updater />
                     <SettingsPage />
                   </Box>
@@ -116,6 +119,7 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
+                    <NotificationMessage />
                     <Updater />
                     <AboutPage />
                   </Box>
@@ -130,6 +134,7 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
+                    <NotificationMessage />
                     <Updater />
                     <ChangeLogPage />
                   </Box>
@@ -144,6 +149,7 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
+                    <NotificationMessage />
                     <Updater />
                     <DownloadPage />
                   </Box>
@@ -158,6 +164,7 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
+                    <NotificationMessage />
                     <Updater />
                     <AddAccountPage />
                   </Box>
@@ -180,6 +187,7 @@ export default function App() {
                       }}
                     >
                       <Updater />
+                      <NotificationMessage />
                       <LoginPage />
                     </Box>
                   </Box>
@@ -230,6 +238,7 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
+                    <NotificationMessage />
                     <Updater />
                     <PlayerStatsPage />
                   </Box>
@@ -244,6 +253,7 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
+                    <NotificationMessage />
                     <Updater />
                     <PreviousGamesPage />
                   </Box>

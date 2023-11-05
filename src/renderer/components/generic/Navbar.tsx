@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -34,7 +34,7 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import HistoryIcon from '@mui/icons-material/History';
 import EvosStore from 'renderer/lib/EvosStore';
 import useWindowDimensions from 'renderer/lib/useWindowDimensions';
-import { getTicket, logout } from 'renderer/lib/Evos';
+import { getMotd, getTicket, logout } from 'renderer/lib/Evos';
 import { EvosError, processError } from 'renderer/lib/Error';
 import { BannerType, logo, playerBanner } from '../../lib/Resources';
 import ErrorDialog from './ErrorDialog';
@@ -88,6 +88,22 @@ export default function NavBar() {
   } = evosStore;
   const [error, setError] = useState<EvosError>();
   const { width } = useWindowDimensions();
+  const [motd, setMotd] = useState<string>('');
+
+  useEffect(() => {
+    async function get() {
+      getMotd()
+        // eslint-disable-next-line promise/always-return
+        .then((resp) => {
+          setMotd(resp.data.text);
+        })
+        .catch(() =>
+          setMotd('Join the project Discord: https://discord.gg/yrZRHJaAug')
+        );
+    }
+    get();
+  }, []);
+
   const [activeGames, setActiveGames] = useState<{
     [username: string]: boolean;
   }>({});
@@ -343,13 +359,27 @@ export default function NavBar() {
           }}
         >
           <Toolbar sx={{ Height: '70px' }} />
+          <Paper
+            elevation={2}
+            sx={{
+              marginTop: `auto`,
+              width: '100%',
+              borderRadius: 0,
+              display: { xs: 'none', md: 'flex' },
+            }}
+          >
+            {' '}
+            <Box component="section" sx={{ p: 2 }}>
+              <small>{motd}</small>
+            </Box>
+          </Paper>
           <Box
             sx={{
               overflow: 'hidden',
               Height: '70px',
             }}
           >
-            <Paper sx={{ height: '100vh', boxShadow: 'none' }}>
+            <Paper sx={{ height: '100vh', boxShadow: 'none', borderRadius: 0 }}>
               <List>
                 {pages.map((page, index) => (
                   // eslint-disable-next-line react/no-array-index-key
@@ -379,12 +409,13 @@ export default function NavBar() {
               </List>
             </Paper>
           </Box>
+
           {location.pathname === '/' && (
             <Paper
               sx={{
                 marginTop: `auto`,
                 width: '100%',
-                display: { xs: 'none', md: 'flex' },
+                display: { xs: 'none', md: 'flex', borderRadius: 0 },
               }}
             >
               <List>

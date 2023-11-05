@@ -1,3 +1,11 @@
+# 1.4.0 - The Improvements
+
+- Password Reset: You now have the ability to change your password right from the settings menu, ensuring your account security is in your hands.
+- Faster Game Downloads: We've optimized our download speeds, making the game installation process twice as fast, so you can get into the action quicker.
+- Effortless Updates: Stay up-to-date effortlessly with the new "Update & Launch" button. When there's a new update, simply click the button to install it and auto-launch the launcher (Steamdeck friendly).
+- Message of the Day (MOTD): Keep an eye on the top left corner for important announcements and messages with our new MOTD feature.
+- Important Notifications: We've added a notification that will alert you to important messages at the top of the page, ensuring you never miss crucial information.
+
 # 1.3.9 - The exe search
 
 - Fixed the all chat option not working, now it realy should work for everyone
