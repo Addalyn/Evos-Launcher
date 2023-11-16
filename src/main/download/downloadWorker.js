@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-useless-catch */
 /* eslint-disable no-constant-condition */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -5,6 +7,7 @@ const { parentPort, workerData } = require('worker_threads');
 const fs = require('fs');
 const path = require('path');
 const util = require('util');
+const { default: axios } = require('axios');
 
 const delayCheckFiles = 100;
 const delayDownloadFiles = 500;
@@ -14,25 +17,35 @@ const downloadOptions = {
   filedirectory: '',
 };
 
-async function streamWithProgress(length, reader, writer, progressCallback) {
+async function writeChunk(writer, chunk) {
+  return new Promise((resolve, reject) => {
+    writer.write(Buffer.from(chunk), (error) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve();
+      }
+    });
+  });
+}
+
+async function streamWithProgress(length, stream, writer, progressCallback) {
   let bytesDone = 0;
   let lastUpdate = 0;
-  const updateInterval = Math.ceil(length / 4); // Update every 25%
+  const updateInterval = Math.ceil(length / 10); // Update every 10%
 
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) {
-      if (progressCallback) {
-        progressCallback(length, 100);
+  try {
+    for await (const chunk of stream) {
+      if (!chunk || chunk.length === undefined) {
+        throw new Error('Invalid chunk received during download');
       }
-      return;
-    }
 
-    if (!value || value.length === 0) {
-      throw new Error('Empty chunk received during download');
-    } else {
-      writer.write(Buffer.from(value));
-      bytesDone += value.length;
+      if (chunk.length === 0) {
+        throw new Error('Empty chunk received during download');
+      }
+
+      await writeChunk(writer, chunk);
+      bytesDone += chunk.length;
 
       if (bytesDone - lastUpdate >= updateInterval) {
         const percent = Math.floor((bytesDone / length) * 100);
@@ -42,35 +55,40 @@ async function streamWithProgress(length, reader, writer, progressCallback) {
         lastUpdate = bytesDone;
       }
     }
+  } catch (error) {
+    throw error;
+  }
+
+  if (progressCallback) {
+    progressCallback(length, 100);
   }
 }
 
 async function download(sourceUrl, targetFile, progressCallback) {
-  const request = new Request(sourceUrl, {
-    headers: new Headers({
+  const response = await axios({
+    method: 'get',
+    url: sourceUrl,
+    responseType: 'stream', // Specify the response type as stream for handling large files
+    headers: {
       'Content-Type': 'application/octet-stream',
       'User-Agent': 'Evos Launcher',
-    }),
+    },
   });
 
-  const response = await fetch(request);
-  if (!response.ok) {
+  if (response.status !== 200) {
     throw new Error(
       `Unable to download, server returned ${response.status} ${response.statusText}`
     );
   }
 
-  const { body } = response;
-  if (!body) {
-    throw new Error('No response body');
-  }
-
-  const finalLength = Number(response.headers.get('Content-Length')) || 0;
-  const reader = body.getReader();
+  const { data } = response;
   const writer = fs.createWriteStream(targetFile);
+  const finalLength = Number(response.headers['content-length']) || 0;
   progressCallback(0, 0);
-  await streamWithProgress(finalLength, reader, writer, progressCallback);
+
+  await streamWithProgress(finalLength, data, writer, progressCallback);
   writer.end();
+
   return true;
 }
 
@@ -146,7 +164,7 @@ async function downloadFilesSequentially(downloadPath, lines, index) {
   } catch (error) {
     parentPort.postMessage({
       type: 'error',
-      data: 'Error while downloading files sequentially',
+      data: `Error while downloading files sequentially ${error}`,
     });
     return false;
   }

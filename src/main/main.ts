@@ -197,7 +197,7 @@ async function startDownloadPatch(downloadPath: string) {
         } else {
           sendStatusToWindow(
             mainWindow as BrowserWindow,
-            'Error while patching.'
+            `Error while patching. ${message.data}`
           );
         }
         patching = false;
@@ -205,7 +205,7 @@ async function startDownloadPatch(downloadPath: string) {
       case 'error':
         sendStatusToWindow(
           mainWindow as BrowserWindow,
-          'Error while patching.'
+          `Error while patching. ${message.data}`
         );
         patching = false;
         break;

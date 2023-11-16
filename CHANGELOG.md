@@ -1,3 +1,8 @@
+# 1.4.3 - The Christmas Update - fixed v2
+
+- Using a difrent way to download the files, this should fix the issue (mayby) with the launcher not downloading the files
+  Applys for downloading the game and downloading the patch files
+
 # 1.4.2 - The Christmas Update - fixed
 
 - Added an auto patcher, so we can patch the game without having to manualy download the patch files (perks of the laucher),
