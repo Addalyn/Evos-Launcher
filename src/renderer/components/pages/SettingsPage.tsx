@@ -57,6 +57,8 @@ export default function SettingsPage() {
     setIp,
     showAllChat,
     setShowAllChat,
+    enablePatching,
+    setEnablePatching,
   } = EvosStore();
 
   const [password, setPassword] = useState('');
@@ -382,6 +384,31 @@ export default function SettingsPage() {
               <br />
               When you disable/enable all chat in game, it will just be reset
               back to whatever this setting is.
+            </span>
+          </Grid>
+        </Grid>
+      </Paper>
+      <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12}>
+            <FormGroup>
+              <FormControlLabel
+                control={<Switch />}
+                label="Enable Auto Patching (Recommended)"
+                checked={enablePatching === 'true'}
+                onChange={() => {
+                  setEnablePatching(
+                    enablePatching === 'true' ? 'false' : 'true'
+                  );
+                }}
+              />
+            </FormGroup>
+            <span style={{ fontSize: '0.8em' }}>
+              Disable this only if you are experiencing issues with patching
+              files
+              <br />
+              You will need to manually patch the game, info can be found in
+              discord
             </span>
           </Grid>
         </Grid>

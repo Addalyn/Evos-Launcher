@@ -440,28 +440,41 @@ const createWindow = async () => {
     async (event: IpcMainEvent, args: { launchOptions: LaunchOptions }) => {
       const { launchOptions } = args;
       let enableAllChat = 'true';
+      let enablePatching = 'false';
 
       try {
         const data = await fs.promises.readFile(configFilePath, 'utf-8');
         const config = JSON.parse(data);
-        enableAllChat = config.showAllChat ? 'true' : 'false';
+        enableAllChat = config.showAllChat;
+        enablePatching = config.enablePatching;
       } catch (error) {
         log.info('Error while reading the config file:', error);
       }
       applyAllChat(enableAllChat);
 
-      patching = true;
-      await startDownloadPatch(
-        launchOptions.exePath.replace('Win64\\AtlasReactor.exe', '')
-      );
+      if (enablePatching === 'true') {
+        patching = true;
+        await startDownloadPatch(
+          launchOptions.exePath.replace('Win64\\AtlasReactor.exe', '')
+        );
+      } else {
+        patching = false;
+      }
 
-      function checkForPatch() {
+      function checkForPatchAndLaunch() {
         if (patching) {
           console.log('Waiting for patch to finish...');
-          setTimeout(checkForPatch, 1000);
+          setTimeout(checkForPatchAndLaunch, 1000);
         } else {
           // Patching is done
           console.log('Patch finished. launch the game.');
+
+          if (enablePatching === 'false') {
+            sendStatusToWindow(
+              mainWindow as BrowserWindow,
+              `Patching is disabled. Make sure you have the correct game files, info found in discord.`
+            );
+          }
 
           if (launchOptions.ticket) {
             const { ticket } = launchOptions;
@@ -489,6 +502,7 @@ const createWindow = async () => {
               );
               games[launchOptions.name].on('close', () => {
                 event.reply('setActiveGame', [launchOptions.name, false]);
+                sendStatusToWindow(mainWindow as BrowserWindow, '');
               });
             } catch (e) {
               log.info('Failed to write file', e);
@@ -517,13 +531,14 @@ const createWindow = async () => {
             );
             games[launchOptions.name].on('close', () => {
               event.reply('setActiveGame', [launchOptions.name, false]);
+              sendStatusToWindow(mainWindow as BrowserWindow, '');
             });
           }
         }
       }
 
       // Start waiting for the patch
-      checkForPatch();
+      checkForPatchAndLaunch();
     }
   );
 

@@ -1,3 +1,8 @@
+# 1.4.4 - The Christmas Update - v3 can thing just work as they should
+
+- Added a setting to disable auto patching if you encounter issues with it.
+- because of adding that setting found an other bug that dint set enable all chat correctly.
+
 # 1.4.3 - The Christmas Update - fixed v2
 
 - Using a difrent way to download the files, this should fix the issue (mayby) with the launcher not downloading the files

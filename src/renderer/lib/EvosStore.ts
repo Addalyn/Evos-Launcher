@@ -48,6 +48,8 @@ export interface EvosStoreState {
   ) => void;
   switchUser: (user: string) => void;
   setAge: (age: number) => void;
+  enablePatching: string;
+  setEnablePatching: (enablePatching: string) => void;
 }
 
 const EvosStore = create<EvosStoreState>((set, get) => ({
@@ -63,6 +65,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   isDownloading: false,
   noLogEnabled: 'false',
   showAllChat: 'true',
+  enablePatching: 'true',
   // Helper async function to fetch values from storage
   getFromStorage: async <T>(key: string): Promise<T | null> => {
     try {
@@ -87,6 +90,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       ticketEnabled,
       noLogEnabled,
       showAllChat,
+      enablePatching,
     ] = await Promise.all([
       get().getFromStorage('mode') as string,
       get().getFromStorage('ip') as string,
@@ -99,6 +103,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       get().getFromStorage('ticketEnabled') as string,
       get().getFromStorage('noLogEnabled') as string,
       get().getFromStorage('showAllChat') as string,
+      get().getFromStorage('enablePatching') as string,
     ]);
 
     let users: AuthUser[] = [];
@@ -119,6 +124,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       ticketEnabled: ticketEnabled || 'true',
       noLogEnabled: noLogEnabled || 'false',
       showAllChat: showAllChat || 'true',
+      enablePatching: enablePatching || 'true',
     });
 
     get().switchUser(activeUser?.user || users[0]?.user || '');
@@ -296,6 +302,16 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
 
   setAge: (age: number) => {
     set({ age });
+  },
+
+  setEnablePatching: async (enablePatching: string) => {
+    set({ enablePatching });
+
+    try {
+      await window.electron.store.setItem('enablePatching', enablePatching);
+    } catch (error) {
+      console.error('Error while saving enablePatching to storage:', error);
+    }
   },
 }));
 
