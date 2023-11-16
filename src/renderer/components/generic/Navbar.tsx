@@ -36,6 +36,7 @@ import EvosStore from 'renderer/lib/EvosStore';
 import useWindowDimensions from 'renderer/lib/useWindowDimensions';
 import { getMotd, getTicket, logout } from 'renderer/lib/Evos';
 import { EvosError, processError } from 'renderer/lib/Error';
+import axios from 'axios';
 import { BannerType, logo, playerBanner } from '../../lib/Resources';
 import ErrorDialog from './ErrorDialog';
 
@@ -97,9 +98,17 @@ export default function NavBar() {
         .then((resp) => {
           setMotd(resp.data.text);
         })
-        .catch(() =>
-          setMotd('Join the project Discord: https://discord.gg/yrZRHJaAug')
-        );
+        .catch(async () => {
+          try {
+            const resp = await axios.get(
+              'https://misc.addalyn.baby/motd.json',
+              { headers: { accept: 'application/json' } }
+            );
+            setMotd(resp.data.text);
+          } catch (e) {
+            setMotd('Error Loading Motd');
+          }
+        });
     }
     get();
   }, []);

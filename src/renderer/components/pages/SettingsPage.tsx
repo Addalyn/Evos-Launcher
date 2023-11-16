@@ -151,6 +151,11 @@ export default function SettingsPage() {
     signOut();
   };
 
+  const setShowAllChatInternal = (value: string) => {
+    setShowAllChat(value);
+    window.electron.ipcRenderer.setShowAllChat(value);
+  };
+
   return (
     <>
       <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
@@ -361,12 +366,14 @@ export default function SettingsPage() {
             <FormGroup>
               <FormControlLabel
                 control={<Switch />}
-                label="Enable All Chat (Recommended)"
+                label="Activate All Chat (Recommended) (applies before game launch)"
                 checked={showAllChat === 'true'}
                 onChange={() => {
-                  setShowAllChat(showAllChat === 'true' ? 'false' : 'true');
+                  setShowAllChatInternal(
+                    showAllChat === 'true' ? 'false' : 'true'
+                  );
                 }}
-              />
+              />{' '}
             </FormGroup>
             <span style={{ fontSize: '0.8em' }}>
               Disabling this feature will prevent you from viewing any in-game

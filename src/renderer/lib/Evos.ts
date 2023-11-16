@@ -116,7 +116,12 @@ export interface Status {
   games: GameData[];
 }
 
-export interface Text {
+export interface TextNotification {
+  text: string;
+  severity: string;
+}
+
+export interface TextMotd {
   text: string;
 }
 
@@ -190,13 +195,13 @@ export async function getStatus() {
 export async function getMotd() {
   const ip = await window.electron.store.getItem('ip');
   const baseUrl = `https://${ip}`;
-  return axios.get<Text>(`${baseUrl}/api/lobby/motd`);
+  return axios.get<TextMotd>(`${baseUrl}/api/lobby/motd`);
 }
 
 export async function getNotification() {
   const ip = await window.electron.store.getItem('ip');
   const baseUrl = `https://${ip}`;
-  return axios.get<Text>(`${baseUrl}/api/lobby/notification`);
+  return axios.get<TextNotification>(`${baseUrl}/api/lobby/notification`);
 }
 
 export async function getTicket(authHeader: string) {

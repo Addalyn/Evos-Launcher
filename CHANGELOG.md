@@ -1,3 +1,11 @@
+# 1.4.1 - The Christmas Update
+
+- Added an auto patcher, so we can patch the game without having to manualy download the patch files (perks of the laucher),
+  this is mostly for christmas map but can be used for other things in the future
+- Some fixes to All chat function
+- Added a backup notifications and motd message incase main server is down
+- Added so we can add something to the launcher that will show up in the launcher in due time :P
+
 # 1.4.0 - The Improvements
 
 - Password Reset: You now have the ability to change your password right from the settings menu, ensuring your account security is in your hands.

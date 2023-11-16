@@ -34,6 +34,10 @@ const configuration: webpack.Configuration = {
       webpackPaths.srcMainPath,
       'download/downloadWorker.js'
     ),
+    downloadWorkerPatch: path.join(
+      webpackPaths.srcMainPath,
+      'download/downloadWorkerPatch.js'
+    ),
   },
 
   output: {

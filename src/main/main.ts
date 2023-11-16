@@ -173,6 +173,58 @@ function sendStatusToWindow(win: BrowserWindow, text: string) {
   win.webContents.send('message', text);
 }
 
+let patching: boolean = true;
+
+async function startDownloadPatch(downloadPath: string) {
+  worker = new NativeWorker(path.join(__dirname, 'downloadWorkerPatch.js'), {
+    workerData: { downloadPath },
+  });
+
+  worker.on('message', (message) => {
+    switch (message.type) {
+      case 'progress':
+        // only get filename not patch message.data.filePath
+        sendStatusToWindow(
+          mainWindow as BrowserWindow,
+          `Patching ${path.basename(message.data.filePath)} (${
+            message.data.percent
+          }% complete)`
+        );
+        break;
+      case 'result':
+        if (message.data) {
+          sendStatusToWindow(mainWindow as BrowserWindow, '');
+        } else {
+          sendStatusToWindow(
+            mainWindow as BrowserWindow,
+            'Error while patching.'
+          );
+        }
+        patching = false;
+        break;
+      case 'error':
+        sendStatusToWindow(
+          mainWindow as BrowserWindow,
+          'Error while patching.'
+        );
+        patching = false;
+        break;
+      default:
+        break;
+    }
+  });
+
+  worker.on('error', (error) => {
+    log.info('Worker thread error:', error);
+  });
+
+  worker.on('exit', (code) => {
+    if (code !== 0) {
+      log.info('Worker thread exited with code:', code);
+    }
+  });
+}
+
 async function startDownload(downloadPath: string) {
   worker = new NativeWorker(path.join(__dirname, 'downloadWorker.js'), {
     workerData: { downloadPath },
@@ -345,102 +397,133 @@ const createWindow = async () => {
     }
   });
 
+  const applyAllChat = (enabled: string | undefined) => {
+    const enableAllChat = enabled === 'true' ? 1 : 0;
+
+    // Try Enabling All Chat based on config, will not work for the first time they launch the game, but works for any other times, and only on windows
+    try {
+      const valuesToPut = {
+        'HKCU\\Software\\Trion Worlds\\Atlas Reactor': {
+          OptionsShowAllChat_h3656758089: {
+            value: enableAllChat,
+            type: 'REG_DWORD',
+          },
+        },
+      };
+
+      regedit.createKey(
+        // @ts-ignore
+        'HKCU\\Software\\Trion Worlds\\Atlas Reactor',
+        // @ts-ignore
+        function (a, b) {
+          // @ts-ignore
+          regedit.putValue(valuesToPut, (err) => {
+            if (err) {
+              console.log('[ERROR] Problem writing to registry.', err);
+            } else {
+              console.log('[OK] Wrote to registry.');
+            }
+          });
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  ipcMain.handle('set-show-all-chat', async (event, args) => {
+    applyAllChat(args);
+  });
+
   ipcMain.on(
     'launch-game',
     async (event: IpcMainEvent, args: { launchOptions: LaunchOptions }) => {
       const { launchOptions } = args;
-      let enableAllChat = 1;
+      let enableAllChat = 'true';
+
       try {
         const data = await fs.promises.readFile(configFilePath, 'utf-8');
         const config = JSON.parse(data);
-        enableAllChat = config.showAllChat === 'true' ? 1 : 0;
+        enableAllChat = config.showAllChat ? 'true' : 'false';
       } catch (error) {
         log.info('Error while reading the config file:', error);
       }
+      applyAllChat(enableAllChat);
 
-      // Try Enabling All Chat based on config, will not work for the first time they launch the game, but works for any other times, and only on windows
-      try {
-        const valuesToPut = {
-          'HKCU\\Software\\Trion Worlds\\Atlas Reactor': {
-            OptionsShowAllChat_h3656758089: {
-              value: enableAllChat,
-              type: 'REG_DWORD',
-            },
-          },
-        };
+      patching = true;
+      await startDownloadPatch(
+        launchOptions.exePath.replace('Win64\\AtlasReactor.exe', '')
+      );
 
-        regedit.createKey(
-          // @ts-ignore
-          'HKCU\\Software\\Trion Worlds\\Atlas Reactor',
-          // @ts-ignore
-          function (a, b) {
-            // @ts-ignore
-            regedit.putValue(valuesToPut, (err) => {
-              if (err) {
-                console.log('[ERROR] Problem writing to registry.', err);
-              } else {
-                console.log('[OK] Wrote to registry.');
+      function checkForPatch() {
+        if (patching) {
+          console.log('Waiting for patch to finish...');
+          setTimeout(checkForPatch, 1000);
+        } else {
+          // Patching is done
+          console.log('Patch finished. launch the game.');
+
+          if (launchOptions.ticket) {
+            const { ticket } = launchOptions;
+            const tempPath = app.getPath('temp');
+            const authTicketPath = path.join(tempPath, 'authTicket.xml');
+
+            try {
+              fs.writeFileSync(authTicketPath, ticket, 'utf-8');
+              const launchOptionsWithTicket = [
+                '-s',
+                `${launchOptions.ip}:${launchOptions.port}`,
+                '-t',
+                authTicketPath,
+              ];
+              if (
+                launchOptions.noLogEnabled !== undefined &&
+                launchOptions.noLogEnabled !== 'false'
+              ) {
+                launchOptionsWithTicket.push('-nolog');
               }
+              event.reply('setActiveGame', [launchOptions.name, true]);
+              games[launchOptions.name] = spawn(
+                launchOptions.exePath,
+                launchOptionsWithTicket
+              );
+              games[launchOptions.name].on('close', () => {
+                event.reply('setActiveGame', [launchOptions.name, false]);
+              });
+            } catch (e) {
+              log.info('Failed to write file', e);
+            }
+          } else {
+            const launchOptionsWithoutTicket = [
+              '-s',
+              `${launchOptions.ip}:${launchOptions.port}`,
+            ];
+            if (
+              launchOptions.noLogEnabled !== undefined &&
+              launchOptions.noLogEnabled !== 'false'
+            ) {
+              launchOptionsWithoutTicket.push('-nolog');
+            }
+            if (
+              launchOptions.config !== undefined &&
+              launchOptions.config !== ''
+            ) {
+              launchOptionsWithoutTicket.push('-c', launchOptions.config);
+            }
+            event.reply('setActiveGame', [launchOptions.name, true]);
+            games[launchOptions.name] = spawn(
+              launchOptions.exePath,
+              launchOptionsWithoutTicket
+            );
+            games[launchOptions.name].on('close', () => {
+              event.reply('setActiveGame', [launchOptions.name, false]);
             });
           }
-        );
-      } catch (err) {
-        console.log(err);
+        }
       }
 
-      if (launchOptions.ticket) {
-        const { ticket } = launchOptions;
-        const tempPath = app.getPath('temp');
-        const authTicketPath = path.join(tempPath, 'authTicket.xml');
-
-        try {
-          fs.writeFileSync(authTicketPath, ticket, 'utf-8');
-          const launchOptionsWithTicket = [
-            '-s',
-            `${launchOptions.ip}:${launchOptions.port}`,
-            '-t',
-            authTicketPath,
-          ];
-          if (
-            launchOptions.noLogEnabled !== undefined &&
-            launchOptions.noLogEnabled !== 'false'
-          ) {
-            launchOptionsWithTicket.push('-nolog');
-          }
-          event.reply('setActiveGame', [launchOptions.name, true]);
-          games[launchOptions.name] = spawn(
-            launchOptions.exePath,
-            launchOptionsWithTicket
-          );
-          games[launchOptions.name].on('close', () => {
-            event.reply('setActiveGame', [launchOptions.name, false]);
-          });
-        } catch (e) {
-          log.info('Failed to write file', e);
-        }
-      } else {
-        const launchOptionsWithoutTicket = [
-          '-s',
-          `${launchOptions.ip}:${launchOptions.port}`,
-        ];
-        if (
-          launchOptions.noLogEnabled !== undefined &&
-          launchOptions.noLogEnabled !== 'false'
-        ) {
-          launchOptionsWithoutTicket.push('-nolog');
-        }
-        if (launchOptions.config !== undefined && launchOptions.config !== '') {
-          launchOptionsWithoutTicket.push('-c', launchOptions.config);
-        }
-        event.reply('setActiveGame', [launchOptions.name, true]);
-        games[launchOptions.name] = spawn(
-          launchOptions.exePath,
-          launchOptionsWithoutTicket
-        );
-        games[launchOptions.name].on('close', () => {
-          event.reply('setActiveGame', [launchOptions.name, false]);
-        });
-      }
+      // Start waiting for the patch
+      checkForPatch();
     }
   );
 

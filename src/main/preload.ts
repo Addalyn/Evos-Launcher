@@ -16,6 +16,7 @@ export type Channels =
   | 'download-progress-completed'
   | 'cancel-download-game'
   | 'quitAndInstall'
+  | 'set-show-all-chat'
   | 'message';
 
 const electronHandler = {
@@ -59,6 +60,9 @@ const electronHandler = {
     },
     restartApp() {
       ipcRenderer.invoke('quitAndInstall');
+    },
+    setShowAllChat(enabled: string) {
+      ipcRenderer.invoke('set-show-all-chat', enabled);
     },
   },
   store: {
