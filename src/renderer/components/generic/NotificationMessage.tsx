@@ -59,16 +59,18 @@ function NotificationMessage() {
   return (
     <div>
       {enabled && (
-        <div
-          style={{
-            backgroundImage: `url(${special})`,
-            backgroundRepeat: 'repeat-x',
-            width: specialWidth,
-            height: specialHeight,
-          }}
-        />
+        <>
+          <div
+            style={{
+              backgroundImage: `url(${special})`,
+              backgroundRepeat: 'repeat-x',
+              width: specialWidth,
+              height: specialHeight,
+            }}
+          />
+          <br />
+        </>
       )}
-      <br />
       {notice !== '' && (
         <Paper elevation={5} sx={{ width: '100%', height: '65px' }}>
           <Alert

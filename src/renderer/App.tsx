@@ -187,7 +187,6 @@ export default function App() {
                       }}
                     >
                       <Updater />
-                      <NotificationMessage />
                       <LoginPage />
                     </Box>
                   </Box>
@@ -224,6 +223,7 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
+                    <NotificationMessage />
                     <Updater />
                     <StatsPage />
                   </Box>

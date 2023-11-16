@@ -1,3 +1,11 @@
+# 1.4.2 - The Christmas Update - fixed
+
+- Added an auto patcher, so we can patch the game without having to manualy download the patch files (perks of the laucher),
+  this is mostly for christmas map but can be used for other things in the future
+- Some fixes to All chat function
+- Added a backup notifications and motd message incase main server is down
+- Added so we can add something to the launcher that will show up in the launcher in due time :P
+
 # 1.4.1 - The Christmas Update
 
 - Added an auto patcher, so we can patch the game without having to manualy download the patch files (perks of the laucher),
