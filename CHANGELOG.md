@@ -1,3 +1,7 @@
+# 1.4.6 - The Christmas Update - Disable launching game
+
+- Unable to launch the game if you do not have the Christmas map installed
+
 # 1.4.5 - The Christmas Update - map stats
 
 - Add the Christmas map to the stats pages

@@ -476,6 +476,35 @@ const createWindow = async () => {
             );
           }
 
+          const filePath = `${launchOptions.exePath.replace(
+            'AtlasReactor.exe',
+            ''
+          )}AtlasReactor_Data\\Bundles\\scenes\\testing.json`;
+
+          console.log(`Checking for file: ${filePath}`);
+
+          try {
+            const fileExistsTesting = fs.existsSync(filePath);
+
+            if (fileExistsTesting) {
+              console.log('File exists!');
+            } else {
+              console.log('File does not exist.');
+              sendStatusToWindow(
+                mainWindow as BrowserWindow,
+                `Unable to launch game: The required Christmas map is not installed. (Check discord for installation instructions)`
+              );
+              return;
+            }
+          } catch (error) {
+            console.error('Error checking file existence:', error);
+            sendStatusToWindow(
+              mainWindow as BrowserWindow,
+              `An error occurred while checking for the required Christmas map.`
+            );
+            return;
+          }
+
           if (launchOptions.ticket) {
             const { ticket } = launchOptions;
             const tempPath = app.getPath('temp');
