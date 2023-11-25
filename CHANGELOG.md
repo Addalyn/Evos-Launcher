@@ -1,3 +1,7 @@
+# 1.4.5 - The Christmas Update - map stats
+
+- Add the Christmas map to the stats pages
+
 # 1.4.4 - The Christmas Update - v3 can thing just work as they should
 
 - Added a setting to disable auto patching if you encounter issues with it.

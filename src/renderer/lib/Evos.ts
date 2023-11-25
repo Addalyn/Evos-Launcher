@@ -59,6 +59,7 @@ export enum MapType {
   Reactor_Deathmatch = 'Omni Reactor Core',
   RobotFactory_Deathmatch = 'Hyperforge',
   Skyway_Deathmatch = 'Cloudspire',
+  SkywaySnow_Deathmatch = 'Christmas Cloudspire',
   Unknown_Map = 'Unknown Map',
 }
 

@@ -246,6 +246,7 @@ export default function PreviousGamesPlayed() {
 
   const maps = [
     'All Maps',
+    'Christmas Cloudspire',
     'Omni Reactor Core',
     'EvoS Labs',
     'Oblivion',
