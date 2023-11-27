@@ -26,6 +26,7 @@ import {
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import ForumIcon from '@mui/icons-material/Forum';
 import InfoIcon from '@mui/icons-material/Info';
 import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -47,6 +48,12 @@ const pages = [
   { title: 'Global Stats', href: '/stats', icon: <BarChartIcon /> },
   { title: 'Personal Stats', href: '/playerstats', icon: <BarChartIcon /> },
   { title: 'Previous Games', href: '/previousgames', icon: <HistoryIcon /> },
+  {
+    title: 'Join Discord',
+    href: 'https://discord.gg/evos-atlasreactor',
+    icon: <ForumIcon />,
+    exsternal: true,
+  },
   { title: 'Settings', href: '/settings', icon: <SettingsIcon /> },
   { title: 'Download', href: '/download', icon: <DownloadIcon /> },
   { title: 'About', href: '/about', icon: <InfoIcon /> },
@@ -90,6 +97,7 @@ export default function NavBar() {
   const [error, setError] = useState<EvosError>();
   const { width } = useWindowDimensions();
   const [motd, setMotd] = useState<string>('');
+  const [isPatching, setIsPatching] = useState(false);
 
   useEffect(() => {
     async function get() {
@@ -157,7 +165,12 @@ export default function NavBar() {
     }));
   };
 
+  const handleIsPatching = (event: any) => {
+    setIsPatching(event);
+  };
+
   window.electron.ipcRenderer.on('setActiveGame', handleSetActiveGame);
+  window.electron.ipcRenderer.on('handleIsPatching', handleIsPatching);
 
   const handleLaunchGameClick = () => {
     if (!activeGames[activeUser?.user as string]) {
@@ -252,7 +265,9 @@ export default function NavBar() {
                             : theme.palette.primary.light,
                       }}
                       disabled={
-                        !exePath.endsWith('AtlasReactor.exe') || isDownloading
+                        !exePath.endsWith('AtlasReactor.exe') ||
+                        isDownloading ||
+                        isPatching
                       }
                       onClick={handleLaunchGameClick}
                     >
@@ -402,6 +417,13 @@ export default function NavBar() {
                       sx={{ display: 'block' }}
                       disabled={isDownloading}
                       onClick={() => {
+                        if (page.exsternal) {
+                          window.electron.ipcRenderer.sendMessage(
+                            'openUrl',
+                            page.href
+                          );
+                          return;
+                        }
                         if (!isDownloading) navigate(page.href);
                       }}
                     >

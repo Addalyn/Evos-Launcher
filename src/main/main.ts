@@ -47,6 +47,8 @@ interface Config {
   exePath: string;
   gamePort: string;
   ticketEnabled: string;
+  showAllChat: string;
+  enablePatching: string;
 }
 
 const defaultConfig: Config = {
@@ -57,6 +59,8 @@ const defaultConfig: Config = {
   exePath: '',
   gamePort: '6050',
   ticketEnabled: 'true',
+  showAllChat: 'true',
+  enablePatching: 'true',
 };
 
 interface Games {
@@ -341,23 +345,38 @@ const createWindow = async () => {
   splash.loadURL(getAssetPath('splash.html'));
   splash.center();
 
-  const fileExists = await fs.promises
-    .access(configFilePath, fs.constants.F_OK)
-    .then(() => true)
-    .catch(() => false);
-
   async function createConfigFile() {
-    if (!fileExists) {
-      log.info('Config file does not exist, creating it...');
-      // Write the default config to the file
+    let existingConfig;
+
+    try {
+      // Try to read the existing config file
+      const configFileContent = await fs.promises.readFile(
+        configFilePath,
+        'utf-8'
+      );
+      existingConfig = JSON.parse(configFileContent);
+    } catch (error) {
+      log.info('Config file does not exist or is invalid, creating it...');
       await fs.promises.writeFile(
         configFilePath,
         JSON.stringify(defaultConfig, null, 2),
         'utf-8'
       );
+      return;
     }
+
+    // Check for missing properties in the existing config
+    const updatedConfig = { ...defaultConfig, ...existingConfig };
+
+    await fs.promises.writeFile(
+      configFilePath,
+      JSON.stringify(updatedConfig, null, 2),
+      'utf-8'
+    );
   }
+
   createConfigFile();
+
   ipcMain.handle('write-file', (event, args) => {
     fs.writeFileSync(
       configFilePath,
@@ -452,6 +471,8 @@ const createWindow = async () => {
       }
       applyAllChat(enableAllChat);
 
+      event.reply('handleIsPatching', true);
+
       if (enablePatching === 'true') {
         patching = true;
         await startDownloadPatch(
@@ -476,34 +497,51 @@ const createWindow = async () => {
             );
           }
 
-          const filePath = `${launchOptions.exePath.replace(
+          const basePath = launchOptions.exePath.replace(
             'AtlasReactor.exe',
             ''
-          )}AtlasReactor_Data\\Bundles\\scenes\\testing.json`;
+          );
+          const testingJsonPath = `${basePath}AtlasReactor_Data\\Bundles\\scenes\\testing.json`;
+          const testingBundlePath = `${basePath}AtlasReactor_Data\\Bundles\\scenes\\testing.bundle`;
+          const skywaySnowBundlePath = `${basePath}AtlasReactor_Data\\Bundles\\scenes\\skywaysnow_environment.bundle`;
 
-          console.log(`Checking for file: ${filePath}`);
+          const checkFile = (filePath: fs.PathLike, errorMessage: string) => {
+            console.log(`Checking for file: ${filePath}`);
+            try {
+              if (fs.existsSync(filePath)) {
+                console.log('File exists!');
+              } else {
+                console.log('File does not exist.');
+                throw errorMessage;
+              }
+            } catch (error) {
+              console.error('Error checking file existence:', error);
+              sendStatusToWindow(mainWindow as BrowserWindow, errorMessage);
+              throw error;
+            }
+          };
 
           try {
-            const fileExistsTesting = fs.existsSync(filePath);
-
-            if (fileExistsTesting) {
-              console.log('File exists!');
-            } else {
-              console.log('File does not exist.');
-              sendStatusToWindow(
-                mainWindow as BrowserWindow,
-                `Unable to launch game: The required Christmas map is not installed. (Check discord for installation instructions)`
-              );
-              return;
-            }
-          } catch (error) {
-            console.error('Error checking file existence:', error);
-            sendStatusToWindow(
-              mainWindow as BrowserWindow,
-              `An error occurred while checking for the required Christmas map.`
+            checkFile(
+              testingJsonPath,
+              `Unable to launch game: The required Christmas map (file: testing.json) is not installed. (Check discord for installation instructions)`
             );
+            checkFile(
+              testingBundlePath,
+              `Unable to launch game: The required Christmas map (file: testing.bundle) is not installed. (Check discord for installation instructions)`
+            );
+            checkFile(
+              skywaySnowBundlePath,
+              `Unable to launch game: The required Christmas map (file: skywaysnow_environment.bundle) is not installed. (Check discord for installation instructions)`
+            );
+          } catch (error) {
+            // Handle any errors that may have occurred during file checks
+            console.error('Error during file checks:', error);
+            event.reply('handleIsPatching', false);
             return;
           }
+
+          event.reply('handleIsPatching', false);
 
           if (launchOptions.ticket) {
             const { ticket } = launchOptions;
@@ -574,6 +612,11 @@ const createWindow = async () => {
   ipcMain.on('getAssetPath', (event) => {
     const assetPath = getAssetPath('./');
     event.reply('getAssetPath', assetPath);
+  });
+
+  ipcMain.on('openUrl', async (event, args) => {
+    console.log('Opening url:', args);
+    shell.openExternal(args);
   });
 
   ipcMain.handle('search-for-game', async (event) => {

@@ -11,6 +11,8 @@ export type Channels =
   | 'selected-file'
   | 'launch-game'
   | 'setActiveGame'
+  | 'openUrl'
+  | 'handleIsPatching'
   | 'close-game'
   | 'download-progress'
   | 'download-progress-completed'

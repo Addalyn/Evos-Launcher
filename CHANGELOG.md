@@ -1,3 +1,10 @@
+# 1.5.0 - The Bugfix Update
+
+- There was a bug that all chat was not enabled on newly created config files or update it if they did not toggle it on and off, this is now fixed.
+- Before launching the game it checks for the 3 files that are needed for the Christmas map, and notify you if they are missing.
+- Can no longer spam launch game while patching is going on.
+- Added a Join Discord.
+
 # 1.4.6 - The Christmas Update - Disable launching game
 
 - Unable to launch the game if you do not have the Christmas map installed
