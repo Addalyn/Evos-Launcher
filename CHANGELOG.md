@@ -1,3 +1,7 @@
+# 1.5.1 - Fur-real
+
+- Added Nev:3 to the stats pages
+
 # 1.5.0 - The Bugfix Update
 
 - There was a bug that all chat was not enabled on newly created config files or update it if they did not toggle it on and off, this is now fixed.
