@@ -180,9 +180,19 @@ function sendStatusToWindow(win: BrowserWindow, text: string) {
 let patching: boolean = true;
 
 async function startDownloadPatch(downloadPath: string) {
-  worker = new NativeWorker(path.join(__dirname, 'downloadWorkerPatch.js'), {
-    workerData: { downloadPath },
-  });
+  worker = new NativeWorker(
+    path.join(
+      __dirname,
+      !app.isPackaged ? 'download/' : '',
+      'downloadWorker.js'
+    ),
+    {
+      workerData: {
+        downloadPath,
+        globalDownloadFile: 'https://misc.addalyn.baby/getfileurls.json',
+      },
+    }
+  );
 
   worker.on('message', (message) => {
     switch (message.type) {
@@ -230,9 +240,19 @@ async function startDownloadPatch(downloadPath: string) {
 }
 
 async function startDownload(downloadPath: string) {
-  worker = new NativeWorker(path.join(__dirname, 'downloadWorker.js'), {
-    workerData: { downloadPath },
-  });
+  worker = new NativeWorker(
+    path.join(
+      __dirname,
+      !app.isPackaged ? 'download/' : '',
+      'downloadWorker.js'
+    ),
+    {
+      workerData: {
+        downloadPath,
+        globalDownloadFile: 'https://media.addalyn.baby/getfileurls.json',
+      },
+    }
+  );
 
   worker.on('message', (message) => {
     switch (message.type) {
@@ -800,6 +820,25 @@ const createWindow = async () => {
       );
     });
     autoUpdater.checkForUpdates();
+  });
+
+  mainWindow.on('close', async function (e) {
+    e.preventDefault();
+    // if any games running
+    if (Object.keys(games).length > 0) {
+      const { response } = await dialog.showMessageBox({
+        type: 'question',
+        buttons: ['Yes', 'No'],
+        title: 'Confirm',
+        message:
+          'Are you sure you want to close the launcher? It will also close the game.',
+      });
+      if (response === 0) {
+        app.exit();
+      }
+    } else {
+      app.exit();
+    }
   });
 
   mainWindow.on('closed', () => {

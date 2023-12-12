@@ -104,7 +104,6 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
-                    <NotificationMessage />
                     <Updater />
                     <SettingsPage />
                   </Box>
@@ -119,7 +118,6 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
-                    <NotificationMessage />
                     <Updater />
                     <AboutPage />
                   </Box>
@@ -134,7 +132,6 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
-                    <NotificationMessage />
                     <Updater />
                     <ChangeLogPage />
                   </Box>
@@ -149,7 +146,6 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
-                    <NotificationMessage />
                     <Updater />
                     <DownloadPage />
                   </Box>
@@ -164,7 +160,6 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
-                    <NotificationMessage />
                     <Updater />
                     <AddAccountPage />
                   </Box>
@@ -223,7 +218,6 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
-                    <NotificationMessage />
                     <Updater />
                     <StatsPage />
                   </Box>
@@ -238,7 +232,6 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
-                    <NotificationMessage />
                     <Updater />
                     <PlayerStatsPage />
                   </Box>
@@ -253,7 +246,6 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
-                    <NotificationMessage />
                     <Updater />
                     <PreviousGamesPage />
                   </Box>

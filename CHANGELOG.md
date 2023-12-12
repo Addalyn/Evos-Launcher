@@ -1,3 +1,9 @@
+# 1.5.2 - Bugfixes
+
+- Implemented a confirmation dialog when attempting to close the launcher while the game is running.
+- Revised the download process once more; aiming to enhance stability for all users.
+- only show the notification message on main page. reduce clutter.
+
 # 1.5.1 - Fur-real
 
 - Added Nev:3 to the stats pages

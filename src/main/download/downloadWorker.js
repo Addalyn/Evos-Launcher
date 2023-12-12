@@ -1,95 +1,63 @@
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable no-useless-catch */
-/* eslint-disable no-constant-condition */
-/* eslint-disable no-await-in-loop */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-return-assign */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable consistent-return */
+/* eslint-disable prefer-promise-reject-errors */
+/* eslint-disable no-async-promise-executor */
+/* eslint-disable global-require */
 const { parentPort, workerData } = require('worker_threads');
-const fs = require('fs');
+const fs = require('fs-extra');
 const path = require('path');
 const util = require('util');
-const { default: axios } = require('axios');
 
 const delayCheckFiles = 100;
-const delayDownloadFiles = 500;
-const globaldownloadFile = 'https://media.addalyn.baby/getfileurls.json';
-const downloadOptions = {
-  manifest: '',
-  filedirectory: '',
-};
+const delayDownloadFiles = 100;
+const downloadOptions = { manifest: '', filedirectory: '' };
 
-async function writeChunk(writer, chunk) {
-  return new Promise((resolve, reject) => {
-    writer.write(Buffer.from(chunk), (error) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
-      }
-    });
-  });
-}
+function download(url, location, oneTry, progressCallback) {
+  const https = url.startsWith('https')
+    ? require('follow-redirects').https
+    : require('follow-redirects').http;
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!url) reject('Undefined URL');
+      if (await fs.pathExists(location)) await fs.remove(location);
+      await fs.ensureFile(location);
+      const target = fs.createWriteStream(location);
+      https
+        .get(url, (resp) => {
+          const size = Number(resp.headers['content-length']);
+          let bytesDone = 0;
+          let lastUpdate = 0;
+          const updateInterval = Math.ceil(size / 10);
+          progressCallback(0, 0);
+          resp.on('data', (chunk) => {
+            bytesDone += chunk.length;
+            if (bytesDone - lastUpdate >= updateInterval) {
+              const percent = Math.floor((bytesDone / size) * 100);
+              if (progressCallback) {
+                progressCallback(bytesDone, percent);
+              }
+              lastUpdate = bytesDone;
+            }
+          });
+          resp.pipe(target);
+          target.on('finish', () => {
+            target.close();
+            progressCallback(size, 100);
+            resolve(location);
+          });
+        })
 
-async function streamWithProgress(length, stream, writer, progressCallback) {
-  let bytesDone = 0;
-  let lastUpdate = 0;
-  const updateInterval = Math.ceil(length / 10); // Update every 10%
-
-  try {
-    for await (const chunk of stream) {
-      if (!chunk || chunk.length === undefined) {
-        throw new Error('Invalid chunk received during download');
-      }
-
-      if (chunk.length === 0) {
-        throw new Error('Empty chunk received during download');
-      }
-
-      await writeChunk(writer, chunk);
-      bytesDone += chunk.length;
-
-      if (bytesDone - lastUpdate >= updateInterval) {
-        const percent = Math.floor((bytesDone / length) * 100);
-        if (progressCallback) {
-          progressCallback(bytesDone, percent);
-        }
-        lastUpdate = bytesDone;
-      }
+        .on('error', (error) => {
+          if (!oneTry) return download(url, location, true, progressCallback);
+          fs.removeSync(target);
+          reject(error);
+        });
+    } catch (e) {
+      reject(e);
     }
-  } catch (error) {
-    throw error;
-  }
-
-  if (progressCallback) {
-    progressCallback(length, 100);
-  }
-}
-
-async function download(sourceUrl, targetFile, progressCallback) {
-  const response = await axios({
-    method: 'get',
-    url: sourceUrl,
-    responseType: 'stream', // Specify the response type as stream for handling large files
-    headers: {
-      'Content-Type': 'application/octet-stream',
-      'User-Agent': 'Evos Launcher',
-    },
   });
-
-  if (response.status !== 200) {
-    throw new Error(
-      `Unable to download, server returned ${response.status} ${response.statusText}`
-    );
-  }
-
-  const { data } = response;
-  const writer = fs.createWriteStream(targetFile);
-  const finalLength = Number(response.headers['content-length']) || 0;
-  progressCallback(0, 0);
-
-  await streamWithProgress(finalLength, data, writer, progressCallback);
-  writer.end();
-
-  return true;
 }
 
 async function doDownloadFile(downloadPath, file, totalBytes) {
@@ -102,17 +70,11 @@ async function doDownloadFile(downloadPath, file, totalBytes) {
     if (fs.existsSync(filePath)) {
       const stats = await util.promisify(fs.stat)(filePath);
       const fileSizeInBytes = stats.size;
-      if (totalBytes !== fileSizeInBytes) {
-        fs.unlinkSync(filePath);
-      } else {
+      if (totalBytes !== fileSizeInBytes) fs.unlinkSync(filePath);
+      else {
         parentPort.postMessage({
           type: 'progress',
-          data: {
-            filePath,
-            bytes: 0,
-            totalBytes: 0,
-            percent: 100,
-          },
+          data: { filePath, bytes: 0, totalBytes: 0, percent: 100 },
         });
         return true;
       }
@@ -120,22 +82,18 @@ async function doDownloadFile(downloadPath, file, totalBytes) {
 
     await new Promise((resolve) => {
       setTimeout(async () => {
-        const success = await download(fileUrl, filePath, (bytes, percent) =>
-          parentPort.postMessage({
-            type: 'progress',
-            data: {
-              fileUrl,
-              filePath,
-              bytes,
-              percent,
-              totalBytes,
-            },
-          })
+        const success = await download(
+          fileUrl,
+          filePath,
+          false,
+          (bytes, percent) =>
+            parentPort.postMessage({
+              type: 'progress',
+              data: { fileUrl, filePath, bytes, percent, totalBytes },
+            })
         );
 
-        setTimeout(() => {
-          resolve(success);
-        }, delayDownloadFiles);
+        setTimeout(() => resolve(success), delayDownloadFiles);
       }, delayCheckFiles);
     });
 
@@ -146,20 +104,15 @@ async function doDownloadFile(downloadPath, file, totalBytes) {
 }
 
 async function downloadFilesSequentially(downloadPath, lines, index) {
-  if (index >= lines.length) {
-    return true;
-  }
+  if (index >= lines.length) return true;
 
-  const line = lines[index];
-  const [file, _, totalBytesStr] = line.split(':');
+  const [file, _, totalBytesStr] = lines[index].split(':');
   const totalBytes = Number(totalBytesStr);
 
-  if (file === 'f') {
-    return true;
-  }
+  if (file === 'f') return true;
 
   try {
-    const success = await doDownloadFile(downloadPath, file, totalBytes);
+    await doDownloadFile(downloadPath, file, totalBytes);
     return downloadFilesSequentially(downloadPath, lines, index + 1);
   } catch (error) {
     parentPort.postMessage({
@@ -170,15 +123,9 @@ async function downloadFilesSequentially(downloadPath, lines, index) {
   }
 }
 
-async function getGlobalFileUrls() {
-  const request = new Request(globaldownloadFile, {
-    headers: new Headers({
-      'Content-Type': 'application/json',
-      'User-Agent': 'Evos Launcher',
-    }),
-  });
+async function getGlobalFileUrls(globalDownloadFile) {
+  const response = await fetch(globalDownloadFile);
 
-  const response = await fetch(request);
   if (!response.ok) {
     throw new Error(
       `Unable to download, server returned ${response.status} ${response.statusText}`
@@ -192,15 +139,16 @@ async function getGlobalFileUrls() {
 
 async function runWorker() {
   try {
-    const { downloadPath } = workerData;
-    await getGlobalFileUrls();
+    const { downloadPath, globalDownloadFile } = workerData;
+    await getGlobalFileUrls(globalDownloadFile);
 
     const urlParts = downloadOptions.manifest.split('/');
     const fileName = urlParts[urlParts.length - 1];
 
     const finish = await download(
-      `${downloadOptions.manifest}`,
+      downloadOptions.manifest,
       `${downloadPath}/${fileName}`,
+      false,
       (bytes, percent) => {
         parentPort.postMessage({
           type: 'progress',
