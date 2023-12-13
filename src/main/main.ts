@@ -5,7 +5,6 @@
 /* eslint global-require: off, no-console: off, promise/always-return: off */
 import path from 'path';
 import fs from 'fs';
-import util from 'util';
 import {
   app,
   BrowserWindow,
@@ -433,6 +432,7 @@ const createWindow = async () => {
     if (response === 0) {
       event.reply('setActiveGame', [args, false]);
       games[args].kill();
+      delete games[args];
     }
   });
 
@@ -590,6 +590,7 @@ const createWindow = async () => {
               games[launchOptions.name].on('close', () => {
                 event.reply('setActiveGame', [launchOptions.name, false]);
                 sendStatusToWindow(mainWindow as BrowserWindow, '');
+                delete games[launchOptions.name];
               });
             } catch (e) {
               log.info('Failed to write file', e);
@@ -619,6 +620,7 @@ const createWindow = async () => {
             games[launchOptions.name].on('close', () => {
               event.reply('setActiveGame', [launchOptions.name, false]);
               sendStatusToWindow(mainWindow as BrowserWindow, '');
+              delete games[launchOptions.name];
             });
           }
         }

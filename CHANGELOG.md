@@ -1,3 +1,7 @@
+# 1.5.3
+
+- Fixed still getting warning if you try to close the launcher and game is no longer running
+
 # 1.5.2 - Bugfixes
 
 - Implemented a confirmation dialog when attempting to close the launcher while the game is running.

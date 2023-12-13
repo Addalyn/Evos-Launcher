@@ -1,6 +1,7 @@
 import { Paper, Alert, AlertColor } from '@mui/material';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import Snowfall from 'react-snowfall';
 import { getNotification } from 'renderer/lib/Evos';
 
 function NotificationMessage() {
@@ -10,6 +11,8 @@ function NotificationMessage() {
   const [specialWidth, setSpecialWidth] = useState<string>('100%');
   const [specialHeight, setSpecialHeight] = useState<string>('90px');
   const [enabled, setEnabled] = useState<boolean>();
+  const [snowflakeCount, setSnowflakeCount] = useState<number>(200);
+  const [snowflakeColor, setSnowflakeColor] = useState<string>('white');
 
   useEffect(() => {
     async function get() {
@@ -22,6 +25,8 @@ function NotificationMessage() {
         setSpecialWidth(resp.data.width);
         setSpecialHeight(resp.data.height);
         setEnabled(resp.data.enabled);
+        setSnowflakeCount(resp.data.snowflakeCount);
+        setSnowflakeColor(resp.data.snowflakeColor);
       } catch (e) {
         setSpecial('');
         setEnabled(false);
@@ -55,11 +60,23 @@ function NotificationMessage() {
 
     get();
   }, []);
-
   return (
     <div>
-      {enabled && (
+      {snowflakeCount > 0 && (
+        <Snowfall
+          color={snowflakeColor}
+          snowflakeCount={snowflakeCount}
+          style={{
+            position: 'fixed',
+            width: '100vw',
+            height: '100vh',
+            zIndex: 99999999,
+          }}
+        />
+      )}
+      {enabled && window.location.href.split('#')[1] === '/' && (
         <>
+          {}
           <div
             style={{
               backgroundImage: `url(${special})`,
