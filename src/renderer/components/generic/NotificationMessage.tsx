@@ -38,20 +38,7 @@ function NotificationMessage() {
           setSeverity(resp.data.severity);
         })
         .catch(async () => {
-          try {
-            const resp = await axios.get(
-              `https://misc.addalyn.baby/notification.json?rand=${Math.random()}`,
-              { headers: { accept: 'application/json' } }
-            );
-            if (resp.data.text === '') {
-              setNotice('');
-            } else {
-              setNotice(resp.data.text);
-            }
-            setSeverity(resp.data.severity);
-          } catch (e) {
-            setNotice('');
-          }
+          setNotice('');
         });
       setTimeout(() => {
         get();
@@ -75,18 +62,14 @@ function NotificationMessage() {
         />
       )}
       {enabled && window.location.href.split('#')[1] === '/' && (
-        <>
-          {}
-          <div
-            style={{
-              backgroundImage: `url(${special})`,
-              backgroundRepeat: 'repeat-x',
-              width: specialWidth,
-              height: specialHeight,
-            }}
-          />
-          <br />
-        </>
+        <div
+          style={{
+            backgroundImage: `url(${special})`,
+            backgroundRepeat: 'repeat-x',
+            width: specialWidth,
+            height: specialHeight,
+          }}
+        />
       )}
       {notice !== '' && (
         <Paper elevation={5} sx={{ width: '100%', height: '65px' }}>

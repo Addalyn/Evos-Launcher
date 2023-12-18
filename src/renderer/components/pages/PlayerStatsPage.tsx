@@ -5,11 +5,12 @@ import { Box, Paper, Tab, Tabs, Typography, Grid } from '@mui/material';
 import useWindowDimensions from 'renderer/lib/useWindowDimensions';
 import EvosStore from 'renderer/lib/EvosStore';
 import { useLocation } from 'react-router-dom';
+import { PlayerData, getPlayerData } from 'renderer/lib/Evos';
 import GamesPlayedMontly from '../stats/GamesPlayedMontly';
 import GamesPlayedCharacter from '../stats/GamesPlayedCharacter';
 import PlayerStats from '../stats/PlayerStats';
-import PlayerWinRate from '../stats/PlayerStatsWinRate';
 import GamesWinsMontly from '../stats/GamesWinsMontly';
+import Player from '../atlas/Player';
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -57,6 +58,7 @@ export default function PlayerStatsPage() {
   const [value1, setValue1] = useState(0);
   const [value2, setValue2] = useState(0);
   const [playerSearch, setPlayerSearch] = useState('');
+  const [playerData, setPlayerData] = useState<PlayerData>();
   const { width } = useWindowDimensions();
   const { activeUser } = EvosStore();
   const { search } = useLocation();
@@ -87,6 +89,19 @@ export default function PlayerStatsPage() {
   const handleChange2 = (event: React.SyntheticEvent, newValue: number) => {
     setValue2(newValue);
   };
+
+  useEffect(() => {
+    if (playerSearch === '') {
+      return;
+    }
+    getPlayerData(activeUser?.token ?? '', playerSearch)
+      // eslint-disable-next-line promise/always-return
+      .then((resp) => {
+        setPlayerData(resp.data);
+      })
+      .catch(() => setPlayerData(undefined));
+  }, [playerSearch, activeUser]);
+
   const mapTabs = [
     'All Maps',
     'Christmas Cloudspire',
@@ -113,6 +128,7 @@ export default function PlayerStatsPage() {
           padding: '1em',
         }}
       >
+        <Player info={playerData} />
         <Grid container spacing={2}>
           <Grid item xs={4}>
             <PlayerStats action="totaltakedowns" player={playerSearch} />
@@ -132,7 +148,15 @@ export default function PlayerStatsPage() {
           <Grid item xs={4}>
             <PlayerStats action="totaldamagereceived" player={playerSearch} />
           </Grid>
-          <PlayerWinRate player={playerSearch} />
+          <Grid item xs={4}>
+            Omni: {playerData?.factionData?.factions[0]}
+          </Grid>
+          <Grid item xs={4}>
+            Evos: {playerData?.factionData?.factions[1]}
+          </Grid>
+          <Grid item xs={4}>
+            Warbotics: {playerData?.factionData?.factions[2]}
+          </Grid>
         </Grid>
       </Paper>
       <Paper

@@ -15,6 +15,7 @@ import useInterval from '../../lib/useInterval';
 import useHasFocus from '../../lib/useHasFocus';
 import Server from '../atlas/Server';
 import Queue from '../atlas/Queue';
+import TrustBar from '../generic/TrustBar';
 
 function GroupBy<V, K>(key: (item: V) => K, list?: V[]) {
   return list?.reduce((res, p) => {
@@ -98,6 +99,9 @@ function StatusPage() {
 
   return (
     <>
+      {status?.factionsEnabled && (
+        <TrustBar factionsData={status?.factionsData} />
+      )}
       {loading && <LinearProgress />}
       {error && (
         <Alert severity="error">

@@ -4,11 +4,10 @@ import { ButtonBase, styled, Typography, useTheme } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { PlayerData } from '../../lib/Evos';
 import { BgImage } from '../generic/BasicComponents';
-import { BannerType, playerBanner } from '../../lib/Resources';
+import { BannerType, playerBanner, trustIcon } from '../../lib/Resources';
 
 interface Props {
   info?: PlayerData;
-  greyOut?: boolean;
 }
 
 const ImageTextWrapper = styled('span')(({ theme }) => ({
@@ -22,7 +21,7 @@ const ImageTextWrapper = styled('span')(({ theme }) => ({
     '1px 1px 2px black, -1px -1px 2px black, 1px -1px 2px black, -1px 1px 2px black',
 }));
 
-function Player({ info, greyOut }: Props) {
+function Player({ info }: Props) {
   let username = 'OFFLINE';
   let discriminator;
   if (info) {
@@ -46,7 +45,7 @@ function Player({ info, greyOut }: Props) {
         fontSize: '8px',
         position: 'relative',
         display: 'inline-flex',
-        opacity: greyOut ? 0.5 : 1,
+        opacity: 1,
       }}
     >
       <ButtonBase
@@ -128,6 +127,58 @@ function Player({ info, greyOut }: Props) {
             </Typography>
           </ImageTextWrapper>
         )}
+        {info?.factionData?.selectedRibbonID !== undefined &&
+          info?.factionData?.selectedRibbonID !== -1 &&
+          info?.factionData?.selectedRibbonID <= 3 &&
+          (() => {
+            let bcolor;
+            let tcolor;
+            let faction = 'evos';
+
+            if (info.factionData.selectedRibbonID === 2) {
+              bcolor = '#843bbb';
+              tcolor = '#b57ae0';
+              faction = 'omni';
+            }
+            if (info.factionData.selectedRibbonID === 1) {
+              bcolor = '#327d7b';
+              tcolor = '#4fcfcc';
+              faction = 'evos';
+            }
+            if (info.factionData.selectedRibbonID === 3) {
+              bcolor = '#919257';
+              tcolor = '#f4f779';
+              faction = 'warbotics';
+            }
+
+            return (
+              <ImageTextWrapper
+                style={{
+                  bottom: '2%',
+                  fontSize: '1.7em',
+                  zIndex: 1000,
+                  marginLeft: '143px',
+                  marginBottom: '-5px',
+                }}
+              >
+                <img
+                  style={{
+                    width: 25,
+                    height: 25,
+                    padding: '0px',
+                    zIndex: 1000,
+                    flex: 'none',
+                    backgroundColor: bcolor,
+                    // @ts-ignore
+                    transform: theme.transform.skewA,
+                    border: `1px solid ${tcolor}`, // Fix the border property
+                  }}
+                  alt="Avatar"
+                  src={trustIcon(faction)}
+                />
+              </ImageTextWrapper>
+            );
+          })()}
       </div>
     </div>
   );

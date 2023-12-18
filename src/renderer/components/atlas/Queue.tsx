@@ -33,7 +33,6 @@ function Queue({ queueInfo, groupData, playerData, hidePlayers }: Props) {
                 key={`group_${groupId}`}
                 info={info}
                 playerData={playerData}
-                hidePlayers={hidePlayers}
               />
             )
           );

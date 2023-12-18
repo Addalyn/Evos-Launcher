@@ -28,3 +28,7 @@ export function characterIcon(characterType: CharacterType) {
 export function mapMiniPic(map: MapType) {
   return `${path}/img/maps/mini/${map}.png`;
 }
+
+export function trustIcon(trust: string) {
+  return `${path}/img/trusts/TrustIcon_${trust}.png`;
+}

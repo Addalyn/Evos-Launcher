@@ -1,3 +1,11 @@
+# 1.5.4 - The Trustwar Update
+
+- Added trustwar in main page
+- Added icons on players with trust they stupport
+- removed motd and notifications requests from api server for now and use my own to reduce failed requests untill its implemented in the api server
+- Removed the grey out effect on Players
+- some misc fixes
+
 # 1.5.3
 
 - Fixed still getting warning if you try to close the launcher and game is no longer running

@@ -63,12 +63,18 @@ export enum MapType {
   Unknown_Map = 'Unknown Map',
 }
 
+export interface factionData {
+  factions: number[];
+  selectedRibbonID: number;
+}
+
 export interface PlayerData {
   accountId: number;
   handle: string;
   bannerBg: number;
   bannerFg: number;
   status: string;
+  factionData: factionData;
 }
 
 export interface GroupData {
@@ -115,6 +121,8 @@ export interface Status {
   queues: QueueData[];
   servers: ServerData[];
   games: GameData[];
+  factionsData: number[];
+  factionsEnabled: boolean;
 }
 
 export interface TextNotification {
@@ -124,6 +132,11 @@ export interface TextNotification {
 
 export interface TextMotd {
   text: string;
+}
+
+export interface TrustWar {
+  factions: number[];
+  selectedRibbonID?: number;
 }
 
 export function asDate(date?: string): Date | undefined {
@@ -194,15 +207,21 @@ export async function getStatus() {
 }
 
 export async function getMotd() {
-  const ip = await window.electron.store.getItem('ip');
-  const baseUrl = `https://${ip}`;
-  return axios.get<TextMotd>(`${baseUrl}/api/lobby/motd`);
+  // const ip = await window.electron.store.getItem('ip');
+  // const baseUrl = `https://${ip}`;
+  // return axios.get<TextMotd>(`${baseUrl}/api/lobby/motd`);
+  return axios.get<TextNotification>(
+    `https://misc.addalyn.baby/motd.json?rand=${Math.random()}`
+  );
 }
 
 export async function getNotification() {
-  const ip = await window.electron.store.getItem('ip');
-  const baseUrl = `https://${ip}`;
-  return axios.get<TextNotification>(`${baseUrl}/api/lobby/notification`);
+  // const ip = await window.electron.store.getItem('ip');
+  // const baseUrl = `https://${ip}`;
+  // return axios.get<TextNotification>(`${baseUrl}/api/lobby/notification`);
+  return axios.get<TextNotification>(
+    `https://misc.addalyn.baby/notification.json?rand=${Math.random()}`
+  );
 }
 
 export async function getTicket(authHeader: string) {
@@ -211,6 +230,17 @@ export async function getTicket(authHeader: string) {
   return axios.get<Status>(`${baseUrl}/api/ticket`, {
     headers: { Authorization: `bearer ${authHeader}` },
   });
+}
+
+export async function getPlayerData(authHeader: string, queryParams: string) {
+  const ip = await window.electron.store.getItem('ip');
+  const baseUrl = `https://${ip}`;
+  return axios.get<PlayerData>(
+    `${baseUrl}/api/lobby/playerInfo?handle=${queryParams}`,
+    {
+      headers: { Authorization: `bearer ${authHeader}` },
+    }
+  );
 }
 
 export async function fetchGameInfo(action: string) {
