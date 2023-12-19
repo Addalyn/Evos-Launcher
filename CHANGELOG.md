@@ -1,3 +1,7 @@
+# 1.5.5
+
+- Added a new proxy server (located Finland)
+
 # 1.5.4 - The Trustwar Update
 
 - Added trustwar in main page

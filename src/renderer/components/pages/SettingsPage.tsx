@@ -337,6 +337,9 @@ export default function SettingsPage() {
                 <MenuItem value="arproxy2.addalyn.baby">
                   evos-emu.com (Proxy in France)
                 </MenuItem>
+                <MenuItem value="arproxy3.addalyn.baby">
+                  evos-emu.com (Proxy in Finland)
+                </MenuItem>
               </Select>
             </FormControl>
           </Grid>
