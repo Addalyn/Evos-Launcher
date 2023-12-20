@@ -4,14 +4,17 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Box, Paper, Tab, Tabs, Typography, Grid } from '@mui/material';
 import useWindowDimensions from 'renderer/lib/useWindowDimensions';
 import EvosStore from 'renderer/lib/EvosStore';
-import { useLocation } from 'react-router-dom';
-import { PlayerData, getPlayerData } from 'renderer/lib/Evos';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { PlayerData, getPlayerData, logout } from 'renderer/lib/Evos';
+import { EvosError, processError } from 'renderer/lib/Error';
 import GamesPlayedMontly from '../stats/GamesPlayedMontly';
 import GamesPlayedCharacter from '../stats/GamesPlayedCharacter';
 import PlayerStats from '../stats/PlayerStats';
 import GamesWinsMontly from '../stats/GamesWinsMontly';
 import Player from '../atlas/Player';
 import GamesPlayedStats from '../stats/GamesPlayedStats';
+import PlayerWinRate from '../stats/PlayerStatsWinRate';
+import ErrorDialog from '../generic/ErrorDialog';
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -59,8 +62,11 @@ export default function PlayerStatsPage() {
   const [playerSearch, setPlayerSearch] = useState('');
   const [playerData, setPlayerData] = useState<PlayerData>();
   const { width } = useWindowDimensions();
-  const { activeUser } = EvosStore();
+  const { activeUser, updateAuthenticatedUsers } = EvosStore();
   const { search } = useLocation();
+  const [error, setError] = useState<EvosError>();
+  const navigate = useNavigate();
+
   const searchParams = useMemo(
     () => new URLSearchParams(search) as ReadOnlyURLSearchParams,
     [search]
@@ -86,13 +92,24 @@ export default function PlayerStatsPage() {
     if (playerSearch === '') {
       return;
     }
+    const handleLogOut = () => {
+      logout(activeUser?.token ?? '');
+      updateAuthenticatedUsers(
+        activeUser?.user as string,
+        '',
+        activeUser?.handle as string,
+        activeUser?.banner as number,
+        activeUser?.configFile as string
+      );
+      navigate('/login');
+    };
     getPlayerData(activeUser?.token ?? '', playerSearch)
       // eslint-disable-next-line promise/always-return
       .then((resp) => {
         setPlayerData(resp.data);
       })
-      .catch(() => setPlayerData(undefined));
-  }, [playerSearch, activeUser]);
+      .catch((e) => processError(e, setError, navigate, handleLogOut));
+  }, [playerSearch, activeUser, navigate, updateAuthenticatedUsers]);
 
   const mapTabs = [
     'All Maps',
@@ -112,6 +129,9 @@ export default function PlayerStatsPage() {
 
   return (
     <>
+      {error && (
+        <ErrorDialog error={error} onDismiss={() => setError(undefined)} />
+      )}
       <Paper
         sx={{
           borderBottom: 1,
@@ -140,6 +160,7 @@ export default function PlayerStatsPage() {
           <Grid item xs={4}>
             <PlayerStats action="totaldamagereceived" player={playerSearch} />
           </Grid>
+          <PlayerWinRate player={playerSearch} />
           <Grid item xs={4}>
             Omni: {playerData?.factionData?.factions[0]}
           </Grid>

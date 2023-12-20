@@ -25,7 +25,9 @@ export function processError(
     error.response?.status === 500 ||
     error.response?.status === 502
   ) {
-    setError({ text: 'Altas Reactor Server is offline.' });
+    setError({
+      text: 'Altas Reactor Server is offline. Some Functions may be limited',
+    });
   } else {
     setError({ text: 'Unknown error try again.' });
   }

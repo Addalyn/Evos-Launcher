@@ -1,3 +1,9 @@
+# 1.6.1 - The Stats Update
+
+- Added Winrate back to the stats page
+- force relogin if api server says your are unothorized for stats page
+- when atlas reactor is offline say some functions may be limited with it
+
 # 1.6.0 - The Stats Update
 
 - Added More stats to the player stats page now includes total per freelancer and per map or all maps
