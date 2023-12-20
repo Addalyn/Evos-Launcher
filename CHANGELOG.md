@@ -1,3 +1,8 @@
+# 1.6.0 - The Stats Update
+
+- Added More stats to the player stats page now includes total per freelancer and per map or all maps
+- Consolidated Maps to one tab page instead of one per stats type
+
 # 1.5.5
 
 - Added a new proxy server (located Finland)

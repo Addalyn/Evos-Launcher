@@ -11,6 +11,7 @@ import GamesPlayedCharacter from '../stats/GamesPlayedCharacter';
 import PlayerStats from '../stats/PlayerStats';
 import GamesWinsMontly from '../stats/GamesWinsMontly';
 import Player from '../atlas/Player';
+import GamesPlayedStats from '../stats/GamesPlayedStats';
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -55,8 +56,6 @@ interface ReadOnlyURLSearchParams extends URLSearchParams {
 
 export default function PlayerStatsPage() {
   const [value, setValue] = useState(0);
-  const [value1, setValue1] = useState(0);
-  const [value2, setValue2] = useState(0);
   const [playerSearch, setPlayerSearch] = useState('');
   const [playerData, setPlayerData] = useState<PlayerData>();
   const { width } = useWindowDimensions();
@@ -83,13 +82,6 @@ export default function PlayerStatsPage() {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-  const handleChange1 = (event: React.SyntheticEvent, newValue: number) => {
-    setValue1(newValue);
-  };
-  const handleChange2 = (event: React.SyntheticEvent, newValue: number) => {
-    setValue2(newValue);
-  };
-
   useEffect(() => {
     if (playerSearch === '') {
       return;
@@ -184,56 +176,19 @@ export default function PlayerStatsPage() {
             <GamesPlayedMontly map={map} player={playerSearch} />
           </CustomTabPanel>
         ))}
-      </Paper>
-      <Paper
-        sx={{
-          borderBottom: 1,
-          borderColor: 'divider',
-          margin: '1em',
-          paddingBottom: '0px',
-        }}
-      >
-        <Tabs
-          value={value1}
-          onChange={handleChange1}
-          aria-label="Map Tabs"
-          variant="scrollable"
-          scrollButtons="auto"
-          sx={{ width: drawerWidth }}
-        >
-          {mapTabs.map((label, index) => (
-            <Tab label={label} key={index} {...a11yProps(index)} />
-          ))}
-        </Tabs>
         {mapTabs.map((map, index) => (
-          <CustomTabPanel key={index} value={value1} index={index}>
+          <CustomTabPanel key={index} value={value} index={index}>
             <GamesWinsMontly map={map} player={playerSearch} />
           </CustomTabPanel>
         ))}
-      </Paper>
-      <Paper
-        sx={{
-          borderBottom: 1,
-          borderColor: 'divider',
-          margin: '1em',
-          paddingBottom: '0px',
-        }}
-      >
-        <Tabs
-          value={value2}
-          onChange={handleChange2}
-          aria-label="Map Tabs"
-          variant="scrollable"
-          scrollButtons="auto"
-          sx={{ width: drawerWidth }}
-        >
-          {mapTabs.map((label, index) => (
-            <Tab label={label} key={index} {...a11yProps(index)} />
-          ))}
-        </Tabs>
         {mapTabs.map((map, index) => (
-          <CustomTabPanel key={index} value={value2} index={index}>
+          <CustomTabPanel key={index} value={value} index={index}>
             <GamesPlayedCharacter map={map} player={playerSearch} />
+          </CustomTabPanel>
+        ))}
+        {mapTabs.map((map, index) => (
+          <CustomTabPanel key={index} value={value} index={index}>
+            <GamesPlayedStats map={map} player={playerSearch} />
           </CustomTabPanel>
         ))}
       </Paper>
