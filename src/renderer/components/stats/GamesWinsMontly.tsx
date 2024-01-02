@@ -63,40 +63,16 @@ function formatDateForStrapi(date: Date) {
 }
 
 function getMonthFromString(mon: string) {
-  return new Date(Date.parse(`${mon} 1, 2012`)).getMonth() + 1;
+  return new Date(Date.parse(`${mon} 1, 2012`)).getMonth();
 }
 
-const fetchInfo = async (month: string, map: string, player: string) => {
+const fetchInfo = async (
+  map: string,
+  player: string,
+  startDate: string,
+  endDate: string
+) => {
   try {
-    const currentDate = new Date();
-    currentDate.setMonth(getMonthFromString(month));
-    const startDate = formatDateForStrapi(
-      new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth() - 1,
-        1,
-        2,
-        0,
-        0
-      )
-    );
-
-    const lastDay = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth(),
-      0
-    );
-    const endDate = formatDateForStrapi(
-      new Date(
-        lastDay.getFullYear(),
-        lastDay.getMonth(),
-        lastDay.getDate(),
-        23,
-        59,
-        59
-      )
-    );
-
     const strapi = strapiClient
       .from<DataItem>('games')
       .select(['teamwin'])
@@ -152,7 +128,38 @@ export default function GamesWinsMontly({ map, player }: Props) {
 
   useEffect(() => {
     async function fetchData() {
-      const dataPromises = labels.map((month) => fetchInfo(month, map, player));
+      const currentDate = new Date();
+      const currentYear = currentDate.getFullYear();
+
+      const dataPromises = labels.map((month) => {
+        let monthNumber = getMonthFromString(month);
+        let year = currentYear;
+
+        if (monthNumber > currentMonth) {
+          // If the month is in the previous year or the current month, adjust the year
+          year -= 1;
+        }
+
+        monthNumber += 1;
+        const startDate = formatDateForStrapi(
+          new Date(year, monthNumber - 1, 1, 2, 0, 0)
+        );
+
+        const lastDay = new Date(year, monthNumber, 0);
+        const endDate = formatDateForStrapi(
+          new Date(
+            lastDay.getFullYear(),
+            lastDay.getMonth(),
+            lastDay.getDate(),
+            23,
+            59,
+            59
+          )
+        );
+
+        return fetchInfo(map, player, startDate, endDate);
+      });
+
       const data = await Promise.all(dataPromises);
       // @ts-ignore
       setGameData(data);

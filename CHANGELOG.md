@@ -1,3 +1,8 @@
+# 1.6.2 - The Stats Fix
+
+- Bring back stats from previous year
+- small change in login page saying change ip with the reset button
+
 # 1.6.1 - The Stats Update
 
 - Added Winrate back to the stats page

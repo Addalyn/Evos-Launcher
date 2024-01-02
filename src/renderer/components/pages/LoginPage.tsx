@@ -255,7 +255,7 @@ export default function LoginPage() {
                     color: 'grey',
                   }}
                 >
-                  Reset Application
+                  Reset Application and change ip
                 </Button>
               </Grid>
               <Grid item xs={3}>
