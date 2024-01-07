@@ -1,3 +1,21 @@
+# 1.6.3 - The Logs
+
+- Added a log page to the launcher, this will show you the logs of the game
+  you can open the log file, and or open the directory where the log file is located
+- Logs are ordered by date, and the latest log is on top
+- Logs are formated and color coded, so you can see what is a warning, error, info, debug, etc
+- Logs are also color coded by the time of log, so you can see what is recent and what is old, red being recent and green being old
+- You wont be able to launch the game if
+  - 1: The game is in a OneDrive folder (this corrupts the game)
+  - 2: The game is not installed (duh)
+  - 3: The game is not installed in correct location, it needs drive:\<games folder>\Wind64\AtlasReactor.exe
+    - Correct locations: C:\Program Files (x86)\Steam\steamapps\common\Atlas Reactor\Games\Atlas Reactor\Live\Win64\Wind64\AtlasReactor.exe
+    - Correct locations: D:\Games\AtlasReactor\Wind64\AtlasReactor.exe
+    - Correct locations: E:\Atlas Reactor\Wind64\AtlasReactor.exe
+    - Bad locations: E:\Win64\AtlasReactor.exe
+    - Bad locations: D:\AtlasReactor.exe
+    - Bad locations: C:\Users\<user>\OneDrive\Docments\Atlas Reactor\Wind64\AtlasReactor.exe
+
 # 1.6.2 - The Stats Fix
 
 - Bring back stats from previous year

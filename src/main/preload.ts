@@ -19,6 +19,9 @@ export type Channels =
   | 'cancel-download-game'
   | 'quitAndInstall'
   | 'set-show-all-chat'
+  | 'getLogData'
+  | 'getLogContent'
+  | 'open-folder'
   | 'message';
 
 const electronHandler = {
@@ -65,6 +68,15 @@ const electronHandler = {
     },
     setShowAllChat(enabled: string) {
       ipcRenderer.invoke('set-show-all-chat', enabled);
+    },
+    getLogData(folder: string) {
+      return ipcRenderer.invoke('getLogData', folder);
+    },
+    getLogContent(file: string) {
+      return ipcRenderer.invoke('getLogContent', file);
+    },
+    openFolder(folder: string) {
+      ipcRenderer.invoke('open-folder', folder);
     },
   },
   store: {

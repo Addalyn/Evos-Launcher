@@ -151,6 +151,13 @@ async function readAndParseVDF(filePath: string, targetAppId: string) {
   }
 }
 
+const createFolderIfNotExists = (folderPath: string) => {
+  if (!fs.existsSync(folderPath)) {
+    fs.mkdirSync(folderPath, { recursive: true });
+    console.log(`Created folder: ${folderPath}`);
+  }
+};
+
 function convertLinuxPathToWindows(linuxPath: string, relativePath: string) {
   const pathParts = relativePath.split('/');
   const winPath = path.join('Z:', ...[linuxPath, ...pathParts]);
@@ -331,7 +338,7 @@ const createWindow = async () => {
   mainWindow = new BrowserWindow({
     show: false,
     width: 1250,
-    height: 728,
+    height: 740,
     minWidth: 800,
     minHeight: 400,
     autoHideMenuBar: true,
@@ -474,6 +481,62 @@ const createWindow = async () => {
     applyAllChat(args);
   });
 
+  ipcMain.handle('getLogData', async (event, args) => {
+    try {
+      const logFolder = args;
+      const folders = fs.readdirSync(logFolder);
+
+      const sortedData = folders
+        .map((folder) => {
+          const folderPath = path.join(logFolder, folder);
+          const files = fs.readdirSync(folderPath);
+          const sortedFiles = files
+            .map((file) => ({
+              name: file,
+              fullPath: path.join(folderPath, file),
+              size: fs.statSync(path.join(folderPath, file)).size,
+              lastModified: fs.statSync(path.join(folderPath, file)).mtimeMs,
+            }))
+            .sort((a, b) => b.lastModified - a.lastModified);
+          return {
+            name: folder,
+            fullPath: folderPath,
+            files: sortedFiles,
+          };
+        })
+        .sort((a, b) => {
+          // Sort folders based on the latest log file in each folder
+          const aLatest = a.files[0]?.lastModified || 0;
+          const bLatest = b.files[0]?.lastModified || 0;
+          return bLatest - aLatest;
+        });
+
+      return sortedData;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  });
+
+  ipcMain.handle('getLogContent', async (event, args) => {
+    try {
+      const logPath = args;
+      const content = fs.readFileSync(logPath, 'utf-8');
+      return content;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  });
+
+  ipcMain.handle('open-folder', async (event, args) => {
+    try {
+      shell.openPath(args);
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
   ipcMain.on(
     'launch-game',
     async (event: IpcMainEvent, args: { launchOptions: LaunchOptions }) => {
@@ -583,6 +646,14 @@ const createWindow = async () => {
                 launchOptionsWithTicket.push('-nolog');
               }
               event.reply('setActiveGame', [launchOptions.name, true]);
+
+              // Make sure we create a Log folder if it doesn't exist
+              const logFolderPath = path.join(
+                path.dirname(path.dirname(launchOptions.exePath)),
+                'Logs'
+              );
+              createFolderIfNotExists(logFolderPath);
+
               games[launchOptions.name] = spawn(
                 launchOptions.exePath,
                 launchOptionsWithTicket
@@ -613,6 +684,14 @@ const createWindow = async () => {
               launchOptionsWithoutTicket.push('-c', launchOptions.config);
             }
             event.reply('setActiveGame', [launchOptions.name, true]);
+
+            // Make sure we create a Log folder if it doesn't exist
+            const logFolderPath = path.join(
+              path.dirname(path.dirname(launchOptions.exePath)),
+              'Logs'
+            );
+            createFolderIfNotExists(logFolderPath);
+
             games[launchOptions.name] = spawn(
               launchOptions.exePath,
               launchOptionsWithoutTicket

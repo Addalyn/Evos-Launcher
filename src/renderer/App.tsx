@@ -25,6 +25,7 @@ import StatsPage from './components/pages/StatsPage';
 import PreviousGamesPage from './components/pages/PreviousGamesPage';
 import PlayerStatsPage from './components/pages/PlayerStatsPage';
 import NotificationMessage from './components/generic/NotificationMessage';
+import LogsPage from './components/pages/LogsPage';
 
 interface PageProps {
   title: string;
@@ -92,6 +93,21 @@ export default function App() {
                     <NotificationMessage />
                     <Updater />
                     <StatusPage />
+                  </Box>
+                </>
+              )}
+            />
+            <Route
+              path="/logs"
+              element={page(
+                'Settings',
+                <>
+                  <NavBar />
+                  <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <Toolbar />
+                    <NotificationMessage />
+                    <Updater />
+                    <LogsPage />
                   </Box>
                 </>
               )}

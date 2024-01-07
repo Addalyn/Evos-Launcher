@@ -32,3 +32,12 @@ export function processError(
     setError({ text: 'Unknown error try again.' });
   }
 }
+
+export function isValidExePath(path: string) {
+  const invalidPathRegex =
+    /[A-Za-z]:\\(?:.*\\)*OneDrive(?:.*\\)*Win64\\AtlasReactor.exe/;
+  const validPathRegex =
+    /^[A-Za-z]:\\[^\\]+\\(?:[^\\]+\\)*Win64\\AtlasReactor.exe$/;
+
+  return validPathRegex.test(path) && !invalidPathRegex.test(path);
+}

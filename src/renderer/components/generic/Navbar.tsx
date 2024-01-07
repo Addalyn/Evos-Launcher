@@ -33,10 +33,11 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import DownloadIcon from '@mui/icons-material/Download';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import HistoryIcon from '@mui/icons-material/History';
+import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import EvosStore from 'renderer/lib/EvosStore';
 import useWindowDimensions from 'renderer/lib/useWindowDimensions';
 import { getMotd, getTicket, logout } from 'renderer/lib/Evos';
-import { EvosError, processError } from 'renderer/lib/Error';
+import { EvosError, isValidExePath, processError } from 'renderer/lib/Error';
 import { BannerType, logo, playerBanner } from '../../lib/Resources';
 import ErrorDialog from './ErrorDialog';
 
@@ -54,6 +55,7 @@ const pages = [
     exsternal: true,
   },
   { title: 'Settings', href: '/settings', icon: <SettingsIcon /> },
+  { title: 'Game Logs', href: '/logs', icon: <TextSnippetIcon /> },
   { title: 'Download', href: '/download', icon: <DownloadIcon /> },
   { title: 'About', href: '/about', icon: <InfoIcon /> },
   { title: 'Changelog', href: '/changelog', icon: <GitHubIcon /> },
@@ -214,6 +216,12 @@ export default function NavBar() {
   } else {
     tooltipTitle = 'Select your Atlas Reactor Executable in Settings first';
   }
+
+  if (!isValidExePath(exePath)) {
+    tooltipTitle =
+      'Invalid Path, Select your Atlas Reactor Executable in Settings first';
+  }
+
   return (
     <>
       {error && (
@@ -258,7 +266,8 @@ export default function NavBar() {
                       disabled={
                         !exePath.endsWith('AtlasReactor.exe') ||
                         isDownloading ||
-                        isPatching
+                        isPatching ||
+                        !isValidExePath(exePath)
                       }
                       onClick={handleLaunchGameClick}
                     >
@@ -421,6 +430,7 @@ export default function NavBar() {
                       <ListItemButton>
                         <ListItemIcon>{page.icon}</ListItemIcon>
                         <ListItemText
+                          primaryTypographyProps={{ fontSize: '14px' }}
                           primary={page.title}
                           sx={{ display: { xs: 'none', md: 'flex' } }}
                         />

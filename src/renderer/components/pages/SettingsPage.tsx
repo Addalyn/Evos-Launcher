@@ -14,11 +14,13 @@ import {
   Select,
   MenuItem,
   Tooltip,
+  Alert,
 } from '@mui/material';
 import { logoSmall } from 'renderer/lib/Resources';
 import EvosStore from 'renderer/lib/EvosStore';
 import { changePassword, logout } from 'renderer/lib/Evos';
 import { useNavigate } from 'react-router-dom';
+import { isValidExePath } from 'renderer/lib/Error';
 
 export function truncateDynamicPath(filePath: string, maxChars: number) {
   if (filePath === '') return filePath;
@@ -265,6 +267,36 @@ export default function SettingsPage() {
       )}
       <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
         <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12}>
+            {!isValidExePath(exePath) && (
+              <Alert
+                severity="warning"
+                sx={{ display: 'flex', alignItems: 'center' }}
+              >
+                <span style={{ color: 'red' }}>
+                  Invalid Path
+                  <br />
+                  The path must:
+                  <ul>
+                    <li>Start with a drive letter (e.g., C:).</li>
+                    <li>
+                      Have at least one directory before
+                      &apos;Win64\AtlasReactor.exe.&apos;
+                      <br />
+                      example:
+                      &apos;C:\AtlasReactor\Win64\AtlasReactor.exe&apos; or
+                      &apos;C:\games\Atlas Reactor\Win64\AtlasReactor.exe&apos;
+                      etc..
+                    </li>
+                    <li>
+                      Not be located within a OneDrive folder. (this corrupts
+                      the game)
+                    </li>
+                  </ul>
+                </span>
+              </Alert>
+            )}
+          </Grid>
           <Grid item xs={6}>
             <TextField
               placeholder="Atlas Reactor path"
