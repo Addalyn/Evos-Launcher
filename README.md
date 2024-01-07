@@ -1,4 +1,6 @@
-![Build Status](https://github.com/Addalyn/Evos-Launcher/actions/workflows/publish.yml/badge.svg 'Build Status') ![Test Status](https://github.com/Addalyn/Evos-Launcher/actions/workflows/test.yml/badge.svg 'Test') ![CodeQL Status](https://github.com/Addalyn/Evos-Launcher/actions/workflows/codeql-analysis.yml/badge.svg 'CodeQL')
+![Build Status](https://github.com/Addalyn/Evos-Launcher/actions/workflows/publish.yml/badge.svg 'Build Status') ![Test Status](https://github.com/Addalyn/Evos-Launcher/actions/workflows/test.yml/badge.svg 'Test') ![CodeQL Status](https://github.com/Addalyn/Evos-Launcher/actions/workflows/codeql-analysis.yml/badge.svg 'CodeQL') 
+
+[![Support Us](https://img.shields.io/badge/Support%20Us-PayPal%20(Babymillie)-green.svg)](https://paypal.me/BabyAddalyn) [![Support Us](https://img.shields.io/badge/Support%20Us-qiwi%20(Zheneq)-green.svg)](https://donate.qiwi.com/payin/zheneq) [![Support Us](https://img.shields.io/badge/Support%20Us-boosty%20(Zheneq)-green.svg)](https://boosty.to/zheneq)
 
 [Join the Discord](https://discord.com/invite/RVnCQ7U)
 
@@ -30,9 +32,14 @@ We are thrilled to announce the release of **Evos Launcher**, a custom game laun
 ## Step 2: Configure the Atlas Reactor Server IP
 
 1. Launch Evos Launcher on your system.
-2. Look for the input field where it says "Atlas Reactor Server IP" and enter the server IP address (If you wish to know ours please join the discord and request access). (NO PORT NR) This step ensures a seamless connection to the Atlas Reactor server.
+2. Select the server you wish to connect to, This step ensures a seamless connection to the Atlas Reactor server.
 
-## Step 3: Login to Your Account
+## Step 3: Register Your Account (optional)
+
+1. Once the server IP is set, proceed to the Sign Up screen.
+2. Enter your username, password and the code you got in your private messages in discord, in the provided fields and click on the "Register Account" button. Voilà! You're now registerd and logged in and ready to embark on your gaming adventures.
+
+## Step 3: Login to Your Account (optional)
 
 1. Once the server IP is set, proceed to the login screen.
 2. Enter your username and password in the provided fields and click on the "Login" button. Voilà! You're now logged in and ready to embark on your gaming adventures.
@@ -42,6 +49,7 @@ We are thrilled to announce the release of **Evos Launcher**, a custom game laun
 1. Before launching the game, ensure you've set the correct Atlas Reactor executable path in the launcher settings.
 2. Navigate to the "Settings" section in Evos Launcher.
 3. Look for the "Atlas Reactor Executable Path" field and specify the correct path to your Atlas Reactor game executable on your system.
+4. Optionaly you can click on Search if you have game installed using steam
 
 ## Step 5: Launch the Game
 
@@ -58,7 +66,7 @@ If you wish to add another account to Evos Launcher, click on the drop-down menu
 
 Any Bug/Question/Feature request please go to [Evos Launcher Issues](https://github.com/Addalyn/Evos-Launcher/issues)
 
-**Side Note 1**: Closing the launcher will close the game instantly.
+**Side Note 1**: Closing the launcher will close the game instantly (it will ask you if you want to close it).
 
 **Side Note 2**: The app has auto-updates, so if there is a new release, the app will automatically update, much like Google Chrome.
 
