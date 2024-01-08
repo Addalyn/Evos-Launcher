@@ -273,6 +273,7 @@ function LogsPage() {
         }}
         pageSizeOptions={[5, 10, 25, 50, 100]}
         autoHeight
+        localeText={{ noRowsLabel: 'No log files, Start Playing!' }}
       />
       {selectedLog && (
         <Dialog

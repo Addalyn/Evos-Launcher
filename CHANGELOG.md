@@ -1,3 +1,10 @@
+# 1.6.4 - The Path Update
+
+- Added a warning if Atlas Reactor is installed in a Program Files folder, but not show the warning if its in a steam folder (you may still launch the game tho)
+  but if you cant install patches move the game to a difrent location.
+  - Warning Locations: C:\Program Files\ar\Win64\AtlasReactor.exe
+- fixed typos in Changelog it was late last night
+
 # 1.6.3 - The Logs
 
 - Added a log page to the launcher, this will show you the logs of the game
@@ -8,13 +15,13 @@
 - You wont be able to launch the game if
   - 1: The game is in a OneDrive folder (this corrupts the game)
   - 2: The game is not installed (duh)
-  - 3: The game is not installed in correct location, it needs drive:\<games folder>\Wind64\AtlasReactor.exe
-    - Correct locations: C:\Program Files (x86)\Steam\steamapps\common\Atlas Reactor\Games\Atlas Reactor\Live\Win64\Wind64\AtlasReactor.exe
-    - Correct locations: D:\Games\AtlasReactor\Wind64\AtlasReactor.exe
-    - Correct locations: E:\Atlas Reactor\Wind64\AtlasReactor.exe
+  - 3: The game is not installed in correct location, it needs drive:\<games folder>\Win64\AtlasReactor.exe
+    - Correct locations: C:\Program Files (x86)\Steam\steamapps\common\Atlas Reactor\Games\Atlas Reactor\Live\Win64\Win64\AtlasReactor.exe
+    - Correct locations: D:\Games\AtlasReactor\Win64\AtlasReactor.exe
+    - Correct locations: E:\Atlas Reactor\Win64\AtlasReactor.exe
     - Bad locations: E:\Win64\AtlasReactor.exe
     - Bad locations: D:\AtlasReactor.exe
-    - Bad locations: C:\Users\<user>\OneDrive\Docments\Atlas Reactor\Wind64\AtlasReactor.exe
+    - Bad locations: C:\Users\<user>\OneDrive\Docments\Atlas Reactor\Win64\AtlasReactor.exe
 
 # 1.6.2 - The Stats Fix
 

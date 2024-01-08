@@ -20,7 +20,7 @@ import { logoSmall } from 'renderer/lib/Resources';
 import EvosStore from 'renderer/lib/EvosStore';
 import { changePassword, logout } from 'renderer/lib/Evos';
 import { useNavigate } from 'react-router-dom';
-import { isValidExePath } from 'renderer/lib/Error';
+import { isValidExePath, isWarningPath } from 'renderer/lib/Error';
 
 export function truncateDynamicPath(filePath: string, maxChars: number) {
   if (filePath === '') return filePath;
@@ -267,13 +267,13 @@ export default function SettingsPage() {
       )}
       <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={12}>
-            {!isValidExePath(exePath) && (
+          {!isValidExePath(exePath) && (
+            <Grid item xs={12}>
               <Alert
-                severity="warning"
+                severity="error"
                 sx={{ display: 'flex', alignItems: 'center' }}
               >
-                <span style={{ color: 'red' }}>
+                <span>
                   Invalid Path
                   <br />
                   The path must:
@@ -295,8 +295,32 @@ export default function SettingsPage() {
                   </ul>
                 </span>
               </Alert>
-            )}
-          </Grid>
+            </Grid>
+          )}
+          {isWarningPath(exePath) && (
+            <Grid item xs={12}>
+              <Alert
+                severity="warning"
+                sx={{ display: 'flex', alignItems: 'center' }}
+              >
+                <span>
+                  Warning
+                  <br />
+                  The path must:
+                  <ul>
+                    <li>
+                      Not be located within the Program Files or Program Files
+                      (x86) directory, exept for a Steam folder, doing so may
+                      fail to patch the game.
+                      <br />
+                      It&apos;s recommended to move the game outside of Program
+                      Files.
+                    </li>
+                  </ul>
+                </span>
+              </Alert>
+            </Grid>
+          )}
           <Grid item xs={6}>
             <TextField
               placeholder="Atlas Reactor path"

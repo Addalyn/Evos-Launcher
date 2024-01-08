@@ -41,3 +41,13 @@ export function isValidExePath(path: string) {
 
   return validPathRegex.test(path) && !invalidPathRegex.test(path);
 }
+
+export function isWarningPath(path: string) {
+  const regexProgramFiles = /[A-Za-z]:\\Program Files( \(x86\))?\\.*$/i;
+  const regexSteamCommon = /[A-Za-z]:\\.*\\steam\\steamapps\\common\\.*$/i;
+
+  if (regexProgramFiles.test(path)) {
+    return !regexSteamCommon.test(path);
+  }
+  return false;
+}
