@@ -1,3 +1,7 @@
+# 1.6.5
+
+- Fix missing banners (Zheneq)
+
 # 1.6.4 - The Path Update
 
 - Added a warning if Atlas Reactor is installed in a Program Files folder, but not show the warning if its in a steam folder (you may still launch the game tho)
