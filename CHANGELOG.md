@@ -1,3 +1,9 @@
+# 1.7.0
+
+- Make sure that if you download the game true launcher it will make a new folder AtlasReactor (incase they install it directly in "drive:\")
+- Add a retry count to the launcher, if it fails to download the game it will retry 3 times before giving up
+- updated packages (react, electron, etc)
+
 # 1.6.5
 
 - Fix missing banners (Zheneq)

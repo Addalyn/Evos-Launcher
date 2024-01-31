@@ -60,7 +60,7 @@ function download(url, location, oneTry, progressCallback) {
   });
 }
 
-async function doDownloadFile(downloadPath, file, totalBytes) {
+async function doDownloadFile(downloadPath, file, totalBytes, retryCount = 0) {
   try {
     const fileUrl = `${downloadOptions.filedirectory}/${file}`;
     const filePath = path.join(downloadPath, file);
@@ -93,7 +93,26 @@ async function doDownloadFile(downloadPath, file, totalBytes) {
             })
         );
 
-        setTimeout(() => resolve(success), delayDownloadFiles);
+        const stats = await util.promisify(fs.stat)(filePath);
+        const fileSizeInBytes = stats.size;
+        if (totalBytes !== fileSizeInBytes) {
+          fs.unlinkSync(filePath);
+          if (retryCount < 3) {
+            return doDownloadFile(
+              downloadPath,
+              file,
+              totalBytes,
+              retryCount + 1
+            );
+          }
+          parentPort.postMessage({
+            type: 'error',
+            data: `Failed to download file ${file} after 3 retries (report this to the developers)`,
+          });
+          throw new Error(`Failed to download file ${file} after 3 retries`);
+        } else {
+          resolve(success);
+        }
       }, delayCheckFiles);
     });
 
@@ -117,7 +136,7 @@ async function downloadFilesSequentially(downloadPath, lines, index) {
   } catch (error) {
     parentPort.postMessage({
       type: 'error',
-      data: `Error while downloading files sequentially ${error}`,
+      data: `Error while downloading files sequentially ${error} (report this to the developers)`,
     });
     return false;
   }
@@ -127,6 +146,10 @@ async function getGlobalFileUrls(globalDownloadFile) {
   const response = await fetch(globalDownloadFile);
 
   if (!response.ok) {
+    parentPort.postMessage({
+      type: 'error',
+      data: `Unable to download, server returned ${response.status} ${response.statusText} (report this to the developers)`,
+    });
     throw new Error(
       `Unable to download, server returned ${response.status} ${response.statusText}`
     );
@@ -144,10 +167,14 @@ async function runWorker() {
 
     const urlParts = downloadOptions.manifest.split('/');
     const fileName = urlParts[urlParts.length - 1];
+    const newDownloadPath = `${downloadPath}\\AtlasReactor`;
+    await fs.promises.mkdir(newDownloadPath, {
+      recursive: true,
+    });
 
     const finish = await download(
       downloadOptions.manifest,
-      `${downloadPath}/${fileName}`,
+      `${newDownloadPath}/${fileName}`,
       false,
       (bytes, percent) => {
         parentPort.postMessage({
@@ -163,13 +190,17 @@ async function runWorker() {
 
     if (finish) {
       const manifest = await fs.promises.readFile(
-        `${downloadPath}/${fileName}`,
+        `${newDownloadPath}/${fileName}`,
         'utf-8'
       );
 
       const lines = manifest.split('\n');
       lines.shift();
-      const success = await downloadFilesSequentially(downloadPath, lines, 0);
+      const success = await downloadFilesSequentially(
+        newDownloadPath,
+        lines,
+        0
+      );
 
       parentPort.postMessage({ type: 'result', data: success });
     }

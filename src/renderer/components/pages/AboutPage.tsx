@@ -5,7 +5,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Typography, Container, Box, Divider, Paper } from '@mui/material';
-import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
+import Markdown from 'react-markdown';
 
 function AboutPage() {
   const [readmeContent, setReadmeContent] = useState('');
@@ -46,7 +46,7 @@ function AboutPage() {
         Evos Launcher by Babymillie (Addalyn)
       </Typography>
       <Typography variant="body1" gutterBottom>
-        <ReactMarkdown
+        <Markdown
           skipHtml
           components={{
             a: ({ node, ...props }) => (
@@ -60,7 +60,7 @@ function AboutPage() {
           }}
         >
           {readmeContent}
-        </ReactMarkdown>
+        </Markdown>
       </Typography>
     </Paper>
   );

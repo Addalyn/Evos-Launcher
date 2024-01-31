@@ -277,9 +277,15 @@ async function startDownload(downloadPath: string) {
         }
         break;
       case 'error':
-        mainWindow?.webContents.send('download-progress-completed', {
-          text: `Error while downloading files.`,
-        });
+        if (message.data) {
+          mainWindow?.webContents.send('download-progress-completed', {
+            text: message.data,
+          });
+        } else {
+          mainWindow?.webContents.send('download-progress-completed', {
+            text: 'Error while downloading files.',
+          });
+        }
         break;
       default:
         break;

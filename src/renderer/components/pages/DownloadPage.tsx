@@ -70,8 +70,9 @@ function DownloadPage() {
   const [totalBytes, setTotalBytes] = useState(0);
   const [completed, setCompleted] = useState('');
   async function handleSelectFolderClick() {
-    const path = await window.electron.ipcRenderer.getSelectedFolder();
-
+    let path = await window.electron.ipcRenderer.getSelectedFolder();
+    // replace path:\AtlasReactor if it exists
+    path = path.replace(/AtlasReactor/gi, '');
     setFolderPath(path || '');
   }
   function handleDownloadClick() {
@@ -101,7 +102,7 @@ function DownloadPage() {
   function handleComplete(event: any) {
     setIsDownloading(false);
     setCompleted(event.text);
-    setExePath(`${folderPath}\\Win64\\AtlasReactor.exe`);
+    setExePath(`${folderPath}\\AtlasReactor\\Win64\\AtlasReactor.exe`);
   }
 
   window.electron.ipcRenderer.on('download-progress', handleProgressBar);
@@ -115,6 +116,15 @@ function DownloadPage() {
         is&apos; and may cease to work at any time. <br />
         To access, you must authenticate with Discord, be in our server, and
         have the correct role.
+        <br />
+        This will also make a new folder called &apos;AtlasReactor&apos; and
+        download the files there
+        <br />
+        so if you want to repair your existing installation, please make sure
+        your root folder is called
+        <br />
+        &apos;AtlasReactor&apos; and your Win64 folder is inside it. aka
+        &apos;AtlasReactor\Win64&apos;
       </Alert>
       {isDownloading && (
         <Alert severity="warning">
