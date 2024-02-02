@@ -26,7 +26,7 @@ import AuthClient from './discord/services/auth';
 
 const vbsDirectory = path.join(
   path.dirname(app.getPath('exe')),
-  './resources/assets/vbs'
+  './resources/assets/vbs',
 );
 regedit.setExternalVBSLocation(vbsDirectory);
 
@@ -90,7 +90,7 @@ interface VDFObject {
 
 async function parseVDF(
   vdfString: string,
-  targetAppId: string
+  targetAppId: string,
 ): Promise<string | undefined> {
   const lines = vdfString.split('\n');
   const stack: VDFObject[] = [];
@@ -145,7 +145,7 @@ async function readAndParseVDF(filePath: string, targetAppId: string) {
   } catch (error) {
     console.error(
       `Error reading or parsing the VDF file at ${filePath}:`,
-      error
+      error,
     );
     return null;
   }
@@ -190,14 +190,15 @@ async function startDownloadPatch(downloadPath: string) {
     path.join(
       __dirname,
       !app.isPackaged ? 'download/' : '',
-      'downloadWorker.js'
+      'downloadWorker.js',
     ),
     {
       workerData: {
         downloadPath,
         globalDownloadFile: 'https://misc.addalyn.baby/getfileurls.json',
+        skipNewPath: true,
       },
-    }
+    },
   );
 
   worker.on('message', (message) => {
@@ -208,7 +209,7 @@ async function startDownloadPatch(downloadPath: string) {
           mainWindow as BrowserWindow,
           `Patching ${path.basename(message.data.filePath)} (${
             message.data.percent
-          }% complete)`
+          }% complete)`,
         );
         break;
       case 'result':
@@ -217,7 +218,7 @@ async function startDownloadPatch(downloadPath: string) {
         } else {
           sendStatusToWindow(
             mainWindow as BrowserWindow,
-            `Error while patching. ${message.data}`
+            `Error while patching. ${message.data}`,
           );
         }
         patching = false;
@@ -225,7 +226,7 @@ async function startDownloadPatch(downloadPath: string) {
       case 'error':
         sendStatusToWindow(
           mainWindow as BrowserWindow,
-          `Error while patching. ${message.data}`
+          `Error while patching. ${message.data}`,
         );
         patching = false;
         break;
@@ -250,14 +251,15 @@ async function startDownload(downloadPath: string) {
     path.join(
       __dirname,
       !app.isPackaged ? 'download/' : '',
-      'downloadWorker.js'
+      'downloadWorker.js',
     ),
     {
       workerData: {
         downloadPath,
         globalDownloadFile: 'https://media.addalyn.baby/getfileurls.json',
+        skipNewPath: false,
       },
-    }
+    },
   );
 
   worker.on('message', (message) => {
@@ -323,7 +325,7 @@ const installExtensions = async () => {
   return installer
     .default(
       extensions.map((name) => installer[name]),
-      forceDownload
+      forceDownload,
     )
     .catch(log.info);
 };
@@ -384,7 +386,7 @@ const createWindow = async () => {
       // Try to read the existing config file
       const configFileContent = await fs.promises.readFile(
         configFilePath,
-        'utf-8'
+        'utf-8',
       );
       existingConfig = JSON.parse(configFileContent);
     } catch (error) {
@@ -392,7 +394,7 @@ const createWindow = async () => {
       await fs.promises.writeFile(
         configFilePath,
         JSON.stringify(defaultConfig, null, 2),
-        'utf-8'
+        'utf-8',
       );
       return;
     }
@@ -403,7 +405,7 @@ const createWindow = async () => {
     await fs.promises.writeFile(
       configFilePath,
       JSON.stringify(updatedConfig, null, 2),
-      'utf-8'
+      'utf-8',
     );
   }
 
@@ -413,7 +415,7 @@ const createWindow = async () => {
     fs.writeFileSync(
       configFilePath,
       JSON.stringify(args.data, null, 2),
-      'utf-8'
+      'utf-8',
     );
   });
 
@@ -431,7 +433,7 @@ const createWindow = async () => {
     fs.writeFileSync(
       configFilePath,
       JSON.stringify(defaultConfig, null, 2),
-      'utf-8'
+      'utf-8',
     );
   });
 
@@ -476,7 +478,7 @@ const createWindow = async () => {
               console.log('[OK] Wrote to registry.');
             }
           });
-        }
+        },
       );
     } catch (err) {
       console.log(err);
@@ -565,7 +567,7 @@ const createWindow = async () => {
       if (enablePatching === 'true') {
         patching = true;
         await startDownloadPatch(
-          launchOptions.exePath.replace('Win64\\AtlasReactor.exe', '')
+          launchOptions.exePath.replace('Win64\\AtlasReactor.exe', ''),
         );
       } else {
         patching = false;
@@ -582,13 +584,13 @@ const createWindow = async () => {
           if (enablePatching === 'false') {
             sendStatusToWindow(
               mainWindow as BrowserWindow,
-              `Patching is disabled. Make sure you have the correct game files, info found in discord.`
+              `Patching is disabled. Make sure you have the correct game files, info found in discord.`,
             );
           }
 
           const basePath = launchOptions.exePath.replace(
             'AtlasReactor.exe',
-            ''
+            '',
           );
           const testingJsonPath = `${basePath}AtlasReactor_Data\\Bundles\\scenes\\testing.json`;
           const testingBundlePath = `${basePath}AtlasReactor_Data\\Bundles\\scenes\\testing.bundle`;
@@ -613,15 +615,15 @@ const createWindow = async () => {
           try {
             checkFile(
               testingJsonPath,
-              `Unable to launch game: The required Christmas map (file: testing.json) is not installed. (Check discord for installation instructions)`
+              `Unable to launch game: The required Christmas map (file: testing.json) is not installed. (Check discord for installation instructions)`,
             );
             checkFile(
               testingBundlePath,
-              `Unable to launch game: The required Christmas map (file: testing.bundle) is not installed. (Check discord for installation instructions)`
+              `Unable to launch game: The required Christmas map (file: testing.bundle) is not installed. (Check discord for installation instructions)`,
             );
             checkFile(
               skywaySnowBundlePath,
-              `Unable to launch game: The required Christmas map (file: skywaysnow_environment.bundle) is not installed. (Check discord for installation instructions)`
+              `Unable to launch game: The required Christmas map (file: skywaysnow_environment.bundle) is not installed. (Check discord for installation instructions)`,
             );
           } catch (error) {
             // Handle any errors that may have occurred during file checks
@@ -656,13 +658,13 @@ const createWindow = async () => {
               // Make sure we create a Log folder if it doesn't exist
               const logFolderPath = path.join(
                 path.dirname(path.dirname(launchOptions.exePath)),
-                'Logs'
+                'Logs',
               );
               createFolderIfNotExists(logFolderPath);
 
               games[launchOptions.name] = spawn(
                 launchOptions.exePath,
-                launchOptionsWithTicket
+                launchOptionsWithTicket,
               );
               games[launchOptions.name].on('close', () => {
                 event.reply('setActiveGame', [launchOptions.name, false]);
@@ -694,13 +696,13 @@ const createWindow = async () => {
             // Make sure we create a Log folder if it doesn't exist
             const logFolderPath = path.join(
               path.dirname(path.dirname(launchOptions.exePath)),
-              'Logs'
+              'Logs',
             );
             createFolderIfNotExists(logFolderPath);
 
             games[launchOptions.name] = spawn(
               launchOptions.exePath,
-              launchOptionsWithoutTicket
+              launchOptionsWithoutTicket,
             );
             games[launchOptions.name].on('close', () => {
               event.reply('setActiveGame', [launchOptions.name, false]);
@@ -713,7 +715,7 @@ const createWindow = async () => {
 
       // Start waiting for the patch
       checkForPatchAndLaunch();
-    }
+    },
   );
 
   ipcMain.on('getAssetPath', (event) => {
@@ -779,7 +781,7 @@ const createWindow = async () => {
           console.log(`Path for appid ${targetAppId}: ${pathOfGame}`);
           foundGamePath = convertLinuxPathToWindows(
             `${pathOfGame}`,
-            'steamapps/common/Atlas Reactor/Games/Atlas Reactor/Live/Win64/AtlasReactor.exe'
+            'steamapps/common/Atlas Reactor/Games/Atlas Reactor/Live/Win64/AtlasReactor.exe',
           );
         } else {
           console.log(`Appid ${targetAppId} not found.`);
@@ -891,7 +893,7 @@ const createWindow = async () => {
     autoUpdater.on('error', (err) => {
       sendStatusToWindow(
         mainWindow as BrowserWindow,
-        `Error in auto-updater. ${err}`
+        `Error in auto-updater. ${err}`,
       );
     });
     autoUpdater.on('download-progress', (progressObj) => {
@@ -903,7 +905,7 @@ const createWindow = async () => {
     autoUpdater.on('update-downloaded', () => {
       sendStatusToWindow(
         mainWindow as BrowserWindow,
-        'Update downloaded, Restart Evos Launcher to apply the update.'
+        'Update downloaded, Restart Evos Launcher to apply the update.',
       );
     });
     autoUpdater.checkForUpdates();
@@ -939,7 +941,7 @@ const createWindow = async () => {
       event.preventDefault();
       // and continue
       callback(true);
-    }
+    },
   );
 
   const menuBuilder = new MenuBuilder(mainWindow);

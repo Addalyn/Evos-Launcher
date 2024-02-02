@@ -90,7 +90,7 @@ async function doDownloadFile(downloadPath, file, totalBytes, retryCount = 0) {
             parentPort.postMessage({
               type: 'progress',
               data: { fileUrl, filePath, bytes, percent, totalBytes },
-            })
+            }),
         );
 
         const stats = await util.promisify(fs.stat)(filePath);
@@ -102,7 +102,7 @@ async function doDownloadFile(downloadPath, file, totalBytes, retryCount = 0) {
               downloadPath,
               file,
               totalBytes,
-              retryCount + 1
+              retryCount + 1,
             );
           }
           parentPort.postMessage({
@@ -151,7 +151,7 @@ async function getGlobalFileUrls(globalDownloadFile) {
       data: `Unable to download, server returned ${response.status} ${response.statusText} (report this to the developers)`,
     });
     throw new Error(
-      `Unable to download, server returned ${response.status} ${response.statusText}`
+      `Unable to download, server returned ${response.status} ${response.statusText}`,
     );
   }
 
@@ -162,15 +162,21 @@ async function getGlobalFileUrls(globalDownloadFile) {
 
 async function runWorker() {
   try {
-    const { downloadPath, globalDownloadFile } = workerData;
+    const { downloadPath, globalDownloadFile, skipNewPath } = workerData;
     await getGlobalFileUrls(globalDownloadFile);
 
     const urlParts = downloadOptions.manifest.split('/');
     const fileName = urlParts[urlParts.length - 1];
-    const newDownloadPath = `${downloadPath}\\AtlasReactor`;
-    await fs.promises.mkdir(newDownloadPath, {
-      recursive: true,
-    });
+
+    const newDownloadPath = skipNewPath
+      ? downloadPath
+      : `${downloadPath}\\AtlasReactor`;
+
+    if (!(await fs.pathExists(newDownloadPath)) && !skipNewPath) {
+      await fs.promises.mkdir(newDownloadPath, {
+        recursive: true,
+      });
+    }
 
     const finish = await download(
       downloadOptions.manifest,
@@ -185,13 +191,13 @@ async function runWorker() {
             percent,
           },
         });
-      }
+      },
     );
 
     if (finish) {
       const manifest = await fs.promises.readFile(
         `${newDownloadPath}/${fileName}`,
-        'utf-8'
+        'utf-8',
       );
 
       const lines = manifest.split('\n');
@@ -199,7 +205,7 @@ async function runWorker() {
       const success = await downloadFilesSequentially(
         newDownloadPath,
         lines,
-        0
+        0,
       );
 
       parentPort.postMessage({ type: 'result', data: success });

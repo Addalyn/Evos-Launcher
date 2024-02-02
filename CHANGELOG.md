@@ -1,3 +1,7 @@
+# 1.7.1
+
+- Fixed an issue that patch downloads over and over. even if you already had it.
+
 # 1.7.0
 
 - Make sure that if you download the game true launcher it will make a new folder AtlasReactor (incase they install it directly in "drive:\")
