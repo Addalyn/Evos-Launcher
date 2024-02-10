@@ -62,6 +62,25 @@ const defaultConfig: Config = {
   enablePatching: 'true',
 };
 
+let translatedText: string;
+
+function translate(key: string): Promise<string> {
+  translatedText = ''; // Clear the translatedText before asking for a new translation
+  mainWindow?.webContents.send('translate', key);
+
+  return new Promise((resolve) => {
+    const checkTranslation = () => {
+      if (translatedText !== '') {
+        resolve(translatedText);
+      } else {
+        setTimeout(checkTranslation, 500); // Wait for 500 milliseconds before checking again
+      }
+    };
+
+    checkTranslation();
+  });
+}
+
 interface Games {
   [key: string]: ChildProcess;
 }
@@ -200,33 +219,45 @@ async function startDownloadPatch(downloadPath: string) {
       },
     },
   );
-
-  worker.on('message', (message) => {
+  let timeout: string | number | NodeJS.Timeout | undefined;
+  worker.on('message', async (message) => {
     switch (message.type) {
       case 'progress':
         // only get filename not patch message.data.filePath
+        if (timeout) {
+          clearTimeout(timeout);
+        }
+        const patchingMessage = await translate('patching');
+        const completeMessage = await translate('complete');
         sendStatusToWindow(
           mainWindow as BrowserWindow,
-          `Patching ${path.basename(message.data.filePath)} (${
+          `${patchingMessage} ${path.basename(message.data.filePath)} (${
             message.data.percent
-          }% complete)`,
+          }% ${completeMessage})`,
         );
+
+        timeout = setTimeout(() => {
+          sendStatusToWindow(mainWindow as BrowserWindow, '');
+        }, 5000);
+
         break;
       case 'result':
         if (message.data) {
           sendStatusToWindow(mainWindow as BrowserWindow, '');
         } else {
+          const errorMessage = await translate('errorPatching');
           sendStatusToWindow(
             mainWindow as BrowserWindow,
-            `Error while patching. ${message.data}`,
+            `${errorMessage} ${message.data}`,
           );
         }
         patching = false;
         break;
       case 'error':
+        const errorMessage = await translate('errorPatching');
         sendStatusToWindow(
           mainWindow as BrowserWindow,
-          `Error while patching. ${message.data}`,
+          `${errorMessage} ${message.data}`,
         );
         patching = false;
         break;
@@ -262,19 +293,21 @@ async function startDownload(downloadPath: string) {
     },
   );
 
-  worker.on('message', (message) => {
+  worker.on('message', async (message) => {
     switch (message.type) {
       case 'progress':
         mainWindow?.webContents.send('download-progress', message.data);
         break;
       case 'result':
         if (message.data) {
+          const completeMessage = await translate('downloadComplete');
           mainWindow?.webContents.send('download-progress-completed', {
-            text: 'Download/Repair complete!',
+            text: completeMessage,
           });
         } else {
+          const errorMessage = await translate('errorDownloading');
           mainWindow?.webContents.send('download-progress-completed', {
-            text: 'Error while downloading files.',
+            text: errorMessage,
           });
         }
         break;
@@ -284,8 +317,9 @@ async function startDownload(downloadPath: string) {
             text: message.data,
           });
         } else {
+          const errorMessage = await translate('errorDownloading');
           mainWindow?.webContents.send('download-progress-completed', {
-            text: 'Error while downloading files.',
+            text: errorMessage,
           });
         }
         break;
@@ -305,12 +339,13 @@ async function startDownload(downloadPath: string) {
   });
 }
 
-export const setAuthResult = (status: boolean) => {
+export const setAuthResult = async (status: boolean) => {
   if (status) {
     startDownload(globalDownloadPath);
   } else {
+    const noDiscordAuth = await translate('noDiscordAuth');
     mainWindow?.webContents.send('download-progress-completed', {
-      text: 'You must authenticate with our Discord server and have the correct role.',
+      text: noDiscordAuth,
     });
   }
 
@@ -442,7 +477,7 @@ const createWindow = async () => {
       type: 'question',
       buttons: ['Yes', 'No'],
       title: 'Confirm',
-      message: 'Are you sure you want to close the game?',
+      message: await translate('closeGameConfirm'),
     });
     if (response === 0) {
       event.reply('setActiveGame', [args, false]);
@@ -573,7 +608,7 @@ const createWindow = async () => {
         patching = false;
       }
 
-      function checkForPatchAndLaunch() {
+      async function checkForPatchAndLaunch() {
         if (patching) {
           console.log('Waiting for patch to finish...');
           setTimeout(checkForPatchAndLaunch, 1000);
@@ -582,10 +617,8 @@ const createWindow = async () => {
           console.log('Patch finished. launch the game.');
 
           if (enablePatching === 'false') {
-            sendStatusToWindow(
-              mainWindow as BrowserWindow,
-              `Patching is disabled. Make sure you have the correct game files, info found in discord.`,
-            );
+            const patchingDisabled = await translate('patchingDisabled');
+            sendStatusToWindow(mainWindow as BrowserWindow, patchingDisabled);
           }
 
           const basePath = launchOptions.exePath.replace(
@@ -596,38 +629,37 @@ const createWindow = async () => {
           const testingBundlePath = `${basePath}AtlasReactor_Data\\Bundles\\scenes\\testing.bundle`;
           const skywaySnowBundlePath = `${basePath}AtlasReactor_Data\\Bundles\\scenes\\skywaysnow_environment.bundle`;
 
-          const checkFile = (filePath: fs.PathLike, errorMessage: string) => {
+          let stopHere: boolean = false;
+          const checkFile = async (filePath: fs.PathLike, message: string) => {
             console.log(`Checking for file: ${filePath}`);
             try {
               if (fs.existsSync(filePath)) {
                 console.log('File exists!');
               } else {
                 console.log('File does not exist.');
-                throw errorMessage;
+                stopHere = true;
+                throw message;
               }
             } catch (error) {
               console.error('Error checking file existence:', error);
+              const errorMessage = await translate(message);
               sendStatusToWindow(mainWindow as BrowserWindow, errorMessage);
               throw error;
             }
           };
-
           try {
-            checkFile(
-              testingJsonPath,
-              `Unable to launch game: The required Christmas map (file: testing.json) is not installed. (Check discord for installation instructions)`,
-            );
-            checkFile(
-              testingBundlePath,
-              `Unable to launch game: The required Christmas map (file: testing.bundle) is not installed. (Check discord for installation instructions)`,
-            );
-            checkFile(
-              skywaySnowBundlePath,
-              `Unable to launch game: The required Christmas map (file: skywaysnow_environment.bundle) is not installed. (Check discord for installation instructions)`,
-            );
+            checkFile(testingJsonPath, `unableToLaunch1`);
+            checkFile(testingBundlePath, `unableToLaunch2`);
+            checkFile(skywaySnowBundlePath, `unableToLaunch3`);
           } catch (error) {
             // Handle any errors that may have occurred during file checks
+            stopHere = true;
             console.error('Error during file checks:', error);
+            event.reply('handleIsPatching', false);
+            return;
+          }
+
+          if (stopHere) {
             event.reply('handleIsPatching', false);
             return;
           }
@@ -728,6 +760,12 @@ const createWindow = async () => {
     shell.openExternal(args);
   });
 
+  ipcMain.handle('translateReturn', async (event, arg) => {
+    if (translatedText === '') {
+      translatedText = arg;
+    }
+  });
+
   ipcMain.handle('search-for-game', async (event) => {
     console.log('Searching for the game');
     const targetAppId = '402570';
@@ -807,7 +845,12 @@ const createWindow = async () => {
     if (config) {
       const files = await dialog.showOpenDialog({
         properties: ['openFile'],
-        filters: [{ name: 'Atlas Reactor Config', extensions: ['json'] }],
+        filters: [
+          {
+            name: await translate('Atlas Reactor Config'),
+            extensions: ['json'],
+          },
+        ],
       });
 
       const selectedFilePath = files.filePaths[0];
@@ -820,7 +863,12 @@ const createWindow = async () => {
 
     const files = await dialog.showOpenDialog({
       properties: ['openFile'],
-      filters: [{ name: 'Atlas Reactor Executable', extensions: ['exe'] }],
+      filters: [
+        {
+          name: await translate('Atlas Reactor Executable'),
+          extensions: ['exe'],
+        },
+      ],
     });
 
     const selectedFilePath = files.filePaths[0];
@@ -845,7 +893,7 @@ const createWindow = async () => {
       globalDownloadPath = downloadPath;
     } else {
       mainWindow?.webContents.send('download-progress-completed', {
-        text: 'Unexpected error, please restart Evos Launcher.',
+        text: await translate('unexpectedError'),
       });
     }
   });
@@ -881,11 +929,17 @@ const createWindow = async () => {
       }, 2000);
     }
 
-    autoUpdater.on('checking-for-update', () => {
-      sendStatusToWindow(mainWindow as BrowserWindow, 'Checking for update...');
+    autoUpdater.on('checking-for-update', async () => {
+      sendStatusToWindow(
+        mainWindow as BrowserWindow,
+        await translate('checkUpdate'),
+      );
     });
-    autoUpdater.on('update-available', () => {
-      sendStatusToWindow(mainWindow as BrowserWindow, 'Update available.');
+    autoUpdater.on('update-available', async () => {
+      sendStatusToWindow(
+        mainWindow as BrowserWindow,
+        await translate('Update available.'),
+      );
     });
     autoUpdater.on('update-not-available', () => {
       sendStatusToWindow(mainWindow as BrowserWindow, '');
@@ -896,16 +950,16 @@ const createWindow = async () => {
         `Error in auto-updater. ${err}`,
       );
     });
-    autoUpdater.on('download-progress', (progressObj) => {
-      let logMessage = `Download speed: ${progressObj.bytesPerSecond}`;
-      logMessage = `${logMessage} - Downloaded ${progressObj.percent}%`;
+    autoUpdater.on('download-progress', async (progressObj) => {
+      let logMessage = `${await translate('Download speed')}: ${progressObj.bytesPerSecond}`;
+      logMessage = `${logMessage} - ${await translate('Downloaded')} ${progressObj.percent}%`;
       logMessage = `${logMessage} (${progressObj.transferred}/${progressObj.total})`;
       sendStatusToWindow(mainWindow as BrowserWindow, logMessage);
     });
-    autoUpdater.on('update-downloaded', () => {
+    autoUpdater.on('update-downloaded', async () => {
       sendStatusToWindow(
         mainWindow as BrowserWindow,
-        'Update downloaded, Restart Evos Launcher to apply the update.',
+        await translate('updateDownloaded'),
       );
     });
     autoUpdater.checkForUpdates();
@@ -919,8 +973,7 @@ const createWindow = async () => {
         type: 'question',
         buttons: ['Yes', 'No'],
         title: 'Confirm',
-        message:
-          'Are you sure you want to close the launcher? It will also close the game.',
+        message: await translate('closeLauncher'),
       });
       if (response === 0) {
         app.exit();

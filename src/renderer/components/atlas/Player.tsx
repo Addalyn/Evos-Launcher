@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { PlayerData } from '../../lib/Evos';
 import { BgImage } from '../generic/BasicComponents';
 import { BannerType, playerBanner, trustIcon } from '../../lib/Resources';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   info?: PlayerData;
@@ -22,7 +23,9 @@ const ImageTextWrapper = styled('span')(({ theme }) => ({
 }));
 
 function Player({ info }: Props) {
-  let username = 'OFFLINE';
+  const { t } = useTranslation();
+
+  let username = t('offline');
   let discriminator;
   if (info) {
     [username, discriminator] = info.handle.split('#', 2);
@@ -123,7 +126,7 @@ function Player({ info }: Props) {
             }}
           >
             <Typography component="span" style={{ fontSize: '1em' }}>
-              {info.status === '' ? 'Online' : info.status}
+              {info.status === '' ? t('online') : t(`${info.status}`)}
             </Typography>
           </ImageTextWrapper>
         )}

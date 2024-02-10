@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Paper } from '@mui/material';
 import EvosStore from 'renderer/lib/EvosStore';
+import { useTranslation } from 'react-i18next';
 
 interface LogFile {
   id: string;
@@ -91,6 +92,7 @@ function LogsPage() {
   const [dialogContentRef, setDialogContentRef] =
     useState<HTMLDivElement | null>(null);
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
 
   const handleAccordionClick = async (log: LogFile) => {
     try {
@@ -98,7 +100,7 @@ function LogsPage() {
       setOpenDialog(true);
       setLoading(true);
       const content = await window.electron.ipcRenderer.getLogContent(
-        log.fullPath
+        log.fullPath,
       );
       log.content = content;
       setLogData((prevData) => {
@@ -106,7 +108,7 @@ function LogsPage() {
           return {
             ...folder,
             files: folder.files.map((file) =>
-              file.id === log.id ? { ...file, content } : file
+              file.id === log.id ? { ...file, content } : file,
             ),
           };
         });
@@ -123,7 +125,7 @@ function LogsPage() {
     if (selectedLog) {
       const folderPath = selectedLog.fullPath.substring(
         0,
-        selectedLog.fullPath.lastIndexOf('\\')
+        selectedLog.fullPath.lastIndexOf('\\'),
       );
       window.electron.ipcRenderer.openFolder(folderPath);
     }
@@ -141,26 +143,25 @@ function LogsPage() {
         pathArray.splice(-2);
         pathArray.push('Logs');
         const logFolderPath = pathArray.join('\\');
-        const data = await window.electron.ipcRenderer.getLogData(
-          logFolderPath
-        );
+        const data =
+          await window.electron.ipcRenderer.getLogData(logFolderPath);
         data.forEach((folder: { files: LogFile[] }) => {
           folder.files.forEach((file) => {
             file.lastModified = new Date(file.lastModified);
           });
 
           folder.files.sort(
-            (a, b) => b.lastModified.getTime() - a.lastModified.getTime()
+            (a, b) => b.lastModified.getTime() - a.lastModified.getTime(),
           );
         });
 
         data.sort(
           (
             a: { files: { lastModified: { getTime: () => number } }[] },
-            b: { files: { lastModified: { getTime: () => number } }[] }
+            b: { files: { lastModified: { getTime: () => number } }[] },
           ) =>
             b.files[0].lastModified.getTime() -
-            a.files[0].lastModified.getTime()
+            a.files[0].lastModified.getTime(),
         );
 
         setLogData(data);
@@ -188,7 +189,7 @@ function LogsPage() {
     const maxIntensity = 60;
     const intensity = Math.min(
       (minutesDifference / 20) * maxIntensity,
-      maxIntensity
+      maxIntensity,
     );
 
     const redValue = Math.floor(255 * (1 - intensity / 100));
@@ -218,12 +219,12 @@ function LogsPage() {
   const columns: GridColDef[] = [
     {
       field: 'name',
-      headerName: 'Log Name',
+      headerName: t('logs.logName'),
       flex: 1,
     },
     {
       field: 'lastModified',
-      headerName: 'Date',
+      headerName: t('logs.logDate'),
       flex: 1,
       valueGetter: (params) => {
         const { lastModified } = params.row as LogFile;
@@ -237,7 +238,7 @@ function LogsPage() {
     },
     {
       field: 'size',
-      headerName: 'Size (KB)',
+      headerName: t('logs.logSize'),
       flex: 1,
       valueGetter: (params) => {
         let sizeInKB = params.row.size / 1024 || 0;
@@ -248,9 +249,9 @@ function LogsPage() {
     },
     {
       field: 'action',
-      headerName: 'Action',
+      headerName: t('logs.logAction'),
       flex: 1,
-      maxWidth: 100,
+      maxWidth: 170,
       renderCell: (params) => (
         <Button
           variant="outlined"
@@ -258,7 +259,7 @@ function LogsPage() {
           size="small"
           onClick={() => handleAccordionClick(params.row as LogFile)}
         >
-          Open Log
+          {t('logs.logOpen')}
         </Button>
       ),
     },
@@ -273,7 +274,15 @@ function LogsPage() {
         }}
         pageSizeOptions={[5, 10, 25, 50, 100]}
         autoHeight
-        localeText={{ noRowsLabel: 'No log files, Start Playing!' }}
+        localeText={{
+          noRowsLabel: t('logs.noLogs'),
+          MuiTablePagination: {
+            labelRowsPerPage: t('logs.rowsPerPage'),
+            labelDisplayedRows({ from, to, count }) {
+              return `${from}-${to} ${t('logs.of')} ${count}`;
+            },
+          },
+        }}
       />
       {selectedLog && (
         <Dialog
@@ -289,7 +298,7 @@ function LogsPage() {
           >
             {loading ? (
               <div style={{ textAlign: 'center', padding: '20px' }}>
-                Loading...{' '}
+                {t('loading')}{' '}
                 {/* You can also use a circular loading indicator here */}
               </div>
             ) : (
@@ -298,7 +307,7 @@ function LogsPage() {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleOpenFolder} color="primary">
-              Open Folder
+              {t('logs.openLogsFolder')}
             </Button>
             <Button onClick={handleCloseDialog}>Close</Button>
           </DialogActions>

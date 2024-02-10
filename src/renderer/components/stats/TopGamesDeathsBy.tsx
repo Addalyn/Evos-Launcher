@@ -11,6 +11,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { fetchGameInfo } from 'renderer/lib/Evos';
+import { useTranslation } from 'react-i18next';
 
 ChartJS.register(
   CategoryScale,
@@ -18,7 +19,7 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 interface DataItem {
@@ -26,29 +27,31 @@ interface DataItem {
   user: string;
 }
 
-const options = {
-  responsive: true,
-  indexAxis: 'y' as const,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      display: false,
-    },
-    title: {
-      display: true,
-      text: 'Top 20 players by deaths',
-    },
-  },
-};
-
 export default function TopGamesDeathsBy() {
+  const { t } = useTranslation();
+
   const [gameData, setGameData] = useState([]);
   const [names, setNames] = useState([]);
+
+  const options = {
+    responsive: true,
+    indexAxis: 'y' as const,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      title: {
+        display: true,
+        text: t('stats.top20Deaths'),
+      },
+    },
+  };
 
   useEffect(() => {
     async function fetchData() {
       const data: DataItem[] = (await fetchGameInfo(
-        'totaldeaths'
+        'totaldeaths',
       )) as DataItem[];
       setGameData([]);
       setNames([]);
@@ -68,7 +71,7 @@ export default function TopGamesDeathsBy() {
     labels: names,
     datasets: [
       {
-        label: 'Deaths',
+        label: t('stats.deaths'),
         data: gameData,
         backgroundColor: 'rgba(144,202,249,0.5)',
       },

@@ -2,13 +2,14 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Typography, Container, Box, Divider, Paper } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Typography, Paper } from '@mui/material';
 import Markdown from 'react-markdown';
+import { useTranslation } from 'react-i18next';
 
 function AboutPage() {
   const [readmeContent, setReadmeContent] = useState('');
+  const { t } = useTranslation();
 
   useEffect(() => {
     const githubApiUrl =
@@ -43,7 +44,7 @@ function AboutPage() {
       }}
     >
       <Typography variant="h4" component="h1" gutterBottom>
-        Evos Launcher by Babymillie (Addalyn)
+        {t('launcherBy')}
       </Typography>
       <Typography variant="body1" gutterBottom>
         <Markdown

@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 export interface EvosError {
   text: string;
   description?: string;
@@ -7,18 +9,19 @@ export function processError(
   error: any,
   setError: (e: EvosError) => void,
   navigate: (url: string) => void,
-  signOut: () => void
+  signOut: () => void,
+  t: (key: string) => string,
 ) {
   if (error.response?.status === 401) {
     signOut();
     navigate('/login');
   } else if (error.response?.status === 404) {
-    setError({ text: 'Not found.' });
+    setError({ text: t('errors.notFound') });
   } else if (error.response?.status === 403) {
-    setError({ text: 'Access denied.' });
+    setError({ text: t('errors.accessDenied') });
   } else if (error.response?.status === 400) {
     setError({
-      text: error.response?.data?.message ?? 'Bad request.',
+      text: error.response?.data?.message ?? t('errors.badRequest'),
     });
   } else if (
     !error.response ||
@@ -26,10 +29,10 @@ export function processError(
     error.response?.status === 502
   ) {
     setError({
-      text: 'Altas Reactor Server is offline. Some Functions may be limited',
+      text: t('errors.serverOffline'),
     });
   } else {
-    setError({ text: 'Unknown error try again.' });
+    setError({ text: t('errors.unknownError') });
   }
 }
 

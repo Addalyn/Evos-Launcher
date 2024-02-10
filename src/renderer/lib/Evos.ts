@@ -150,7 +150,7 @@ export function cap(txt: string): string {
 export async function login(
   abort: AbortController,
   username: string,
-  password: string
+  password: string,
 ) {
   const ip = await window.electron.store.getItem('ip');
   const baseUrl = `https://${ip}`;
@@ -158,7 +158,7 @@ export async function login(
   return axios.post<LoginResponse>(
     `${baseUrl}/api/login`,
     { UserName: username, Password: password },
-    { signal: abort.signal }
+    { signal: abort.signal },
   );
 }
 
@@ -166,7 +166,7 @@ export async function registerAccount(
   abort: AbortController,
   username: string,
   password: string,
-  code: string
+  code: string,
 ) {
   const ip = await window.electron.store.getItem('ip');
   const baseUrl = `https://${ip}`;
@@ -174,7 +174,7 @@ export async function registerAccount(
   return axios.post<LoginResponse>(
     `${baseUrl}/api/register`,
     { UserName: username, Password: password, Code: code },
-    { signal: abort.signal }
+    { signal: abort.signal },
   );
 }
 
@@ -196,7 +196,7 @@ export async function changePassword(authHeader: string, password: string) {
     },
     {
       headers: { Authorization: `bearer ${authHeader}` },
-    }
+    },
   );
 }
 
@@ -211,7 +211,7 @@ export async function getMotd() {
   // const baseUrl = `https://${ip}`;
   // return axios.get<TextMotd>(`${baseUrl}/api/lobby/motd`);
   return axios.get<TextNotification>(
-    `https://misc.addalyn.baby/motd.json?rand=${Math.random()}`
+    `https://misc.addalyn.baby/motd.json?rand=${Math.random()}`,
   );
 }
 
@@ -220,7 +220,7 @@ export async function getNotification() {
   // const baseUrl = `https://${ip}`;
   // return axios.get<TextNotification>(`${baseUrl}/api/lobby/notification`);
   return axios.get<TextNotification>(
-    `https://misc.addalyn.baby/notification.json?rand=${Math.random()}`
+    `https://misc.addalyn.baby/notification.json?rand=${Math.random()}`,
   );
 }
 
@@ -239,7 +239,7 @@ export async function getPlayerData(authHeader: string, queryParams: string) {
     `${baseUrl}/api/lobby/playerInfo?handle=${queryParams}`,
     {
       headers: { Authorization: `bearer ${authHeader}` },
-    }
+    },
   );
 }
 

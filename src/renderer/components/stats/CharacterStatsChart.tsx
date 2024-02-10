@@ -13,6 +13,7 @@ import MuiAccordionSummary, {
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import { Chart } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { useTranslation } from 'react-i18next';
 
 Chart.register(ChartDataLabels);
 Chart.defaults.set('plugins.datalabels', {
@@ -80,14 +81,16 @@ function CharacterChart({
   chartLabels,
   chartColors,
 }: CharacterChartProps) {
+  const { t } = useTranslation();
+
   const chartData = {
-    labels: chartLabels.map((label) => label.replaceAll('_', ' ')),
+    labels: chartLabels.map((label) => t(label)),
     datasets: [
       {
         label: characterData.character,
         data: chartLabels.map(
           (label) =>
-            characterData[label.toLowerCase() as keyof CharacterStats] || 0
+            characterData[label.toLowerCase() as keyof CharacterStats] || 0,
         ),
         backgroundColor: chartColors,
         borderColor: chartColors.map((color) => `${color}1`),
@@ -210,6 +213,8 @@ const categoryColors: { [key: string]: string } = {
 };
 
 function CharacterStatsChart({ data }: CharacterStatsChartProps) {
+  const { t } = useTranslation();
+
   const charactersByType = names.reduce((acc, character) => {
     const type = characterCategories[character];
     if (!acc[type as keyof typeof charactersByType]) {
@@ -223,7 +228,7 @@ function CharacterStatsChart({ data }: CharacterStatsChartProps) {
   const orderedTypes = ['Firepower', 'Frontline', 'Support'];
 
   const sortedCharacters = orderedTypes.flatMap(
-    (type) => charactersByType[type as keyof typeof charactersByType]
+    (type) => charactersByType[type as keyof typeof charactersByType],
   );
 
   const sortedData = sortedCharacters.map((character) => {
@@ -255,7 +260,7 @@ function CharacterStatsChart({ data }: CharacterStatsChartProps) {
                   variant="h6"
                   sx={{ color: categoryColors[characterData.category] }}
                 >
-                  {characterData.character}
+                  {t(`charNames.${characterData.character.replace(/:3/g, '')}`)}
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
@@ -299,7 +304,7 @@ function CharacterStatsChart({ data }: CharacterStatsChartProps) {
                 </div>
               </AccordionDetails>
             </Accordion>
-          )
+          ),
       )}
     </div>
   );

@@ -27,6 +27,8 @@ import PlayerStatsPage from './components/pages/PlayerStatsPage';
 import NotificationMessage from './components/generic/NotificationMessage';
 import LogsPage from './components/pages/LogsPage';
 
+import { useTranslation, Trans } from 'react-i18next';
+
 interface PageProps {
   title: string;
   children?: React.ReactNode;
@@ -42,12 +44,22 @@ function Page(props: PageProps) {
 }
 
 const page = (title: string, content: React.ReactNode) => {
-  return <Page title={`Atlas Reactor: ${title}`}>{content}</Page>;
+  const { t } = useTranslation();
+  return (
+    <Page title={`Atlas Reactor: ${t(`menuOptions.${title}`)}`}>{content}</Page>
+  );
 };
 
 export default function App() {
   const evosStore = EvosStore();
   const mode = evosStore.mode as PaletteMode;
+  const { t } = useTranslation();
+
+  const handleMessage = (event: any, message: any) => {
+    window.electron.ipcRenderer.sendTranslate('translateReturn', t(event));
+  };
+
+  window.electron.ipcRenderer.on('translate', handleMessage);
 
   const theme = React.useMemo(
     () =>
@@ -69,7 +81,7 @@ export default function App() {
           },
         },
       }),
-    [mode]
+    [mode],
   );
 
   if (evosStore === null) {
@@ -85,7 +97,7 @@ export default function App() {
             <Route
               path="/"
               element={page(
-                'Lobby status',
+                'status',
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
@@ -94,13 +106,13 @@ export default function App() {
                     <Updater />
                     <StatusPage />
                   </Box>
-                </>
+                </>,
               )}
             />
             <Route
               path="/logs"
               element={page(
-                'Settings',
+                'gameLogs',
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
@@ -109,13 +121,13 @@ export default function App() {
                     <Updater />
                     <LogsPage />
                   </Box>
-                </>
+                </>,
               )}
             />
             <Route
               path="/settings"
               element={page(
-                'Settings',
+                'settings',
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
@@ -124,13 +136,13 @@ export default function App() {
                     <Updater />
                     <SettingsPage />
                   </Box>
-                </>
+                </>,
               )}
             />
             <Route
               path="/about"
               element={page(
-                'About',
+                'about',
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
@@ -139,13 +151,13 @@ export default function App() {
                     <Updater />
                     <AboutPage />
                   </Box>
-                </>
+                </>,
               )}
             />
             <Route
               path="/changelog"
               element={page(
-                'Changelog',
+                'changelog',
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
@@ -154,13 +166,13 @@ export default function App() {
                     <Updater />
                     <ChangeLogPage />
                   </Box>
-                </>
+                </>,
               )}
             />
             <Route
               path="/download"
               element={page(
-                'Download Atlas Reactor',
+                'download',
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
@@ -169,13 +181,13 @@ export default function App() {
                     <Updater />
                     <DownloadPage />
                   </Box>
-                </>
+                </>,
               )}
             />
             <Route
               path="/add-account"
               element={page(
-                'Add Account',
+                'status',
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
@@ -184,7 +196,7 @@ export default function App() {
                     <Updater />
                     <AddAccountPage />
                   </Box>
-                </>
+                </>,
               )}
             />
             <Route
@@ -206,7 +218,7 @@ export default function App() {
                       <LoginPage />
                     </Box>
                   </Box>
-                </>
+                </>,
               )}
             />
             <Route
@@ -228,13 +240,13 @@ export default function App() {
                       <RegisterPage />
                     </Box>
                   </Box>
-                </>
+                </>,
               )}
             />
             <Route
               path="/stats"
               element={page(
-                'Stats',
+                'gstats',
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
@@ -243,13 +255,13 @@ export default function App() {
                     <Updater />
                     <StatsPage />
                   </Box>
-                </>
+                </>,
               )}
             />
             <Route
               path="/playerstats"
               element={page(
-                'Player Stats',
+                'pstats',
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
@@ -258,13 +270,13 @@ export default function App() {
                     <Updater />
                     <PlayerStatsPage />
                   </Box>
-                </>
+                </>,
               )}
             />
             <Route
               path="/previousgames"
               element={page(
-                'Previous Games',
+                'previousGames',
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
@@ -273,7 +285,7 @@ export default function App() {
                     <Updater />
                     <PreviousGamesPage />
                   </Box>
-                </>
+                </>,
               )}
             />
           </Routes>

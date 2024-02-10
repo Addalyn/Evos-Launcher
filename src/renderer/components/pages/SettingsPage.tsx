@@ -21,6 +21,7 @@ import EvosStore from 'renderer/lib/EvosStore';
 import { changePassword, logout } from 'renderer/lib/Evos';
 import { useNavigate } from 'react-router-dom';
 import { isValidExePath, isWarningPath } from 'renderer/lib/Error';
+import { useTranslation } from 'react-i18next';
 
 export function truncateDynamicPath(filePath: string, maxChars: number) {
   if (filePath === '') return filePath;
@@ -67,6 +68,7 @@ export default function SettingsPage() {
   const [password1, setPassword1] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const signOut = () => {
     logout(activeUser?.token ?? '');
@@ -75,7 +77,7 @@ export default function SettingsPage() {
       '',
       activeUser?.handle as string,
       activeUser?.banner as number,
-      activeUser?.configFile as string
+      activeUser?.configFile as string,
     );
     navigate('/login');
   };
@@ -88,7 +90,7 @@ export default function SettingsPage() {
         activeUser?.token as string,
         activeUser?.handle as string,
         activeUser?.banner as number,
-        (filePath as string) || ('' as string)
+        (filePath as string) || ('' as string),
       );
       return;
     }
@@ -129,19 +131,19 @@ export default function SettingsPage() {
   const handlePasswordResetClick = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     if (password !== password1) {
-      setError('Passwords do not match');
+      setError(t('errors.errorPassMatch'));
       return;
     }
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters');
+    if (password.length < 5) {
+      setError(t('errors.errorPass'));
       return;
     }
     if (password.length > 20) {
-      setError('Password must be less than 20 characters');
+      setError(t('errors.errorPass2'));
       return;
     }
     if (password.includes(' ')) {
-      setError('Password cannot contain spaces');
+      setError(t('errors.errorPassSpace'));
       return;
     }
     setError('');
@@ -170,11 +172,11 @@ export default function SettingsPage() {
         >
           <Grid item xs={4}>
             <TextField
-              label="Change Password"
+              label={t('changePassword')}
               variant="outlined"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter a new password"
+              placeholder={t('enterNewPass')}
               margin="normal"
               type="password"
               fullWidth
@@ -182,11 +184,11 @@ export default function SettingsPage() {
           </Grid>
           <Grid item xs={4}>
             <TextField
-              label="Confirm Password"
+              label={t('confirmPassword')}
               variant="outlined"
               value={password1}
               onChange={(e) => setPassword1(e.target.value)}
-              placeholder="Enter a new password"
+              placeholder={t('enterNewPass')}
               margin="normal"
               type="password"
               fullWidth
@@ -204,7 +206,7 @@ export default function SettingsPage() {
               }}
               onClick={handlePasswordResetClick}
             >
-              Submit
+              {t('submit')}
             </Button>
           </Grid>
           {error !== '' && (
@@ -219,12 +221,12 @@ export default function SettingsPage() {
           <Grid container spacing={2} alignItems="center">
             <Grid item xs={7}>
               <TextField
-                placeholder={`Atlas Reactor config file for account ${activeUser?.handle}`}
+                placeholder={`${t('settings.configFilePlaceHolder')} ${activeUser?.handle}`}
                 value={truncateDynamicPath(
                   activeUser?.configFile === undefined
                     ? ''
                     : activeUser?.configFile,
-                  45
+                  45,
                 )}
                 style={{ flexGrow: 1, marginRight: '1em' }}
                 variant="outlined"
@@ -259,7 +261,7 @@ export default function SettingsPage() {
                   backgroundColor: (theme) => theme.palette.primary.light,
                 }}
               >
-                Select Config File
+                {t('settings.selectConfigFile')}
               </Button>
             </Grid>
           </Grid>
@@ -274,24 +276,17 @@ export default function SettingsPage() {
                 sx={{ display: 'flex', alignItems: 'center' }}
               >
                 <span>
-                  Invalid Path
+                  {t('errors.invalidPath')}
                   <br />
-                  The path must:
+                  {t('errors.invalidPath1')}
                   <ul>
-                    <li>Start with a drive letter (e.g., C:).</li>
+                    <li>{t('errors.invalidPath2')}</li>
                     <li>
-                      Have at least one directory before
-                      &apos;Win64\AtlasReactor.exe.&apos;
+                      {t('errors.invalidPath3')}
                       <br />
-                      example:
-                      &apos;C:\AtlasReactor\Win64\AtlasReactor.exe&apos; or
-                      &apos;C:\games\Atlas Reactor\Win64\AtlasReactor.exe&apos;
-                      etc..
+                      {t('errors.invalidPath4')}
                     </li>
-                    <li>
-                      Not be located within a OneDrive folder. (this corrupts
-                      the game)
-                    </li>
+                    <li>{t('errors.invalidPath5')}</li>
                   </ul>
                 </span>
               </Alert>
@@ -304,17 +299,14 @@ export default function SettingsPage() {
                 sx={{ display: 'flex', alignItems: 'center' }}
               >
                 <span>
-                  Warning
+                  {t('warning')}
                   <br />
-                  The path must:
+                  {t('errors.invalidPath1')}
                   <ul>
                     <li>
-                      Not be located within the Program Files or Program Files
-                      (x86) directory, exept for a Steam folder, doing so may
-                      fail to patch the game.
+                      {t('errors.invalidPath6')}
                       <br />
-                      It&apos;s recommended to move the game outside of Program
-                      Files.
+                      {t('errors.invalidPath7')}
                     </li>
                   </ul>
                 </span>
@@ -323,7 +315,7 @@ export default function SettingsPage() {
           )}
           <Grid item xs={6}>
             <TextField
-              placeholder="Atlas Reactor path"
+              placeholder={t('settings.atlasPath')}
               value={truncateDynamicPath(exePath, 45)}
               style={{ flexGrow: 1, marginRight: '1em' }}
               variant="outlined"
@@ -358,11 +350,11 @@ export default function SettingsPage() {
                 backgroundColor: (theme) => theme.palette.primary.light,
               }}
             >
-              Select Atlas Reactor.exe
+              {t('settings.selectAtllasExe')}
             </Button>
           </Grid>
           <Grid item xs={2}>
-            <Tooltip title="Only works if you have the game already installed in steam">
+            <Tooltip title={t('settings.tooltipTitleSteam')}>
               <Button
                 variant="contained"
                 color="primary"
@@ -373,7 +365,7 @@ export default function SettingsPage() {
                   backgroundColor: (theme) => theme.palette.primary.light,
                 }}
               >
-                Search
+                {t('search')}
               </Button>
             </Tooltip>
           </Grid>
@@ -384,17 +376,15 @@ export default function SettingsPage() {
           <Grid item xs={12}>
             <FormControl fullWidth>
               <Select value={ip} onChange={handleChange}>
-                <MenuItem value="evos-emu.com">
-                  evos-emu.com (No Proxy)
-                </MenuItem>
+                <MenuItem value="evos-emu.com">{t('ips.noProxy')}</MenuItem>
                 <MenuItem value="arproxy.addalyn.baby">
-                  evos-emu.com (Proxy in Germany)
+                  {t('ips.proxy1')}
                 </MenuItem>
                 <MenuItem value="arproxy2.addalyn.baby">
-                  evos-emu.com (Proxy in France)
+                  {t('ips.proxy2')}
                 </MenuItem>
                 <MenuItem value="arproxy3.addalyn.baby">
-                  evos-emu.com (Proxy in Finland)
+                  {t('ips.proxy3')}
                 </MenuItem>
               </Select>
             </FormControl>
@@ -407,7 +397,7 @@ export default function SettingsPage() {
             <FormGroup>
               <FormControlLabel
                 control={<Switch />}
-                label="Enable Ticket System (Recommended)"
+                label={t('settings.labelTicket')}
                 checked={ticketEnabled === 'true'}
                 onChange={() => {
                   setTicketEnabled(ticketEnabled === 'true' ? 'false' : 'true');
@@ -415,8 +405,7 @@ export default function SettingsPage() {
               />
             </FormGroup>
             <span style={{ fontSize: '0.8em' }}>
-              disabling this requires AtlasReactorConfig.json to be selected and
-              created (not recommended)
+              {t('settings.labelTicketDisabled')}
             </span>
           </Grid>
         </Grid>
@@ -427,22 +416,19 @@ export default function SettingsPage() {
             <FormGroup>
               <FormControlLabel
                 control={<Switch />}
-                label="Activate All Chat (Recommended) (applies before game launch)"
+                label={t('settings.allChatLabel')}
                 checked={showAllChat === 'true'}
                 onChange={() => {
                   setShowAllChatInternal(
-                    showAllChat === 'true' ? 'false' : 'true'
+                    showAllChat === 'true' ? 'false' : 'true',
                   );
                 }}
               />{' '}
             </FormGroup>
             <span style={{ fontSize: '0.8em' }}>
-              Disabling this feature will prevent you from viewing any in-game
-              chat. It is not advisable, as it may cause you to miss important
-              messages, such as announcements about remakes made in all chat.
+              {t('settings.allChatLabelDisabled')}
               <br />
-              When you disable/enable all chat in game, it will just be reset
-              back to whatever this setting is.
+              {t('settings.allChatLabelDisabled2')}
             </span>
           </Grid>
         </Grid>
@@ -453,21 +439,19 @@ export default function SettingsPage() {
             <FormGroup>
               <FormControlLabel
                 control={<Switch />}
-                label="Enable Auto Patching (Recommended)"
+                label={t('settings.autoPatchingLabel')}
                 checked={enablePatching === 'true'}
                 onChange={() => {
                   setEnablePatching(
-                    enablePatching === 'true' ? 'false' : 'true'
+                    enablePatching === 'true' ? 'false' : 'true',
                   );
                 }}
               />
             </FormGroup>
             <span style={{ fontSize: '0.8em' }}>
-              Disable this only if you are experiencing issues with patching
-              files
+              {t('settings.autoPatchingLabelDisabled')}
               <br />
-              You will need to manually patch the game, info can be found in
-              discord
+              {t('settings.autoPatchingLabelDisabled2')}
             </span>
           </Grid>
         </Grid>
@@ -478,7 +462,7 @@ export default function SettingsPage() {
             <FormGroup>
               <FormControlLabel
                 control={<Switch />}
-                label="Add -nolog to launch options"
+                label={t('settings.noLogLaunchOptionsLabel')}
                 checked={noLogEnabled === 'true'}
                 onChange={() => {
                   setNoLogEnabled(noLogEnabled === 'true' ? 'false' : 'true');
@@ -486,11 +470,7 @@ export default function SettingsPage() {
               />
             </FormGroup>
             <span style={{ fontSize: '0.8em' }}>
-              If you&apos;re experiencing crashes across multiple accounts,
-              consider trying this solution. Keep in mind, though, that while it
-              might help alleviate the issue, there&apos;s also a chance it
-              could potentially exacerbate the problem and lead to further
-              crashes, especially if you do not use multiple accounts.
+              {t('settings.noLogLaunchOptionsDisabled')}
             </span>
           </Grid>
         </Grid>
@@ -505,7 +485,7 @@ export default function SettingsPage() {
               onClick={handleDeleteClick}
               sx={{ height: '56px' }}
             >
-              Delete All Accounts (this will log you out)
+              {t('settings.deleteAllAccounts')}
             </Button>
           </Grid>
           <Grid item xs={6}>
@@ -516,7 +496,7 @@ export default function SettingsPage() {
               onClick={handleResetClick}
               sx={{ height: '56px' }}
             >
-              Reset Application (this will log you out)
+              {t('settings.resetApp')}
             </Button>
           </Grid>
         </Grid>

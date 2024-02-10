@@ -23,6 +23,7 @@ import { FlexBox } from '../generic/BasicComponents';
 import { mapMiniPic } from '../../lib/Resources';
 import Player from './Player';
 import { CharacterIcon } from './CharacterIcon';
+import { useTranslation } from 'react-i18next';
 
 export const TeamFlexBox = styled(FlexBox)(() => ({
   paddingLeft: 20,
@@ -57,7 +58,7 @@ const TeamRow = React.forwardRef(
         ))}
       </TeamFlexBox>
     );
-  }
+  },
 );
 
 function Team({ caption, info, isTeamA, playerData, status }: TeamProps) {
@@ -82,14 +83,14 @@ function Team({ caption, info, isTeamA, playerData, status }: TeamProps) {
   );
 }
 
-function statusString(info: GameData) {
+function statusString(info: GameData, t: any) {
   if (info.status === 'Started') {
-    return `Turn ${info.turn}`;
+    return `${t('turn')} ${info.turn}`;
   }
   if (info.turn === 0) {
-    return info.status;
+    return t(info.status);
   }
-  return `${info.status} (turn ${info.turn})`;
+  return `${t(info.status)} (${t('turn')} ${info.turn})`;
 }
 
 interface Props {
@@ -99,15 +100,17 @@ interface Props {
 }
 
 export default function Game({ info, playerData, expanded }: Props) {
+  const { t } = useTranslation();
+
   const A = {
-    caption: 'Team Blue',
+    caption: t('teamA'),
     info: info.teamA,
     playerData,
     isTeamA: true,
     status: info.status,
   };
   const B = {
-    caption: 'Team Orange',
+    caption: t('teamB'),
     info: info.teamB,
     playerData,
     isTeamA: false,
@@ -124,7 +127,7 @@ export default function Game({ info, playerData, expanded }: Props) {
         <Slide in={collapsed} direction="right" mountOnEnter unmountOnExit>
           <TeamRow {...A} />
         </Slide>
-        <Tooltip title={`${info.map} ${info.ts}`} arrow>
+        <Tooltip title={`${t(`maps.${info.map}`)} ${info.ts}`} arrow>
           <Box
             flexBasis={120}
             onClick={() => setCollapsed((x) => !x)}
@@ -167,7 +170,7 @@ export default function Game({ info, playerData, expanded }: Props) {
                 marginTop: -10,
               }}
             >
-              {statusString(info)}
+              {statusString(info, t)}
             </Typography>
           </Box>
         </Tooltip>

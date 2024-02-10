@@ -11,6 +11,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { strapiClient } from 'renderer/lib/strapi';
+import { useTranslation } from 'react-i18next';
 
 ChartJS.register(
   CategoryScale,
@@ -18,7 +19,7 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 interface DataSubItem {
@@ -70,7 +71,7 @@ const fetchInfo = async (
   map: string,
   player: string,
   startDate: string,
-  endDate: string
+  endDate: string,
 ) => {
   try {
     const strapi = strapiClient
@@ -124,6 +125,8 @@ interface Props {
 }
 
 export default function GamesWinsMontly({ map, player }: Props) {
+  const { t } = useTranslation();
+
   const [gameData, setGameData] = useState([]);
 
   useEffect(() => {
@@ -142,7 +145,7 @@ export default function GamesWinsMontly({ map, player }: Props) {
 
         monthNumber += 1;
         const startDate = formatDateForStrapi(
-          new Date(year, monthNumber - 1, 1, 2, 0, 0)
+          new Date(year, monthNumber - 1, 1, 2, 0, 0),
         );
 
         const lastDay = new Date(year, monthNumber, 0);
@@ -153,8 +156,8 @@ export default function GamesWinsMontly({ map, player }: Props) {
             lastDay.getDate(),
             23,
             59,
-            59
-          )
+            59,
+          ),
         );
 
         return fetchInfo(map, player, startDate, endDate);
@@ -177,24 +180,24 @@ export default function GamesWinsMontly({ map, player }: Props) {
       },
       title: {
         display: true,
-        text: `Wins and Losses`,
+        text: t('stats.statsWinsAndLosses'),
       },
     },
   };
   const datasets = [
     {
-      label: `Wins`,
+      label: t('stats.wins'),
       data: gameData.map((item) => item[0]),
       backgroundColor: 'rgba(144, 202, 249, 0.5)',
     },
     {
-      label: 'Losses',
+      label: t('stats.losses'),
       data: gameData.map((item) => item[1]),
       backgroundColor: 'rgba(255, 99, 132, 0.5)',
     },
   ];
   const data = {
-    labels,
+    labels: labels.map((month: string) => t(`months.${month}`)),
     datasets,
   };
 

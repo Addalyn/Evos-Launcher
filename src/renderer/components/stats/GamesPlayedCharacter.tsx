@@ -11,6 +11,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { strapiClient } from 'renderer/lib/strapi';
+import { useTranslation } from 'react-i18next';
 
 ChartJS.register(
   CategoryScale,
@@ -18,7 +19,7 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 interface Props {
@@ -130,12 +131,14 @@ const fetchInfo = async (character: string, map: string, player: string) => {
 };
 
 export default function GamesPlayedCharacter({ map, player }: Props) {
+  const { t } = useTranslation();
+
   const [gameData, setGameData] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       const dataPromises = names.map((character) =>
-        fetchInfo(character, map, player)
+        fetchInfo(character, map, player),
       );
       const data = await Promise.all(dataPromises);
       // @ts-ignore
@@ -162,18 +165,18 @@ export default function GamesPlayedCharacter({ map, player }: Props) {
       },
       title: {
         display: true,
-        text: `Games Played ${
-          player !== '' ? `by ${player} ` : ''
-        }Per Character`,
+        text: `${t('stats.gamesPlayed')} ${
+          player !== '' ? `${t('stats.by')} ${player} ` : ''
+        }${t('stats.perChar')}`,
       },
     },
   };
 
   const data = {
-    labels: names,
+    labels: names.map((name) => t(`charNames.${name.replace(/:3/g, '')}`)),
     datasets: [
       {
-        label: `Games Played ${player !== '' ? `by ${player}` : ''}`,
+        label: `${t('stats.gamesPlayed')} ${player !== '' ? `${t('stats.by')} ${player}` : ''}`,
         data: gamesPlayedPerMonth,
         backgroundColor: characterColors,
       },

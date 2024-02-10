@@ -13,17 +13,18 @@ import Typography from '@mui/material/Typography';
 import EvosStore, { AuthUser } from 'renderer/lib/EvosStore';
 import { login } from 'renderer/lib/Evos';
 import { EvosError, processError } from 'renderer/lib/Error';
-
-const validationSchemaUser = z.object({
-  username: z
-    .string()
-    .min(2, { message: 'Username must be atleast 2 characters' }),
-  password: z.string().min(1, { message: 'Password is required' }),
-});
-
-type ValidationSchemaUser = z.infer<typeof validationSchemaUser>;
+import { useTranslation } from 'react-i18next';
 
 export default function AddAccount() {
+  const { t } = useTranslation();
+
+  const validationSchemaUser = z.object({
+    username: z.string().min(4, { message: t('errors.username2Char') }),
+    password: z.string().min(1, { message: t('errors.passwordRequired') }),
+  });
+
+  type ValidationSchemaUser = z.infer<typeof validationSchemaUser>;
+
   const {
     setIp,
     setAuthenticatedUsers,
@@ -57,21 +58,21 @@ export default function AddAccount() {
       .then((resp) => {
         if (authenticatedUsers.find((u) => u.user === username)) {
           const authenticatedUser = authenticatedUsers.find(
-            (u) => u.user === username
+            (u) => u.user === username,
           ) as AuthUser;
           updateAuthenticatedUsers(
             authenticatedUser.user,
             resp.data.token,
             resp.data.handle,
             resp.data.banner,
-            authenticatedUser.configFile
+            authenticatedUser.configFile,
           );
         } else {
           setAuthenticatedUsers(
             username,
             resp.data.token,
             resp.data.handle,
-            resp.data.banner
+            resp.data.banner,
           );
         }
         setError(undefined);
@@ -84,8 +85,9 @@ export default function AddAccount() {
         processError(
           error,
           setError,
-          () => setError({ text: 'Invalid username or password.' }),
-          () => {}
+          () => setError({ text: t('errors.invalidUserOrPass') }),
+          () => {},
+          t,
         );
       });
 
@@ -102,7 +104,7 @@ export default function AddAccount() {
   return (
     <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
       <Typography component="h1" variant="h5">
-        Add Account
+        {t('addAccount')}
       </Typography>
       <Box
         component="form"
@@ -151,7 +153,7 @@ export default function AddAccount() {
             backgroundColor: (theme) => theme.palette.primary.light,
           }}
         >
-          Add account and switch to account
+          {t('addAccountAndSwitch')}
         </Button>
         <Grid container spacing={2}>
           <Grid item xs={9}>
@@ -162,7 +164,7 @@ export default function AddAccount() {
                 color: 'grey',
               }}
             >
-              Reset Application
+              {t('resetApp')}
             </Button>
           </Grid>
           <Grid item xs={3}>
@@ -173,7 +175,7 @@ export default function AddAccount() {
                 color: 'grey',
               }}
             >
-              Sign Up
+              {t('register')}
             </Button>
           </Grid>
         </Grid>

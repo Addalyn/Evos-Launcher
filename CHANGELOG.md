@@ -1,3 +1,9 @@
+# 1.8.0 - The Translation Update
+
+- Fully translated the launcher into Dutch, German, Spanish, French, and Russian.
+- Added a new setting to change the launcher language from within the launcher interface.
+- If you'd like to contribute by adding another language, please visit [this link](https://ptb.discord.com/channels/600425662452465701/1205619678181990430).
+
 # 1.7.1
 
 - Fixed an issue that patch downloads over and over. even if you already had it.

@@ -13,6 +13,7 @@ import TopGamesDamageBy from '../stats/TopGamesDamageBy';
 import TopGamesHealedBy from '../stats/TopGamesHealedBy';
 import TopGamesDamageReceivedBy from '../stats/TopGamesDamageReceivedBy';
 import GamesPlayedServer from '../stats/GamesPlayedServer';
+import { useTranslation } from 'react-i18next';
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -52,6 +53,8 @@ export default function StatsPage() {
   const [value, setValue] = useState(0);
   const [value1, setValue1] = useState(0);
   const { width } = useWindowDimensions();
+  const { t } = useTranslation();
+
   const drawerWidth =
     width !== null && width < 916
       ? window.innerWidth - 100
@@ -94,7 +97,7 @@ export default function StatsPage() {
           sx={{ width: drawerWidth }}
         >
           {mapTabs.map((label, index) => (
-            <Tab label={label} key={index} {...a11yProps(index)} />
+            <Tab label={t(`maps.${label}`)} key={index} {...a11yProps(index)} />
           ))}
         </Tabs>
         {mapTabs.map((map, index) => (
@@ -120,7 +123,7 @@ export default function StatsPage() {
           sx={{ width: drawerWidth }}
         >
           {mapTabs.map((label, index) => (
-            <Tab label={label} key={index} {...a11yProps(index)} />
+            <Tab label={t(`maps.${label}`)} key={index} {...a11yProps(index)} />
           ))}
         </Tabs>
         {mapTabs.map((map, index) => (

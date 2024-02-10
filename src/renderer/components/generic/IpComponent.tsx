@@ -8,10 +8,12 @@ import {
   MenuItem,
 } from '@mui/material';
 import EvosStore from 'renderer/lib/EvosStore';
+import { useTranslation } from 'react-i18next';
 
 function IpComponent() {
   const { setIp } = EvosStore();
   const [selectedIp, setSelectedIp] = useState('evos-emu.com'); // Initialize the state
+  const { t } = useTranslation();
 
   const onSubmit = () => {
     setIp(selectedIp); // Use the selectedIp state
@@ -26,23 +28,17 @@ function IpComponent() {
   return (
     <>
       <Typography component="h1" variant="h5">
-        Select the IP you wish to connect to
+        {t('selectIp')}
       </Typography>
       <Box component="form" onSubmit={onSubmit} noValidate sx={{ mt: 1 }}>
         <FormControl fullWidth>
           <Select value={selectedIp} onChange={handleSelectChange}>
             {' '}
             {/* Set value and onChange */}
-            <MenuItem value="evos-emu.com">evos-emu.com (No Proxy)</MenuItem>
-            <MenuItem value="arproxy.addalyn.baby">
-              evos-emu.com (Proxy in Germany)
-            </MenuItem>
-            <MenuItem value="arproxy2.addalyn.baby">
-              evos-emu.com (Proxy in France)
-            </MenuItem>
-            <MenuItem value="arproxy3.addalyn.baby">
-              evos-emu.com (Proxy in Finland)
-            </MenuItem>
+            <MenuItem value="evos-emu.com">{t('ips.noProxy')}</MenuItem>
+            <MenuItem value="arproxy.addalyn.baby">{t('ips.proxy1')}</MenuItem>
+            <MenuItem value="arproxy2.addalyn.baby">{t('ips.proxy2')}</MenuItem>
+            <MenuItem value="arproxy3.addalyn.baby">{t('ips.proxy3')}</MenuItem>
           </Select>
         </FormControl>
         <Button
@@ -55,7 +51,7 @@ function IpComponent() {
             backgroundColor: (theme) => theme.palette.primary.light,
           }}
         >
-          Submit
+          {t('submit')}
         </Button>
       </Box>
     </>

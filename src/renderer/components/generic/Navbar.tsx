@@ -40,48 +40,96 @@ import { getMotd, getTicket, logout } from 'renderer/lib/Evos';
 import { EvosError, isValidExePath, processError } from 'renderer/lib/Error';
 import { BannerType, logo, playerBanner } from '../../lib/Resources';
 import ErrorDialog from './ErrorDialog';
+import { useTranslation, Trans } from 'react-i18next';
+
+interface Language {
+  nativeName: string;
+}
+
+const lngs: { [key: string]: Language } = {
+  en: { nativeName: 'English' },
+  nl: { nativeName: 'Nederlands' },
+  fr: { nativeName: 'Français' },
+  ru: { nativeName: 'Русский' },
+  de: { nativeName: 'Deutsch' },
+  es: { nativeName: 'Español' },
+};
 
 type PaletteMode = 'light' | 'dark';
 
-const pages = [
-  { title: 'Status', href: '/', icon: <HomeIcon /> },
-  { title: 'Global Stats', href: '/stats', icon: <BarChartIcon /> },
-  { title: 'Personal Stats', href: '/playerstats', icon: <BarChartIcon /> },
-  { title: 'Previous Games', href: '/previousgames', icon: <HistoryIcon /> },
-  {
-    title: 'Join Discord',
-    href: 'https://discord.gg/evos-atlasreactor',
-    icon: <ForumIcon />,
-    exsternal: true,
-  },
-  { title: 'Settings', href: '/settings', icon: <SettingsIcon /> },
-  { title: 'Game Logs', href: '/logs', icon: <TextSnippetIcon /> },
-  { title: 'Download', href: '/download', icon: <DownloadIcon /> },
-  { title: 'About', href: '/about', icon: <InfoIcon /> },
-  { title: 'Changelog', href: '/changelog', icon: <GitHubIcon /> },
-];
-
 function RoundToNearest5(x: number) {
   return Math.round(x / 5) * 5;
-}
-
-function FormatAge(ageMs: number) {
-  if (ageMs < 5000) {
-    return 'just now';
-  }
-  if (ageMs < 60000) {
-    return `${RoundToNearest5(ageMs / 1000)} seconds ago`;
-  }
-  if (ageMs < 90000) {
-    return `A minute ago`;
-  }
-  return `${Math.round(ageMs / 60000)} minutes ago`;
 }
 
 export default function NavBar() {
   const evosStore = EvosStore();
   const mode = evosStore.mode as PaletteMode;
   const location = useLocation();
+  const { t, i18n } = useTranslation();
+
+  const pages = [
+    { title: t('menuOptions.status'), href: '/', icon: <HomeIcon /> },
+    {
+      title: t('menuOptions.gstats'),
+      href: '/stats',
+      icon: <BarChartIcon />,
+    },
+    {
+      title: t('menuOptions.pstats'),
+      href: '/playerstats',
+      icon: <BarChartIcon />,
+    },
+    {
+      title: t('menuOptions.previousGames'),
+      href: '/previousgames',
+      icon: <HistoryIcon />,
+    },
+    {
+      title: t('menuOptions.joinDiscord'),
+      href: 'https://discord.gg/evos-atlasreactor',
+      icon: <ForumIcon />,
+      external: true,
+    },
+    {
+      title: t('menuOptions.settings'),
+      href: '/settings',
+      icon: <SettingsIcon />,
+      devider: true,
+    },
+    {
+      title: t('menuOptions.gameLogs'),
+      href: '/logs',
+      icon: <TextSnippetIcon />,
+    },
+    {
+      title: t('menuOptions.download'),
+      href: '/download',
+      icon: <DownloadIcon />,
+    },
+    {
+      title: t('menuOptions.about'),
+      href: '/about',
+      icon: <InfoIcon />,
+    },
+    {
+      title: t('menuOptions.changelog'),
+      href: '/changelog',
+      icon: <GitHubIcon />,
+    },
+  ];
+
+  function FormatAge(ageMs: number) {
+    if (ageMs < 5000) {
+      return t('formatAge.justNow');
+    }
+    if (ageMs < 60000) {
+      return `${RoundToNearest5(ageMs / 1000)} ${t('formatAge.secondsAgo')}`;
+    }
+    if (ageMs < 90000) {
+      return t('formatAge.aMinuteAgo');
+    }
+    return `${Math.round(ageMs / 60000)} ${t('formatAge.minutesAgo')}`;
+  }
 
   const {
     toggleMode,
@@ -108,7 +156,7 @@ export default function NavBar() {
           setMotd(resp.data.text);
         })
         .catch(async () => {
-          setMotd('Error Loading Motd');
+          setMotd(t('errors.errorMotd'));
         });
     }
     get();
@@ -128,7 +176,7 @@ export default function NavBar() {
       '',
       activeUser?.handle as string,
       activeUser?.banner as number,
-      activeUser?.configFile as string
+      activeUser?.configFile as string,
     );
     navigate('/login');
   };
@@ -185,7 +233,7 @@ export default function NavBar() {
                 },
               });
             })
-            .catch((e) => processError(e, setError, navigate, handleLogOut));
+            .catch((e) => processError(e, setError, navigate, handleLogOut, t));
         } else {
           window.electron.ipcRenderer.sendMessage('launch-game', {
             launchOptions: {
@@ -202,24 +250,23 @@ export default function NavBar() {
     } else {
       window.electron.ipcRenderer.sendMessage(
         'close-game',
-        activeUser?.user as string
+        activeUser?.user as string,
       );
     }
   };
   let tooltipTitle = '';
   if (exePath.endsWith('AtlasReactor.exe')) {
     if (activeGames[activeUser?.user as string]) {
-      tooltipTitle = `Kill Atlas Reactor for ${activeUser?.handle}`;
+      tooltipTitle = `${t('game.kill')} ${activeUser?.handle}`;
     } else {
-      tooltipTitle = `Play Atlas Reactor as ${activeUser?.handle}`;
+      tooltipTitle = `${t('game.play')} ${activeUser?.handle}`;
     }
   } else {
-    tooltipTitle = 'Select your Atlas Reactor Executable in Settings first';
+    tooltipTitle = t('errors.errorExe');
   }
 
   if (!isValidExePath(exePath)) {
-    tooltipTitle =
-      'Invalid Path, Select your Atlas Reactor Executable in Settings first';
+    tooltipTitle = t('errors.errorPath');
   }
 
   return (
@@ -272,8 +319,8 @@ export default function NavBar() {
                       onClick={handleLaunchGameClick}
                     >
                       {activeGames[activeUser?.user as string]
-                        ? `Kill Atlas Reactor for ${activeUser?.user}`
-                        : `Play Atlas Reactor as ${activeUser?.user}`}
+                        ? `${t('game.kill')} ${activeUser?.user}`
+                        : `${t('game.play')} ${activeUser?.user}`}
                     </Button>
                   </span>
                 </Tooltip>
@@ -291,6 +338,20 @@ export default function NavBar() {
                 {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
               </IconButton>
             </Stack>
+            <Box sx={{ flexGrow: 0, paddingRight: '5px' }}>
+              <Select
+                value={i18n.language ? i18n.language : lngs['en'].nativeName}
+                label=""
+                onChange={(e) => i18n.changeLanguage(e.target.value)}
+                sx={{ width: '100%', maxHeight: '36.5px' }}
+              >
+                {Object.keys(lngs).map((lng) => (
+                  <MenuItem value={lng} key={lng}>
+                    {lngs[lng].nativeName}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Box>
             <Box sx={{ flexGrow: 0 }}>
               {isAuthenticated() && (
                 <Stack
@@ -304,7 +365,7 @@ export default function NavBar() {
                     disabled={isDownloading}
                     sx={{ width: '100%', maxHeight: '36.5px' }}
                   >
-                    <ListSubheader>Accounts</ListSubheader>
+                    <ListSubheader>{t('accounts')}</ListSubheader>
                     {authenticatedUsers.map((user) => (
                       <MenuItem
                         value={user.handle}
@@ -324,14 +385,14 @@ export default function NavBar() {
                             alt="Avatar"
                             src={playerBanner(
                               BannerType.foreground,
-                              user.banner ?? 65
+                              user.banner ?? 65,
                             )}
                             sx={{ width: 64, height: 64, marginRight: '16px' }}
                           />
                         </div>
                       </MenuItem>
                     ))}
-                    <ListSubheader>Actions</ListSubheader>
+                    <ListSubheader>{t('actions')}</ListSubheader>
                     <MenuItem onClick={handleAddUser}>
                       <div
                         style={{
@@ -341,7 +402,7 @@ export default function NavBar() {
                           minHeight: '36.5px',
                         }}
                       >
-                        Add Account
+                        {t('addAccount')}
                       </div>
                     </MenuItem>
                     <MenuItem onClick={handleLogOut}>
@@ -353,7 +414,7 @@ export default function NavBar() {
                           minHeight: '36.5px',
                         }}
                       >
-                        Logout
+                        {t('logout')}
                       </div>
                     </MenuItem>
                   </Select>
@@ -364,7 +425,7 @@ export default function NavBar() {
                   to="/login"
                   style={(active) => active && { display: 'none' }}
                 >
-                  <Typography>Log in</Typography>
+                  <Typography>{t('login')}</Typography>
                 </NavLink>
               )}
             </Box>
@@ -408,19 +469,17 @@ export default function NavBar() {
                 {pages.map((page, index) => (
                   // eslint-disable-next-line react/no-array-index-key
                   <React.Fragment key={index}>
-                    {page.title === 'Settings' ? (
-                      <Divider key={`${page.title}-divider`} />
-                    ) : null}
+                    {page.devider && <Divider key={`${page.title}-divider`} />}
                     <ListItem
                       key={page.title}
                       disablePadding
                       sx={{ display: 'block' }}
                       disabled={isDownloading}
                       onClick={() => {
-                        if (page.exsternal) {
+                        if (page.external) {
                           window.electron.ipcRenderer.sendMessage(
                             'openUrl',
-                            page.href
+                            page.href,
                           );
                           return;
                         }
@@ -454,8 +513,8 @@ export default function NavBar() {
                 <ListItem>
                   <ListItemText>
                     {age === undefined
-                      ? 'Loading...'
-                      : `Updated ${FormatAge(age)}`}
+                      ? t('loading')
+                      : `${t('updated')} ${FormatAge(age)}`}
                   </ListItemText>
                 </ListItem>
               </List>

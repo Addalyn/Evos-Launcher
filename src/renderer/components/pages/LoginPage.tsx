@@ -23,15 +23,7 @@ import { login } from 'renderer/lib/Evos';
 import { EvosError, processError } from 'renderer/lib/Error';
 import { BannerType, playerBanner } from 'renderer/lib/Resources';
 import IpComponent from '../generic/IpComponent';
-
-const validationSchemaUser = z.object({
-  username: z
-    .string()
-    .min(2, { message: 'Username must be atleast 2 characters' }),
-  password: z.string().min(1, { message: 'Password is required' }),
-});
-
-type ValidationSchemaUser = z.infer<typeof validationSchemaUser>;
+import { useTranslation } from 'react-i18next';
 
 export default function LoginPage() {
   const {
@@ -43,6 +35,14 @@ export default function LoginPage() {
     activeUser,
     updateAuthenticatedUsers,
   } = EvosStore();
+  const { t } = useTranslation();
+
+  const validationSchemaUser = z.object({
+    username: z.string().min(2, { message: t('errors.username2Char') }),
+    password: z.string().min(1, { message: t('errors.passwordRequired') }),
+  });
+
+  type ValidationSchemaUser = z.infer<typeof validationSchemaUser>;
 
   const [addUser, setAddUser] = useState(false);
   const navigate = useNavigate();
@@ -91,21 +91,21 @@ export default function LoginPage() {
       .then((resp) => {
         if (authenticatedUsers.find((u) => u.user === username)) {
           const authenticatedUser = authenticatedUsers.find(
-            (u) => u.user === username
+            (u) => u.user === username,
           ) as AuthUser;
           updateAuthenticatedUsers(
             authenticatedUser.user,
             resp.data.token,
             resp.data.handle,
             resp.data.banner,
-            authenticatedUser.configFile
+            authenticatedUser.configFile,
           );
         } else {
           setAuthenticatedUsers(
             username,
             resp.data.token,
             resp.data.handle,
-            resp.data.banner
+            resp.data.banner,
           );
         }
         setError(undefined);
@@ -119,8 +119,9 @@ export default function LoginPage() {
         processError(
           error,
           setError,
-          () => setError({ text: 'Invalid username or password.' }),
-          () => {}
+          () => setError({ text: t('errors.invalidUserOrPass') }),
+          () => {},
+          t,
         );
       });
 
@@ -142,7 +143,7 @@ export default function LoginPage() {
       {ip ? (
         <>
           <Typography component="h1" variant="h5">
-            Sign in
+            {t('login')}
           </Typography>
           <Box
             component="form"
@@ -156,7 +157,7 @@ export default function LoginPage() {
                 required
                 fullWidth
                 id="username"
-                label="Username"
+                label={t('username')}
                 autoComplete=""
                 autoFocus
                 {...register('username')}
@@ -175,7 +176,7 @@ export default function LoginPage() {
                   navigate('/');
                 }}
               >
-                <ListSubheader>Accounts</ListSubheader>
+                <ListSubheader>{t('accounts')}</ListSubheader>
                 {authenticatedUsers.map((user) => (
                   <MenuItem key={user.user} value={user.user}>
                     <div
@@ -190,7 +191,7 @@ export default function LoginPage() {
                         alt="Avatar"
                         src={playerBanner(
                           BannerType.foreground,
-                          user.banner ?? 65
+                          user.banner ?? 65,
                         )}
                         sx={{ width: 64, height: 64, marginRight: '16px' }}
                       />
@@ -206,7 +207,7 @@ export default function LoginPage() {
                       minHeight: '36.5px',
                     }}
                   >
-                    Add Account
+                    {t('addAccount')}
                   </div>
                 </MenuItem>
               </Select>
@@ -218,7 +219,7 @@ export default function LoginPage() {
               margin="normal"
               required
               fullWidth
-              label="Password"
+              label={t('password')}
               type="password"
               id="password"
               {...register('password')}
@@ -228,7 +229,7 @@ export default function LoginPage() {
             )}
             {error && (
               <Alert severity="error">
-                <AlertTitle>Error</AlertTitle>
+                <AlertTitle>{t('error')}</AlertTitle>
                 {error.text}
               </Alert>
             )}
@@ -242,9 +243,7 @@ export default function LoginPage() {
                 backgroundColor: (theme) => theme.palette.primary.light,
               }}
             >
-              {!isAuthenticated()
-                ? 'Sign in'
-                : 'Add account and switch to account'}
+              {!isAuthenticated() ? t('login') : t('addAccountAndSwitch')}
             </Button>
             <Grid container spacing={2}>
               <Grid item xs={9}>
@@ -255,7 +254,7 @@ export default function LoginPage() {
                     color: 'grey',
                   }}
                 >
-                  Reset Application and change ip
+                  {t('resetApp')}
                 </Button>
               </Grid>
               <Grid item xs={3}>
@@ -264,9 +263,10 @@ export default function LoginPage() {
                   sx={{
                     textDecoration: 'none',
                     color: 'grey',
+                    marginLeft: '-50px',
                   }}
                 >
-                  Sign Up
+                  {t('register')}
                 </Button>
               </Grid>
             </Grid>

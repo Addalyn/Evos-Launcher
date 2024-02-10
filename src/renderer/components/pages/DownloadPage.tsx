@@ -19,6 +19,7 @@ import LinearProgress, {
 import { logoSmall } from 'renderer/lib/Resources';
 import EvosStore from 'renderer/lib/EvosStore';
 import { truncateDynamicPath } from './SettingsPage';
+import { useTranslation } from 'react-i18next';
 
 function LinearProgressWithLabel(
   props: LinearProgressProps & {
@@ -26,7 +27,8 @@ function LinearProgressWithLabel(
     text: string;
     bytes: number;
     totalbytes: number;
-  }
+    t: any;
+  },
 ) {
   const pathString = props.text;
   const pathArray = pathString.split('\\');
@@ -35,11 +37,11 @@ function LinearProgressWithLabel(
     <>
       <Typography variant="body2" color="text.secondary">
         {props.bytes === 0 && props.totalbytes === 0
-          ? 'Checking file'
-          : 'Downloading'}{' '}
+          ? props.t('download.checkingfiles')
+          : props.t('download.downloading')}{' '}
         {filenameWithExtension}{' '}
         {(props.bytes !== 0 && props.totalbytes !== 0) ??
-          `To ${truncateDynamicPath(props.text, 45)}`}
+          `${props.t('download.to')}} ${truncateDynamicPath(props.text, 45)}`}
       </Typography>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Box sx={{ width: '100%', mr: 1 }}>
@@ -48,7 +50,8 @@ function LinearProgressWithLabel(
         <Box sx={{ minWidth: 200 }}>
           <Typography variant="body2" color="text.secondary">
             {`${Math.round(props.value)}%`} {(props.bytes / 1000000).toFixed(3)}
-            /{(props.totalbytes / 1000000).toFixed(3)} MB
+            /{(props.totalbytes / 1000000).toFixed(3)}{' '}
+            {props.t('download.megaBytes')}
           </Typography>
         </Box>
       </Box>
@@ -69,6 +72,8 @@ function DownloadPage() {
   const [bytes, setBytes] = useState(0);
   const [totalBytes, setTotalBytes] = useState(0);
   const [completed, setCompleted] = useState('');
+  const { t } = useTranslation();
+
   async function handleSelectFolderClick() {
     let path = await window.electron.ipcRenderer.getSelectedFolder();
     // replace path:\AtlasReactor if it exists
@@ -110,36 +115,25 @@ function DownloadPage() {
   return (
     <>
       <Alert severity="info">
-        Preferably, download the game from Steam or any other official source.{' '}
-        <br />
-        Please consider this option as a last resort, as it is provided &apos;as
-        is&apos; and may cease to work at any time. <br />
-        To access, you must authenticate with Discord, be in our server, and
-        have the correct role.
-        <br />
-        This will also make a new folder called &apos;AtlasReactor&apos; and
-        download the files there
-        <br />
-        so if you want to repair your existing installation, please make sure
-        your root folder is called
-        <br />
-        &apos;AtlasReactor&apos; and your Win64 folder is inside it. aka
-        &apos;AtlasReactor\Win64&apos;
+        {t('download.infoLine1')} <br />
+        {t('download.infoLine2')} <br />
+        {t('download.infoLine3')} <br />
+        {t('download.infoLine4')} <br />
+        {t('download.infoLine5')} <br />
+        {t('download.infoLine6')}
       </Alert>
       {isDownloading && (
         <Alert severity="warning">
-          Please wait until all files are checked and downloaded before
-          proceeding. <br />
-          It may appear frozen, but it&apos;s not. <br />
-          You can restart Evos Launcher, and it will simply verify existing
-          files before continuing.
+          {t('download.warningLine1')} <br />
+          {t('download.warningLine2')} <br />
+          {t('download.warningLine3')}
         </Alert>
       )}
       <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
         <Grid container spacing={2} alignItems="center">
           <Grid item xs={7}>
             <TextField
-              placeholder="Atlas Reactor download path"
+              placeholder={t('download.placeholder')}
               value={truncateDynamicPath(folderPath, 45)}
               style={{ flexGrow: 1, marginRight: '1em' }}
               variant="outlined"
@@ -175,7 +169,7 @@ function DownloadPage() {
                 backgroundColor: (theme) => theme.palette.primary.light,
               }}
             >
-              Select Folder
+              {t('download.selectFolder')}
             </Button>
           </Grid>
         </Grid>
@@ -197,9 +191,7 @@ function DownloadPage() {
                     : theme.palette.primary.light,
               }}
             >
-              {isDownloading
-                ? 'Cancel Download or repair'
-                : 'Download or repair Atlas Reactor'}
+              {isDownloading ? t('download.cancel') : t('download.start')}
             </Button>
           </Grid>
         </Grid>
@@ -214,6 +206,7 @@ function DownloadPage() {
                   text={progressFile}
                   bytes={bytes}
                   totalbytes={totalBytes}
+                  t={t}
                 />
               ) : (
                 <Typography variant="body2" color="text.secondary">

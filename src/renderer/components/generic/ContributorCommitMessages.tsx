@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { List, ListItem, ListItemText, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   username: string;
@@ -21,22 +22,23 @@ interface GithubCommit {
 function ContributorCommitMessages({ username, repo }: Props) {
   const [commits, setCommits] = useState<GithubCommit[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await fetch(
-          `https://api.github.com/repos/${username}/${repo}/commits`
+          `https://api.github.com/repos/${username}/${repo}/commits`,
         );
         if (!response.ok) {
           throw new Error(
-            `Failed to fetch data: ${response.status} ${response.statusText}`
+            `${t('errors.fetchData')}: ${response.status} ${response.statusText}`,
           );
         }
         const data = await response.json();
         if (!Array.isArray(data)) {
           throw new Error(
-            `Invalid data format: expected an array, got ${typeof data}`
+            `Invalid data format: expected an array, got ${typeof data}`,
           );
         }
         setCommits(data as GithubCommit[]);
@@ -81,7 +83,7 @@ function ContributorCommitMessages({ username, repo }: Props) {
                       rel="noreferrer"
                       style={{ color: 'unset' }}
                     >
-                      View on GitHub
+                      {t('viewOnGitHub')}
                     </a>
                   </Typography>
                 </>

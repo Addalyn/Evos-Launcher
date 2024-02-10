@@ -24,6 +24,7 @@ import { PiSwordDuotone, PiSwordFill } from 'react-icons/pi';
 import { FaRankingStar } from 'react-icons/fa6';
 import { strapiClient } from 'renderer/lib/strapi';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 type Player = {
   id: number;
@@ -64,7 +65,7 @@ const fetchInfo = async (
   map: string,
   page: number,
   pageSize: number,
-  playerName: string
+  playerName: string,
 ) => {
   try {
     const strapi = strapiClient.from('games').select();
@@ -130,10 +131,10 @@ const groupByTeam = (game: Game) => {
   return teams;
 };
 
-const formatDate = (dateString: string) => {
+const formatDate = (locale: string, dateString: string) => {
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   // @ts-ignore
-  return new Date(dateString).toLocaleDateString(undefined, options);
+  return new Date(dateString).toLocaleDateString(locale, options);
 };
 
 const calculateMVPBadge = (player: Player, players: Player[]) => {
@@ -201,6 +202,8 @@ const calculateTankBadge = (player: Player, players: Player[]) => {
 };
 
 export default function PreviousGamesPlayed() {
+  const { t, i18n } = useTranslation();
+
   const [data, setData] = useState<Game[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -215,7 +218,7 @@ export default function PreviousGamesPlayed() {
         selectedMap,
         currentPage,
         pageSize,
-        searchedPlayer
+        searchedPlayer,
       )) as Game[];
       setData(result);
       const result1 = await fetchCount(selectedMap, searchedPlayer);
@@ -226,7 +229,7 @@ export default function PreviousGamesPlayed() {
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
-    page: number
+    page: number,
   ) => {
     setCurrentPage(page);
   };
@@ -239,7 +242,7 @@ export default function PreviousGamesPlayed() {
   };
 
   const handlePlayerSearchChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setSearchedPlayer(event.target.value);
   };
@@ -279,7 +282,7 @@ export default function PreviousGamesPlayed() {
               >
                 {maps.map((map) => (
                   <MenuItem key={map} value={map}>
-                    {map}
+                    {t(`maps.${map}`)}
                   </MenuItem>
                 ))}
               </Select>
@@ -287,7 +290,7 @@ export default function PreviousGamesPlayed() {
           </Grid>
           <Grid item xs={6}>
             <TextField
-              label="Search By Player"
+              label={t('stats.searchByPlayer')}
               variant="outlined"
               value={searchedPlayer}
               onChange={handlePlayerSearchChange}
@@ -321,40 +324,40 @@ export default function PreviousGamesPlayed() {
           <Grid container spacing={2} sx={{ padding: '1em' }}>
             <Grid item xs={4}>
               <Typography variant="subtitle1" gutterBottom>
-                Map: {game.map}{' '}
+                {t('maps.map')}: {t(`maps.${game.map}`)}{' '}
                 <a
                   href={`https://ptb.discord.com/channels/600425662452465701/${game.channelid}/${game.gameid}`}
                   target="_blank"
                   rel="noreferrer"
                   style={{ textDecoration: 'none', color: 'inherit' }}
                 >
-                  (Show in Discord)
+                  ({t('showInDiscord')})
                 </a>
               </Typography>
             </Grid>
             <Grid item xs={4}>
               <Typography variant="subtitle1" gutterBottom>
-                Score: {game.score}
+                {t('stats.score')}: {game.score}
               </Typography>
             </Grid>
             <Grid item xs={4}>
               <Typography variant="subtitle1" gutterBottom>
-                Turns: {game.turns}
+                {t('stats.turns')}: {game.turns}
               </Typography>
             </Grid>
             <Grid item xs={4}>
               <Typography variant="subtitle1" gutterBottom>
-                Played: {formatDate(game.date)}
+                {t('stats.played')}: {formatDate(i18n.language, game.date)}
               </Typography>
             </Grid>
             <Grid item xs={4}>
               <Typography variant="subtitle1" gutterBottom>
-                Type: {game.gametype}
+                {t('stats.type')}: {game.gametype}
               </Typography>
             </Grid>
             <Grid item xs={4}>
               <Typography variant="subtitle1" gutterBottom>
-                Version: {game.version}
+                {t('stats.version')}: {game.version}
               </Typography>
             </Grid>
           </Grid>
@@ -370,45 +373,45 @@ export default function PreviousGamesPlayed() {
                 <Table size="small" aria-label="player stats">
                   <TableHead>
                     <TableRow>
-                      <TableCell width={300}>User</TableCell>
-                      <TableCell width={150}>Character</TableCell>
+                      <TableCell width={300}>{t('stats.user')}</TableCell>
+                      <TableCell width={150}>{t('stats.character')}</TableCell>
                       <TableCell>
-                        <Tooltip title="Takedowns">
+                        <Tooltip title={t('stats.takedowns')}>
                           <div>
                             <PiSwordDuotone />
                           </div>
                         </Tooltip>
                       </TableCell>
                       <TableCell>
-                        <Tooltip title="Deaths">
+                        <Tooltip title={t('stats.deaths')}>
                           <div>
                             <GiDeathSkull />
                           </div>
                         </Tooltip>
                       </TableCell>
                       <TableCell>
-                        <Tooltip title="Deathblows">
+                        <Tooltip title={t('stats.deathblows')}>
                           <div>
                             <PiSwordFill />
                           </div>
                         </Tooltip>
                       </TableCell>
                       <TableCell>
-                        <Tooltip title="Damage">
+                        <Tooltip title={t('stats.damage')}>
                           <div>
                             <GiBroadsword />
                           </div>
                         </Tooltip>
                       </TableCell>
                       <TableCell>
-                        <Tooltip title="Healing">
+                        <Tooltip title={t('stats.healing')}>
                           <div>
                             <GiHealthNormal />
                           </div>
                         </Tooltip>
                       </TableCell>
                       <TableCell>
-                        <Tooltip title="Damage Received">
+                        <Tooltip title={t('stats.damageReceived')}>
                           <div>
                             <BsShield />
                           </div>
@@ -436,8 +439,8 @@ export default function PreviousGamesPlayed() {
                           onClick={() => {
                             navigate(
                               `/playerstats?player=${encodeURIComponent(
-                                player.user
-                              )}`
+                                player.user,
+                              )}`,
                             );
                           }}
                         >
@@ -447,7 +450,7 @@ export default function PreviousGamesPlayed() {
                             <div>{player.user}</div>
                             <div style={{ marginLeft: 'auto' }}>
                               {calculateMVPBadge(player, game.stats) && (
-                                <Tooltip title="MVP">
+                                <Tooltip title={t('stats.mvp')}>
                                   <Chip
                                     color="primary"
                                     label=""
@@ -462,7 +465,7 @@ export default function PreviousGamesPlayed() {
                                 </Tooltip>
                               )}
                               {calculateHealerBadge(player, game.stats) && (
-                                <Tooltip title="Best Support">
+                                <Tooltip title={t('stats.bestSupport')}>
                                   <Chip
                                     color="secondary"
                                     label=""
@@ -477,7 +480,7 @@ export default function PreviousGamesPlayed() {
                                 </Tooltip>
                               )}
                               {calculateDamageBadge(player, game.stats) && (
-                                <Tooltip title="Best Damage">
+                                <Tooltip title={t('stats.bestDamage')}>
                                   <Chip
                                     color="error"
                                     label=""
@@ -492,7 +495,7 @@ export default function PreviousGamesPlayed() {
                                 </Tooltip>
                               )}
                               {calculateTankBadge(player, game.stats) && (
-                                <Tooltip title="Best Tank">
+                                <Tooltip title={t('stats.bestTank')}>
                                   <Chip
                                     color="info"
                                     label=""
@@ -509,7 +512,11 @@ export default function PreviousGamesPlayed() {
                             </div>
                           </div>
                         </TableCell>
-                        <TableCell>{player.character}</TableCell>
+                        <TableCell>
+                          {t(
+                            `charNames.${player.character.replace(/:3/g, '')}`,
+                          )}
+                        </TableCell>
                         <TableCell>{player.takedowns}</TableCell>
                         <TableCell>{player.deaths}</TableCell>
                         <TableCell>{player.deathblows}</TableCell>

@@ -2,9 +2,11 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { useState } from 'react';
 import { Paper, Alert, Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 function Updater() {
   const [message, setMessage] = useState('');
+  const { t } = useTranslation();
 
   function handleMessage(event: any) {
     setMessage(event);
@@ -32,8 +34,7 @@ function Updater() {
                     cursor: 'pointer',
                   }}
                 >
-                  Update downloaded, Click to restart Evos Launcher and apply
-                  the update.
+                  {t('update')}
                 </Button>
               </div>
             ) : (

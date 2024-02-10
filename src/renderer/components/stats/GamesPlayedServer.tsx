@@ -11,6 +11,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { strapiClient } from 'renderer/lib/strapi';
+import { useTranslation } from 'react-i18next';
 
 ChartJS.register(
   CategoryScale,
@@ -18,7 +19,7 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 interface DataItem {
@@ -45,6 +46,8 @@ const fetchInfo = async () => {
 };
 
 export default function GamesPlayedServer() {
+  const { t } = useTranslation();
+
   const [gameData, setGameData] = useState<DataItem[]>([]);
 
   useEffect(() => {
@@ -65,13 +68,13 @@ export default function GamesPlayedServer() {
       },
       title: {
         display: true,
-        text: `Top played Gameservers`,
+        text: t('stats.topPlayedServers'),
       },
     },
   };
   const datasets = [
     {
-      label: `Total Games Played`,
+      label: t('stats.totalGamesPlayed'),
       data: gameData.map((item) => item.total),
       backgroundColor: 'rgba(144, 202, 249, 0.5)',
     },

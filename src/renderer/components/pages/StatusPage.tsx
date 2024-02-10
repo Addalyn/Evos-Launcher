@@ -16,6 +16,7 @@ import useHasFocus from '../../lib/useHasFocus';
 import Server from '../atlas/Server';
 import Queue from '../atlas/Queue';
 import TrustBar from '../generic/TrustBar';
+import { useTranslation } from 'react-i18next';
 
 function GroupBy<V, K>(key: (item: V) => K, list?: V[]) {
   return list?.reduce((res, p) => {
@@ -32,6 +33,7 @@ function StatusPage() {
   const [status, setStatus] = useState<Status>();
   const [updateTime, setUpdateTime] = useState<Date>();
   const { ip, setAge, activeUser } = EvosStore();
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
@@ -52,15 +54,15 @@ function StatusPage() {
 
   const players = useMemo(
     () => GroupBy((p) => p.accountId, status?.players),
-    [status]
+    [status],
   );
   const groups = useMemo(
     () => GroupBy((g) => g.groupId, status?.groups),
-    [status]
+    [status],
   );
   const games = useMemo(
     () => GroupBy((g) => g.server, status?.games),
-    [status]
+    [status],
   );
 
   const updatePeriodMs =
@@ -76,7 +78,7 @@ function StatusPage() {
         setUpdateTime(new Date());
         setAge(0);
       })
-      .catch((e) => processError(e, setError, navigate, () => {}))
+      .catch((e) => processError(e, setError, navigate, () => {}, t))
       .then(() => setLoading(false));
   }, updatePeriodMs);
 
@@ -94,7 +96,7 @@ function StatusPage() {
     new Set(
       [...games.values()]
         .flatMap((g) => [...g.teamA, ...g.teamB])
-        .map((t) => t.accountId)
+        .map((t) => t.accountId),
     );
 
   return (
@@ -105,13 +107,13 @@ function StatusPage() {
       {loading && <LinearProgress />}
       {error && (
         <Alert severity="error">
-          <AlertTitle>Error</AlertTitle>
+          <AlertTitle>{t('errors.error')}</AlertTitle>
           {error.text}
         </Alert>
       )}
       {players?.size === 0 && (
         <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
-          <Typography>No players online</Typography>
+          <Typography>{t('noPlayers')}</Typography>
         </Paper>
       )}
       {status &&

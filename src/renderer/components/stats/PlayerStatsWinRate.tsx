@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import { strapiClient } from 'renderer/lib/strapi';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   player: string;
@@ -53,6 +54,7 @@ export async function fetchGameInfo(playerName: string) {
 }
 
 export default function PlayerWinRate({ player }: Props) {
+  const { t } = useTranslation();
   const [wins, setWins] = useState<number>(0);
   const [losses, setLosses] = useState<number>(0);
   const [winRate, setWinRate] = useState<number>(0.0);
@@ -85,13 +87,13 @@ export default function PlayerWinRate({ player }: Props) {
   return (
     <>
       <Grid item xs={4}>
-        Wins: {wins}
+        {t('stats.wins')}: {wins}
       </Grid>
       <Grid item xs={4}>
-        Losses: {losses}
+        {t('stats.losses')}: {losses}
       </Grid>
       <Grid item xs={4}>
-        Win Rate: {winRate.toFixed(2)}%
+        {t('stats.winrate')}: {winRate.toFixed(2)}%
       </Grid>
     </>
   );

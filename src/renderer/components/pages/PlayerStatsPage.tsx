@@ -15,6 +15,7 @@ import Player from '../atlas/Player';
 import GamesPlayedStats from '../stats/GamesPlayedStats';
 import PlayerWinRate from '../stats/PlayerStatsWinRate';
 import ErrorDialog from '../generic/ErrorDialog';
+import { useTranslation } from 'react-i18next';
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -66,10 +67,11 @@ export default function PlayerStatsPage() {
   const { search } = useLocation();
   const [error, setError] = useState<EvosError>();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const searchParams = useMemo(
     () => new URLSearchParams(search) as ReadOnlyURLSearchParams,
-    [search]
+    [search],
   );
 
   useEffect(() => {
@@ -99,7 +101,7 @@ export default function PlayerStatsPage() {
         '',
         activeUser?.handle as string,
         activeUser?.banner as number,
-        activeUser?.configFile as string
+        activeUser?.configFile as string,
       );
       navigate('/login');
     };
@@ -108,7 +110,7 @@ export default function PlayerStatsPage() {
       .then((resp) => {
         setPlayerData(resp.data);
       })
-      .catch((e) => processError(e, setError, navigate, handleLogOut));
+      .catch((e) => processError(e, setError, navigate, handleLogOut, t));
   }, [playerSearch, activeUser, navigate, updateAuthenticatedUsers]);
 
   const mapTabs = [
@@ -124,7 +126,7 @@ export default function PlayerStatsPage() {
   ];
 
   if (playerSearch === '') {
-    return <div>Loading...</div>;
+    return <div>{t('loading')}</div>;
   }
 
   return (
@@ -189,7 +191,7 @@ export default function PlayerStatsPage() {
           sx={{ width: drawerWidth }}
         >
           {mapTabs.map((label, index) => (
-            <Tab label={label} key={index} {...a11yProps(index)} />
+            <Tab label={t(`maps.${label}`)} key={index} {...a11yProps(index)} />
           ))}
         </Tabs>
         {mapTabs.map((map, index) => (

@@ -22,13 +22,18 @@ export type Channels =
   | 'getLogData'
   | 'getLogContent'
   | 'open-folder'
-  | 'message';
+  | 'message'
+  | 'translate'
+  | 'translateReturn';
 
 const electronHandler = {
   isPackaged: process.env.NODE_ENV === 'production',
   ipcRenderer: {
     sendMessage(channel: Channels, ...args: unknown[]) {
       ipcRenderer.send(channel, ...args);
+    },
+    sendTranslate(channel: Channels, message: string) {
+      ipcRenderer.invoke(channel, message);
     },
     on(channel: Channels, func: (...args: unknown[]) => void) {
       const subscription = (_event: IpcRendererEvent, ...args: unknown[]) =>

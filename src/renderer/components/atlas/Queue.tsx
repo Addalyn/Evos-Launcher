@@ -2,6 +2,7 @@ import { Paper, Typography } from '@mui/material';
 import { GroupData, PlayerData, QueueData } from '../../lib/Evos';
 import Group from './Group';
 import { FlexBox } from '../generic/BasicComponents';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   queueInfo: QueueData;
@@ -12,12 +13,14 @@ interface Props {
 }
 
 function Queue({ queueInfo, groupData, playerData, hidePlayers }: Props) {
+  const { t } = useTranslation();
+
   if (queueInfo.groupIds.length === 0) {
     return null;
   }
   return (
     <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
-      <Typography variant="h3">{queueInfo.type}</Typography>
+      <Typography variant="h3">{t(queueInfo.type)}</Typography>
       <FlexBox style={{ flexWrap: 'wrap' }}>
         {queueInfo.groupIds.map((groupId) => {
           const info = groupData.get(groupId);

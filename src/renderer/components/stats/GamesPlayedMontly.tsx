@@ -11,6 +11,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { strapiClient } from 'renderer/lib/strapi';
+import { useTranslation } from 'react-i18next';
 
 ChartJS.register(
   CategoryScale,
@@ -18,7 +19,7 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 const currentMonth = new Date().getMonth(); // Get the current month (0-11)
@@ -55,7 +56,7 @@ const fetchInfo = async (
   map: string,
   player: string,
   startDate: string,
-  endDate: string
+  endDate: string,
 ) => {
   try {
     const strapi = strapiClient
@@ -90,6 +91,8 @@ interface Props {
 }
 
 export default function GamesPlayedMonthly({ map, player }: Props) {
+  const { t } = useTranslation();
+
   const [gameData, setGameData] = useState([]);
 
   useEffect(() => {
@@ -108,7 +111,7 @@ export default function GamesPlayedMonthly({ map, player }: Props) {
 
         monthNumber += 1;
         const startDate = formatDateForStrapi(
-          new Date(year, monthNumber - 1, 1, 2, 0, 0)
+          new Date(year, monthNumber - 1, 1, 2, 0, 0),
         );
 
         const lastDay = new Date(year, monthNumber, 0);
@@ -119,8 +122,8 @@ export default function GamesPlayedMonthly({ map, player }: Props) {
             lastDay.getDate(),
             23,
             59,
-            59
-          )
+            59,
+          ),
         );
 
         return fetchInfo(map, player, startDate, endDate);
@@ -145,20 +148,20 @@ export default function GamesPlayedMonthly({ map, player }: Props) {
       },
       title: {
         display: true,
-        text: `Games Played ${
-          player !== '' ? `by ${player} ` : ''
-        }Per Month, With a total of ${gameData.reduce(
+        text: `${t('stats.gamesPlayed')} ${
+          player !== '' ? `${t('stats.by')} ${player} ` : ''
+        }${t('stats.perMonth')} ${gameData.reduce(
           (a, b) => a + b,
-          0
-        )} games played`,
+          0,
+        )} ${t('stats.gamesPlayedNoCapitalize')}`,
       },
     },
   };
   const data = {
-    labels,
+    labels: labels.map((month: string) => t(`months.${month}`)),
     datasets: [
       {
-        label: `Games Played ${player !== '' ? `by ${player}` : ''}`,
+        label: `${t('stats.gamesPlayed')} ${player !== '' ? `${t('stats.by')} ${player}` : ''}`,
         data: gamesPlayedPerMonth,
         backgroundColor: 'rgba(144,202,249,0.5)',
       },

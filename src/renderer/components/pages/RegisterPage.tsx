@@ -13,31 +13,7 @@ import Typography from '@mui/material/Typography';
 import EvosStore, { AuthUser } from 'renderer/lib/EvosStore';
 import { registerAccount } from 'renderer/lib/Evos';
 import { EvosError, processError } from 'renderer/lib/Error';
-
-const validationSchema = z
-  .object({
-    username: z
-      .string()
-      .min(2, { message: 'Username must be atleast 2 characters' }),
-    password: z
-      .string()
-      .min(5, { message: 'Password must be atleast 5 characters' }),
-    confirmPassword: z
-      .string()
-      .min(5, { message: 'Confirm Password must be atleast 5 characters' }),
-    code: z
-      .string()
-      .regex(
-        /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/,
-        { message: 'Please provide a valid Code.' }
-      ),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    path: ['confirmPassword'],
-    message: "Password don't match",
-  });
-
-type ValidationSchema = z.infer<typeof validationSchema>;
+import { useTranslation } from 'react-i18next';
 
 export default function RegisterPage() {
   const {
@@ -50,6 +26,28 @@ export default function RegisterPage() {
 
   const navigate = useNavigate();
   const [error, setError] = useState<EvosError>();
+  const { t } = useTranslation();
+
+  const validationSchema = z
+    .object({
+      username: z.string().min(2, { message: t('errors.username2Char') }),
+      password: z.string().min(5, { message: t('errors.errorPass') }),
+      confirmPassword: z
+        .string()
+        .min(5, { message: t('errors.errorConfirmPass') }),
+      code: z
+        .string()
+        .regex(
+          /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/,
+          { message: t('errors.errorCode') },
+        ),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      path: ['confirmPassword'],
+      message: t('errors.errorPassMatch'),
+    });
+
+  type ValidationSchema = z.infer<typeof validationSchema>;
 
   const {
     register,
@@ -73,21 +71,21 @@ export default function RegisterPage() {
       .then((resp) => {
         if (authenticatedUsers.find((u) => u.user === username)) {
           const authenticatedUser = authenticatedUsers.find(
-            (u) => u.user === username
+            (u) => u.user === username,
           ) as AuthUser;
           updateAuthenticatedUsers(
             authenticatedUser.user,
             resp.data.token,
             resp.data.handle,
             resp.data.banner,
-            authenticatedUser.configFile
+            authenticatedUser.configFile,
           );
         } else {
           setAuthenticatedUsers(
             username,
             resp.data.token,
             resp.data.handle,
-            resp.data.banner
+            resp.data.banner,
           );
         }
         setError(undefined);
@@ -100,8 +98,9 @@ export default function RegisterPage() {
         processError(
           error,
           setError,
-          () => setError({ text: 'Invalid username or password.' }),
-          () => {}
+          () => setError({ text: t('errors.invalidUserOrPass') }),
+          () => {},
+          t,
         );
       });
 
@@ -121,7 +120,7 @@ export default function RegisterPage() {
       style={{ padding: '1em', margin: '1em', width: '578px' }}
     >
       <Typography component="h1" variant="h5">
-        Register Account
+        {t('registerAccount')}
       </Typography>
       <Box
         component="form"
@@ -134,7 +133,7 @@ export default function RegisterPage() {
           required
           fullWidth
           id="username"
-          label="Username"
+          label={t('username')}
           autoComplete=""
           autoFocus
           {...register('username')}
@@ -146,7 +145,7 @@ export default function RegisterPage() {
           margin="normal"
           required
           fullWidth
-          label="Password"
+          label={t('password')}
           type="password"
           id="password"
           autoComplete="current-password"
@@ -159,7 +158,7 @@ export default function RegisterPage() {
           margin="normal"
           required
           fullWidth
-          label="Confirm Password"
+          label={t('confirmPassword')}
           type="password"
           id="confirmPassword"
           autoComplete="current-password"
@@ -172,7 +171,7 @@ export default function RegisterPage() {
           margin="normal"
           required
           fullWidth
-          label="Code"
+          label={t('code')}
           type="text"
           id="code"
           autoComplete="current-code"
@@ -183,7 +182,7 @@ export default function RegisterPage() {
         )}
         {error && (
           <Alert severity="error">
-            <AlertTitle>Error</AlertTitle>
+            <AlertTitle>{t('errors.error')}</AlertTitle>
             {error.text}
           </Alert>
         )}
@@ -197,7 +196,7 @@ export default function RegisterPage() {
             backgroundColor: (theme) => theme.palette.primary.light,
           }}
         >
-          Register Account
+          {t('registerAccount')}
         </Button>
         <Grid container spacing={2}>
           <Grid item xs={9}>
@@ -208,7 +207,7 @@ export default function RegisterPage() {
                 color: 'grey',
               }}
             >
-              Reset Application
+              {t('resetApp')}
             </Button>
           </Grid>
           <Grid item xs={3}>
@@ -219,7 +218,7 @@ export default function RegisterPage() {
                 color: 'grey',
               }}
             >
-              Login
+              {t('login')}
             </Button>
           </Grid>
         </Grid>

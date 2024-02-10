@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { fetchGameInfo } from 'renderer/lib/Evos';
 
 interface Props {
@@ -12,6 +13,8 @@ interface DataItem {
 }
 
 export default function PlayerStats({ action, player }: Props) {
+  const { t } = useTranslation();
+
   const [gameData, setGameData] = useState<string | undefined>();
 
   useEffect(() => {
@@ -27,12 +30,12 @@ export default function PlayerStats({ action, player }: Props) {
   }, [action, player]);
 
   const actionToName: Record<string, string> = {
-    totaldamage: 'Total Damage Dealt',
-    totaldamagereceived: 'Total Damage Received',
-    totaldeaths: 'Total Deaths',
-    totaltakedowns: 'Total Takedowns',
-    totaldeathblows: 'Total Deathblows',
-    totalhealing: 'Total Healing',
+    totaldamage: t('stats.totaldamage'),
+    totaldamagereceived: t('stats.totaldamagereceived'),
+    totaldeaths: t('stats.totaldeaths'),
+    totaltakedowns: t('stats.totaltakedowns'),
+    totaldeathblows: t('stats.totaldeathblows'),
+    totalhealing: t('stats.totalhealing'),
   };
 
   return (
