@@ -1,3 +1,7 @@
+# 1.8.3
+
+- Bring back the update button
+
 # 1.8.2
 
 - fixed some translation errors

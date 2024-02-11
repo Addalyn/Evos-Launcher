@@ -21,8 +21,7 @@ function Updater() {
             severity="info"
             sx={{ display: 'flex', alignItems: 'center', height: '65px' }}
           >
-            {message ===
-            'Update downloaded, Restart Evos Launcher to apply the update.' ? (
+            {message === t('Downloaded') ? (
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Button
                   variant="outlined"
