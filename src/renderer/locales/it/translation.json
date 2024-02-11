@@ -23,7 +23,7 @@
     "error": "Errore",
     "errorMotd": "Errore durante il caricamento di Motd",
     "errorExe": "Seleziona nelle Impostazioni l'eseguibile Atlas Reactor Executable",
-    "errorPath": "Percorso file non valido, Seleziona nelle Impostazioni l'eseguibile Atlas Reactor Executable",
+    "errorPath": "Percorso file non valido, Seleziona nelle Impostazioni l'eseguibile Atlas Reactor",
     "fetchData": "Errore nel recupero dati",
     "username2Char": "Lo Username deve avere almeno 4 caratteri",
     "passwordRequired": "È richiesta la Password",
@@ -50,7 +50,7 @@
   },
   "game": {
     "kill": "Chiudi Atlas Reactor come",
-    "play": "Gioca Atlas Reactor come"
+    "play": "Gioca ad Atlas Reactor come"
   },
   "ips": {
     "noProxy": "evos-emu.com (Nessun Proxy)",
@@ -99,7 +99,7 @@
     "allChatLabel": "Attiva tutte le Chat (Raccomandato) (applicato prima del lancio del gioco)",
     "allChatLabelDisabled": "Disabilitare questa feature ti impedirà di vedere qualsiasi chat durante la partita. Non è consigliato poichè potresti perderti messaggi importanti, come le richieste di annullamento/riavvio match (remake) su tutte le chat",
     "allChatLabelDisabled2": "Quando abiliti/diabiliti tutte le chat in partita, il gioco all'avvio sarà impostato con la configurazione qui selezionata",
-    "autoPatchingLabel": "Abilità l'applicazione automatica delle Patch (Raccomandato)",
+    "autoPatchingLabel": "Abilita l'applicazione automatica delle Patch (Raccomandato)",
     "autoPatchingLabelDisabled": "Disabilita questa opzione solo se riscontri problemi con l'applicazione delle Patch sui files",
     "autoPatchingLabelDisabled2": "Devi applicare manualmente la Patch al gioco, puoi trovare ulteriori informazioni su Discord",
     "noLogLaunchOptionsLabel": "Aggiungi -nolog alle opzioni di lancio",

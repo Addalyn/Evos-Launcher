@@ -24,7 +24,7 @@
     "errorMotd": "Error Cargando Motd",
     "errorExe": "Selecciona tu Ejecutable de Atlas Reactor en Opciones primero",
     "errorPath": "Ruta no Valida, Selecciona tu Ejecutable de Atlas Reactor en Opciones primero",
-    "fetchData": "Fallo al Obetenr datos",
+    "fetchData": "Fallo al Obtener datos",
     "username2Char": "Nombre de Usuario debe contener 4 carácteres como mínimo",
     "passwordRequired": "Contraseña Necesaria",
     "invalidUserOrPass": "Nombre de Usuario o Contraseña Incorrecta",

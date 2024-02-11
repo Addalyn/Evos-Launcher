@@ -1,3 +1,8 @@
+# 1.8.2
+
+- fixed some translation errors
+- fixed the black boxes ability previews in the game
+
 # 1.8.1 - Italiano and Brazilian Portuguese
 
 - Fully translated the launcher into Italian and Brazilian Portuguese.

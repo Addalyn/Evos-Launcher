@@ -697,6 +697,7 @@ const createWindow = async () => {
               games[launchOptions.name] = spawn(
                 launchOptions.exePath,
                 launchOptionsWithTicket,
+                { cwd: path.dirname(launchOptions.exePath) },
               );
               games[launchOptions.name].on('close', () => {
                 event.reply('setActiveGame', [launchOptions.name, false]);
@@ -735,6 +736,7 @@ const createWindow = async () => {
             games[launchOptions.name] = spawn(
               launchOptions.exePath,
               launchOptionsWithoutTicket,
+              { cwd: path.dirname(launchOptions.exePath) },
             );
             games[launchOptions.name].on('close', () => {
               event.reply('setActiveGame', [launchOptions.name, false]);
