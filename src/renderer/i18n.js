@@ -7,6 +7,8 @@ import frMessages from './locales/fr/translation.json';
 import ruMessages from './locales/ru/translation.json';
 import deMessages from './locales/de/translation.json';
 import esMessages from './locales/es/translation.json';
+import itMessages from './locales/it/translation.json';
+import brMessages from './locales/br/translation.json';
 
 i18n
   // detect user language
@@ -40,6 +42,12 @@ i18n
       },
       es: {
         translation: esMessages,
+      },
+      it: {
+        translation: itMessages,
+      },
+      br: {
+        translation: brMessages,
       },
     },
   });

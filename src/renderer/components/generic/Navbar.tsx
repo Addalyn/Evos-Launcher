@@ -40,19 +40,22 @@ import { getMotd, getTicket, logout } from 'renderer/lib/Evos';
 import { EvosError, isValidExePath, processError } from 'renderer/lib/Error';
 import { BannerType, logo, playerBanner } from '../../lib/Resources';
 import ErrorDialog from './ErrorDialog';
+import Flag from 'react-flagkit';
 import { useTranslation, Trans } from 'react-i18next';
 
 interface Language {
   nativeName: string;
+  icon: string;
 }
-
 const lngs: { [key: string]: Language } = {
-  en: { nativeName: 'English' },
-  nl: { nativeName: 'Nederlands' },
-  fr: { nativeName: 'Français' },
-  ru: { nativeName: 'Русский' },
-  de: { nativeName: 'Deutsch' },
-  es: { nativeName: 'Español' },
+  en: { nativeName: 'English', icon: 'US' },
+  nl: { nativeName: 'Nederlands', icon: 'NL' },
+  fr: { nativeName: 'Français', icon: 'FR' },
+  ru: { nativeName: 'Русский', icon: 'RU' },
+  de: { nativeName: 'Deutsch', icon: 'DE' },
+  es: { nativeName: 'Español', icon: 'ES' },
+  it: { nativeName: 'Italiano', icon: 'IT' },
+  br: { nativeName: 'Português', icon: 'BR' },
 };
 
 type PaletteMode = 'light' | 'dark';
@@ -347,7 +350,11 @@ export default function NavBar() {
               >
                 {Object.keys(lngs).map((lng) => (
                   <MenuItem value={lng} key={lng}>
-                    {lngs[lng].nativeName}
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <Flag country={lngs[lng].icon} size={20} />
+                      <span style={{ marginLeft: '8px' }}>{'  '}</span>
+                      <ListItemText primary={lngs[lng].nativeName} />
+                    </div>
                   </MenuItem>
                 ))}
               </Select>

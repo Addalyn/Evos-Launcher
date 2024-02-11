@@ -116,6 +116,7 @@
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
+    "react-flagkit": "^2.0.4",
     "react-hook-form": "^7.49.3",
     "react-i18next": "^14.0.5",
     "react-icons": "^5.0.1",

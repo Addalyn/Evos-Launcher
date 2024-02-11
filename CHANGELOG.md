@@ -1,3 +1,8 @@
+# 1.8.1 - Italiano and Brazilian Portuguese
+
+- Fully translated the launcher into Italian and Brazilian Portuguese.
+- Added flag icons to the language selection.
+
 # 1.8.0 - The Translation Update
 
 - Fully translated the launcher into Dutch, German, Spanish, French, and Russian.
