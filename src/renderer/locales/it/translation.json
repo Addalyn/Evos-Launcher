@@ -37,7 +37,7 @@
     "invalidPath": "Percorso file non valido",
     "invalidPath1": "Il percorso deve:",
     "invalidPath2": "Iniziare con la lettera del dispositivo (e.g., C:\\)",
-    "invalidPath3": "Avere almeno una directory prima di 'Win64AtlasReactor.exe'",
+    "invalidPath3": "Avere almeno una directory prima di 'Win64\\AtlasReactor.exe'",
     "invalidPath4": "esempio: 'C:\\AtlasReactor\\Win64\\AtlasReactor.exe' oppure 'C:\\games\\Atlas Reactor\\Win64\\AtlasReactor.exe' ecc..",
     "invalidPath5": "Non essere posizionata in una cartella OneDrive (corrompe i file di gioco)",
     "invalidPath6": "Non essere posizionata dentro le directory 'Programmi' o 'Programmi (x86)', eccetto per la folder di Steam. Facendo questo, l'applicazione delle patch di gioco potrebbe fallire.",

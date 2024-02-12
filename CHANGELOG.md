@@ -1,3 +1,9 @@
+# 1.8.4
+
+- fixed some translation issues
+- added motd and notifications translations (they work now!)
+- Added launcher stats
+
 # 1.8.3
 
 - Bring back the update button

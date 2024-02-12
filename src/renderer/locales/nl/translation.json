@@ -37,7 +37,7 @@
     "invalidPath": "Ongeldig pad",
     "invalidPath1": "Het pad moet:",
     "invalidPath2": "Beginnen met een schijfletter (bijv. C:\\).",
-    "invalidPath3": "Heb minstens één directory voor 'Win64AtlasReactor.exe.'",
+    "invalidPath3": "Heb minstens één directory voor 'Win64\\AtlasReactor.exe.'",
     "invalidPath4": "voorbeeld: 'C:\\AtlasReactor\\Win64\\AtlasReactor.exe' of 'C:\\games\\Atlas Reactor\\Win64\\AtlasReactor.exe' etc..",
     "invalidPath5": "Niet binnen een OneDrive-map zijn geplaatst. (dit beschadigt het spel)",
     "invalidPath6": "Niet binnen de map Program Files of Program Files(x86) zijn geplaatst, behalve voor een Steam-map, dit kan het patchen van het spel mislukken.",

@@ -37,7 +37,7 @@
     "invalidPath": "Chemin invalide",
     "invalidPath1": "Le chemin doit :",
     "invalidPath2": "Commencer par une lettre de lecteur (par exemple, C:\\).",
-    "invalidPath3": "Avoir au moins un répertoire avant 'Win64AtlasReactor.exe.'",
+    "invalidPath3": "Avoir au moins un répertoire avant 'Win64\\AtlasReactor.exe.'",
     "invalidPath4": "exemple : 'C:\\AtlasReactor\\Win64\\AtlasReactor.exe' ou 'C:\\games\\Atlas Reactor\\Win64\\AtlasReactor.exe' etc..",
     "invalidPath5": "Ne pas être situé dans un dossier OneDrive. (cela corrompt le jeu)",
     "invalidPath6": "Ne pas être situé dans le répertoire Program Files ou Program Files(x86), sauf pour un dossier Steam, cela peut empêcher le patch du jeu de s'appliquer.",

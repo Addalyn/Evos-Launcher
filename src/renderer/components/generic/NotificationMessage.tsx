@@ -1,7 +1,9 @@
 import { Paper, Alert, AlertColor } from '@mui/material';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Snowfall from 'react-snowfall';
+
 import { getNotification } from 'renderer/lib/Evos';
 
 function NotificationMessage() {
@@ -13,13 +15,14 @@ function NotificationMessage() {
   const [enabled, setEnabled] = useState<boolean>();
   const [snowflakeCount, setSnowflakeCount] = useState<number>(200);
   const [snowflakeColor, setSnowflakeColor] = useState<string>('white');
+  const { i18n } = useTranslation();
 
   useEffect(() => {
     async function get() {
       try {
         const resp = await axios.get(
           `https://misc.addalyn.baby/special.json?rand=${Math.random()}`,
-          { headers: { accept: 'application/json' } }
+          { headers: { accept: 'application/json' } },
         );
         setSpecial(resp.data.special);
         setSpecialWidth(resp.data.width);
@@ -31,7 +34,7 @@ function NotificationMessage() {
         setSpecial('');
         setEnabled(false);
       }
-      getNotification()
+      getNotification(i18n.language)
         // eslint-disable-next-line promise/always-return
         .then((resp) => {
           setNotice(resp.data.text);
@@ -46,7 +49,7 @@ function NotificationMessage() {
     }
 
     get();
-  }, []);
+  }, [i18n.language]);
   return (
     <div>
       {snowflakeCount > 0 && (

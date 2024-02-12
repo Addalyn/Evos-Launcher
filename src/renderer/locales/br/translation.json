@@ -37,7 +37,7 @@
     "invalidPath": "Caminho invalido",
     "invalidPath1": "O caminho devet:",
     "invalidPath2": "Começar com uma letra do seu drive (e.g., C:\\).",
-    "invalidPath3": "Ter ao menos um diretório antes de 'Win64AtlasReactor.exe.'",
+    "invalidPath3": "Ter ao menos um diretório antes de 'Win64\\AtlasReactor.exe.'",
     "invalidPath4": "examplo: 'C:\\AtlasReactor\\Win64\\AtlasReactor.exe' ou 'C:\\games\\Atlas Reactor\\Win64\\AtlasReactor.exe' etc..",
     "invalidPath5": "Não estar localizado dentro de uma pasta do OneDrive. (isso corrompe o jogo)",
     "invalidPath6": "Não estar localizado dentro das pastas Arquivos de Programa ou Arquivos de Programa(x86), exceto por uma pasta da Steam. Fazer isso pode falhar com que o jogo atualize.",

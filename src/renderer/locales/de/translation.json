@@ -37,7 +37,7 @@
     "invalidPath": "Ungültiger Pfad",
     "invalidPath1": "Der Pfad muss:",
     "invalidPath2": "Mit einem Laufwerknamen beginnen (z. B.: C:\\).",
-    "invalidPath3": "Mindestens einen Ordner vor 'Win64AtlasReactor.exe.' haben",
+    "invalidPath3": "Mindestens einen Ordner vor 'Win64\\AtlasReactor.exe.' haben",
     "invalidPath4": "Beispiel: 'C:\\AtlasReactor\\Win64\\AtlasReactor.exe' oder 'C:\\games\\Atlas Reactor\\Win64\\AtlasReactor.exe' etc..",
     "invalidPath5": "Nicht in einem OneDrive Ordner sein (das beschädigt das Spiel)",
     "invalidPath6": "Nicht im Program Files (Programme) oder Program Files(x86) (Programme(x86) Ordner sein, außer in einem Steam Ordner. Falls doch, kann die Aktualisierung des Spiels fehlschlagen.",

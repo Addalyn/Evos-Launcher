@@ -132,6 +132,7 @@ export interface TextNotification {
 
 export interface TextMotd {
   text: string;
+  severity: string;
 }
 
 export interface TrustWar {
@@ -206,22 +207,26 @@ export async function getStatus() {
   return axios.get<Status>(`${baseUrl}/api/lobby/status`);
 }
 
-export async function getMotd() {
-  // const ip = await window.electron.store.getItem('ip');
-  // const baseUrl = `https://${ip}`;
-  // return axios.get<TextMotd>(`${baseUrl}/api/lobby/motd`);
-  return axios.get<TextNotification>(
-    `https://misc.addalyn.baby/motd.json?rand=${Math.random()}`,
+export async function getMotd(language: string) {
+  const ip = await window.electron.store.getItem('ip');
+  const baseUrl = `https://${ip}`;
+  return axios.get<TextMotd>(
+    `${baseUrl}/api/lobby/motd/LauncherMessageOfTheDay/${language}`,
   );
+  // return axios.get<TextNotification>(
+  //   `https://misc.addalyn.baby/motd.json?rand=${Math.random()}`,
+  // );
 }
 
-export async function getNotification() {
-  // const ip = await window.electron.store.getItem('ip');
-  // const baseUrl = `https://${ip}`;
-  // return axios.get<TextNotification>(`${baseUrl}/api/lobby/notification`);
+export async function getNotification(language: string) {
+  const ip = await window.electron.store.getItem('ip');
+  const baseUrl = `https://${ip}`;
   return axios.get<TextNotification>(
-    `https://misc.addalyn.baby/notification.json?rand=${Math.random()}`,
+    `${baseUrl}/api/lobby/motd/LauncherNotification/${language}?rand=${Math.random()}`,
   );
+  // return axios.get<TextNotification>(
+  //   `https://misc.addalyn.baby/notification.json?rand=${Math.random()}`,
+  // );
 }
 
 export async function getTicket(authHeader: string) {

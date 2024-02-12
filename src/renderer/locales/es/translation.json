@@ -37,7 +37,7 @@
     "invalidPath": "Ruta incorrecta",
     "invalidPath1": "La ruta debe:",
     "invalidPath2": "Empezar con un Nombre de Ruta (ej: C:\\).",
-    "invalidPath3": "Ten al menos un directorio antes de 'Win64AtlasReactor.exe.'",
+    "invalidPath3": "Ten al menos un directorio antes de 'Win64\\AtlasReactor.exe.'",
     "invalidPath4": "Ejemplo: 'C:\\AtlasReactor\\Win64\\AtlasReactor.exe' o 'C:\\games\\Atlas Reactor\\Win64\\AtlasReactor.exe' etc..",
     "invalidPath5": "No debe estar localizado en una carpeta OneDrive. (esto corrompe el juego)",
     "invalidPath6": "No debe estar localizado en archivos de programa o Program Files(x86), excepto en la carpeta de Steam, Puede provocar fallos al actualizar.",

@@ -37,7 +37,7 @@
     "invalidPath": "Invalid Path",
     "invalidPath1": "The path must:",
     "invalidPath2": "Start with a drive letter (e.g., C:\\).",
-    "invalidPath3": "Have at least one directory before 'Win64AtlasReactor.exe.'",
+    "invalidPath3": "Have at least one directory before 'Win64\\AtlasReactor.exe.'",
     "invalidPath4": "example: 'C:\\AtlasReactor\\Win64\\AtlasReactor.exe' or 'C:\\games\\Atlas Reactor\\Win64\\AtlasReactor.exe' etc..",
     "invalidPath5": "Not be located within a OneDrive folder. (this corrupts the game)",
     "invalidPath6": "Not be located within the Program Files or Program Files(x86) directory, exept for a Steam folder, doing so may fail to patch the game.",

@@ -22,6 +22,7 @@ import {
   Typography,
   ListSubheader,
   Select,
+  Alert,
 } from '@mui/material';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
@@ -42,6 +43,7 @@ import { BannerType, logo, playerBanner } from '../../lib/Resources';
 import ErrorDialog from './ErrorDialog';
 import Flag from 'react-flagkit';
 import { useTranslation, Trans } from 'react-i18next';
+import { trackEvent } from '@aptabase/electron/renderer';
 
 interface Language {
   nativeName: string;
@@ -147,23 +149,25 @@ export default function NavBar() {
     noLogEnabled,
   } = evosStore;
   const [error, setError] = useState<EvosError>();
+  const [severity, setSeverity] = useState<string>('info');
   const { width } = useWindowDimensions();
   const [motd, setMotd] = useState<string>('');
   const [isPatching, setIsPatching] = useState(false);
 
   useEffect(() => {
     async function get() {
-      getMotd()
+      getMotd(i18n.language)
         // eslint-disable-next-line promise/always-return
         .then((resp) => {
           setMotd(resp.data.text);
+          setSeverity(resp.data.severity);
         })
         .catch(async () => {
           setMotd(t('errors.errorMotd'));
         });
     }
     get();
-  }, []);
+  }, [i18n.language]);
 
   const [activeGames, setActiveGames] = useState<{
     [username: string]: boolean;
@@ -171,6 +175,13 @@ export default function NavBar() {
   const drawerWidth = width !== null && width < 916 ? 60 : 240;
 
   const navigate = useNavigate();
+
+  const doNavigate = (href: string) => {
+    trackEvent('Page', {
+      page: `${href}`,
+    });
+    navigate(href);
+  };
 
   const handleLogOut = () => {
     logout(activeUser?.token ?? '');
@@ -460,10 +471,15 @@ export default function NavBar() {
               display: { xs: 'none', md: 'flex' },
             }}
           >
-            {' '}
-            <Box component="section" sx={{ p: 2 }}>
-              <small>{motd}</small>
-            </Box>
+            <Alert
+              icon={false}
+              variant="filled"
+              severity={severity as 'info' | 'error' | 'warning'}
+            >
+              <Typography sx={{ color: 'white', fontSize: '14px' }}>
+                {motd}
+              </Typography>
+            </Alert>
           </Paper>
           <Box
             sx={{
@@ -484,13 +500,16 @@ export default function NavBar() {
                       disabled={isDownloading}
                       onClick={() => {
                         if (page.external) {
+                          trackEvent('Page', {
+                            page: `${page.href}`,
+                          });
                           window.electron.ipcRenderer.sendMessage(
                             'openUrl',
                             page.href,
                           );
                           return;
                         }
-                        if (!isDownloading) navigate(page.href);
+                        if (!isDownloading) doNavigate(page.href);
                       }}
                     >
                       <ListItemButton>

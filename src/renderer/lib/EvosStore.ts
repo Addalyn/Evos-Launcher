@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import { trackEvent } from '@aptabase/electron/renderer';
 import { create } from 'zustand';
 
 export interface AuthUser {
@@ -32,7 +33,7 @@ export interface EvosStoreState {
     user: string,
     token: string,
     handle: string,
-    banner: number
+    banner: number,
   ) => void;
   setGamePort: (gamePort: string) => void;
   setExePath: (exePath: string) => void;
@@ -44,7 +45,7 @@ export interface EvosStoreState {
     token: string,
     handle: string,
     banner: number,
-    configFile?: string
+    configFile?: string,
   ) => void;
   switchUser: (user: string) => void;
   setAge: (age: number) => void;
@@ -154,6 +155,10 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   setIp: async (ip: string) => {
     set({ ip });
 
+    trackEvent('Game Ip Changed', {
+      ip: ip,
+    });
+
     try {
       await window.electron.store.setItem('ip', ip);
     } catch (error) {
@@ -218,7 +223,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     user: string,
     token: string,
     handle: string,
-    banner: number
+    banner: number,
   ) => {
     const currentAuthenticatedUsers = get().authenticatedUsers;
     const updatedAuthenticatedUsers = [
@@ -230,7 +235,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     try {
       await window.electron.store.setItem(
         'authenticatedUsers',
-        JSON.stringify(updatedAuthenticatedUsers)
+        JSON.stringify(updatedAuthenticatedUsers),
       );
     } catch (error) {
       console.error('Error while saving authenticatedUsers to storage:', error);
@@ -242,7 +247,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     token: string,
     handle: string,
     banner: number,
-    configFile?: string
+    configFile?: string,
   ) => {
     const currentAuthenticatedUsers = get().authenticatedUsers;
     if (currentAuthenticatedUsers !== null) {
@@ -252,19 +257,19 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
             return { user, token, handle, banner, configFile } as AuthUser;
           }
           return authUser as AuthUser;
-        }
+        },
       );
       set({ authenticatedUsers: updatedAuthenticatedUsers });
 
       try {
         await window.electron.store.setItem(
           'authenticatedUsers',
-          JSON.stringify(updatedAuthenticatedUsers)
+          JSON.stringify(updatedAuthenticatedUsers),
         );
       } catch (error) {
         console.error(
           'Error while saving authenticatedUsers to storage:',
-          error
+          error,
         );
       }
     }
@@ -285,7 +290,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     ) {
       const selectedUser = currentAuthenticatedUsers.find(
         (authUser) =>
-          authUser.user === user || authUser.user === user.toLowerCase() // Comaptibility with old config files
+          authUser.user === user || authUser.user === user.toLowerCase(), // Comaptibility with old config files
       );
 
       if (selectedUser) {

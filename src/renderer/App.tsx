@@ -28,6 +28,7 @@ import NotificationMessage from './components/generic/NotificationMessage';
 import LogsPage from './components/pages/LogsPage';
 
 import { useTranslation, Trans } from 'react-i18next';
+import { trackEvent } from '@aptabase/electron/renderer';
 
 interface PageProps {
   title: string;
@@ -45,6 +46,7 @@ function Page(props: PageProps) {
 
 const page = (title: string, content: React.ReactNode) => {
   const { t } = useTranslation();
+
   return (
     <Page title={`Atlas Reactor: ${t(`menuOptions.${title}`)}`}>{content}</Page>
   );
@@ -53,7 +55,27 @@ const page = (title: string, content: React.ReactNode) => {
 export default function App() {
   const evosStore = EvosStore();
   const mode = evosStore.mode as PaletteMode;
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  useEffect(() => {
+    trackEvent('Language', {
+      language: i18n.language,
+    });
+    trackEvent('Proxy', {
+      proxy: evosStore.ip,
+    });
+    trackEvent('User', {
+      userName: evosStore.activeUser?.user || 'No User',
+      theme: mode,
+      exePath: evosStore.exePath,
+    });
+  }, [
+    i18n.language,
+    evosStore.ip,
+    evosStore.activeUser,
+    mode,
+    evosStore.exePath,
+  ]);
 
   const handleMessage = (event: any, message: any) => {
     window.electron.ipcRenderer.sendTranslate('translateReturn', t(event));

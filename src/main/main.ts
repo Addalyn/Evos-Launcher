@@ -23,6 +23,12 @@ import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import { oauthConfig } from './discord/config/config';
 import AuthClient from './discord/services/auth';
+import { initialize } from '@aptabase/electron/main';
+import { trackEvent } from '@aptabase/electron/main';
+
+initialize('A-SH-9629286137', {
+  host: 'https://launcher.addalyn.baby',
+});
 
 const vbsDirectory = path.join(
   path.dirname(app.getPath('exe')),
@@ -300,6 +306,7 @@ async function startDownload(downloadPath: string) {
         break;
       case 'result':
         if (message.data) {
+          trackEvent('Game Downloaded');
           const completeMessage = await translate('downloadComplete');
           mainWindow?.webContents.send('download-progress-completed', {
             text: completeMessage,
@@ -666,6 +673,8 @@ const createWindow = async () => {
 
           event.reply('handleIsPatching', false);
 
+          trackEvent('Game Launched');
+
           if (launchOptions.ticket) {
             const { ticket } = launchOptions;
             const tempPath = app.getPath('temp');
@@ -927,6 +936,16 @@ const createWindow = async () => {
         }
         if (mainWindow) {
           mainWindow.show();
+          let currentVersion;
+
+          if (process.env.NODE_ENV === 'development') {
+            currentVersion = require('../../release/app/package.json').version;
+          } else {
+            currentVersion = app.getVersion();
+          }
+          trackEvent('Launcher Started', {
+            version: currentVersion,
+          });
         }
       }, 2000);
     }
