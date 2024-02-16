@@ -18,13 +18,13 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 const fetchInfo = async (map: string, player: string) => {
   try {
-    const apiUrl = `https://stats.addalyn.baby/api/stats/playerstats?user=${encodeURIComponent(
-      player
+    const apiUrl = `https://stats.evos.live/api/stats/playerstats?user=${encodeURIComponent(
+      player,
     )}${map === 'All Maps' ? '' : `&map=${encodeURIComponent(map)}`}`;
 
     const response = await axios.get(apiUrl);

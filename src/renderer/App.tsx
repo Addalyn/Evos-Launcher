@@ -29,6 +29,7 @@ import LogsPage from './components/pages/LogsPage';
 
 import { useTranslation, Trans } from 'react-i18next';
 import { trackEvent } from '@aptabase/electron/renderer';
+import DiscordPage from './components/pages/DiscordPage';
 
 interface PageProps {
   title: string;
@@ -306,6 +307,21 @@ export default function App() {
                     <NotificationMessage />
                     <Updater />
                     <PreviousGamesPage />
+                  </Box>
+                </>,
+              )}
+            />
+            <Route
+              path="/discord"
+              element={page(
+                'discord',
+                <>
+                  <NavBar />
+                  <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <Toolbar />
+                    <NotificationMessage />
+                    <Updater />
+                    <DiscordPage />
                   </Box>
                 </>,
               )}

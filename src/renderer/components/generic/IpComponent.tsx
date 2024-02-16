@@ -36,9 +36,9 @@ function IpComponent() {
             {' '}
             {/* Set value and onChange */}
             <MenuItem value="evos-emu.com">{t('ips.noProxy')}</MenuItem>
-            <MenuItem value="arproxy.addalyn.baby">{t('ips.proxy1')}</MenuItem>
-            <MenuItem value="arproxy2.addalyn.baby">{t('ips.proxy2')}</MenuItem>
-            <MenuItem value="arproxy3.addalyn.baby">{t('ips.proxy3')}</MenuItem>
+            <MenuItem value="de.evos.live">{t('ips.proxy1')}</MenuItem>
+            <MenuItem value="fr.evos.live">{t('ips.proxy2')}</MenuItem>
+            <MenuItem value="fi.evos.live">{t('ips.proxy3')}</MenuItem>
           </Select>
         </FormControl>
         <Button

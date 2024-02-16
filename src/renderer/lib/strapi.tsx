@@ -2,7 +2,7 @@
 import { createClient } from '@kmariappan/strapi-client-js';
 
 const options = {
-  url: `https://stats.addalyn.baby/api`,
+  url: `https://stats.evos.live/api`,
   apiToken: '', // Built in API token,
   normalizeData: true, // Normalize Unified response Format. default - true
   headers: {}, // Custom Headers

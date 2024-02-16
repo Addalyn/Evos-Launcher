@@ -23,11 +23,10 @@ import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import { oauthConfig } from './discord/config/config';
 import AuthClient from './discord/services/auth';
-import { initialize } from '@aptabase/electron/main';
-import { trackEvent } from '@aptabase/electron/main';
+import { initialize, trackEvent } from '@aptabase/electron/main';
 
 initialize('A-SH-9629286137', {
-  host: 'https://launcher.addalyn.baby',
+  host: 'https://launcher.evos.live',
 });
 
 const vbsDirectory = path.join(
@@ -220,7 +219,7 @@ async function startDownloadPatch(downloadPath: string) {
     {
       workerData: {
         downloadPath,
-        globalDownloadFile: 'https://misc.addalyn.baby/getfileurls.json',
+        globalDownloadFile: 'https://misc.evos.live/getfileurls.json',
         skipNewPath: true,
       },
     },
@@ -293,7 +292,7 @@ async function startDownload(downloadPath: string) {
     {
       workerData: {
         downloadPath,
-        globalDownloadFile: 'https://media.addalyn.baby/getfileurls.json',
+        globalDownloadFile: 'https://media.evos.live/getfileurls.json',
         skipNewPath: false,
       },
     },
@@ -605,7 +604,7 @@ const createWindow = async () => {
       applyAllChat(enableAllChat);
 
       event.reply('handleIsPatching', true);
-
+      /*enable for next year!
       if (enablePatching === 'true') {
         patching = true;
         await startDownloadPatch(
@@ -614,7 +613,8 @@ const createWindow = async () => {
       } else {
         patching = false;
       }
-
+      */
+      patching = false;
       async function checkForPatchAndLaunch() {
         if (patching) {
           console.log('Waiting for patch to finish...');
@@ -622,12 +622,12 @@ const createWindow = async () => {
         } else {
           // Patching is done
           console.log('Patch finished. launch the game.');
-
+          /* enable for next year!
           if (enablePatching === 'false') {
             const patchingDisabled = await translate('patchingDisabled');
             sendStatusToWindow(mainWindow as BrowserWindow, patchingDisabled);
           }
-
+          */
           const basePath = launchOptions.exePath.replace(
             'AtlasReactor.exe',
             '',

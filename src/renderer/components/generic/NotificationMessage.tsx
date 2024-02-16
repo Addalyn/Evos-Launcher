@@ -21,7 +21,7 @@ function NotificationMessage() {
     async function get() {
       try {
         const resp = await axios.get(
-          `https://misc.addalyn.baby/special.json?rand=${Math.random()}`,
+          `https://misc.evos.live/special.json?rand=${Math.random()}`,
           { headers: { accept: 'application/json' } },
         );
         setSpecial(resp.data.special);
@@ -34,7 +34,7 @@ function NotificationMessage() {
         setSpecial('');
         setEnabled(false);
       }
-      getNotification(i18n.language)
+      getNotification(i18n.language ?? 'en')
         // eslint-disable-next-line promise/always-return
         .then((resp) => {
           setNotice(resp.data.text);

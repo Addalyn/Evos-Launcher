@@ -91,9 +91,8 @@ export default function NavBar() {
     },
     {
       title: t('menuOptions.joinDiscord'),
-      href: 'https://discord.gg/evos-atlasreactor',
+      href: '/discord',
       icon: <ForumIcon />,
-      external: true,
     },
     {
       title: t('menuOptions.settings'),
@@ -499,16 +498,6 @@ export default function NavBar() {
                       sx={{ display: 'block' }}
                       disabled={isDownloading}
                       onClick={() => {
-                        if (page.external) {
-                          trackEvent('Page', {
-                            page: `${page.href}`,
-                          });
-                          window.electron.ipcRenderer.sendMessage(
-                            'openUrl',
-                            page.href,
-                          );
-                          return;
-                        }
                         if (!isDownloading) doNavigate(page.href);
                       }}
                     >

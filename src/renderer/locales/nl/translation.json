@@ -11,7 +11,8 @@
     "about": "Over",
     "changelog": "Wijzigingslog",
     "Login": "Inloggen",
-    "Register": "Registreren"
+    "Register": "Registreren",
+    "discord": "Discord"
   },
   "formatAge": {
     "justNow": "Zojuist",
@@ -54,9 +55,9 @@
   },
   "ips": {
     "noProxy": "evos-emu.com (Geen Proxy)",
-    "proxy1": "evos-emu.com (Proxy in Duitsland)",
-    "proxy2": "evos-emu.com (Proxy in Frankrijk)",
-    "proxy3": "evos-emu.com (Proxy in Finland)"
+    "proxy1": "de.evos.live (Proxy in Duitsland)",
+    "proxy2": "fr.evos.live (Proxy in Frankrijk)",
+    "proxy3": "fi.evos.live (Proxy in Finland)"
   },
   "download": {
     "infoLine1": "Download het spel bij voorkeur van Steam of een andere officiële bron.",

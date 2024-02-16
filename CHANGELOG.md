@@ -1,3 +1,11 @@
+# 1.8.5
+
+- Disabled the patching function christmass map is disabled anyway, wont hurt if you do have it
+- Changed all proxy servers we now have fi.evos.live, de.evos.live, fr.evos.live, if you do not use launcher you can use this in config file instead of evos-emu.com
+- change all accourance of addalyn.baby to evos.live
+- change join discord to the public discord page https://evos.live/discord
+- invite links are also to the public discord page https://evos.live/discord this can be given to friends and will always work.
+
 # 1.8.4
 
 - fixed some translation issues

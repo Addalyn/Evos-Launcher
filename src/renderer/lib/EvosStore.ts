@@ -79,7 +79,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   },
 
   init: async () => {
-    const [
+    let [
       mode,
       ip,
       authenticatedUsers,
@@ -113,6 +113,20 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       users = JSON.parse(authenticatedUsers.toString());
     }
 
+    // Compatibility with old config files change ip to new values
+    if (ip === 'arproxy.addalyn.baby') {
+      ip = 'de.evos.live';
+      get().setIp(ip);
+    }
+    if (ip === 'arproxy2.addalyn.baby') {
+      ip = 'fr.evos.live';
+      get().setIp(ip);
+    }
+    if (ip === 'arproxy3.addalyn.baby') {
+      ip = 'fi.evos.live';
+      get().setIp(ip);
+    }
+
     set({
       mode: mode || 'dark',
       ip: ip || '',
@@ -125,7 +139,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       ticketEnabled: ticketEnabled || 'true',
       noLogEnabled: noLogEnabled || 'false',
       showAllChat: showAllChat || 'true',
-      enablePatching: enablePatching || 'true',
+      enablePatching: /*enablePatching ||*/ 'true',
     });
 
     get().switchUser(activeUser?.user || users[0]?.user || '');

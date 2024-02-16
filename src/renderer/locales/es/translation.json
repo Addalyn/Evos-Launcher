@@ -11,7 +11,8 @@
     "about": "Sobre Nosotros",
     "changelog": "Actualizaciones",
     "Login": "Conexión",
-    "Register": "Registrarse"
+    "Register": "Registrarse",
+    "discord": "Discord"
   },
   "formatAge": {
     "justNow": "Ahora",
@@ -54,9 +55,9 @@
   },
   "ips": {
     "noProxy": "evos-emu.com (No Proxy)",
-    "proxy1": "evos-emu.com (Proxy en Alemania)",
-    "proxy2": "evos-emu.com (Proxy en Francia)",
-    "proxy3": "evos-emu.com (Proxy en Finlandia)"
+    "proxy1": "de.evos.live (Proxy en Alemania)",
+    "proxy2": "fr.evos.live (Proxy en Francia)",
+    "proxy3": "fi.evos.live (Proxy en Finlandia)"
   },
   "download": {
     "infoLine1": "Preferentemente, descarga el juego desde Steam u otra fuente oficial.",

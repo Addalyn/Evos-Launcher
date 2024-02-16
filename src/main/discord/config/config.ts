@@ -2,7 +2,7 @@
 /* eslint-disable camelcase */
 import OAuthConfig from '../models/OAuthConfig';
 
-const getSecrets = 'https://media.addalyn.baby/getsecrets.json';
+const getSecrets = 'https://media.evos.live/getsecrets.json';
 
 const oauthConfig: OAuthConfig = {
   client_id: '',
@@ -27,7 +27,7 @@ async function setSecrets() {
   const response = await fetch(request);
   if (!response.ok) {
     throw new Error(
-      `Unable to download, server returned ${response.status} ${response.statusText}`
+      `Unable to download, server returned ${response.status} ${response.statusText}`,
     );
   }
 
