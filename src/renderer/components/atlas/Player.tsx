@@ -2,13 +2,14 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import { ButtonBase, styled, Typography, useTheme } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { PlayerData } from '../../lib/Evos';
 import { BgImage } from '../generic/BasicComponents';
 import { BannerType, playerBanner, trustIcon } from '../../lib/Resources';
-import { useTranslation } from 'react-i18next';
 
 interface Props {
   info?: PlayerData;
+  disableSkew?: boolean;
 }
 
 const ImageTextWrapper = styled('span')(({ theme }) => ({
@@ -22,7 +23,7 @@ const ImageTextWrapper = styled('span')(({ theme }) => ({
     '1px 1px 2px black, -1px -1px 2px black, 1px -1px 2px black, -1px 1px 2px black',
 }));
 
-function Player({ info }: Props) {
+function Player({ info, disableSkew }: Props) {
   const { t } = useTranslation();
 
   let username = t('offline');
@@ -60,7 +61,7 @@ function Player({ info }: Props) {
           height: 52,
           fontSize: '8px',
           // @ts-ignore
-          transform: theme.transform.skewA,
+          transform: disableSkew ?? theme.transform.skewA,
           overflow: 'hidden',
           border: '2px solid black',
         }}
@@ -68,7 +69,7 @@ function Player({ info }: Props) {
         <div
           style={{
             // @ts-ignore
-            transform: theme.transform.skewB,
+            transform: disableSkew ?? theme.transform.skewB,
             width: '106%',
             height: '100%',
             flex: 'none',
@@ -76,6 +77,7 @@ function Player({ info }: Props) {
         >
           <BgImage
             style={{
+              zIndex: '0',
               backgroundImage:
                 info &&
                 `url(${playerBanner(BannerType.background, info.bannerBg)})`,
@@ -126,7 +128,16 @@ function Player({ info }: Props) {
             }}
           >
             <Typography component="span" style={{ fontSize: '1em' }}>
-              {info.status === '' ? t('online') : t(`${info.status}`)}
+              {(() => {
+                if (typeof info?.status === 'number') {
+                  // @ts-ignore
+                  return t(`titles.${info?.status}`);
+                }
+                if (info?.status === '') {
+                  return t('online');
+                }
+                return t([`${info?.status}`]);
+              })()}
             </Typography>
           </ImageTextWrapper>
         )}
@@ -173,7 +184,7 @@ function Player({ info }: Props) {
                     flex: 'none',
                     backgroundColor: bcolor,
                     // @ts-ignore
-                    transform: theme.transform.skewA,
+                    transform: disableSkew ?? theme.transform.skewA,
                     border: `1px solid ${tcolor}`, // Fix the border property
                   }}
                   alt="Avatar"

@@ -7,6 +7,7 @@ import EvosStore from 'renderer/lib/EvosStore';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PlayerData, getPlayerData, logout } from 'renderer/lib/Evos';
 import { EvosError, processError } from 'renderer/lib/Error';
+import { useTranslation } from 'react-i18next';
 import GamesPlayedMontly from '../stats/GamesPlayedMontly';
 import GamesPlayedCharacter from '../stats/GamesPlayedCharacter';
 import PlayerStats from '../stats/PlayerStats';
@@ -15,7 +16,6 @@ import Player from '../atlas/Player';
 import GamesPlayedStats from '../stats/GamesPlayedStats';
 import PlayerWinRate from '../stats/PlayerStatsWinRate';
 import ErrorDialog from '../generic/ErrorDialog';
-import { useTranslation } from 'react-i18next';
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -111,7 +111,7 @@ export default function PlayerStatsPage() {
         setPlayerData(resp.data);
       })
       .catch((e) => processError(e, setError, navigate, handleLogOut, t));
-  }, [playerSearch, activeUser, navigate, updateAuthenticatedUsers]);
+  }, [playerSearch, activeUser, navigate, updateAuthenticatedUsers, t]);
 
   const mapTabs = [
     'All Maps',

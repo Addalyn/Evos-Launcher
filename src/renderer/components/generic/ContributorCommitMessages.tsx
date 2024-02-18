@@ -48,7 +48,7 @@ function ContributorCommitMessages({ username, repo }: Props) {
     }
 
     fetchData();
-  }, [username, repo]);
+  }, [username, repo, t]);
 
   if (error) {
     return <div className="container mt-3">Error: {error}</div>;

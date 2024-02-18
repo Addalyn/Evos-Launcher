@@ -13,6 +13,8 @@ import {
   useTheme,
 } from '@mui/material';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { trackEvent } from '@aptabase/electron/renderer';
 import {
   CharacterType,
   GameData,
@@ -23,8 +25,6 @@ import { FlexBox } from '../generic/BasicComponents';
 import { mapMiniPic } from '../../lib/Resources';
 import Player from './Player';
 import { CharacterIcon } from './CharacterIcon';
-import { useTranslation } from 'react-i18next';
-import { trackEvent } from '@aptabase/electron/renderer';
 
 export const TeamFlexBox = styled(FlexBox)(() => ({
   paddingLeft: 20,

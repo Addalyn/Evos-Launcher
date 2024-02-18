@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import React, { useEffect, useState } from 'react';
 import {
   Typography,
@@ -25,8 +26,62 @@ import { FaRankingStar } from 'react-icons/fa6';
 import { strapiClient } from 'renderer/lib/strapi';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { PlayerData } from 'renderer/lib/Evos';
+import { catalystsIcon } from 'renderer/lib/Resources';
+import Player from '../atlas/Player';
 
-type Player = {
+interface CharacterSkin {
+  skinIndex: number;
+  patternIndex: number;
+  colorIndex: number;
+}
+
+interface CharacterInfo {
+  CharacterType: number;
+  CharacterSkin: CharacterSkin;
+  CharacterCards: {
+    CombatCard: Number;
+    DashCard: Number;
+    PrepCard: Number;
+  };
+  CharacterMods: Record<string, number>;
+  CharacterAbilityVfxSwaps: Record<string, number>;
+  CharacterTaunts: Array<Record<string, any>>;
+  CharacterLoadouts: Array<Record<string, any>>;
+  CharacterMatches: number;
+  CharacterLevel: number;
+}
+
+export interface TeamPlayerInfo extends PlayerData {
+  TeamId: number;
+  BannerID: number;
+  EmblemID: number;
+  RibbonID: number;
+  TitleID: string;
+  Handle: string;
+  CharacterInfo: CharacterInfo;
+  CharacterType: number;
+  CharacterSkin: CharacterSkin;
+  CharacterCards: {
+    CombatCard: Number;
+    DashCard: Number;
+    PrepCard: Number;
+  };
+  CharacterMods: {
+    ModForAbility0: Number;
+    ModForAbility1: Number;
+    ModForAbility2: Number;
+    ModForAbility3: Number;
+    ModForAbility4: Number;
+  };
+  CharacterAbilityVfxSwaps: Record<string, number>;
+  CharacterTaunts: Array<Record<string, any>>;
+  CharacterLoadouts: Array<Record<string, any>>;
+  CharacterMatches: number;
+  CharacterLevel: number;
+}
+
+type PlayerInfo = {
   id: number;
   game_id: number;
   user: string;
@@ -50,7 +105,7 @@ type Game = {
   turns: number;
   score: string;
   map: string;
-  stats: Player[];
+  stats: PlayerInfo[];
   gametype: string;
   server: string;
   version: string;
@@ -58,7 +113,7 @@ type Game = {
 };
 
 type Team = {
-  [teamName: string]: Player[];
+  [teamName: string]: PlayerInfo[];
 };
 
 const fetchInfo = async (
@@ -116,7 +171,7 @@ const fetchCount = async (map: string, playerName: string) => {
   }
 };
 
-const sortByTeam = (players: Player[]) => {
+const sortByTeam = (players: PlayerInfo[]) => {
   return players.sort((a, b) => a.team.localeCompare(b.team));
 };
 
@@ -137,7 +192,7 @@ const formatDate = (locale: string, dateString: string) => {
   return new Date(dateString).toLocaleDateString(locale, options);
 };
 
-const calculateMVPBadge = (player: Player, players: Player[]) => {
+const calculateMVPBadge = (player: PlayerInfo, players: PlayerInfo[]) => {
   let mvpPlayer = player;
   let maxCombinedScore =
     (player.damage + player.healing - player.damage_received) /
@@ -156,7 +211,7 @@ const calculateMVPBadge = (player: Player, players: Player[]) => {
   return mvpPlayer.id === player.id;
 };
 
-const calculateHealerBadge = (player: Player, players: Player[]) => {
+const calculateHealerBadge = (player: PlayerInfo, players: PlayerInfo[]) => {
   let healerPlayer = player;
   let maxHealing = player.healing / (player.deaths + 1);
 
@@ -171,7 +226,7 @@ const calculateHealerBadge = (player: Player, players: Player[]) => {
   return healerPlayer.id === player.id;
 };
 
-const calculateDamageBadge = (player: Player, players: Player[]) => {
+const calculateDamageBadge = (player: PlayerInfo, players: PlayerInfo[]) => {
   let damagePlayer = player;
   let maxDamage = player.damage / (player.deaths + 1);
 
@@ -186,7 +241,7 @@ const calculateDamageBadge = (player: Player, players: Player[]) => {
   return damagePlayer.id === player.id;
 };
 
-const calculateTankBadge = (player: Player, players: Player[]) => {
+const calculateTankBadge = (player: PlayerInfo, players: PlayerInfo[]) => {
   let tankPlayer = player;
   let maxDamageReceived = player.damage_received / (player.deaths + 1);
 
@@ -200,6 +255,290 @@ const calculateTankBadge = (player: Player, players: Player[]) => {
 
   return tankPlayer.id === player.id;
 };
+export function Games({
+  game,
+  i18n,
+  t,
+  navigate,
+  customPlayers,
+}: {
+  game: Game;
+  i18n: any;
+  t: any;
+  navigate: any;
+  customPlayers?: TeamPlayerInfo[];
+}) {
+  return (
+    <Paper
+      key={game.id}
+      elevation={3}
+      sx={{
+        borderBottom: 1,
+        borderColor: 'divider',
+        margin: '1em',
+        paddingBottom: '0px',
+        padding: '1em',
+      }}
+    >
+      <Grid container spacing={2} sx={{ padding: '1em' }}>
+        <Grid item xs={4}>
+          <Typography variant="subtitle1" gutterBottom>
+            {t('maps.map')}: {t(`maps.${game.map}`)}{' '}
+            <a
+              href={`https://ptb.discord.com/channels/600425662452465701/${game.channelid}/${game.gameid}`}
+              target="_blank"
+              rel="noreferrer"
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              ({t('showInDiscord')})
+            </a>
+          </Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <Typography variant="subtitle1" gutterBottom>
+            {t('stats.score')}: {game.score}
+          </Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <Typography variant="subtitle1" gutterBottom>
+            {t('stats.turns')}: {game.turns}
+          </Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <Typography variant="subtitle1" gutterBottom>
+            {t('stats.played')}: {formatDate(i18n.language, game.date)}
+          </Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <Typography variant="subtitle1" gutterBottom>
+            {t('stats.type')}: {game.gametype}
+          </Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <Typography variant="subtitle1" gutterBottom>
+            {t('stats.version')}: {game.version}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Box display="flex" flexDirection="column">
+        {Object.entries(groupByTeam(game)).map(([team, players]) => (
+          <TableContainer
+            key={team}
+            component={Paper}
+            sx={{
+              marginBottom: '1em',
+            }}
+          >
+            <Table size="small" aria-label="player stats">
+              <TableHead>
+                <TableRow>
+                  <TableCell width={300}>{t('stats.user')}</TableCell>
+                  <TableCell width={150}>{t('stats.character')}</TableCell>
+                  <TableCell>
+                    <Tooltip title={t('stats.takedowns')}>
+                      <div>
+                        <PiSwordDuotone />
+                      </div>
+                    </Tooltip>
+                  </TableCell>
+                  <TableCell>
+                    <Tooltip title={t('stats.deaths')}>
+                      <div>
+                        <GiDeathSkull />
+                      </div>
+                    </Tooltip>
+                  </TableCell>
+                  <TableCell>
+                    <Tooltip title={t('stats.deathblows')}>
+                      <div>
+                        <PiSwordFill />
+                      </div>
+                    </Tooltip>
+                  </TableCell>
+                  <TableCell>
+                    <Tooltip title={t('stats.damage')}>
+                      <div>
+                        <GiBroadsword />
+                      </div>
+                    </Tooltip>
+                  </TableCell>
+                  <TableCell>
+                    <Tooltip title={t('stats.healing')}>
+                      <div>
+                        <GiHealthNormal />
+                      </div>
+                    </Tooltip>
+                  </TableCell>
+                  <TableCell>
+                    <Tooltip title={t('stats.damageReceived')}>
+                      <div>
+                        <BsShield />
+                      </div>
+                    </Tooltip>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {sortByTeam(players).map((player) => (
+                  <TableRow
+                    key={player.id}
+                    sx={{
+                      marginBottom: '1em',
+                      backgroundColor:
+                        (game.teamwin === 'TeamA' && player.team === 'TeamA') ||
+                        (game.teamwin === 'TeamB' && player.team === 'TeamB')
+                          ? '#22c955'
+                          : '#ff423a',
+                    }}
+                  >
+                    <TableCell
+                      sx={{ cursor: 'pointer' }}
+                      onClick={() => {
+                        navigate(
+                          `/playerstats?player=${encodeURIComponent(
+                            player.user,
+                          )}`,
+                        );
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <div>
+                          {customPlayers ? (
+                            <Player
+                              info={customPlayers.find(
+                                (p) => p.Handle === player.user,
+                              )}
+                              disableSkew
+                            />
+                          ) : (
+                            player.user
+                          )}
+                        </div>
+                        <div style={{ marginLeft: 'auto' }}>
+                          {calculateMVPBadge(player, game.stats) &&
+                            !customPlayers && (
+                              <Tooltip title={t('stats.mvp')}>
+                                <Chip
+                                  color="primary"
+                                  label=""
+                                  size="small"
+                                  icon={
+                                    <FaRankingStar
+                                      style={{ marginLeft: '12px' }}
+                                    />
+                                  }
+                                  sx={{ marginLeft: 1 }} // Add margin to badges
+                                />
+                              </Tooltip>
+                            )}
+                          {calculateHealerBadge(player, game.stats) &&
+                            !customPlayers && (
+                              <Tooltip title={t('stats.bestSupport')}>
+                                <Chip
+                                  color="secondary"
+                                  label=""
+                                  size="small"
+                                  icon={
+                                    <GiHealthNormal
+                                      style={{ marginLeft: '12px' }}
+                                    />
+                                  }
+                                  sx={{ marginLeft: 1 }} // Add margin to badges
+                                />
+                              </Tooltip>
+                            )}
+                          {calculateDamageBadge(player, game.stats) &&
+                            !customPlayers && (
+                              <Tooltip title={t('stats.bestDamage')}>
+                                <Chip
+                                  color="error"
+                                  label=""
+                                  size="small"
+                                  icon={
+                                    <GiBroadsword
+                                      style={{ marginLeft: '12px' }}
+                                    />
+                                  }
+                                  sx={{ marginLeft: 1 }} // Add margin to badges
+                                />
+                              </Tooltip>
+                            )}
+                          {calculateTankBadge(player, game.stats) &&
+                            !customPlayers && (
+                              <Tooltip title={t('stats.bestTank')}>
+                                <Chip
+                                  color="info"
+                                  label=""
+                                  size="small"
+                                  icon={
+                                    <BsShield style={{ marginLeft: '12px' }} />
+                                  }
+                                  sx={{ marginLeft: 1 }} // Add margin to badges
+                                />
+                              </Tooltip>
+                            )}
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      {t(`charNames.${player.character.replace(/:3/g, '')}`)}
+                      {customPlayers &&
+                        customPlayers
+                          .filter((p) => p.Handle === player.user)
+                          .map((customPlayer) => (
+                            <div key={customPlayer.Handle}>
+                              <Typography variant="caption">
+                                <img
+                                  src={catalystsIcon(
+                                    customPlayer.CharacterInfo.CharacterCards
+                                      .PrepCard,
+                                  )}
+                                  alt={customPlayer.CharacterInfo.CharacterCards.PrepCard.toString()}
+                                  width={25}
+                                  height={25}
+                                />
+                              </Typography>
+                              <Typography variant="caption">
+                                <img
+                                  src={catalystsIcon(
+                                    customPlayer.CharacterInfo.CharacterCards
+                                      .DashCard,
+                                  )}
+                                  alt={customPlayer.CharacterInfo.CharacterCards.DashCard.toString()}
+                                  width={25}
+                                  height={25}
+                                />
+                              </Typography>
+                              <Typography variant="caption">
+                                <img
+                                  src={catalystsIcon(
+                                    customPlayer.CharacterInfo.CharacterCards
+                                      .CombatCard,
+                                  )}
+                                  alt={customPlayer.CharacterInfo.CharacterCards.CombatCard.toString()}
+                                  width={25}
+                                  height={25}
+                                />
+                              </Typography>
+                            </div>
+                          ))}
+                    </TableCell>
+                    <TableCell>{player.takedowns}</TableCell>
+                    <TableCell>{player.deaths}</TableCell>
+                    <TableCell>{player.deathblows}</TableCell>
+                    <TableCell>{player.damage}</TableCell>
+                    <TableCell>{player.healing}</TableCell>
+                    <TableCell>{player.damage_received}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        ))}
+      </Box>
+    </Paper>
+  );
+}
 
 export default function PreviousGamesPlayed() {
   const { t, i18n } = useTranslation();
@@ -310,227 +649,13 @@ export default function PreviousGamesPlayed() {
       </Paper>
 
       {data.map((game) => (
-        <Paper
+        <Games
           key={game.id}
-          elevation={3}
-          sx={{
-            borderBottom: 1,
-            borderColor: 'divider',
-            margin: '1em',
-            paddingBottom: '0px',
-            padding: '1em',
-          }}
-        >
-          <Grid container spacing={2} sx={{ padding: '1em' }}>
-            <Grid item xs={4}>
-              <Typography variant="subtitle1" gutterBottom>
-                {t('maps.map')}: {t(`maps.${game.map}`)}{' '}
-                <a
-                  href={`https://ptb.discord.com/channels/600425662452465701/${game.channelid}/${game.gameid}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{ textDecoration: 'none', color: 'inherit' }}
-                >
-                  ({t('showInDiscord')})
-                </a>
-              </Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography variant="subtitle1" gutterBottom>
-                {t('stats.score')}: {game.score}
-              </Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography variant="subtitle1" gutterBottom>
-                {t('stats.turns')}: {game.turns}
-              </Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography variant="subtitle1" gutterBottom>
-                {t('stats.played')}: {formatDate(i18n.language, game.date)}
-              </Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography variant="subtitle1" gutterBottom>
-                {t('stats.type')}: {game.gametype}
-              </Typography>
-            </Grid>
-            <Grid item xs={4}>
-              <Typography variant="subtitle1" gutterBottom>
-                {t('stats.version')}: {game.version}
-              </Typography>
-            </Grid>
-          </Grid>
-          <Box display="flex" flexDirection="column">
-            {Object.entries(groupByTeam(game)).map(([team, players]) => (
-              <TableContainer
-                key={team}
-                component={Paper}
-                sx={{
-                  marginBottom: '1em',
-                }}
-              >
-                <Table size="small" aria-label="player stats">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell width={300}>{t('stats.user')}</TableCell>
-                      <TableCell width={150}>{t('stats.character')}</TableCell>
-                      <TableCell>
-                        <Tooltip title={t('stats.takedowns')}>
-                          <div>
-                            <PiSwordDuotone />
-                          </div>
-                        </Tooltip>
-                      </TableCell>
-                      <TableCell>
-                        <Tooltip title={t('stats.deaths')}>
-                          <div>
-                            <GiDeathSkull />
-                          </div>
-                        </Tooltip>
-                      </TableCell>
-                      <TableCell>
-                        <Tooltip title={t('stats.deathblows')}>
-                          <div>
-                            <PiSwordFill />
-                          </div>
-                        </Tooltip>
-                      </TableCell>
-                      <TableCell>
-                        <Tooltip title={t('stats.damage')}>
-                          <div>
-                            <GiBroadsword />
-                          </div>
-                        </Tooltip>
-                      </TableCell>
-                      <TableCell>
-                        <Tooltip title={t('stats.healing')}>
-                          <div>
-                            <GiHealthNormal />
-                          </div>
-                        </Tooltip>
-                      </TableCell>
-                      <TableCell>
-                        <Tooltip title={t('stats.damageReceived')}>
-                          <div>
-                            <BsShield />
-                          </div>
-                        </Tooltip>
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {sortByTeam(players).map((player) => (
-                      <TableRow
-                        key={player.id}
-                        sx={{
-                          marginBottom: '1em',
-                          backgroundColor:
-                            (game.teamwin === 'TeamA' &&
-                              player.team === 'TeamA') ||
-                            (game.teamwin === 'TeamB' &&
-                              player.team === 'TeamB')
-                              ? '#22c955'
-                              : '#ff423a',
-                        }}
-                      >
-                        <TableCell
-                          sx={{ cursor: 'pointer' }}
-                          onClick={() => {
-                            navigate(
-                              `/playerstats?player=${encodeURIComponent(
-                                player.user,
-                              )}`,
-                            );
-                          }}
-                        >
-                          <div
-                            style={{ display: 'flex', alignItems: 'center' }}
-                          >
-                            <div>{player.user}</div>
-                            <div style={{ marginLeft: 'auto' }}>
-                              {calculateMVPBadge(player, game.stats) && (
-                                <Tooltip title={t('stats.mvp')}>
-                                  <Chip
-                                    color="primary"
-                                    label=""
-                                    size="small"
-                                    icon={
-                                      <FaRankingStar
-                                        style={{ marginLeft: '12px' }}
-                                      />
-                                    }
-                                    sx={{ marginLeft: 1 }} // Add margin to badges
-                                  />
-                                </Tooltip>
-                              )}
-                              {calculateHealerBadge(player, game.stats) && (
-                                <Tooltip title={t('stats.bestSupport')}>
-                                  <Chip
-                                    color="secondary"
-                                    label=""
-                                    size="small"
-                                    icon={
-                                      <GiHealthNormal
-                                        style={{ marginLeft: '12px' }}
-                                      />
-                                    }
-                                    sx={{ marginLeft: 1 }} // Add margin to badges
-                                  />
-                                </Tooltip>
-                              )}
-                              {calculateDamageBadge(player, game.stats) && (
-                                <Tooltip title={t('stats.bestDamage')}>
-                                  <Chip
-                                    color="error"
-                                    label=""
-                                    size="small"
-                                    icon={
-                                      <GiBroadsword
-                                        style={{ marginLeft: '12px' }}
-                                      />
-                                    }
-                                    sx={{ marginLeft: 1 }} // Add margin to badges
-                                  />
-                                </Tooltip>
-                              )}
-                              {calculateTankBadge(player, game.stats) && (
-                                <Tooltip title={t('stats.bestTank')}>
-                                  <Chip
-                                    color="info"
-                                    label=""
-                                    size="small"
-                                    icon={
-                                      <BsShield
-                                        style={{ marginLeft: '12px' }}
-                                      />
-                                    }
-                                    sx={{ marginLeft: 1 }} // Add margin to badges
-                                  />
-                                </Tooltip>
-                              )}
-                            </div>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          {t(
-                            `charNames.${player.character.replace(/:3/g, '')}`,
-                          )}
-                        </TableCell>
-                        <TableCell>{player.takedowns}</TableCell>
-                        <TableCell>{player.deaths}</TableCell>
-                        <TableCell>{player.deathblows}</TableCell>
-                        <TableCell>{player.damage}</TableCell>
-                        <TableCell>{player.healing}</TableCell>
-                        <TableCell>{player.damage_received}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            ))}
-          </Box>
-        </Paper>
+          game={game}
+          t={t}
+          navigate={navigate}
+          i18n={i18n}
+        />
       ))}
     </>
   );

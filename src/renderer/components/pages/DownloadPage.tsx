@@ -18,8 +18,8 @@ import LinearProgress, {
 } from '@mui/material/LinearProgress';
 import { logoSmall } from 'renderer/lib/Resources';
 import EvosStore from 'renderer/lib/EvosStore';
-import { truncateDynamicPath } from './SettingsPage';
 import { useTranslation } from 'react-i18next';
+import { truncateDynamicPath } from './SettingsPage';
 
 function LinearProgressWithLabel(
   props: LinearProgressProps & {

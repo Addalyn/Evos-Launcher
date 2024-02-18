@@ -10,6 +10,8 @@ import {
   Toolbar,
 } from '@mui/material';
 
+import { useTranslation } from 'react-i18next';
+import { trackEvent } from '@aptabase/electron/renderer';
 import NavBar from './components/generic/Navbar';
 import EvosStore from './lib/EvosStore';
 import StatusPage from './components/pages/StatusPage';
@@ -27,9 +29,8 @@ import PlayerStatsPage from './components/pages/PlayerStatsPage';
 import NotificationMessage from './components/generic/NotificationMessage';
 import LogsPage from './components/pages/LogsPage';
 
-import { useTranslation, Trans } from 'react-i18next';
-import { trackEvent } from '@aptabase/electron/renderer';
 import DiscordPage from './components/pages/DiscordPage';
+import ReplaysPage from './components/pages/ReplaysPage';
 
 interface PageProps {
   title: string;
@@ -45,9 +46,7 @@ function Page(props: PageProps) {
   return props.children;
 }
 
-const page = (title: string, content: React.ReactNode) => {
-  const { t } = useTranslation();
-
+const page = (title: string, content: React.ReactNode, t: any) => {
   return (
     <Page title={`Atlas Reactor: ${t(`menuOptions.${title}`)}`}>{content}</Page>
   );
@@ -78,7 +77,7 @@ export default function App() {
     evosStore.exePath,
   ]);
 
-  const handleMessage = (event: any, message: any) => {
+  const handleMessage = (event: any) => {
     window.electron.ipcRenderer.sendTranslate('translateReturn', t(event));
   };
 
@@ -130,6 +129,7 @@ export default function App() {
                     <StatusPage />
                   </Box>
                 </>,
+                t,
               )}
             />
             <Route
@@ -145,6 +145,7 @@ export default function App() {
                     <LogsPage />
                   </Box>
                 </>,
+                t,
               )}
             />
             <Route
@@ -160,6 +161,7 @@ export default function App() {
                     <SettingsPage />
                   </Box>
                 </>,
+                t,
               )}
             />
             <Route
@@ -175,6 +177,7 @@ export default function App() {
                     <AboutPage />
                   </Box>
                 </>,
+                t,
               )}
             />
             <Route
@@ -190,6 +193,7 @@ export default function App() {
                     <ChangeLogPage />
                   </Box>
                 </>,
+                t,
               )}
             />
             <Route
@@ -205,6 +209,7 @@ export default function App() {
                     <DownloadPage />
                   </Box>
                 </>,
+                t,
               )}
             />
             <Route
@@ -220,6 +225,7 @@ export default function App() {
                     <AddAccountPage />
                   </Box>
                 </>,
+                t,
               )}
             />
             <Route
@@ -242,6 +248,7 @@ export default function App() {
                     </Box>
                   </Box>
                 </>,
+                t,
               )}
             />
             <Route
@@ -264,6 +271,7 @@ export default function App() {
                     </Box>
                   </Box>
                 </>,
+                t,
               )}
             />
             <Route
@@ -279,6 +287,7 @@ export default function App() {
                     <StatsPage />
                   </Box>
                 </>,
+                t,
               )}
             />
             <Route
@@ -294,6 +303,7 @@ export default function App() {
                     <PlayerStatsPage />
                   </Box>
                 </>,
+                t,
               )}
             />
             <Route
@@ -309,6 +319,7 @@ export default function App() {
                     <PreviousGamesPage />
                   </Box>
                 </>,
+                t,
               )}
             />
             <Route
@@ -324,6 +335,23 @@ export default function App() {
                     <DiscordPage />
                   </Box>
                 </>,
+                t,
+              )}
+            />
+            <Route
+              path="/replays"
+              element={page(
+                'replays',
+                <>
+                  <NavBar />
+                  <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <Toolbar />
+                    <NotificationMessage />
+                    <Updater />
+                    <ReplaysPage />
+                  </Box>
+                </>,
+                t,
               )}
             />
           </Routes>

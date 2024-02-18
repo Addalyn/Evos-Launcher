@@ -62,7 +62,7 @@ class AuthClient {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
-            }
+            },
           );
 
           if (!result) setAuthResult(false);
@@ -112,8 +112,8 @@ class AuthClient {
       `https://discord.com/api/oauth2/authorize?client_id=${
         this._oauthConfig.client_id
       }&redirect_uri=${encodeURI(
-        this._oauthConfig.redirect_uri
-      )}&response_type=code&scope=${encodeURI(this._oauthConfig.scope)}`
+        this._oauthConfig.redirect_uri,
+      )}&response_type=code&scope=${encodeURI(this._oauthConfig.scope)}`,
     );
   };
 }

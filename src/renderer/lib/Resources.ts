@@ -32,3 +32,28 @@ export function mapMiniPic(map: MapType) {
 export function trustIcon(trust: string) {
   return `${path}/img/trusts/TrustIcon_${trust}.png`;
 }
+
+export function catalystsIcon(catalyst: Number) {
+  const catalystNames: { [key: number]: string } = {
+    26: 'Echo_Boost',
+    1: 'Adrenaline',
+    29: 'Chronosurge',
+    5: 'Shift',
+    22: 'Fetter',
+    23: 'Fade',
+    24: 'Regroup',
+    7: 'Brain_Juice',
+    20: 'Probe',
+    8: 'Second_Wind',
+    10: 'Critical_Shot',
+    12: 'Regenergy',
+    17: 'Tether',
+    18: 'Turtle_Tech', // not used
+    21: 'Adrenaline',
+    30: 'Brain_Juice',
+    31: 'Second_Wind',
+  };
+
+  const catalystName = catalystNames[catalyst as number];
+  return `${path}/img/catalysts/Catalyst-${catalystName}.webp`;
+}

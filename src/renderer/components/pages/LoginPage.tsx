@@ -22,8 +22,8 @@ import EvosStore, { AuthUser } from 'renderer/lib/EvosStore';
 import { login } from 'renderer/lib/Evos';
 import { EvosError, processError } from 'renderer/lib/Error';
 import { BannerType, playerBanner } from 'renderer/lib/Resources';
-import IpComponent from '../generic/IpComponent';
 import { useTranslation } from 'react-i18next';
+import IpComponent from '../generic/IpComponent';
 
 export default function LoginPage() {
   const {

@@ -74,7 +74,7 @@ export interface PlayerData {
   bannerBg: number;
   bannerFg: number;
   status: string;
-  factionData: factionData;
+  factionData?: factionData;
 }
 
 export interface GroupData {

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
@@ -7,22 +8,8 @@ import '../../Discord.css';
 function DiscordPage() {
   const [htmlContent, setHtmlContent] = useState<string>('');
 
-  useEffect(() => {
-    const fetchHTML = async () => {
-      try {
-        const response = await axios.get<string>('https://evos.live/discord');
-        const { htmlContent } = processHTML(response.data);
-        setHtmlContent(htmlContent);
-      } catch (error) {
-        console.error('Error fetching HTML:', error);
-      }
-    };
-
-    fetchHTML();
-  }, []);
-
-  const processHTML = (htmlContent: string) => {
-    const $ = cheerio.load(htmlContent);
+  const processHTML = (html: string) => {
+    const $ = cheerio.load(html);
 
     // Select HTML between start and end elements
     const startElement = $('.header-19XI67');
@@ -52,11 +39,25 @@ function DiscordPage() {
       const htmlBetween = startElement.nextUntil('.container-33DGro');
       processedHTML = $.html(htmlBetween);
     } else {
-      console.error('Start and/or end elements not found.');
+      setHtmlContent('Start and/or end elements not found.');
     }
 
-    return { htmlContent: processedHTML };
+    return { html: processedHTML };
   };
+
+  useEffect(() => {
+    const fetchHTML = async () => {
+      try {
+        const response = await axios.get<string>('https://evos.live/discord');
+        const { html } = processHTML(response.data);
+        setHtmlContent(html);
+      } catch (error) {
+        setHtmlContent(`Error fetching HTML: ${error}`);
+      }
+    };
+
+    fetchHTML();
+  }, []);
 
   return (
     <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable func-names */
 /* eslint-disable import/no-cycle */
@@ -19,11 +20,10 @@ import { Worker as NativeWorker } from 'worker_threads';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { ChildProcess, spawn } from 'child_process';
-import MenuBuilder from './menu';
+import { initialize, trackEvent } from '@aptabase/electron/main';
 import { resolveHtmlPath } from './util';
 import { oauthConfig } from './discord/config/config';
 import AuthClient from './discord/services/auth';
-import { initialize, trackEvent } from '@aptabase/electron/main';
 
 initialize('A-SH-9629286137', {
   host: 'https://launcher.evos.live',
@@ -68,24 +68,6 @@ const defaultConfig: Config = {
 };
 
 let translatedText: string;
-
-function translate(key: string): Promise<string> {
-  translatedText = ''; // Clear the translatedText before asking for a new translation
-  mainWindow?.webContents.send('translate', key);
-
-  return new Promise((resolve) => {
-    const checkTranslation = () => {
-      if (translatedText !== '') {
-        resolve(translatedText);
-      } else {
-        setTimeout(checkTranslation, 500); // Wait for 500 milliseconds before checking again
-      }
-    };
-
-    checkTranslation();
-  });
-}
-
 interface Games {
   [key: string]: ChildProcess;
 }
@@ -208,7 +190,22 @@ function sendStatusToWindow(win: BrowserWindow, text: string) {
 }
 
 let patching: boolean = true;
+function translate(key: string): Promise<string> {
+  translatedText = ''; // Clear the translatedText before asking for a new translation
+  mainWindow?.webContents.send('translate', key);
 
+  return new Promise((resolve) => {
+    const checkTranslation = () => {
+      if (translatedText !== '') {
+        resolve(translatedText);
+      } else {
+        setTimeout(checkTranslation, 500); // Wait for 500 milliseconds before checking again
+      }
+    };
+
+    checkTranslation();
+  });
+}
 async function startDownloadPatch(downloadPath: string) {
   worker = new NativeWorker(
     path.join(
@@ -224,7 +221,11 @@ async function startDownloadPatch(downloadPath: string) {
       },
     },
   );
-  let timeout: string | number | NodeJS.Timeout | undefined;
+
+  let timeout: NodeJS.Timeout;
+  const patchingMessage = await translate('patching');
+  const completeMessage = await translate('complete');
+  const errorMessage = await translate('errorPatching');
   worker.on('message', async (message) => {
     switch (message.type) {
       case 'progress':
@@ -232,8 +233,7 @@ async function startDownloadPatch(downloadPath: string) {
         if (timeout) {
           clearTimeout(timeout);
         }
-        const patchingMessage = await translate('patching');
-        const completeMessage = await translate('complete');
+
         sendStatusToWindow(
           mainWindow as BrowserWindow,
           `${patchingMessage} ${path.basename(message.data.filePath)} (${
@@ -250,7 +250,6 @@ async function startDownloadPatch(downloadPath: string) {
         if (message.data) {
           sendStatusToWindow(mainWindow as BrowserWindow, '');
         } else {
-          const errorMessage = await translate('errorPatching');
           sendStatusToWindow(
             mainWindow as BrowserWindow,
             `${errorMessage} ${message.data}`,
@@ -259,7 +258,6 @@ async function startDownloadPatch(downloadPath: string) {
         patching = false;
         break;
       case 'error':
-        const errorMessage = await translate('errorPatching');
         sendStatusToWindow(
           mainWindow as BrowserWindow,
           `${errorMessage} ${message.data}`,
@@ -578,6 +576,41 @@ const createWindow = async () => {
     }
   });
 
+  ipcMain.handle('getReplayData', async (event, args) => {
+    try {
+      const replaysFolder = path.join(
+        path.dirname(path.dirname(args)),
+        'Replays',
+      );
+      const files = fs.readdirSync(replaysFolder);
+
+      const sortedFiles = files
+        .map((file) => ({
+          name: file,
+          fullPath: path.join(replaysFolder, file),
+          size: fs.statSync(path.join(replaysFolder, file)).size,
+          lastModified: fs.statSync(path.join(replaysFolder, file)).mtimeMs,
+        }))
+        .sort((a, b) => b.lastModified - a.lastModified);
+
+      return sortedFiles;
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  });
+
+  ipcMain.handle('getReplayContent', async (event, args) => {
+    try {
+      const logPath = args;
+      const content = fs.readFileSync(logPath, 'utf-8');
+      return content;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  });
+
   ipcMain.handle('open-folder', async (event, args) => {
     try {
       shell.openPath(args);
@@ -604,7 +637,7 @@ const createWindow = async () => {
       applyAllChat(enableAllChat);
 
       event.reply('handleIsPatching', true);
-      /*enable for next year!
+      /* enable for next year!
       if (enablePatching === 'true') {
         patching = true;
         await startDownloadPatch(
@@ -627,7 +660,7 @@ const createWindow = async () => {
             const patchingDisabled = await translate('patchingDisabled');
             sendStatusToWindow(mainWindow as BrowserWindow, patchingDisabled);
           }
-          */
+
           const basePath = launchOptions.exePath.replace(
             'AtlasReactor.exe',
             '',
@@ -670,7 +703,7 @@ const createWindow = async () => {
             event.reply('handleIsPatching', false);
             return;
           }
-
+          */
           event.reply('handleIsPatching', false);
 
           trackEvent('Game Launched');
@@ -946,6 +979,7 @@ const createWindow = async () => {
           trackEvent('Launcher Started', {
             version: currentVersion,
           });
+          mainWindow.setMenu(null);
         }
       }, 2000);
     }
@@ -1017,9 +1051,6 @@ const createWindow = async () => {
       callback(true);
     },
   );
-
-  const menuBuilder = new MenuBuilder(mainWindow);
-  menuBuilder.buildMenu();
 
   // Open urls in the user's browser
   mainWindow.webContents.setWindowOpenHandler((edata) => {

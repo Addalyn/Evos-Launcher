@@ -1,3 +1,14 @@
+# 1.8.6 - The replays
+
+- Added a new page to the launcher, the replays page. This page will show you all the replays you have saved on your computer.
+- When opening a replay you will see stats of that game, you have the option to send this replay file including a screenshot of the stats to our [discord server](https://ptb.discord.com/channels/600425662452465701/1208820966109741056).
+  You can use this method to report bugs, or to show off your stats to your friends.
+- fix no longer able to ctrl+w to close launcher, or to press alt to get the hidden menu.
+- Added translations for the new page
+- fix Lint errors
+- fix needing patch files to launch the game, this is no longer needed (untill next Christmas)
+- Reordered the menu.
+
 # 1.8.5
 
 - Disabled the patching function christmass map is disabled anyway, wont hurt if you do have it

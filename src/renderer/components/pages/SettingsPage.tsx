@@ -435,7 +435,7 @@ export default function SettingsPage() {
                 control={<Switch />}
                 label={t('settings.autoPatchingLabel')}
                 checked={false} // {enablePatching === 'true'}
-                disabled={true} // Only for christmas we need it next year!
+                disabled // Only for christmas we need it next year!
                 onChange={() => {
                   setEnablePatching(
                     enablePatching === 'true' ? 'false' : 'true',

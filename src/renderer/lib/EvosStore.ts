@@ -79,9 +79,9 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   },
 
   init: async () => {
-    let [
+    let ip = (await get().getFromStorage('ip')) as string;
+    const [
       mode,
-      ip,
       authenticatedUsers,
       activeUser,
       age,
@@ -91,10 +91,9 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       ticketEnabled,
       noLogEnabled,
       showAllChat,
-      enablePatching,
+      // enablePatching,
     ] = await Promise.all([
       get().getFromStorage('mode') as string,
-      get().getFromStorage('ip') as string,
       get().getFromStorage('authenticatedUsers') as AuthUser[],
       get().getFromStorage('activeUser') as AuthUser | null,
       get().getFromStorage('age') as number,
@@ -104,7 +103,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       get().getFromStorage('ticketEnabled') as string,
       get().getFromStorage('noLogEnabled') as string,
       get().getFromStorage('showAllChat') as string,
-      get().getFromStorage('enablePatching') as string,
+      // get().getFromStorage('enablePatching') as string,
     ]);
 
     let users: AuthUser[] = [];
@@ -139,7 +138,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       ticketEnabled: ticketEnabled || 'true',
       noLogEnabled: noLogEnabled || 'false',
       showAllChat: showAllChat || 'true',
-      enablePatching: /*enablePatching ||*/ 'true',
+      enablePatching: 'true', // enablePatching || 'true',
     });
 
     get().switchUser(activeUser?.user || users[0]?.user || '');
@@ -170,7 +169,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     set({ ip });
 
     trackEvent('Game Ip Changed', {
-      ip: ip,
+      ip,
     });
 
     try {

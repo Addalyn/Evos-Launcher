@@ -8,6 +8,7 @@ import {
   AlertTitle,
 } from '@mui/material';
 import EvosStore from 'renderer/lib/EvosStore';
+import { useTranslation } from 'react-i18next';
 import { getStatus, Status } from '../../lib/Evos';
 
 import { EvosError, processError } from '../../lib/Error';
@@ -16,7 +17,6 @@ import useHasFocus from '../../lib/useHasFocus';
 import Server from '../atlas/Server';
 import Queue from '../atlas/Queue';
 import TrustBar from '../generic/TrustBar';
-import { useTranslation } from 'react-i18next';
 
 function GroupBy<V, K>(key: (item: V) => K, list?: V[]) {
   return list?.reduce((res, p) => {
@@ -96,7 +96,7 @@ function StatusPage() {
     new Set(
       [...games.values()]
         .flatMap((g) => [...g.teamA, ...g.teamB])
-        .map((t) => t.accountId),
+        .map((p) => p.accountId),
     );
 
   return (

@@ -1,8 +1,8 @@
 import { Paper, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { GroupData, PlayerData, QueueData } from '../../lib/Evos';
 import Group from './Group';
 import { FlexBox } from '../generic/BasicComponents';
-import { useTranslation } from 'react-i18next';
 
 interface Props {
   queueInfo: QueueData;

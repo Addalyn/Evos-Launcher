@@ -39,11 +39,12 @@ import EvosStore from 'renderer/lib/EvosStore';
 import useWindowDimensions from 'renderer/lib/useWindowDimensions';
 import { getMotd, getTicket, logout } from 'renderer/lib/Evos';
 import { EvosError, isValidExePath, processError } from 'renderer/lib/Error';
-import { BannerType, logo, playerBanner } from '../../lib/Resources';
-import ErrorDialog from './ErrorDialog';
 import Flag from 'react-flagkit';
-import { useTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { trackEvent } from '@aptabase/electron/renderer';
+import { Replay } from '@mui/icons-material';
+import ErrorDialog from './ErrorDialog';
+import { BannerType, logo, playerBanner } from '../../lib/Resources';
 
 interface Language {
   nativeName: string;
@@ -90,9 +91,19 @@ export default function NavBar() {
       icon: <HistoryIcon />,
     },
     {
-      title: t('menuOptions.joinDiscord'),
-      href: '/discord',
-      icon: <ForumIcon />,
+      title: t('menuOptions.gameLogs'),
+      href: '/logs',
+      icon: <TextSnippetIcon />,
+    },
+    {
+      title: t('menuOptions.replays', 'Replays'),
+      href: '/replays',
+      icon: <Replay />,
+    },
+    {
+      title: t('menuOptions.download'),
+      href: '/download',
+      icon: <DownloadIcon />,
     },
     {
       title: t('menuOptions.settings'),
@@ -101,24 +112,19 @@ export default function NavBar() {
       devider: true,
     },
     {
-      title: t('menuOptions.gameLogs'),
-      href: '/logs',
-      icon: <TextSnippetIcon />,
-    },
-    {
-      title: t('menuOptions.download'),
-      href: '/download',
-      icon: <DownloadIcon />,
-    },
-    {
-      title: t('menuOptions.about'),
-      href: '/about',
-      icon: <InfoIcon />,
+      title: t('menuOptions.joinDiscord'),
+      href: '/discord',
+      icon: <ForumIcon />,
     },
     {
       title: t('menuOptions.changelog'),
       href: '/changelog',
       icon: <GitHubIcon />,
+    },
+    {
+      title: t('menuOptions.about'),
+      href: '/about',
+      icon: <InfoIcon />,
     },
   ];
 
@@ -155,7 +161,7 @@ export default function NavBar() {
 
   useEffect(() => {
     async function get() {
-      getMotd(i18n.language)
+      getMotd(i18n.language ?? 'en')
         // eslint-disable-next-line promise/always-return
         .then((resp) => {
           setMotd(resp.data.text);
@@ -166,7 +172,7 @@ export default function NavBar() {
         });
     }
     get();
-  }, [i18n.language]);
+  }, [i18n.language, t]);
 
   const [activeGames, setActiveGames] = useState<{
     [username: string]: boolean;
@@ -353,7 +359,7 @@ export default function NavBar() {
             </Stack>
             <Box sx={{ flexGrow: 0, paddingRight: '5px' }}>
               <Select
-                value={i18n.language ? i18n.language : lngs['en'].nativeName}
+                value={i18n.language ? i18n.language : lngs.en.nativeName}
                 label=""
                 onChange={(e) => i18n.changeLanguage(e.target.value)}
                 sx={{ width: '100%', maxHeight: '36.5px' }}

@@ -19,10 +19,15 @@
     "skipLibCheck": true,
     "outDir": ".erb/dll"
   },
+  "ignorePatterns": [
+    "./.eslintrc.js"
+  ],
   "exclude": [
     "test",
     "release/build",
     "release/app/dist",
-    ".erb/dll"
+    ".erb/dll",
+    "./.eslintrc.js",
+    ".erb",
   ]
 }

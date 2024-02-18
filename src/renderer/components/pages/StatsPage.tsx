@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Box, Paper, Tab, Tabs, Typography } from '@mui/material';
 import useWindowDimensions from 'renderer/lib/useWindowDimensions';
+import { useTranslation } from 'react-i18next';
 import GamesPlayedMontly from '../stats/GamesPlayedMontly';
 import GamesPlayedCharacter from '../stats/GamesPlayedCharacter';
 import TopGamesPlayedBy from '../stats/TopGamesPlayedBy';
@@ -13,7 +14,6 @@ import TopGamesDamageBy from '../stats/TopGamesDamageBy';
 import TopGamesHealedBy from '../stats/TopGamesHealedBy';
 import TopGamesDamageReceivedBy from '../stats/TopGamesDamageReceivedBy';
 import GamesPlayedServer from '../stats/GamesPlayedServer';
-import { useTranslation } from 'react-i18next';
 
 interface TabPanelProps {
   children: React.ReactNode;

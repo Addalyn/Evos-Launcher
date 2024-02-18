@@ -24,7 +24,9 @@ export type Channels =
   | 'open-folder'
   | 'message'
   | 'translate'
-  | 'translateReturn';
+  | 'translateReturn'
+  | 'getReplayData'
+  | 'getReplayContent';
 
 const electronHandler = {
   isPackaged: process.env.NODE_ENV === 'production',
@@ -82,6 +84,12 @@ const electronHandler = {
     },
     openFolder(folder: string) {
       ipcRenderer.invoke('open-folder', folder);
+    },
+    getReplays(folder: string) {
+      return ipcRenderer.invoke('getReplayData', folder);
+    },
+    getReplayContent(file: string) {
+      return ipcRenderer.invoke('getReplayContent', file);
     },
   },
   store: {

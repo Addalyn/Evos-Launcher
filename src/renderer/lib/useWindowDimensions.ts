@@ -13,7 +13,7 @@ export default function useWindowDimensions() {
   }
 
   const [windowDimensions, setWindowDimensions] = useState(
-    getWindowDimensions()
+    getWindowDimensions(),
   );
 
   // eslint-disable-next-line consistent-return
