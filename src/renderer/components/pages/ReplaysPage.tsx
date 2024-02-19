@@ -46,6 +46,7 @@ type Game = {
   version: string;
   channelid: string;
   createdAt: string;
+  GameServerProcessCode?: string;
 };
 
 interface CharacterSkin {
@@ -239,6 +240,12 @@ function ReplaysPage() {
         },
       }));
 
+      const uniqueLogPlayers = new Set(
+        log.TeamPlayerInfo.filter((p) => !p.handle.startsWith('replay')).map(
+          (p) => p.handle,
+        ),
+      );
+
       // Using regular expression to match the date and time part
       const dateRegex = /^\d{2}_\d{2}_\d{4}__\d{2}_\d{2}_\d{2}/;
       const matchedDateTime = log.name.match(dateRegex);
@@ -257,48 +264,76 @@ function ReplaysPage() {
         formattedDate = `${formattedDatePart}`;
       }
 
-      // TODO: add GameServerProcessCode to discord embed messages and add ity to api then fetch using GameServerProcessCode from api
-      // thats a way better way then this crap
-      // now fetches ALL games from this month filter by map and server
-      // then checks if all players are in the game from the log file
-      // if true return the game
-      // EDGE CASE: start of new month
+      // try to use GameServerProcessCode if not try to use hacky way date
+      let gameFound = false;
       const strapi = strapiClient.from<Game>('games').select();
-      strapi.startsWith('date', formattedDate);
-      strapi.equalTo('map', t(`maps.${gameInfo.GameConfig.Map}`));
-      const server = gameInfo.GameServerProcessCode.split('-');
-      strapi.equalTo('server', `${server[0]}-${server[1]}`);
+      strapi.equalTo('GameServerProcessCode', gameInfo.GameServerProcessCode);
       strapi.populate();
-      strapi.paginate(0, 10000);
-      strapi.sortBy([{ field: 'id', order: 'desc' }]);
-
       const { data } = await strapi.get();
 
-      if (data?.length === 0) {
-        setLogError(
-          `No game found in the database for ${log.name} Invalid log file name`,
-        );
-        setGame(undefined);
-      } else {
-        setLogError('');
-      }
-
       if (data) {
-        data.forEach((g) => {
-          const players = g.stats.map((player: PlayerType) => player.user);
+        if (data.length !== 0) {
+          data.forEach((g) => {
+            const uniqueGamePlayers = new Set(
+              g.stats.map((player: PlayerType) => player.user),
+            );
 
-          const playersMatched = players.every((player: string) =>
-            log.TeamPlayerInfo.map((p) => p.handle).includes(player),
-          );
-          if (playersMatched) {
-            setGame(g);
-            setLogError('');
-          }
-        });
-        if (!game) {
+            if (uniqueLogPlayers.size === uniqueGamePlayers.size) {
+              const difference = new Set(
+                [...uniqueLogPlayers].filter((x) => !uniqueGamePlayers.has(x)),
+              );
+              if (difference.size === 0) {
+                setGame(g);
+                gameFound = true;
+              }
+            }
+          });
+        }
+      }
+      if (!gameFound) {
+        const strapi2 = strapiClient.from<Game>('games').select();
+        strapi2.startsWith('date', formattedDate);
+        strapi2.equalTo('map', t(`maps.${gameInfo.GameConfig.Map}`));
+        const server = gameInfo.GameServerProcessCode.split('-');
+        strapi2.equalTo('server', `${server[0]}-${server[1]}`);
+        strapi2.populate();
+        strapi2.paginate(0, 10000);
+        strapi2.sortBy([{ field: 'id', order: 'desc' }]);
+
+        const { data: data2 } = await strapi2.get();
+
+        if (data2?.length === 0) {
           setLogError(
-            `No game found in the database for ${log.name} for date ${formattedDate}`,
+            `No game found in the database for ${log.name} Invalid log file name`,
           );
+          setGame(undefined);
+        } else {
+          setLogError('');
+        }
+
+        if (data2) {
+          // Track if a game is found
+          data2.forEach((g) => {
+            const uniqueGamePlayers = new Set(
+              g.stats.map((player: PlayerType) => player.user),
+            );
+
+            if (uniqueLogPlayers.size === uniqueGamePlayers.size) {
+              const difference = new Set(
+                [...uniqueLogPlayers].filter((x) => !uniqueGamePlayers.has(x)),
+              );
+              if (difference.size === 0) {
+                setGame(g);
+                gameFound = true;
+              }
+            }
+          });
+
+          if (!gameFound) {
+            setLogError(
+              `No game found in the database for ${log.name} for date ${formattedDate}`,
+            );
+          }
         }
       }
       setLoading(false);

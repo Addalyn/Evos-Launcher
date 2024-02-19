@@ -1,3 +1,8 @@
+# 1.8.9 - The replays fix 2
+
+- fixes a issue where players did not match the replay file and game data (mostly cause of custom games)
+- added search for GameServerProcessCode from replay file to get the stats from api server, if that returns nothing it will use the old way of getting the stats.
+
 # 1.8.7-1.8.8 - The replays fix
 
 - Fixed an issue where launcher would show white page if it could not find the game in the database
