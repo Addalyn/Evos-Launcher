@@ -14,6 +14,7 @@ import html2canvas from 'html2canvas';
 import { useTranslation } from 'react-i18next';
 import { PlayerData } from 'renderer/lib/Evos';
 import { strapiClient } from 'renderer/lib/strapi';
+import moment from 'moment-timezone';
 import { Games } from '../stats/PreviousGamesPlayed';
 
 type PlayerType = {
@@ -45,6 +46,7 @@ type Game = {
   server: string;
   version: string;
   channelid: string;
+  createdAt: string;
 };
 
 interface CharacterSkin {
@@ -117,6 +119,7 @@ function ReplaysPage() {
   const [selectedReplay, setSelectedReplay] = useState<ReplayFile | null>(null);
   const [screenshot, setScreenshot] = useState<BlobPart>();
   const [game, setGame] = useState<Game>();
+  const [logError, setLogError] = useState<string>('');
   const [openDialog, setOpenDialog] = useState(false);
   const [loading, setLoading] = useState(false);
   const { t, i18n } = useTranslation();
@@ -138,7 +141,7 @@ function ReplaysPage() {
     setReason(event.target.value);
   };
 
-  const captureScreenshot = () => {
+  const captureScreenshot = async () => {
     const element = document.getElementById('screenshot-area');
     if (element) {
       return html2canvas(element, {
@@ -177,7 +180,7 @@ function ReplaysPage() {
       );
       formData.append('user', activeUser?.handle || 'Not logged in!');
       formData.append('reason', reason);
-      captureScreenshot();
+      await captureScreenshot();
       if (screenshot) {
         const screenshotBlob = new Blob([screenshot], { type: 'image/png' });
         formData.append('screenshot', screenshotBlob, 'screenshot.png');
@@ -196,6 +199,8 @@ function ReplaysPage() {
   const handleAccordionClick = async (log: ReplayFile) => {
     try {
       setSelectedReplay(log);
+      setGame(undefined);
+      setLogError('');
       setOpenDialog(true);
       setLoading(true);
 
@@ -214,12 +219,14 @@ function ReplaysPage() {
       const gameInfo: GameInfo = JSON.parse(
         parsedContent.m_gameInfo_Serialized,
       );
+
       log.gameInfo = gameInfo;
 
       // Parse m_teamInfo_Serialized string to JSON
       const teamInfo: TeamPlayerInfo[] = JSON.parse(
         parsedContent.m_teamInfo_Serialized,
       ).TeamPlayerInfo;
+
       // lowercase Handle to handle
       log.TeamPlayerInfo = teamInfo.map((player) => ({
         ...player,
@@ -245,34 +252,70 @@ function ReplaysPage() {
 
       if (formattedDateTime) {
         const [datePart, timePart] = formattedDateTime.split('__');
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [month, day, year] = datePart.split('_');
-        const formattedDatePart = `${year}-${month}-${day}`;
-        const [hour, minute] = timePart.split('_');
-        const formattedTimePart = `${hour}:${minute}:`;
+        const formattedDatePart = `${year}-${month}`;
+        const [hour, minute, seconds] = timePart.split('_');
+        const formattedTimePart = `${hour}:${minute}:${seconds}`;
 
         // Constructing the formatted date string
-        formattedDate = `${formattedDatePart} ${formattedTimePart}`;
+        const dateTimeString = `${formattedDatePart}T${formattedTimePart}`;
+        formattedDate = `${formattedDatePart}`;
+
+        if (
+          Intl.DateTimeFormat().resolvedOptions().timeZone !== 'Europe/Paris'
+        ) {
+          const parisDateTime = moment(dateTimeString)
+            .tz('Europe/Paris')
+            .format();
+          const tmptime = parisDateTime.split('T')[0];
+          formattedDate = `${tmptime}`;
+        }
       }
 
-      // search strapi for the game info using the formatted date string
-      // const strapi = strapiClient.from('games').select(['*']);
+      // TODO: add GameServerProcessCode to discord embed messages and add ity to api then fetch using GameServerProcessCode from api
+      // thats a way better way then this crap
+      // now fetches ALL games from this month filter by map and server
+      // then checks if all players are in the game from the log file
+      // if true return the game
+      // EDGE CASE: start of new month, hopefully function above fixes time zone issue
       const strapi = strapiClient.from<Game>('games').select();
       strapi.startsWith('date', formattedDate);
+      strapi.equalTo('map', t(`maps.${gameInfo.GameConfig.Map}`));
+      const server = gameInfo.GameServerProcessCode.split('-');
+      strapi.equalTo('server', `${server[0]}-${server[1]}`);
       strapi.populate();
+      strapi.paginate(0, 10000);
+      strapi.sortBy([{ field: 'id', order: 'desc' }]);
+
       const { data } = await strapi.get();
 
-      // map over data and find the correct game info using existing players log.TeamPlayerInfo[].handle
+      if (data?.length === 0) {
+        setLogError(
+          `No game found in the database for ${log.name} Invalid log file name`,
+        );
+        setGame(undefined);
+      } else {
+        setLogError('');
+      }
+
       if (data) {
         data.forEach((g) => {
           const players = g.stats.map((player: PlayerType) => player.user);
+
           const playersMatched = players.every((player: string) =>
             log.TeamPlayerInfo.map((p) => p.handle).includes(player),
           );
-
           if (playersMatched) {
             setGame(g);
+            setLogError('');
           }
         });
+        if (!game) {
+          setLogError(
+            `No game found in the database for ${log.name} for date ${formattedDate}`,
+          );
+        }
       }
       setLoading(false);
     } catch (error) {
@@ -437,7 +480,7 @@ function ReplaysPage() {
               ) : (
                 <>
                   {/* Display game info */}
-                  {selectedReplay.gameInfo && (
+                  {selectedReplay.gameInfo && game ? (
                     <div id="screenshot-area">
                       <Games
                         game={game as Game}
@@ -448,6 +491,8 @@ function ReplaysPage() {
                         customPlayers={selectedReplay.TeamPlayerInfo}
                       />
                     </div>
+                  ) : (
+                    <div>{logError}</div>
                   )}
                 </>
               )}

@@ -1,3 +1,9 @@
+# 1.8.6 - The replays fix
+
+- Fixed an issue where launcher would show white page if it could not find the game in the database
+- Used some hacky way to get the game data , this is due to different timezone on the server and the client
+- TODO: add GameServerProcessCode to discord embed that collects the stats and then use GameServerProcessCode from replayfile to get the stats from api server
+
 # 1.8.6 - The replays
 
 - Added a new page to the launcher, the replays page. This page will show you all the replays you have saved on your computer.
