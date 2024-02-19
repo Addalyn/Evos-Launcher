@@ -161,6 +161,10 @@ export default function NavBar() {
 
   useEffect(() => {
     async function get() {
+      // check if i18n.language is in lngs
+      if (!Object.keys(lngs).includes(i18n.language)) {
+        i18n.changeLanguage('en');
+      }
       getMotd(i18n.language ?? 'en')
         // eslint-disable-next-line promise/always-return
         .then((resp) => {
@@ -172,7 +176,7 @@ export default function NavBar() {
         });
     }
     get();
-  }, [i18n.language, t]);
+  }, [i18n, i18n.language, t]);
 
   const [activeGames, setActiveGames] = useState<{
     [username: string]: boolean;

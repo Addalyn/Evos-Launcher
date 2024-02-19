@@ -1,4 +1,4 @@
-# 1.8.7 - The replays fix
+# 1.8.7-1.8.8 - The replays fix
 
 - Fixed an issue where launcher would show white page if it could not find the game in the database
 - Used some hacky way to get the game data , this is due to different timezone on the server and the client

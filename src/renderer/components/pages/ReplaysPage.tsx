@@ -14,7 +14,6 @@ import html2canvas from 'html2canvas';
 import { useTranslation } from 'react-i18next';
 import { PlayerData } from 'renderer/lib/Evos';
 import { strapiClient } from 'renderer/lib/strapi';
-import moment from 'moment-timezone';
 import { Games } from '../stats/PreviousGamesPlayed';
 
 type PlayerType = {
@@ -251,26 +250,11 @@ function ReplaysPage() {
       let formattedDate = '';
 
       if (formattedDateTime) {
-        const [datePart, timePart] = formattedDateTime.split('__');
+        const [datePart] = formattedDateTime.split('__');
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [month, day, year] = datePart.split('_');
         const formattedDatePart = `${year}-${month}`;
-        const [hour, minute, seconds] = timePart.split('_');
-        const formattedTimePart = `${hour}:${minute}:${seconds}`;
-
-        // Constructing the formatted date string
-        const dateTimeString = `${formattedDatePart}T${formattedTimePart}`;
         formattedDate = `${formattedDatePart}`;
-
-        if (
-          Intl.DateTimeFormat().resolvedOptions().timeZone !== 'Europe/Paris'
-        ) {
-          const parisDateTime = moment(dateTimeString)
-            .tz('Europe/Paris')
-            .format();
-          const tmptime = parisDateTime.split('T')[0];
-          formattedDate = `${tmptime}`;
-        }
       }
 
       // TODO: add GameServerProcessCode to discord embed messages and add ity to api then fetch using GameServerProcessCode from api
@@ -278,7 +262,7 @@ function ReplaysPage() {
       // now fetches ALL games from this month filter by map and server
       // then checks if all players are in the game from the log file
       // if true return the game
-      // EDGE CASE: start of new month, hopefully function above fixes time zone issue
+      // EDGE CASE: start of new month
       const strapi = strapiClient.from<Game>('games').select();
       strapi.startsWith('date', formattedDate);
       strapi.equalTo('map', t(`maps.${gameInfo.GameConfig.Map}`));
