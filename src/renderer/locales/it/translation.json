@@ -28,7 +28,15 @@
     "noReplays": "Nessun replay trovato",
     "rowsPerPage": "Righe per pagina",
     "discord": "Invia a Discord",
-    "close": "Chiudi"
+    "close": "Chiudi",
+    "launchGame": "Copia e Avvia il Gioco",
+    "copyText": "Copia Testo",
+    "copyTextAndOrLaunch": "Copia Testo e/o Avvia Gioco",
+    "openCopyDialog": "Copia codice del gioco",
+    "openReplay": "Apri Riproduzione",
+    "downloadReplay": "Scarica Riproduzione",
+    "pasteInGameChat": "Dopo aver avviato il gioco,<1/>si prega di incollare il codice nella chat utilizzando la scorciatoia (Ctrl+V).<1/>Il codice verrà automaticamente copiato negli appunti.",
+    "screenshotError": "Errore durante la cattura dello screenshot. Si prega di riprovare."
   },
   "formatAge": {
     "justNow": "adesso",

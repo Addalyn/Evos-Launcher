@@ -8,12 +8,13 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { Paper, TextField } from '@mui/material';
+import { Paper, TextField, Typography } from '@mui/material';
 import EvosStore from 'renderer/lib/EvosStore';
 import html2canvas from 'html2canvas';
-import { useTranslation } from 'react-i18next';
-import { PlayerData } from 'renderer/lib/Evos';
+import { useTranslation, Trans } from 'react-i18next';
+import { PlayerData, getTicket } from 'renderer/lib/Evos';
 import { strapiClient } from 'renderer/lib/strapi';
+// eslint-disable-next-line import/no-cycle
 import { Games } from '../stats/PreviousGamesPlayed';
 
 type PlayerType = {
@@ -46,7 +47,7 @@ type Game = {
   version: string;
   channelid: string;
   createdAt: string;
-  GameServerProcessCode?: string;
+  GameServerProcessCode: string;
 };
 
 interface CharacterSkin {
@@ -103,7 +104,7 @@ interface GameInfo {
   GameConfig: GameConfig;
 }
 
-interface ReplayFile {
+export interface ReplayFile {
   id: string;
   name: string;
   fullPath: string;
@@ -113,22 +114,89 @@ interface ReplayFile {
   TeamPlayerInfo: TeamPlayerInfo[];
 }
 
-function ReplaysPage() {
-  const { activeUser, exePath } = EvosStore();
-  const [replayData, setReplayData] = useState<ReplayFile[]>([]);
-  const [selectedReplay, setSelectedReplay] = useState<ReplayFile | null>(null);
-  const [screenshot, setScreenshot] = useState<BlobPart>();
-  const [game, setGame] = useState<Game>();
-  const [logError, setLogError] = useState<string>('');
-  const [openDialog, setOpenDialog] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const { t, i18n } = useTranslation();
+export function ReplayDialog({
+  selectedReplay,
+  game,
+  loading,
+  logError,
+  openDialog,
+  setOpenDialog,
+  fromLogPage,
+}: {
+  selectedReplay: ReplayFile;
+  game: Game | undefined;
+  loading: boolean;
+  logError: string;
+  openDialog: boolean;
+  setOpenDialog: React.Dispatch<React.SetStateAction<boolean>>;
+  fromLogPage: boolean;
+}) {
+  const evosStore = EvosStore();
+  const { ticketEnabled, activeUser, exePath, noLogEnabled } = evosStore;
 
+  const [screenshot, setScreenshot] = useState<BlobPart>();
+
+  const { t, i18n } = useTranslation();
+  const [replayExists, setReplayExists] = useState(false);
   const [openReasonDialog, setOpenReasonDialog] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+  const [openCopyToClipBoardDialog, setOpenCopyToClipBoardDialog] =
+    useState(false);
   const [reason, setReason] = useState('');
+
+  const handleCopyToClibBoard = (text: string) => {
+    if (selectedReplay) {
+      navigator.clipboard.writeText(text);
+    }
+  };
 
   const handleOpenReasonDialog = () => {
     setOpenReasonDialog(true);
+  };
+
+  const handleCopyToClipBoardDialog = () => {
+    setOpenCopyToClipBoardDialog(true);
+  };
+
+  const handleLaunchGameAndCopyText = (text: string) => {
+    handleCopyToClibBoard(text);
+    setOpenCopyToClipBoardDialog(false);
+    setOpenDialog(false);
+    if (exePath.endsWith('AtlasReactor.exe')) {
+      const userName = (activeUser?.user as string) ?? '';
+      if (ticketEnabled === 'true') {
+        // eslint-disable-next-line promise/catch-or-return
+        getTicket(activeUser?.token ?? '')
+          // eslint-disable-next-line promise/always-return
+          .then((resp) => {
+            window.electron.ipcRenderer.sendMessage('launch-game', {
+              launchOptions: {
+                exePath,
+                ip: evosStore.ip,
+                port: evosStore.gamePort,
+                ticket: resp.data,
+                name: userName,
+                noLogEnabled,
+              },
+            });
+          });
+      } else {
+        window.electron.ipcRenderer.sendMessage('launch-game', {
+          launchOptions: {
+            exePath,
+            ip: evosStore.ip,
+            port: evosStore.gamePort,
+            config: activeUser?.configFile,
+            name: userName,
+            noLogEnabled,
+          },
+        });
+      }
+    }
+  };
+
+  const handleCloseCopyToClipBoardDialog = () => {
+    setOpenCopyToClipBoardDialog(false);
   };
 
   const handleCloseReasonDialog = () => {
@@ -179,12 +247,17 @@ function ReplaysPage() {
         selectedReplay.name,
       );
       formData.append('user', activeUser?.handle || 'Not logged in!');
+      formData.append('channelid', game?.channelid || 'No channelid found');
       formData.append('reason', reason);
       await captureScreenshot();
       if (screenshot) {
         const screenshotBlob = new Blob([screenshot], { type: 'image/png' });
         formData.append('screenshot', screenshotBlob, 'screenshot.png');
+      } else {
+        alert(t('replay.screenshotError'));
+        return;
       }
+
       await axios.post('http://launcher.evos.live:6660/sendmessage', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -195,6 +268,209 @@ function ReplaysPage() {
     }
     setOpenReasonDialog(false);
   };
+
+  const handleOpenFolder = () => {
+    if (selectedReplay) {
+      const folderPath = selectedReplay.fullPath.substring(
+        0,
+        selectedReplay.fullPath.lastIndexOf('\\'),
+      );
+      window.electron.ipcRenderer.openFolder(folderPath);
+    }
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
+  const handleSaveReplay = async () => {
+    if (selectedReplay) {
+      const saved = await window.electron.ipcRenderer.saveReplay(
+        exePath,
+        selectedReplay.name,
+        selectedReplay.content,
+      );
+      if (saved) {
+        setDisabled(true);
+      } else {
+        setDisabled(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const checkfile = async () => {
+      if (selectedReplay) {
+        const exists = await window.electron.ipcRenderer.replayExists(
+          exePath,
+          selectedReplay.name,
+        );
+
+        if (exists) {
+          setReplayExists(true);
+        } else {
+          setReplayExists(false);
+        }
+      }
+    };
+    const interval = setInterval(async () => {
+      checkfile();
+    }, 10000);
+    if (openDialog) checkfile();
+    else clearInterval(interval);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [selectedReplay, exePath, openDialog]);
+
+  return (
+    <>
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        fullWidth
+        maxWidth="xl"
+      >
+        <DialogTitle>{selectedReplay.name}</DialogTitle>
+        <DialogContent style={{ overflowX: 'hidden' }}>
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: '20px' }}>
+              {t('loading')}
+            </div>
+          ) : (
+            <>
+              {/* Display game info */}
+              {selectedReplay.gameInfo && game ? (
+                <div id="screenshot-area">
+                  <Games
+                    game={game as Game}
+                    t={t}
+                    i18n={i18n}
+                    navigate={() => {}}
+                    // @ts-ignore
+                    customPlayers={selectedReplay.TeamPlayerInfo}
+                  />
+                </div>
+              ) : (
+                <div>{logError}</div>
+              )}
+            </>
+          )}
+        </DialogContent>
+        <DialogActions>
+          {replayExists ? (
+            <Button onClick={handleCopyToClipBoardDialog}>
+              {t('replay.openCopyDialog')}
+            </Button>
+          ) : (
+            <Button
+              onClick={handleSaveReplay}
+              color="primary"
+              disabled={disabled}
+            >
+              {t('replay.downloadReplay')}
+            </Button>
+          )}
+          {!fromLogPage ?? (
+            <Button onClick={handleOpenFolder} color="primary">
+              {t('replay.openReplayFolder')}
+            </Button>
+          )}
+          <Button onClick={handleOpenReasonDialog} color="primary">
+            {t('replay.discord')}
+          </Button>
+          <Button onClick={handleCloseDialog}>{t('replay.close')}</Button>
+        </DialogActions>
+      </Dialog>
+      {/* Copy To ClipBoard Dialog */}
+      <Dialog
+        open={openCopyToClipBoardDialog}
+        onClose={handleCopyToClipBoardDialog}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>{t('replay.copyTextAndOrLaunch')}</DialogTitle>
+        <Typography style={{ padding: '20px' }}>
+          <Trans i18nKey="replay.pasteInGameChat" components={{ 1: <br /> }} />
+        </Typography>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            type="text"
+            fullWidth
+            rows={4}
+            value={`/playreplay ${selectedReplay.name}`}
+            disabled
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() =>
+              handleCopyToClibBoard(`/playreplay ${selectedReplay.name}`)
+            }
+            color="primary"
+          >
+            {t('replay.copyText')}
+          </Button>
+          <Button
+            onClick={() =>
+              handleLaunchGameAndCopyText(`/playreplay ${selectedReplay.name}`)
+            }
+            color="primary"
+          >
+            {t('replay.launchGame')}
+          </Button>
+          <Button onClick={handleCloseCopyToClipBoardDialog} color="primary">
+            {t('replay.cancel')}
+          </Button>
+        </DialogActions>
+      </Dialog>
+      {/* Reason Dialog */}
+      <Dialog
+        open={openReasonDialog}
+        onClose={handleCloseReasonDialog}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>{t('replay.specifyReason')}</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="reason"
+            label="Reason"
+            type="text"
+            fullWidth
+            rows={4}
+            value={reason}
+            onChange={handleReasonChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseReasonDialog} color="primary">
+            {t('replay.cancel')}
+          </Button>
+          <Button onClick={handleSendToDiscord} color="primary">
+            {t('replay.confirm')}
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+}
+
+function ReplaysPage() {
+  const { exePath } = EvosStore();
+  const [replayData, setReplayData] = useState<ReplayFile[]>([]);
+  const [selectedReplay, setSelectedReplay] = useState<ReplayFile | null>(null);
+  const [game, setGame] = useState<Game | undefined>();
+  const [logError, setLogError] = useState('');
+  const [openDialog, setOpenDialog] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const { t } = useTranslation();
 
   const handleAccordionClick = async (log: ReplayFile) => {
     try {
@@ -290,6 +566,7 @@ function ReplaysPage() {
           });
         }
       }
+
       if (!gameFound) {
         const strapi2 = strapiClient.from<Game>('games').select();
         strapi2.startsWith('date', formattedDate);
@@ -341,20 +618,6 @@ function ReplaysPage() {
       // Handle error
       setLoading(false);
     }
-  };
-
-  const handleOpenFolder = () => {
-    if (selectedReplay) {
-      const folderPath = selectedReplay.fullPath.substring(
-        0,
-        selectedReplay.fullPath.lastIndexOf('\\'),
-      );
-      window.electron.ipcRenderer.openFolder(folderPath);
-    }
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
   };
 
   useEffect(() => {
@@ -483,80 +746,15 @@ function ReplaysPage() {
         }}
       />
       {selectedReplay && (
-        <>
-          <Dialog
-            open={openDialog}
-            onClose={handleCloseDialog}
-            fullWidth
-            maxWidth="xl"
-          >
-            <DialogTitle>{selectedReplay.name}</DialogTitle>
-            <DialogContent style={{ overflowX: 'hidden' }}>
-              {loading ? (
-                <div style={{ textAlign: 'center', padding: '20px' }}>
-                  {t('loading')}
-                </div>
-              ) : (
-                <>
-                  {/* Display game info */}
-                  {selectedReplay.gameInfo && game ? (
-                    <div id="screenshot-area">
-                      <Games
-                        game={game as Game}
-                        t={t}
-                        i18n={i18n}
-                        navigate={() => {}}
-                        // @ts-ignore
-                        customPlayers={selectedReplay.TeamPlayerInfo}
-                      />
-                    </div>
-                  ) : (
-                    <div>{logError}</div>
-                  )}
-                </>
-              )}
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleOpenFolder} color="primary">
-                {t('replay.openReplayFolder')}
-              </Button>
-              <Button onClick={handleOpenReasonDialog} color="primary">
-                {t('replay.discord')}
-              </Button>
-              <Button onClick={handleCloseDialog}>{t('replay.close')}</Button>
-            </DialogActions>
-          </Dialog>
-          {/* Reason Dialog */}
-          <Dialog
-            open={openReasonDialog}
-            onClose={handleCloseReasonDialog}
-            fullWidth
-            maxWidth="sm"
-          >
-            <DialogTitle>{t('replay.specifyReason')}</DialogTitle>
-            <DialogContent>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="reason"
-                label="Reason"
-                type="text"
-                fullWidth
-                rows={4}
-                value={reason}
-                onChange={handleReasonChange}
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleCloseReasonDialog} color="primary">
-                {t('replay.cancel')}
-              </Button>
-              <Button onClick={handleSendToDiscord} color="primary">
-                {t('replay.confirm')}
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </>
+        <ReplayDialog
+          selectedReplay={selectedReplay}
+          game={game}
+          loading={loading}
+          logError={logError}
+          openDialog={openDialog}
+          setOpenDialog={setOpenDialog}
+          fromLogPage={false}
+        />
       )}
     </Paper>
   );

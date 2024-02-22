@@ -18,6 +18,7 @@ import {
   TextField, // Add TextField for player search
   Chip,
   Tooltip,
+  Button,
 } from '@mui/material';
 import { GiBroadsword, GiHealthNormal, GiDeathSkull } from 'react-icons/gi';
 import { BsShield } from 'react-icons/bs';
@@ -29,11 +30,18 @@ import { useTranslation } from 'react-i18next';
 import { PlayerData } from 'renderer/lib/Evos';
 import { catalystsIcon } from 'renderer/lib/Resources';
 import Player from '../atlas/Player';
+// eslint-disable-next-line import/no-cycle
+import { ReplayDialog, ReplayFile } from '../pages/ReplaysPage';
 
 interface CharacterSkin {
   skinIndex: number;
   patternIndex: number;
   colorIndex: number;
+}
+
+interface Uploads {
+  name: string;
+  url: string;
 }
 
 interface CharacterInfo {
@@ -51,8 +59,24 @@ interface CharacterInfo {
   CharacterMatches: number;
   CharacterLevel: number;
 }
+interface GameConfig {
+  Map: string;
+  GameType: string;
+  RoomName: string;
+}
 
-export interface TeamPlayerInfo extends PlayerData {
+interface GameInfo {
+  MonitorServerProcessCode: string;
+  GameServerProcessCode: string;
+  CreateTimestamp: number;
+  ActivePlayers: number;
+  Map: string;
+  TeamAPlayers: number;
+  TeamBPlayers: number;
+  GameConfig: GameConfig;
+}
+
+interface TeamPlayerInfo extends PlayerData {
   TeamId: number;
   BannerID: number;
   EmblemID: number;
@@ -62,18 +86,8 @@ export interface TeamPlayerInfo extends PlayerData {
   CharacterInfo: CharacterInfo;
   CharacterType: number;
   CharacterSkin: CharacterSkin;
-  CharacterCards: {
-    CombatCard: Number;
-    DashCard: Number;
-    PrepCard: Number;
-  };
-  CharacterMods: {
-    ModForAbility0: Number;
-    ModForAbility1: Number;
-    ModForAbility2: Number;
-    ModForAbility3: Number;
-    ModForAbility4: Number;
-  };
+  CharacterCards: Record<string, number>;
+  CharacterMods: Record<string, number>;
   CharacterAbilityVfxSwaps: Record<string, number>;
   CharacterTaunts: Array<Record<string, any>>;
   CharacterLoadouts: Array<Record<string, any>>;
@@ -110,6 +124,8 @@ type Game = {
   server: string;
   version: string;
   channelid: string;
+  createdAt: string;
+  GameServerProcessCode: string;
 };
 
 type Team = {
@@ -268,6 +284,99 @@ export function Games({
   navigate: any;
   customPlayers?: TeamPlayerInfo[];
 }) {
+  const [replay, setReplay] = useState<Uploads | undefined>();
+  const [selectedReplay, setSelectedReplay] = useState<ReplayFile>();
+  const [loading, setLoading] = useState(false);
+  const [logError, setLogError] = useState('');
+  const [openDialog, setOpenDialog] = useState(false);
+
+  useEffect(() => {
+    const fetchReplayInfo = async (GameServerProcessCode: string) => {
+      try {
+        const response = await fetch(
+          `${strapiClient.getApiUrl()}/upload/files?filters[name][$contains]=${GameServerProcessCode}`,
+        );
+        const data = await response.json();
+
+        if (!data || data.length === 0) {
+          return;
+        }
+
+        setReplay(data[0]);
+      } catch (error) {
+        // console.error(error);
+      }
+    };
+
+    fetchReplayInfo(game.GameServerProcessCode);
+  }, [game.GameServerProcessCode]);
+
+  const handleOpenReplay = () => {
+    const fetchReplay = async (file: string) => {
+      try {
+        setLoading(true);
+
+        const response = await fetch(file);
+        const data = await response.json();
+        // console.log(data);
+        if (!data) {
+          setLoading(false);
+          return;
+        }
+
+        // Parse log.content to access m_teamInfo_Serialized
+        const parsedContent: {
+          m_gameInfo_Serialized: string;
+          m_teamInfo_Serialized: string;
+        } = data;
+
+        // Parse m_gameInfo_Serialized
+        const gameInfo: GameInfo = JSON.parse(
+          parsedContent.m_gameInfo_Serialized,
+        );
+
+        const gameInfoResult = gameInfo;
+
+        // Parse m_teamInfo_Serialized string to JSON
+        const teamInfo: TeamPlayerInfo[] = JSON.parse(
+          parsedContent.m_teamInfo_Serialized,
+        ).TeamPlayerInfo;
+
+        // lowercase Handle to handle
+        const TeamPlayerInfoResult = teamInfo.map((player) => ({
+          ...player,
+          handle: player.Handle,
+          bannerBg: player.BannerID,
+          bannerFg: player.EmblemID,
+          status: player.TitleID,
+          factionData: {
+            factions: [player.RibbonID],
+            selectedRibbonID: player.RibbonID,
+          },
+        }));
+        setSelectedReplay({
+          id: '',
+          name: replay?.name as string,
+          fullPath: '',
+          lastModified: new Date(),
+          content: data,
+          gameInfo: gameInfoResult,
+          // @ts-ignore
+          TeamPlayerInfo: TeamPlayerInfoResult,
+        });
+
+        setLoading(false);
+        setOpenDialog(true);
+      } catch (error) {
+        setLoading(false);
+        setLogError(error as string);
+      }
+    };
+    fetchReplay(
+      `${strapiClient.getApiUrl().replace('/api', '')}${replay?.url}` as string,
+    );
+  };
+
   return (
     <Paper
       key={game.id}
@@ -379,163 +488,200 @@ export function Games({
                 </TableRow>
               </TableHead>
               <TableBody>
-                {sortByTeam(players).map((player) => (
-                  <TableRow
-                    key={player.id}
-                    sx={{
-                      marginBottom: '1em',
-                      backgroundColor:
-                        (game.teamwin === 'TeamA' && player.team === 'TeamA') ||
-                        (game.teamwin === 'TeamB' && player.team === 'TeamB')
-                          ? '#22c955'
-                          : '#ff423a',
-                    }}
-                  >
-                    <TableCell
-                      sx={{ cursor: 'pointer' }}
-                      onClick={() => {
-                        navigate(
-                          `/playerstats?player=${encodeURIComponent(
-                            player.user,
-                          )}`,
-                        );
+                {sortByTeam(players).map((player) => {
+                  const renderedHandles = new Set();
+                  return (
+                    <TableRow
+                      key={player.id}
+                      sx={{
+                        marginBottom: '1em',
+                        backgroundColor:
+                          (game.teamwin === 'TeamA' &&
+                            player.team === 'TeamA') ||
+                          (game.teamwin === 'TeamB' && player.team === 'TeamB')
+                            ? '#22c955'
+                            : '#ff423a',
                       }}
                     >
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <div>
-                          {customPlayers ? (
-                            <Player
-                              info={customPlayers.find(
-                                (p) => p.Handle === player.user,
+                      <TableCell
+                        sx={{ cursor: 'pointer' }}
+                        onClick={() => {
+                          navigate(
+                            `/playerstats?player=${encodeURIComponent(
+                              player.user,
+                            )}`,
+                          );
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <div>
+                            {customPlayers ? (
+                              <Player
+                                info={customPlayers.find(
+                                  (p) => p.Handle === player.user,
+                                )}
+                                disableSkew
+                              />
+                            ) : (
+                              player.user
+                            )}
+                          </div>
+                          <div style={{ marginLeft: 'auto' }}>
+                            {calculateMVPBadge(player, game.stats) &&
+                              !customPlayers && (
+                                <Tooltip title={t('stats.mvp')}>
+                                  <Chip
+                                    color="primary"
+                                    label=""
+                                    size="small"
+                                    icon={
+                                      <FaRankingStar
+                                        style={{ marginLeft: '12px' }}
+                                      />
+                                    }
+                                    sx={{ marginLeft: 1 }} // Add margin to badges
+                                  />
+                                </Tooltip>
                               )}
-                              disableSkew
-                            />
-                          ) : (
-                            player.user
-                          )}
+                            {calculateHealerBadge(player, game.stats) &&
+                              !customPlayers && (
+                                <Tooltip title={t('stats.bestSupport')}>
+                                  <Chip
+                                    color="secondary"
+                                    label=""
+                                    size="small"
+                                    icon={
+                                      <GiHealthNormal
+                                        style={{ marginLeft: '12px' }}
+                                      />
+                                    }
+                                    sx={{ marginLeft: 1 }} // Add margin to badges
+                                  />
+                                </Tooltip>
+                              )}
+                            {calculateDamageBadge(player, game.stats) &&
+                              !customPlayers && (
+                                <Tooltip title={t('stats.bestDamage')}>
+                                  <Chip
+                                    color="error"
+                                    label=""
+                                    size="small"
+                                    icon={
+                                      <GiBroadsword
+                                        style={{ marginLeft: '12px' }}
+                                      />
+                                    }
+                                    sx={{ marginLeft: 1 }} // Add margin to badges
+                                  />
+                                </Tooltip>
+                              )}
+                            {calculateTankBadge(player, game.stats) &&
+                              !customPlayers && (
+                                <Tooltip title={t('stats.bestTank')}>
+                                  <Chip
+                                    color="info"
+                                    label=""
+                                    size="small"
+                                    icon={
+                                      <BsShield
+                                        style={{ marginLeft: '12px' }}
+                                      />
+                                    }
+                                    sx={{ marginLeft: 1 }} // Add margin to badges
+                                  />
+                                </Tooltip>
+                              )}
+                          </div>
                         </div>
-                        <div style={{ marginLeft: 'auto' }}>
-                          {calculateMVPBadge(player, game.stats) &&
-                            !customPlayers && (
-                              <Tooltip title={t('stats.mvp')}>
-                                <Chip
-                                  color="primary"
-                                  label=""
-                                  size="small"
-                                  icon={
-                                    <FaRankingStar
-                                      style={{ marginLeft: '12px' }}
+                      </TableCell>
+                      <TableCell>
+                        {t(`charNames.${player.character.replace(/:3/g, '')}`)}
+                        {customPlayers &&
+                          customPlayers.map((customPlayer) => {
+                            // Check if this handle has already been rendered
+                            if (
+                              !renderedHandles.has(customPlayer.Handle) &&
+                              customPlayer.Handle === player.user
+                            ) {
+                              // If not rendered yet and matches the current player's handle, render the content
+                              renderedHandles.add(customPlayer.Handle); // Mark this handle as rendered
+                              return (
+                                <div key={customPlayer.Handle}>
+                                  <Typography variant="caption">
+                                    <img
+                                      src={catalystsIcon(
+                                        customPlayer.CharacterInfo
+                                          .CharacterCards.PrepCard,
+                                      )}
+                                      alt={customPlayer.CharacterInfo.CharacterCards.PrepCard.toString()}
+                                      width={25}
+                                      height={25}
                                     />
-                                  }
-                                  sx={{ marginLeft: 1 }} // Add margin to badges
-                                />
-                              </Tooltip>
-                            )}
-                          {calculateHealerBadge(player, game.stats) &&
-                            !customPlayers && (
-                              <Tooltip title={t('stats.bestSupport')}>
-                                <Chip
-                                  color="secondary"
-                                  label=""
-                                  size="small"
-                                  icon={
-                                    <GiHealthNormal
-                                      style={{ marginLeft: '12px' }}
+                                  </Typography>
+                                  <Typography variant="caption">
+                                    <img
+                                      src={catalystsIcon(
+                                        customPlayer.CharacterInfo
+                                          .CharacterCards.DashCard,
+                                      )}
+                                      alt={customPlayer.CharacterInfo.CharacterCards.DashCard.toString()}
+                                      width={25}
+                                      height={25}
                                     />
-                                  }
-                                  sx={{ marginLeft: 1 }} // Add margin to badges
-                                />
-                              </Tooltip>
-                            )}
-                          {calculateDamageBadge(player, game.stats) &&
-                            !customPlayers && (
-                              <Tooltip title={t('stats.bestDamage')}>
-                                <Chip
-                                  color="error"
-                                  label=""
-                                  size="small"
-                                  icon={
-                                    <GiBroadsword
-                                      style={{ marginLeft: '12px' }}
+                                  </Typography>
+                                  <Typography variant="caption">
+                                    <img
+                                      src={catalystsIcon(
+                                        customPlayer.CharacterInfo
+                                          .CharacterCards.CombatCard,
+                                      )}
+                                      alt={customPlayer.CharacterInfo.CharacterCards.CombatCard.toString()}
+                                      width={25}
+                                      height={25}
                                     />
-                                  }
-                                  sx={{ marginLeft: 1 }} // Add margin to badges
-                                />
-                              </Tooltip>
-                            )}
-                          {calculateTankBadge(player, game.stats) &&
-                            !customPlayers && (
-                              <Tooltip title={t('stats.bestTank')}>
-                                <Chip
-                                  color="info"
-                                  label=""
-                                  size="small"
-                                  icon={
-                                    <BsShield style={{ marginLeft: '12px' }} />
-                                  }
-                                  sx={{ marginLeft: 1 }} // Add margin to badges
-                                />
-                              </Tooltip>
-                            )}
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      {t(`charNames.${player.character.replace(/:3/g, '')}`)}
-                      {customPlayers &&
-                        customPlayers
-                          .filter((p) => p.Handle === player.user)
-                          .map((customPlayer) => (
-                            <div key={customPlayer.Handle}>
-                              <Typography variant="caption">
-                                <img
-                                  src={catalystsIcon(
-                                    customPlayer.CharacterInfo.CharacterCards
-                                      .PrepCard,
-                                  )}
-                                  alt={customPlayer.CharacterInfo.CharacterCards.PrepCard.toString()}
-                                  width={25}
-                                  height={25}
-                                />
-                              </Typography>
-                              <Typography variant="caption">
-                                <img
-                                  src={catalystsIcon(
-                                    customPlayer.CharacterInfo.CharacterCards
-                                      .DashCard,
-                                  )}
-                                  alt={customPlayer.CharacterInfo.CharacterCards.DashCard.toString()}
-                                  width={25}
-                                  height={25}
-                                />
-                              </Typography>
-                              <Typography variant="caption">
-                                <img
-                                  src={catalystsIcon(
-                                    customPlayer.CharacterInfo.CharacterCards
-                                      .CombatCard,
-                                  )}
-                                  alt={customPlayer.CharacterInfo.CharacterCards.CombatCard.toString()}
-                                  width={25}
-                                  height={25}
-                                />
-                              </Typography>
-                            </div>
-                          ))}
-                    </TableCell>
-                    <TableCell>{player.takedowns}</TableCell>
-                    <TableCell>{player.deaths}</TableCell>
-                    <TableCell>{player.deathblows}</TableCell>
-                    <TableCell>{player.damage}</TableCell>
-                    <TableCell>{player.healing}</TableCell>
-                    <TableCell>{player.damage_received}</TableCell>
-                  </TableRow>
-                ))}
+                                  </Typography>
+                                </div>
+                              );
+                            }
+                            return null; // If already rendered or does not match the current player's handle, render nothing
+                          })}
+                      </TableCell>
+                      <TableCell>{player.takedowns}</TableCell>
+                      <TableCell>{player.deaths}</TableCell>
+                      <TableCell>{player.deathblows}</TableCell>
+                      <TableCell>{player.damage}</TableCell>
+                      <TableCell>{player.healing}</TableCell>
+                      <TableCell>{player.damage_received}</TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </TableContainer>
         ))}
       </Box>
+      {replay && !customPlayers && (
+        <Box display="flex" flexDirection="column">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => handleOpenReplay()}
+          >
+            {t('replay.openReplay')}
+          </Button>
+        </Box>
+      )}
+      {selectedReplay && (
+        <ReplayDialog
+          selectedReplay={selectedReplay}
+          game={game}
+          loading={loading}
+          logError={logError}
+          openDialog={openDialog}
+          setOpenDialog={setOpenDialog}
+          fromLogPage
+        />
+      )}
     </Paper>
   );
 }

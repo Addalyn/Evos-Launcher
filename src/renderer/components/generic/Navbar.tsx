@@ -59,6 +59,7 @@ const lngs: { [key: string]: Language } = {
   es: { nativeName: 'Español', icon: 'ES' },
   it: { nativeName: 'Italiano', icon: 'IT' },
   br: { nativeName: 'Português', icon: 'BR' },
+  zh: { nativeName: '中文', icon: 'CN' },
 };
 
 type PaletteMode = 'light' | 'dark';

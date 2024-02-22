@@ -611,6 +611,42 @@ const createWindow = async () => {
     }
   });
 
+  // replayExists
+  ipcMain.handle('replayExists', async (event, args) => {
+    try {
+      const { exePath, name } = args;
+      const replaysFolder = path.join(
+        path.dirname(path.dirname(exePath)),
+        'Replays',
+      );
+
+      return fs.existsSync(path.join(replaysFolder, name));
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  });
+
+  // saveReplay
+  ipcMain.handle('saveReplay', async (event, args) => {
+    try {
+      const { exePath, name, data } = args;
+      const replaysFolder = path.join(
+        path.dirname(path.dirname(exePath)),
+        'Replays',
+      );
+      fs.writeFileSync(
+        path.join(replaysFolder, name),
+        JSON.stringify(data),
+        'utf-8',
+      );
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  });
+
   ipcMain.handle('open-folder', async (event, args) => {
     try {
       shell.openPath(args);

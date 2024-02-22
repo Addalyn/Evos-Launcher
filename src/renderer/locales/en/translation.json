@@ -29,7 +29,15 @@
     "noReplays": "No replays found",
     "rowsPerPage": "Rows per page",
     "discord": "Send to Discord",
-    "close": "Close"
+    "close": "Close",
+    "launchGame": "Copy and Launch Game",
+    "copyText": "Copy Text",
+    "copyTextAndOrLaunch": "Copy Text and/or Launch Game",
+    "openCopyDialog": "copy game code",
+    "openReplay": "Open Replay",
+    "downloadReplay": "Download Replay",
+    "pasteInGameChat": "After launching the game,<1/>please paste the code into the chat using the shortcut (Ctrl+V).<1/>The code will be automatically copied to your clipboard.",
+    "screenshotError": "Error while taking screenshot please try again."
   },
   "formatAge": {
     "justNow": "Just now",

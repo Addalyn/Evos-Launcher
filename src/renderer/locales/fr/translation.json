@@ -28,7 +28,15 @@
     "noReplays": "Aucune relecture trouvée",
     "rowsPerPage": "Lignes par page",
     "discord": "Envoyer sur Discord",
-    "close": "Fermer"
+    "close": "Fermer",
+    "launchGame": "Copier et lancer le jeu",
+    "copyText": "Copier le texte",
+    "copyTextAndOrLaunch": "Copier le texte et/ou lancer le jeu",
+    "openCopyDialog": "Copier le code de la partie",
+    "openReplay": "Ouvrir le Replay",
+    "downloadReplay": "Télécharger le Replay",
+    "pasteInGameChat": "Après avoir lancé le jeu,<1/>collez le code dans le tchat en utilisant le raccourci (Ctrl+V).<1/>Le code sera automatiquement copié dans le presse-papier.",
+    "screenshotError": "Erreur lors de la capture d'écran. Veuillez réessayer."
   },
   "formatAge": {
     "justNow": "À l'instant",

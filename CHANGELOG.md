@@ -1,3 +1,11 @@
+# 1.9.0
+
+- There is now a open replay button in previues games, this will allow you to open the replay file from server,
+- You can download the replay file to.
+- You can copy the command to play the replay file in game and you can also launch the game from same window
+- fixed an issue with replay files that if it has multiple same users it would show catalaysts multiple times
+- Added ZH simplefyed chinese language to the launcher
+
 # 1.8.9 - The replays fix 2
 
 - fixes a issue where players did not match the replay file and game data (mostly cause of custom games)

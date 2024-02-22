@@ -91,6 +91,12 @@ const electronHandler = {
     getReplayContent(file: string) {
       return ipcRenderer.invoke('getReplayContent', file);
     },
+    saveReplay(exePath: string, name: string, data: string) {
+      return ipcRenderer.invoke('saveReplay', { exePath, name, data });
+    },
+    replayExists(exePath: string, name: string) {
+      return ipcRenderer.invoke('replayExists', { exePath, name });
+    },
   },
   store: {
     isWriting: false,

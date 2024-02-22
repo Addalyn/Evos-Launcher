@@ -9,6 +9,7 @@ import deMessages from './locales/de/translation.json';
 import esMessages from './locales/es/translation.json';
 import itMessages from './locales/it/translation.json';
 import brMessages from './locales/br/translation.json';
+import zhMessages from './locales/zh/translation.json';
 
 i18n
   // detect user language
@@ -48,6 +49,9 @@ i18n
       },
       br: {
         translation: brMessages,
+      },
+      zh: {
+        translation: zhMessages,
       },
     },
   });

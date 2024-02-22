@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import { createClient } from '@kmariappan/strapi-client-js';
 
-const options = {
+export const options = {
   url: `https://stats.evos.live/api`,
   apiToken: '', // Built in API token,
   normalizeData: true, // Normalize Unified response Format. default - true

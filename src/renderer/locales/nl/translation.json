@@ -28,7 +28,15 @@
     "noReplays": "Geen replays gevonden",
     "rowsPerPage": "Rijen per pagina",
     "discord": "Versturen naar Discord",
-    "close": "Sluiten"
+    "close": "Sluiten",
+    "launchGame": "Kopieer en start spel",
+    "copyText": "Kopieer tekst",
+    "copyTextAndOrLaunch": "Kopieer tekst en/of start spel",
+    "openCopyDialog": "Kopieer spelcode",
+    "openReplay": "Open herhaling",
+    "downloadReplay": "Herhaling downloaden",
+    "pasteInGameChat": "Na het starten van het spel,<1/>plak de code alstublieft in de chat met behulp van de sneltoets (Ctrl+V).<1/>De code wordt automatisch gekopieerd naar uw klembord.",
+    "screenshotError": "Fout bij maken van schermafbeelding. Probeer het opnieuw."
   },
   "formatAge": {
     "justNow": "Zojuist",
