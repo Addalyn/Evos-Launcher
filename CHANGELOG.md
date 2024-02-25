@@ -1,3 +1,10 @@
+# 1.9.1
+
+- Add ability icons to replays, on hover show the Mod used, title and description. (not translatable, unless you want to translate allcharacters*5*(4 or 5 mods) texts, Mods.json is 4989 lines :P)
+- Made splash screen a bit more fancy (not translatable)
+- translation fixes
+- Added alert when updating and restarting the launcher
+
 # 1.9.0
 
 - There is now a open replay button in previues games, this will allow you to open the replay file from server,

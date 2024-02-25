@@ -436,6 +436,7 @@
   "unexpectedError": "Неожиданная ошибка. Пожалуйста, перезапустите Evos Launcher.",
   "checkUpdate": "Ищем обновления...",
   "Update available.": "Доступно обновление.",
+  "updateRestarting": "Перезапуск... подождите, пока он не перезагрузится.",
   "updateDownloaded": "Обновление загружено. Перезапустите Evos Launcher, чтобы установить его.",
   "closeLauncher": "Вы уверены, что хотите закрыть Evos Launcher (и игру вместе с ним)?",
   "Download speed": "Скорость",

@@ -29,14 +29,14 @@
     "rowsPerPage": "Zeilen pro Seite",
     "discord": "An Discord senden",
     "close": "Schließen",
-    "launchGame": "Code kopieren und Spiel starten",
+    "launchGame": "Kopieren und Spiel starten",
     "copyText": "Text kopieren",
     "copyTextAndOrLaunch": "Text kopieren und/oder Spiel starten",
     "openCopyDialog": "Spielcode kopieren",
-    "openReplay": "Wiedergabe öffnen",
-    "downloadReplay": "Wiedergabe herunterladen",
-    "pasteInGameChat": "Nach dem Starten des Spiels,<1/>bitte fügen Sie den Code in den Chat ein, indem Sie die Tastenkombination (Strg+V) verwenden.<1/>Der Code wird automatisch in Ihre Zwischenablage kopiert.",
-    "screenshotError": "Fehler beim Erstellen des Screenshots. Bitte versuchen Sie es erneut."
+    "openReplay": "Wiederholung öffnen",
+    "downloadReplay": "Wiederholung herunterladen",
+    "pasteInGameChat": "Nach dem Spielstart,<1/> bitte diesen Code mit STRG + V in den Chat kopieren.<1/> Der Code wird automatisch in die Zwischenablage kopiert.",
+    "screenshotError": "Fehler beim Erstellen der Bildschirmaufnahme. Bitte erneut versuchen."
   },
   "formatAge": {
     "justNow": "gerade geschehen",
@@ -440,6 +440,7 @@
   "unexpectedError": "Unerwarteter Fehler, bitte den Evos Launcher neu starten.",
   "checkUpdate": "Suche nach Aktualisierungen...",
   "Update available.": "Aktualisierung verfügbar.",
+  "updateRestarting": "Neustart... warten, bis er neu gestartet ist.",
   "updateDownloaded": "Aktualisierung heruntergeladen, Evos Launcher neu starten um die Aktualisierung zu installieren.",
   "closeLauncher": "Bist du sicher, dass du den launcher schließen willst? Das Spiel wird damit auch geschlossen.",
   "Download speed": "Download-Geschwindigkeit",

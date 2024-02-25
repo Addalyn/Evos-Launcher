@@ -24,5 +24,6 @@
     "package-lock.json": true,
     "*.{css,sass,scss}.d.ts": true
   },
-  "codeQL.githubDatabase.update": "never"
+  "codeQL.githubDatabase.update": "never",
+  "codeQL.githubDatabase.download": "never"
 }

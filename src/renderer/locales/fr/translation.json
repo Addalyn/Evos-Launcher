@@ -440,6 +440,7 @@
   "unexpectedError": "Erreur inattendue, veuillez redémarrer Evos Launcher.",
   "checkUpdate": "Vérification des mises à jour...",
   "Update available.": "Mise à jour disponible.",
+  "updateRestarting": "Redémarrer... attendez jusqu'à ce qu'il redémarre.",
   "updateDownloaded": "Mise à jour téléchargée, redémarrez Evos Launcher pour appliquer la mise à jour.",
   "closeLauncher": "Êtes-vous sûr de vouloir fermer le lanceur ? Cela fermera également le jeu.",
   "Download speed": "Vitesse de téléchargement",

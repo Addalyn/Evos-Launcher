@@ -441,6 +441,7 @@
   "unexpectedError": "Unexpected error, please restart Evos Launcher.",
   "checkUpdate": "Checking for update...",
   "Update available.": "Update available.",
+  "updateRestarting": "Restart... wait until it has restarted.",
   "updateDownloaded": "Update downloaded, Restart Evos Launcher to apply the update.",
   "closeLauncher": "Are you sure you want to close the launcher? It will also close the game.",
   "Download speed": "Download speed",

@@ -1,0 +1,4984 @@
+{
+  "archer": {
+    "ABILITY_0": {
+      "1": {
+        "default": true,
+        "display_name": "Leaf In The Wind",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases the maximum curve angle by <color=#FFC000>20</color> degrees."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Fly True",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Arrow <color=#FFC000>pierces</color> the first target, dealing <color=#FFC000>8</color> damage to the next target."
+      },
+      "6": {
+        "default": false,
+        "display_name": "To The Knee",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Triggering Take Aim! also <color=#FFC000>slows</color> the target hit."
+      },
+      "7": {
+        "default": false,
+        "display_name": "Stocked Quiver",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>3</color> additional energy on hit."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": false,
+        "display_name": "Jelly Legs",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Enemies hit are also <color=#FFC000>Slowed</color> until end of turn."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Resonant Capacitor",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>2</color> more energy per target hit."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Sonic Resonance",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Up to <color=#FFC000>10</color> remaining shields can persist for <color=#FFC000>1</color> extra turn."
+      },
+      "5": {
+        "default": true,
+        "display_name": "Focused Burst",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Shield is strengthened by <color=#FFC000>6</color> if only one ally is shielded."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": false,
+        "display_name": "RFID Chip",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Targeted enemy is <color=#FFC000>revealed</color> until the end of next decision mode."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Aim Assist",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Can be targeted through walls."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Recharging Mark",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Cooldown is reset if the healing is not triggered at all."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Aim Again!",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Allies are healed for <color=#FFC000>5</color> the second time they hit a marked target."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Moment of Glory",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Allies below <color=#FFC000>50%</color> health receive <color=#FFC000>5</color> additional healing."
+      },
+      "7": {
+        "default": false,
+        "display_name": "Sharpshooter",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Your attack that triggers Take Aim! deals <color=#FFC000>4</color> additional damage."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": true,
+        "display_name": "Cover the Field",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase shot targeting angle by <color=#FFC000>40</color> degrees."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Surge of Energy",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>2</color> more energy per target hit"
+      },
+      "3": {
+        "default": false,
+        "display_name": "Light-Footed",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>Haste</color> until end of next turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Ready, Aim, Fire!",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Triggering Take Aim! with Vaulting Shot also <color=#FFC000>Roots</color> the marked target for one turn."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Survivalist",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increases the damage done by <color=#FFC000>6</color>."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": false,
+        "display_name": "Pins and Needles",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Reduce cooldown of Take Aim! by <color=#FFC000>1</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Cloudy Skies",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>energized</color> until end of next turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Umbrella Weather",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "If only one enemy is hit they are Scrambled."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Heavy Rain",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Deals an additional <color=#FFC000>5</color> damage to enemies below <color=#FFC000>50%</color> health."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Deluge of Arrows",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Adds an additional segment to the arrow path. The max length of each segment is <color=#FFC000>3</color>."
+      },
+      "6": {
+        "default": true,
+        "display_name": "Crippling Blow",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Enemies hit are also <color=#FFC000>Slowed</color> next turn."
+      }
+    }
+  },
+  "battleMonk": {
+    "ABILITY_0": {
+      "1": {
+        "default": false,
+        "display_name": "Dancing Blade",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>2</color> additional energy per enemy hit."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Swordmaster",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases damage by <color=#FFC000>2</color> for each enemy hit."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Leech Blade",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Each enemy hit restores <color=#FFC000>4</color> health."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Overcharged Blade",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Hitting any target lowers the cooldown of Stand and Fight! by <color=#FFC000>1</color>."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": false,
+        "display_name": "Charge Capacitor",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>5</color> extra energy if you hit an enemy."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Nimble Protector",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>15</color> shields for the turn. Dashing over allies grants them <color=#FFC000>15</color> shields."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Fleet Footed",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase the range of each bounce by <color=#FFC000>1</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Vault",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Bounces off the first target hit. Deal <color=#FFC000>12</color> damage to the second target hit."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": false,
+        "display_name": "Shining Blade",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increases energy gain by <color=#FFC000>5</color>."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Atomic Edge",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases damage by <color=#FFC000>6</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Skewer",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "<color=#FFC000>Pierce</color> through the first enemy. Deal <color=#FFC000>12</color> damage and <color=#FFC000>root</color> the second target hit."
+      },
+      "10": {
+        "default": false,
+        "display_name": "Curved Blade",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "May now bounce off a wall once."
+      },
+      "11": {
+        "default": false,
+        "display_name": "Walk and Fight!",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Reduce cooldown by <color=#FFC000>2</color>. <color=#FFC000>Slows</color> target hit instead of rooting."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": true,
+        "display_name": "Iron Will",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases shield strength by <color=#FFC000>5</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Safeguard",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "When activated, all nearby allies gain <color=#FFC000>10</color> shields."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Immolation",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increases the retribution damage by <color=#FFC000>6</color>."
+      },
+      "8": {
+        "default": false,
+        "display_name": "Watchful Defense",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Enemies damaged by Retribution are <color=#FFC000>revealed</color> until end of next Decision Mode."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": true,
+        "display_name": "Savior",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Can leap to an ally anywhere on the map."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Into the Fray",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Enemies hit are <color=#FFC000>Slowed</color> until end of turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Archangel",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increased shield strength by <color=#FFC000>15</color>."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Herald of Decay",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "All hit enemies are <color=#FFC000>weakened</color> until the end of the next turn."
+      },
+      "9": {
+        "default": false,
+        "display_name": "Lasting Protection",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increases the duration of shields by <color=#FFC000>1</color> turn."
+      }
+    }
+  },
+  "bazookaGirl": {
+    "ABILITY_0": {
+      "1": {
+        "default": true,
+        "display_name": "Mr. Punch",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases damage to initial target by <color=#FFC000>3</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Extra Shrapnel",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increases damage to nearby enemies by <color=#FFC000>3</color>."
+      },
+      "8": {
+        "default": false,
+        "display_name": "Rocket Fuel",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>2</color> additional energy per enemy hit."
+      },
+      "10": {
+        "default": false,
+        "display_name": "Explosives Everywhere",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Hitting a target with direct missile damage will reduce the remaining cooldown on The Big One by <color=#FFC000>1</color>."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": true,
+        "display_name": "Stickiest Bombs",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "When a sticky bomb explodes, the target is <color=#FFC000>slowed</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Pyrotechnic",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "The cooldown of Sticky Bombs is reduced by <color=#FFC000>1</color> for each enemy hit. Increases the base cooldown by <color=#FFC000>1</color>."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Phosphorus Residue",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Targets are <color=#FFC000>revealed</color> until end of next Decision Mode."
+      },
+      "9": {
+        "default": false,
+        "display_name": "Bear Trap",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "When a sticky bomb explodes, the target is <color=#FFC000>Rooted</color> until the end of turn."
+      },
+      "10": {
+        "default": false,
+        "display_name": "Shell Shocked",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "When a sticky bomb is applied, the target is <color=#FFC000>weakened</color> until end of next turn."
+      }
+    },
+    "ABILITY_2": {
+      "2": {
+        "default": false,
+        "display_name": "Long Range Ballistics",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain an additional <color=#FFC000>6</color> range."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Shock and Awe",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Enemies in the targeting area are <color=#FFC000>slowed</color> on the first turn. Now a <color=#FFC000>full action</color> but the cooldown is reduced by <color=#FFC000>2</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "The Bigger One",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Targets in the middle 3x3 squares take an additional <color=#FFC000>10</color> damage."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Peekaboo",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "If no enemies are hit reduce the cooldown by <color=#FFC000>2</color>."
+      },
+      "10": {
+        "default": true,
+        "display_name": "Regenerating Ammo",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>6</color> energy."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": false,
+        "display_name": "Extra Big Boom",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increases damage by <color=#FFC000>5</color>."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Something Extra",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>might</color> until end of next turn."
+      },
+      "4": {
+        "default": true,
+        "display_name": "Booster Jet",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>energized</color> until end of next turn."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Eat My Dust",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Enemies at your takeoff location are <color=#FFC000>slowed</color> for the turn."
+      },
+      "7": {
+        "default": false,
+        "display_name": "Long Range Love",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Range is increased by <color=#FFC000>1</color>."
+      },
+      "10": {
+        "default": false,
+        "display_name": "Blast Shield",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain a shield for <color=#FFC000>20</color> until the end of next turn."
+      }
+    },
+    "ABILITY_4": {
+      "3": {
+        "default": false,
+        "display_name": "Enhanced Targeting",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Targets enemies through walls. Reduces damage by <color=#FFC000>10</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Replicating Rockets",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Each target hit gives <color=#FFC000>5</color> energy."
+      },
+      "7": {
+        "default": false,
+        "display_name": "Artillery Barrage",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases range by <color=#FFC000>1</color>."
+      },
+      "9": {
+        "default": true,
+        "display_name": "Concentrated Fire",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases damage by <color=#FFC000>9</color>. Damage is reduced by <color=#FFC000>3</color> for each target beyond the first."
+      }
+    }
+  },
+  "blaster": {
+    "ABILITY_0": {
+      "1": {
+        "default": true,
+        "display_name": "Wide Barrel",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases the size of the arc by <color=#FFC000>10</color> degrees at maximum range."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Prey on the Meek",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "If only one target is hit they are <color=#FFC000>revealed</color> until end of next Decision Mode."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Focused Fury",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "If only one target is hit increase the damage by <color=#FFC000>5</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Killing Field",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increases damage by up to <color=#FFC000>4</color> as the range becomes shorter."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Long Barrel",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Deals increased damage to targets the farther away they are, less damage against close enemies."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": false,
+        "display_name": "Action Roll",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Can now dash up to <color=#FFC000>2</color> spaces but no longer has charges."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Close Call",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>5</color> shields until the end of this turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Dance of Death",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain a third charge of Combat Reflexes."
+      },
+      "4": {
+        "default": true,
+        "display_name": "Follow Through",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>haste</color> until end of next turn."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": true,
+        "display_name": "On the Chase",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>haste</color> for the turn."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Block 'n Load",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>15</color> shields until end of turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Brutal Precision",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "The next attack that expends Overcharge will <color=#FFC000>weaken</color> enemies next turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Double Charge",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Can be used again to increase the damage bonus by an additional <color=#FFC000>4</color>."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Leg Shot",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "The next attack that expends Overcharge will <color=#FFC000>slow</color> all enemies hit."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Undercharge",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Reduce damage increase by <color=#FFC000>4</color>, lasts for <color=#FFC000>1</color> additional attack."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": true,
+        "display_name": "Bunker Buster",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Cover damage reduction is halved."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Rapid Deployment",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Reduce the cooldown by <color=#FFC000>1</color> turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Larger Lurker",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increase the width by <color=#FFC000>30%</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Bodyguard",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Lurker Drone changes its facing towards Elle each turn."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Point Blank",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Targets within <color=#FFC000>2</color> spaces take an additional <color=#FFC000>8</color> damage."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": false,
+        "display_name": "Crowd Control",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Knockback distance is increased by <color=#FFC000>2</color>."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Art of Murder",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Cover damage reduction is halved."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Warpath",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>unstoppable</color> for the turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Killing Spree",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "The next time you use Overcharge after using Oblivion Shell it is a <color=#FFC000>free action</color>."
+      }
+    }
+  },
+  "claymore": {
+    "ABILITY_0": {
+      "1": {
+        "default": false,
+        "display_name": "Battlefield Triage",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>5</color> health for enemies hit in the center and <color=#FFC000>3</color> health for the sides."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Cascade",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "For each enemy hit by the central attack, the damage of the splash is increased by <color=#FFC000>3</color>."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Power Hitter",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increase the central hit width by <color=#FFC000>50%</color> and deal an additional <color=#FFC000>4</color> damage. No longer hits side areas."
+      },
+      "7": {
+        "default": true,
+        "display_name": "Shieldbreaker",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Cover damage reduction is halved."
+      }
+    },
+    "ABILITY_1": {
+      "3": {
+        "default": false,
+        "display_name": "Single Minded",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "You now follow the primarily hit enemy."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Cleaver",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Ignores cover."
+      },
+      "6": {
+        "default": true,
+        "display_name": "Hamstring",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "All targets hit are <color=#FFC000>slowed</color> for the turn."
+      },
+      "7": {
+        "default": false,
+        "display_name": "Momentum",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Deal an additional <color=#FFC000>1</color> damage to the main target per square traveled."
+      },
+      "8": {
+        "default": false,
+        "display_name": "Harvest",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>5</color> health per enemy hit."
+      },
+      "9": {
+        "default": false,
+        "display_name": "Pursuit",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>haste</color> until the end of next turn."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": false,
+        "display_name": "Echoing Roar",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases Energy gain per target hit by <color=#FFC000>3</color>."
+      },
+      "7": {
+        "default": false,
+        "display_name": "Barbarian Rage",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Allies gain <color=#FFC000>might</color> until the end of turn. Gain <color=#FFC000>3</color> energy per ally hit. Increase the cooldown by <color=#FFC000>1</color> turn."
+      },
+      "8": {
+        "default": true,
+        "display_name": "Rallying Cry",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>5</color> health per target hit."
+      },
+      "9": {
+        "default": false,
+        "display_name": "Terrifying Cry",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Enemies hit are additionally <color=#FFC000>revealed</color> until end of next Decision Mode."
+      }
+    },
+    "ABILITY_3": {
+      "6": {
+        "default": false,
+        "display_name": "Flurry of Daggers",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "If an ally triggers the explosion, the cooldown of Dirty Fighting is reduced by <color=#FFC000>2</color>."
+      },
+      "7": {
+        "default": true,
+        "display_name": "Cheap Shot",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Target is also <color=#FFC000>slowed</color> until end of next turn."
+      },
+      "8": {
+        "default": false,
+        "display_name": "Puncture",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "<color=#FFC000>Pierce</color> the first target hit. The second dagger deals <color=#FFC000>12</color> damage if it is triggered."
+      },
+      "9": {
+        "default": false,
+        "display_name": "Rapid Follow-Up",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>haste</color> for the turn."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": false,
+        "display_name": "Battle Rage",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Deal <color=#FFC000>1</color> additional damage for every <color=#FFC000>7%</color> health you are missing."
+      },
+      "5": {
+        "default": true,
+        "display_name": "Executioner",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Deal an additional <color=#FFC000>10</color> damage to enemies below <color=#FFC000>50%</color> health."
+      },
+      "6": {
+        "default": false,
+        "display_name": "World Shatterer",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "The first two arcs each take half of the targeter."
+      },
+      "8": {
+        "default": false,
+        "display_name": "Subduction Zone",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increases the width of the arc by <color=#FFC000>25</color> degrees."
+      }
+    }
+  },
+  "cleric": {
+    "ABILITY_0": {
+      "1": {
+        "default": true,
+        "display_name": "Blunt Force",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Reduce the effects of cover by half."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Bludgeon",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Deal <color=#FFC000>4</color> additional damage in the circle portion of the template."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Path of Glory",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>haste</color> until end of turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Daybreak",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>4</color> additional energy per hit while Zenith is active."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": false,
+        "display_name": "Back from the Brink",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increasing the heal amount to your targets by up to <color=#FFC000>10</color> more based on missing health."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Guiding Light",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Can target through walls."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Field Medic",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "You gain <color=#FFC000>haste</color> until end of turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Local Anesthetic",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Heal you and your target for an additional <color=#FFC000>5</color>, reduced by <color=#FFC000>1</color> for each space away you are."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Kinetic Charger",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>5</color> energy each time you are attacked by an enemy on the turn you cast this ability."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Crusader",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Range of <color=#FFC000>Reforge</color> reduced by <color=#FFC000>2</color>.\n<b>Passive:</b> Base movement increased by <color=#FFC000>1</color>. "
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": false,
+        "display_name": "Compound Fracture",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Hit enemies are also <color=#FFC000>weakened</color> next turn."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Wallshatter",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Reduce the effects of cover by half."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Zealous",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Cooldown of Boneshatter is reduced by <color=#FFC000>1</color> per enemy hit past the first."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Whirling Dynamo",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>4</color> additional energy per hit while Zenith is active."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Kneecapper",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Enemies that dashed this turn are hit for an additional <color=#FFC000>8</color> damage."
+      },
+      "7": {
+        "default": false,
+        "display_name": "Conqueror",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Angle of attack increased."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": false,
+        "display_name": "Heave Ho",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increase range by <color=#FFC000>1</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Heavy Justice",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "If no target is hit in the center, all targets are <color=#FFC000>Slowed</color>."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Flashpoint",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase central damage by <color=#FFC000>3</color> for each enemy hit in the outer ring."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Shining justice",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>4</color> additional energy per hit while Zenith is active."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": false,
+        "display_name": "Praise the Sun",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Shielding amount increases by <color=#FFC000>3</color> each turn it is active."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Sunbathing",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Allies in the aura gain <color=#FFC000>2</color> energy, increasing by <color=#FFC000>2</color> each turn it is active."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Sunstoppable",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Allies also gain <color=#FFC000>Unstoppable</color> the first turn it is active."
+      },
+      "4": {
+        "default": true,
+        "display_name": "Sunblock",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>3</color> extra self shields per enemy in the aura."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Sunburst",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Allies affected by Zenith gain <color=#FFC000>5</color> extra healing from Reforge."
+      }
+    }
+  },
+  "digitalSorceress": {
+    "ABILITY_0": {
+      "1": {
+        "default": false,
+        "display_name": "Up the Voltage",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases damage by <color=#FFC000>3</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Group Therapy",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increases ally healing by <color=#FFC000>4</color>."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Vain",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Heal yourself for <color=#FFC000>4</color> as well."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Altruism",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Allies now gain <color=#FFC000>2</color> energy when hit."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": false,
+        "display_name": "Stable Ions",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increases duration by <color=#FFC000>1</color> turn."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Invigorating Cloud",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Restores an additional <color=#FFC000>2</color> health to allies in the cloud for every turn cloud is active."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Radiant Mist",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "<color=#FFC000>Reveals</color> enemies until end of next decision mode."
+      },
+      "8": {
+        "default": true,
+        "display_name": "Overcast",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Reduce the cooldown by <color=#FFC000>1</color> turn."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": true,
+        "display_name": "Seeking Flare",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Can be targetted through walls."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Surging Flare",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Restores an additional <color=#FFC000>8</color> health if the target is under 50% health."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Flareburst",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Enemies hit by the flare take <color=#FFC000>15</color> indirect damage."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Infusion",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Grant the target <color=#FFC000>6</color> energy."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": true,
+        "display_name": "Gravity Well",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Enemies hit are also <color=#FFC000>slowed</color> for the turn."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Tenacious",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Aurora and targeted allies become <color=#FFC000>unstoppable</color> for the turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Laser Designator",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Enemies hit are also <color=#FFC000>revealed</color> until end of next Decision Mode."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Rapid Paralysis",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "This ability's cooldown is reduced by <color=#FFC000>1</color> for each target hit, up to 3 max."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Surge of Might",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Aurora and targeted allies gain <color=#FFC000>might</color> for the turn."
+      },
+      "9": {
+        "default": false,
+        "display_name": "Pulse Beam",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Now a free action. No longer applies shields."
+      }
+    },
+    "ABILITY_4": {
+      "2": {
+        "default": false,
+        "display_name": "Supernova",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases the number of beams to <color=#FFC000>8</color>. Decreases their potency by <color=#FFC000>4</color>."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Wave of Light",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Knockback all adjacent enemies."
+      },
+      "4": {
+        "default": true,
+        "display_name": "Focused Radiance",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Each beam that only hits one target, friendly or enemy, increases in potency by <color=#FFC000>6</color>."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Temporal Shift",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "<color=#FFC000>Slows</color> enemies for the turn and <color=#FFC000>hastes</color> allies until end of next turn."
+      },
+      "11": {
+        "default": false,
+        "display_name": "Sudden Jolt",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "On use, reduces all active cooldowns by <color=#FFC000>1</color>."
+      }
+    }
+  },
+  "dino": {
+    "ABILITY_0": {
+      "1": {
+        "default": false,
+        "display_name": "Bonecrusher",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increase damage in the second arc by <color=#FFC000>4</color> and the third arc by <color=#FFC000>6</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Kiss the Ring",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase inner arc damage by <color=#FFC000>6</color> if Power Drive is fully charged."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Clobbering Time",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "If only hitting enemies in the second or third arc, the Power Drive only loses one arc of range."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Power-up Glove",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>2</color> additional energy per enemy hit."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Shatter",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Enemies in the outer two arcs are <color=#FFC000>slowed</color> until end of turn."
+      },
+      "6": {
+        "default": true,
+        "display_name": "Force Capacitor",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>haste</color> until end of turn when using this ability."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": false,
+        "display_name": "Single Out",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "If only one target is selected, damage is increased by <color=#FFC000>6</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Tag Team",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Allies gain <color=#FFC000>5</color> energy when damaging targets marked by this ability on the first turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Nowhere to Run",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increase targeting range by <color=#FFC000>3</color>."
+      },
+      "4": {
+        "default": true,
+        "display_name": "Protection Racket",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase the size of the targeter by <color=#FFC000>33%</color>."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Spotter",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Can be targeted through walls."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": true,
+        "display_name": "Dynomite",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Fully charge <color=#FFC000>Power Drive</color> on use."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Fake Out",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "If you don't dash, the cooldown of this ability is reduced by <color=#FFC000>1</color>."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Trample",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "<color=#FFC000>Root</color> all enemies hit."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Adaptation",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>20</color> healing instead of shields if you don't dash."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Monstrous",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "If you dash, gain <color=#FFC000>5</color> additional shields per enemy hit."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Hardened Frill",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>5</color> additional shields when first activated."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": false,
+        "display_name": "Knock Over",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Limits the targeting area to behind you. Increase knockback range by <color=#FFC000>2</color>."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Concussion",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Targets hit are <color=#FFC000>slowed</color> until end of next turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Haymaker",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Deal <color=#FFC000>6</color> extra damage if <color=#FFC000>Power Drive</color> is fully charged."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Suction Punch",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>10</color> shields per target hit until end of next turn."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Pinball",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Enemies adjacent to the landing location of an enemy knocked back by this ability are <color=#FFC000>rooted</color> until end of turn."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": false,
+        "display_name": "Sonic Boom",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Deal up to <color=#FFC000>6</color> extra damage to nearby targets, reduced by <color=#FFC000>1</color> for each square further away they are."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Big Boss",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>haste</color> and <color=#FFC000>unstoppable</color> until end of turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Follow Up",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Reduce the cooldown on <color=#FFC000>Deal Breaker</color> by <color=#FFC000>1</color>."
+      },
+      "4": {
+        "default": true,
+        "display_name": "Lower Morale",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Enemies hit are made <color=#FFC000>weak</color> until end of next turn."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Overtime",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>20</color> energy per target under the effects of <color=#FFC000>unstoppable</color>."
+      }
+    }
+  },
+  "exo": {
+    "ABILITY_0": {
+      "1": {
+        "default": true,
+        "display_name": "Concentrated Fire",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Enemies hit by overlapping barrages take an additional <color=#FFC000>4</color> damage."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Minigun Mayhem",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Enemies hit by one barrage take an additional <color=#FFC000>4</color> damage."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Fire at Will",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase the size of the barrages by <color=#FFC000>40%</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Spinning Up",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Using Laser Barrage increases the energy gain of Laser Barrage next turn by <color=#FFC000>4</color>."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": true,
+        "display_name": "Watch Your Step",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase damage by <color=#FFC000>1</color> per square traveled."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Maximum Security",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Cooldown is reduced by <color=#FFC000>1</color> turn if Lockdown doesn't trigger."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Floodlights",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "<color=#FFC000>Reveal</color> the target until the end of next Decision Mode."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Stockades",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "If Lockdown triggers, the target is <color=#FFC000>scrambled</color> next turn."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Watchful Eye",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "<color=#FFC000>Pierce</color> the first target hit. Deals <color=#FFC000>10</color> less damage if it is triggered."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": true,
+        "display_name": "Knockout",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase the distance of the knockback by <color=#FFC000>2</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Showstopper",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increase the size of the arc by <color=#FFC000>33%</color>."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Seeing Stars",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Adjacent enemies are additionally <color=#FFC000>slow</color> next turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Shockwave",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increases the damage of Off Limits by <color=#FFC000>3</color>."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": false,
+        "display_name": "Hold the Line",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>10</color> additional shields if used while Lay Down the Law is active."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Shield Battery",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Lasts until end of next turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Reboot",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Reduce the cooldown by <color=#FFC000>1</color> if the shield takes no damage."
+      },
+      "4": {
+        "default": true,
+        "display_name": "Overcharge",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>1</color> energy per <color=#FFC000>5</color> damage that the shield absorbs."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Fortification",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Grant <color=#FFC000>10</color> shields to nearby allies."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": false,
+        "display_name": "Dancing Shoes",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>haste</color> when de-anchoring."
+      },
+      "2": {
+        "default": false,
+        "display_name": "High Intensity",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Deal up to <color=#FFC000>7</color> extra damage to nearby targets, reduced by <color=#FFC000>1</color> for each square further away they are."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Indiscriminate Destruction",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increase the arc of the sweep by <color=#FFC000>33%</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Heating Up",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increase the damage by <color=#FFC000>5</color> each turn you are anchored, capping at <color=#FFC000>15</color> additional damage."
+      },
+      "5": {
+        "default": true,
+        "display_name": "Efficient Extermination",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Reduce initial energy cost by <color=#FFC000>10</color>."
+      }
+    }
+  },
+  "fireborg": {
+    "ABILITY_0": {
+      "1": {
+        "default": false,
+        "display_name": "Inferno",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Deal <color=#FFC000>2</color> more damage to enemies hit by both templates."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Bathed in Flame",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increase template arcs from <color=#FFC000>30</color> to <color=#FFC000>45</color> degrees."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Hotfoot",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Grants <color=#FFC000>haste</color> next turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Heat Signature",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Enemies are <color=#FFC000>revealed</color> until end of turn if hit by both templates."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Heating Up",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>2</color> more energy per enemy hit."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": true,
+        "display_name": "Infrared",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Can target through walls."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Heat Shield",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Target gains <color=#FFC000>10</color> shields until end of turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Concussive Blast",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Enemies hit by the explosion are <color=#FFC000>slowed</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "On Fire",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "If you are <color=#FFC000>superheated</color>, the duration of this ability is increased by <color=#FFC000>1</color> turn."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Ignition",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "The cooldown of this ability is increased by <color=#FFC000>1</color>, but resets whenever the <color=#FFC000>Superheated</color> ability is activated."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": false,
+        "display_name": "Rocket Fuel",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase range by <color=#FFC000>1</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Scorched Earth",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "If <color=#FFC000>superheated</color>, ground fire from this ability lasts an additional turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Ground Zero",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase damage by <color=#FFC000>3</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Forged",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>8</color> shields per enemy hit."
+      },
+      "5": {
+        "default": true,
+        "display_name": "Aftershock",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Enemies hit by the explosion are <color=#FFC000>slowed</color>."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Engage NOS",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Grants <color=#FFC000>haste</color> next turn."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": true,
+        "display_name": "Last Stand",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>20</color> more shields if health is below <color=#FFC000>60</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Thermal Dynamo",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>5</color> shields next turn for each direct damage attack that hits you this turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Uncontrollable",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>Unstoppable</color> until end of turn."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Fuel Reserves",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Shields last until the end of next turn."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Burning Rage",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "The damage of the second fireball is increased by <color=#FFC000>5</color>."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": false,
+        "display_name": "Boil Over",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Grants <color=#FFC000>might</color> until end of turn, but increases the energy cost of <color=#FFC000>Superheated</color> to <color=#FFC000>75</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Phoenix Rising",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Heal <color=#FFC000>10</color> on cast."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Burnout",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Grants <color=#FFC000>haste</color> until end of turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Wildfire",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Grants <color=#FFC000>energize</color> until end of turn."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Fallout",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "<color=#FFC000>Slow</color> adjacent enemies on cast."
+      },
+      "7": {
+        "default": false,
+        "display_name": "Spontaneous Combustion",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Lasts <color=#FFC000>1</color> additional turn. Automatically activates when usable. "
+      }
+    }
+  },
+  "fishMan": {
+    "ABILITY_0": {
+      "1": {
+        "default": true,
+        "display_name": "Firehose",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase the maximum arc by <color=#FFC000>30</color> degrees."
+      },
+      "2": {
+        "default": false,
+        "display_name": "High Pressure",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Deal up to an additional <color=#FFC000>3</color> damage the smaller the arc of the cone is."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Catch of the Day",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain an additional <color=#FFC000>6</color> energy if only one target is hit."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Spray and Play",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increase the ally healing amount of the next Refreshing Spray by <color=#FFC000>2</color> per enemy hit."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": false,
+        "display_name": "Self Fish",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Finn heals himself for an additional <color=#FFC000>8</color>."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Shored Up",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Targets hit also gain <color=#FFC000>6</color> shields for the turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Flounder",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Additionally <color=#FFC000>weakens</color> enemies hit for the turn. Generates <color=#FFC000>2</color> energy per enemy hit."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Heal in One",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "If only one ally is hit they heal for an additional <color=#FFC000>8</color>."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Mussels",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Nearest ally hit gains <color=#FFC000>might</color> for the turn."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": false,
+        "display_name": "That's a Moray",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "The eels can now target or jump to allies, granting them <color=#FFC000>energized</color> next turn."
+      },
+      "2": {
+        "default": true,
+        "display_name": "That Magic Eeling",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase the range of the jump by <color=#FFC000>1</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Master Angler",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Deals an additional <color=#FFC000>6</color> damage when it jumps."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Spout of Sight",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Can hit targets that are <color=#FFC000>invisible</color> or in <color=#FFC000>camouflage</color>."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": false,
+        "display_name": "Bubble Time",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Reduce the cooldown by <color=#FFC000>1</color> but also reduce the amount of shielding by <color=#FFC000>10</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Unstop-Bubble",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Shielded target becomes <color=#FFC000>unstoppable</color> for the turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Bubble Trap",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Enemies hit are now <color=#FFC000>rooted</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Double Bubble",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Persists an additional turn if the shield isn't broken."
+      },
+      "5": {
+        "default": true,
+        "display_name": "Cast Away",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Can be targetted through walls."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": false,
+        "display_name": "Cast Off",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>unstoppable</color> until end of turn."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Riptide",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Enemies hit are <color=#FFC000>slowed</color> until end of next turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Grand Finn-ale",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Deal an additional <color=#FFC000>10</color> damage to targets in the center and <color=#FFC000>5</color> to targets adjacent to the center."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Leech Infestation",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>10</color> health per enemy hit."
+      }
+    }
+  },
+  "gremlins": {
+    "ABILITY_0": {
+      "1": {
+        "default": true,
+        "display_name": "Cannoneer",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase the arc width for the second bomb."
+      },
+      "2": {
+        "default": false,
+        "display_name": "No Downsides",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "No longer has a minimum range."
+      },
+      "3": {
+        "default": false,
+        "display_name": "KABOOM Boom",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "The first bomb fired deals an additional <color=#FFC000>4</color> damage if it hits an enemy."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Triple Fun",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increases the number of mines to <color=#FFC000>3</color>. Direct damage reduced by <color=#FFC000>5</color>"
+      },
+      "8": {
+        "default": false,
+        "display_name": "Mighty Mines",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increases damage of mines by <color=#FFC000>3</color>."
+      }
+    },
+    "ABILITY_1": {
+      "2": {
+        "default": false,
+        "display_name": "Energy Bank",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Mines give <color=#FFC000>2</color> more energy."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Longer Fuse",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Mines persist for <color=#FFC000>2</color> additional turns."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Longest Fuse",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Mines persist for <color=#FFC000>3</color> additional turns."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Bomb and Run",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>haste</color> until the end of the next turn."
+      },
+      "9": {
+        "default": false,
+        "display_name": "Phospho Mines",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Enemies hit by mines are <color=#FFC000>revealed</color> until the end of next Decision Mode."
+      },
+      "10": {
+        "default": false,
+        "display_name": "Long Fuse",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Mines persist for <color=#FFC000>1</color> additional turn."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": false,
+        "display_name": "Party Crasher",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Deals <color=#FFC000>5</color> more damage for each target hit beyond the first."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Bigger Bang",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increases the size of the explosion. Minimum range is increased by <color=#FFC000>1</color>."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Got Yer Name On It",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "If only one target is hit they take <color=#FFC000>5</color> additional damage and are knocked back <color=#FFC000>2</color> additional spaces."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Recursive Feedback",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Deals <color=#FFC000>5</color> more damage for each subsequent target hit after the first. Gain <color=#FFC000>3</color> additional energy for each target hit."
+      },
+      "8": {
+        "default": true,
+        "display_name": "Blast Force",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Knockback distance is increased by <color=#FFC000>2</color>."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": false,
+        "display_name": "Explosive Aftermath",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Reduce the remaining cooldown of Big Bang by <color=#FFC000>3</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Splortagain",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Reset the cooldown of Splort!"
+      },
+      "4": {
+        "default": true,
+        "display_name": "Extra Fuel",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases the maximum range of each jump by <color=#FFC000>1</color>."
+      },
+      "8": {
+        "default": false,
+        "display_name": "Left You a Present",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Leave a mine at each location."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": false,
+        "display_name": "Minefield",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Leave mines at all bomb locations that don't directly hit an enemy."
+      },
+      "2": {
+        "default": false,
+        "display_name": "How Many? Six?",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Launch <color=#FFC000>2</color> more bombs. Enemies hit by additional bombs only take <color=#FFC000>5</color> extra damage."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Artillery Barrage",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase range by <color=#FFC000>3</color> and widen the arc."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Reloading",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>5</color> energy for any bomb that deals no damage."
+      }
+    }
+  },
+  "iceborg": {
+    "ABILITY_0": {
+      "1": {
+        "default": false,
+        "display_name": "Piercing Cold",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "<color=#FFC000>Pierce</color> the first enemy hit. If another enemy is hit, it gains a <color=#FFC000>Cryo Core</color> but takes no damage."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Coldhearted",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Deal an additional <color=#FFC000>3</color> damage if you hit an enemy that started the turn with a <color=#FFC000>Cryo Core</color>."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Ice Flow",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain haste next turn."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Heat Sink",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain an additional <color=#FFC000>3</color> energy if you hit an enemy that started the turn with a <color=#FFC000>Cryo Core</color>."
+      },
+      "6": {
+        "default": true,
+        "display_name": "Rangefinder",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>0.5</color> additional range."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": true,
+        "display_name": "Heat Seeking",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Can be targeted through walls."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Ice-X",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Grants the <color=#FFC000>Cold Snap</color> aura to both Vonn and target Ally, but cooldown is increased by <color=#FFC000>1</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Rimescale",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Target also gains <color=#FFC000>8</color> shields."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Zero Point Generator",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "The target gains <color=#FFC000>3</color> energy each time the effect triggers."
+      },
+      "7": {
+        "default": false,
+        "display_name": "Lingering Chill",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "If not triggered by an enemy, the aura lasts an additional turn."
+      },
+      "8": {
+        "default": false,
+        "display_name": "Thermodynamo",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>2</color> additional energy per <color=#FFC000>Cryo Core</color> detonated."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": true,
+        "display_name": "North Wind",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase arc by <color=#FFC000>30</color> degrees."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Storm Force",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Deal up to <color=#FFC000>5</color> more damage to enemies the nearer they are to the center of the targeter."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Unrelenting",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Cooldown reduced by <color=#FFC000>1</color> for each enemy hit that started the turn with a <color=#FFC000>Cryo Core</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Storm Surge",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain an additional <color=#FFC000>3</color> energy per target hit."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Biting Winds",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Reduce cover mitigation by half."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": true,
+        "display_name": "Flashfreeze",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>haste</color> for 1 turn."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Frozen Solid",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "If you are below <color=#FFC000>60</color> health, enemy targets are <color=#FFC000>rooted</color>."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Cold Shoulder",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "If you are below <color=#FFC000>60</color> health, gain unstoppable for 1 turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Sub Zero",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "If all the shields are destroyed on the first turn, gain <color=#FFC000>20</color> shields on the following turn."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Permafrost",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Shields last an additional turn."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": false,
+        "display_name": "Climate Engineer",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Lasts an additional turn. Deals <color=#FFC000>10</color> damage on the final turn."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Arctic Assault",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increases the damage of each turn by <color=#FFC000>3</color>."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Snowed In",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "If an enemy is hit by the vortex two turns in a row, they are <color=#FFC000>slowed</color> at the start of their next turn."
+      },
+      "4": {
+        "default": true,
+        "display_name": "Winter Winds",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase cast range and second turn movement range by <color=#FFC000>1</color>."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Bonechilling",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "If an enemy is hit by the vortex two turns in a row, they gain a <color=#FFC000>Cryo Core</color>."
+      }
+    },
+    "INVALID_A": {
+      "1": {
+        "default": true,
+        "display_name": "for design: 6 more damage if only one nova",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "If only one core is detonated, the damage is increased by 6."
+      },
+      "2": {
+        "default": false,
+        "display_name": "for design: 4 less damage, root",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Deal 4 less damage, but detonated targets are rooted."
+      },
+      "3": {
+        "default": false,
+        "display_name": "for design: 5 shield on Arctic Armor target per nova",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "If Arctic Armor is active, gain 5 additional shields per target affected by Cold Snap."
+      },
+      "4": {
+        "default": false,
+        "display_name": "for design: 2 cdr if target hit dies this turn",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Reduce the cooldown of this ability by 2 if a target dies this turn."
+      }
+    }
+  },
+  "manta": {
+    "ABILITY_0": {
+      "1": {
+        "default": true,
+        "display_name": "Wind Up",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase near damage by <color=#FFC000>2</color> and far by <color=#FFC000>1</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Tremors",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Targets not in line of sight take an additional <color=#FFC000>5</color> damage."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Stagger",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Adjacent enemies are <color=#FFC000>weakened</color> next turn"
+      },
+      "4": {
+        "default": false,
+        "display_name": "Caustic Goo",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "When destroying bugs created by <color=#FFC000>Putrid Spray</color> the target is <color=#FFC000>slowed</color>."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Predator",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Hitting <color=#FFC000>Camo</color> squares will disable that region."
+      }
+    },
+    "ABILITY_1": {
+      "2": {
+        "default": false,
+        "display_name": "Brood",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Reduce the cooldown by <color=#FFC000>1</color>."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Big Bugs",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase the damage done by <color=#FFC000>3</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Juicy Morsels",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>5</color> energy when bugs burst."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Lighting Bugs",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "If the bugs aren\u0432\u0402\u2122t triggered within the next 2 rounds, the target is <color=#FFC000>revealed</color> until the end of the following Decision Mode."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": true,
+        "display_name": "Chitinous",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>10</color> shields until end of turn."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Uncontrollable",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>unstoppable</color> until end of turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Taste of Blood",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Recover <color=#FFC000>80%</color> health the turn after but only gain health that turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Re-generate",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Reduce the cooldown by <color=#FFC000>1</color> if you aren't hit this turn."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Leech",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Each time you are hit this turn gain <color=#FFC000>4</color> energy."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": true,
+        "display_name": "Ravage",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "When directly hitting a target, deal <color=#FFC000>6</color> additional damage to them."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Battering Ram",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Bursting through walls deals an additional <color=#FFC000>8</color> damage to all targets"
+      },
+      "3": {
+        "default": false,
+        "display_name": "Paralyzing Parasites",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "When destroying bugs created by <color=#FFC000>Putrid Spray</color> the target is <color=#FFC000>rooted</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Relentless",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "If no enemies are hit, reduce the cooldown of Juggernaut by <color=#FFC000>1</color>."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": false,
+        "display_name": "Aftershock",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Quake again next turn dealing <color=#FFC000>12</color> damage."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Broodmother",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Reduce the cooldown on Mending Swarm by <color=#FFC000>2</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Earthen Barrier",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Allies in the lair gain <color=#FFC000>10</color> health."
+      },
+      "5": {
+        "default": true,
+        "display_name": "Worst Nightmare",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>might</color> until the end of next turn."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Ensnare",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increase the targeting range by <color=#FFC000>1</color>."
+      },
+      "7": {
+        "default": false,
+        "display_name": "Hide and Seek",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain vision of the area inside the lair."
+      }
+    }
+  },
+  "martyr": {
+    "ABILITY_0": {
+      "1": {
+        "default": false,
+        "display_name": "Focused Flames",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Deal <color=#FFC000>3</color> additional damage if only one enemy is hit."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Devour Energy",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>3</color> energy for each enemy hit."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Empyreal Destruction",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "The base radius is increased by <color=#FFC000>20%</color>."
+      },
+      "4": {
+        "default": true,
+        "display_name": "Amplified Eruption",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Deal <color=#FFC000>1</color> additional damage per shard."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": false,
+        "display_name": "Energy Leech",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain an additional <color=#FFC000>25%</color> energy from damage redirected through Fate Transfer."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Shared Agony",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Only take <color=#FFC000>50%</color> of damage from your ally. They gain <color=#FFC000>15</color> shields."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Rebuild",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Next turn heal <color=#FFC000>20%</color> of damage redirected through Fate Transfer."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Augment Barrier",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain an additional <color=#FFC000>2</color> shields per shard."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Divine Purpose",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Both you and your target become <color=#FFC000>unstoppable</color> for the turn."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": false,
+        "display_name": "Pain and Gain",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>5</color> energy per enemy hit."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Punish the Cowardly",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "If Quantum Core is not triggered, reduce the cooldown by <color=#FFC000>1</color> turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Vengeful",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Deal <color=#FFC000>2</color> additional damage per shard."
+      },
+      "4": {
+        "default": true,
+        "display_name": "Benevolent",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Target gains <color=#FFC000>2</color> shields per shard."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Bow Down",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "<color=#FFC000>Slow</color> enemies hit until end of turn."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": true,
+        "display_name": "Enhanced Reconstruction",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase healing by <color=#FFC000>1</color> per shard."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Innate Potency",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increase healing by <color=#FFC000>7</color> per turn. No longer gains any bonus from shards."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Mend the Broken",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "If used on an ally below <color=#FFC000>50%</color> health they gain <color=#FFC000>15</color> shields for the turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Intervention",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Heal an additional <color=#FFC000>10</color> health if the target is under the effect of Quantum Core."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Omnipotent",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Can be targeted through walls."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": false,
+        "display_name": "Closer to the Conduit",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>20</color> energy on use."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Almighty",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>3</color> additional health per enemy hit."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Refresh the Source",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Reduce all active cooldowns by <color=#FFC000>1</color>."
+      },
+      "5": {
+        "default": true,
+        "display_name": "Energy Accumulation",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Each turn you are at maximum energy increase the healing by <color=#FFC000>3</color> to a maximum of <color=#FFC000>15</color>."
+      }
+    }
+  },
+  "nanoSmith": {
+    "ABILITY_0": {
+      "1": {
+        "default": false,
+        "display_name": "Reverberation",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increase distance between chains by <color=#FFC000>1</color>."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Sledge",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases the damage of all hits by <color=#FFC000>3</color>."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Defensive Conduit",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Each target hit grants <color=#FFC000>2</color> shielding on the recipient of <color=#FFC000>Black Hole Generator</color>. Stacks with multiple hits, up to a max of <color=#FFC000>10</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Magnetized",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Chains can target invisible enemies."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": true,
+        "display_name": "Omni-barrier",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Can be targeted through walls."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Power Transfer",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "No longer generates energy. Shielded target gains <color=#FFC000>10</color> energy. "
+      },
+      "3": {
+        "default": false,
+        "display_name": "Fortress",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "If used on an ally also shields self for <color=#FFC000>14</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Power Share",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Shielded target gains <color=#FFC000>might</color> for the turn."
+      },
+      "10": {
+        "default": false,
+        "display_name": "Nano Rush",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Shielded target gains <color=#FFC000>haste</color> next turn."
+      }
+    },
+    "ABILITY_2": {
+      "2": {
+        "default": false,
+        "display_name": "Supermassive",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Target gains <color=#FFC000>unstoppable</color> until end of next turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Galvanic Core",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>4</color> additional energy on use."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Gravity Warp",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Enemies hit are <color=#FFC000>slowed</color> until the end of next turn."
+      },
+      "9": {
+        "default": true,
+        "display_name": "Event Horizon",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Target gains <color=#FFC000>10</color> shields."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": false,
+        "display_name": "Electric Fence",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Enemies passing through the wall are <color=#FFC000>slowed</color> until the end of the next turn."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Master Craftsman",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase range by <color=#FFC000>1</color>."
+      },
+      "9": {
+        "default": false,
+        "display_name": "Enhanced Matrix",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Decrease cooldown by <color=#FFC000>1</color>."
+      },
+      "10": {
+        "default": false,
+        "display_name": "Completed Circuit",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>2</color> additional energy per enemy hit."
+      },
+      "11": {
+        "default": false,
+        "display_name": "Firewall",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Blocks vision for enemies."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": true,
+        "display_name": "Adaptive Shielding",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "The targeted ally gains <color=#FFC000>20</color> additional shields next turn."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Weapon of War",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Target gains <color=#FFC000>might</color> for the duration."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Ironclad",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Lasts an additional turn. Gain <color=#FFC000>unstoppable</color> for the first turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Transference",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Battleforged can be targeted through walls."
+      }
+    }
+  },
+  "neko": {
+    "ABILITY_0": {
+      "1": {
+        "default": false,
+        "display_name": "Meowch",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Deal <color=#FFC000>4</color> additional damage to targets that are hit by a return disc this turn."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Inertia",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "If the thrown Catarang hits no one the return disc next turn deals <color=#FFC000>6</color> additional damage."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Frisky",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>1</color> additional energy per enemy hit."
+      },
+      "4": {
+        "default": true,
+        "display_name": "Kitten Mittens",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Thrown Catarangs grant <color=#FFC000>3</color> shields next turn per target hit."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": true,
+        "display_name": "Fat Cat",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>8</color> shields next turn per enemy hit."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Cat and Mouse",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "If no enemies are hit reduce the cooldown by <color=#FFC000>1</color>."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Collar",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "<color=#FFC000>Roots</color> targets hit. Damage increase lowered to <color=#FFC000>4</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Hula-Hoopla",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "You and any allies the disc travels over are <color=#FFC000>energized</color> next turn."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Medicat",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "You and any allies the disc travels over are healed for <color=#FFC000>6</color>."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": false,
+        "display_name": "Stalker",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "All targets damaged are <color=#FFC000>slowed</color> until end of turn."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Sharp Claws",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increase damage by <color=#FFC000>1</color> per square the disc travels."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Off the Leash",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "If no enemies are damaged reduce the cooldown by <color=#FFC000>1</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Feline Good",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain an additional <color=#FFC000>4</color> energy on use."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": false,
+        "display_name": "Catwalk",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>haste</color> until end of turn."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Disc Fever",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increase the damage of all return discs by <color=#FFC000>6</color> this turn."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Big Cat",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Reduce the cooldown of Embiggify by <color=#FFC000>1</color> if used on the same turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Hot Tin Roof",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increase dash range by <color=#FFC000>3</color>. Can no longer move after dashing."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": false,
+        "display_name": "Moxie",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "For each returning Cataclysm disc that doesn't hit an enemy gain <color=#FFC000>4</color> energy."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Feral",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>might</color> next turn. Energy cost increased by <color=#FFC000>10</color>."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Nine Lives",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "If used two turns in a row can be used on the third turn for no energy cost."
+      },
+      "4": {
+        "default": true,
+        "display_name": "Catnip",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>haste</color> for the turn."
+      }
+    }
+  },
+  "rageBeast": {
+    "ABILITY_0": {
+      "1": {
+        "default": false,
+        "display_name": "Beastial",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Near enemies take an additional <color=#FFC000>1</color> damage and further enemies take an additional <color=#FFC000>3</color> damage."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Primal Fury",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Generate an additional <color=#FFC000>3</color> energy on near targets and <color=#FFC000>1</color> energy on far targets."
+      },
+      "8": {
+        "default": false,
+        "display_name": "Shredding Steel",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Cover damage reduction is halved."
+      },
+      "11": {
+        "default": true,
+        "display_name": "Crippling Slash",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Adjacent enemies hit are <color=#FFC000>slowed</color> for the turn."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": false,
+        "display_name": "Aftershock",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Affects all targeted enemies."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Ravage",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Deals an additional <color=#FFC000>10</color> damage."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Fling",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases range by <color=#FFC000>1</color> and knockback range by <color=#FFC000>1</color>."
+      },
+      "9": {
+        "default": false,
+        "display_name": "Power Ripple",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>6</color> additional energy if you hit an enemy."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": true,
+        "display_name": "Surge",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases range by <color=#FFC000>1</color>, but reduces damage by <color=#FFC000>3</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Trample Underfoot",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Enemies hit are <color=#FFC000>slowed</color> for the turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Mad Dash",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increases damage at the landing location by <color=#FFC000>3</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Pounce",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>4</color> additional Energy per target hit."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": false,
+        "display_name": "Quick Mend",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain all healing over one turn, <color=#FFC000>20</color> health if above the threshold, or <color=#FFC000>30</color> health if below."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Shielding Factor",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>15</color> shields on use."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Unrelenting",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>unstoppable</color> for the turn."
+      },
+      "11": {
+        "default": true,
+        "display_name": "Pain Tolerance",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases the threshold to <color=#FFC000>90</color> health."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": false,
+        "display_name": "Controllable Fury",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "No longer triggers automatically."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Fueled by Rage",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Grants <color=#FFC000>might</color> for the next <color=#FFC000>2</color> turns."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Rejuvenating Rage",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>10</color> health."
+      },
+      "8": {
+        "default": false,
+        "display_name": "Lingering Plasma",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Plasma persists for <color=#FFC000>1</color> additional turns."
+      },
+      "9": {
+        "default": true,
+        "display_name": "Driving Rage",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Grants <color=#FFC000>unstoppable</color> and <color=#FFC000>haste</color> until end of next turn."
+      }
+    }
+  },
+  "rampart": {
+    "ABILITY_0": {
+      "1": {
+        "default": true,
+        "display_name": "Area Suppression",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases damage done to adjacent enemies by <color=#FFC000><color=#FFC000>3</color></color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Danger Zone",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Deal <color=#FFC000>4</color> additional damage to enemies hit by both the stab and spin."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Battle Rush",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increase energy gain per enemy hit by <color=#FFC000><color=#FFC000>2</color></color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Deadly Stab",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increases the width of the initial stab by <color=#FFC000>50%</color>."
+      }
+    },
+    "ABILITY_1": {
+      "2": {
+        "default": true,
+        "display_name": "Defensive Posture",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "On use, gain <color=#FFC000>20</color> shields until end of next turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Bullrush",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Enemies are now <color=#FFC000>rooted</color> instead of <color=#FFC000>slowed</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Bunker",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>8</color> health for each attack blocked."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Kinetic Absorption",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>8</color> energy for each attack blocked."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Reflective Shield",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Deal <color=#FFC000>8</color> damage to enemies whose attacks are blocked."
+      }
+    },
+    "ABILITY_2": {
+      "2": {
+        "default": false,
+        "display_name": "Gone Fishin",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "You can now select the square the enemy is knocked back to."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Radamantium Tipped Blade",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "<color=#FFC000>Pierce</color> through the first enemy hit. Deal <color=#FFC000>12</color> damage to the second target hit."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Plasma Lance",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increases damage by <color=#FFC000><color=#FFC000>4</color></color>."
+      },
+      "5": {
+        "default": true,
+        "display_name": "Rocket Lance",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Range increased by <color=#FFC000>2</color>."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": false,
+        "display_name": "Show of Force",
+        "equip_cost": 3,
+        "tooltip_unlocalized": ""
+      },
+      "3": {
+        "default": false,
+        "display_name": "Special Forces",
+        "equip_cost": 1,
+        "tooltip_unlocalized": ""
+      },
+      "4": {
+        "default": true,
+        "display_name": "Invincible",
+        "equip_cost": 2,
+        "tooltip_unlocalized": ""
+      },
+      "6": {
+        "default": false,
+        "display_name": "Terrifying Presence",
+        "equip_cost": 3,
+        "tooltip_unlocalized": ""
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": false,
+        "display_name": "Live to Fight",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases damage by <color=#FFC000>5</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Engine of War",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "<color=#FFC000>Root</color> all targets trampled over."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Rocket Boosters",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases the maximum distance of the charge by <color=#FFC000>2</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Protective Wake",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Allies crossed over or hit by the charge gain <color=#FFC000>20</color> shields for the turn."
+      }
+    }
+  },
+  "robotAnimal": {
+    "ABILITY_0": {
+      "3": {
+        "default": false,
+        "display_name": "Rabid",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Using Megabite increases the damage of Megabite, next turn, by <color=#FFC000>6</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Bite and Run",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Reduces the cooldown on Prowl Protocol by <color=#FFC000>1</color> turn when Megabite deals damage."
+      },
+      "5": {
+        "default": true,
+        "display_name": "Bloodhound",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases health recovery by <color=#FFC000>2</color> per enemy hit."
+      },
+      "11": {
+        "default": false,
+        "display_name": "Tasty Target",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Enemies hit are <color=#FFC000>revealed</color> until end of next Decision Mode."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": false,
+        "display_name": "Play Time",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increases the range by <color=#FFC000>2</color>."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Feast",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "If enemy hit by Pounce dies, gain <color=#FFC000>30</color> health at the beginning of next turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Rush of Blood",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>10</color> health on hitting an enemy."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Impact Velocity",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Pounce's damage is increased by <color=#FFC000>4</color>."
+      },
+      "8": {
+        "default": false,
+        "display_name": "Frolic",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain a shield for <color=#FFC000>8</color>, and <color=#FFC000>2</color> energy, for every ally that is adjacent to you after you pounce. The shield lasts until broken."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": false,
+        "display_name": "Again?!?",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Cooldown is reduced by <color=#FFC000>1</color>. Damage is reduced by <color=#FFC000>5</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "High Strung",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>3</color> additional energy on hit."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Wear Out",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Target is <color=#FFC000>slowed</color> next turn."
+      },
+      "4": {
+        "default": true,
+        "display_name": "Retractable Leash",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases range by <color=#FFC000>1</color>."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": false,
+        "display_name": "Dog Shelter",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>20</color> shields until the end of next turn."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Caught the Scent",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Your first attack out of stealth also <color=#FFC000>reveals</color> the target until end of next turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Hunting Dog",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Go <color=#FFC000>invisible</color> then dash a short distance."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Amped Up",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>energized</color> for <color=#FFC000>3</color> turns. Using an ability will remove this effect at the end of the turn."
+      },
+      "10": {
+        "default": false,
+        "display_name": "Single Minded",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>unstoppable</color> for the turn."
+      }
+    },
+    "ABILITY_4": {
+      "2": {
+        "default": false,
+        "display_name": "Supersonic",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Enemies are also <color=#FFC000>revealed</color> until the end of next turn."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Resonance Shield",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>20</color> Shields until end of next turn."
+      },
+      "10": {
+        "default": true,
+        "display_name": "To Eleven",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Adjacent enemies take <color=#FFC000>11</color> additional damage."
+      },
+      "11": {
+        "default": false,
+        "display_name": "Acoustic Distraction",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>invisibility</color> until the end of next turn."
+      }
+    }
+  },
+  "samurai": {
+    "ABILITY_0": {
+      "1": {
+        "default": false,
+        "display_name": "Honed Blade",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Each slash hits for <color=#FFC000>30</color>. Overlap damage remains at <color=#FFC000>34</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Cross Slash",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Deal an additional <color=#FFC000>3</color> overlap damage."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Furious Strike",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Hitting enemies the same turn you use Ren's Fury <color=#FFC000>slows</color> the target."
+      },
+      "4": {
+        "default": true,
+        "display_name": "Wandering Warrior",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>haste</color> until end of turn."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Razor Focus",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>2</color> additional energy per enemy hit."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": false,
+        "display_name": "Way of the Crane",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>5</color> additional shields."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Way of the Dragon",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Deal an additional <color=#FFC000>5</color> damage this turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Way of the Scorpion",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Energy gained from being hit increased by <color=#FFC000>2</color>."
+      },
+      "4": {
+        "default": true,
+        "display_name": "Way of the Snake",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "If you aren't hit this turn, reduce the cooldown of this ability by <color=#FFC000>1</color>."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Way of the Ox",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>unstoppable</color> until end of turn."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Way of the Monkey",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain an additional <color=#FFC000>20</color> shields if this is your only ability action this turn."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": false,
+        "display_name": "Spirit Transfer",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>5</color> shields next turn per enemy hit this turn."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Escalating Force",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Each subsequent target takes <color=#FFC000>3</color> more damage than the last."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Focused Blade",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Range increased by <color=#FFC000>2</color> but can only hit <color=#FFC000>1</color> target."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Spirit Master",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Reduce the cooldown by <color=#FFC000>2</color>. No longer slows."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": false,
+        "display_name": "From Every Angle",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase angle by <color=#FFC000>20</color> degrees."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Cut Them Down",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Deal an additional <color=#FFC000>8</color> damage if only one target is hit."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Deflection",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>10</color> shields until end of turn."
+      },
+      "4": {
+        "default": true,
+        "display_name": "Hit and Run",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>haste</color> until end of turn."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": false,
+        "display_name": "Soul Splitter",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Deal additional damage equal to <color=#FFC000>15%</color> of the damage the target took before knockback occurs."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Vengeance Seeker",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain an additional <color=#FFC000>2</color> range."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Reaver",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "All targets crossed over are knocked down. Only the first target hit takes damage."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Momentum",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Can move after dashing but become <color=#FFC000>slowed</color> until end of turn."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Spirit Wrack",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "The first enemy crossed over is made <color=#FFC000>weak</color> until end of turn."
+      }
+    }
+  },
+  "scamp": {
+    "ABILITY_0": {
+      "1": {
+        "default": false,
+        "display_name": "Focal Point",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increase damage of the explosion by up to <color=#FFC000>5</color> the smaller it is."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Volatile",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "<color=#0affda>Forceball:</color> Reduce range by <color=#FFC000>0.5</color> but increase the radius by <color=#FFC000>20%</color>."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Focused Cortex",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>3</color> additional energy per enemy hit."
+      },
+      "4": {
+        "default": false,
+        "display_name": "First Resort",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "<color=#ff00ff>On Foot:</color> Increase <color=#FFC000>Doom Ray</color>'s explosion radius by <color=#FFC000>50%</color> on your first turn outside the <color=#FFC000>Ball</color>. Enemies hit by the explosion radius take <color=#FFC000>6</color> additional damage. "
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": false,
+        "display_name": "Cannon Ball",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "<color=#0affda>Forceball:</color> Increase damage by <color=#FFC000>8</color> but take <color=#FFC000>8</color> shield damage."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Boosted Animal",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Reduce the cooldown of this ability by <color=#FFC000>2</color> when <color=#FFC000>Suit Up</color> is used while <color=#ff00ff>On Foot</color>."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Scurry",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "<color=#ff00ff>On Foot:</color> Increase range by <color=#FFC000>1</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Wily",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "<color=#ff00ff>On Foot:</color> No cooldown if health is below <color=#FFC000>30</color>."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Pellet Hunter",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "<color=#ff00ff>On Foot:</color> If you dash onto an energy crystal gain an additional <color=#FFC000>10</color> energy."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": true,
+        "display_name": "Zippy Line",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Reduce the cooldown by <color=#FFC000>2</color> if no targets break the tether."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Yank the Chain",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increase pull distance by up to <color=#FFC000>3</color> more."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Energy Suction",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>2</color> additional energy per enemy hit and tether broken."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Full Stop",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Now a <color=#FFC000>full action</color>. Increase the radius by <color=#FFC000>1</color>. Enemies hit are <color=#FFC000>weakened</color> and <color=#FFC000>slowed</color> until end of turn."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": false,
+        "display_name": "Furry Fury",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "If you are <color=#ff00ff>On Foot</color> when the explosion is set off, increase the damage done by <color=#FFC000>5</color>."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Static Cling",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Enemies directly adjacent to you are <color=#FFC000>rooted</color>."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Over-Overcharge",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "The explosion always deals the maximum damage of <color=#FFC000>20</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Battle Ball",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>haste</color> for the turn, but normal free action mobility no longer applies."
+      }
+    },
+    "ABILITY_4": {
+      "2": {
+        "default": false,
+        "display_name": "Hungry, Hungry, Rodent",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "When the <color=#0affda>Forceball</color> is destroyed, gain <color=#FFC000>energized</color> for <color=#FFC000>2</color> turns."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Killinator, Assemble!",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "<color=#FFC000>Suit Up</color> cooldown when the <color=#0affda>Forceball</color> has been destroyed is reduced by <color=#FFC000>1</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Pile o' Pellets",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Create <color=#FFC000>3</color> additional energy crystals when knocked out of the <color=#0affda>Forceball</color>."
+      },
+      "5": {
+        "default": false,
+        "display_name": "World Domination",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>might</color> for <color=#FFC000>2</color> turns after you enter the <color=#0affda>Forceball</color>."
+      },
+      "6": {
+        "default": true,
+        "display_name": "Ballwall",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>unstoppable</color> for the turn."
+      }
+    }
+  },
+  "luckyScoundrel": {
+    "ABILITY_0": {
+      "2": {
+        "default": true,
+        "display_name": "Extra Tricky",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gains <color=#FFC000>1</color> additional damage per bounce."
+      },
+      "3": {
+        "default": false,
+        "display_name": "On the Move",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Backup Plan cooldown reduced by <color=#FFC000>1</color> when Trick Shot hits a target."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Impaling Shot",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "<color=#FFC000>Pierces</color> the first target. Deals <color=#FFC000>12</color> direct damage to the second target hit."
+      },
+      "13": {
+        "default": false,
+        "display_name": "Pinball",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Adds an additional bounce."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": true,
+        "display_name": "Spray and Pray",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase firing arc to <color=#FFC000>90</color> degrees."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Focused Fire",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Deal <color=#FFC000>35</color> damage but reduces the width of the arc to <color=#FFC000>45</color> degrees."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Phosphorus Rounds",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "<color=#FFC000>Reveals</color> enemies hit until end of next Decision Mode."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Quickfingers",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>3</color> additional energy per enemy hit. Reduce cooldown to <color=#FFC000>2</color> turns."
+      }
+    },
+    "ABILITY_2": {
+      "2": {
+        "default": true,
+        "display_name": "Throwing Arm",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Can be targetted through walls."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Trapwall",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increase the size of trapwire, but reduces damage by <color=#FFC000>5</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Consolation Prize",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "If nobody trips the Trapwire, the cooldown is reset."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Insta-Trap",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Now a <color=#FFC000>free action</color>. Reduces damage by <color=#FFC000>15</color> and increases cooldown by <color=#FFC000>1</color>."
+      },
+      "7": {
+        "default": false,
+        "display_name": "Extra Battery Life",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Duration of the Trapwire is increased by <color=#FFC000>2</color>."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": true,
+        "display_name": "Slippery",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases range by <color=#FFC000>1</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Souvenir",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Leaves a trapwire at your starting location that deals <color=#FFC000>20</color> indirect damage."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Perfect Angle",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Grants <color=#FFC000>might</color> until end of next turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Tough Customer",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>20</color> shields until end of next turn."
+      },
+      "7": {
+        "default": false,
+        "display_name": "Kinetic Dash",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>1</color> energy for each square moved."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": true,
+        "display_name": "Armor Piercing",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Cover damage reduction is halved."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Errant Assault",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>50</color> energy if you do not hit an enemy."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Burst of Speed",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increase range by <color=#FFC000>3</color>."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Gunslinger",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>10</color> energy per enemy hit."
+      }
+    }
+  },
+  "sensei": {
+    "ABILITY_0": {
+      "1": {
+        "default": false,
+        "display_name": "Zen State",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Heal for <color=#FFC000>3</color> health per enemy you hit with Martial Master."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Forceful Strike",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Deal <color=#FFC000>4</color> additional damage to enemies on the edge of the targeter."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Bo Staff Skills",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>2</color> additional energy per enemy hit."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Spirit Cycles",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "If <color=#FFC000>2</color> or more enemies are hit reduce the cooldown of Spirit Bend by <color=#FFC000>1</color>."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Toad Style",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "If <color=#FFC000>2</color> or more enemies are hit gain <color=#FFC000>10</color> shields next turn."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": true,
+        "display_name": "Close to Greatness",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Heal an additional <color=#FFC000>3</color> health to adjacent targets, reduced by <color=#FFC000>1</color> for each square further away they are."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Energizing Burst",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Allies now gain <color=#FFC000>4</color> energy on hit."
+      },
+      "3": {
+        "default": false,
+        "display_name": "GAIA's Blessing",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Restores an additional <color=#FFC000>6</color> health to an ally if they are under <color=#FFC000>50%</color> health."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Surge of Light",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "If only one ally is healed they gain an additional <color=#FFC000>4</color> health."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": true,
+        "display_name": "Swift as the Wind",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "If the second dash isn't used reduce the cooldown by <color=#FFC000>1</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Momentum",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increase the effectiveness of the second dash by <color=#FFC000>50%</color>."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Protector",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Allies below <color=#FFC000>50%</color> health heal for an additional <color=#FFC000>8</color> health."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Strong as the Mountain",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>10</color> shields until end of turn."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": false,
+        "display_name": "Spiritual Echoes",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Spirit Bend lasts <color=#FFC000>3</color> turns but still fades after a buff or debuff is transfered."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Chi Overflow",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Grant <color=#FFC000>5</color> energy to the ally target or grant <color=#FFC000>3</color> energy to all allies hit by the enemy target."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Spiritual Journey",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Additionally grants <color=#FFC000>haste</color> to ally targets and <color=#FFC000>slow</color> to enemy targets."
+      },
+      "4": {
+        "default": true,
+        "display_name": "Resonant Spirit",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Can be targeted through walls."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": true,
+        "display_name": "Gaia's Chosen",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Converts <color=#FFC000>25%</color> of the remaining shields into healing."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Karmic Aftershocks",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "The Chi explosion happens again on the turn after the first explosion, dealing <color=#FFC000>50%</color> damage of the initial damage."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Fleet of Foot",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Target gains <color=#FFC000>haste</color> until the end of next turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Avatar of Gaia",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Target gains <color=#FFC000>might</color> until the end of next turn."
+      }
+    }
+  },
+  "sniper": {
+    "ABILITY_0": {
+      "1": {
+        "default": false,
+        "display_name": "Zero In",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increase range by <color=#FFC000>1</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Hard-core",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "<color=#FFC000>Pierces</color> the first target hit. Deals <color=#FFC000>22</color> direct damage to the second target hit."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Spotter",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "If the target is farther than <color=#FFC000>6</color> spaces away, they take an additional <color=#FFC000>4</color> damage."
+      },
+      "4": {
+        "default": false,
+        "display_name": "High-Energy Rounds",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases energy gained by <color=#FFC000>3</color>."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": false,
+        "display_name": "Resilient Suit",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>15</color> shields until end of next turn."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Field Triage",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Restore <color=#FFC000>10</color> health when used."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Electromagnetic Aid",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Become <color=#FFC000>energized</color> until the end of the turn."
+      },
+      "11": {
+        "default": false,
+        "display_name": "Disengage",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "On use, gain <color=#FFC000>haste</color> until end of this turn. <color=#FFC000>Haste</color> applies to movement this turn."
+      }
+    },
+    "ABILITY_2": {
+      "2": {
+        "default": false,
+        "display_name": "Ammo Replication",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Hits all targets that move through it instead of just the first."
+      },
+      "3": {
+        "default": true,
+        "display_name": "High Velocity Round",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases damage by <color=#FFC000>4</color>."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Watchful Eye",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increases drone duration by <color=#FFC000>1</color>."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Taser Drone",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Enemies hit are <color=#FFC000>Weakened</color> until the end of the next turn."
+      },
+      "12": {
+        "default": false,
+        "display_name": "Drone Network",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain a second charge of Overwatch Drone."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": false,
+        "display_name": "Riot Round",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "All enemies hit are <color=#FFC000>weakened</color> next turn."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Crippling Shot",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Target is <color=#FFC000>slowed</color> for an additional turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Nova",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increases splash damage by <color=#FFC000>5</color>."
+      },
+      "6": {
+        "default": true,
+        "display_name": "Taser Round",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "All enemies hit are <color=#FFC000>slowed</color> for the turn."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": false,
+        "display_name": "Path of Destruction",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase the width of the shot by <color=#FFC000>100%</color>."
+      },
+      "4": {
+        "default": true,
+        "display_name": "Focused Beam",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases range by <color=#FFC000>2</color>."
+      },
+      "10": {
+        "default": false,
+        "display_name": "Extraction Plan",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "On use, gain <color=#FFC000>invisibility</color> until the end of the next Decision Mode."
+      },
+      "11": {
+        "default": false,
+        "display_name": "Phosphorescent Residue",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Enemies hit are <color=#FFC000>revealed</color> until the end of the next turn."
+      },
+      "12": {
+        "default": false,
+        "display_name": "Reaper Shells",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Deals an additional <color=#FFC000>10</color> damage to enemies below <color=#FFC000>50%</color> health."
+      }
+    }
+  },
+  "soldier": {
+    "ABILITY_0": {
+      "1": {
+        "default": false,
+        "display_name": "Elite Commando",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Firing in single target mode increases damage of the next cone usage of Equalizer by <color=#FFC000>4</color> and vice versa."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Breach",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Deal an additional <color=#FFC000>2</color> damage while in cover or next to a wall."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Close Quarters",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Deal an additional <color=#FFC000>6</color> damage to enemies within <color=#FFC000>2</color> spaces."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Capacitor Clip",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain an additional <color=#FFC000>3</color> energy for single target or <color=#FFC000>1</color> per cone target hit."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Prediction Shot",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Deal an additional <color=#FFC000>6</color> damage to enemies that have used a dash ability this turn."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": false,
+        "display_name": "Phospho Canister",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "<color=#FFC000>Reveal</color> enemies hit until end of next Decision Mode."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Frag Out",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Reduces the cooldown of Proteus Grenade by <color=#FFC000>1</color>."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Nova Nade",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Deal an additional <color=#FFC000>6</color> damage to the center location."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Field Medic",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Heal allies hit for <color=#FFC000>10</color>."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Collateral Damage",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Area of effect increased."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": false,
+        "display_name": "Launcher Module",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increase range of Proteus Grenade by <color=#FFC000>2</color> for the turn."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Ocular Augment",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Cover damage reduction for Equalizer and Blitz is halved until end of turn."
+      },
+      "4": {
+        "default": true,
+        "display_name": "Finish the Fight",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Heal yourself for <color=#FFC000>10</color>."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Fire Everything",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>Energized</color> until end of the turn."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Addiction",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Reduce the cooldown by <color=#FFC000>1</color> if used on the same turn as Blitz."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": false,
+        "display_name": "Engagement Range",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increase the dash range by <color=#FFC000>1</color>."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Entrench",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>unstoppable</color> and <color=#FFC000>15</color> shields for the turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Peerless Leader",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Allies near the ending location gain <color=#FFC000>15</color> shields for the turn."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Crack Shot",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "<color=#FFC000>Slow</color> targets hit until end of turn."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": false,
+        "display_name": "Penetrating Blast",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Cover damage reduction is halved."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Aerial Bombardment",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Call in a second airship, dealing damage in a line perpendicular to the original bombardment. Damage is reduced to <color=#FFC000>35</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Massive Payload",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increase the width of the attack by <color=#FFC000>1</color>."
+      },
+      "5": {
+        "default": true,
+        "display_name": "Death from Above",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "The airship attacks the same location again next turn, dealing <color=#FFC000>20</color> indirect damage."
+      }
+    }
+  },
+  "spaceMarine": {
+    "ABILITY_0": {
+      "2": {
+        "default": false,
+        "display_name": "Power Glove",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain an additional <color=#FFC000>4</color> energy if you hit an enemy."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Haymaker",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "All enemies hit take <color=#FFC000>29</color> damage."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Force Capacitor",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>haste</color> for the turn when you use Piston Punch."
+      },
+      "10": {
+        "default": false,
+        "display_name": "One on One",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "The first target hit takes an additional <color=#FFC000>3</color> damage."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": false,
+        "display_name": "Big Shot",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increase range by <color=#FFC000>1</color> and increase the arc of the explosion."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Single Out",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases initial damage by <color=#FFC000>3</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Concussion Rounds",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "<color=#FFC000>Slows</color> all enemies hit."
+      },
+      "11": {
+        "default": false,
+        "display_name": "Tracker Rounds",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Enemies hit are <color=#FFC000>revealed</color> until end of next Decision Mode."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": false,
+        "display_name": "Locked and Loaded",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "No longer a free action but damage increases by <color=#FFC000>10</color>. Allows full movement."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Double Trouble",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Missiles launch <color=#FFC000>2</color> turns in a row. Cooldown increased by <color=#FFC000>1</color> and energy gain reduced by <color=#FFC000>2</color>."
+      },
+      "3": {
+        "default": true,
+        "display_name": "First One In",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>10</color> shields until end of next turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Focus Fire",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increases damage by <color=#FFC000>9</color>. Reduces damage by <color=#FFC000>3</color> for each target hit beyond the first."
+      },
+      "9": {
+        "default": false,
+        "display_name": "Eye in the Sky",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Enemies hit are <color=#FFC000>revealed</color> until end of next Decision Mode."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": true,
+        "display_name": "Frontline",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases shields to <color=#FFC000>25</color> shields until the end of next turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Fuel Rods",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Now has <color=#FFC000>2</color> charges. Cooldown increased to <color=#FFC000>6</color> turns."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Quake Slam",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "<color=#FFC000>Roots</color> all enemies hit. Increases cooldown by <color=#FFC000>1</color>."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Heavier Metal",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases damage by <color=#FFC000>5</color>."
+      },
+      "11": {
+        "default": false,
+        "display_name": "In Pursuit",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>haste</color> next turn."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": false,
+        "display_name": "Flatten",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increases damage by <color=#FFC000>5</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Juiced Up",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Allies directly hit by minor power-ups gain an additional <color=#FFC000>15</color> health."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Bone Shatter",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "<color=#FFC000>Slows</color> all enemies hit."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Special Delivery",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Shockpod refunds <color=#FFC000>50</color> energy if it hits no enemies."
+      }
+    }
+  },
+  "spark": {
+    "ABILITY_0": {
+      "5": {
+        "default": false,
+        "display_name": "Compounding Fusion",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Energy gain increases by <color=#FFC000>1</color> each turn to a maximum of <color=#FFC000>3</color>."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Anti-Matter",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Deals an additional <color=#FFC000>6</color> damage when the bond is first connected."
+      },
+      "10": {
+        "default": true,
+        "display_name": "Leeching Ray",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>5</color> additional health each turn this tether is attached."
+      },
+      "11": {
+        "default": false,
+        "display_name": "Compounding Radiation",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Damage increases by <color=#FFC000>2</color> each turn to a maximum of <color=#FFC000>6</color>."
+      }
+    },
+    "ABILITY_1": {
+      "3": {
+        "default": true,
+        "display_name": "Covalent",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Can now be targeted through walls."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Growing Attraction",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "The healing amount increases by <color=#FFC000>2</color> each turn to a maximum of <color=#FFC000>6</color>."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Evolving Barrier",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "If the bonded ally takes <color=#FFC000>40</color> or more damage in a turn they gain <color=#FFC000>10</color> shields next turn."
+      },
+      "10": {
+        "default": false,
+        "display_name": "Sharing is Caring",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>2</color> additional health each turn this tether is attached."
+      },
+      "11": {
+        "default": false,
+        "display_name": "Atomic Freedom",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Allows full movement after using Atomic Bond."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": false,
+        "display_name": "Rapid Mutation",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "If an ally is tethered they gain <color=#FFC000>might</color>, but the additional shielding is reduced by <color=#FFC000>6</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Atomic Power",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>4</color> shields until end of turn."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Gene Therapy",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>1</color> additional energy per turn for each active bond."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Robust Radiate",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "If tethered to both an ally and enemy, your ally gains <color=#FFC000>unstoppable</color> until end of turn."
+      }
+    },
+    "ABILITY_3": {
+      "6": {
+        "default": false,
+        "display_name": "Excited",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Any allies crossed over or hit are given <color=#FFC000>Energize</color> for the turn."
+      },
+      "7": {
+        "default": true,
+        "display_name": "Orbit",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase range by <color=#FFC000>1</color>."
+      },
+      "8": {
+        "default": false,
+        "display_name": "Attraction",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Automatically chase the target hit."
+      },
+      "9": {
+        "default": false,
+        "display_name": "Quantum Entanglement",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "If you dash to an ally, they gain <color=#FFC000>15</color> shields for the turn."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": true,
+        "display_name": "Power Surge",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Grant allies <color=#FFC000>might</color> for the turn as well."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Piercing Light",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Now goes through walls. Radius reduced by <color=#FFC000>1</color>."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Luminosity",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Allies also gain <color=#FFC000>4</color> health a turn for the next two turns."
+      },
+      "7": {
+        "default": false,
+        "display_name": "Fusion",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>5</color> shields per ally hit. Lasts until end of next turn."
+      },
+      "9": {
+        "default": false,
+        "display_name": "Positronic Overload",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increases the duration of the <color=#FFC000>energized</color> buff by <color=#FFC000>1</color>."
+      }
+    }
+  },
+  "teleportingNinja": {
+    "ABILITY_0": {
+      "1": {
+        "default": true,
+        "display_name": "Fury of the Void",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase the size of the frontal cone by <color=#FFC000>100%</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Focused Assault",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Deal <color=#FFC000>2</color> additional damage to enemies in the center but <color=#FFC000>5</color> less to enemies on the side."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Essence Drain",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>3</color> additional energy when hitting a <color=#FFC000>void marked</color> target."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Balanced Aggression",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase the damage done to side targets by <color=#FFC000>5</color>."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Feed on Fear",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>5</color> health when hitting a <color=#FFC000>void marked</color> target."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": false,
+        "display_name": "Honed Edge",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Ignores cover when hitting <color=#FFC000>void marked</color> targets."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Flurry of Knives",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Reduce the cooldown by <color=#FFC000>1</color> if no targets are hit."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Stalker's Mark",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Hitting a target with all of the shurikens <color=#FFC000>reveals</color> them until end of next Decision Mode."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Void Empowered",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Deals <color=#FFC000>5</color> additional damage but can no longer increase in damage when hitting with multiple shurikens."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Unyielding",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>12</color> energy on hit but no longer gain additional energy for hitting more targets."
+      },
+      "7": {
+        "default": false,
+        "display_name": "Wave of Steel",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increases number of shurikens by <color=#FFC000>1</color>. Damage and Energy gained reduced."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": false,
+        "display_name": "Deathmark",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Deal <color=#FFC000>4</color> additional damage when hitting a <color=#FFC000>void marked</color> target."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Crippling Stab",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Hitting a <color=#FFC000>void marked</color> target applies <color=#FFC000>weak</color> to the target at the start of next turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Elusive",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>haste</color> for the turn."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Through the Void",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increase the range by <color=#FFC000>1</color> when dashing to <color=#FFC000>void marked</color> targets."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": true,
+        "display_name": "Suffocation",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "<color=#FFC000>Slow</color> adjacent enemies until end of the turn."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Cover of Night",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "If no other abilities are used reduce the cooldown by <color=#FFC000>1</color>."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Preparation",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>energized</color> next turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Thick Smoke",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase the duration of the smoke by <color=#FFC000>1</color> turn."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Soothing Shadows",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "If you are inside the smoke bomb at the beginning of next turn gain <color=#FFC000>10</color> health."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": false,
+        "display_name": "Fueled by Vengeance",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>10</color> energy when hitting a <color=#FFC000>void marked</color> target."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Phantasmal Fury",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "The damage penalty for multiple targets is reduced by <color=#FFC000>3</color>."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Night Hunter",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>15</color> health when hitting a <color=#FFC000>void marked</color> target. No longer deal additional damage when hitting a <color=#FFC000>void marked</color> target."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Master Assassin",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "If only one target is hit they are <color=#FFC000>slowed</color> until end of turn and <color=#FFC000>revealed</color> until end of next Decision Mode."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Eclipse",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Resets the cooldown on <color=#FFC000>Shadowstalker</color>."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Vengeance Seeker",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Range increased by <color=#FFC000>2</color>. "
+      }
+    }
+  },
+  "thief": {
+    "ABILITY_0": {
+      "1": {
+        "default": false,
+        "display_name": "Five Finger Discount",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "<color=#FFC000>Pierce</color> the first power-up hit, gaining its effects."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Long Arm",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increased aiming variance to 180 degrees."
+      },
+      "3": {
+        "default": false,
+        "display_name": "For the Rush",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>1</color> additional energy per hit."
+      },
+      "6": {
+        "default": false,
+        "display_name": "Smash and Grab",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "If you grab a power-up, increase damage of the other grappler by <color=#FFC000>6</color>."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": false,
+        "display_name": "Intrusion Protocol",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Can be targeted through walls and increases the range by <color=#FFC000>1</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Ensnare",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "<color=#FFC000>Root</color> all enemies hit but reduces damage by <color=#FFC000>10</color>."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Amplification Chip",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Damage increases by <color=#FFC000>1</color> every turn the trap is active."
+      },
+      "4": {
+        "default": true,
+        "display_name": "Contingency Plan",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Proximo Charge now awards <color=#FFC000>6</color> energy when cast, but energy gain on hit is reduced by <color=#FFC000>6</color>."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": false,
+        "display_name": "High Impact Canisters",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Deal an additional <color=#FFC000>3</color> damage."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Fog Cover",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Throw an additional smoke bomb. Reduce damage done by <color=#FFC000>5</color>."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Smoke Machine",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Lasts an additional turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Mending Mists",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Celeste heals for <color=#FFC000>6</color> if she is in the smoke cloud."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": false,
+        "display_name": "Cover of Darkness",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Dashing through smoke bomb grants <color=#FFC000>invisibility</color> until the beginning of next Resolution Mode."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Kickbacks",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Deal an additional <color=#FFC000>8</color> damage if a target is hit by both parts of the dash."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Perfect Getaway",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Reduce the cooldown by <color=#FFC000>1</color> if no enemies are hit."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Pickpocket",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Spawn minor <color=#FFC000>might</color> power-ups on enemies hit."
+      },
+      "5": {
+        "default": true,
+        "display_name": "Extra Kick",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>5</color> extra energy on use."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": false,
+        "display_name": "Assault and Battery",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Cover damage reduction is halved."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Break the Bank",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Enemies hit drop minor <color=#FFC000>energize</color> power-ups."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Heist",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain all power-ups that this ability travels over."
+      },
+      "4": {
+        "default": true,
+        "display_name": "Second Story Job",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases the Range of Safecracker by <color=#FFC000>1</color>."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Pilferer",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increased aiming variance to 180 degrees."
+      }
+    }
+  },
+  "tracker": {
+    "ABILITY_0": {
+      "1": {
+        "default": true,
+        "display_name": "Hunt Them Down",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Deal <color=#FFC000>3</color> additional damage if the target is tracked."
+      },
+      "2": {
+        "default": false,
+        "display_name": "High-Powered Bolts",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "<color=#FFC000>Pierce</color> enemies but only deal damage to the initial target. Subsequent enemies are tracked."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Barbed Tip",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases energy gained by <color=#FFC000>3</color>."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Catch the Scent",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Hitting a target with Tracer Bolt reduces the cooldown of Hawk Drone by <color=#FFC000>1</color>."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": false,
+        "display_name": "Infrared Enhancement",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Attacks <color=#FFC000>invisible</color> enemies."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Vicious",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increases damage to tracked targets by <color=#FFC000>4</color>."
+      },
+      "6": {
+        "default": true,
+        "display_name": "Composite Materials",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases the maximum range of the drone targeting by <color=#FFC000>2</color>."
+      },
+      "9": {
+        "default": false,
+        "display_name": "Eye In The Sky",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increases the radius of Hawk Drone's vision by <color=#FFC000>1</color>."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": false,
+        "display_name": "Double Dart",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Adds an additional dart. Reduces energy gain by <color=#FFC000>3</color> per dart and the range by <color=#FFC000>1</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Adrenal Overload",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Can now hit allies, granting <color=#FFC000>might</color> and <color=#FFC000>unstoppable</color> until end of turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Energy Feed",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>3</color> additional energy on hit."
+      },
+      "7": {
+        "default": false,
+        "display_name": "Impaired Judgment",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Enemies hit cannot collect power ups until the end of next turn."
+      },
+      "11": {
+        "default": true,
+        "display_name": "Overdose",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Enemies are also <color=#FFC000>slowed</color>."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": false,
+        "display_name": "Shelter",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>20</color> shields until end of next turn."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Agile Escape",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase the size of the landing area by <color=#FFC000>1</color>."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Unseen Huntress",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Become <color=#FFC000>invisible</color> until the beginning of next Resolution Mode."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Thrilling Escape",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>5</color> extra energy when used."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": false,
+        "display_name": "Overcharged Coils",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Walls persist after enemies move through them."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Relentless",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "On cast, resets the cooldown of Hawk Drone."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Zapper",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases damage by <color=#FFC000>3</color>."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Caught in the Web",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases the range of Voltaic Cage by <color=#FFC000>1</color>."
+      },
+      "10": {
+        "default": false,
+        "display_name": "Prison Roster",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Enemies inside the cage are <color=#FFC000>revealed</color> until the end of next turn."
+      }
+    }
+  },
+  "trickster": {
+    "ABILITY_0": {
+      "1": {
+        "default": true,
+        "display_name": "Laser Focused",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases the additional damage per extra laser hitting the target by <color=#FFC000>3</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Divide and Conquer",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Targets hit by only one laser take an additional <color=#FFC000>3</color> damage."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Potent Phasers",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Lasers that hit the same target create a minor power-up that grants <color=#FFC000>might</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Serial Zapper",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Hitting a target with Phaser Laser reduces the cooldown of Zap Trap by <color=#FFC000>1</color>."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": true,
+        "display_name": "Tagged",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase energy gain by <color=#FFC000>2</color> per target hit."
+      },
+      "2": {
+        "default": false,
+        "display_name": "The Big Picture",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increases the arc of Photon Spray by <color=#FFC000>15</color> degrees."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Light Painting",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "If multiple sprays hit the same target they are <color=#FFC000>revealed</color> until end of next Decision Mode."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Lucent Burst",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Damage done with subsequent sprays is increased by <color=#FFC000>5</color>."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": false,
+        "display_name": "Dazzling Luminescence",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "<color=#FFC000>Slows</color> all enemies hit when activated."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Strobe Light",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "The cooldown of Zap Trap is reduced by <color=#FFC000>1</color>."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Dance Floor",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Increases damage by <color=#FFC000>4</color>. Subsequent damage increase remains the same."
+      },
+      "4": {
+        "default": true,
+        "display_name": "Overwhelming Light",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Enemies hit are made <color=#FFC000>weak</color> until end of next turn."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": false,
+        "display_name": "Tr-tr-tr-tricky",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>haste</color> next turn."
+      },
+      "2": {
+        "default": true,
+        "display_name": "Mighty Me",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>might</color> for the turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Afterglow",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Create a minor power-up at the location of dissipating afterimages that grants <color=#FFC000>energized</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Understudy",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>10</color> shields until the end of the next turn."
+      }
+    },
+    "ABILITY_4": {
+      "1": {
+        "default": true,
+        "display_name": "Faster than Light",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase the ability range by <color=#FFC000>2</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Welcome to the Show",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>energized</color> for the next two turns."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Follow the Leader",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Traveling over an ally infuses them with <color=#FFC000>15</color> energy."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Razzle Dazzle",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "On activation, reset the cooldown on Photon Spray."
+      }
+    }
+  },
+  "valkyrie": {
+    "ABILITY_0": {
+      "1": {
+        "default": false,
+        "display_name": "Perforate",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Decrease the damage reduction per target to <color=#FFC000>2</color>."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Reinforced Spear",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>2</color> extra energy per target hit."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Tip of Justice",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Enemies on the tip of the spear take <color=#FFC000>4</color> extra damage."
+      },
+      "4": {
+        "default": true,
+        "display_name": "Hold the Line",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Each target hit grants <color=#FFC000>5</color> shielding when <color=#FFC000>Aegis</color> is activated. Stacks with multiple stabs, up to a max of <color=#FFC000>20</color>."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Radamantium Reinforced",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "The first target hit takes an additional <color=#FFC000>2</color> damage."
+      }
+    },
+    "ABILITY_1": {
+      "1": {
+        "default": false,
+        "display_name": "Energized Barrier",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>2</color> extra energy per attack covered against."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Warforged",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>Unstoppable</color> for the turn, but the cooldown of this ability is increased by <color=#FFC000>1</color>."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Shieldbearer",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "The cover persists for <color=#FFC000>1</color> extra turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Skybranium Alloy",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>2</color> extra damage on your next <color=#FFC000>Soaring Shield</color> each time you block. Stacks with multiple blocks up to a max of <color=#FFC000>10</color> extra damage."
+      },
+      "5": {
+        "default": true,
+        "display_name": "Shield Chain",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Cooldown reduced by <color=#FFC000>1</color> when the shield does not guard against any attacks this turn."
+      }
+    },
+    "ABILITY_2": {
+      "1": {
+        "default": true,
+        "display_name": "Wind Up",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase the maximum number of bounces by <color=#FFC000>1</color> and gain <color=#FFC000>2</color> damage per bounce."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Press the Advantage",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Gain <color=#FFC000>Might</color> next turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "Kinetic Buildup",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Increase knockback range by <color=#FFC000>1</color> for each wall it bounces off of."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Ricoshield",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Shield bounces off the first enemy. Deal <color=#FFC000>11</color> damage to the second target hit."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Boomerang",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "The shield continues after hitting a target. If you bounce it back to yourself, reduce the cooldown by <color=#FFC000>1</color>."
+      }
+    },
+    "ABILITY_3": {
+      "1": {
+        "default": false,
+        "display_name": "Nimble Warrior",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>haste</color> next turn."
+      },
+      "2": {
+        "default": false,
+        "display_name": "Battle Hardened",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "Gain <color=#FFC000>10</color> shields until end of next turn."
+      },
+      "3": {
+        "default": true,
+        "display_name": "Booster Boots",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Increase dash distance by <color=#FFC000>1</color>."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Warden",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "If you are hit on the turn you use this ability, the cooldown is reduced by <color=#FFC000>2</color>."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Safeguard",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "When <color=#FFC000>Aegis</color> is triggered by this ability it persists for <color=#FFC000>2</color> turns."
+      }
+    },
+    "ABILITY_4": {
+      "2": {
+        "default": true,
+        "display_name": "Shattered Will",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Targets hit are <color=#FFC000>weakened</color> next turn."
+      },
+      "3": {
+        "default": false,
+        "display_name": "On the Offensive",
+        "equip_cost": 1,
+        "tooltip_unlocalized": "<color=#FFC000>Impale</color> damage will not be reduced for subsequent targets next turn."
+      },
+      "4": {
+        "default": false,
+        "display_name": "Sunder",
+        "equip_cost": 3,
+        "tooltip_unlocalized": "Deal <color=#FFC000>10</color> more damage to enemies in center of the targeter."
+      },
+      "5": {
+        "default": false,
+        "display_name": "Indomitable",
+        "equip_cost": 2,
+        "tooltip_unlocalized": "Gain <color=#FFC000>20</color> shields next turn."
+      }
+    }
+  }
+}

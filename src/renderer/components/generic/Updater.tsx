@@ -12,6 +12,15 @@ function Updater() {
     setMessage(event);
   }
 
+  function notifyAndRestart() {
+    // eslint-disable-next-line no-alert
+    alert(t('updateRestarting'));
+    // wait 3seconds
+    setTimeout(() => {
+      window.electron.ipcRenderer.restartApp();
+    }, 3000);
+  }
+
   window.electron.ipcRenderer.on('message', handleMessage);
   return (
     <div>
@@ -26,9 +35,7 @@ function Updater() {
                 <Button
                   variant="outlined"
                   color="primary"
-                  onClick={() => {
-                    window.electron.ipcRenderer.restartApp();
-                  }}
+                  onClick={() => notifyAndRestart()}
                   sx={{
                     cursor: 'pointer',
                   }}

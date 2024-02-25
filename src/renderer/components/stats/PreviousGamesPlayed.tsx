@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 /* eslint-disable react/require-default-props */
 import React, { useEffect, useState } from 'react';
 import {
@@ -28,7 +29,7 @@ import { strapiClient } from 'renderer/lib/strapi';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { PlayerData } from 'renderer/lib/Evos';
-import { catalystsIcon } from 'renderer/lib/Resources';
+import { abilityIcon, ability, catalystsIcon } from 'renderer/lib/Resources';
 import Player from '../atlas/Player';
 // eslint-disable-next-line import/no-cycle
 import { ReplayDialog, ReplayFile } from '../pages/ReplaysPage';
@@ -442,7 +443,9 @@ export function Games({
               <TableHead>
                 <TableRow>
                   <TableCell width={300}>{t('stats.user')}</TableCell>
-                  <TableCell width={150}>{t('stats.character')}</TableCell>
+                  <TableCell width={customPlayers ? 250 : 150}>
+                    {t('stats.character')}
+                  </TableCell>
                   <TableCell>
                     <Tooltip title={t('stats.takedowns')}>
                       <div>
@@ -605,8 +608,247 @@ export function Games({
                             ) {
                               // If not rendered yet and matches the current player's handle, render the content
                               renderedHandles.add(customPlayer.Handle); // Mark this handle as rendered
+                              const tooltip1 = ability(
+                                player.character.replace(/:3/g, ''),
+                                0,
+                                customPlayer.CharacterInfo.CharacterMods
+                                  .ModForAbility0,
+                              );
+                              const tooltip2 = ability(
+                                player.character.replace(/:3/g, ''),
+                                1,
+                                customPlayer.CharacterInfo.CharacterMods
+                                  .ModForAbility1,
+                              );
+                              const tooltip3 = ability(
+                                player.character.replace(/:3/g, ''),
+                                2,
+                                customPlayer.CharacterInfo.CharacterMods
+                                  .ModForAbility2,
+                              );
+                              const tooltip4 = ability(
+                                player.character.replace(/:3/g, ''),
+                                3,
+                                customPlayer.CharacterInfo.CharacterMods
+                                  .ModForAbility3,
+                              );
+                              const tooltip5 = ability(
+                                player.character.replace(/:3/g, ''),
+                                4,
+                                customPlayer.CharacterInfo.CharacterMods
+                                  .ModForAbility4,
+                              );
+
                               return (
                                 <div key={customPlayer.Handle}>
+                                  <Typography variant="caption">
+                                    <Tooltip
+                                      arrow
+                                      placement="top"
+                                      title={
+                                        <>
+                                          <Typography
+                                            variant="h5"
+                                            component="div"
+                                          >
+                                            <div
+                                              dangerouslySetInnerHTML={{
+                                                __html: tooltip1.title,
+                                              }}
+                                            />
+                                          </Typography>
+                                          <Typography
+                                            variant="body1"
+                                            component="div"
+                                          >
+                                            <div
+                                              dangerouslySetInnerHTML={{
+                                                __html: tooltip1.tooltip,
+                                              }}
+                                            />
+                                          </Typography>
+                                        </>
+                                      }
+                                    >
+                                      <img
+                                        src={abilityIcon(
+                                          player.character.replace(/:3/g, ''),
+                                          1,
+                                        )}
+                                        alt="ability1"
+                                        width={25}
+                                        height={25}
+                                        style={{ cursor: 'pointer' }}
+                                      />
+                                    </Tooltip>
+                                  </Typography>
+                                  <Typography variant="caption">
+                                    <Tooltip
+                                      arrow
+                                      placement="top"
+                                      title={
+                                        <>
+                                          <Typography
+                                            variant="h5"
+                                            component="div"
+                                          >
+                                            <div
+                                              dangerouslySetInnerHTML={{
+                                                __html: tooltip2.title,
+                                              }}
+                                            />
+                                          </Typography>
+                                          <Typography
+                                            variant="body1"
+                                            component="div"
+                                          >
+                                            <div
+                                              dangerouslySetInnerHTML={{
+                                                __html: tooltip2.tooltip,
+                                              }}
+                                            />
+                                          </Typography>
+                                        </>
+                                      }
+                                    >
+                                      <img
+                                        src={abilityIcon(
+                                          player.character.replace(/:3/g, ''),
+                                          2,
+                                        )}
+                                        alt="ability2"
+                                        width={25}
+                                        height={25}
+                                        style={{ cursor: 'pointer' }}
+                                      />
+                                    </Tooltip>
+                                  </Typography>
+                                  <Typography variant="caption">
+                                    <Tooltip
+                                      arrow
+                                      placement="top"
+                                      title={
+                                        <>
+                                          <Typography
+                                            variant="h5"
+                                            component="div"
+                                          >
+                                            <div
+                                              dangerouslySetInnerHTML={{
+                                                __html: tooltip3.title,
+                                              }}
+                                            />
+                                          </Typography>
+                                          <Typography
+                                            variant="body1"
+                                            component="div"
+                                          >
+                                            <div
+                                              dangerouslySetInnerHTML={{
+                                                __html: tooltip3.tooltip,
+                                              }}
+                                            />
+                                          </Typography>
+                                        </>
+                                      }
+                                    >
+                                      <img
+                                        src={abilityIcon(
+                                          player.character.replace(/:3/g, ''),
+                                          3,
+                                        )}
+                                        alt="ability3"
+                                        width={25}
+                                        height={25}
+                                        style={{ cursor: 'pointer' }}
+                                      />
+                                    </Tooltip>
+                                  </Typography>
+                                  <Typography variant="caption">
+                                    <Tooltip
+                                      arrow
+                                      placement="top"
+                                      title={
+                                        <>
+                                          <Typography
+                                            variant="h5"
+                                            component="div"
+                                          >
+                                            <div
+                                              dangerouslySetInnerHTML={{
+                                                __html: tooltip4.title,
+                                              }}
+                                            />
+                                          </Typography>
+                                          <Typography
+                                            variant="body1"
+                                            component="div"
+                                          >
+                                            <div
+                                              dangerouslySetInnerHTML={{
+                                                __html: tooltip4.tooltip,
+                                              }}
+                                            />
+                                          </Typography>
+                                        </>
+                                      }
+                                    >
+                                      <img
+                                        src={abilityIcon(
+                                          player.character.replace(/:3/g, ''),
+                                          4,
+                                        )}
+                                        alt="ability4"
+                                        width={25}
+                                        height={25}
+                                        style={{ cursor: 'pointer' }}
+                                      />
+                                    </Tooltip>
+                                  </Typography>
+                                  <Typography variant="caption">
+                                    <Tooltip
+                                      arrow
+                                      placement="top"
+                                      title={
+                                        <>
+                                          <Typography
+                                            variant="h5"
+                                            component="div"
+                                          >
+                                            <div
+                                              dangerouslySetInnerHTML={{
+                                                __html: tooltip5.title,
+                                              }}
+                                            />
+                                          </Typography>
+                                          <Typography
+                                            variant="body1"
+                                            component="div"
+                                          >
+                                            <div
+                                              dangerouslySetInnerHTML={{
+                                                __html: tooltip5.tooltip,
+                                              }}
+                                            />
+                                          </Typography>
+                                        </>
+                                      }
+                                    >
+                                      <img
+                                        src={abilityIcon(
+                                          player.character.replace(/:3/g, ''),
+                                          5,
+                                        )}
+                                        alt="ability5"
+                                        width={25}
+                                        height={25}
+                                        style={{
+                                          marginRight: '10px',
+                                          cursor: 'pointer',
+                                        }}
+                                      />
+                                    </Tooltip>
+                                  </Typography>{' '}
                                   <Typography variant="caption">
                                     <img
                                       src={catalystsIcon(

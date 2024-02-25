@@ -1,4 +1,26 @@
 import { CharacterType, MapType } from './Evos';
+import mods from './Mods.json';
+
+interface Mod {
+  default: boolean;
+  display_name: string;
+  equip_cost: number;
+  tooltip_unlocalized: string;
+}
+
+interface Ability {
+  [mod: string]: Mod;
+}
+
+interface CharacterAbilities {
+  [ability: string]: Ability;
+}
+
+interface CharacterMods {
+  [character: string]: CharacterAbilities;
+}
+
+const modsData: CharacterMods = mods;
 
 export enum BannerType {
   background = 'Background',
@@ -56,4 +78,133 @@ export function catalystsIcon(catalyst: Number) {
 
   const catalystName = catalystNames[catalyst as number];
   return `${path}/img/catalysts/Catalyst-${catalystName}.webp`;
+}
+
+function convertToLegacyName(internalName: string): string | undefined {
+  switch (internalName.toLowerCase()) {
+    case 'khita':
+      return 'archer';
+    case 'asana':
+      return 'battleMonk';
+    case 'zuki':
+      return 'bazookaGirl';
+    case 'elle':
+      return 'blaster';
+    case 'titus':
+      return 'claymore';
+    case 'meridian':
+      return 'cleric';
+    case 'aurora':
+      return 'digitalSorceress';
+    case 'magnus':
+      return 'dinoLancher';
+    case 'juno':
+      return 'exo';
+    case 'lex':
+      return 'fireborg';
+    case 'dr. finn':
+      return 'fishMan';
+    case 'gremolitions inc.':
+      return 'gremlins';
+    case 'unreleased':
+      return 'gryd';
+    case 'vonn':
+      return 'iceborg';
+    case 'phaedra':
+      return 'manta';
+    case 'orion':
+      return 'martyr';
+    case 'helio':
+      return 'nanoSmith';
+    case 'nev':
+      return 'neko';
+    case 'rask':
+      return 'rageBeast';
+    case 'rampart':
+      return 'rampart';
+    case 'pup':
+      return 'robotAnimal';
+    case 'tol-ren':
+      return 'samurai';
+    case 'isadora':
+      return 'scamp';
+    case 'lockwood':
+      return 'luckyScoundrel';
+    case 'su-ren':
+      return 'sensei';
+    case 'nix':
+      return 'sniper';
+    case 'blackburn':
+      return 'soldier';
+    case 'garrison':
+      return 'spaceMarine';
+    case 'quark':
+      return 'spark';
+    case 'kaigin':
+      return 'teleportingNinja';
+    case 'celeste':
+      return 'thief';
+    case 'grey':
+      return 'tracker';
+    case 'oz':
+      return 'trickster';
+    case 'brynn':
+      return 'valkyrie';
+    default:
+      return 'unknown';
+  }
+}
+
+export function abilityIcon(character: string, abilityNr: number) {
+  const abilityNames = [
+    'ability1',
+    'ability2',
+    'ability3',
+    'ability4',
+    'ability5',
+  ][abilityNr - 1];
+
+  const imagePath = `${path}/img/characters/abilities/${convertToLegacyName(character)}_${abilityNames}.png`;
+
+  return imagePath;
+}
+
+interface AbilityTooltip {
+  tooltip: string;
+  title: string;
+}
+
+export function ability(
+  character: string,
+  abilityNr: number,
+  modNr: number,
+): AbilityTooltip {
+  const characterName = convertToLegacyName(character.toLowerCase()) as string;
+
+  if (characterName === 'unknown' || !modsData[characterName]) {
+    return {
+      tooltip: 'Tooltip not available',
+      title: '',
+    };
+  }
+
+  const abilityKey = `ABILITY_${abilityNr}`;
+  const modKey = `${modNr}`;
+  if (
+    !modsData[characterName][abilityKey] ||
+    !modsData[characterName][abilityKey][modKey]
+  ) {
+    return {
+      tooltip: 'None',
+      title: '',
+    };
+  }
+  const tooltipName =
+    modsData[characterName][abilityKey][modKey].tooltip_unlocalized;
+  const displayName = modsData[characterName][abilityKey][modKey].display_name;
+
+  return {
+    tooltip: tooltipName,
+    title: displayName,
+  };
 }

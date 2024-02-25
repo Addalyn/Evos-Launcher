@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
@@ -16,9 +16,6 @@
       }
 
       .bg {
-        /* The image used */
-        background-image: url('./atlas-reactor.png');
-
         /* Full height */
         height: 100%;
 
@@ -28,9 +25,66 @@
         background-size: cover;
         border-radius: 25px;
       }
+
+      /* Styling for the loading text */
+      .loading-text {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        font-size: 24px;
+        color: black;
+        opacity: 0; /* Initially hide the text */
+        animation: fadeinout 2s infinite; /* Animation for fading in and out */
+      }
+      /* Keyframes for fading in and out the loading text */
+      @keyframes fadeinout {
+        0%,
+        100% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
     </style>
   </head>
   <body>
-    <div class="bg"></div>
+    <div class="bg" id="loadingImage"></div>
+    <div class="loading-text">Loading...</div>
+
+    <script>
+      // Array of image file names in the assets/loading directory
+      const images = [
+        'asana01.png',
+        'asana02.png',
+        'aurora01.png',
+        'cityscape01.png',
+        'garrison01.png',
+        'garrison02.png',
+        'gremolitions01.png',
+        'grey01.png',
+        'kaigin01.png',
+        'lockwood01.png',
+        'lockwood02.png',
+        'lockwood_rask_01.png',
+        'nix01.png',
+        'orion01.png',
+        'oz01.png',
+        'pup01.png',
+        'quark01.png',
+        'rampartTitus01.png',
+        'titus01.png',
+        'zuki01.png',
+        'zukipup01.png',
+      ];
+
+      // Select a random image from the array
+      const randomIndex = Math.floor(Math.random() * images.length);
+      const randomImage = images[randomIndex];
+
+      // Set the background image of the loading div
+      const loadingDiv = document.getElementById('loadingImage');
+      loadingDiv.style.backgroundImage = `url('./img/loading/${randomImage}')`;
+    </script>
   </body>
 </html>
