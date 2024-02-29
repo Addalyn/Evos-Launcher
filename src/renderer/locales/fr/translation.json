@@ -398,6 +398,11 @@
     "November": "Novembre",
     "December": "Décembre"
   },
+  "admin": {
+    "Locked": "Compte banni",
+    "LockedUntill": "Compte banni jusqu'au",
+    "Message": "Message de l'administrateur"
+  },
   "accounts": "Comptes",
   "actions": "Actions",
   "addAccount": "Ajouter un compte",
@@ -431,6 +436,7 @@
   "Not queued": "Pas dans la file d'attente",
   "PvP": "JcJ",
   "Custom": "Personnalisé",
+  "Custom game": "Partie personnalisée",
   "Ranked": "Classé",
   "showInDiscord": "Afficher dans Discord",
   "In Game": "En jeu",

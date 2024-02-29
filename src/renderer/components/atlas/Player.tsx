@@ -136,6 +136,9 @@ function Player({ info, disableSkew }: Props) {
                 if (info?.status === '') {
                   return t('online');
                 }
+                if (info?.status === undefined) {
+                  return '';
+                }
                 return t([`${info?.status}`]);
               })()}
             </Typography>

@@ -108,6 +108,7 @@ export default function PlayerStatsPage() {
     getPlayerData(activeUser?.token ?? '', playerSearch)
       // eslint-disable-next-line promise/always-return
       .then((resp) => {
+        resp.data.status = resp.data.titleId as unknown as string;
         setPlayerData(resp.data);
       })
       .catch((e) => processError(e, setError, navigate, handleLogOut, t));
@@ -142,7 +143,7 @@ export default function PlayerStatsPage() {
           padding: '1em',
         }}
       >
-        <Player info={playerData} />
+        <Player info={playerData} disableSkew />
         <Grid container spacing={2}>
           <Grid item xs={4}>
             <PlayerStats action="totaltakedowns" player={playerSearch} />

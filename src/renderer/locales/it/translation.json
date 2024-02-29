@@ -370,6 +370,11 @@
     "November": "Novembre",
     "December": "Dicembre"
   },
+  "admin": {
+    "Locked": "Account bloccato",
+    "LockedUntill": "Account bloccato fino al",
+    "Message": "Messaggio dell'amministratore"
+  },
   "accounts": "Accounts",
   "actions": "Azioni",
   "addAccount": "Aggiungi Account",
@@ -403,6 +408,7 @@
   "Not queued": "Non in Coda",
   "PvP": "PvP",
   "Custom": "Custom",
+  "Custom game": "Partita Custom",
   "Ranked": "Ranked",
   "showInDiscord": "Mostra su Discord",
   "In Game": "In Partita",

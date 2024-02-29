@@ -398,6 +398,11 @@
     "November": "11月",
     "December": "12月"
   },
+  "admin": {
+    "Locked": "账号被封禁",
+    "LockedUntill": "账号封禁至",
+    "Message": "管理员消息"
+  },
   "accounts": "账号",
   "actions": "操作",
   "addAccount": "新增账号",
@@ -431,6 +436,7 @@
   "Not queued": "大厅",
   "PvP": "PvP",
   "Custom": "自定义",
+  "Custom game": "自定义游戏",
   "Ranked": "排位",
   "showInDiscord": "在Discord中查看",
   "In Game": "游戏中",

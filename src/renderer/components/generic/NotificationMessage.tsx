@@ -75,10 +75,10 @@ function NotificationMessage() {
         />
       )}
       {notice !== '' && (
-        <Paper elevation={5} sx={{ width: '100%', height: '65px' }}>
+        <Paper elevation={0} sx={{ width: '100%' }}>
           <Alert
             severity={severity as AlertColor}
-            sx={{ display: 'flex', alignItems: 'center', height: '65px' }}
+            sx={{ display: 'flex', alignItems: 'center' }}
           >
             {notice}
           </Alert>

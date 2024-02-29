@@ -1,3 +1,15 @@
+# 1.9.2
+
+- Add a periodicly check for updates, no need to restart Launcher again if theres a new update..
+- Added account Lock check, if your account is banned you will not be able to login, it will say untill you are banned and the reason.
+- Added account admin message, if you have a warning or a message from the admin it will show up in the launcher.
+- re did user switcher, using the Player object,
+- Added titles to Player object if we use them for custom use
+- Because of using custom switcher if you are not logged in , you will need to relogin, so we can validate the user. they need to be logged in anyway for all features to work.
+- added Turkish translation to the launcher.
+- Fixed the status page having whitespaces between users.
+- Fixed motd and notifications spacings to read better.
+
 # 1.9.1
 
 - Add ability icons to replays, on hover show the Mod used, title and description. (not translatable, unless you want to translate allcharacters*5*(4 or 5 mods) texts, Mods.json is 4989 lines :P)

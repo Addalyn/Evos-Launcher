@@ -1,3 +1,4 @@
+/* eslint-disable promise/always-return */
 import React, { useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -35,16 +36,27 @@ import DownloadIcon from '@mui/icons-material/Download';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import HistoryIcon from '@mui/icons-material/History';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
-import EvosStore from 'renderer/lib/EvosStore';
+import EvosStore, { AuthUser } from 'renderer/lib/EvosStore';
 import useWindowDimensions from 'renderer/lib/useWindowDimensions';
-import { getMotd, getTicket, logout } from 'renderer/lib/Evos';
+import {
+  AccountData,
+  PlayerData,
+  getMotd,
+  getPlayerData,
+  getPlayerInfo,
+  getTicket,
+  logout,
+} from 'renderer/lib/Evos';
 import { EvosError, isValidExePath, processError } from 'renderer/lib/Error';
 import Flag from 'react-flagkit';
 import { useTranslation } from 'react-i18next';
 import { trackEvent } from '@aptabase/electron/renderer';
 import { Replay } from '@mui/icons-material';
+import useHasFocus from 'renderer/lib/useHasFocus';
+import useInterval from 'renderer/lib/useInterval';
 import ErrorDialog from './ErrorDialog';
-import { BannerType, logo, playerBanner } from '../../lib/Resources';
+import { logo } from '../../lib/Resources';
+import Player from '../atlas/Player';
 
 interface Language {
   nativeName: string;
@@ -60,6 +72,7 @@ const lngs: { [key: string]: Language } = {
   it: { nativeName: 'Italiano', icon: 'IT' },
   br: { nativeName: 'Português', icon: 'BR' },
   zh: { nativeName: '中文', icon: 'CN' },
+  tr: { nativeName: 'Türkçe', icon: 'TR' },
 };
 
 type PaletteMode = 'light' | 'dark';
@@ -159,39 +172,58 @@ export default function NavBar() {
   const { width } = useWindowDimensions();
   const [motd, setMotd] = useState<string>('');
   const [isPatching, setIsPatching] = useState(false);
-
-  useEffect(() => {
-    async function get() {
-      // check if i18n.language is in lngs
-      if (!Object.keys(lngs).includes(i18n.language)) {
-        i18n.changeLanguage('en');
-      }
-      getMotd(i18n.language ?? 'en')
-        // eslint-disable-next-line promise/always-return
-        .then((resp) => {
-          setMotd(resp.data.text);
-          setSeverity(resp.data.severity);
-        })
-        .catch(async () => {
-          setMotd(t('errors.errorMotd'));
-        });
-    }
-    get();
-  }, [i18n, i18n.language, t]);
-
-  const [activeGames, setActiveGames] = useState<{
-    [username: string]: boolean;
+  const [account, setAccount] = useState<AccountData>();
+  const [playerInfoMap, setPlayerInfoMap] = useState<{
+    [key: string]: PlayerData;
   }>({});
-  const drawerWidth = width !== null && width < 916 ? 60 : 240;
-
   const navigate = useNavigate();
 
-  const doNavigate = (href: string) => {
-    trackEvent('Page', {
-      page: `${href}`,
-    });
-    navigate(href);
-  };
+  useEffect(() => {
+    const getInfo = (user: AuthUser) => {
+      return getPlayerData(activeUser?.token ?? '', user.handle ?? '')
+        .then((data) => {
+          const info = data.data as PlayerData;
+          info.status = info.titleId as unknown as string;
+          return info as PlayerData;
+        })
+        .catch(() => {
+          return null;
+        });
+    };
+    const fetchData = async () => {
+      const infoMap = Object.fromEntries(
+        await Promise.all(
+          authenticatedUsers.map(async (user) => [
+            user.handle,
+            await getInfo(user),
+          ]),
+        ),
+      );
+      if (infoMap[0] === null) {
+        updateAuthenticatedUsers(
+          activeUser?.user as string,
+          '',
+          activeUser?.handle as string,
+          activeUser?.banner as number,
+          activeUser?.configFile as string,
+        );
+        navigate('/login');
+        return;
+      }
+      setPlayerInfoMap(infoMap);
+    };
+
+    fetchData();
+  }, [
+    activeUser?.banner,
+    activeUser?.configFile,
+    activeUser?.handle,
+    activeUser?.token,
+    activeUser?.user,
+    authenticatedUsers,
+    navigate,
+    updateAuthenticatedUsers,
+  ]);
 
   const handleLogOut = () => {
     logout(activeUser?.token ?? '');
@@ -203,6 +235,61 @@ export default function NavBar() {
       activeUser?.configFile as string,
     );
     navigate('/login');
+  };
+
+  useEffect(() => {
+    async function get() {
+      // check if i18n.language is in lngs
+      if (!Object.keys(lngs).includes(i18n.language)) {
+        i18n.changeLanguage('en');
+      }
+      getMotd(i18n.language ?? 'en')
+        .then((resp) => {
+          setMotd(resp.data.text);
+          setSeverity(resp.data.severity);
+        })
+        .catch(async () => {
+          setMotd(t('errors.errorMotd'));
+        });
+    }
+    get();
+    getPlayerInfo(activeUser?.token ?? '')
+      .then((resp) => {
+        if (resp !== null) {
+          setError(undefined);
+          setAccount(resp.data);
+          if (resp.data) {
+            if (new Date(resp.data.lockedUntil) < new Date()) {
+              setAccount((prev) => {
+                if (prev) {
+                  return { ...prev, locked: false };
+                }
+                return prev;
+              });
+            }
+          }
+        }
+      })
+      .catch(() => {});
+  }, [
+    activeUser?.token,
+    i18n,
+    i18n.language,
+    navigate,
+    t,
+    updateAuthenticatedUsers,
+  ]);
+
+  const [activeGames, setActiveGames] = useState<{
+    [username: string]: boolean;
+  }>({});
+  const drawerWidth = width !== null && width < 916 ? 60 : 240;
+
+  const doNavigate = (href: string) => {
+    trackEvent('Page', {
+      page: `${href}`,
+    });
+    navigate(href);
   };
 
   const handleAddUser = () => {
@@ -233,6 +320,31 @@ export default function NavBar() {
   const handleIsPatching = (event: any) => {
     setIsPatching(event);
   };
+
+  const UPDATE_PERIOD_MS = 300000;
+  const updatePeriodMs =
+    useHasFocus() || !account ? UPDATE_PERIOD_MS : undefined;
+
+  useInterval(() => {
+    getPlayerInfo(activeUser?.token ?? '')
+      .then((resp) => {
+        if (resp !== null) {
+          setError(undefined);
+          setAccount(resp.data);
+          if (account) {
+            if (new Date(account?.lockedUntil) < new Date()) {
+              setAccount((prev) => {
+                if (prev) {
+                  return { ...prev, locked: false };
+                }
+                return prev;
+              });
+            }
+          }
+        }
+      })
+      .catch((e) => processError(e, setError, navigate, () => {}, t));
+  }, updatePeriodMs);
 
   window.electron.ipcRenderer.on('setActiveGame', handleSetActiveGame);
   window.electron.ipcRenderer.on('handleIsPatching', handleIsPatching);
@@ -338,7 +450,8 @@ export default function NavBar() {
                         !exePath.endsWith('AtlasReactor.exe') ||
                         isDownloading ||
                         isPatching ||
-                        !isValidExePath(exePath)
+                        !isValidExePath(exePath) ||
+                        account?.locked
                       }
                       onClick={handleLaunchGameClick}
                     >
@@ -366,8 +479,10 @@ export default function NavBar() {
               <Select
                 value={i18n.language ? i18n.language : lngs.en.nativeName}
                 label=""
+                variant="standard"
+                disableUnderline
                 onChange={(e) => i18n.changeLanguage(e.target.value)}
-                sx={{ width: '100%', maxHeight: '36.5px' }}
+                sx={{ width: '100%', height: '55px' }}
               >
                 {Object.keys(lngs).map((lng) => (
                   <MenuItem value={lng} key={lng}>
@@ -391,7 +506,12 @@ export default function NavBar() {
                     value={activeUser?.handle}
                     label=""
                     disabled={isDownloading}
-                    sx={{ width: '100%', maxHeight: '36.5px' }}
+                    variant="standard"
+                    disableUnderline
+                    sx={{
+                      width: '100%',
+                      height: '50.5px',
+                    }}
                   >
                     <ListSubheader>{t('accounts')}</ListSubheader>
                     {authenticatedUsers.map((user) => (
@@ -405,17 +525,12 @@ export default function NavBar() {
                             display: 'flex',
                             alignItems: 'center',
                             width: '100%',
-                            maxHeight: '36.5px',
+                            height: '36.5px',
                           }}
                         >
-                          {user?.handle}
-                          <Avatar
-                            alt="Avatar"
-                            src={playerBanner(
-                              BannerType.foreground,
-                              user.banner ?? 65,
-                            )}
-                            sx={{ width: 64, height: 64, marginRight: '16px' }}
+                          <Player
+                            info={playerInfoMap[user.handle]}
+                            disableSkew
                           />
                         </div>
                       </MenuItem>
@@ -473,7 +588,7 @@ export default function NavBar() {
         >
           <Toolbar sx={{ Height: '70px' }} />
           <Paper
-            elevation={2}
+            elevation={0}
             sx={{
               marginTop: `auto`,
               width: '100%',
@@ -485,6 +600,11 @@ export default function NavBar() {
               icon={false}
               variant="filled"
               severity={severity as 'info' | 'error' | 'warning'}
+              sx={{
+                marginTop: `auto`,
+                width: '100%',
+                borderRadius: 0,
+              }}
             >
               <Typography sx={{ color: 'white', fontSize: '14px' }}>
                 {motd}
@@ -497,7 +617,13 @@ export default function NavBar() {
               Height: '70px',
             }}
           >
-            <Paper sx={{ height: '100vh', boxShadow: 'none', borderRadius: 0 }}>
+            <Paper
+              sx={{
+                height: '100vh',
+                boxShadow: 'none',
+                borderRadius: 0,
+              }}
+            >
               <List>
                 {pages.map((page, index) => (
                   // eslint-disable-next-line react/no-array-index-key
@@ -515,7 +641,7 @@ export default function NavBar() {
                       <ListItemButton>
                         <ListItemIcon>{page.icon}</ListItemIcon>
                         <ListItemText
-                          primaryTypographyProps={{ fontSize: '14px' }}
+                          primaryTypographyProps={{ fontSize: '13px' }}
                           primary={page.title}
                           sx={{ display: { xs: 'none', md: 'flex' } }}
                         />

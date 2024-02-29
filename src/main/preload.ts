@@ -97,6 +97,12 @@ const electronHandler = {
     replayExists(exePath: string, name: string) {
       return ipcRenderer.invoke('replayExists', { exePath, name });
     },
+    getVersion() {
+      return ipcRenderer.invoke('getVersion');
+    },
+    checkVersion() {
+      ipcRenderer.invoke('checkVersion');
+    },
   },
   store: {
     isWriting: false,

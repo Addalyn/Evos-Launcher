@@ -366,6 +366,11 @@
     "November": "Noviembre",
     "December": "Diciembre"
   },
+  "admin": {
+    "Locked": "Cuenta Bloqueada",
+    "LockedUntill": "Cuenta Bloqueada hasta",
+    "Message": "Mensaje de Administrador"
+  },
   "accounts": "Cuentas",
   "actions": "Acciones",
   "addAccount": "Añadir Cuenta",
@@ -399,6 +404,7 @@
   "Not queued": "No en Cola",
   "PvP": "JcJ",
   "Custom": "Personalizada",
+  "Custom game": "Partida Personalizada",
   "Ranked": "Clasificatoria",
   "showInDiscord": "ver en Discord",
   "In Game": "En Partida",
