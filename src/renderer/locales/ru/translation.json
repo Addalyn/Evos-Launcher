@@ -385,6 +385,11 @@
     "November": "Ноябрь",
     "December": "Декабрь"
   },
+  "admin": {
+    "Locked": "Аккаунт заблокирован",
+    "LockedUntill": "Аккаунт заблокирован до",
+    "Message": "Сообщение администратора"
+  },
   "accounts": "Аккаунты",
   "actions": "Действия",
   "addAccount": "Добавить аккаунт",
@@ -426,6 +431,7 @@
   "Not queued": "Не в очереди",
   "PvP": "Противостояние",
   "Custom": "Своя игра",
+  "Custom game": "Своя игра",
   "Ranked": "Ранговый",
   "showInDiscord": "Открыть в Discord",
   "In Game": "В игре",

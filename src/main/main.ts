@@ -89,6 +89,7 @@ log.transports.file.level = 'info';
 
 const configFilePath = path.join(app.getPath('userData'), 'config.json');
 let globalDownloadPath = '';
+let currentVersion: string;
 
 interface VDFObject {
   [key: string]: string | VDFObject;
@@ -846,6 +847,14 @@ const createWindow = async () => {
     }
   });
 
+  ipcMain.handle('getVersion', async () => {
+    return currentVersion;
+  });
+
+  ipcMain.handle('checkVersion', async () => {
+    autoUpdater.checkForUpdates();
+  });
+
   ipcMain.handle('search-for-game', async (event) => {
     console.log('Searching for the game');
     const targetAppId = '402570';
@@ -1005,7 +1014,6 @@ const createWindow = async () => {
         }
         if (mainWindow) {
           mainWindow.show();
-          let currentVersion;
 
           if (process.env.NODE_ENV === 'development') {
             currentVersion = require('../../release/app/package.json').version;

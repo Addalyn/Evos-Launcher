@@ -398,6 +398,11 @@
     "November": "November",
     "December": "Dezember"
   },
+  "admin": {
+    "Locked": "Account gesperrt",
+    "LockedUntill": "Account gesperrt bis",
+    "Message": "Admin-Nachricht"
+  },
   "accounts": "Accounts",
   "actions": "Aktionen",
   "addAccount": "Account hinzufügen",
@@ -431,6 +436,7 @@
   "Not queued": "Nicht in der Warteschlange",
   "PvP": "PvP",
   "Custom": "Benutzerdefiniert",
+  "Custom game": "Benutzerdefiniertes Spiel",
   "Ranked": "Rangliste",
   "showInDiscord": "In Discord anzeigen",
   "In Game": "Im Spiel",

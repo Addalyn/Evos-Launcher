@@ -73,8 +73,16 @@ export interface PlayerData {
   handle: string;
   bannerBg: number;
   bannerFg: number;
+  titleId: number;
   status: string;
   factionData?: factionData;
+}
+
+export interface AccountData extends PlayerData {
+  locked: boolean;
+  lockedUntil: string;
+  lockedReason: string;
+  adminMessage: string;
 }
 
 export interface GroupData {
@@ -261,4 +269,17 @@ export async function fetchGameInfo(action: string) {
   } catch (error) {
     return [] as DataItem[];
   }
+}
+
+export async function getPlayerInfo(authHeader: string) {
+  if (authHeader === '') return null;
+  const ip = await window.electron.store.getItem('ip');
+  const baseUrl = `https://${ip}`;
+  return axios.get<AccountData>(`${baseUrl}/api/account/me`, {
+    headers: { Authorization: `bearer ${authHeader}` },
+  });
+}
+
+export async function getUpdateInfo() {
+  return axios.get(`https://misc.evos.live/version.json?rand=${Math.random()}`);
 }

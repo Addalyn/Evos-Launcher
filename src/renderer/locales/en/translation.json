@@ -399,6 +399,11 @@
     "November": "November",
     "December": "December"
   },
+  "admin": {
+    "Locked": "Account Banned",
+    "LockedUntill": "Account Banned until",
+    "Message": "Admin Message"
+  },
   "accounts": "Accounts",
   "actions": "Actions",
   "addAccount": "Add Account",
@@ -432,6 +437,7 @@
   "Not queued": "Not Queued",
   "PvP": "PvP",
   "Custom": "Custom",
+  "Custom game": "Custom Game",
   "Ranked": "Ranked",
   "showInDiscord": "Show in Discord",
   "In Game": "In Game",

@@ -26,7 +26,6 @@ function Queue({ queueInfo, groupData, playerData, hidePlayers }: Props) {
           const info = groupData.get(groupId);
           const hidden =
             info &&
-            info.accountIds.length > 1 &&
             hidePlayers &&
             !info.accountIds.some((accId) => !hidePlayers.has(accId));
           return (

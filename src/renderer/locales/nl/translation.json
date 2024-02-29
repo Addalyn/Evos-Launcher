@@ -398,6 +398,11 @@
     "November": "November",
     "December": "December"
   },
+  "admin": {
+    "Locked": "Account Geblokkeerd",
+    "LockedUntill": "Account Geblokkeerd tot",
+    "Message": "Admin Bericht"
+  },
   "accounts": "Accounts",
   "actions": "Acties",
   "addAccount": "Account Toevoegen",
@@ -431,6 +436,7 @@
   "Not queued": "Niet in de wachtrij",
   "PvP": "PvP",
   "Custom": "Aangepast",
+  "Custom game": "Aangepast spel",
   "Ranked": "Gerangschikt",
   "showInDiscord": "Weergeven in Discord",
   "In Game": "In Spel",

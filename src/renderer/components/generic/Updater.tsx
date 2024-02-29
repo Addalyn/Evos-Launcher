@@ -1,11 +1,22 @@
+/* eslint-disable promise/catch-or-return */
+/* eslint-disable promise/always-return */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Paper, Alert, Button } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import useHasFocus from 'renderer/lib/useHasFocus';
+import useInterval from 'renderer/lib/useInterval';
+import { getUpdateInfo } from 'renderer/lib/Evos';
+
+interface getVersion {
+  version: number;
+}
 
 function Updater() {
   const [message, setMessage] = useState('');
+  const [latestVersion, setLatestVersion] = useState<getVersion>();
+  const [version, setVersion] = useState<number>();
   const { t } = useTranslation();
 
   function handleMessage(event: any) {
@@ -20,6 +31,28 @@ function Updater() {
       window.electron.ipcRenderer.restartApp();
     }, 3000);
   }
+
+  const UPDATE_PERIOD_MS = 300000;
+  const updatePeriodMs = useHasFocus() ? UPDATE_PERIOD_MS : undefined;
+
+  useInterval(() => {
+    getUpdateInfo()
+      .then((resp) => {
+        setLatestVersion(resp.data);
+      })
+      .catch(() => {});
+  }, updatePeriodMs);
+
+  useEffect(() => {
+    if (latestVersion && message === '') {
+      window.electron.ipcRenderer.getVersion().then((v) => setVersion(v));
+      if (version) {
+        if (latestVersion?.version > version) {
+          window.electron.ipcRenderer.checkVersion();
+        }
+      }
+    }
+  }, [latestVersion, message, version]);
 
   window.electron.ipcRenderer.on('message', handleMessage);
   return (

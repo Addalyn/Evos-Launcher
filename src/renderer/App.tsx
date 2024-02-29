@@ -31,6 +31,7 @@ import LogsPage from './components/pages/LogsPage';
 
 import DiscordPage from './components/pages/DiscordPage';
 import ReplaysPage from './components/pages/ReplaysPage';
+import AdminMessage from './components/generic/AdminMessage';
 
 interface PageProps {
   title: string;
@@ -125,6 +126,7 @@ export default function App() {
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
                     <NotificationMessage />
+                    <AdminMessage />
                     <Updater />
                     <StatusPage />
                   </Box>
@@ -141,6 +143,7 @@ export default function App() {
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
                     <NotificationMessage />
+                    <AdminMessage />
                     <Updater />
                     <LogsPage />
                   </Box>
@@ -157,6 +160,7 @@ export default function App() {
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
                     <NotificationMessage />
+                    <AdminMessage />
                     <Updater />
                     <SettingsPage />
                   </Box>
@@ -173,6 +177,7 @@ export default function App() {
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
                     <NotificationMessage />
+                    <AdminMessage />
                     <Updater />
                     <AboutPage />
                   </Box>
@@ -189,6 +194,7 @@ export default function App() {
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
                     <NotificationMessage />
+                    <AdminMessage />
                     <Updater />
                     <ChangeLogPage />
                   </Box>
@@ -205,6 +211,7 @@ export default function App() {
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
                     <NotificationMessage />
+                    <AdminMessage />
                     <Updater />
                     <DownloadPage />
                   </Box>
@@ -221,6 +228,7 @@ export default function App() {
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
                     <NotificationMessage />
+                    <AdminMessage />
                     <Updater />
                     <AddAccountPage />
                   </Box>
@@ -283,6 +291,7 @@ export default function App() {
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
                     <NotificationMessage />
+                    <AdminMessage />
                     <Updater />
                     <StatsPage />
                   </Box>
@@ -299,6 +308,7 @@ export default function App() {
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
                     <NotificationMessage />
+                    <AdminMessage />
                     <Updater />
                     <PlayerStatsPage />
                   </Box>
@@ -315,6 +325,7 @@ export default function App() {
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
                     <NotificationMessage />
+                    <AdminMessage />
                     <Updater />
                     <PreviousGamesPage />
                   </Box>
@@ -331,6 +342,7 @@ export default function App() {
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
                     <NotificationMessage />
+                    <AdminMessage />
                     <Updater />
                     <DiscordPage />
                   </Box>
@@ -347,6 +359,7 @@ export default function App() {
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <Toolbar />
                     <NotificationMessage />
+                    <AdminMessage />
                     <Updater />
                     <ReplaysPage />
                   </Box>
