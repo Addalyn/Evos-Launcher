@@ -130,7 +130,8 @@
     "noLogLaunchOptionsLabel": "在启用选项中增加 -nolog",
     "noLogLaunchOptionsDisabled": "如果遇到切换多个账号时崩溃的情况，尝试启用该选项。这可能有助于缓解问题，但也可能导致更频繁的崩溃，特别是未使用多个账号时。",
     "deleteAllAccounts": "删除所有账号 (这样会退出登录)",
-    "resetApp": "重置启动器 (这样会退出登录)"
+    "resetApp": "重置启动器 (这样会退出登录)",
+    "labelDarkMode": "启用暗色模式"
   },
   "titles": {
     "-1": "",
@@ -401,7 +402,8 @@
   "admin": {
     "Locked": "账号被封禁",
     "LockedUntill": "账号封禁至",
-    "Message": "管理员消息"
+    "Message": "管理员消息",
+    "DodgeMessage": "你好{{user}}，\n我们注意到你在过去的7天内躲避了{{amount}}场游戏。\n虽然我们理解这可能有原因，但在我们的社区中保持体育精神是很重要的。\n躲避游戏不仅会影响其他人的游戏体验，还会破坏公平竞技的完整性。\n我们鼓励你以热情和承诺对待每一场比赛。\n如果这是一个错误，或者你需要删除记录，请与我们联系。\n致以最诚挚的问候，\n开发人员"
   },
   "accounts": "账号",
   "actions": "操作",

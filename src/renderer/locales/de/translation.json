@@ -12,7 +12,8 @@
     "changelog": "Änderungsprotokoll",
     "Login": "Anmelden",
     "Register": "Registrieren",
-    "discord": "Discord"
+    "discord": "Discord",
+    "replays": "Wiedergaben"
   },
   "replay": {
     "replayOpen": "Wiedergabe öffnen",
@@ -130,7 +131,8 @@
     "noLogLaunchOptionsLabel": "Hinzufügen von -nolog zu den Startoptionen",
     "noLogLaunchOptionsDisabled": "Wenn das Spiel häufig und bei verschiedenen Accounts abstürzt kann dies ggf. helfen. Es ist zu beachten, dass auch wenn es ggf. die Abstürze verhindern kann, kann es ebenfalls das Problem verschlimmbessern und zu weiteren Abstürzen führen. Besonders wenn man nicht mehrere Accounts nutzt.",
     "deleteAllAccounts": "Lösche alle Accounts (dadurch wird man ausgeloggt)",
-    "resetApp": "Anwendung zurücksetzen (dadurch wird man ausgeloggt)"
+    "resetApp": "Anwendung zurücksetzen (dadurch wird man ausgeloggt)",
+    "labelDarkMode": "Dunkler Modus"
   },
   "titles": {
     "-1": "",
@@ -401,7 +403,8 @@
   "admin": {
     "Locked": "Account gesperrt",
     "LockedUntill": "Account gesperrt bis",
-    "Message": "Admin-Nachricht"
+    "Message": "Admin-Nachricht",
+    "DodgeMessage": "Hallo {{user}},\nWir haben bemerkt, dass du in den letzten 7 Tagen {{amount}} Spiel(e) gemieden hast.\nObwohl wir verstehen, dass es dafür Gründe geben kann, ist es wichtig, den Geist des Sports in unserer Gemeinschaft aufrechtzuerhalten.\nDas Meiden von Spielen stört nicht nur das Spielerlebnis für andere, sondern untergräbt auch die Integrität fairer Spielpraktiken.\nWir ermutigen dich, jeden Match mit Enthusiasmus und Engagement anzugehen.\nWenn dies ein Fehler war oder du einen Eintrag entfernen möchtest, kontaktiere uns bitte.\nBeste Grüße,\nDie Entwickler"
   },
   "accounts": "Accounts",
   "actions": "Aktionen",

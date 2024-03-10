@@ -103,6 +103,9 @@ const electronHandler = {
     checkVersion() {
       ipcRenderer.invoke('checkVersion');
     },
+    setTheme(theme: string) {
+      ipcRenderer.invoke('setTitleBarOverlay', theme);
+    },
   },
   store: {
     isWriting: false,

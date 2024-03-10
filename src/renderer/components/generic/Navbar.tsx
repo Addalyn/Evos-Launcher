@@ -10,7 +10,6 @@ import {
   Button,
   Divider,
   Drawer,
-  IconButton,
   List,
   ListItem,
   ListItemButton,
@@ -25,8 +24,6 @@ import {
   Select,
   Alert,
 } from '@mui/material';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import ForumIcon from '@mui/icons-material/Forum';
 import InfoIcon from '@mui/icons-material/Info';
@@ -34,6 +31,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
 import DownloadIcon from '@mui/icons-material/Download';
 import BarChartIcon from '@mui/icons-material/BarChart';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import HistoryIcon from '@mui/icons-material/History';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import EvosStore, { AuthUser } from 'renderer/lib/EvosStore';
@@ -48,14 +46,13 @@ import {
   logout,
 } from 'renderer/lib/Evos';
 import { EvosError, isValidExePath, processError } from 'renderer/lib/Error';
-import Flag from 'react-flagkit';
 import { useTranslation } from 'react-i18next';
 import { trackEvent } from '@aptabase/electron/renderer';
 import { Replay } from '@mui/icons-material';
 import useHasFocus from 'renderer/lib/useHasFocus';
 import useInterval from 'renderer/lib/useInterval';
 import ErrorDialog from './ErrorDialog';
-import { logo } from '../../lib/Resources';
+import { logo, logoSmall } from '../../lib/Resources';
 import Player from '../atlas/Player';
 
 interface Language {
@@ -75,15 +72,13 @@ const lngs: { [key: string]: Language } = {
   tr: { nativeName: 'Türkçe', icon: 'TR' },
 };
 
-type PaletteMode = 'light' | 'dark';
-
 function RoundToNearest5(x: number) {
   return Math.round(x / 5) * 5;
 }
 
 export default function NavBar() {
   const evosStore = EvosStore();
-  const mode = evosStore.mode as PaletteMode;
+
   const location = useLocation();
   const { t, i18n } = useTranslation();
 
@@ -156,7 +151,6 @@ export default function NavBar() {
   }
 
   const {
-    toggleMode,
     age,
     exePath,
     ticketEnabled,
@@ -414,7 +408,10 @@ export default function NavBar() {
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
-        <Container maxWidth="xl">
+        <Container
+          maxWidth="xl"
+          sx={{ '-webkit-app-region': 'drag', minWidth: '100%' }}
+        >
           <Toolbar disableGutters sx={{ minHeight: '64px' }}>
             <Avatar
               alt="logo"
@@ -427,80 +424,37 @@ export default function NavBar() {
                 display: { xs: 'none', md: 'flex' },
               }}
             />
-            {isAuthenticated() && (
-              <Stack
-                direction="row"
-                alignItems="center"
-                sx={{
-                  flexGrow: 1,
-                  justifyContent: 'flex-end',
-                }}
-              >
-                <Tooltip title={tooltipTitle}>
-                  <span>
-                    <Button
-                      variant="contained"
-                      sx={{
-                        backgroundColor: (theme) =>
-                          activeGames[activeUser?.user as string]
-                            ? theme.palette.error.dark
-                            : theme.palette.primary.light,
-                      }}
-                      disabled={
-                        !exePath.endsWith('AtlasReactor.exe') ||
-                        isDownloading ||
-                        isPatching ||
-                        !isValidExePath(exePath) ||
-                        account?.locked
-                      }
-                      onClick={handleLaunchGameClick}
-                    >
-                      {activeGames[activeUser?.user as string]
-                        ? `${t('game.kill')} ${activeUser?.user}`
-                        : `${t('game.play')} ${activeUser?.user}`}
-                    </Button>
-                  </span>
-                </Tooltip>
-              </Stack>
-            )}
-            <Stack
-              direction="row"
-              alignItems="center"
+            <Box
               sx={{
                 flexGrow: 1,
-                justifyContent: 'flex-end',
+                justifyContent: 'flex-start',
               }}
             >
-              <IconButton sx={{ ml: 1 }} onClick={toggleMode} color="inherit">
-                {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-              </IconButton>
-            </Stack>
-            <Box sx={{ flexGrow: 0, paddingRight: '5px' }}>
-              <Select
-                value={i18n.language ? i18n.language : lngs.en.nativeName}
-                label=""
-                variant="standard"
-                disableUnderline
-                onChange={(e) => i18n.changeLanguage(e.target.value)}
-                sx={{ width: '100%', height: '55px' }}
-              >
-                {Object.keys(lngs).map((lng) => (
-                  <MenuItem value={lng} key={lng}>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <Flag country={lngs[lng].icon} size={20} />
-                      <span style={{ marginLeft: '8px' }}>{'  '}</span>
-                      <ListItemText primary={lngs[lng].nativeName} />
-                    </div>
-                  </MenuItem>
-                ))}
-              </Select>
+              <Avatar
+                alt="logo"
+                variant="square"
+                src={logoSmall()}
+                sx={{
+                  flexShrink: 1,
+                  width: 40,
+                  height: 40,
+                  display: { xs: 'flex', md: 'none' },
+                }}
+              />
             </Box>
-            <Box sx={{ flexGrow: 0 }}>
+
+            <Box
+              sx={{
+                flexGrow: 0,
+                justifyContent: 'flex-end',
+                marginTop: '5px',
+              }}
+            >
               {isAuthenticated() && (
                 <Stack
                   direction="row"
                   alignItems="center"
-                  sx={{ cursor: 'pointer' }}
+                  sx={{ cursor: 'pointer', '-webkit-app-region': 'no-drag' }}
                 >
                   <Select
                     value={activeUser?.handle}
@@ -509,9 +463,10 @@ export default function NavBar() {
                     variant="standard"
                     disableUnderline
                     sx={{
-                      width: '100%',
+                      width: '91%',
                       height: '50.5px',
                     }}
+                    inputProps={{ IconComponent: () => null }}
                   >
                     <ListSubheader>{t('accounts')}</ListSubheader>
                     {authenticatedUsers.map((user) => (
@@ -519,20 +474,11 @@ export default function NavBar() {
                         value={user.handle}
                         key={user.user}
                         onClick={handleSwitchUser}
+                        sx={{
+                          width: '100%',
+                        }}
                       >
-                        <div
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            width: '100%',
-                            height: '36.5px',
-                          }}
-                        >
-                          <Player
-                            info={playerInfoMap[user.handle]}
-                            disableSkew
-                          />
-                        </div>
+                        <Player info={playerInfoMap[user.handle]} disableSkew />
                       </MenuItem>
                     ))}
                     <ListSubheader>{t('actions')}</ListSubheader>
@@ -572,6 +518,7 @@ export default function NavBar() {
                 </NavLink>
               )}
             </Box>
+            <Box sx={{ width: '98px' }} />
           </Toolbar>
         </Container>
       </AppBar>
@@ -580,6 +527,8 @@ export default function NavBar() {
           variant="permanent"
           sx={{
             width: drawerWidth,
+            maxWidth: drawerWidth,
+            overflow: 'hidden',
             flexShrink: 0,
             [`& .MuiDrawer-paper`]: {
               width: drawerWidth,
@@ -587,10 +536,51 @@ export default function NavBar() {
           }}
         >
           <Toolbar sx={{ Height: '70px' }} />
+
+          <Tooltip title={tooltipTitle}>
+            <span>
+              <Button
+                variant="text"
+                sx={{
+                  backgroundColor: (theme) =>
+                    activeGames[activeUser?.user as string]
+                      ? theme.palette.error.dark
+                      : '',
+                  '-webkit-app-region': 'no-drag',
+                  height: '70px',
+                }}
+                disabled={
+                  !exePath.endsWith('AtlasReactor.exe') ||
+                  isDownloading ||
+                  isPatching ||
+                  !isValidExePath(exePath) ||
+                  account?.locked
+                }
+                onClick={handleLaunchGameClick}
+              >
+                <SportsEsportsIcon
+                  sx={{
+                    height: '35px',
+                    width: '35px',
+                    display: { xs: 'flex', md: 'none' },
+                  }}
+                />
+                <Typography
+                  variant="button"
+                  display="block"
+                  gutterBottom
+                  sx={{ display: { xs: 'none', md: 'flex' } }}
+                >
+                  {activeGames[activeUser?.user as string]
+                    ? `${t('game.kill')} ${activeUser?.user}`
+                    : `${t('game.play')} ${activeUser?.user}`}
+                </Typography>
+              </Button>
+            </span>
+          </Tooltip>
           <Paper
             elevation={0}
             sx={{
-              marginTop: `auto`,
               width: '100%',
               borderRadius: 0,
               display: { xs: 'none', md: 'flex' },
@@ -613,15 +603,18 @@ export default function NavBar() {
           </Paper>
           <Box
             sx={{
+              height: '100%',
               overflow: 'hidden',
-              Height: '70px',
             }}
           >
             <Paper
               sx={{
-                height: '100vh',
+                height: '100%',
+                maxHeight: '100%',
                 boxShadow: 'none',
                 borderRadius: 0,
+                overflowY: 'auto',
+                overflowX: 'hidden',
               }}
             >
               <List>
@@ -641,7 +634,7 @@ export default function NavBar() {
                       <ListItemButton>
                         <ListItemIcon>{page.icon}</ListItemIcon>
                         <ListItemText
-                          primaryTypographyProps={{ fontSize: '13px' }}
+                          primaryTypographyProps={{ fontSize: '16px' }}
                           primary={page.title}
                           sx={{ display: { xs: 'none', md: 'flex' } }}
                         />

@@ -390,6 +390,12 @@ const createWindow = async () => {
     minWidth: 800,
     minHeight: 400,
     autoHideMenuBar: true,
+    titleBarStyle: 'hidden',
+    titleBarOverlay: {
+      color: '#272727',
+      symbolColor: '#74b1be',
+      height: 63,
+    },
     icon: getAssetPath('logo.png'),
     webPreferences: {
       preload: app.isPackaged
@@ -413,6 +419,15 @@ const createWindow = async () => {
 
   globalShortcut.register('CmdOrCtrl+F12', () => {
     mainWindow?.webContents.toggleDevTools();
+  });
+
+  globalShortcut.register('CmdOrCtrl+F2', () => {
+    fs.writeFileSync(
+      configFilePath,
+      JSON.stringify(defaultConfig, null, 2),
+      'utf-8',
+    );
+    mainWindow?.reload();
   });
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
@@ -564,6 +579,14 @@ const createWindow = async () => {
       console.error(error);
       return [];
     }
+  });
+  // settheme
+  ipcMain.handle('setTitleBarOverlay', async (event, args) => {
+    mainWindow?.setTitleBarOverlay({
+      color: args === 'dark' ? '#272727' : '#1976d2',
+      symbolColor: args === 'dark' ? '#74b1be' : '#ffffff',
+      height: 63,
+    });
   });
 
   ipcMain.handle('getLogContent', async (event, args) => {

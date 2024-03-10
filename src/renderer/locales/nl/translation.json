@@ -12,7 +12,8 @@
     "changelog": "Wijzigingslog",
     "Login": "Inloggen",
     "Register": "Registreren",
-    "discord": "Discord"
+    "discord": "Discord",
+    "replays": "Herhalingen"
   },
   "replay": {
     "replayOpen": "Replay Openen",
@@ -277,7 +278,8 @@
     "noLogLaunchOptionsLabel": "Voeg -nolog toe aan opstartopties",
     "noLogLaunchOptionsDisabled": "Als je crashes ervaart op meerdere accounts, overweeg dan deze oplossing. Houd er echter rekening mee dat het de kwestie kan verlichten, maar er is ook een kans dat het het probleem kan verergeren en kan leiden tot verdere crashes, vooral als je geen meerdere accounts gebruikt.",
     "deleteAllAccounts": "Verwijder Alle Accounts (dit zal je uitloggen)",
-    "resetApp": "Reset Toepassing (dit zal je uitloggen)"
+    "resetApp": "Reset Toepassing (dit zal je uitloggen)",
+    "labelDarkMode": "Donkere Modus"
   },
   "maps": {
     "map": "Map",
@@ -401,7 +403,8 @@
   "admin": {
     "Locked": "Account Geblokkeerd",
     "LockedUntill": "Account Geblokkeerd tot",
-    "Message": "Admin Bericht"
+    "Message": "Admin Bericht",
+    "DodgeMessage": "Hallo {{user}},\nWe hebben opgemerkt dat je in de afgelopen 7 dagen {{amount}} spel(len) hebt vermeden.\nHoewel we begrijpen dat hier misschien redenen voor zijn, is het belangrijk om de sportieve geest in onze gemeenschap te handhaven.\nHet vermijden van spellen verstoort niet alleen de game-ervaring voor anderen, maar ondermijnt ook de integriteit van eerlijk spel.\nWe moedigen je aan om elke wedstrijd met enthousiasme en toewijding aan te gaan.\nAls dit een vergissing was of als je een record moet verwijderen, neem dan contact met ons op.\nMet vriendelijke groet,\nDe Ontwikkelaars"
   },
   "accounts": "Accounts",
   "actions": "Acties",

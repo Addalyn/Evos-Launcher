@@ -127,7 +127,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     }
 
     set({
-      mode: mode || 'dark',
+      mode: mode !== 'dark' && mode !== 'light' ? 'dark' : mode,
       ip: ip || '',
       authenticatedUsers: users || [],
       activeUser: activeUser || null,
@@ -140,7 +140,9 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       showAllChat: showAllChat || 'true',
       enablePatching: 'true', // enablePatching || 'true',
     });
-
+    window.electron.ipcRenderer.setTheme(
+      mode !== 'dark' && mode !== 'light' ? 'dark' : mode,
+    );
     get().switchUser(activeUser?.user || users[0]?.user || '');
   },
 
@@ -159,6 +161,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     set({ mode: newMode });
 
     try {
+      window.electron.ipcRenderer.setTheme(newMode);
       await window.electron.store.setItem('mode', newMode);
     } catch (error) {
       console.error('Error while saving mode to storage:', error);

@@ -12,7 +12,8 @@
     "changelog": "Journal des modifications",
     "Login": "Se connecter",
     "Register": "S'inscrire",
-    "discord": "Discord"
+    "discord": "Discord",
+    "replays": "Replays"
   },
   "replay": {
     "replayOpen": "Ouvrir la relecture",
@@ -277,7 +278,8 @@
     "noLogLaunchOptionsLabel": "Ajouter -nolog aux options de lancement",
     "noLogLaunchOptionsDisabled": "Si vous rencontrez des plantages sur plusieurs comptes, envisagez d'essayer cette solution. Gardez cependant à l'esprit que bien que ceci puisse aider à atténuer le problème, il y a aussi une chance qu'il puisse potentiellement exacerber le problème et conduire à d'autres plantages, surtout si vous n'utilisez pas plusieurs comptes.",
     "deleteAllAccounts": "Supprimer tous les comptes (cela vous déconnectera)",
-    "resetApp": "Réinitialiser l'application (cela vous déconnectera)"
+    "resetApp": "Réinitialiser l'application (cela vous déconnectera)",
+    "labelDarkMode": "Mode sombre"
   },
   "maps": {
     "map": "Map",
@@ -401,7 +403,8 @@
   "admin": {
     "Locked": "Compte banni",
     "LockedUntill": "Compte banni jusqu'au",
-    "Message": "Message de l'administrateur"
+    "Message": "Message de l'administrateur",
+    "DodgeMessage": "Bonjour {{user}},\nNous avons remarqué que vous avez évité {{amount}} jeu(x) au cours des 7 derniers jours.\nBien que nous comprenions qu'il puisse y avoir des raisons à cela, il est important de maintenir l'esprit sportif dans notre communauté.\nÉviter les jeux perturbe non seulement l'expérience de jeu des autres, mais compromet également l'intégrité du jeu équitable.\nNous vous encourageons à aborder chaque match avec enthousiasme et engagement.\nSi cela était une erreur ou si vous devez supprimer un enregistrement, veuillez nous contacter.\nCordialement,\nLes Développeurs"
   },
   "accounts": "Comptes",
   "actions": "Actions",

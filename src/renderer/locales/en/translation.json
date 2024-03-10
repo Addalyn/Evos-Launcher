@@ -131,7 +131,8 @@
     "noLogLaunchOptionsLabel": "Add -nolog to launch options",
     "noLogLaunchOptionsDisabled": "If you're experiencing crashes across multiple accounts, consider trying this solution. Keep in mind, though, that while it might help alleviate the issue, there's also a chance it could potentially exacerbate the problem and lead to further  crashes, especially if you do not use multiple accounts.",
     "deleteAllAccounts": "Delete All Accounts (this will log you out)",
-    "resetApp": "Reset Application (this will log you out)"
+    "resetApp": "Reset Application (this will log you out)",
+    "labelDarkMode": "Dark Mode"
   },
   "titles": {
     "-1": "",
@@ -402,7 +403,8 @@
   "admin": {
     "Locked": "Account Banned",
     "LockedUntill": "Account Banned until",
-    "Message": "Admin Message"
+    "Message": "Admin Message",
+    "DodgeMessage": "Hello {{user}},\nWe've noticed you've dodged {{amount}} game(s) in the past 7 days.\nWhile we understand that there may be reasons for this, it's important to uphold the spirit of sportsmanship in our community.\nDodging games not only disrupts the gaming experience for others but also undermines the integrity of fair play.\nWe encourage you to approach each match with enthusiasm and commitment.\nIf this was a mistake or you need to remove a record, please contact us.\nBest regards,\nThe Devs"
   },
   "accounts": "Accounts",
   "actions": "Actions",

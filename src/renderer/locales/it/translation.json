@@ -12,7 +12,8 @@
     "changelog": "Aggiornamenti",
     "Login": "Login",
     "Register": "Registrati",
-    "discord": "Discord"
+    "discord": "Discord",
+    "replays": "Replays"
   },
   "replay": {
     "replayOpen": "Apri Replay",
@@ -249,7 +250,8 @@
     "noLogLaunchOptionsLabel": "Aggiungi -nolog alle opzioni di lancio",
     "noLogLaunchOptionsDisabled": "Se riscontri dei crash su più account, puoi provare con questa soluzione. Attenzione, sebbene questa soluzione possa mitigare il problema, c'è anche la possibilità che possa peggiorarlo e causare ulteriori crash, specialmente se non usi account multipli",
     "deleteAllAccounts": "Cancella tutti gli Account (questa operazione ti farà disconnettere)",
-    "resetApp": "Resetta l'Applicazione (questa operazione ti farà disconnettere)"
+    "resetApp": "Resetta l'Applicazione (questa operazione ti farà disconnettere)",
+    "labelDarkMode": "Modalità Scura"
   },
   "maps": {
     "map": "Mappa",
@@ -373,7 +375,8 @@
   "admin": {
     "Locked": "Account bloccato",
     "LockedUntill": "Account bloccato fino al",
-    "Message": "Messaggio dell'amministratore"
+    "Message": "Messaggio dell'amministratore",
+    "DodgeMessage": "Ciao {{user}},\nAbbiamo notato che hai evitato {{amount}} partita(e) negli ultimi 7 giorni.\nSebbene comprendiamo che ci possano essere motivi per questo, è importante mantenere lo spirito sportivo nella nostra comunità.\nEvitare le partite non solo disturba l'esperienza di gioco degli altri, ma compromette anche l'integrità del gioco leale.\nTi incoraggiamo ad affrontare ogni partita con entusiasmo e impegno.\nSe si è trattato di un errore o se è necessario rimuovere un record, ti preghiamo di contattarci.\nCordiali saluti,\nGli Sviluppatori"
   },
   "accounts": "Accounts",
   "actions": "Azioni",
