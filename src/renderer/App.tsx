@@ -7,7 +7,6 @@ import {
   createTheme,
   CssBaseline,
   ThemeProvider,
-  Toolbar,
 } from '@mui/material';
 
 import { useTranslation } from 'react-i18next';
@@ -103,6 +102,40 @@ export default function App() {
             dark: colors.red[900],
           },
         },
+        components: {
+          MuiCssBaseline: {
+            styleOverrides: {
+              body: {
+                '&::-webkit-scrollbar, & *::-webkit-scrollbar': {
+                  backgroundColor: 'transparent',
+                  borderRadius: 0,
+                  width: '8px',
+                },
+                '&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb': {
+                  borderRadius: 0,
+                  backgroundColor: mode === 'dark' ? '#6b6b6b' : '#1976d2',
+                  minHeight: 24,
+                  border: `0px solid ${mode === 'dark' ? '#272727' : '#1976d2'}`,
+                },
+                '&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus':
+                  {
+                    backgroundColor: '#959595',
+                  },
+                '&::-webkit-scrollbar-thumb:active, & *::-webkit-scrollbar-thumb:active':
+                  {
+                    backgroundColor: '#959595',
+                  },
+                '&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover':
+                  {
+                    backgroundColor: '#959595',
+                  },
+                '&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner': {
+                  backgroundColor: '#272727',
+                },
+              },
+            },
+          },
+        },
       }),
     [mode],
   );
@@ -124,7 +157,6 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
-                    <Toolbar />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />
@@ -141,7 +173,6 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
-                    <Toolbar />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />
@@ -158,7 +189,6 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
-                    <Toolbar />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />
@@ -175,7 +205,6 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
-                    <Toolbar />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />
@@ -192,7 +221,6 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
-                    <Toolbar />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />
@@ -209,7 +237,6 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
-                    <Toolbar />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />
@@ -226,7 +253,6 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
-                    <Toolbar />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />
@@ -289,7 +315,6 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
-                    <Toolbar />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />
@@ -306,7 +331,6 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
-                    <Toolbar />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />
@@ -323,7 +347,6 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
-                    <Toolbar />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />
@@ -340,7 +363,6 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
-                    <Toolbar />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />
@@ -357,7 +379,6 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
-                    <Toolbar />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />

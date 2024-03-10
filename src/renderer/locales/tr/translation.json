@@ -131,7 +131,8 @@
     "noLogLaunchOptionsLabel": "-nolog Bayrağını Açılış Seçeneklerine Ekle",
     "noLogLaunchOptionsDisabled": "Eğer birden fazla hesapla çökme yaşıyorsanız bu seçeneği kullanın. Ama her ne kadar sorunu çözmeye yardım etse de, ileride daha da fazla çökmelere sebep olabilir, özellikle birden fazla hesap kullanmıyorsanız.",
     "deleteAllAccounts": "Bütün Hesapları Sil (hesaplardan çıkış yapar)",
-    "resetApp": "Uygulamayı Sıfırla (hesaplardan çıkış yapar)"
+    "resetApp": "Uygulamayı Sıfırla (hesaplardan çıkış yapar)",
+    "labelDarkMode": "Karanlık Mod"
   },
   "titles": {
     "-1": "",
@@ -402,7 +403,8 @@
   "admin": {
     "Locked": "Hesap Yasaklandı",
     "LockedUntill": "Hesap Yasaklandı, Şu tarihe kadar",
-    "Message": "Yönetici Mesajı"
+    "Message": "Yönetici Mesajı",
+    "DodgeMessage": "Merhaba {{user}},\nSon 7 günde {{amount}} oyunu atladığını fark ettik.\nBunun için belki nedenler olduğunu anlıyoruz, ancak topluluğumuzda spor ruhunu korumak önemlidir.\nOyunları atlamak sadece diğerleri için oyun deneyimini bozmakla kalmaz, aynı zamanda adil oyunun bütünlüğünü de zedeler.\nHer maça coşku ve bağlılıkla yaklaşmanızı öneririz.\nBu bir hata ise veya bir kaydı kaldırmam gerekiyorsa, lütfen bize ulaşın.\nSaygılarımızla,\nGeliştiriciler"
   },
   "accounts": "Hesaplar",
   "actions": "Eylemler",

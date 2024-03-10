@@ -30,14 +30,14 @@
     "rowsPerPage": "Linhas por página",
     "discord": "Enviar para o Discord",
     "close": "Fechar",
-    "launchGame": "Copiar e Iniciar Jogo",
-    "copyText": "Copiar Texto",
-    "copyTextAndOrLaunch": "Copiar Texto e/ou Iniciar Jogo",
-    "openCopyDialog": "copiar código do jogo",
-    "openReplay": "Abrir Repetição",
-    "downloadReplay": "Baixar Repetição",
-    "pasteInGameChat": "Após iniciar o jogo,<1/>por favor cole o código no chat usando o atalho (Ctrl+V).<1/>O código será automaticamente copiado para sua área de transferência.",
-    "screenshotError": "Erro ao tirar screenshot. Por favor, tente novamente."
+    "launchGame": "Copie e abra o jogo",
+    "copyText": "Copie o texto",
+    "copyTextAndOrLaunch": "Copie o text e/ou abra o jogo",
+    "openCopyDialog": "Copie o código de jogo",
+    "openReplay": "Abra replay",
+    "downloadReplay": "Baixe o replay",
+    "pasteInGameChat": "Depois de abrir o jogo,<1/>por favor copie o código dentro do chat usando o atalho (CTR+V).<1/>O código vai ser automaticamente copiado para a área de transferência.",
+    "screenshotError": "Erro tirando screenshot, por favor tente novamente."
   },
   "formatAge": {
     "justNow": "Agora",
@@ -278,7 +278,8 @@
     "noLogLaunchOptionsLabel": "Adicione -nolog para iniciar opções",
     "noLogLaunchOptionsDisabled": "Se você estiver presenciando fechamentos em várias contas, considere esta solução. Tenha em mente, no entanto, que apesar de aliviar o problema, existem as chances de aumentar os problemas e levar para futuros fechamentos, especialmente se você não usa várias contas.",
     "deleteAllAccounts": "Deletar todas as contas (isso irá te desconectar)",
-    "resetApp": "Reiniciar aplicativo (isso irá te desconectar)"
+    "resetApp": "Reiniciar aplicativo (isso irá te desconectar)",
+    "labelDarkMode": "Modo escuro"
   },
   "maps": {
     "map": "Mapa",
@@ -402,7 +403,8 @@
   "admin": {
     "Locked": "Conta Banida",
     "LockedUntill": "Conta Banida até",
-    "Message": "Mensagem do Administrador"
+    "Message": "Mensagem do Administrador",
+    "DodgeMessage": "Olá {{user}},\nPercebemos que você evitou {{amount}} jogo(s) nos últimos 7 dias.\nEmbora entendamos que possa haver razões para isso, é importante manter o espírito esportivo em nossa comunidade.\nEvitar jogos não apenas perturba a experiência de jogo dos outros, mas também compromete a integridade do jogo justo.\nEncorajamos você a abordar cada partida com entusiasmo e comprometimento.\nSe isso foi um erro ou se você precisa remover um registro, entre em contato conosco.\nAtenciosamente,\nOs Desenvolvedores"
   },
   "accounts": "Contas",
   "actions": "Ações",

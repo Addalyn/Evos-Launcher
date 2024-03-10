@@ -1,3 +1,15 @@
+# 1.9.3
+
+- Translation fixes and new translation added for dodging games
+- Faillback if language doesnt exist for MOTD and Notifications to english.
+- Added new admin message if you have dodged games in the past 7 days.
+  If you feel like this is a false positive please contact us on discord with the reason why you think this is a false positive.
+- Added a fallback reset application if for some reason the application is not working as it should. this is `ctrl+F2`.
+  This will reset your config file and you will need to relogin and set your settings again.
+- Fixed an issue where if you build the Launcher you would needed to use npm install --force this is fixed as the npm package that was causing issues has been updated.
+- Redesigned UIX, custom titlebar, moved launch game button to top left above motd, moved language selection and darkmode to settings page. and more tweaks and fixes.
+- Made splash screen dragable
+
 # 1.9.2
 
 - Add a periodicly check for updates, no need to restart Launcher again if theres a new update..

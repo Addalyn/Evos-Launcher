@@ -12,7 +12,8 @@
     "changelog": "Actualizaciones",
     "Login": "Conexión",
     "Register": "Registrarse",
-    "discord": "Discord"
+    "discord": "Discord",
+    "replays": "Repetición"
   },
   "replay": {
     "replayOpen": "Abrir Repetición",
@@ -245,7 +246,8 @@
     "noLogLaunchOptionsLabel": "Añade -nolog en las opciones de lanzamiento",
     "noLogLaunchOptionsDisabled": "Si experimentas cierres del juego en varias cuentas, considera intentar esta solución. Aunque esto pueda ayudar a aliviar el problema, Existe la posibilidad de agravarlo, especialmente si no usas multiples cuentas.",
     "deleteAllAccounts": "Borra todas las cuentas (esto te desconectará)",
-    "resetApp": "Reset Aplicación (esto te desconectará)"
+    "resetApp": "Reset Aplicación (esto te desconectará)",
+    "labelDarkMode": "Modo Oscuro"
   },
   "maps": {
     "map": "Mapa",
@@ -369,7 +371,8 @@
   "admin": {
     "Locked": "Cuenta Bloqueada",
     "LockedUntill": "Cuenta Bloqueada hasta",
-    "Message": "Mensaje de Administrador"
+    "Message": "Mensaje de Administrador",
+    "DodgeMessage": "Hola {{user}},\nHemos notado que has esquivado {{amount}} juego(s) en los últimos 7 días.\nSi bien entendemos que puede haber razones para esto, es importante mantener el espíritu deportivo en nuestra comunidad.\nEvitar juegos no solo interrumpe la experiencia de juego para otros, sino que también socava la integridad del juego limpio.\nTe animamos a abordar cada partido con entusiasmo y compromiso.\nSi esto fue un error o necesitas eliminar un registro, por favor contáctanos.\nAtentamente,\nLos Desarrolladores"
   },
   "accounts": "Cuentas",
   "actions": "Acciones",

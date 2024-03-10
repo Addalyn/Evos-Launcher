@@ -15,6 +15,7 @@ import {
   MenuItem,
   Tooltip,
   Alert,
+  ListItemText,
 } from '@mui/material';
 import { logoSmall } from 'renderer/lib/Resources';
 import EvosStore from 'renderer/lib/EvosStore';
@@ -22,6 +23,24 @@ import { changePassword, logout } from 'renderer/lib/Evos';
 import { useNavigate } from 'react-router-dom';
 import { isValidExePath, isWarningPath } from 'renderer/lib/Error';
 import { useTranslation } from 'react-i18next';
+import Flag from 'react-flagkit';
+
+interface Language {
+  nativeName: string;
+  icon: string;
+}
+const lngs: { [key: string]: Language } = {
+  en: { nativeName: 'English', icon: 'US' },
+  nl: { nativeName: 'Nederlands', icon: 'NL' },
+  fr: { nativeName: 'Français', icon: 'FR' },
+  ru: { nativeName: 'Русский', icon: 'RU' },
+  de: { nativeName: 'Deutsch', icon: 'DE' },
+  es: { nativeName: 'Español', icon: 'ES' },
+  it: { nativeName: 'Italiano', icon: 'IT' },
+  br: { nativeName: 'Português', icon: 'BR' },
+  zh: { nativeName: '中文', icon: 'CN' },
+  tr: { nativeName: 'Türkçe', icon: 'TR' },
+};
 
 export function truncateDynamicPath(filePath: string, maxChars: number) {
   if (filePath === '') return filePath;
@@ -49,6 +68,8 @@ export default function SettingsPage() {
   const {
     ip,
     exePath,
+    mode,
+    toggleMode,
     setExePath,
     ticketEnabled,
     setTicketEnabled,
@@ -68,7 +89,7 @@ export default function SettingsPage() {
   const [password1, setPassword1] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const signOut = () => {
     logout(activeUser?.token ?? '');
@@ -164,6 +185,40 @@ export default function SettingsPage() {
 
   return (
     <>
+      <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={6}>
+            <FormGroup>
+              <FormControlLabel
+                control={<Switch />}
+                label={t('settings.labelDarkMode')}
+                checked={mode === 'dark'}
+                onChange={toggleMode}
+              />
+            </FormGroup>
+          </Grid>
+          <Grid item xs={6}>
+            <Select
+              value={i18n.language ? i18n.language : lngs.en.nativeName}
+              label=""
+              variant="standard"
+              disableUnderline
+              onChange={(e) => i18n.changeLanguage(e.target.value)}
+              sx={{ width: '100%', height: '55px' }}
+            >
+              {Object.keys(lngs).map((lng) => (
+                <MenuItem value={lng} key={lng}>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <Flag country={lngs[lng].icon} size={20} />
+                    <span style={{ marginLeft: '8px' }}>{'  '}</span>
+                    <ListItemText primary={lngs[lng].nativeName} />
+                  </div>
+                </MenuItem>
+              ))}
+            </Select>
+          </Grid>
+        </Grid>
+      </Paper>
       <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
         <Grid
           container
