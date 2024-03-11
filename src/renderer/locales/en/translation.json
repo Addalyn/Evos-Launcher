@@ -342,7 +342,7 @@
   },
   "stats": {
     "gamesPlayed": "Games Played",
-    "gamesPlayedNoCapitalize": "games played",
+    "gamesPlayedNoCapitalize": "games played (for the year)",
     "perMonth": "Per Month, With a total of",
     "by": "by",
     "perChar": "Per Character",

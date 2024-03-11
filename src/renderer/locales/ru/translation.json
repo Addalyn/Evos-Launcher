@@ -329,7 +329,7 @@
   },
   "stats": {
     "gamesPlayed": "Игр",
-    "gamesPlayedNoCapitalize": "всего",
+    "gamesPlayedNoCapitalize": "всего (за год)",
     "perMonth": "за каждый месяц,",
     "by": "у",
     "perChar": "на каждом персонаже",

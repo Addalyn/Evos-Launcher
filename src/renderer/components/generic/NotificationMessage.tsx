@@ -7,8 +7,8 @@ import Snowfall from 'react-snowfall';
 import { getNotification } from 'renderer/lib/Evos';
 
 function NotificationMessage() {
-  const [notice, setNotice] = useState<string>('');
-  const [severity, setSeverity] = useState<string>('warning');
+  const [notice, setNotice] = useState<string | null>(null);
+  const [severity, setSeverity] = useState<string>('');
   const [special, setSpecial] = useState<string>('');
   const [specialWidth, setSpecialWidth] = useState<string>('100%');
   const [specialHeight, setSpecialHeight] = useState<string>('90px');
@@ -74,7 +74,7 @@ function NotificationMessage() {
           }}
         />
       )}
-      {notice !== '' && (
+      {notice !== null && (
         <Paper elevation={0} sx={{ width: '100%' }}>
           <Alert
             severity={severity as AlertColor}

@@ -342,7 +342,7 @@
   },
   "stats": {
     "gamesPlayed": "Oynanan Oyun Sayısı",
-    "gamesPlayedNoCapitalize": "oyun oynandı",
+    "gamesPlayedNoCapitalize": "oyun oynandı (yıl için)",
     "perMonth": "Her Ay, Toplamda",
     "by": "by",
     "perChar": "Karakter Başına",

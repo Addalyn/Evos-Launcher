@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -57,6 +58,16 @@ function AboutPage() {
                 rel="noreferrer"
                 style={{ color: 'unset' }}
               />
+            ),
+            h1: ({ node, ...props }) => (
+              <Typography variant="h2" component="h1" gutterBottom>
+                {props.children}
+              </Typography>
+            ),
+            h2: ({ node, ...props }) => (
+              <Typography variant="h4" component="h2" gutterBottom>
+                {props.children}
+              </Typography>
             ),
           }}
         >
