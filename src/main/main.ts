@@ -655,6 +655,25 @@ const createWindow = async () => {
     }
   });
 
+  ipcMain.handle('saveReplay', async (event, args) => {
+    try {
+      const { exePath, name, data } = args;
+      const replaysFolder = path.join(
+        path.dirname(path.dirname(exePath)),
+        'Replays',
+      );
+      fs.writeFileSync(
+        path.join(replaysFolder, name),
+        JSON.stringify(data),
+        'utf-8',
+      );
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  });
+
   async function downloadGame(
     filedirectory: any,
     fileName: string,
