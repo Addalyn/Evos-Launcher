@@ -26,7 +26,10 @@ export type Channels =
   | 'translate'
   | 'translateReturn'
   | 'getReplayData'
-  | 'getReplayContent';
+  | 'getReplayContent'
+  | 'downloadGame'
+  | 'download progress'
+  | 'download complete';
 
 const electronHandler = {
   isPackaged: process.env.NODE_ENV === 'production',

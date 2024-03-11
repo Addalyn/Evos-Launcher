@@ -1,5 +1,6 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable promise/always-return */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -33,6 +34,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import HistoryIcon from '@mui/icons-material/History';
+import LogoDevIcon from '@mui/icons-material/LogoDev';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import EvosStore, { AuthUser } from 'renderer/lib/EvosStore';
 import useWindowDimensions from 'renderer/lib/useWindowDimensions';
@@ -81,61 +83,65 @@ export default function NavBar() {
 
   const location = useLocation();
   const { t, i18n } = useTranslation();
+  const [isDev, setIsDev] = useState(false);
 
-  const pages = [
-    { title: t('menuOptions.status'), href: '/', icon: <HomeIcon /> },
-    {
-      title: t('menuOptions.gstats'),
-      href: '/stats',
-      icon: <BarChartIcon />,
-    },
-    {
-      title: t('menuOptions.pstats'),
-      href: '/playerstats',
-      icon: <BarChartIcon />,
-    },
-    {
-      title: t('menuOptions.previousGames'),
-      href: '/previousgames',
-      icon: <HistoryIcon />,
-    },
-    {
-      title: t('menuOptions.gameLogs'),
-      href: '/logs',
-      icon: <TextSnippetIcon />,
-    },
-    {
-      title: t('menuOptions.replays', 'Replays'),
-      href: '/replays',
-      icon: <Replay />,
-    },
-    {
-      title: t('menuOptions.download'),
-      href: '/download',
-      icon: <DownloadIcon />,
-    },
-    {
-      title: t('menuOptions.settings'),
-      href: '/settings',
-      icon: <SettingsIcon />,
-      devider: true,
-    },
-    {
-      title: t('menuOptions.joinDiscord'),
-      href: '/discord',
-      icon: <ForumIcon />,
-    },
-    {
-      title: t('menuOptions.changelog'),
-      href: '/changelog',
-      icon: <GitHubIcon />,
-    },
-    {
-      title: t('menuOptions.about'),
-      href: '/about',
-      icon: <InfoIcon />,
-    },
-  ];
+  const pages = useMemo(
+    () => [
+      { title: t('menuOptions.status'), href: '/', icon: <HomeIcon /> },
+      {
+        title: t('menuOptions.gstats'),
+        href: '/stats',
+        icon: <BarChartIcon />,
+      },
+      {
+        title: t('menuOptions.pstats'),
+        href: '/playerstats',
+        icon: <BarChartIcon />,
+      },
+      {
+        title: t('menuOptions.previousGames'),
+        href: '/previousgames',
+        icon: <HistoryIcon />,
+      },
+      {
+        title: t('menuOptions.gameLogs'),
+        href: '/logs',
+        icon: <TextSnippetIcon />,
+      },
+      {
+        title: t('menuOptions.replays', 'Replays'),
+        href: '/replays',
+        icon: <Replay />,
+      },
+      {
+        title: t('menuOptions.download'),
+        href: '/download',
+        icon: <DownloadIcon />,
+      },
+      {
+        title: t('menuOptions.settings'),
+        href: '/settings',
+        icon: <SettingsIcon />,
+        devider: true,
+      },
+      {
+        title: t('menuOptions.joinDiscord'),
+        href: '/discord',
+        icon: <ForumIcon />,
+      },
+      {
+        title: t('menuOptions.changelog'),
+        href: '/changelog',
+        icon: <GitHubIcon />,
+      },
+      {
+        title: t('menuOptions.about'),
+        href: '/about',
+        icon: <InfoIcon />,
+      },
+    ],
+    [t],
+  );
 
   function FormatAge(ageMs: number) {
     if (ageMs < 5000) {
@@ -178,6 +184,9 @@ export default function NavBar() {
         .then((data) => {
           const info = data.data as PlayerData;
           info.status = info.titleId as unknown as string;
+          if (info.titleId === 26) {
+            setIsDev(true);
+          }
           return info as PlayerData;
         })
         .catch(() => {
@@ -218,6 +227,18 @@ export default function NavBar() {
     navigate,
     updateAuthenticatedUsers,
   ]);
+
+  // Dev stuff not ready for release
+  useEffect(() => {
+    if (isDev) {
+      pages.push({
+        title: 'Developer Tools',
+        href: '/dev',
+        icon: <LogoDevIcon />,
+        devider: true,
+      });
+    }
+  }, [isDev, pages]);
 
   const handleLogOut = () => {
     logout(activeUser?.token ?? '');
@@ -442,7 +463,64 @@ export default function NavBar() {
                 }}
               />
             </Box>
-
+            {isAuthenticated() &&
+              exePath.endsWith('AtlasReactor.exe') &&
+              !isDownloading &&
+              !isPatching &&
+              isValidExePath(exePath) &&
+              !account?.locked && (
+                <Box
+                  sx={{
+                    flexGrow: 1,
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Tooltip title={tooltipTitle}>
+                    <span>
+                      <Button
+                        variant="outlined"
+                        className={
+                          activeGames[activeUser?.user as string]
+                            ? 'glow-on-hover active'
+                            : 'glow-on-hover '
+                        }
+                        sx={{
+                          color: 'white',
+                          '-webkit-app-region': 'no-drag',
+                          height: '49.5px',
+                          borderRadius: '0px',
+                        }}
+                        disabled={
+                          !exePath.endsWith('AtlasReactor.exe') ||
+                          isDownloading ||
+                          isPatching ||
+                          !isValidExePath(exePath) ||
+                          account?.locked
+                        }
+                        onClick={handleLaunchGameClick}
+                      >
+                        <SportsEsportsIcon
+                          sx={{
+                            height: '25px',
+                            width: '25px',
+                            display: { xs: 'flex', md: 'none' },
+                          }}
+                        />
+                        <Typography
+                          variant="button"
+                          display="block"
+                          gutterBottom
+                          sx={{ display: { xs: 'none', md: 'flex' } }}
+                        >
+                          {activeGames[activeUser?.user as string]
+                            ? `${t('game.kill')} ${activeUser?.user}`
+                            : `${t('game.play')} ${activeUser?.user}`}
+                        </Typography>
+                      </Button>
+                    </span>
+                  </Tooltip>
+                </Box>
+              )}
             <Box
               sx={{
                 flexGrow: 0,
@@ -537,47 +615,6 @@ export default function NavBar() {
         >
           <Toolbar sx={{ Height: '70px' }} />
 
-          <Tooltip title={tooltipTitle}>
-            <span>
-              <Button
-                variant="text"
-                sx={{
-                  backgroundColor: (theme) =>
-                    activeGames[activeUser?.user as string]
-                      ? theme.palette.error.dark
-                      : '',
-                  '-webkit-app-region': 'no-drag',
-                  height: '70px',
-                }}
-                disabled={
-                  !exePath.endsWith('AtlasReactor.exe') ||
-                  isDownloading ||
-                  isPatching ||
-                  !isValidExePath(exePath) ||
-                  account?.locked
-                }
-                onClick={handleLaunchGameClick}
-              >
-                <SportsEsportsIcon
-                  sx={{
-                    height: '35px',
-                    width: '35px',
-                    display: { xs: 'flex', md: 'none' },
-                  }}
-                />
-                <Typography
-                  variant="button"
-                  display="block"
-                  gutterBottom
-                  sx={{ display: { xs: 'none', md: 'flex' } }}
-                >
-                  {activeGames[activeUser?.user as string]
-                    ? `${t('game.kill')} ${activeUser?.user}`
-                    : `${t('game.play')} ${activeUser?.user}`}
-                </Typography>
-              </Button>
-            </span>
-          </Tooltip>
           <Paper
             elevation={0}
             sx={{

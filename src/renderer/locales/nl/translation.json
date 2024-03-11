@@ -342,7 +342,7 @@
   },
   "stats": {
     "gamesPlayed": "Gespeelde Spellen",
-    "gamesPlayedNoCapitalize": "gespeelde spellen",
+    "gamesPlayedNoCapitalize": "gespeelde spellen (voor het jaar)",
     "perMonth": "Per Maand, Met een totaal van",
     "by": "door",
     "perChar": "Per Personage",

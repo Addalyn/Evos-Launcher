@@ -341,7 +341,7 @@
   },
   "stats": {
     "gamesPlayed": "游戏场次(",
-    "gamesPlayedNoCapitalize": "",
+    "gamesPlayedNoCapitalize": "(一年内)",
     "perMonth": "按月)，总游戏场次",
     "by": "玩家:",
     "perChar": "按角色)",

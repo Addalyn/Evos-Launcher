@@ -1,3 +1,10 @@
+# 1.9.4
+
+- Bring back play button on top of launcher
+- Added (for the year) to stats that only totals for the year (plus translations)
+- fix if theres no notifications it will not show the empty box
+- Reorderd Cloudspire Christmass to end of the list of maps
+
 # 1.9.3
 
 - Translation fixes and new translation added for dodging games

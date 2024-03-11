@@ -116,7 +116,6 @@ export default function PlayerStatsPage() {
 
   const mapTabs = [
     'All Maps',
-    'Christmas Cloudspire',
     'Omni Reactor Core',
     'EvoS Labs',
     'Oblivion',
@@ -124,6 +123,7 @@ export default function PlayerStatsPage() {
     'Flyway Freighter',
     'Cloudspire',
     'Hyperforge',
+    'Christmas Cloudspire',
   ];
 
   if (playerSearch === '') {

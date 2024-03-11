@@ -342,7 +342,7 @@
   },
   "stats": {
     "gamesPlayed": "Jogos Jogados",
-    "gamesPlayedNoCapitalize": "jogos jogados",
+    "gamesPlayedNoCapitalize": "jogos jogados (para o ano)",
     "perMonth": "Por mês, com o total de",
     "by": "por",
     "perChar": "Por Personagem",

@@ -68,7 +68,6 @@ export default function StatsPage() {
   };
   const mapTabs = [
     'All Maps',
-    'Christmas Cloudspire',
     'Omni Reactor Core',
     'EvoS Labs',
     'Oblivion',
@@ -76,6 +75,7 @@ export default function StatsPage() {
     'Flyway Freighter',
     'Cloudspire',
     'Hyperforge',
+    'Christmas Cloudspire',
   ];
 
   return (
