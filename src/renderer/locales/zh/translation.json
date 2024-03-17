@@ -4,6 +4,7 @@
     "gstats": "全局数据",
     "pstats": "个人数据",
     "previousGames": "游戏记录",
+    "tournamentGames": "比赛记录",
     "joinDiscord": "加入Discord频道",
     "settings": "设置",
     "gameLogs": "游戏日志",
@@ -34,8 +35,8 @@
     "copyText": "复制文本",
     "copyTextAndOrLaunch": "复制文本和/或启动游戏",
     "openCopyDialog": "复制游戏代码",
-    "openReplay": "打开重播",
-    "downloadReplay": "下载重播",
+    "openReplay": "打开录像",
+    "downloadReplay": "下载录像",
     "pasteInGameChat": "启动游戏后，请使用快捷键（Ctrl+V）将代码粘贴到聊天中。<1/>代码将自动复制到您的剪贴板。",
     "screenshotError": "截图时出错，请重试。"
   },
@@ -403,7 +404,7 @@
     "Locked": "账号被封禁",
     "LockedUntill": "账号封禁至",
     "Message": "管理员消息",
-    "DodgeMessage": "你好{{user}}，\n我们注意到你在过去的7天内躲避了{{amount}}场游戏。\n虽然我们理解这可能有原因，但在我们的社区中保持体育精神是很重要的。\n躲避游戏不仅会影响其他人的游戏体验，还会破坏公平竞技的完整性。\n我们鼓励你以热情和承诺对待每一场比赛。\n如果这是一个错误，或者你需要删除记录，请与我们联系。\n致以最诚挚的问候，\n开发人员"
+    "DodgeMessage": "你好{{user}}，\n我们注意到你在过去的7天内强行退出了{{amount}}场游戏。\n我们理解这可能有缘故，但在我们的社区中，保持竞技精神是很重要的。\n强退不仅会影响其他人的游戏体验，还会破坏完整的公平竞技。\n我们鼓励以热情和承诺对待每一局游戏。\n如果记录有误或者需要删除，请与我们联系。\n致以最诚挚的问候，\n开发者"
   },
   "accounts": "账号",
   "actions": "操作",
@@ -448,7 +449,7 @@
   "unexpectedError": "遇到意外错误, 请重启Evos Launcher。",
   "checkUpdate": "检查更新中...",
   "Update available.": "已有可用更新",
-  "updateRestarting": "重启...等待直到它重新启动。",
+  "updateRestarting": "重启中...请等待重启完成。",
   "updateDownloaded": "更新已下载，重启Evos Launcher以应用更新。",
   "closeLauncher": "确定要关闭启动器吗？这样也会关闭游戏。",
   "Download speed": "下载速度",

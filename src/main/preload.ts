@@ -29,7 +29,8 @@ export type Channels =
   | 'getReplayContent'
   | 'downloadGame'
   | 'download progress'
-  | 'download complete';
+  | 'download complete'
+  | 'cancelDownload';
 
 const electronHandler = {
   isPackaged: process.env.NODE_ENV === 'production',

@@ -149,7 +149,7 @@ const fetchInfo = async (
     if (playerName) {
       strapi.filterDeep('stats.user', 'contains', playerName);
     }
-
+    strapi.equalTo('gametype', 'Ranked');
     strapi.populate();
     strapi.sortBy([{ field: 'id', order: 'desc' }]);
     strapi.paginate(page, pageSize);
@@ -176,6 +176,7 @@ const fetchCount = async (map: string, playerName: string) => {
     if (playerName) {
       strapi.filterDeep('stats.user', 'contains', playerName);
     }
+    strapi.equalTo('gametype', 'Ranked');
     const { data, error } = await strapi.get();
 
     if (error) {
@@ -929,7 +930,7 @@ export function Games({
   );
 }
 
-export default function PreviousGamesPlayed() {
+export default function TournamentGamesPlayed() {
   const { t, i18n } = useTranslation();
 
   const [data, setData] = useState<Game[]>([]);

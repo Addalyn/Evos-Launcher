@@ -1,15 +1,23 @@
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/jsx-no-useless-fragment */
+import { useEffect, useState } from 'react';
 import { ButtonBase, styled, Typography, useTheme } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { PlayerData } from '../../lib/Evos';
+import { getSpecialNames, PlayerData } from '../../lib/Evos';
 import { BgImage } from '../generic/BasicComponents';
 import { BannerType, playerBanner, trustIcon } from '../../lib/Resources';
 
 interface Props {
   info?: PlayerData;
   disableSkew?: boolean;
+}
+
+interface SpecialNames {
+  TournamentWinners: string[];
+  Developers: string[];
+  MVP: string[];
+  Nitro: string[];
 }
 
 const ImageTextWrapper = styled('span')(({ theme }) => ({
@@ -25,6 +33,7 @@ const ImageTextWrapper = styled('span')(({ theme }) => ({
 
 function Player({ info, disableSkew }: Props) {
   const { t } = useTranslation();
+  const [specialNames, setSpecialNames] = useState<SpecialNames>();
 
   let username = t('offline');
   let discriminator;
@@ -41,8 +50,39 @@ function Player({ info, disableSkew }: Props) {
 
   const theme = useTheme();
 
+  useEffect(() => {
+    getSpecialNames()
+      .then((response) => {
+        setSpecialNames(response.data);
+        return response;
+      })
+      .catch(() => {
+        // noting
+      });
+  }, [info]);
+
+  let className = '';
+  if (specialNames?.TournamentWinners?.find((x) => x === info?.handle)) {
+    className += disableSkew
+      ? 'glow-on-hover champion'
+      : 'glow-on-hover championSkew';
+  }
+  if (specialNames?.MVP?.find((x) => x === info?.handle)) {
+    className += disableSkew ? 'glow-on-hover mvp' : 'glow-on-hover mvpSkew';
+  }
+  if (specialNames?.Developers?.find((x) => x === info?.handle)) {
+    className += disableSkew
+      ? 'glow-on-hover developer'
+      : 'glow-on-hover developerSkew';
+  }
+  if (specialNames?.Nitro?.find((x) => x === info?.handle)) {
+    className += disableSkew
+      ? 'glow-on-hover nitro'
+      : 'glow-on-hover nitroSkew';
+  }
   return (
     <div
+      className={className}
       style={{
         width: 240,
         height: 52,

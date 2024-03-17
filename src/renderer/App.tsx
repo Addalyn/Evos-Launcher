@@ -32,6 +32,7 @@ import DiscordPage from './components/pages/DiscordPage';
 import ReplaysPage from './components/pages/ReplaysPage';
 import AdminMessage from './components/generic/AdminMessage';
 import DevPage from './components/pages/DevPage';
+import TournamentGamesPage from './components/pages/TournamentGamesPage';
 
 interface PageProps {
   title: string;
@@ -381,6 +382,21 @@ export default function App() {
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
                     <DevPage />
+                  </Box>
+                </>,
+              )}
+            />
+            <Route
+              path="/tournament"
+              element={page(
+                'dev',
+                <>
+                  <NavBar />
+                  <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <NotificationMessage />
+                    <AdminMessage />
+                    <Updater />
+                    <TournamentGamesPage />
                   </Box>
                 </>,
               )}

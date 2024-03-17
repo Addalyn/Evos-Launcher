@@ -1,3 +1,12 @@
+# 1.9.5
+
+- Added Tournament games, shows only games in the tournament
+- Added special border for players
+  - Tournament Winner
+  - MVP
+  - Developers
+  - Nitro Boosters
+
 # 1.9.4
 
 - Bring back play button on top of launcher

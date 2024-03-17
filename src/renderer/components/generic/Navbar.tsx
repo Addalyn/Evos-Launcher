@@ -104,6 +104,11 @@ export default function NavBar() {
         icon: <HistoryIcon />,
       },
       {
+        title: t('menuOptions.tournamentGames'),
+        href: '/tournament',
+        icon: <HistoryIcon />,
+      },
+      {
         title: t('menuOptions.gameLogs'),
         href: '/logs',
         icon: <TextSnippetIcon />,
@@ -541,7 +546,7 @@ export default function NavBar() {
                     variant="standard"
                     disableUnderline
                     sx={{
-                      width: '91%',
+                      width: '92%',
                       height: '50.5px',
                     }}
                     inputProps={{ IconComponent: () => null }}

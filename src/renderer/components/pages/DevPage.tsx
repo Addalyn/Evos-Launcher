@@ -1,6 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -8,7 +8,7 @@ import {
   LinearProgressProps,
   Typography,
 } from '@mui/material';
-import EvosStore from 'renderer/lib/EvosStore';
+// import EvosStore from 'renderer/lib/EvosStore';
 import { useTranslation } from 'react-i18next';
 import { truncateDynamicPath } from './SettingsPage';
 
@@ -60,13 +60,15 @@ function LinearProgressWithLabel(
 }
 
 export default function DevPage() {
-  const { exePath } = EvosStore();
+  // const { exePath } = EvosStore();
   const { t } = useTranslation();
   const [files, setFiles] = useState<Files[]>([]);
 
   const handleDownloadProgress = (event: any) => {
+    // console.log(event);
     const { id, fileName, status } = event;
     const { percent, transferredBytes, totalBytes } = status;
+    const percentTrueValue = percent * 100;
 
     setFiles((prevFiles) => {
       if (!prevFiles.find((file) => file.id === id)) {
@@ -75,7 +77,7 @@ export default function DevPage() {
           {
             id,
             fileName,
-            percent,
+            percent: percentTrueValue,
             transferredBytes,
             totalBytes,
           },
@@ -85,7 +87,7 @@ export default function DevPage() {
         if (file.id === id) {
           return {
             ...file,
-            percent,
+            percent: percentTrueValue,
             transferredBytes,
             totalBytes,
           };
@@ -95,21 +97,27 @@ export default function DevPage() {
       return updatedFiles;
     });
   };
-  window.electron.ipcRenderer.on('download progress', handleDownloadProgress);
 
   const handleDownloadComplete = (event: any) => {
     const { id } = event;
     setFiles((prevFiles) => prevFiles.filter((file) => file.id !== id));
   };
 
-  window.electron.ipcRenderer.on('download complete', handleDownloadComplete);
+  useEffect(() => {
+    window.electron.ipcRenderer.on('download progress', handleDownloadProgress);
+    window.electron.ipcRenderer.on('download complete', handleDownloadComplete);
+  }, []);
 
   const testDownload = () => {
-    const forwardSlashPath = exePath.replace(/\\/g, '/');
-    const pathArray = forwardSlashPath.split('/');
-    pathArray.splice(-2);
-    const downloadPath = pathArray.join('\\');
-    window.electron.ipcRenderer.sendMessage('downloadGame', downloadPath);
+    // const forwardSlashPath = exePath.replace(/\\/g, '/');
+    // const pathArray = forwardSlashPath.split('/');
+    // pathArray.splice(-2);
+    // const downloadPath = pathArray.join('\\');
+    window.electron.ipcRenderer.sendMessage('downloadGame', 'c:\\testGames\\');
+  };
+
+  const testStop = () => {
+    window.electron.ipcRenderer.sendMessage('cancelDownload');
   };
 
   return (
@@ -118,6 +126,7 @@ export default function DevPage() {
         Dev Stuff not ready for release and may crash launcher
       </Typography>
       <Button onClick={testDownload}>Test Download</Button>
+      <Button onClick={testStop}>Test Stop Download</Button>
       {files.length}
       {files.map((file) => (
         <LinearProgressWithLabel
