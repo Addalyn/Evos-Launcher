@@ -287,6 +287,19 @@ export async function getPlayerInfo(authHeader: string) {
   });
 }
 
+interface SpecialNames {
+  TournamentWinners: string[];
+  Developers: string[];
+  MVP: string[];
+  Nitro: string[];
+}
+
+export async function getSpecialNames() {
+  return axios.get<SpecialNames>(
+    `https://misc.evos.live/specialNames.json?rand=${Math.random()}`,
+  );
+}
+
 export async function getUpdateInfo() {
   return axios.get(`https://misc.evos.live/version.json?rand=${Math.random()}`);
 }

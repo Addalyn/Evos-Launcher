@@ -69,13 +69,16 @@ p {
   left: -2px;
   background-size: 400%;
   z-index: -1;
-  filter: blur(1px);
   width: calc(100% + 4px);
   height: calc(100% + 4px);
   animation: glowing 60s linear infinite;
   opacity: 0.5;
   transition: opacity 0.3s;
   border-radius: 1px;
+}
+
+.css-17idfle-MuiSelect-select-MuiInputBase-input-MuiInput-input.MuiSelect-select {
+  overflow: unset !important;
 }
 
 .glow-on-hover:after {
@@ -87,6 +90,192 @@ p {
   background: #111111ad;
   left: 0;
   top: 0;
+  border-radius: 1px;
+}
+
+.championSkew:before {
+  transform: skewX(-15deg);
+  background: linear-gradient(
+    45deg,
+    #ff0073,
+    #4d012d,
+    #ff0073,
+    #4d012d,
+    #ff0073,
+    #4d012d
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: 0;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing 30s linear infinite;
+  opacity: 1;
+  transition: opacity 0.3s;
+  border-radius: 1px;
+}
+
+.champion:before {
+  background: linear-gradient(
+    45deg,
+    #ff0073,
+    #4d012d,
+    #ff0073,
+    #4d012d,
+    #ff0073,
+    #4d012d
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: 0;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing 30s linear infinite;
+  opacity: 1;
+  transition: opacity 0.3s;
+  border-radius: 1px;
+}
+
+.mvpSkew:before {
+  transform: skewX(-15deg);
+  background: linear-gradient(
+    45deg,
+    #00ffd5,
+    #002bff,
+    #00ffd5,
+    #002bff,
+    #00ffd5
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: 0;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing 30s linear infinite;
+  opacity: 1;
+  transition: opacity 0.3s;
+  border-radius: 1px;
+}
+
+.mvp:before {
+  background: linear-gradient(
+    45deg,
+    #00ffd5,
+    #002bff,
+    #00ffd5,
+    #002bff,
+    #00ffd5
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: 0;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing 30s linear infinite;
+  opacity: 1;
+  transition: opacity 0.3s;
+  border-radius: 1px;
+}
+
+.nitroSkew:before {
+  transform: skewX(-15deg);
+  background: linear-gradient(
+    45deg,
+    #f47fff,
+    #5c3160,
+    #f47fff,
+    #5c3160,
+    #f47fff
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: 0;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing 30s linear infinite;
+  opacity: 1;
+  transition: opacity 0.3s;
+  border-radius: 1px;
+}
+
+.nitro:before {
+  background: linear-gradient(
+    45deg,
+    #f47fff,
+    #5c3160,
+    #f47fff,
+    #5c3160,
+    #f47fff
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: 0;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing 30s linear infinite;
+  opacity: 1;
+  transition: opacity 0.3s;
+  border-radius: 1px;
+}
+
+.developerSkew:before {
+  background: linear-gradient(
+    45deg,
+    #07fa03,
+    #195203,
+    #07fa03,
+    #195203,
+    #07fa03,
+    #195203,
+    #07fa03
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: 0;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing 30s linear infinite;
+  opacity: 1;
+  transition: opacity 0.3s;
+  border-radius: 1px;
+  transform: skewX(-15deg);
+}
+
+.developer:before {
+  background: linear-gradient(
+    45deg,
+    #07fa03,
+    #195203,
+    #07fa03,
+    #195203,
+    #07fa03,
+    #195203,
+    #07fa03
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: 0;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing 30s linear infinite;
+  opacity: 1;
+  transition: opacity 0.3s;
   border-radius: 1px;
 }
 

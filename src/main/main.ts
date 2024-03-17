@@ -14,9 +14,9 @@ import {
   dialog,
   globalShortcut,
   IpcMainEvent,
+  DownloadItem,
 } from 'electron';
 import regedit from 'regedit';
-import semaphore from 'semaphore';
 import { Worker as NativeWorker } from 'worker_threads';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
@@ -36,8 +36,6 @@ const vbsDirectory = path.join(
   './resources/assets/vbs',
 );
 regedit.setExternalVBSLocation(vbsDirectory);
-
-const downloadSemaphore = semaphore(2); // Limiting to 2 concurrent downloads
 
 interface AuthUser {
   user: string;
@@ -674,36 +672,43 @@ const createWindow = async () => {
     }
   });
 
+  let downloading = false;
+  let curDownloadItem: DownloadItem;
+
+  const updateCurrentDownloadItem = (item: DownloadItem) => {
+    curDownloadItem = item;
+  };
+
   async function downloadGame(
     filedirectory: any,
     fileName: string,
     url: string,
     i: number,
+    win: BrowserWindow,
   ) {
     try {
-      let progress = 0;
-      await download(BrowserWindow.getFocusedWindow() as BrowserWindow, url, {
+      await download(win, url, {
         directory: filedirectory,
         showBadge: true,
         filename: fileName,
         showProgressBar: true,
         overwrite: true,
-        onTotalProgress: (status) => {
-          const newProgress = Math.floor(status.percent * 100);
-          if (newProgress > progress) {
-            progress = newProgress;
-            mainWindow?.webContents.send('download progress', {
-              id: i,
-              fileName,
-              status,
-            });
-          }
-          if (status.transferredBytes === status.totalBytes) {
-            mainWindow?.webContents.send('download complete', {
-              id: i,
-              fileName,
-            });
-          }
+        onStarted: (item) => updateCurrentDownloadItem(item),
+        onProgress: (status) => {
+          mainWindow?.webContents.send('download progress', {
+            id: i,
+            fileName,
+            status,
+          });
+        },
+        onCompleted: (item) => {
+          mainWindow?.webContents.send('download complete', {
+            id: i,
+            fileName,
+          });
+        },
+        onCancel(item) {
+          console.log('Download was cancelled');
         },
       });
     } catch (error) {
@@ -711,80 +716,99 @@ const createWindow = async () => {
     }
   }
 
+  async function downloadFiles(
+    index: number,
+    lines: string[],
+    dir: string,
+    filedirectory: string,
+    win: BrowserWindow,
+  ) {
+    if (index >= lines.length) return;
+    if (!downloading) return;
+    const line = lines[index];
+    const [file, _, totalBytesStr] = line.split(':');
+    const totalBytes = Number(totalBytesStr);
+
+    if (file === 'f') {
+      downloading = false;
+      return;
+    }
+
+    const newFile = file.replace(/\\/g, '/');
+    mainWindow?.webContents.send('download progress', {
+      id: index,
+      fileName: file,
+      status: { percent: 0, transferredBytes: 0, totalBytes: 0 },
+    });
+
+    if (fs.existsSync(`${dir}/${newFile}`)) {
+      const stats = fs.statSync(`${dir}/${newFile}`);
+      if (stats.size === totalBytes) {
+        mainWindow?.webContents.send('download complete', {
+          id: index,
+          fileName: file,
+        });
+        downloadFiles(index + 1, lines, dir, filedirectory, win);
+        return;
+      }
+    }
+
+    await downloadGame(dir, file, `${filedirectory}/${newFile}`, index, win);
+    mainWindow?.webContents.send('download complete', {
+      id: index,
+      fileName: file,
+    });
+
+    downloadFiles(index + 1, lines, dir, filedirectory, win);
+  }
+
   ipcMain.on('downloadGame', async (event, dir) => {
     try {
       console.log('Downloading game to:', dir);
-      let dl = await download(
-        BrowserWindow.getFocusedWindow() as BrowserWindow,
-        'https://media.evos.live/getfileurls.json',
-        {
-          directory: dir,
-          showBadge: false,
-          showProgressBar: false,
-          overwrite: true,
-        },
-      );
+      downloading = true;
+      const win = BrowserWindow.getFocusedWindow();
+      if (!win) {
+        return;
+      }
+      let dl = await download(win, 'https://media.evos.live/getfileurls.json', {
+        directory: dir,
+        showBadge: false,
+        showProgressBar: false,
+        overwrite: true,
+      });
       const fileUrls = await fs.promises.readFile(dl.getSavePath(), 'utf-8');
+      fs.unlinkSync(dl.getSavePath());
       const { manifest, filedirectory } = JSON.parse(fileUrls);
-      dl = await download(
-        BrowserWindow.getFocusedWindow() as BrowserWindow,
-        manifest,
-        {
-          directory: dir,
-          showBadge: false,
-          showProgressBar: false,
-          overwrite: true,
-        },
-      );
+      dl = await download(win, manifest, {
+        directory: dir,
+        showBadge: false,
+        showProgressBar: false,
+        overwrite: true,
+      });
       const manifestContent = await fs.promises.readFile(
         dl.getSavePath(),
         'utf-8',
       );
-
+      fs.unlinkSync(dl.getSavePath());
       const lines = manifestContent.split('\n');
       lines.shift();
       console.log('Downloading files...');
-      let i = 0;
 
-      lines.map(async (line) => {
-        const [file, _, totalBytesStr] = line.split(':');
-        const totalBytes = Number(totalBytesStr);
-
-        if (file === 'f') {
-          return;
-        }
-        const newFile = file.replace(/\\/g, '/');
-        mainWindow?.webContents.send('download progress', {
-          id: i,
-          fileName: file,
-          status: { percent: 0, transferredBytes: 0, totalBytes: 0 },
-        });
-        if (fs.existsSync(`${dir}/${newFile}`)) {
-          const stats = fs.statSync(`${dir}/${newFile}`);
-          if (stats.size === totalBytes) {
-            mainWindow?.webContents.send('download complete', {
-              id: i,
-              fileName: file,
-            });
-            return;
-          }
-        }
-        await downloadGame(dir, file, `${filedirectory}/${newFile}`, i);
-        mainWindow?.webContents.send('download complete', {
-          id: i,
-          fileName: file,
-        });
-        i += 1;
-      });
-
-      return true;
+      await downloadFiles(0, lines, dir, filedirectory, win);
+      console.log('Downloading Complete');
     } catch (error) {
       if (error instanceof electronDl.CancelError) {
         console.info('item.cancel() was called');
       } else {
         console.error(error);
       }
-      return true;
+    }
+  });
+
+  ipcMain.on('cancelDownload', async (event, dir) => {
+    downloading = false;
+    if (curDownloadItem) {
+      curDownloadItem.cancel();
     }
   });
 
