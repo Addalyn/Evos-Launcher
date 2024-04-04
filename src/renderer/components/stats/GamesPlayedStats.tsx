@@ -61,5 +61,5 @@ export default function GamesPlayedStats({ map, player }: Props) {
     fetchData();
   }, [map, player]);
 
-  return <CharacterStatsChart data={gameData} />;
+  return <CharacterStatsChart data={gameData} player={player} map={map} />;
 }

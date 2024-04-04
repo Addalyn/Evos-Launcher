@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
-import { Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
@@ -14,6 +14,7 @@ import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import { Chart } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { useTranslation } from 'react-i18next';
+import PlayerWinRate from './PlayerStatsWinRate';
 
 Chart.register(ChartDataLabels);
 Chart.defaults.set('plugins.datalabels', {
@@ -133,6 +134,8 @@ function CharacterChart({
 
 interface CharacterStatsChartProps {
   data: CharacterStats[];
+  player: string;
+  map: string;
 }
 
 const names = [
@@ -212,7 +215,7 @@ const categoryColors: { [key: string]: string } = {
   Support: 'rgba(75, 192, 192, 0.5)',
 };
 
-function CharacterStatsChart({ data }: CharacterStatsChartProps) {
+function CharacterStatsChart({ data, player, map }: CharacterStatsChartProps) {
   const { t } = useTranslation();
 
   const charactersByType = names.reduce((acc, character) => {
@@ -259,9 +262,24 @@ function CharacterStatsChart({ data }: CharacterStatsChartProps) {
                 <Typography
                   variant="h6"
                   sx={{ color: categoryColors[characterData.category] }}
+                  style={{ flex: 1 }} // Set the name to take up remaining space
                 >
                   {t(`charNames.${characterData.character.replace(/:3/g, '')}`)}
                 </Typography>
+                <div
+                  style={{
+                    width: '50%',
+                    color: categoryColors[characterData.category],
+                  }}
+                >
+                  <Grid container>
+                    <PlayerWinRate
+                      characterName={characterData.character}
+                      player={player}
+                      map={map}
+                    />
+                  </Grid>
+                </div>
               </AccordionSummary>
               <AccordionDetails>
                 <div

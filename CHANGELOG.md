@@ -1,3 +1,9 @@
+# 1.9.6
+
+- Fix outline on the user switcher if you had special color (dev,mvp,nitro,tournament winner)
+- Added win/loss/winrate to individual freelancer stats (Also works per map or all maps)
+- Added navbar on bottom of the previous games page
+
 # 1.9.5
 
 - Added Tournament games, shows only games in the tournament
