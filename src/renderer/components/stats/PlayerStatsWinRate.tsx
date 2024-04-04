@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import { strapiClient } from 'renderer/lib/strapi';
@@ -5,6 +6,8 @@ import { useTranslation } from 'react-i18next';
 
 interface Props {
   player: string;
+  characterName?: string;
+  map?: string;
 }
 
 interface DataSubItem {
@@ -18,10 +21,15 @@ interface DataItem {
   id: number;
   teamwin: string;
   gametype: string;
+  map: string;
   stats: DataSubItem[];
 }
 
-export async function fetchGameInfo(playerName: string) {
+export async function fetchGameInfo(
+  playerName: string,
+  characterName?: string,
+  map?: string,
+) {
   try {
     const strapi = strapiClient
       .from<DataItem>(`games`)
@@ -34,6 +42,15 @@ export async function fetchGameInfo(playerName: string) {
       ]);
     strapi.equalTo('gametype', 'PvP');
     strapi.filterDeep('stats.user', 'contains', playerName);
+
+    if (characterName) {
+      strapi.filterDeep('stats.character', 'eq', characterName);
+    }
+
+    if (map && map !== 'All Maps') {
+      strapi.equalTo('map', map);
+    }
+
     strapi.paginate(1, 100000);
 
     const { data, error } = (await strapi.get()) as {
@@ -53,7 +70,7 @@ export async function fetchGameInfo(playerName: string) {
   }
 }
 
-export default function PlayerWinRate({ player }: Props) {
+export default function PlayerWinRate({ player, characterName, map }: Props) {
   const { t } = useTranslation();
   const [wins, setWins] = useState<number>(0);
   const [losses, setLosses] = useState<number>(0);
@@ -61,7 +78,7 @@ export default function PlayerWinRate({ player }: Props) {
 
   useEffect(() => {
     async function fetchData() {
-      const data: DataItem[] = await fetchGameInfo(player);
+      const data: DataItem[] = await fetchGameInfo(player, characterName, map);
       setWins(0);
       setLosses(0);
       setWinRate(0);
@@ -82,7 +99,7 @@ export default function PlayerWinRate({ player }: Props) {
     }
 
     fetchData();
-  }, [losses, player, wins]);
+  }, [characterName, losses, player, wins, map]);
 
   return (
     <>

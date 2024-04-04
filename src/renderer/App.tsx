@@ -389,7 +389,7 @@ export default function App() {
             <Route
               path="/tournament"
               element={page(
-                'dev',
+                'tournament',
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>

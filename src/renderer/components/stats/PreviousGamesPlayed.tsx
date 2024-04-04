@@ -1025,7 +1025,8 @@ export default function PreviousGamesPlayed() {
               fullWidth
             />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={6} />
+          <Grid item xs={6}>
             <Pagination
               count={Math.ceil(total / pageSize)}
               page={currentPage}
@@ -1046,6 +1047,28 @@ export default function PreviousGamesPlayed() {
           i18n={i18n}
         />
       ))}
+      <Paper
+        elevation={3}
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+          padding: '1em',
+        }}
+      >
+        <Grid container spacing={2}>
+          <Grid item xs={6} />
+          <Grid item xs={6}>
+            <Pagination
+              count={Math.ceil(total / pageSize)}
+              page={currentPage}
+              onChange={handlePageChange}
+              color="primary"
+            />
+          </Grid>
+        </Grid>
+      </Paper>
     </>
   );
 }
