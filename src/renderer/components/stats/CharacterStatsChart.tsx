@@ -1,20 +1,23 @@
-/* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/no-array-index-key */
-import React, { useState } from 'react';
-import { Bar } from 'react-chartjs-2';
+/* eslint-disable import/order */
 import 'chart.js/auto';
+
 import { Grid, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, {
   AccordionSummaryProps,
 } from '@mui/material/AccordionSummary';
-import MuiAccordionDetails from '@mui/material/AccordionDetails';
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/no-array-index-key */
+import React, { useState } from 'react';
+
+import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
+import { Bar } from 'react-chartjs-2';
 import { Chart } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { useTranslation } from 'react-i18next';
+import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import PlayerWinRate from './PlayerStatsWinRate';
+import { styled } from '@mui/material/styles';
+import { useTranslation } from 'react-i18next';
 
 Chart.register(ChartDataLabels);
 Chart.defaults.set('plugins.datalabels', {

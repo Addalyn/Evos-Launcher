@@ -385,7 +385,20 @@
     "mvp": "MVP",
     "bestSupport": "Bester Support",
     "bestTank": "Bester Tank",
-    "bestDamage": "Bester Damagedealer"
+    "bestDamage": "Bester Damagedealer",
+    "top20TakedownsAvg": "Spieler, die durchschnittlich am meisten getötet haben (Gesamtabschüsse / gespielte Spiele)",
+    "takedownsAvg": "Durchschnittliche Abschüsse",
+    "top20DeathsAvgASC": "Spieler, die durchschnittlich am wenigsten gestorben sind (Gesamttode / gespielte Spiele)",
+    "top20DeathsAvgDESC": "Spieler, die durchschnittlich am meisten gestorben sind (Gesamttode / gespielte Spiele)",
+    "deathsAvg": "Durchschnittliche Tode",
+    "top20DamageAvg": "Spieler, die durchschnittlich den meisten Schaden verursacht haben (Beste Feuerkraft) (Gesamtschaden / gespielte Spiele)",
+    "damageDealtAvg": "Durchschnittlicher Schaden",
+    "top20HealingDoneAvg": "Spieler, die durchschnittlich am meisten geheilt haben (Beste Unterstützung) (Gesamtheilung / gespielte Spiele)",
+    "healingDoneAvg": "Durchschnittliche Heilung",
+    "top20DamageReceivedAvg": "Spieler, die durchschnittlich den meisten Schaden erhalten haben (Beste Frontkämpfer) (Gesamterhaltener Schaden / gespielte Spiele)",
+    "damageReceivedAvg": "Durchschnittlicher erhaltener Schaden",
+    "top20DeathBlowsAvg": "Spieler, die durchschnittlich die meisten Todesstöße erzielt haben (Gesamttodesstöße / gespielte Spiele)",
+    "deathblowsAvg": "Durchschnittliche Todesstöße"
   },
   "months": {
     "January": "Januar",

@@ -292,6 +292,7 @@ interface SpecialNames {
   Developers: string[];
   MVP: string[];
   Nitro: string[];
+  Special: string[];
 }
 
 export async function getSpecialNames() {

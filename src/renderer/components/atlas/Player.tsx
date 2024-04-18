@@ -1,12 +1,14 @@
+/* eslint-disable import/order */
+import { BannerType, playerBanner, trustIcon } from '../../lib/Resources';
+import { ButtonBase, Typography, styled, useTheme } from '@mui/material';
+import { PlayerData, getSpecialNames } from '../../lib/Evos';
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/jsx-no-useless-fragment */
 import { useEffect, useState } from 'react';
-import { ButtonBase, styled, Typography, useTheme } from '@mui/material';
+
+import { BgImage } from '../generic/BasicComponents';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { getSpecialNames, PlayerData } from '../../lib/Evos';
-import { BgImage } from '../generic/BasicComponents';
-import { BannerType, playerBanner, trustIcon } from '../../lib/Resources';
 
 interface Props {
   info?: PlayerData;
@@ -18,6 +20,7 @@ interface SpecialNames {
   Developers: string[];
   MVP: string[];
   Nitro: string[];
+  Special: string[];
 }
 
 const ImageTextWrapper = styled('span')(({ theme }) => ({
@@ -79,6 +82,11 @@ function Player({ info, disableSkew }: Props) {
     className += disableSkew
       ? 'glow-on-hover nitro'
       : 'glow-on-hover nitroSkew';
+  }
+  if (specialNames?.Special?.find((x) => x === info?.handle)) {
+    className += disableSkew
+      ? 'glow-on-hover special'
+      : 'glow-on-hover specialSkew';
   }
   return (
     <div
