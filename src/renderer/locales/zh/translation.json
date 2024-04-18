@@ -384,7 +384,20 @@
     "mvp": "MVP",
     "bestSupport": "最佳辅助",
     "bestTank": "最佳肉盾",
-    "bestDamage": "最佳输出"
+    "bestDamage": "最佳输出",
+    "top20TakedownsAvg": "平均击杀最多的玩家（总击杀数 / 游戏次数）",
+    "takedownsAvg": "平均击杀",
+    "top20DeathsAvgASC": "平均死亡最少的玩家（总死亡数 / 游戏次数）",
+    "top20DeathsAvgDESC": "平均死亡最多的玩家（总死亡数 / 游戏次数）",
+    "deathsAvg": "平均死亡",
+    "top20DamageAvg": "平均造成最多伤害的玩家（最佳火力）（总伤害 / 游戏次数）",
+    "damageDealtAvg": "平均伤害",
+    "top20HealingDoneAvg": "平均治疗最多的玩家（最佳支援）（总治疗 / 游戏次数）",
+    "healingDoneAvg": "平均治疗",
+    "top20DamageReceivedAvg": "平均受到最多伤害的玩家（最佳坦克）（总受到的伤害 / 游戏次数）",
+    "damageReceivedAvg": "平均受到伤害",
+    "top20DeathBlowsAvg": "平均得到最多击杀的玩家（总击杀数 / 游戏次数）",
+    "deathblowsAvg": "平均击杀"
   },
   "months": {
     "January": "1月",

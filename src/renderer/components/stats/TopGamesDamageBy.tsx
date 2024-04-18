@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
   BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
   Title,
   Tooltip,
-  Legend,
 } from 'chart.js';
+import { useEffect, useState } from 'react';
+
 import { Bar } from 'react-chartjs-2';
 import { fetchGameInfo } from 'renderer/lib/Evos';
 import { useTranslation } from 'react-i18next';
@@ -72,7 +72,12 @@ export default function TopGamesDamageBy() {
       {
         label: t('stats.damageDealt'),
         data: gameData,
-        backgroundColor: 'rgba(144,202,249,0.5)',
+        backgroundColor: (context: { dataIndex: number }) => {
+          const index = context.dataIndex;
+          return index < 5
+            ? 'rgba(255, 127, 187, 0.5)'
+            : 'rgba(144,202,249,0.5)';
+        },
       },
     ],
   };

@@ -385,7 +385,20 @@
     "mvp": "MVP",
     "bestSupport": "Beste Support",
     "bestTank": "Beste Tank",
-    "bestDamage": "Beste Damage"
+    "bestDamage": "Beste Damage",
+    "top20TakedownsAvg": "Spelers die gemiddeld het meest hebben gedood (totale uitschakelingen / gespeelde wedstrijden)",
+    "takedownsAvg": "Gemiddeld aantal uitschakelingen",
+    "top20DeathsAvgASC": "Spelers die gemiddeld het minst zijn gestorven (totale sterfgevallen / gespeelde wedstrijden)",
+    "top20DeathsAvgDESC": "Spelers die gemiddeld het meest zijn gestorven (totale sterfgevallen / gespeelde wedstrijden)",
+    "deathsAvg": "Gemiddeld aantal sterfgevallen",
+    "top20DamageAvg": "Spelers die gemiddeld de meeste schade hebben toegebracht (Beste vuurkracht) (totaal schade / gespeelde wedstrijden)",
+    "damageDealtAvg": "Gemiddelde schade",
+    "top20HealingDoneAvg": "Spelers die gemiddeld het meest hebben genezen (Beste ondersteuning) (totale genezing / gespeelde wedstrijden)",
+    "healingDoneAvg": "Gemiddeld aantal genezingen",
+    "top20DamageReceivedAvg": "Spelers die gemiddeld de meeste schade hebben ontvangen (Beste frontlinies) (totaal ontvangen schade / gespeelde wedstrijden)",
+    "damageReceivedAvg": "Gemiddeld ontvangen schade",
+    "top20DeathBlowsAvg": "Spelers die gemiddeld de meeste doodsklappen hebben uitgedeeld (totale doodsklappen / gespeelde wedstrijden)",
+    "deathblowsAvg": "Gemiddeld aantal doodsklappen"
   },
   "months": {
     "January": "Januari",

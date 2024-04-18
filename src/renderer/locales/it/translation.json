@@ -357,7 +357,20 @@
     "mvp": "Miglior Giocatore",
     "bestSupport": "Miglior Supporto",
     "bestTank": "Miglior Tank",
-    "bestDamage": "Miglior Danno"
+    "bestDamage": "Miglior Danno",
+    "top20TakedownsAvg": "Giocatori che hanno ucciso di più in media (uccisioni totali / partite giocate)",
+    "takedownsAvg": "Media di uccisioni",
+    "top20DeathsAvgASC": "Giocatori che sono morti di meno in media (morte totale / partite giocate)",
+    "top20DeathsAvgDESC": "Giocatori che sono morti di più in media (morte totale / partite giocate)",
+    "deathsAvg": "Media di morti",
+    "top20DamageAvg": "Giocatori che hanno inflitto più danni in media (migliori capacità di fuoco) (danno totale / partite giocate)",
+    "damageDealtAvg": "Media di danni",
+    "top20HealingDoneAvg": "Giocatori che hanno curato di più in media (migliori capacità di supporto) (cura totale / partite giocate)",
+    "healingDoneAvg": "Media di cura",
+    "top20DamageReceivedAvg": "Giocatori che hanno ricevuto più danni in media (migliori capacità di assorbimento) (danno ricevuto totale / partite giocate)",
+    "damageReceivedAvg": "Media di danni ricevuti",
+    "top20DeathBlowsAvg": "Giocatori che hanno inflitto più colpi mortali in media (colpi mortali totali / partite giocate)",
+    "deathblowsAvg": "Media di colpi mortali"
   },
   "months": {
     "January": "Gennaio",

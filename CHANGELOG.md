@@ -1,3 +1,18 @@
+# 1.9.7
+
+- Added 7 more stats in global
+  - Most kills on avarage (Total/Games Played)
+  - Least deaths on avarage (Total/Games Played)
+  - Most deaths on avarage (Total/Games Played)
+  - Most deathblows on avarage (Total/Games Played)
+  - Most damage done on avarage (Total/Games Played)
+  - Most healing done on avarage (Total/Games Played)
+  - Most damage taken on avarage (Total/Games Played)
+
+* Do note these are only calculated if you have played 200+ games, cause a player could have 1 game played and be nr 1, i do not want that, 200 is a number that could change in future.
+
+- added a new effect for `special` people rainbow! and ofc im a girl i like pretty things. i got one to xD
+
 # 1.9.6
 
 - Fix outline on the user switcher if you had special color (dev,mvp,nitro,tournament winner)

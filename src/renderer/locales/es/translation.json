@@ -353,7 +353,20 @@
     "mvp": "JMV",
     "bestSupport": "Mejor Soporte",
     "bestTank": "Mejor Tanque",
-    "bestDamage": "Mejor Daño"
+    "bestDamage": "Mejor Daño",
+    "top20TakedownsAvg": "Jugadores que más han matado en promedio (total de eliminaciones / partidas jugadas)",
+    "takedownsAvg": "Promedio de eliminaciones",
+    "top20DeathsAvgASC": "Jugadores que menos han muerto en promedio (total de muertes / partidas jugadas)",
+    "top20DeathsAvgDESC": "Jugadores que más han muerto en promedio (total de muertes / partidas jugadas)",
+    "deathsAvg": "Promedio de muertes",
+    "top20DamageAvg": "Jugadores que han causado más daño en promedio (Mejor potencia de fuego) (total de daño / partidas jugadas)",
+    "damageDealtAvg": "Promedio de daño",
+    "top20HealingDoneAvg": "Jugadores que más han curado en promedio (Mejor soporte) (total de curación / partidas jugadas)",
+    "healingDoneAvg": "Promedio de curación",
+    "top20DamageReceivedAvg": "Jugadores que han recibido más daño en promedio (Mejores tanques) (total de daño recibido / partidas jugadas)",
+    "damageReceivedAvg": "Promedio de daño recibido",
+    "top20DeathBlowsAvg": "Jugadores que han conseguido más golpes mortales en promedio (total de golpes mortales / partidas jugadas)",
+    "deathblowsAvg": "Promedio de golpes mortales"
   },
   "months": {
     "January": "Enero",

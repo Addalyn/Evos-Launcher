@@ -385,7 +385,20 @@
     "mvp": "MVP",
     "bestSupport": "Best Support",
     "bestTank": "Best Tank",
-    "bestDamage": "Best Damage"
+    "bestDamage": "Best Damage",
+    "top20TakedownsAvg": "Players who killed the most on avarage (total takedowns / games played)",
+    "takedownsAvg": "Takedowns Avg",
+    "top20DeathsAvgASC": "Players who died the least on avarage (total deaths / games played)",
+    "top20DeathsAvgDESC": "Players who died the most on avarage (total deaths / games played)",
+    "deathsAvg": "Deaths Avg",
+    "top20DamageAvg": "Players who dealt the most damage on avarage (Best Firepower's) (total damage / games played)",
+    "damageDealtAvg": "Damage Avg",
+    "top20HealingDoneAvg": "Players who healed the most on avarage (Best Support's) (total healing / games played)",
+    "healingDoneAvg": "Healing Avg",
+    "top20DamageReceivedAvg": "Players who received the most damage on avarage (Best Frontliner's) (total damage received / games played)",
+    "damageReceivedAvg": "Damage Received Avg",
+    "top20DeathBlowsAvg": "Players who got the most death blows on avarage (total death blows / games played)",
+    "deathblowsAvg": "Death Blows Avg"
   },
   "months": {
     "January": "January",

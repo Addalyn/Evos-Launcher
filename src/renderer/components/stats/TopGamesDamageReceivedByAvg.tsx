@@ -27,7 +27,7 @@ interface DataItem {
   user: string;
 }
 
-export default function TopGamesDeathBlowsBy() {
+export default function TopGamesDamageReceivedByAvg() {
   const { t } = useTranslation();
 
   const [gameData, setGameData] = useState([]);
@@ -43,7 +43,7 @@ export default function TopGamesDeathBlowsBy() {
       },
       title: {
         display: true,
-        text: t('stats.top20DeathBlows'),
+        text: t('stats.top20DamageReceivedAvg'),
       },
     },
   };
@@ -51,7 +51,7 @@ export default function TopGamesDeathBlowsBy() {
   useEffect(() => {
     async function fetchData() {
       const data: DataItem[] = (await fetchGameInfo(
-        'totaldeathblows',
+        'totaldamagereceivedavg',
       )) as DataItem[];
       setGameData([]);
       setNames([]);
@@ -60,7 +60,7 @@ export default function TopGamesDeathBlowsBy() {
         // @ts-ignore
         setNames((prev) => [...prev, item.user]);
         // @ts-ignore
-        setGameData((prev) => [...prev, item.total]);
+        setGameData((prev) => [...prev, item.average_damage_received_per_game]);
       });
     }
 
@@ -71,7 +71,7 @@ export default function TopGamesDeathBlowsBy() {
     labels: names,
     datasets: [
       {
-        label: t('stats.deathblows'),
+        label: t('stats.damageReceivedAvg'),
         data: gameData,
         backgroundColor: (context: { dataIndex: number }) => {
           const index = context.dataIndex;

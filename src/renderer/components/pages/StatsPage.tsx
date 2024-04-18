@@ -1,19 +1,28 @@
+/* eslint-disable import/order */
+import { Box, Paper, Tab, Tabs, Typography } from '@mui/material';
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from 'react';
-import { Box, Paper, Tab, Tabs, Typography } from '@mui/material';
-import useWindowDimensions from 'renderer/lib/useWindowDimensions';
-import { useTranslation } from 'react-i18next';
-import GamesPlayedMontly from '../stats/GamesPlayedMontly';
+
 import GamesPlayedCharacter from '../stats/GamesPlayedCharacter';
+import GamesPlayedMontly from '../stats/GamesPlayedMontly';
+import GamesPlayedServer from '../stats/GamesPlayedServer';
+import TopGamesDamageBy from '../stats/TopGamesDamageBy';
+import TopGamesDamageByAvg from '../stats/TopGamesDamageByAvg';
+import TopGamesDamageReceivedBy from '../stats/TopGamesDamageReceivedBy';
+import TopGamesDamageReceivedByAvg from '../stats/TopGamesDamageReceivedByAvg';
+import TopGamesDeathBlowsBy from '../stats/TopGamesDeathBlowsBy';
+import TopGamesDeathBlowsByAvg from '../stats/TopGamesDeathBlowsByAvg';
+import TopGamesDeathsBy from '../stats/TopGamesDeathsBy';
+import TopGamesDeathsByAvgASC from '../stats/TopGamesDeathsByAvgASC';
+import TopGamesDeathsByAvgDESC from '../stats/TopGamesDeathsByAvgDESC';
+import TopGamesHealedBy from '../stats/TopGamesHealedBy';
+import TopGamesHealedByAvg from '../stats/TopGamesHealedByAvg';
 import TopGamesPlayedBy from '../stats/TopGamesPlayedBy';
 import TopGamesTakeDowns from '../stats/TopGamesTakeDowns';
-import TopGamesDeathsBy from '../stats/TopGamesDeathsBy';
-import TopGamesDeathBlowsBy from '../stats/TopGamesDeathBlowsBy';
-import TopGamesDamageBy from '../stats/TopGamesDamageBy';
-import TopGamesHealedBy from '../stats/TopGamesHealedBy';
-import TopGamesDamageReceivedBy from '../stats/TopGamesDamageReceivedBy';
-import GamesPlayedServer from '../stats/GamesPlayedServer';
+import TopGamesTakeDownsByAvg from '../stats/TopGamesTakeDownsByAvg';
+import { useTranslation } from 'react-i18next';
+import useWindowDimensions from 'renderer/lib/useWindowDimensions';
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -211,6 +220,76 @@ export default function StatsPage() {
         }}
       >
         <TopGamesDamageReceivedBy />
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <TopGamesTakeDownsByAvg />
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <TopGamesDeathsByAvgASC />
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <TopGamesDeathsByAvgDESC />
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <TopGamesDeathBlowsByAvg />
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <TopGamesDamageByAvg />
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <TopGamesHealedByAvg />
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <TopGamesDamageReceivedByAvg />
       </Paper>
     </>
   );

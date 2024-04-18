@@ -385,7 +385,20 @@
     "mvp": "MVP",
     "bestSupport": "Melhor suporte",
     "bestTank": "Melhor linha de frente",
-    "bestDamage": "Melhor abatedor"
+    "bestDamage": "Melhor abatedor",
+    "top20TakedownsAvg": "Jogadores que mais mataram em média (total de abates / jogos jogados)",
+    "takedownsAvg": "Média de Abates",
+    "top20DeathsAvgASC": "Jogadores que menos morreram em média (total de mortes / jogos jogados)",
+    "top20DeathsAvgDESC": "Jogadores que mais morreram em média (total de mortes / jogos jogados)",
+    "deathsAvg": "Média de Mortes",
+    "top20DamageAvg": "Jogadores que causaram mais dano em média (Melhores Atiradores) (total de dano / jogos jogados)",
+    "damageDealtAvg": "Média de Dano",
+    "top20HealingDoneAvg": "Jogadores que mais curaram em média (Melhores Apoios) (total de cura / jogos jogados)",
+    "healingDoneAvg": "Média de Cura",
+    "top20DamageReceivedAvg": "Jogadores que mais receberam dano em média (Melhores Tanques) (total de dano recebido / jogos jogados)",
+    "damageReceivedAvg": "Média de Dano Recebido",
+    "top20DeathBlowsAvg": "Jogadores que mais deram golpes mortais em média (total de golpes mortais / jogos jogados)",
+    "deathblowsAvg": "Média de Golpes Mortais"
   },
   "months": {
     "January": "Janeiro",
