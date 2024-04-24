@@ -20,6 +20,9 @@ import {
   Chip,
   Tooltip,
   Button,
+  Checkbox,
+  FormGroup,
+  FormControlLabel,
 } from '@mui/material';
 import { GiBroadsword, GiHealthNormal, GiDeathSkull } from 'react-icons/gi';
 import { BsShield } from 'react-icons/bs';
@@ -28,7 +31,7 @@ import { FaRankingStar } from 'react-icons/fa6';
 import { strapiClient } from 'renderer/lib/strapi';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { PlayerData } from 'renderer/lib/Evos';
+import { PlayerData, denydNames } from 'renderer/lib/Evos';
 import { abilityIcon, ability, catalystsIcon } from 'renderer/lib/Resources';
 import Player from '../atlas/Player';
 // eslint-disable-next-line import/no-cycle
@@ -138,6 +141,7 @@ const fetchInfo = async (
   page: number,
   pageSize: number,
   playerName: string,
+  curentType: string,
 ) => {
   try {
     const strapi = strapiClient.from('games').select();
@@ -145,7 +149,7 @@ const fetchInfo = async (
     if (map !== 'All Maps') {
       strapi.filterDeep('map', 'eq', map);
     }
-
+    strapi.equalTo('gametype', curentType);
     if (playerName) {
       strapi.filterDeep('stats.user', 'contains', playerName);
     }
@@ -166,13 +170,18 @@ const fetchInfo = async (
   }
 };
 
-const fetchCount = async (map: string, playerName: string) => {
+const fetchCount = async (
+  map: string,
+  playerName: string,
+  curentType: string,
+) => {
   try {
     const strapi = strapiClient.from('games/count').select();
 
     if (map !== 'All Maps') {
       strapi.filterDeep('map', 'eq', map);
     }
+    strapi.equalTo('gametype', curentType);
     if (playerName) {
       strapi.filterDeep('stats.user', 'contains', playerName);
     }
@@ -272,6 +281,7 @@ const calculateTankBadge = (player: PlayerInfo, players: PlayerInfo[]) => {
 
   return tankPlayer.id === player.id;
 };
+
 export function Games({
   game,
   i18n,
@@ -510,11 +520,13 @@ export function Games({
                       <TableCell
                         sx={{ cursor: 'pointer' }}
                         onClick={() => {
-                          navigate(
-                            `/playerstats?player=${encodeURIComponent(
-                              player.user,
-                            )}`,
-                          );
+                          if (!denydNames.includes(player.user)) {
+                            navigate(
+                              `/playerstats?player=${encodeURIComponent(
+                                player.user,
+                              )}`,
+                            );
+                          }
                         }}
                       >
                         <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -850,39 +862,48 @@ export function Games({
                                       />
                                     </Tooltip>
                                   </Typography>{' '}
-                                  <Typography variant="caption">
-                                    <img
-                                      src={catalystsIcon(
-                                        customPlayer.CharacterInfo
-                                          .CharacterCards.PrepCard,
-                                      )}
-                                      alt={customPlayer.CharacterInfo.CharacterCards.PrepCard.toString()}
-                                      width={25}
-                                      height={25}
-                                    />
-                                  </Typography>
-                                  <Typography variant="caption">
-                                    <img
-                                      src={catalystsIcon(
-                                        customPlayer.CharacterInfo
-                                          .CharacterCards.DashCard,
-                                      )}
-                                      alt={customPlayer.CharacterInfo.CharacterCards.DashCard.toString()}
-                                      width={25}
-                                      height={25}
-                                    />
-                                  </Typography>
-                                  <Typography variant="caption">
-                                    <img
-                                      src={catalystsIcon(
-                                        customPlayer.CharacterInfo
-                                          .CharacterCards.CombatCard,
-                                      )}
-                                      alt={customPlayer.CharacterInfo.CharacterCards.CombatCard.toString()}
-                                      width={25}
-                                      height={25}
-                                    />
-                                  </Typography>
+                                  {customPlayer.CharacterInfo.CharacterCards
+                                    .PrepCard !== 0 && (
+                                    <Typography variant="caption">
+                                      <img
+                                        src={catalystsIcon(
+                                          customPlayer.CharacterInfo
+                                            .CharacterCards.PrepCard,
+                                        )}
+                                        alt={customPlayer.CharacterInfo.CharacterCards.PrepCard.toString()}
+                                        width={25}
+                                        height={25}
+                                      />
+                                    </Typography>
+                                  )}
+                                  {customPlayer.CharacterInfo.CharacterCards
+                                    .DashCard !== 0 && (
+                                    <Typography variant="caption">
+                                      <img
+                                        src={catalystsIcon(
+                                          customPlayer.CharacterInfo
+                                            .CharacterCards.DashCard,
+                                        )}
+                                        alt={customPlayer.CharacterInfo.CharacterCards.DashCard.toString()}
+                                        width={25}
+                                        height={25}
+                                      />
+                                    </Typography>
+                                  )}
+                                  {customPlayer.CharacterInfo.CharacterCards
+                                    .CombatCard !== 0 && (
+                                    <Typography variant="caption">
+                                      <img
+                                        src={catalystsIcon(
+                                          customPlayer.CharacterInfo
+                                            .CharacterCards.CombatCard,
+                                        )}
+                                        alt={customPlayer.CharacterInfo.CharacterCards.CombatCard.toString()}
+                                        width={25}
+                                        height={25}
+                                      />
+                                    </Typography>
+                                  )}
                                 </div>
                               );
                             }
@@ -937,6 +958,7 @@ export default function PreviousGamesPlayed() {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
   const [selectedMap, setSelectedMap] = useState<string>('All Maps');
+  const [curentType, setCurrentType] = useState<string>('PvP');
   const [searchedPlayer, setSearchedPlayer] = useState<string>(''); // Add player search state
   const navigate = useNavigate();
 
@@ -947,13 +969,14 @@ export default function PreviousGamesPlayed() {
         currentPage,
         pageSize,
         searchedPlayer,
+        curentType,
       )) as Game[];
       setData(result);
-      const result1 = await fetchCount(selectedMap, searchedPlayer);
+      const result1 = await fetchCount(selectedMap, searchedPlayer, curentType);
       setTotal(result1);
     }
     fetchData();
-  }, [currentPage, selectedMap, searchedPlayer]);
+  }, [currentPage, selectedMap, searchedPlayer, curentType]);
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -973,6 +996,10 @@ export default function PreviousGamesPlayed() {
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setSearchedPlayer(event.target.value);
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrentType(event.target.value);
   };
 
   const maps = [
@@ -1024,6 +1051,51 @@ export default function PreviousGamesPlayed() {
               onChange={handlePlayerSearchChange}
               fullWidth
             />
+          </Grid>
+          <Grid item xs={12}>
+            <FormGroup row>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    defaultChecked
+                    checked={curentType === 'PvP'}
+                    onChange={handleChange}
+                    value="PvP"
+                  />
+                }
+                label={t('stats.pvpgames')}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={curentType === 'Coop'}
+                    onChange={handleChange}
+                    value="Coop"
+                  />
+                }
+                label={t('stats.coopgames')}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={curentType === 'Custom'}
+                    onChange={handleChange}
+                    value="Custom"
+                  />
+                }
+                label={t('stats.customgames')}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={curentType === 'Ranked'}
+                    onChange={handleChange}
+                    value="Ranked"
+                  />
+                }
+                label={t('stats.tournamentgames')}
+              />
+            </FormGroup>
           </Grid>
           <Grid item xs={6} />
           <Grid item xs={6}>

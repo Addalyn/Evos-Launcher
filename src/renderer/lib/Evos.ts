@@ -6,6 +6,46 @@ export interface LoginResponse {
   token: string;
   banner: number;
 }
+export const denydNames = [
+  'Bot',
+  /* Firepower */
+  'Blackburn',
+  'Celeste',
+  'Elle',
+  'Gremolitions Inc.',
+  'Grey',
+  'Juno',
+  'Kaigin',
+  // 'Lex',
+  'Lockwood',
+  'NEV:3',
+  'Nix',
+  'OZ',
+  'Oz',
+  'PuP',
+  'Tol-Ren',
+  // 'Vonn',
+  'Zuki',
+  /* Frontline */
+  'Asana',
+  'Brynn',
+  'Garrison',
+  // 'Isadora',
+  // 'Magnus',
+  'Phaedra',
+  'Rampart',
+  'Rask',
+  'Titus',
+  /* Support */
+  'Aurora',
+  'Dr. Finn',
+  'Helio',
+  'Khita',
+  'Meridian',
+  'Orion',
+  'Quark',
+  'Su-Ren',
+];
 
 export enum CharacterType {
   None = 'None',

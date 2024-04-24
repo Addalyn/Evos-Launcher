@@ -2,7 +2,7 @@
 import { ButtonBase, Tooltip, useTheme } from '@mui/material';
 
 import { useNavigate } from 'react-router-dom';
-import { CharacterType, PlayerData } from '../../lib/Evos';
+import { CharacterType, PlayerData, denydNames } from '../../lib/Evos';
 import { BgImage } from '../generic/BasicComponents';
 import { characterIcon } from '../../lib/Resources';
 
@@ -28,7 +28,9 @@ export function CharacterIcon({
     if (!data) {
       return;
     }
-    navigate(`/playerstats?player=${encodeURIComponent(data.handle)}`);
+    if (!denydNames.includes(data.handle)) {
+      navigate(`/playerstats?player=${encodeURIComponent(data.handle)}`);
+    }
   };
   let transformOuter;
   let transformInner;
