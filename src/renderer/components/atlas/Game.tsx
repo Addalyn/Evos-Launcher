@@ -68,7 +68,10 @@ function Team({ caption, info, isTeamA, playerData, status }: TeamProps) {
       {caption && <Typography variant="h5">{caption}</Typography>}
       {info.map((p, id) => (
         <Stack key={`teamA_${id}`} direction={isTeamA ? 'row' : 'row-reverse'}>
-          <Player info={playerData.get(p.accountId)} />
+          <Player
+            info={playerData.get(p.accountId)}
+            characterType={p.characterType}
+          />
           <CharacterIcon
             characterType={
               status !== 'Assembling' ? p.characterType : CharacterType.None

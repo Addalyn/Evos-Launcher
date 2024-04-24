@@ -1,6 +1,6 @@
 ![Build Status](https://github.com/Addalyn/Evos-Launcher/actions/workflows/publish.yml/badge.svg 'Build Status') ![Test Status](https://github.com/Addalyn/Evos-Launcher/actions/workflows/test.yml/badge.svg 'Test') ![CodeQL Status](https://github.com/Addalyn/Evos-Launcher/actions/workflows/codeql-analysis.yml/badge.svg 'CodeQL')
 
-[![Support Us](<https://img.shields.io/badge/Support%20Us-PayPal%20(Babymillie)-green.svg>)](https://paypal.me/BabyAddalyn) [![Support Us](<https://img.shields.io/badge/Support%20Us-qiwi%20(Zheneq)-green.svg>)](https://donate.qiwi.com/payin/zheneq) [![Support Us](<https://img.shields.io/badge/Support%20Us-boosty%20(Zheneq)-green.svg>)](https://boosty.to/zheneq)
+[![Support Us](<https://img.shields.io/badge/Support%20Us-PayPal%20(BabyAddalyn)-green.svg>)](https://paypal.me/BabyAddalyn) [![Support Us](<https://img.shields.io/badge/Support%20Us-qiwi%20(Zheneq)-green.svg>)](https://donate.qiwi.com/payin/zheneq) [![Support Us](<https://img.shields.io/badge/Support%20Us-boosty%20(Zheneq)-green.svg>)](https://boosty.to/zheneq)
 
 [Join the Discord](https://evos.live/discord)
 

@@ -1,7 +1,7 @@
 /* eslint-disable import/order */
 import { BannerType, playerBanner, trustIcon } from '../../lib/Resources';
 import { ButtonBase, Typography, styled, useTheme } from '@mui/material';
-import { PlayerData, getSpecialNames } from '../../lib/Evos';
+import { PlayerData, denydNames, getSpecialNames } from '../../lib/Evos';
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/jsx-no-useless-fragment */
 import { useEffect, useState } from 'react';
@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 interface Props {
   info?: PlayerData;
   disableSkew?: boolean;
+  characterType?: string;
 }
 
 interface SpecialNames {
@@ -34,7 +35,7 @@ const ImageTextWrapper = styled('span')(({ theme }) => ({
     '1px 1px 2px black, -1px -1px 2px black, 1px -1px 2px black, -1px 1px 2px black',
 }));
 
-function Player({ info, disableSkew }: Props) {
+function Player({ info, disableSkew, characterType }: Props) {
   const { t } = useTranslation();
   const [specialNames, setSpecialNames] = useState<SpecialNames>();
 
@@ -48,7 +49,9 @@ function Player({ info, disableSkew }: Props) {
     if (!info) {
       return;
     }
-    navigate(`/playerstats?player=${encodeURIComponent(info.handle)}`);
+    if (!denydNames.includes(info.handle)) {
+      navigate(`/playerstats?player=${encodeURIComponent(info.handle)}`);
+    }
   };
 
   const theme = useTheme();
@@ -128,7 +131,7 @@ function Player({ info, disableSkew }: Props) {
               zIndex: '0',
               backgroundImage:
                 info &&
-                `url(${playerBanner(BannerType.background, info.bannerBg)})`,
+                `url(${playerBanner(BannerType.background, denydNames.includes(info.handle) ? 95 : info.bannerBg)})`,
             }}
           />
         </div>
@@ -149,7 +152,7 @@ function Player({ info, disableSkew }: Props) {
             marginLeft: '-4%',
             backgroundImage:
               info &&
-              `url(${playerBanner(BannerType.foreground, info.bannerFg)})`,
+              `url(${playerBanner(BannerType.foreground, denydNames.includes(info.handle) ? 65 : info.bannerFg)})`,
             width: '36%',
             zIndex: 0,
           }}
@@ -160,7 +163,7 @@ function Player({ info, disableSkew }: Props) {
           }}
         >
           <Typography component="span" style={{ fontSize: '1em' }}>
-            {username}
+            {username === 'Bot' ? characterType : username}
           </Typography>
           {discriminator && (
             <Typography component="span" style={{ fontSize: '0.8em' }}>
@@ -177,6 +180,9 @@ function Player({ info, disableSkew }: Props) {
           >
             <Typography component="span" style={{ fontSize: '1em' }}>
               {(() => {
+                if (denydNames.includes(info.handle)) {
+                  return 'Bot';
+                }
                 if (typeof info?.status === 'number') {
                   // @ts-ignore
                   return t(`titles.${info?.status}`);
@@ -195,6 +201,7 @@ function Player({ info, disableSkew }: Props) {
         {info?.factionData?.selectedRibbonID !== undefined &&
           info?.factionData?.selectedRibbonID !== -1 &&
           info?.factionData?.selectedRibbonID <= 3 &&
+          !denydNames.includes(info.handle) &&
           (() => {
             let bcolor;
             let tcolor;

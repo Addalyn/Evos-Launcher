@@ -1,3 +1,15 @@
+# 1.9.8 - The bots update
+
+- Due to server releasing bots i fixed the launcher for this.
+  - You cannot click a bot now to see its "profile" page
+  - Fixed Replays to work with bots
+  - Some smaller fixes for them
+- Global stats removed (total \*\*\* / games played) from stats text
+  - for some stats kills, deaths, deathblows it is still calculated as (total \*\*\* / games played)
+  - for damage done, healing done, damage taken calculation is now (total \*\*\* / games played )/(( total deaths / games played)+1) so these account now for deaths to.
+- Removed Tournament Page, and replaced it with search option in previous games for PvP, Coop(Solo), Custom and Tournaments games
+- Changed Babymillie name to my new name BabyAddalyn that is the name i go by now.
+
 # 1.9.7
 
 - Added 7 more stats in global

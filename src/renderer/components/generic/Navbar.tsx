@@ -34,7 +34,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import HistoryIcon from '@mui/icons-material/History';
-import LogoDevIcon from '@mui/icons-material/LogoDev';
+// import LogoDevIcon from '@mui/icons-material/LogoDev';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import EvosStore, { AuthUser } from 'renderer/lib/EvosStore';
 import useWindowDimensions from 'renderer/lib/useWindowDimensions';
@@ -101,11 +101,6 @@ export default function NavBar() {
       {
         title: t('menuOptions.previousGames'),
         href: '/previousgames',
-        icon: <HistoryIcon />,
-      },
-      {
-        title: t('menuOptions.tournamentGames'),
-        href: '/tournament',
         icon: <HistoryIcon />,
       },
       {
@@ -236,12 +231,12 @@ export default function NavBar() {
   // Dev stuff not ready for release
   useEffect(() => {
     if (isDev) {
-      pages.push({
-        title: 'Developer Tools',
-        href: '/dev',
-        icon: <LogoDevIcon />,
-        devider: true,
-      });
+      // pages.push({
+      //   title: 'Developer Tools',
+      //   href: '/dev',
+      //   icon: <LogoDevIcon />,
+      //   devider: true,
+      // });
     }
   }, [isDev, pages]);
 
