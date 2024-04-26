@@ -1,3 +1,19 @@
+# 1.9.9 - Discord update
+
+- Stats Prior to version `1.9.8` will no longer work, you need version `1.9.9` or higher to get stats.
+  - And you get a nice big image that says you need to update the launcher if you try to use the old version. this is gone if you update the launcher.
+- Viewing Stats now requires you to link your discord account! this is a requirement.
+- You can now link your discord just click the button thats says "Link Discord".
+  - This will open a new window where you can login to discord and give us access to your discord account (using Discord Oficial API).
+  - We only need your discord id and username, we do not store any other information.
+  - Giving access will gives us a list of servers you are in (we only check if you are in ours `server id: 600425662452465701`).
+  - Linking does not matter what role you have for this (it is still a requerment for downloading the game).
+- if you do not link your discord you will never get MVP, Tournament Winner or Nitro Booster status. and you will not be able to see your stats or others or see previus games. Tho you may play the game without it.
+- I will give people some time to link their discord before i start to remove the old effects and MVP,Etc.. status (26days).
+- if for some reason you need to unlink your discord you can do so by typing `/unlink` (Soon™) in any of our discord channels.
+- if you are unable to link/unlink your account you can contact us on discord to do it for you.
+- Special effects are now database driven and things like `MVP (TOP5 IN ANY STAT)` will Soon™ be automaticly done (26days).
+
 # 1.9.8 - The bots update
 
 - Due to server releasing bots i fixed the launcher for this.

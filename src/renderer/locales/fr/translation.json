@@ -497,5 +497,9 @@
   "code": "Code",
   "FreelancerSelecting": "Choix du Freelancer",
   "Stopped": "Arrêté",
-  "Assembling": "Assemblage"
+  "Assembling": "Assemblage",
+  "APIOFFLINE": "Le serveur API est hors ligne. Veuillez patienter...",
+  "LINKDISCORD": "Pour accéder aux statistiques, vous devez connecter votre compte à Discord. <br />Rejoignez notre serveur Discord, puis cliquez sur le bouton ci-dessous pour lier votre compte.<br />N'oubliez pas, chaque compte Discord ne peut être lié qu'à l'un de vos comptes.<br />Pour dissocier, tapez simplement \"/unlink\" dans le chat Discord.",
+  "linkdiscordButton": "Lier Discord",
+  "joindiscordButton": "Rejoindre Discord"
 }

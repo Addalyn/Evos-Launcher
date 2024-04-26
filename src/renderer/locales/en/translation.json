@@ -498,5 +498,9 @@
   "code": "Code",
   "FreelancerSelecting": "Selecting Freelancer",
   "Stopped": "Stopped",
-  "Assembling": "Assembling"
+  "Assembling": "Assembling",
+  "APIOFFLINE": "API Server is offline. Please wait...",
+  "LINKDISCORD": "To access statistics, you need to connect your account to Discord. <br />Join our Discord server and then click the button below to link your account.<br />Remember, each Discord account can only be linked to one of your accounts.<br />To unlink, simply type \"/unlink\" in the Discord chat.",
+  "linkdiscordButton": "Link Discord",
+  "joindiscordButton": "Join Discord"
 }

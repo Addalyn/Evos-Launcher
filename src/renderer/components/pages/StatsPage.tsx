@@ -23,6 +23,8 @@ import TopGamesTakeDowns from '../stats/TopGamesTakeDowns';
 import TopGamesTakeDownsByAvg from '../stats/TopGamesTakeDownsByAvg';
 import { useTranslation } from 'react-i18next';
 import useWindowDimensions from 'renderer/lib/useWindowDimensions';
+import EvosStore from 'renderer/lib/EvosStore';
+import DiscordPage from './DiscordPage';
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -63,6 +65,11 @@ export default function StatsPage() {
   const [value1, setValue1] = useState(0);
   const { width } = useWindowDimensions();
   const { t } = useTranslation();
+  const { discordId } = EvosStore();
+
+  if (discordId === 0) {
+    return <DiscordPage />;
+  }
 
   const drawerWidth =
     width !== null && width < 916

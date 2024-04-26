@@ -59,7 +59,7 @@ function Player({ info, disableSkew, characterType }: Props) {
   useEffect(() => {
     getSpecialNames()
       .then((response) => {
-        setSpecialNames(response.data);
+        setSpecialNames(response);
         return response;
       })
       .catch(() => {

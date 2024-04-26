@@ -1,3 +1,4 @@
+/* eslint-disable promise/no-nesting */
 /* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable func-names */
@@ -346,17 +347,68 @@ async function startDownload(downloadPath: string) {
   });
 }
 
-export const setAuthResult = async (status: boolean) => {
-  if (status) {
-    startDownload(globalDownloadPath);
-  } else {
-    const noDiscordAuth = await translate('noDiscordAuth');
-    mainWindow?.webContents.send('download-progress-completed', {
-      text: noDiscordAuth,
-    });
-  }
+let isLinking = false;
+let user: AuthUser | null = null;
 
-  authClient?.stopListening();
+export const setAuthResult = async (status: boolean) => {
+  if (!isLinking) {
+    if (status) {
+      startDownload(globalDownloadPath);
+    } else {
+      const noDiscordAuth = await translate('noDiscordAuth');
+      mainWindow?.webContents.send('download-progress-completed', {
+        text: noDiscordAuth,
+      });
+    }
+
+    authClient?.stopListening();
+  }
+};
+
+export const setAuthResultLinked = async (status: boolean, guildInfo: any) => {
+  if (isLinking) {
+    if (status) {
+      const userId = guildInfo.user.id;
+      const userName = guildInfo.user.username;
+      fetch(
+        `https://stats-production.evos.live/api/discords?filters[discordid][$eq]=${userId}`,
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.data.length === 0) {
+            fetch('https://stats-production.evos.live/api/discords', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                data: {
+                  playername: user?.handle!,
+                  discordid: userId,
+                  discordname: userName,
+                },
+              }),
+            })
+              .then((response) => response.json())
+              .then((data1) => {
+                console.log('User created');
+              })
+              .catch((error) => {
+                console.error('Error creating user');
+              });
+          } else {
+            console.log('User found');
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching user');
+        });
+    }
+
+    authClient?.stopListening();
+
+    mainWindow?.webContents.send('linkedDiscord');
+  }
 };
 
 const installExtensions = async () => {
@@ -1143,11 +1195,23 @@ const createWindow = async () => {
         authClient = new AuthClient(oauthConfig);
       }
       authClient.openBrowser();
+      isLinking = false;
       globalDownloadPath = downloadPath;
     } else {
       mainWindow?.webContents.send('download-progress-completed', {
         text: await translate('unexpectedError'),
       });
+    }
+  });
+
+  ipcMain.handle('link-account', async (event, authUser: AuthUser) => {
+    if (oauthConfig.client_id !== '') {
+      if (!authClient || !authClient.isListening()) {
+        authClient = new AuthClient(oauthConfig);
+      }
+      authClient.openBrowser();
+      isLinking = true;
+      user = authUser;
     }
   });
 
