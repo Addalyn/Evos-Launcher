@@ -470,5 +470,9 @@
   "code": "Codice",
   "FreelancerSelecting": "Selezione Freelancer",
   "Stopped": "Fermato",
-  "Assembling": "Assemblaggio"
+  "Assembling": "Assemblaggio",
+  "APIOFFLINE": "Il server API è offline. Per favore, attendi...",
+  "LINKDISCORD": "Per accedere alle statistiche, devi collegare il tuo account a Discord. <br />Unisciti al nostro server Discord e poi clicca sul pulsante qui sotto per collegare il tuo account.<br />Ricorda, ogni account Discord può essere collegato solo a uno dei tuoi account.<br />Per scollegare, basta digitare \"/unlink\" nella chat di Discord.",
+  "linkdiscordButton": "Collega Discord",
+  "joindiscordButton": "Unisciti a Discord"
 }

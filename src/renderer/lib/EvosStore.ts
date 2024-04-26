@@ -51,6 +51,8 @@ export interface EvosStoreState {
   setAge: (age: number) => void;
   enablePatching: string;
   setEnablePatching: (enablePatching: string) => void;
+  setDiscordId: (discord: number) => void;
+  discordId: number;
 }
 
 const EvosStore = create<EvosStoreState>((set, get) => ({
@@ -67,6 +69,10 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   noLogEnabled: 'false',
   showAllChat: 'true',
   enablePatching: 'true',
+  discordId: 0,
+  setDiscordId: (discord: number) => {
+    set({ discordId: discord });
+  },
   // Helper async function to fetch values from storage
   getFromStorage: async <T>(key: string): Promise<T | null> => {
     try {

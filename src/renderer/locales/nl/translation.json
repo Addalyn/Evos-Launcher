@@ -497,5 +497,9 @@
   "code": "Code",
   "FreelancerSelecting": "Freelancer Selecteren",
   "Stopped": "Gestopt",
-  "Assembling": "Assembleren"
+  "Assembling": "Assembleren",
+  "APIOFFLINE": "De API-server is offline. Even geduld aub...",
+  "LINKDISCORD": "Om toegang te krijgen tot statistieken, moet je je account verbinden met Discord. <br />Sluit je aan bij onze Discord-server en klik vervolgens op de onderstaande knop om je account te koppelen.<br />Onthoud dat elk Discord-account slechts aan één van je accounts kan worden gekoppeld.<br />Om los te koppelen, typ gewoon \"/unlink\" in de Discord-chat.",
+  "linkdiscordButton": "Discord koppelen",
+  "joindiscordButton": "Word lid van Discord"
 }

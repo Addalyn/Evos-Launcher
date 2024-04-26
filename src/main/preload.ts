@@ -30,7 +30,9 @@ export type Channels =
   | 'downloadGame'
   | 'download progress'
   | 'download complete'
-  | 'cancelDownload';
+  | 'cancelDownload'
+  | 'link-account'
+  | 'linkedDiscord';
 
 const electronHandler = {
   isPackaged: process.env.NODE_ENV === 'production',
@@ -109,6 +111,9 @@ const electronHandler = {
     },
     setTheme(theme: string) {
       ipcRenderer.invoke('setTitleBarOverlay', theme);
+    },
+    linkAccount(authUser: AuthUser) {
+      ipcRenderer.invoke('link-account', authUser as AuthUser);
     },
   },
   store: {

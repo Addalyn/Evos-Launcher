@@ -466,5 +466,9 @@
   "code": "Código",
   "FreelancerSelecting": "Selección de Freelancer",
   "Stopped": "Detenido",
-  "Assembling": "Ensamblaje"
+  "Assembling": "Ensamblaje",
+  "APIOFFLINE": "El servidor de la API está fuera de línea. Por favor, espere...",
+  "LINKDISCORD": "Para acceder a las estadísticas, necesitas conectar tu cuenta a Discord. <br />Únete a nuestro servidor de Discord y luego haz clic en el botón de abajo para vincular tu cuenta.<br />Recuerda, cada cuenta de Discord solo puede estar vinculada a una de tus cuentas.<br />Para desvincular, simplemente escribe \"/unlink\" en el chat de Discord.",
+  "linkdiscordButton": "Vincular Discord",
+  "joindiscordButton": "Unirse a Discord"
 }

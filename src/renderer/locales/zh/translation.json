@@ -497,5 +497,9 @@
   "code": "激活码",
   "FreelancerSelecting": "选择角色中",
   "Stopped": "已结束",
-  "Assembling": "游戏配置中"
+  "Assembling": "游戏配置中",
+  "APIOFFLINE": "API 服务器已离线。请稍候...",
+  "LINKDISCORD": "要访问统计信息，您需要将您的帐户连接到 Discord。 <br />加入我们的 Discord 服务器，然后单击下面的按钮以链接您的帐户。<br />请记住，每个 Discord 帐户只能链接到您的一个帐户。<br />要取消链接，请在 Discord 聊天中简单输入 \"/unlink\"。",
+  "linkdiscordButton": "链接 Discord",
+  "joindiscordButton": "加入 Discord"
 }

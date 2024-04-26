@@ -5,7 +5,7 @@ import { Server } from 'http';
 import { shell } from 'electron';
 import Express, { Request, Response } from 'express';
 import got from 'got';
-import { setAuthResult } from '../../main';
+import { setAuthResult, setAuthResultLinked } from '../../main';
 import { listeningPort, validGuild, validRole } from '../config/config';
 
 import OAuthConfig from '../models/OAuthConfig';
@@ -27,7 +27,10 @@ class AuthClient {
     this._server = this.expressApp.listen(listeningPort);
 
     this.expressApp.get('/auth', async (req: Request, res: Response) => {
-      if (!req.query.code) setAuthResult(false);
+      if (!req.query.code) {
+        setAuthResult(false);
+        setAuthResultLinked(false, null);
+      }
 
       const data: OAuthConfig = {
         ...this._oauthConfig,
@@ -42,7 +45,10 @@ class AuthClient {
           form: data,
         });
 
-        if (!result) setAuthResult(false);
+        if (!result) {
+          setAuthResult(false);
+          setAuthResultLinked(false, null);
+        }
 
         const token: string = JSON.parse(result.body).access_token;
 
@@ -73,9 +79,14 @@ class AuthClient {
           } else {
             setAuthResult(false);
           }
+          setAuthResultLinked(true, guildInfo as Guild);
+        } else {
+          setAuthResult(false);
+          setAuthResultLinked(false, null);
         }
       } catch (err) {
         setAuthResult(false);
+        setAuthResultLinked(false, null);
       }
 
       res.send(`

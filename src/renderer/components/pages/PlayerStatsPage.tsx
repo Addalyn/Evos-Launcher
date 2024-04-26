@@ -16,6 +16,7 @@ import Player from '../atlas/Player';
 import GamesPlayedStats from '../stats/GamesPlayedStats';
 import PlayerWinRate from '../stats/PlayerStatsWinRate';
 import ErrorDialog from '../generic/ErrorDialog';
+import DiscordPage from './DiscordPage';
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -63,7 +64,7 @@ export default function PlayerStatsPage() {
   const [playerSearch, setPlayerSearch] = useState('');
   const [playerData, setPlayerData] = useState<PlayerData>();
   const { width } = useWindowDimensions();
-  const { activeUser, updateAuthenticatedUsers } = EvosStore();
+  const { activeUser, updateAuthenticatedUsers, discordId } = EvosStore();
   const { search } = useLocation();
   const [error, setError] = useState<EvosError>();
   const navigate = useNavigate();
@@ -125,6 +126,10 @@ export default function PlayerStatsPage() {
     'Hyperforge',
     'Christmas Cloudspire',
   ];
+
+  if (discordId === 0) {
+    return <DiscordPage />;
+  }
 
   if (playerSearch === '') {
     return <div>{t('loading')}</div>;

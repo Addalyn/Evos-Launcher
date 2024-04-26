@@ -32,6 +32,7 @@ import DiscordPage from './components/pages/DiscordPage';
 import ReplaysPage from './components/pages/ReplaysPage';
 import AdminMessage from './components/generic/AdminMessage';
 import DevPage from './components/pages/DevPage';
+import LinkDiscord from './components/generic/LinkDiscord';
 
 interface PageProps {
   title: string;
@@ -156,6 +157,7 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <LinkDiscord />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />
@@ -171,6 +173,7 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <LinkDiscord />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />
@@ -186,6 +189,7 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <LinkDiscord />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />
@@ -201,6 +205,7 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <LinkDiscord />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />
@@ -216,6 +221,7 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <LinkDiscord />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />
@@ -231,6 +237,7 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <LinkDiscord />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />
@@ -246,6 +253,7 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <LinkDiscord />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />
@@ -305,6 +313,7 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <LinkDiscord />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />
@@ -320,6 +329,7 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <LinkDiscord />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />
@@ -335,6 +345,7 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <LinkDiscord />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />
@@ -350,6 +361,7 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <LinkDiscord />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />
@@ -365,6 +377,7 @@ export default function App() {
                 <>
                   <NavBar />
                   <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <LinkDiscord />
                     <NotificationMessage />
                     <AdminMessage />
                     <Updater />

@@ -2,7 +2,7 @@
 import { createClient } from '@kmariappan/strapi-client-js';
 
 export const options = {
-  url: `https://stats.evos.live/api`,
+  url: `https://stats-production.evos.live/api`,
   apiToken: '', // Built in API token,
   normalizeData: true, // Normalize Unified response Format. default - true
   headers: {}, // Custom Headers

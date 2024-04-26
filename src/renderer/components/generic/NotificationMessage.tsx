@@ -24,10 +24,10 @@ function NotificationMessage() {
           `https://misc.evos.live/special.json?rand=${Math.random()}`,
           { headers: { accept: 'application/json' } },
         );
-        setSpecial(resp.data.special);
+        setSpecial(resp.data.specialv2);
         setSpecialWidth(resp.data.width);
         setSpecialHeight(resp.data.height);
-        setEnabled(resp.data.enabled);
+        setEnabled(resp.data.enabledv2);
         setSnowflakeCount(resp.data.snowflakeCount);
         setSnowflakeColor(resp.data.snowflakeColor);
       } catch (e) {

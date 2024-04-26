@@ -335,10 +335,69 @@ interface SpecialNames {
   Special: string[];
 }
 
+interface SpecialNamesQuery {
+  id: number;
+  effectname: string;
+  playername: string;
+}
+
+async function convertSpecialNamesQueryToSpecialNames(
+  data: SpecialNamesQuery[],
+): Promise<SpecialNames> {
+  const specialNames: SpecialNames = {
+    TournamentWinners: [],
+    Developers: [],
+    MVP: [],
+    Nitro: [],
+    Special: [],
+  };
+
+  data.forEach((item) => {
+    switch (item.effectname) {
+      case 'TournamentWinners':
+        specialNames.TournamentWinners.push(item.playername);
+        break;
+      case 'Developers':
+        specialNames.Developers.push(item.playername);
+        break;
+      case 'MVP':
+        specialNames.MVP.push(item.playername);
+        break;
+      case 'Nitro':
+        specialNames.Nitro.push(item.playername);
+        break;
+      case 'Special':
+        specialNames.Special.push(item.playername);
+        break;
+      default:
+        // Ignore unknown effect names
+        break;
+    }
+  });
+
+  return specialNames;
+}
+
 export async function getSpecialNames() {
-  return axios.get<SpecialNames>(
-    `https://misc.evos.live/specialNames.json?rand=${Math.random()}`,
-  );
+  try {
+    const strapi = strapiClient
+      .from<SpecialNamesQuery>(`specialeffects`)
+      .select();
+
+    const { data, error } = await strapi.get();
+
+    if (error) {
+      return null as unknown as SpecialNames;
+    }
+    if (data && data.length > 0) {
+      const specialNames: SpecialNames =
+        await convertSpecialNamesQueryToSpecialNames(data);
+      return specialNames;
+    }
+    return null as unknown as SpecialNames;
+  } catch (error) {
+    return null as unknown as SpecialNames;
+  }
 }
 
 export async function getUpdateInfo() {

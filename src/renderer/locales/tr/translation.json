@@ -498,5 +498,9 @@
   "code": "Kod",
   "FreelancerSelecting": "Freelancer seçiliyor",
   "Stopped": "Durduruldu",
-  "Assembling": "Oluşturuluyor"
+  "Assembling": "Oluşturuluyor",
+  "APIOFFLINE": "API Sunucusu çevrimdışı. Lütfen bekleyin...",
+  "LINKDISCORD": "İstatistiklere erişmek için hesabınızı Discord'a bağlamanız gerekiyor. <br />Discord sunucumuza katılın ve ardından hesabınızı bağlamak için aşağıdaki düğmeye tıklayın.<br />Unutmayın, her Discord hesabı sadece bir hesabınıza bağlanabilir.<br />Bağlantısızlaştırmak için, Discord sohbetine basitçe \"/unlink\" yazın.",
+  "linkdiscordButton": "Discord Bağla",
+  "joindiscordButton": "Discord'a Katıl"
 }
