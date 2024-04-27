@@ -6,10 +6,15 @@ import {
   Typography,
   Alert,
   AlertTitle,
+  Grid,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from '@mui/material';
 import EvosStore from 'renderer/lib/EvosStore';
-import { useTranslation } from 'react-i18next';
-import { getStatus, Status } from '../../lib/Evos';
+import { Trans, useTranslation } from 'react-i18next';
+import { GridExpandMoreIcon } from '@mui/x-data-grid';
+import { getPlayerData, getStatus, PlayerData, Status } from '../../lib/Evos';
 
 import { EvosError, processError } from '../../lib/Error';
 import useInterval from '../../lib/useInterval';
@@ -17,6 +22,7 @@ import useHasFocus from '../../lib/useHasFocus';
 import Server from '../atlas/Server';
 import Queue from '../atlas/Queue';
 import TrustBar from '../generic/TrustBar';
+import Player from '../atlas/Player';
 
 function GroupBy<V, K>(key: (item: V) => K, list?: V[]) {
   return list?.reduce((res, p) => {
@@ -32,11 +38,42 @@ function StatusPage() {
   const [error, setError] = useState<EvosError>();
   const [status, setStatus] = useState<Status>();
   const [updateTime, setUpdateTime] = useState<Date>();
+  const [expanded, setExpanded] = useState(false);
   const { ip, setAge, activeUser } = EvosStore();
   const { t } = useTranslation();
-
+  const [playerInfoList, setPlayerInfoList] = useState<PlayerData[]>([]);
   const navigate = useNavigate();
+  useEffect(() => {
+    const fetchPlayerInfo = async () => {
+      try {
+        const players = [
+          'BabyAddalyn#000',
+          'Memedelyn#805',
+          'zheneq#412',
+          'Lucas#210',
+          'cEEKAY#828',
+        ];
+        const infoList = await Promise.all(
+          players.map((player) => getPlayerData(activeUser!.token, player)),
+        );
+        setPlayerInfoList(
+          infoList.map((info) => info.data).filter((info) => info !== null),
+        );
+      } catch (error1) {
+        setPlayerInfoList([]);
+      }
+    };
 
+    fetchPlayerInfo();
+  }, [activeUser]);
+
+  const legend: { [key: string]: string } = {
+    'BabyAddalyn#000': 'Special',
+    'Memedelyn#805': 'MVP',
+    'zheneq#412': 'Developer',
+    'Lucas#210': 'Tournament Champion',
+    'cEEKAY#828': 'Nitro Booster',
+  };
   useEffect(() => {
     setTimeout(() => {
       if (
@@ -149,6 +186,29 @@ function StatusPage() {
               playerData={players}
             />
           ))}
+      <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
+        <Accordion
+          expanded={expanded}
+          onChange={() => setExpanded((value) => !value)}
+        >
+          <AccordionSummary expandIcon={<GridExpandMoreIcon />}>
+            <Typography>{t('effectLegendTitle')}</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Typography variant="caption" component="h2">
+              <Trans i18nKey="effectLegend" components={{ 1: <br /> }} />
+            </Typography>
+            <br />
+            <Grid container spacing={1}>
+              {playerInfoList.map((info) => (
+                <Grid item xs={4} key={`player-${info.handle}`}>
+                  <Player info={info} disableSkew title={legend[info.handle]} />
+                </Grid>
+              ))}
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
+      </Paper>
     </>
   );
 }

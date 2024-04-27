@@ -1,3 +1,12 @@
+# 2.0.0 - This should have been 2.0.1!
+
+- Added a legend in status page about all the effects posible in the launher (MVP, Tournament Winner, Nitro Booster, Developer) collapsed by default
+- Add a visual way to see if you are in any of the top 20 stats, so you can find yourself easier.
+- Added Link With Code, this is a way to link your discord account if you are unable to do it the normal way.
+  - To get a code, go to Discord server and type `/link` in any channel, this will give you a code that you can use in the launcher.
+  - Once used your account will be linked to your discord account.
+  - It will not give you a code if your discord account is already linked to another account. it will tell you what account is linked with it.
+
 # 1.9.9 - Discord update
 
 - Stats Prior to version `1.9.8` will no longer work, you need version `1.9.9` or higher to get stats.

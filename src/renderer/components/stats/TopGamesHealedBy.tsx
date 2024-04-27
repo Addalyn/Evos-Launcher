@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { fetchGameInfo } from 'renderer/lib/Evos';
 import { useTranslation } from 'react-i18next';
+import EvosStore from 'renderer/lib/EvosStore';
 
 ChartJS.register(
   CategoryScale,
@@ -29,7 +30,7 @@ interface DataItem {
 
 export default function TopGamesHealedBy() {
   const { t } = useTranslation();
-
+  const { activeUser } = EvosStore();
   const [gameData, setGameData] = useState([]);
   const [names, setNames] = useState([]);
   const options = {
@@ -74,9 +75,13 @@ export default function TopGamesHealedBy() {
         data: gameData,
         backgroundColor: (context: { dataIndex: number }) => {
           const index = context.dataIndex;
-          return index < 5
-            ? 'rgba(255, 127, 187, 0.5)'
-            : 'rgba(144,202,249,0.5)';
+          if (activeUser?.handle && names[index] === activeUser.handle) {
+            return 'rgb(102, 255, 51)';
+          }
+          if (index < 5) {
+            return 'rgba(255, 127, 187, 0.5)'; // replace 'specialColor' with your desired color
+          }
+          return 'rgba(144,202,249,0.5)';
         },
       },
     ],
