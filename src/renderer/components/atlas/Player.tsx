@@ -14,6 +14,7 @@ interface Props {
   info?: PlayerData;
   disableSkew?: boolean;
   characterType?: string;
+  title?: string;
 }
 
 interface SpecialNames {
@@ -35,7 +36,7 @@ const ImageTextWrapper = styled('span')(({ theme }) => ({
     '1px 1px 2px black, -1px -1px 2px black, 1px -1px 2px black, -1px 1px 2px black',
 }));
 
-function Player({ info, disableSkew, characterType }: Props) {
+function Player({ info, disableSkew, characterType, title }: Props) {
   const { t } = useTranslation();
   const [specialNames, setSpecialNames] = useState<SpecialNames>();
 
@@ -182,6 +183,9 @@ function Player({ info, disableSkew, characterType }: Props) {
               {(() => {
                 if (denydNames.includes(info.handle)) {
                   return 'Bot';
+                }
+                if (title) {
+                  return title;
                 }
                 if (typeof info?.status === 'number') {
                   // @ts-ignore

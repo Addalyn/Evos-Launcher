@@ -502,5 +502,9 @@
   "APIOFFLINE": "API Server is offline. Please wait...",
   "LINKDISCORD": "To access statistics, you need to connect your account to Discord. <br />Join our Discord server and then click the button below to link your account.<br />Remember, each Discord account can only be linked to one of your accounts.<br />To unlink, simply type \"/unlink\" in the Discord chat.",
   "linkdiscordButton": "Link Discord",
-  "joindiscordButton": "Join Discord"
+  "joindiscordButton": "Join Discord",
+  "linkwithcode": "Link with code",
+  "entercode": "Enter discord code here...",
+  "effectLegend": "BabyAddalyn#000 has the special effect, given by the developer as they see fit.<br />Zheneq#412 has the developer effect, given to all the developers.<br />Memedelyn#805 has the MVP effect, these people can get it by be being top 5 in any of the stats.<br />Lucas#210 has the tournament champion effect, these are given to people who have won a tournament.<br />cEEKAY#828 has the Nitro Booster effect, these are given to people who have boosted the Discord server.",
+  "effectLegendTitle": "These are the effects you can get in the launcher"
 }

@@ -502,5 +502,9 @@
   "APIOFFLINE": "O servidor da API está offline. Por favor, aguarde...",
   "LINKDISCORD": "Para acessar estatísticas, você precisa conectar sua conta ao Discord. <br />Junte-se ao nosso servidor do Discord e então clique no botão abaixo para vincular sua conta.<br />Lembre-se, cada conta do Discord só pode ser vinculada a uma de suas contas.<br />Para desvincular, basta digitar \"/unlink\" no chat do Discord.",
   "linkdiscordButton": "Vincular Discord",
-  "joindiscordButton": "Junte-se ao Discord"
+  "joindiscordButton": "Junte-se ao Discord",
+  "linkwithcode": "Vincular com código",
+  "entercode": "Digite o código do Discord aqui...",
+  "effectLegend": "BabyAddalyn#000 tem o efeito especial, concedido pelo desenvolvedor conforme acharem adequado.<br />Zheneq#412 tem o efeito de desenvolvedor, concedido a todos os desenvolvedores.<br />Memedelyn#805 tem o efeito MVP, essas pessoas podem obtê-lo ao ficarem entre os cinco primeiros em qualquer estatística.<br />Lucas#210 tem o efeito de campeão de torneio, concedido a pessoas que ganharam um torneio.<br />cEEKAY#828 tem o efeito de impulsionador Nitro, concedido a pessoas que impulsionaram o servidor do Discord.",
+  "effectLegendTitle": "Estes são os efeitos que você pode obter no lançador"
 }

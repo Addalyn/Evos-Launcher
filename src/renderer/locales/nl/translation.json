@@ -501,5 +501,9 @@
   "APIOFFLINE": "De API-server is offline. Even geduld aub...",
   "LINKDISCORD": "Om toegang te krijgen tot statistieken, moet je je account verbinden met Discord. <br />Sluit je aan bij onze Discord-server en klik vervolgens op de onderstaande knop om je account te koppelen.<br />Onthoud dat elk Discord-account slechts aan één van je accounts kan worden gekoppeld.<br />Om los te koppelen, typ gewoon \"/unlink\" in de Discord-chat.",
   "linkdiscordButton": "Discord koppelen",
-  "joindiscordButton": "Word lid van Discord"
+  "joindiscordButton": "Word lid van Discord",
+  "linkwithcode": "Verbinden met code",
+  "entercode": "Voer hier de Discord-code in...",
+  "effectLegend": "BabyAddalyn#000 heeft het speciale effect, gegeven door de ontwikkelaar zoals ze dat nodig achten.<br />Zheneq#412 heeft het ontwikkelaarseffect, gegeven aan alle ontwikkelaars.<br />Memedelyn#805 heeft het MVP-effect, deze mensen kunnen het krijgen door in de top 5 te staan in een van de statistieken.<br />Lucas#210 heeft het toernooikampioen-effect, deze worden gegeven aan mensen die een toernooi hebben gewonnen.<br />cEEKAY#828 heeft het Nitro Booster-effect, deze worden gegeven aan mensen die de Discord-server hebben geboost.",
+  "effectLegendTitle": "Dit zijn de effecten die je kunt krijgen in de launcher"
 }

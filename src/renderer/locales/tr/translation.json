@@ -502,5 +502,9 @@
   "APIOFFLINE": "API Sunucusu çevrimdışı. Lütfen bekleyin...",
   "LINKDISCORD": "İstatistiklere erişmek için hesabınızı Discord'a bağlamanız gerekiyor. <br />Discord sunucumuza katılın ve ardından hesabınızı bağlamak için aşağıdaki düğmeye tıklayın.<br />Unutmayın, her Discord hesabı sadece bir hesabınıza bağlanabilir.<br />Bağlantısızlaştırmak için, Discord sohbetine basitçe \"/unlink\" yazın.",
   "linkdiscordButton": "Discord Bağla",
-  "joindiscordButton": "Discord'a Katıl"
+  "joindiscordButton": "Discord'a Katıl",
+  "linkwithcode": "Kod ile bağlantı kur",
+  "entercode": "Buraya Discord kodunu gir...",
+  "effectLegend": "BabyAddalyn#000, geliştirici tarafından uygun görüldüğü şekilde özel etkiye sahiptir.<br />Zheneq#412, tüm geliştiricilere verilen geliştirici etkisine sahiptir.<br />Memedelyn#805, bu kişiler herhangi bir istatistikte ilk 5'e girerek bunu elde edebilirler.<br />Lucas#210, turnuva şampiyonu etkisine sahiptir, bu kişilere bir turnuva kazanmış olanlara verilir.<br />cEEKAY#828, Nitro Booster etkisine sahiptir, bu kişilere Discord sunucusunu artırmış olanlara verilir.",
+  "effectLegendTitle": "Bu, başlatıcıda alabileceğiniz etkilerdir"
 }
