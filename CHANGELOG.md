@@ -1,3 +1,10 @@
+# 2.0.1
+
+- Fixed downloading the game , will no longer open discord auth and check role, it wil now based on wheter they have linked their discord account or not.
+- Added the play button back on top of the launcher, when not setting the game path it will be disabled hover over it to see why.
+- Fixed if game was unable to launc , by lets say removing the exe file, the button reverts to play and message why it was unable to launch.
+- Fixed and cached special effects data so it does not request it every for x amount of players, cache is 1min
+
 # 2.0.0 - This should have been 2.0.1!
 
 - Added a legend in status page about all the effects posible in the launher (MVP, Tournament Winner, Nitro Booster, Developer) collapsed by default

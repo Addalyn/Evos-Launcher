@@ -994,9 +994,22 @@ const createWindow = async () => {
                 launchOptionsWithTicket,
                 { cwd: path.dirname(launchOptions.exePath) },
               );
+              let error = false;
               games[launchOptions.name].on('close', () => {
                 event.reply('setActiveGame', [launchOptions.name, false]);
-                sendStatusToWindow(mainWindow as BrowserWindow, '');
+                if (!error) {
+                  sendStatusToWindow(mainWindow as BrowserWindow, '');
+                }
+                error = false;
+                delete games[launchOptions.name];
+              });
+              games[launchOptions.name].on('error', (err) => {
+                event.reply('setActiveGame', [launchOptions.name, false]);
+                sendStatusToWindow(
+                  mainWindow as BrowserWindow,
+                  `Error launching the game for ${launchOptions.name}: ${err.message}`,
+                );
+                error = true;
                 delete games[launchOptions.name];
               });
             } catch (e) {
@@ -1027,7 +1040,7 @@ const createWindow = async () => {
               'Logs',
             );
             createFolderIfNotExists(logFolderPath);
-
+            let error = false;
             games[launchOptions.name] = spawn(
               launchOptions.exePath,
               launchOptionsWithoutTicket,
@@ -1035,7 +1048,19 @@ const createWindow = async () => {
             );
             games[launchOptions.name].on('close', () => {
               event.reply('setActiveGame', [launchOptions.name, false]);
-              sendStatusToWindow(mainWindow as BrowserWindow, '');
+              if (!error) {
+                sendStatusToWindow(mainWindow as BrowserWindow, '');
+              }
+              error = false;
+              delete games[launchOptions.name];
+            });
+            games[launchOptions.name].on('error', (err) => {
+              event.reply('setActiveGame', [launchOptions.name, false]);
+              sendStatusToWindow(
+                mainWindow as BrowserWindow,
+                `Error launching the game for ${launchOptions.name}: ${err.message}`,
+              );
+              error = true;
               delete games[launchOptions.name];
             });
           }
@@ -1189,19 +1214,24 @@ const createWindow = async () => {
     worker?.terminate();
   });
 
+  // ipcMain.handle('download-game', async (event, downloadPath: string) => {
+  //   if (oauthConfig.client_id !== '') {
+  //     if (!authClient || !authClient.isListening()) {
+  //       authClient = new AuthClient(oauthConfig);
+  //     }
+  //     authClient.openBrowser();
+  //     isLinking = false;
+  //     globalDownloadPath = downloadPath;
+  //   } else {
+  //     mainWindow?.webContents.send('download-progress-completed', {
+  //       text: await translate('unexpectedError'),
+  //     });
+  //   }
+  // });
+
   ipcMain.handle('download-game', async (event, downloadPath: string) => {
-    if (oauthConfig.client_id !== '') {
-      if (!authClient || !authClient.isListening()) {
-        authClient = new AuthClient(oauthConfig);
-      }
-      authClient.openBrowser();
-      isLinking = false;
-      globalDownloadPath = downloadPath;
-    } else {
-      mainWindow?.webContents.send('download-progress-completed', {
-        text: await translate('unexpectedError'),
-      });
-    }
+    globalDownloadPath = downloadPath;
+    startDownload(globalDownloadPath);
   });
 
   ipcMain.handle('link-account', async (event, authUser: AuthUser) => {

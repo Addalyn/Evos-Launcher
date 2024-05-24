@@ -29,7 +29,7 @@ function download(url, location, oneTry, progressCallback) {
           const size = Number(resp.headers['content-length']);
           let bytesDone = 0;
           let lastUpdate = 0;
-          const updateInterval = Math.ceil(size / 10);
+          const updateInterval = Math.ceil(size / 100);
           progressCallback(0, 0);
           resp.on('data', (chunk) => {
             bytesDone += chunk.length;
