@@ -60,7 +60,7 @@ function Player({ info, disableSkew, characterType, title }: Props) {
   useEffect(() => {
     getSpecialNames()
       .then((response) => {
-        setSpecialNames(response);
+        setSpecialNames(response || undefined);
         return response;
       })
       .catch(() => {
