@@ -464,10 +464,8 @@ export default function NavBar() {
               />
             </Box>
             {isAuthenticated() &&
-              exePath.endsWith('AtlasReactor.exe') &&
               !isDownloading &&
               !isPatching &&
-              isValidExePath(exePath) &&
               !account?.locked && (
                 <Box
                   sx={{
@@ -475,7 +473,21 @@ export default function NavBar() {
                     justifyContent: 'center',
                   }}
                 >
-                  <Tooltip title={tooltipTitle}>
+                  <Tooltip
+                    title={tooltipTitle}
+                    slotProps={{
+                      popper: {
+                        modifiers: [
+                          {
+                            name: 'offset',
+                            options: {
+                              offset: [0, 14],
+                            },
+                          },
+                        ],
+                      },
+                    }}
+                  >
                     <span>
                       <Button
                         variant="outlined"

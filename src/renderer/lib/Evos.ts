@@ -378,24 +378,63 @@ async function convertSpecialNamesQueryToSpecialNames(
   return specialNames;
 }
 
-export async function getSpecialNames() {
+// cache this data for 1 minute, was doing way to mutch requests to the api
+const cacheTimeout = 1 * 60 * 1000;
+let cache: { data: SpecialNames | null; timestamp: number } | null = null;
+let isFetching = false;
+let fetchPromise: Promise<SpecialNames | null> | null = null;
+
+export async function getSpecialNames(): Promise<SpecialNames | null> {
   try {
-    const strapi = strapiClient
-      .from<SpecialNamesQuery>(`specialeffects`)
-      .select();
+    const currentTime = Date.now();
 
-    const { data, error } = await strapi.get();
+    // Check if cache exists and is still valid
+    if (cache && currentTime - cache.timestamp < cacheTimeout) {
+      return cache.data;
+    }
 
-    if (error) {
-      return null as unknown as SpecialNames;
+    // If a fetch is already in progress, wait for it to complete
+    if (isFetching && fetchPromise) {
+      return await fetchPromise;
     }
-    if (data && data.length > 0) {
-      const specialNames: SpecialNames =
-        await convertSpecialNamesQueryToSpecialNames(data);
-      return specialNames;
-    }
-    return null as unknown as SpecialNames;
+
+    // Set fetching state and create a fetch promise
+    isFetching = true;
+    fetchPromise = (async () => {
+      try {
+        const strapi = strapiClient
+          .from<SpecialNamesQuery>(`specialeffects`)
+          .select();
+
+        const { data, error } = await strapi.get();
+
+        if (error) {
+          return null as unknown as SpecialNames;
+        }
+        if (data && data.length > 0) {
+          const specialNames: SpecialNames =
+            await convertSpecialNamesQueryToSpecialNames(data);
+
+          // Update cache
+          cache = {
+            data: specialNames,
+            timestamp: currentTime,
+          };
+          return specialNames;
+        }
+        return null as unknown as SpecialNames;
+      } catch (error) {
+        return null as unknown as SpecialNames;
+      } finally {
+        isFetching = false;
+        fetchPromise = null;
+      }
+    })();
+
+    return await fetchPromise;
   } catch (error) {
+    isFetching = false;
+    fetchPromise = null;
     return null as unknown as SpecialNames;
   }
 }

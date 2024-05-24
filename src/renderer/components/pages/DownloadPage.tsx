@@ -20,6 +20,7 @@ import { logoSmall } from 'renderer/lib/Resources';
 import EvosStore from 'renderer/lib/EvosStore';
 import { useTranslation } from 'react-i18next';
 import { truncateDynamicPath } from './SettingsPage';
+import DiscordPage from './DiscordPage';
 
 function LinearProgressWithLabel(
   props: LinearProgressProps & {
@@ -66,6 +67,7 @@ function DownloadPage() {
     isDownloading,
     setIsDownloading,
     setExePath,
+    discordId,
   } = EvosStore();
   const [progressFile, setProgressFile] = useState('');
   const [progress, setProgress] = useState(0);
@@ -108,6 +110,10 @@ function DownloadPage() {
     setIsDownloading(false);
     setCompleted(event.text);
     setExePath(`${folderPath}\\AtlasReactor\\Win64\\AtlasReactor.exe`);
+  }
+
+  if (discordId === 0) {
+    return <DiscordPage />;
   }
 
   window.electron.ipcRenderer.on('download-progress', handleProgressBar);
