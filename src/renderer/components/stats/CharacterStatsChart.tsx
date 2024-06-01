@@ -157,7 +157,7 @@ const names = [
   'OZ',
   'PuP',
   'Tol-Ren',
-  // 'Vonn',
+  'Vonn',
   'Zuki',
   /* Frontline */
   'Asana',
@@ -195,6 +195,7 @@ const characterCategories: { [key: string]: string } = {
   PuP: 'Firepower',
   'Tol-Ren': 'Firepower',
   Zuki: 'Firepower',
+  Vonn: 'Firepower',
   Asana: 'Frontline',
   Brynn: 'Frontline',
   Garrison: 'Frontline',

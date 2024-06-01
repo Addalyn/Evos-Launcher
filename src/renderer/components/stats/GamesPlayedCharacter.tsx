@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
   BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
   Title,
   Tooltip,
-  Legend,
 } from 'chart.js';
+import { useEffect, useState } from 'react';
+
 import { Bar } from 'react-chartjs-2';
 import { strapiClient } from 'renderer/lib/strapi';
 import { useTranslation } from 'react-i18next';
@@ -43,7 +43,7 @@ const names = [
   'OZ',
   'PuP',
   'Tol-Ren',
-  // 'Vonn',
+  'Vonn',
   'Zuki',
   /* Frontline */
   'Asana',
@@ -81,6 +81,7 @@ const characterCategories: { [key: string]: string } = {
   PuP: 'Firepower',
   'Tol-Ren': 'Firepower',
   Zuki: 'Firepower',
+  Vonn: 'Firepower',
   Asana: 'Frontline',
   Brynn: 'Frontline',
   Garrison: 'Frontline',
