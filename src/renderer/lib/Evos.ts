@@ -24,7 +24,7 @@ export const denydNames = [
   'Oz',
   'PuP',
   'Tol-Ren',
-  // 'Vonn',
+  'Vonn',
   'Zuki',
   /* Frontline */
   'Asana',

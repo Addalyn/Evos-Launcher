@@ -1,29 +1,29 @@
-import { useState } from 'react';
-
 import {
+  Alert,
   Avatar,
   Button,
-  Grid,
-  InputAdornment,
-  Paper,
-  TextField,
-  Switch,
+  FormControl,
   FormControlLabel,
   FormGroup,
-  FormControl,
-  Select,
-  MenuItem,
-  Tooltip,
-  Alert,
+  Grid,
+  InputAdornment,
   ListItemText,
+  MenuItem,
+  Paper,
+  Select,
+  Switch,
+  TextField,
+  Tooltip,
 } from '@mui/material';
-import { logoSmall } from 'renderer/lib/Resources';
-import EvosStore from 'renderer/lib/EvosStore';
 import { changePassword, logout } from 'renderer/lib/Evos';
-import { useNavigate } from 'react-router-dom';
 import { isValidExePath, isWarningPath } from 'renderer/lib/Error';
-import { useTranslation } from 'react-i18next';
+
+import EvosStore from 'renderer/lib/EvosStore';
 import Flag from 'react-flagkit';
+import { logoSmall } from 'renderer/lib/Resources';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface Language {
   nativeName: string;
@@ -149,7 +149,9 @@ export default function SettingsPage() {
     }, 500);
   };
 
-  const handlePasswordResetClick = (event: { preventDefault: () => void }) => {
+  const handlePasswordResetClick = async (event: {
+    preventDefault: () => void;
+  }) => {
     event.preventDefault();
     if (password !== password1) {
       setError(t('errors.errorPassMatch'));
@@ -168,8 +170,17 @@ export default function SettingsPage() {
       return;
     }
     setError('');
-    changePassword(activeUser?.token ?? '', password);
-    signOut();
+    const checkpasswordchange = await changePassword(
+      activeUser?.token ?? '',
+      password,
+    );
+
+    // Valid password change, log user out
+    if (checkpasswordchange.status === 200) {
+      signOut();
+    } else {
+      setError(t('errors.unknownError'));
+    }
   };
 
   const handleChange = (event: { target: { value: any } }) => {

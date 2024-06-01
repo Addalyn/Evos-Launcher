@@ -1,3 +1,8 @@
+# 2.0.2 - Just a chill update
+
+- Added Vonn
+- Fix a rare case of being logged out before an actual password change,
+
 # 2.0.1
 
 - Fixed downloading the game , will no longer open discord auth and check role, it wil now based on wheter they have linked their discord account or not.
