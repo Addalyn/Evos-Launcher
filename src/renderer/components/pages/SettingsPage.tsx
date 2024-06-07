@@ -1,26 +1,26 @@
 import {
-  Alert,
-  Avatar,
+  // Alert,
+  // Avatar,
   Button,
-  FormControl,
+  // FormControl,
   FormControlLabel,
   FormGroup,
   Grid,
-  InputAdornment,
+  // InputAdornment,
   ListItemText,
   MenuItem,
   Paper,
   Select,
   Switch,
   TextField,
-  Tooltip,
+  // Tooltip,
 } from '@mui/material';
 import { changePassword, logout } from 'renderer/lib/Evos';
-import { isValidExePath, isWarningPath } from 'renderer/lib/Error';
+// import { isValidExePath, isWarningPath } from 'renderer/lib/Error';
 
 import EvosStore from 'renderer/lib/EvosStore';
 import Flag from 'react-flagkit';
-import { logoSmall } from 'renderer/lib/Resources';
+// import { logoSmall } from 'renderer/lib/Resources';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -66,23 +66,23 @@ export function truncateDynamicPath(filePath: string, maxChars: number) {
 
 export default function SettingsPage() {
   const {
-    ip,
-    exePath,
+    // ip,
+    // exePath,
     mode,
     toggleMode,
-    setExePath,
-    ticketEnabled,
-    setTicketEnabled,
-    noLogEnabled,
-    setNoLogEnabled,
+    // setExePath,
+    // ticketEnabled,
+    // setTicketEnabled,
+    // noLogEnabled,
+    // setNoLogEnabled,
     activeUser,
     updateAuthenticatedUsers,
     authenticatedUsers,
-    setIp,
-    showAllChat,
-    setShowAllChat,
-    enablePatching,
-    setEnablePatching,
+    // setIp,
+    // showAllChat,
+    // setShowAllChat,
+    // enablePatching,
+    // setEnablePatching,
   } = EvosStore();
 
   const [password, setPassword] = useState('');
@@ -103,28 +103,29 @@ export default function SettingsPage() {
     navigate('/login');
   };
 
-  const handleSelectFileClick = async (config: boolean) => {
-    const filePath = await window.electron.ipcRenderer.getSelectedFile(config);
-    if (config) {
-      updateAuthenticatedUsers(
-        activeUser?.user as string,
-        activeUser?.token as string,
-        activeUser?.handle as string,
-        activeUser?.banner as number,
-        (filePath as string) || ('' as string),
-      );
-      return;
-    }
-    setExePath(filePath || '');
-  };
+  // const handleSelectFileClick = async (config: boolean) => {
+  //   const filePath =
+  //     await window.electron?.ipcRenderer?.getSelectedFile(config);
+  //   if (config) {
+  //     updateAuthenticatedUsers(
+  //       activeUser?.user as string,
+  //       activeUser?.token as string,
+  //       activeUser?.handle as string,
+  //       activeUser?.banner as number,
+  //       (filePath as string) || ('' as string),
+  //     );
+  //     return;
+  //   }
+  //   setExePath(filePath || '');
+  // };
 
-  const handleSearch = async () => {
-    const filePath = await window.electron.ipcRenderer.searchForGame();
-    if (filePath === null) {
-      return;
-    }
-    setExePath(filePath || '');
-  };
+  // const handleSearch = async () => {
+  //   const filePath = await window.electron?.ipcRenderer?.searchForGame();
+  //   if (filePath === null) {
+  //     return;
+  //   }
+  //   setExePath(filePath || '');
+  // };
 
   const handleResetClick = () => {
     authenticatedUsers.forEach(async (user) => {
@@ -183,16 +184,16 @@ export default function SettingsPage() {
     }
   };
 
-  const handleChange = (event: { target: { value: any } }) => {
-    const selectedValue = event.target.value;
-    setIp(selectedValue);
-    signOut();
-  };
+  // const handleChange = (event: { target: { value: any } }) => {
+  //   const selectedValue = event.target.value;
+  //   setIp(selectedValue);
+  //   signOut();
+  // };
 
-  const setShowAllChatInternal = (value: string) => {
-    setShowAllChat(value);
-    window.electron.ipcRenderer.setShowAllChat(value);
-  };
+  // const setShowAllChatInternal = (value: string) => {
+  //   setShowAllChat(value);
+  //   window.electron?.ipcRenderer?.setShowAllChat(value);
+  // };
 
   return (
     <>
@@ -282,7 +283,38 @@ export default function SettingsPage() {
           )}
         </Grid>
       </Paper>
-      {ticketEnabled === 'false' && (
+      <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={6}>
+            <Button
+              variant="contained"
+              color="error"
+              fullWidth
+              onClick={handleDeleteClick}
+              sx={{ height: '56px' }}
+            >
+              {t('settings.deleteAllAccounts')}
+            </Button>
+          </Grid>
+          <Grid item xs={6}>
+            <Button
+              variant="contained"
+              color="error"
+              fullWidth
+              onClick={handleResetClick}
+              sx={{ height: '56px' }}
+            >
+              {t('settings.resetApp')}
+            </Button>
+          </Grid>
+        </Grid>
+      </Paper>
+    </>
+  );
+}
+// Old
+/*
+     {ticketEnabled === 'false' && (
         <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
           <Grid container spacing={2} alignItems="center">
             <Grid item xs={7}>
@@ -536,32 +568,4 @@ export default function SettingsPage() {
           </Grid>
         </Grid>
       </Paper>
-      <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
-        <Grid container spacing={2} alignItems="center">
-          <Grid item xs={6}>
-            <Button
-              variant="contained"
-              color="error"
-              fullWidth
-              onClick={handleDeleteClick}
-              sx={{ height: '56px' }}
-            >
-              {t('settings.deleteAllAccounts')}
-            </Button>
-          </Grid>
-          <Grid item xs={6}>
-            <Button
-              variant="contained"
-              color="error"
-              fullWidth
-              onClick={handleResetClick}
-              sx={{ height: '56px' }}
-            >
-              {t('settings.resetApp')}
-            </Button>
-          </Grid>
-        </Grid>
-      </Paper>
-    </>
-  );
-}
+*/

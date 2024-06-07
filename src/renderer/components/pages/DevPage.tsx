@@ -104,8 +104,14 @@ export default function DevPage() {
   };
 
   useEffect(() => {
-    window.electron.ipcRenderer.on('download progress', handleDownloadProgress);
-    window.electron.ipcRenderer.on('download complete', handleDownloadComplete);
+    window.electron?.ipcRenderer?.on(
+      'download progress',
+      handleDownloadProgress,
+    );
+    window.electron?.ipcRenderer?.on(
+      'download complete',
+      handleDownloadComplete,
+    );
   }, []);
 
   const testDownload = () => {
@@ -113,11 +119,14 @@ export default function DevPage() {
     // const pathArray = forwardSlashPath.split('/');
     // pathArray.splice(-2);
     // const downloadPath = pathArray.join('\\');
-    window.electron.ipcRenderer.sendMessage('downloadGame', 'c:\\testGames\\');
+    window.electron?.ipcRenderer?.sendMessage(
+      'downloadGame',
+      'c:\\testGames\\',
+    );
   };
 
   const testStop = () => {
-    window.electron.ipcRenderer.sendMessage('cancelDownload');
+    window.electron?.ipcRenderer?.sendMessage('cancelDownload');
   };
 
   return (

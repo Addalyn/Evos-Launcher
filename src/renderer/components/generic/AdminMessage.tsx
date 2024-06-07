@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 /* eslint-disable promise/always-return */
-import { trackEvent } from '@aptabase/electron/renderer';
+// import { trackEvent } from '@aptabase/electron/renderer';
 import { Alert, Paper, Typography } from '@mui/material';
 import { AxiosResponse } from 'axios';
 import { useCallback, useEffect, useState } from 'react';
@@ -43,10 +43,10 @@ function AdminMessage() {
         });
 
         if (filteredDodges && filteredDodges.length > 0) {
-          trackEvent('dodges', {
-            user: activeUser?.user as string,
-            amount: filteredDodges.length,
-          });
+          // trackEvent('dodges', {
+          //   user: activeUser?.user as string,
+          //   amount: filteredDodges.length,
+          // });
           setAccount(() => {
             if (resp.data) {
               return {

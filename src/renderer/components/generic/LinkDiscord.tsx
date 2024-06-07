@@ -78,7 +78,7 @@ function LinkDiscord() {
 
   const linkDiscord = () => {
     if (activeUser) {
-      window.electron.ipcRenderer.linkAccount(activeUser);
+      window.electron?.ipcRenderer?.linkAccount(activeUser);
     }
   };
 

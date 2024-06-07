@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { trackEvent } from '@aptabase/electron/renderer';
+// import { trackEvent } from '@aptabase/electron/renderer';
 import {
   CharacterType,
   GameData,
@@ -135,7 +135,7 @@ export default function Game({ info, playerData, expanded }: Props) {
           <Box
             flexBasis={120}
             onClick={() => {
-              trackEvent('Game Details');
+              // trackEvent('Game Details');
               setCollapsed((x) => !x);
             }}
             style={{

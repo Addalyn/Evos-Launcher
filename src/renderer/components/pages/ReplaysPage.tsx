@@ -169,7 +169,7 @@ export function ReplayDialog({
         getTicket(activeUser?.token ?? '')
           // eslint-disable-next-line promise/always-return
           .then((resp) => {
-            window.electron.ipcRenderer.sendMessage('launch-game', {
+            window.electron?.ipcRenderer?.sendMessage('launch-game', {
               launchOptions: {
                 exePath,
                 ip: evosStore.ip,
@@ -181,7 +181,7 @@ export function ReplayDialog({
             });
           });
       } else {
-        window.electron.ipcRenderer.sendMessage('launch-game', {
+        window.electron?.ipcRenderer?.sendMessage('launch-game', {
           launchOptions: {
             exePath,
             ip: evosStore.ip,
@@ -275,7 +275,7 @@ export function ReplayDialog({
         0,
         selectedReplay.fullPath.lastIndexOf('\\'),
       );
-      window.electron.ipcRenderer.openFolder(folderPath);
+      window.electron?.ipcRenderer?.openFolder(folderPath);
     }
   };
 
@@ -285,7 +285,7 @@ export function ReplayDialog({
 
   const handleSaveReplay = async () => {
     if (selectedReplay) {
-      const saved = await window.electron.ipcRenderer.saveReplay(
+      const saved = await window.electron?.ipcRenderer?.saveReplay(
         exePath,
         selectedReplay.name,
         selectedReplay.content,
@@ -301,7 +301,7 @@ export function ReplayDialog({
   useEffect(() => {
     const checkfile = async () => {
       if (selectedReplay) {
-        const exists = await window.electron.ipcRenderer.replayExists(
+        const exists = await window.electron?.ipcRenderer?.replayExists(
           exePath,
           selectedReplay.name,
         );
@@ -480,7 +480,7 @@ function ReplaysPage() {
       setOpenDialog(true);
       setLoading(true);
 
-      const content = await window.electron.ipcRenderer.getLogContent(
+      const content = await window.electron?.ipcRenderer?.getLogContent(
         log.fullPath,
       );
       log.content = content;
@@ -623,7 +623,7 @@ function ReplaysPage() {
   useEffect(() => {
     const fetchReplays = async () => {
       try {
-        const data = await window.electron.ipcRenderer.getReplays(exePath);
+        const data = await window.electron?.ipcRenderer?.getReplays(exePath);
         // Convert lastModified strings to Date objects
         data.forEach((file: ReplayFile) => {
           file.lastModified = new Date(file.lastModified);

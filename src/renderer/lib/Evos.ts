@@ -24,7 +24,7 @@ export const denydNames = [
   'Oz',
   'PuP',
   'Tol-Ren',
-  'Vonn',
+  // 'Vonn',
   'Zuki',
   /* Frontline */
   'Asana',
@@ -201,7 +201,7 @@ export async function login(
   username: string,
   password: string,
 ) {
-  const ip = await window.electron.store.getItem('ip');
+  const ip = localStorage.getItem('ip');
   const baseUrl = `https://${ip}`;
 
   return axios.post<LoginResponse>(
@@ -217,7 +217,7 @@ export async function registerAccount(
   password: string,
   code: string,
 ) {
-  const ip = await window.electron.store.getItem('ip');
+  const ip = localStorage.getItem('ip');
   const baseUrl = `https://${ip}`;
 
   return axios.post<LoginResponse>(
@@ -228,7 +228,7 @@ export async function registerAccount(
 }
 
 export async function logout(authHeader: string) {
-  const ip = await window.electron.store.getItem('ip');
+  const ip = localStorage.getItem('ip');
   const baseUrl = `https://${ip}`;
   return axios.get<Status>(`${baseUrl}/api/logout`, {
     headers: { Authorization: `bearer ${authHeader}` },
@@ -236,7 +236,7 @@ export async function logout(authHeader: string) {
 }
 
 export async function changePassword(authHeader: string, password: string) {
-  const ip = await window.electron.store.getItem('ip');
+  const ip = localStorage.getItem('ip');
   const baseUrl = `https://${ip}`;
   return axios.put(
     `${baseUrl}/api/account/changePassword`,
@@ -250,13 +250,13 @@ export async function changePassword(authHeader: string, password: string) {
 }
 
 export async function getStatus() {
-  const ip = await window.electron.store.getItem('ip');
+  const ip = localStorage.getItem('ip');
   const baseUrl = `https://${ip}`;
   return axios.get<Status>(`${baseUrl}/api/lobby/status`);
 }
 
 export async function getMotd(language: string) {
-  const ip = await window.electron.store.getItem('ip');
+  const ip = localStorage.getItem('ip');
   const baseUrl = `https://${ip}`;
 
   try {
@@ -271,7 +271,7 @@ export async function getMotd(language: string) {
 }
 
 export async function getNotification(language: string) {
-  const ip = await window.electron.store.getItem('ip');
+  const ip = localStorage.getItem('ip');
   const baseUrl = `https://${ip}`;
   try {
     return await axios.get<TextNotification>(
@@ -285,7 +285,7 @@ export async function getNotification(language: string) {
 }
 
 export async function getTicket(authHeader: string) {
-  const ip = await window.electron.store.getItem('ip');
+  const ip = localStorage.getItem('ip');
   const baseUrl = `https://${ip}`;
   return axios.get<Status>(`${baseUrl}/api/ticket`, {
     headers: { Authorization: `bearer ${authHeader}` },
@@ -293,7 +293,7 @@ export async function getTicket(authHeader: string) {
 }
 
 export async function getPlayerData(authHeader: string, queryParams: string) {
-  const ip = await window.electron.store.getItem('ip');
+  const ip = localStorage.getItem('ip');
   const baseUrl = `https://${ip}`;
   return axios.get<PlayerData>(
     `${baseUrl}/api/lobby/playerInfo?handle=${queryParams}`,
@@ -320,7 +320,7 @@ export async function fetchGameInfo(action: string) {
 
 export async function getPlayerInfo(authHeader: string) {
   if (authHeader === '') return null;
-  const ip = await window.electron.store.getItem('ip');
+  const ip = localStorage.getItem('ip');
   const baseUrl = `https://${ip}`;
   return axios.get<AccountData>(`${baseUrl}/api/account/me`, {
     headers: { Authorization: `bearer ${authHeader}` },

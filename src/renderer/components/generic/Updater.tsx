@@ -28,7 +28,7 @@ function Updater() {
     alert(t('updateRestarting'));
     // wait 3seconds
     setTimeout(() => {
-      window.electron.ipcRenderer.restartApp();
+      window.electron?.ipcRenderer?.restartApp();
     }, 3000);
   }
 
@@ -45,16 +45,16 @@ function Updater() {
 
   useEffect(() => {
     if (latestVersion && message === '') {
-      window.electron.ipcRenderer.getVersion().then((v) => setVersion(v));
+      window.electron?.ipcRenderer?.getVersion().then((v) => setVersion(v));
       if (version) {
         if (latestVersion?.version > version) {
-          window.electron.ipcRenderer.checkVersion();
+          window.electron?.ipcRenderer?.checkVersion();
         }
       }
     }
   }, [latestVersion, message, version]);
 
-  window.electron.ipcRenderer.on('message', handleMessage);
+  window.electron?.ipcRenderer?.on('message', handleMessage);
   return (
     <div>
       {message !== '' && (

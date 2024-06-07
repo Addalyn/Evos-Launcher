@@ -30,12 +30,12 @@ import ForumIcon from '@mui/icons-material/Forum';
 import InfoIcon from '@mui/icons-material/Info';
 import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
-import DownloadIcon from '@mui/icons-material/Download';
+// import DownloadIcon from '@mui/icons-material/Download';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import HistoryIcon from '@mui/icons-material/History';
 // import LogoDevIcon from '@mui/icons-material/LogoDev';
-import TextSnippetIcon from '@mui/icons-material/TextSnippet';
+// import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import EvosStore, { AuthUser } from 'renderer/lib/EvosStore';
 import useWindowDimensions from 'renderer/lib/useWindowDimensions';
 import {
@@ -49,8 +49,8 @@ import {
 } from 'renderer/lib/Evos';
 import { EvosError, isValidExePath, processError } from 'renderer/lib/Error';
 import { useTranslation } from 'react-i18next';
-import { trackEvent } from '@aptabase/electron/renderer';
-import { Replay } from '@mui/icons-material';
+// import { trackEvent } from '@aptabase/electron/renderer';
+// import { Replay } from '@mui/icons-material';
 import useHasFocus from 'renderer/lib/useHasFocus';
 import useInterval from 'renderer/lib/useInterval';
 import ErrorDialog from './ErrorDialog';
@@ -103,21 +103,21 @@ export default function NavBar() {
         href: '/previousgames',
         icon: <HistoryIcon />,
       },
-      {
-        title: t('menuOptions.gameLogs'),
-        href: '/logs',
-        icon: <TextSnippetIcon />,
-      },
-      {
-        title: t('menuOptions.replays', 'Replays'),
-        href: '/replays',
-        icon: <Replay />,
-      },
-      {
-        title: t('menuOptions.download'),
-        href: '/download',
-        icon: <DownloadIcon />,
-      },
+      // {
+      //   title: t('menuOptions.gameLogs'),
+      //   href: '/logs',
+      //   icon: <TextSnippetIcon />,
+      // },
+      // {
+      //   title: t('menuOptions.replays', 'Replays'),
+      //   href: '/replays',
+      //   icon: <Replay />,
+      // },
+      // {
+      //   title: t('menuOptions.download'),
+      //   href: '/download',
+      //   icon: <DownloadIcon />,
+      // },
       {
         title: t('menuOptions.settings'),
         href: '/settings',
@@ -301,9 +301,9 @@ export default function NavBar() {
   const drawerWidth = width !== null && width < 916 ? 60 : 240;
 
   const doNavigate = (href: string) => {
-    trackEvent('Page', {
-      page: `${href}`,
-    });
+    // trackEvent('Page', {
+    //   page: `${href}`,
+    // });
     navigate(href);
   };
 
@@ -361,8 +361,8 @@ export default function NavBar() {
       .catch((e) => processError(e, setError, navigate, () => {}, t));
   }, updatePeriodMs);
 
-  window.electron.ipcRenderer.on('setActiveGame', handleSetActiveGame);
-  window.electron.ipcRenderer.on('handleIsPatching', handleIsPatching);
+  window.electron?.ipcRenderer?.on('setActiveGame', handleSetActiveGame);
+  window.electron?.ipcRenderer?.on('handleIsPatching', handleIsPatching);
 
   const handleLaunchGameClick = () => {
     if (!activeGames[activeUser?.user as string]) {
@@ -373,7 +373,7 @@ export default function NavBar() {
           getTicket(activeUser?.token ?? '')
             // eslint-disable-next-line promise/always-return
             .then((resp) => {
-              window.electron.ipcRenderer.sendMessage('launch-game', {
+              window.electron?.ipcRenderer?.sendMessage('launch-game', {
                 launchOptions: {
                   exePath,
                   ip: evosStore.ip,
@@ -386,7 +386,7 @@ export default function NavBar() {
             })
             .catch((e) => processError(e, setError, navigate, handleLogOut, t));
         } else {
-          window.electron.ipcRenderer.sendMessage('launch-game', {
+          window.electron?.ipcRenderer?.sendMessage('launch-game', {
             launchOptions: {
               exePath,
               ip: evosStore.ip,
@@ -399,7 +399,7 @@ export default function NavBar() {
         }
       }
     } else {
-      window.electron.ipcRenderer.sendMessage(
+      window.electron?.ipcRenderer?.sendMessage(
         'close-game',
         activeUser?.user as string,
       );
@@ -466,7 +466,8 @@ export default function NavBar() {
             {isAuthenticated() &&
               !isDownloading &&
               !isPatching &&
-              !account?.locked && (
+              !account?.locked &&
+              typeof window.electron?.ipcRenderer !== 'undefined' && (
                 <Box
                   sx={{
                     flexGrow: 1,

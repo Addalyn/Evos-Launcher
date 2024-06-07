@@ -99,7 +99,7 @@ function LogsPage() {
       setSelectedLog(log);
       setOpenDialog(true);
       setLoading(true);
-      const content = await window.electron.ipcRenderer.getLogContent(
+      const content = await window.electron?.ipcRenderer?.getLogContent(
         log.fullPath,
       );
       log.content = content;
@@ -127,7 +127,7 @@ function LogsPage() {
         0,
         selectedLog.fullPath.lastIndexOf('\\'),
       );
-      window.electron.ipcRenderer.openFolder(folderPath);
+      window.electron?.ipcRenderer?.openFolder(folderPath);
     }
   };
 
@@ -144,7 +144,7 @@ function LogsPage() {
         pathArray.push('Logs');
         const logFolderPath = pathArray.join('\\');
         const data =
-          await window.electron.ipcRenderer.getLogData(logFolderPath);
+          await window.electron?.ipcRenderer?.getLogData(logFolderPath);
         data.forEach((folder: { files: LogFile[] }) => {
           folder.files.forEach((file) => {
             file.lastModified = new Date(file.lastModified);

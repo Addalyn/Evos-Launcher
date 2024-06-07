@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 
 import { useTranslation } from 'react-i18next';
-import { trackEvent } from '@aptabase/electron/renderer';
+// import { trackEvent } from '@aptabase/electron/renderer';
 import NavBar from './components/generic/Navbar';
 import EvosStore from './lib/EvosStore';
 import StatusPage from './components/pages/StatusPage';
@@ -20,7 +20,7 @@ import ChangeLogPage from './components/pages/ChangeLogPage';
 import AddAccountPage from './components/pages/AddAccountPage';
 import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
-import DownloadPage from './components/pages/DownloadPage';
+// import DownloadPage from './components/pages/DownloadPage';
 import Updater from './components/generic/Updater';
 import StatsPage from './components/pages/StatsPage';
 import PreviousGamesPage from './components/pages/PreviousGamesPage';
@@ -29,9 +29,9 @@ import NotificationMessage from './components/generic/NotificationMessage';
 import LogsPage from './components/pages/LogsPage';
 
 import DiscordPage from './components/pages/DiscordPage';
-import ReplaysPage from './components/pages/ReplaysPage';
+// import ReplaysPage from './components/pages/ReplaysPage';
 import AdminMessage from './components/generic/AdminMessage';
-import DevPage from './components/pages/DevPage';
+// import DevPage from './components/pages/DevPage';
 import LinkDiscord from './components/generic/LinkDiscord';
 
 interface PageProps {
@@ -55,33 +55,33 @@ const page = (title: string, content: React.ReactNode) => {
 export default function App() {
   const evosStore = EvosStore();
   const mode = evosStore.mode as PaletteMode;
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
-  useEffect(() => {
-    trackEvent('Language', {
-      language: i18n.language,
-    });
-    trackEvent('Proxy', {
-      proxy: evosStore.ip,
-    });
-    trackEvent('User', {
-      userName: evosStore.activeUser?.user || 'No User',
-      theme: mode,
-      exePath: evosStore.exePath,
-    });
-  }, [
-    i18n.language,
-    evosStore.ip,
-    evosStore.activeUser,
-    mode,
-    evosStore.exePath,
-  ]);
+  // useEffect(() => {
+  //   trackEvent('Language', {
+  //     language: i18n.language,
+  //   });
+  //   trackEvent('Proxy', {
+  //     proxy: evosStore.ip,
+  //   });
+  //   trackEvent('User', {
+  //     userName: evosStore.activeUser?.user || 'No User',
+  //     theme: mode,
+  //     exePath: evosStore.exePath,
+  //   });
+  // }, [
+  //   i18n.language,
+  //   evosStore.ip,
+  //   evosStore.activeUser,
+  //   mode,
+  //   evosStore.exePath,
+  // ]);
 
   const handleMessage = (event: any) => {
-    window.electron.ipcRenderer.sendTranslate('translateReturn', t(event));
+    window.electron?.ipcRenderer?.sendTranslate('translateReturn', t(event));
   };
 
-  window.electron.ipcRenderer.on('translate', handleMessage);
+  window.electron?.ipcRenderer?.on('translate', handleMessage);
 
   const theme = React.useMemo(
     () =>
@@ -231,22 +231,6 @@ export default function App() {
               )}
             />
             <Route
-              path="/download"
-              element={page(
-                'download',
-                <>
-                  <NavBar />
-                  <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
-                    <LinkDiscord />
-                    <NotificationMessage />
-                    <AdminMessage />
-                    <Updater />
-                    <DownloadPage />
-                  </Box>
-                </>,
-              )}
-            />
-            <Route
               path="/add-account"
               element={page(
                 'status',
@@ -366,34 +350,6 @@ export default function App() {
                     <AdminMessage />
                     <Updater />
                     <DiscordPage />
-                  </Box>
-                </>,
-              )}
-            />
-            <Route
-              path="/replays"
-              element={page(
-                'replays',
-                <>
-                  <NavBar />
-                  <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
-                    <LinkDiscord />
-                    <NotificationMessage />
-                    <AdminMessage />
-                    <Updater />
-                    <ReplaysPage />
-                  </Box>
-                </>,
-              )}
-            />
-            <Route
-              path="/dev"
-              element={page(
-                'dev',
-                <>
-                  <NavBar />
-                  <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
-                    <DevPage />
                   </Box>
                 </>,
               )}

@@ -62,6 +62,7 @@ export default function LoginPage() {
     ) {
       navigate('/');
     }
+    setIp('evos-emu.com');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addUser, authenticatedUsers, activeUser, ip]);
 
@@ -130,9 +131,10 @@ export default function LoginPage() {
   };
 
   const handleResetClick = () => {
-    setIp('');
+    setIp('evos-emu.com');
     setError(undefined);
-    window.electron.store.clear();
+    localStorage.clear();
+    setIp('evos-emu.com');
   };
 
   return (

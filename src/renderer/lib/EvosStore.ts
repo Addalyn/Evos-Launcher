@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { trackEvent } from '@aptabase/electron/renderer';
+/// import { trackEvent } from '@aptabase/electron/renderer';
 import { create } from 'zustand';
 
 export interface AuthUser {
@@ -57,7 +57,7 @@ export interface EvosStoreState {
 
 const EvosStore = create<EvosStoreState>((set, get) => ({
   mode: 'dark', // Default value while fetching from storage.
-  ip: '',
+  ip: 'evos-emu.com',
   authenticatedUsers: [],
   activeUser: null,
   age: 0,
@@ -76,8 +76,8 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   // Helper async function to fetch values from storage
   getFromStorage: async <T>(key: string): Promise<T | null> => {
     try {
-      const value = await window.electron.store.getItem(key);
-      return value || null;
+      const value = localStorage.getItem(key);
+      return value as T | null;
     } catch (error) {
       console.error(`Error while fetching ${key} from storage:`, error);
       return null;
@@ -146,7 +146,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       showAllChat: showAllChat || 'true',
       enablePatching: 'true', // enablePatching || 'true',
     });
-    window.electron.ipcRenderer.setTheme(
+    window.electron?.ipcRenderer?.setTheme(
       mode !== 'dark' && mode !== 'light' ? 'dark' : mode,
     );
     get().switchUser(activeUser?.user || users[0]?.user || '');
@@ -156,7 +156,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     set({ showAllChat });
 
     try {
-      window.electron.store.setItem('showAllChat', showAllChat);
+      localStorage.setItem('showAllChat', showAllChat);
     } catch (error) {
       console.error('Error while saving showAllChat to storage:', error);
     }
@@ -167,8 +167,8 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     set({ mode: newMode });
 
     try {
-      window.electron.ipcRenderer.setTheme(newMode);
-      await window.electron.store.setItem('mode', newMode);
+      window.electron?.ipcRenderer?.setTheme(newMode);
+      localStorage.setItem('mode', newMode);
     } catch (error) {
       console.error('Error while saving mode to storage:', error);
     }
@@ -177,12 +177,12 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   setIp: async (ip: string) => {
     set({ ip });
 
-    trackEvent('Game Ip Changed', {
-      ip,
-    });
+    // trackEvent('Game Ip Changed', {
+    //   ip,
+    // });
 
     try {
-      await window.electron.store.setItem('ip', ip);
+      localStorage.setItem('ip', ip);
     } catch (error) {
       console.error('Error while saving ip to storage:', error);
     }
@@ -196,7 +196,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     set({ exePath });
 
     try {
-      await window.electron.store.setItem('exePath', exePath);
+      localStorage.setItem('exePath', exePath);
     } catch (error) {
       console.error('Error while saving exePath to storage:', error);
     }
@@ -206,7 +206,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     set({ folderPath });
 
     try {
-      await window.electron.store.setItem('folderPath', folderPath);
+      localStorage.setItem('folderPath', folderPath);
     } catch (error) {
       console.error('Error while saving folderPath to storage:', error);
     }
@@ -216,7 +216,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     set({ ticketEnabled });
 
     try {
-      await window.electron.store.setItem('ticketEnabled', ticketEnabled);
+      localStorage.setItem('ticketEnabled', ticketEnabled);
     } catch (error) {
       console.error('Error while saving ticketEnabled to storage:', error);
     }
@@ -225,7 +225,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   setNoLogEnabled: async (noLogEnabled) => {
     set({ noLogEnabled });
     try {
-      await window.electron.store.setItem('noLogEnabled', noLogEnabled);
+      localStorage.setItem('noLogEnabled', noLogEnabled);
     } catch (error) {
       console.error('Error while saving noLogEnabled to storage:', error);
     }
@@ -235,7 +235,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     set({ gamePort });
 
     try {
-      await window.electron.store.setItem('gamePort', gamePort);
+      localStorage.setItem('gamePort', gamePort);
     } catch (error) {
       console.error('Error while saving gamePort to storage:', error);
     }
@@ -255,7 +255,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     set({ authenticatedUsers: updatedAuthenticatedUsers });
 
     try {
-      await window.electron.store.setItem(
+      localStorage.setItem(
         'authenticatedUsers',
         JSON.stringify(updatedAuthenticatedUsers),
       );
@@ -284,7 +284,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       set({ authenticatedUsers: updatedAuthenticatedUsers });
 
       try {
-        await window.electron.store.setItem(
+        localStorage.setItem(
           'authenticatedUsers',
           JSON.stringify(updatedAuthenticatedUsers),
         );
@@ -302,7 +302,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
 
   switchUser: async (user: string) => {
     if (user !== undefined && user === '') {
-      await window.electron.store.removeItem('activeUser');
+      localStorage.removeItem('activeUser');
     }
     const currentAuthenticatedUsers = get().authenticatedUsers;
 
@@ -319,7 +319,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
         set({ activeUser: selectedUser });
 
         try {
-          await window.electron.store.setItem('activeUser', selectedUser);
+          localStorage.setItem('activeUser', selectedUser.user);
         } catch (error) {
           console.error('Error while saving activeUser to storage:', error);
         }
@@ -335,7 +335,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     set({ enablePatching });
 
     try {
-      await window.electron.store.setItem('enablePatching', enablePatching);
+      localStorage.setItem('enablePatching', enablePatching);
     } catch (error) {
       console.error('Error while saving enablePatching to storage:', error);
     }

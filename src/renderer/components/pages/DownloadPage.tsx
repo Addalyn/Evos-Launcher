@@ -77,14 +77,14 @@ function DownloadPage() {
   const { t } = useTranslation();
 
   async function handleSelectFolderClick() {
-    let path = await window.electron.ipcRenderer.getSelectedFolder();
+    let path = await window.electron?.ipcRenderer?.getSelectedFolder();
     // replace path:\AtlasReactor if it exists
     path = path.replace(/AtlasReactor/gi, '');
     setFolderPath(path || '');
   }
   function handleDownloadClick() {
     if (isDownloading) {
-      window.electron.ipcRenderer.cancelDownloadGame();
+      window.electron?.ipcRenderer?.cancelDownloadGame();
       setCompleted('');
       setIsDownloading(false);
       setProgressFile('');
@@ -96,7 +96,7 @@ function DownloadPage() {
 
     setCompleted('');
     setIsDownloading(true);
-    window.electron.ipcRenderer.downloadGame(folderPath);
+    window.electron?.ipcRenderer?.downloadGame(folderPath);
   }
 
   function handleProgressBar(event: any) {
@@ -116,8 +116,11 @@ function DownloadPage() {
     return <DiscordPage />;
   }
 
-  window.electron.ipcRenderer.on('download-progress', handleProgressBar);
-  window.electron.ipcRenderer.on('download-progress-completed', handleComplete);
+  window.electron?.ipcRenderer?.on('download-progress', handleProgressBar);
+  window.electron?.ipcRenderer?.on(
+    'download-progress-completed',
+    handleComplete,
+  );
   return (
     <>
       <Alert severity="info">
