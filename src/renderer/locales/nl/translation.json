@@ -280,7 +280,8 @@
     "noLogLaunchOptionsDisabled": "Als je crashes ervaart op meerdere accounts, overweeg dan deze oplossing. Houd er echter rekening mee dat het de kwestie kan verlichten, maar er is ook een kans dat het het probleem kan verergeren en kan leiden tot verdere crashes, vooral als je geen meerdere accounts gebruikt.",
     "deleteAllAccounts": "Verwijder Alle Accounts (dit zal je uitloggen)",
     "resetApp": "Reset Toepassing (dit zal je uitloggen)",
-    "labelDarkMode": "Donkere Modus"
+    "labelDarkMode": "Donkere Modus",
+    "labelDiscordRPC": "Discord-status inschakelen"
   },
   "maps": {
     "map": "Map",

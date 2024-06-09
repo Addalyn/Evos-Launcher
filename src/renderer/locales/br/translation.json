@@ -280,7 +280,8 @@
     "noLogLaunchOptionsDisabled": "Se você estiver presenciando fechamentos em várias contas, considere esta solução. Tenha em mente, no entanto, que apesar de aliviar o problema, existem as chances de aumentar os problemas e levar para futuros fechamentos, especialmente se você não usa várias contas.",
     "deleteAllAccounts": "Deletar todas as contas (isso irá te desconectar)",
     "resetApp": "Reiniciar aplicativo (isso irá te desconectar)",
-    "labelDarkMode": "Modo escuro"
+    "labelDarkMode": "Modo escuro",
+    "labelDiscordRPC": "Ativar Status do Discord"
   },
   "maps": {
     "map": "Mapa",

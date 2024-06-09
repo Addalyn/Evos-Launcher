@@ -280,7 +280,8 @@
     "noLogLaunchOptionsDisabled": "Si vous rencontrez des plantages sur plusieurs comptes, envisagez d'essayer cette solution. Gardez cependant à l'esprit que bien que ceci puisse aider à atténuer le problème, il y a aussi une chance qu'il puisse potentiellement exacerber le problème et conduire à d'autres plantages, surtout si vous n'utilisez pas plusieurs comptes.",
     "deleteAllAccounts": "Supprimer tous les comptes (cela vous déconnectera)",
     "resetApp": "Réinitialiser l'application (cela vous déconnectera)",
-    "labelDarkMode": "Mode sombre"
+    "labelDarkMode": "Mode sombre",
+    "labelDiscordRPC": "Activer le statut Discord"
   },
   "maps": {
     "map": "Map",

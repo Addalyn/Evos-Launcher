@@ -248,7 +248,8 @@
     "noLogLaunchOptionsDisabled": "Si experimentas cierres del juego en varias cuentas, considera intentar esta solución. Aunque esto pueda ayudar a aliviar el problema, Existe la posibilidad de agravarlo, especialmente si no usas multiples cuentas.",
     "deleteAllAccounts": "Borra todas las cuentas (esto te desconectará)",
     "resetApp": "Reset Aplicación (esto te desconectará)",
-    "labelDarkMode": "Modo Oscuro"
+    "labelDarkMode": "Modo Oscuro",
+    "labelDiscordRPC": "Activar estado de Discord"
   },
   "maps": {
     "map": "Mapa",

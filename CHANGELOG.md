@@ -1,3 +1,12 @@
+# 2.0.3 - The Discord Status Update
+
+- Discord Status update, Now you can see your launcher/In Game status in discord.
+  - you can enable/disable it in the settings page
+  - This will show
+    - If you are in the launcher and not in game (Ideling in the launcher)
+    - If you are in in game (Playing Atlas Reactor as `Username`)
+    - If you are in game and playing map It will show curent game and what character you are, what map you are on, curent score and time in game.
+
 # 2.0.2 - Just a chill update
 
 - Added Vonn

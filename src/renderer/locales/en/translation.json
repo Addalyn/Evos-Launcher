@@ -133,7 +133,8 @@
     "noLogLaunchOptionsDisabled": "If you're experiencing crashes across multiple accounts, consider trying this solution. Keep in mind, though, that while it might help alleviate the issue, there's also a chance it could potentially exacerbate the problem and lead to further  crashes, especially if you do not use multiple accounts.",
     "deleteAllAccounts": "Delete All Accounts (this will log you out)",
     "resetApp": "Reset Application (this will log you out)",
-    "labelDarkMode": "Dark Mode"
+    "labelDarkMode": "Dark Mode",
+    "labelDiscordRPC": "Enable Discord Status"
   },
   "titles": {
     "-1": "",
