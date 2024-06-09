@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, HashRouter } from 'react-router-dom';
 import './App.css';
 import {
@@ -33,6 +33,8 @@ import ReplaysPage from './components/pages/ReplaysPage';
 import AdminMessage from './components/generic/AdminMessage';
 import DevPage from './components/pages/DevPage';
 import LinkDiscord from './components/generic/LinkDiscord';
+import { Status, getStatus } from './lib/Evos';
+import { convertToRealName } from './lib/Resources';
 
 interface PageProps {
   title: string;
@@ -40,6 +42,20 @@ interface PageProps {
 }
 
 type PaletteMode = 'light' | 'dark';
+
+interface discordStatus {
+  details?: string;
+  state?: string;
+  buttons?: {
+    label: string;
+    url: string;
+  }[];
+  startTimestamp?: Date;
+  largeImageKey?: string;
+  largeImageText?: string;
+  smallImageKey?: string;
+  smallImageText?: string;
+}
 
 function Page(props: PageProps) {
   useEffect(() => {
@@ -56,6 +72,7 @@ export default function App() {
   const evosStore = EvosStore();
   const mode = evosStore.mode as PaletteMode;
   const { t, i18n } = useTranslation();
+  const [gameTimer, setGameTimer] = useState<Date | undefined>(undefined);
 
   useEffect(() => {
     trackEvent('Language', {
@@ -69,6 +86,7 @@ export default function App() {
       theme: mode,
       exePath: evosStore.exePath,
     });
+    window.electron.ipcRenderer.startDiscord();
   }, [
     i18n.language,
     evosStore.ip,
@@ -76,6 +94,108 @@ export default function App() {
     mode,
     evosStore.exePath,
   ]);
+
+  useEffect(() => {
+    // eslint-disable-next-line no-undef
+    let interval: NodeJS.Timeout | undefined;
+    if (evosStore.enableDiscordRPC === 'true') {
+      interval = setInterval(() => {
+        getStatus()
+          .then((response) => {
+            const status: Status = response.data;
+            const myUser = status.players.find(
+              (player) => player.handle === evosStore.activeUser?.handle,
+            );
+            let discordStatus: discordStatus;
+            if (myUser) {
+              let map = null as Status['games'][0] | null;
+              let currentTeam = '';
+              let currentCharacter = '';
+              if (myUser.status === 'In Game') {
+                if (gameTimer === undefined) {
+                  setGameTimer(new Date());
+                }
+              } else {
+                setGameTimer(undefined);
+              }
+              status.games.forEach((game) => {
+                const teamA = game.teamA.find(
+                  (player) => player.accountId === myUser.accountId,
+                );
+                const teamB = game.teamB.find(
+                  (player) => player.accountId === myUser.accountId,
+                );
+                if (teamA || teamB) {
+                  map = game;
+                  currentTeam = teamA ? 'Team A' : 'Team B';
+                  currentCharacter = teamA
+                    ? teamA.characterType
+                    : teamB?.characterType || '';
+                }
+              });
+
+              discordStatus = {
+                details: `Playing as ${myUser.handle}`,
+                state: `${myUser.status} ${map !== null && myUser.status === 'In Game' ? `as ${t(convertToRealName(currentCharacter.toLowerCase()) as string, { lng: 'en' })} (${map.teamAScore} - ${map.teamBScore})` : ''}`,
+                buttons: [
+                  {
+                    label: 'Start playing!',
+                    url: 'https://evos.live/discord',
+                  },
+                ],
+                startTimestamp:
+                  myUser.status === 'In Game'
+                    ? gameTimer || new Date()
+                    : undefined,
+                smallImageKey:
+                  map !== null && myUser.status === 'In Game'
+                    ? map.map.toLowerCase()
+                    : 'logo',
+                smallImageText:
+                  map !== null && myUser.status === 'In Game'
+                    ? `Playing on ${t(`maps.${map.map}`, { lng: 'en' })} as ${t(convertToRealName(currentCharacter.toLowerCase()) as string, { lng: 'en' })} in ${currentTeam}`
+                    : '',
+                largeImageKey:
+                  map !== null && myUser.status === 'In Game'
+                    ? currentCharacter.toLowerCase()
+                    : '',
+                largeImageText:
+                  map !== null && myUser.status === 'In Game'
+                    ? `${t(convertToRealName(currentCharacter.toLowerCase()) as string, { lng: 'en' })}`
+                    : '',
+              };
+            } else {
+              discordStatus = {
+                details: 'Idling in Launcher',
+                state: 'Waiting to start playing',
+                largeImageKey: 'logo',
+                // startTimestamp: discordTimestamp,
+                buttons: [
+                  {
+                    label: 'Start playing!',
+                    url: 'https://evos.live/discord',
+                  },
+                ],
+              };
+            }
+
+            window.electron.ipcRenderer.sendDiscordStatus(discordStatus);
+
+            return null;
+          })
+          .catch(() => {});
+      }, 1000 * 20);
+    } else if (interval !== undefined) {
+      window.electron.ipcRenderer.stopDiscord();
+      clearInterval(interval);
+    }
+
+    return () => {
+      if (interval !== undefined) {
+        clearInterval(interval);
+      }
+    };
+  }, [evosStore.activeUser, evosStore.enableDiscordRPC, gameTimer, t]);
 
   const handleMessage = (event: any) => {
     window.electron.ipcRenderer.sendTranslate('translateReturn', t(event));

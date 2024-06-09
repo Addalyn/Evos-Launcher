@@ -53,6 +53,8 @@ export interface EvosStoreState {
   setEnablePatching: (enablePatching: string) => void;
   setDiscordId: (discord: number) => void;
   discordId: number;
+  enableDiscordRPC: string;
+  toggleDiscordRPC: () => void;
 }
 
 const EvosStore = create<EvosStoreState>((set, get) => ({
@@ -70,6 +72,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   showAllChat: 'true',
   enablePatching: 'true',
   discordId: 0,
+  enableDiscordRPC: 'true',
   setDiscordId: (discord: number) => {
     set({ discordId: discord });
   },
@@ -97,6 +100,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       ticketEnabled,
       noLogEnabled,
       showAllChat,
+      enableDiscordRPC,
       // enablePatching,
     ] = await Promise.all([
       get().getFromStorage('mode') as string,
@@ -109,6 +113,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       get().getFromStorage('ticketEnabled') as string,
       get().getFromStorage('noLogEnabled') as string,
       get().getFromStorage('showAllChat') as string,
+      get().getFromStorage('enableDiscordRPC') as string,
       // get().getFromStorage('enablePatching') as string,
     ]);
 
@@ -145,6 +150,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       noLogEnabled: noLogEnabled || 'false',
       showAllChat: showAllChat || 'true',
       enablePatching: 'true', // enablePatching || 'true',
+      enableDiscordRPC: enableDiscordRPC || 'true',
     });
     window.electron.ipcRenderer.setTheme(
       mode !== 'dark' && mode !== 'light' ? 'dark' : mode,
@@ -171,6 +177,17 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       await window.electron.store.setItem('mode', newMode);
     } catch (error) {
       console.error('Error while saving mode to storage:', error);
+    }
+  },
+
+  toggleDiscordRPC: async () => {
+    const newMode = get().enableDiscordRPC === 'true' ? 'false' : 'true';
+    set({ enableDiscordRPC: newMode });
+
+    try {
+      await window.electron.store.setItem('enableDiscordRPC', newMode);
+    } catch (error) {
+      console.error('Error while saving enableDiscordRPC to storage:', error);
     }
   },
 

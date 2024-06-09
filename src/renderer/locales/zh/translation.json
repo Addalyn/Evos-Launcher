@@ -132,7 +132,8 @@
     "noLogLaunchOptionsDisabled": "如果遇到切换多个账号时崩溃的情况，尝试启用该选项。这可能有助于缓解问题，但也可能导致更频繁的崩溃，特别是未使用多个账号时。",
     "deleteAllAccounts": "删除所有账号 (这样会退出登录)",
     "resetApp": "重置启动器 (这样会退出登录)",
-    "labelDarkMode": "启用暗色模式"
+    "labelDarkMode": "启用暗色模式",
+    "labelDiscordRPC": "启用 Discord 状态"
   },
   "titles": {
     "-1": "",

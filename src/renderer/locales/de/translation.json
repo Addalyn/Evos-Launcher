@@ -133,7 +133,8 @@
     "noLogLaunchOptionsDisabled": "Wenn das Spiel häufig und bei verschiedenen Accounts abstürzt kann dies ggf. helfen. Es ist zu beachten, dass auch wenn es ggf. die Abstürze verhindern kann, kann es ebenfalls das Problem verschlimmbessern und zu weiteren Abstürzen führen. Besonders wenn man nicht mehrere Accounts nutzt.",
     "deleteAllAccounts": "Lösche alle Accounts (dadurch wird man ausgeloggt)",
     "resetApp": "Anwendung zurücksetzen (dadurch wird man ausgeloggt)",
-    "labelDarkMode": "Dunkler Modus"
+    "labelDarkMode": "Dunkler Modus",
+    "labelDiscordRPC": "Discord-Status aktivieren"
   },
   "titles": {
     "-1": "",

@@ -17,6 +17,7 @@ import {
   IpcMainEvent,
   DownloadItem,
 } from 'electron';
+import rpc, { Client } from 'discord-rpc';
 import regedit from 'regedit';
 import { Worker as NativeWorker } from 'worker_threads';
 import { autoUpdater } from 'electron-updater';
@@ -28,6 +29,17 @@ import { resolveHtmlPath } from './util';
 import { oauthConfig } from './discord/config/config';
 import AuthClient from './discord/services/auth';
 
+const client = new rpc.Client({
+  transport: 'ipc',
+});
+client.login({ clientId: '1074636924721049620' }).catch(console.error);
+
+let isDiscordRPCConnected = false;
+client.on('ready', () => {
+  isDiscordRPCConnected = true;
+  console.log('Discord RPC connected');
+});
+
 initialize('A-SH-9629286137', {
   host: 'https://launcher.evos.live',
 });
@@ -37,6 +49,20 @@ const vbsDirectory = path.join(
   './resources/assets/vbs',
 );
 regedit.setExternalVBSLocation(vbsDirectory);
+
+interface discordStatus {
+  details?: string;
+  state?: string;
+  buttons?: {
+    label: string;
+    url: string;
+  }[];
+  startTimestamp?: Date;
+  largeImageKey?: string;
+  largeImageText?: string;
+  smallImageKey?: string;
+  smallImageText?: string;
+}
 
 interface AuthUser {
   user: string;
@@ -56,6 +82,7 @@ interface Config {
   ticketEnabled: string;
   showAllChat: string;
   enablePatching: string;
+  enableDiscordRPC: string;
 }
 
 const defaultConfig: Config = {
@@ -68,6 +95,7 @@ const defaultConfig: Config = {
   ticketEnabled: 'true',
   showAllChat: 'true',
   enablePatching: 'true',
+  enableDiscordRPC: 'true',
 };
 
 let translatedText: string;
@@ -96,6 +124,16 @@ let currentVersion: string;
 
 interface VDFObject {
   [key: string]: string | VDFObject;
+}
+
+async function readConfig() {
+  try {
+    const config = await fs.promises.readFile(configFilePath, 'utf-8');
+    return JSON.parse(config) as Config;
+  } catch (error) {
+    log.info('Error while reading the config file:', error);
+    return null;
+  }
 }
 
 async function parseVDF(
@@ -530,8 +568,7 @@ const createWindow = async () => {
 
   ipcMain.handle('read-file', async () => {
     try {
-      const config = await fs.promises.readFile(configFilePath, 'utf-8');
-      return JSON.parse(config);
+      return await readConfig();
     } catch (error) {
       log.info('Error while reading or creating the config file:', error);
       return null;
@@ -880,10 +917,9 @@ const createWindow = async () => {
       let enablePatching = 'false';
 
       try {
-        const data = await fs.promises.readFile(configFilePath, 'utf-8');
-        const config = JSON.parse(data);
-        enableAllChat = config.showAllChat;
-        enablePatching = config.enablePatching;
+        const config = await readConfig();
+        enableAllChat = config?.showAllChat || 'true';
+        enablePatching = config?.enablePatching || 'false';
       } catch (error) {
         log.info('Error while reading the config file:', error);
       }
@@ -1257,6 +1293,48 @@ const createWindow = async () => {
     }
 
     return null;
+  });
+
+  ipcMain.handle('start-discord-rpc', async () => {
+    if (isDiscordRPCConnected) {
+      const config = await readConfig();
+      if (config?.enableDiscordRPC === 'true') {
+        client.setActivity({
+          details: 'Idling in Launcher',
+          state: 'Waiting to start playing',
+          largeImageKey: 'logo',
+          // startTimestamp: discordTimestamp,
+          buttons: [
+            {
+              label: 'Start playing!',
+              url: 'https://evos.live/discord',
+            },
+          ],
+        });
+      }
+    }
+  });
+
+  ipcMain.handle(
+    'set-discord-rpc-status',
+    async (event, args: discordStatus) => {
+      if (isDiscordRPCConnected) {
+        client.setActivity({
+          details: args.details ? args.details : undefined,
+          state: args.state ? args.state : undefined,
+          largeImageKey: args.largeImageKey ? args.largeImageKey : undefined,
+          largeImageText: args.largeImageText ? args.largeImageText : undefined,
+          smallImageKey: args.smallImageKey ? args.smallImageKey : undefined,
+          smallImageText: args.smallImageText ? args.smallImageText : undefined,
+          startTimestamp: args.startTimestamp ? args.startTimestamp : undefined,
+          buttons: args.buttons ? args.buttons : undefined,
+        });
+      }
+    },
+  );
+
+  ipcMain.handle('stop-discord-rpc', async () => {
+    client.clearActivity();
   });
 
   mainWindow.on('ready-to-show', () => {

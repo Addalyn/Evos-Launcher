@@ -252,7 +252,8 @@
     "noLogLaunchOptionsDisabled": "Se riscontri dei crash su più account, puoi provare con questa soluzione. Attenzione, sebbene questa soluzione possa mitigare il problema, c'è anche la possibilità che possa peggiorarlo e causare ulteriori crash, specialmente se non usi account multipli",
     "deleteAllAccounts": "Cancella tutti gli Account (questa operazione ti farà disconnettere)",
     "resetApp": "Resetta l'Applicazione (questa operazione ti farà disconnettere)",
-    "labelDarkMode": "Modalità Scura"
+    "labelDarkMode": "Modalità Scura",
+    "labelDiscordRPC": "Abilita lo stato di Discord"
   },
   "maps": {
     "map": "Mappa",

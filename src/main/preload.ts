@@ -3,6 +3,20 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 import { AuthUser } from 'renderer/lib/EvosStore';
 
+interface discordStatus {
+  details?: string;
+  state?: string;
+  buttons?: {
+    label: string;
+    url: string;
+  }[];
+  startTimestamp?: Date;
+  largeImageKey?: string;
+  largeImageText?: string;
+  smallImageKey?: string;
+  smallImageText?: string;
+}
+
 export type Channels =
   | 'getAssetPath'
   | 'open-file-dialog'
@@ -32,7 +46,11 @@ export type Channels =
   | 'download complete'
   | 'cancelDownload'
   | 'link-account'
-  | 'linkedDiscord';
+  | 'linkedDiscord'
+  | 'start-discord-rpc'
+  | 'set-discord-rpc-status';
+
+let storeStatus = '' as discordStatus;
 
 const electronHandler = {
   isPackaged: process.env.NODE_ENV === 'production',
@@ -114,6 +132,19 @@ const electronHandler = {
     },
     linkAccount(authUser: AuthUser) {
       ipcRenderer.invoke('link-account', authUser as AuthUser);
+    },
+    startDiscord() {
+      ipcRenderer.invoke('start-discord-rpc');
+    },
+    stopDiscord() {
+      ipcRenderer.invoke('stop-discord-rpc');
+    },
+    sendDiscordStatus(status: discordStatus) {
+      if (status === storeStatus) {
+        return;
+      }
+      storeStatus = status;
+      ipcRenderer.invoke('set-discord-rpc-status', status);
     },
   },
   store: {

@@ -83,6 +83,8 @@ export default function SettingsPage() {
     setShowAllChat,
     enablePatching,
     setEnablePatching,
+    enableDiscordRPC,
+    toggleDiscordRPC,
   } = EvosStore();
 
   const [password, setPassword] = useState('');
@@ -194,11 +196,18 @@ export default function SettingsPage() {
     window.electron.ipcRenderer.setShowAllChat(value);
   };
 
+  const toggleDiscord = () => {
+    if (enableDiscordRPC) {
+      window.electron.ipcRenderer.stopDiscord();
+    }
+    toggleDiscordRPC();
+  };
+
   return (
     <>
       <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <FormGroup>
               <FormControlLabel
                 control={<Switch />}
@@ -208,7 +217,7 @@ export default function SettingsPage() {
               />
             </FormGroup>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <Select
               value={i18n.language ? i18n.language : lngs.en.nativeName}
               label=""
@@ -227,6 +236,16 @@ export default function SettingsPage() {
                 </MenuItem>
               ))}
             </Select>
+          </Grid>
+          <Grid item xs={4}>
+            <FormGroup>
+              <FormControlLabel
+                control={<Switch />}
+                label={t('settings.labelDiscordRPC')}
+                checked={enableDiscordRPC === 'true'}
+                onChange={toggleDiscord}
+              />
+            </FormGroup>
           </Grid>
         </Grid>
       </Paper>
