@@ -31,7 +31,7 @@ export const denydNames = [
   'Brynn',
   'Garrison',
   // 'Isadora',
-  // 'Magnus',
+  'Magnus',
   'Phaedra',
   'Rampart',
   'Rask',

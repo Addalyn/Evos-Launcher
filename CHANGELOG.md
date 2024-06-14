@@ -1,3 +1,7 @@
+# 2.0.4 - The dino update
+
+- Added Magnus
+
 # 2.0.3 - The Discord Status Update
 
 - Discord Status update, Now you can see your launcher/In Game status in discord.
