@@ -96,7 +96,7 @@ export function convertToRealName(internalName: string): string | undefined {
       return 'Meridian';
     case 'digitalsorceress':
       return 'Aurora';
-    case 'dinolancher':
+    case 'dinolancer':
       return 'Magnus';
     case 'exo':
       return 'Juno';
@@ -172,7 +172,7 @@ export function convertToLegacyName(internalName: string): string | undefined {
     case 'aurora':
       return 'digitalSorceress';
     case 'magnus':
-      return 'dinoLancher';
+      return 'dinolancer';
     case 'juno':
       return 'exo';
     case 'lex':

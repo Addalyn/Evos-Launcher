@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import { strapiClient } from 'renderer/lib/strapi';
 import { useTranslation } from 'react-i18next';
+import EvosStore from 'renderer/lib/EvosStore';
 
 interface Props {
   player: string;
@@ -23,6 +24,7 @@ interface DataItem {
   gametype: string;
   map: string;
   stats: DataSubItem[];
+  winrate?: string;
 }
 
 export async function fetchGameInfo(
@@ -33,7 +35,7 @@ export async function fetchGameInfo(
   try {
     const strapi = strapiClient
       .from<DataItem>(`games`)
-      .select(['teamwin'])
+      .select(['winrate'])
       .populateDeep([
         {
           path: 'stats',
@@ -72,6 +74,7 @@ export async function fetchGameInfo(
 
 export default function PlayerWinRate({ player, characterName, map }: Props) {
   const { t } = useTranslation();
+  const { activeUser, isDev } = EvosStore();
   const [wins, setWins] = useState<number>(0);
   const [losses, setLosses] = useState<number>(0);
   const [winRate, setWinRate] = useState<number>(0.0);
@@ -97,21 +100,25 @@ export default function PlayerWinRate({ player, characterName, map }: Props) {
       const totalGames = wins + losses;
       setWinRate((wins / totalGames) * 100);
     }
+    if (player === activeUser?.handle || isDev) {
+      fetchData();
+    }
+  }, [characterName, losses, player, wins, map, activeUser?.handle, isDev]);
 
-    fetchData();
-  }, [characterName, losses, player, wins, map]);
-
-  return (
-    <>
-      <Grid item xs={4}>
-        {t('stats.wins')}: {wins}
-      </Grid>
-      <Grid item xs={4}>
-        {t('stats.losses')}: {losses}
-      </Grid>
-      <Grid item xs={4}>
-        {t('stats.winrate')}: {winRate.toFixed(2)}%
-      </Grid>
-    </>
-  );
+  if (player === activeUser?.handle || isDev) {
+    return (
+      <>
+        <Grid item xs={4}>
+          {t('stats.wins')}: {wins}
+        </Grid>
+        <Grid item xs={4}>
+          {t('stats.losses')}: {losses}
+        </Grid>
+        <Grid item xs={4}>
+          {t('stats.winrate')}: {winRate.toFixed(2)}%
+        </Grid>
+      </>
+    );
+  }
+  return null;
 }

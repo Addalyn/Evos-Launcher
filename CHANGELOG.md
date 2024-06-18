@@ -1,3 +1,8 @@
+# 2.0.5
+
+- Fixed Magnus abilitys not showing for viewing past games in replay popup.
+- You no longer can see other players winrate but only your own.
+
 # 2.0.4 - The dino update
 
 - Added Magnus
