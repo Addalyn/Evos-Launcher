@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 /* eslint-disable promise/no-nesting */
 /* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -5,29 +6,30 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable import/prefer-default-export */
 /* eslint global-require: off, no-console: off, promise/always-return: off */
-import path from 'path';
-import fs from 'fs';
 import {
-  app,
   BrowserWindow,
-  shell,
-  ipcMain,
+  DownloadItem,
+  IpcMainEvent,
+  app,
   dialog,
   globalShortcut,
-  IpcMainEvent,
-  DownloadItem,
+  ipcMain,
+  shell,
 } from 'electron';
-import rpc, { Client } from 'discord-rpc';
-import regedit from 'regedit';
+import { ChildProcess, spawn } from 'child_process';
+import electronDl, { download } from 'electron-dl';
+import { initialize, trackEvent } from '@aptabase/electron/main';
+
+import AuthClient from './discord/services/auth';
 import { Worker as NativeWorker } from 'worker_threads';
 import { autoUpdater } from 'electron-updater';
+import fs from 'fs';
 import log from 'electron-log';
-import electronDl, { download } from 'electron-dl';
-import { ChildProcess, spawn } from 'child_process';
-import { initialize, trackEvent } from '@aptabase/electron/main';
-import { resolveHtmlPath } from './util';
 import { oauthConfig } from './discord/config/config';
-import AuthClient from './discord/services/auth';
+import path from 'path';
+import regedit from 'regedit';
+import { resolveHtmlPath } from './util';
+import rpc from 'discord-rpc';
 
 const client = new rpc.Client({
   transport: 'ipc',
@@ -1392,10 +1394,7 @@ const createWindow = async () => {
       sendStatusToWindow(mainWindow as BrowserWindow, logMessage);
     });
     autoUpdater.on('update-downloaded', async () => {
-      sendStatusToWindow(
-        mainWindow as BrowserWindow,
-        await translate('updateDownloaded'),
-      );
+      sendStatusToWindow(mainWindow as BrowserWindow, 'updateDownloaded');
     });
     autoUpdater.checkForUpdates();
   });

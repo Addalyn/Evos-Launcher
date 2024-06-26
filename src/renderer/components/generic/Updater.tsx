@@ -1,13 +1,14 @@
+import { Alert, Button, Paper } from '@mui/material';
 /* eslint-disable promise/catch-or-return */
 /* eslint-disable promise/always-return */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { useEffect, useState } from 'react';
-import { Paper, Alert, Button } from '@mui/material';
-import { useTranslation } from 'react-i18next';
+
+import { getUpdateInfo } from 'renderer/lib/Evos';
 import useHasFocus from 'renderer/lib/useHasFocus';
 import useInterval from 'renderer/lib/useInterval';
-import { getUpdateInfo } from 'renderer/lib/Evos';
+import { useTranslation } from 'react-i18next';
 
 interface getVersion {
   version: number;
@@ -17,6 +18,7 @@ function Updater() {
   const [message, setMessage] = useState('');
   const [latestVersion, setLatestVersion] = useState<getVersion>();
   const [version, setVersion] = useState<number>();
+  const [ready, setReady] = useState<boolean>(false);
   const { t } = useTranslation();
 
   function handleMessage(event: any) {
@@ -52,6 +54,9 @@ function Updater() {
         }
       }
     }
+    if (message === 'updateDownloaded') {
+      setReady(true);
+    }
   }, [latestVersion, message, version]);
 
   window.electron.ipcRenderer.on('message', handleMessage);
@@ -63,7 +68,7 @@ function Updater() {
             severity="info"
             sx={{ display: 'flex', alignItems: 'center', height: '65px' }}
           >
-            {message === t('Downloaded') ? (
+            {ready ? (
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 <Button
                   variant="outlined"
