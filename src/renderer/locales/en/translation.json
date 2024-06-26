@@ -404,7 +404,8 @@
     "pvpgames": "Show only PvP games",
     "customgames": "Show only Custom games",
     "tournamentgames": "Show only Tournament games",
-    "coopgames": "Show only Coop/Solo games"
+    "coopgames": "Show only Coop/Solo games",
+    "Last20PvPGames": "Last 20 PvP Games"
   },
   "months": {
     "January": "January",

@@ -404,7 +404,8 @@
     "pvpgames": "Yalnızca PvP oyunlarını göster",
     "customgames": "Yalnızca özel oyunları göster",
     "tournamentgames": "Yalnızca turnuva oyunlarını göster",
-    "coopgames": "Yalnızca işbirliği/solo oyunları göster"
+    "coopgames": "Yalnızca işbirliği/solo oyunları göster",
+    "Last20PvPGames": "Son 20 PvP Oyunu"
   },
   "months": {
     "January": "Ocak",

@@ -403,7 +403,8 @@
     "pvpgames": "仅显示PvP游戏",
     "customgames": "仅显示自定义游戏",
     "tournamentgames": "仅显示锦标赛游戏",
-    "coopgames": "仅显示合作/单人游戏"
+    "coopgames": "仅显示合作/单人游戏",
+    "Last20PvPGames": "最近 20 场 PvP 游戏"
   },
   "months": {
     "January": "1月",
