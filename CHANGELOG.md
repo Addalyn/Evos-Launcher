@@ -1,6 +1,6 @@
 ### Release Notes: Version 2.0.6
 
-#### New Features
+## New Features
 - **Enhanced Personal Stats**: 
   - Added detailed graphs displaying performance metrics for the last 20 PvP games.
   - Metrics include damage, healing, damage taken, and deaths per game.
@@ -10,7 +10,7 @@
     - Frontliners: Damage Taken
   - Interactive legend: Click to show or hide specific stats as needed.
 
-#### Bug Fixes
+## Bug Fixes
 - **Updater Restart Button**:
   - Resolved issue with the updater restart button not appearing after receiving a delayed translation request message.
   - The restart button now consistently appears once the download is complete, regardless of other incoming messages.
