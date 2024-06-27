@@ -12,6 +12,7 @@ import {
 import { Bar } from 'react-chartjs-2';
 import { strapiClient } from 'renderer/lib/strapi';
 import { useTranslation } from 'react-i18next';
+import EvosStore from 'renderer/lib/EvosStore';
 
 ChartJS.register(
   CategoryScale,
@@ -35,6 +36,7 @@ interface DataItem {
   stats: DataSubItem[];
   date: string;
   map: string;
+  winrate?: string;
 }
 
 const currentMonth = new Date().getMonth(); // Get the current month (0-11)
@@ -76,7 +78,7 @@ const fetchInfo = async (
   try {
     const strapi = strapiClient
       .from<DataItem>('games')
-      .select(['teamwin'])
+      .select(['winrate'])
       .greaterThan('date', startDate)
       .lessThan('date', endDate)
       .populateDeep([
@@ -126,7 +128,7 @@ interface Props {
 
 export default function GamesWinsMontly({ map, player }: Props) {
   const { t } = useTranslation();
-
+  const { activeUser, isDev } = EvosStore();
   const [gameData, setGameData] = useState([]);
 
   useEffect(() => {
@@ -162,14 +164,16 @@ export default function GamesWinsMontly({ map, player }: Props) {
 
         return fetchInfo(map, player, startDate, endDate);
       });
-
-      const data = await Promise.all(dataPromises);
-      // @ts-ignore
-      setGameData(data);
+      // Wait for all promises to resolve
+      if (player === activeUser?.handle || isDev) {
+        const data = await Promise.all(dataPromises);
+        // @ts-ignore
+        setGameData(data);
+      }
     }
 
     fetchData();
-  }, [map, player]);
+  }, [activeUser?.handle, isDev, map, player]);
 
   const options = {
     responsive: true,
@@ -201,5 +205,8 @@ export default function GamesWinsMontly({ map, player }: Props) {
     datasets,
   };
 
-  return <Bar options={options} data={data} height={300} />;
+  if (player === activeUser?.handle || isDev) {
+    return <Bar options={options} data={data} height={300} />;
+  }
+  return null;
 }

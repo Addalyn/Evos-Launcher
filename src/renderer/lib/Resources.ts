@@ -1,4 +1,5 @@
 import { CharacterType, MapType } from './Evos';
+
 import mods from './Mods.json';
 
 interface Mod {
@@ -80,7 +81,82 @@ export function catalystsIcon(catalyst: Number) {
   return `${path}/img/catalysts/Catalyst-${catalystName}.webp`;
 }
 
-function convertToLegacyName(internalName: string): string | undefined {
+export function convertToRealName(internalName: string): string | undefined {
+  switch (internalName.toLowerCase()) {
+    case 'archer':
+      return 'Khita';
+    case 'battlemonk':
+      return 'Asana';
+    case 'bazookagirl':
+      return 'Zuki';
+    case 'blaster':
+      return 'Elle';
+    case 'claymore':
+      return 'Titus';
+    case 'cleric':
+      return 'Meridian';
+    case 'digitalsorceress':
+      return 'Aurora';
+    case 'dinolancer':
+      return 'Magnus';
+    case 'exo':
+      return 'Juno';
+    case 'fireborg':
+      return 'Lex';
+    case 'fishman':
+      return 'Dr. Finn';
+    case 'gremlins':
+      return 'Gremolitions Inc.';
+    case 'gryd':
+      return 'Unreleased';
+    case 'iceborg':
+      return 'Vonn';
+    case 'manta':
+      return 'Phaedra';
+    case 'martyr':
+      return 'Orion';
+    case 'nanosmith':
+      return 'Helio';
+    case 'neko':
+      return 'Nev';
+    case 'ragebeast':
+      return 'Rask';
+    case 'rampart':
+      return 'Rampart';
+    case 'robotanimal':
+      return 'Pup';
+    case 'samurai':
+      return 'Tol-Ren';
+    case 'scamp':
+      return 'Isadora';
+    case 'luckyscoundrel':
+      return 'Lockwood';
+    case 'sensei':
+      return 'Su-Ren';
+    case 'sniper':
+      return 'Nix';
+    case 'soldier':
+      return 'Blackburn';
+    case 'spacemarine':
+      return 'Garrison';
+    case 'spark':
+      return 'Quark';
+    case 'teleportingninja':
+      return 'Kaigin';
+    case 'thief':
+      return 'Celeste';
+    case 'tracker':
+      return 'Grey';
+    case 'trickster':
+      return 'Oz';
+    case 'valkyrie':
+      return 'Brynn';
+    default:
+      return 'Unknown';
+  }
+}
+
+export function convertToLegacyName(internalName: string): string | undefined {
   switch (internalName.toLowerCase()) {
     case 'khita':
       return 'archer';
@@ -97,7 +173,7 @@ function convertToLegacyName(internalName: string): string | undefined {
     case 'aurora':
       return 'digitalSorceress';
     case 'magnus':
-      return 'dinoLancher';
+      return 'dinolancer';
     case 'juno':
       return 'exo';
     case 'lex':

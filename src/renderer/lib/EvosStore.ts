@@ -53,9 +53,14 @@ export interface EvosStoreState {
   setEnablePatching: (enablePatching: string) => void;
   setDiscordId: (discord: number) => void;
   discordId: number;
+  enableDiscordRPC: string;
+  toggleDiscordRPC: () => void;
+  isDev: boolean;
+  setDev: (isDev: boolean) => void;
 }
 
 const EvosStore = create<EvosStoreState>((set, get) => ({
+  isDev: false,
   mode: 'dark', // Default value while fetching from storage.
   ip: 'evos-emu.com',
   authenticatedUsers: [],
@@ -150,6 +155,10 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       mode !== 'dark' && mode !== 'light' ? 'dark' : mode,
     );
     get().switchUser(activeUser?.user || users[0]?.user || '');
+  },
+
+  setDev: (isDev: boolean) => {
+    set({ isDev });
   },
 
   setShowAllChat: (showAllChat: string) => {

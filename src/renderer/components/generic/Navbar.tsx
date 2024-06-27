@@ -166,6 +166,7 @@ export default function NavBar() {
     authenticatedUsers,
     isDownloading,
     noLogEnabled,
+    setDev,
   } = evosStore;
   const [error, setError] = useState<EvosError>();
   const [severity, setSeverity] = useState<string>('info');
@@ -184,8 +185,9 @@ export default function NavBar() {
         .then((data) => {
           const info = data.data as PlayerData;
           info.status = info.titleId as unknown as string;
-          if (info.titleId === 26) {
+          if (info.titleId === 26 && activeUser?.handle === user.handle) {
             setIsDev(true);
+            setDev(true);
           }
           return info as PlayerData;
         })
@@ -215,7 +217,8 @@ export default function NavBar() {
       }
       setPlayerInfoMap(infoMap);
     };
-
+    setDev(false);
+    setIsDev(false);
     fetchData();
   }, [
     activeUser?.banner,
@@ -225,6 +228,7 @@ export default function NavBar() {
     activeUser?.user,
     authenticatedUsers,
     navigate,
+    setDev,
     updateAuthenticatedUsers,
   ]);
 
