@@ -156,6 +156,7 @@ export interface GameData {
   turn: number;
   teamAScore: number;
   teamBScore: number;
+  gameType: string;
 }
 
 export interface DataItem {

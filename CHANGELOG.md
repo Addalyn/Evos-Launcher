@@ -1,3 +1,13 @@
+### Release Notes: Version 2.0.7
+
+## New Features
+- **Game Type and Unique Player Count Display**:
+  - Game type and unique player count are now shown next to each game, making it easier to identify the game at a glance.
+
+## Improvements
+- **Player List Management**:
+  - Players are automatically returned to the player list once a game is stopped.
+
 ### Release Notes: Version 2.0.6
 
 ## New Features

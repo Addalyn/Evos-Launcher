@@ -1,4 +1,4 @@
-import { Paper, Typography } from '@mui/material';
+import { Grid, Paper, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { GameData, MapType, PlayerData, ServerData } from '../../lib/Evos';
 import Game from './Game';
@@ -8,6 +8,19 @@ interface Props {
   // eslint-disable-next-line react/require-default-props
   game?: GameData;
   playerData: Map<number, PlayerData>;
+}
+
+function countUniqueAccounts(
+  gameData: GameData,
+  team: 'teamA' | 'teamB',
+): number {
+  const uniqueAccountIds = new Set<number>();
+  gameData[team].forEach((player) => {
+    if (player.accountId !== 0) {
+      uniqueAccountIds.add(player.accountId);
+    }
+  });
+  return uniqueAccountIds.size;
 }
 
 export default function Server({ info, game, playerData }: Props) {
@@ -34,12 +47,27 @@ export default function Server({ info, game, playerData }: Props) {
       elevation={3}
       style={{ padding: '1em', margin: '1em', overflow: 'hidden' }}
     >
-      <Typography variant="h3">
-        {info.name.replace(/-/, ' ') === 'Custom game'
-          ? t(info.name.replace(/-/, ' '))
-          : info.name.replace(/-/, ' ')}
-      </Typography>
-
+      <Grid container spacing={2}>
+        <Grid item xs={6} style={{ textAlign: 'left' }}>
+          <Typography variant="h3">
+            {info.name.replace(/-/, ' ') === 'Custom game'
+              ? t(info.name.replace(/-/, ' '))
+              : info.name.replace(/-/, ' ')}
+          </Typography>
+        </Grid>
+        <Grid item xs={6} style={{ textAlign: 'right' }}>
+          <Typography variant="h3">
+            {game.gameType} -{' '}
+            {countUniqueAccounts(game, 'teamA') === 0
+              ? 'Bots'
+              : countUniqueAccounts(game, 'teamA')}{' '}
+            vs{' '}
+            {countUniqueAccounts(game, 'teamB') === 0
+              ? 'Bots'
+              : countUniqueAccounts(game, 'teamB')}
+          </Typography>
+        </Grid>
+      </Grid>
       {game && <Game info={game} playerData={playerData} expanded={false} />}
     </Paper>
   );
