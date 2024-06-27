@@ -132,6 +132,7 @@ function StatusPage() {
     games &&
     new Set(
       [...games.values()]
+        .filter((g) => g.status !== 'Stopped') // Filter out games with status 'Stopped'
         .flatMap((g) => [...g.teamA, ...g.teamB])
         .map((p) => p.accountId),
     );
