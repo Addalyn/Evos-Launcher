@@ -402,7 +402,8 @@
     "pvpgames": "Nur PvP-Spiele anzeigen",
     "customgames": "Nur benutzerdefinierte Spiele anzeigen",
     "tournamentgames": "Nur Turnierspiele anzeigen",
-    "coopgames": "Nur Koop-/Solo-Spiele anzeigen"
+    "coopgames": "Nur Koop-/Solo-Spiele anzeigen",
+    "Last20PvPGames": "Letzte 20 PvP-Spiele"
   },
   "months": {
     "January": "Januar",

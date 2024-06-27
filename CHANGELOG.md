@@ -1,3 +1,38 @@
+### Release Notes: Version 2.0.6
+
+## New Features
+- **Enhanced Personal Stats**: 
+  - Added detailed graphs displaying performance metrics for the last 20 PvP games.
+  - Metrics include damage, healing, damage taken, and deaths per game.
+  - Default metric views:
+    - Firepowers: Damage
+    - Support: Healing
+    - Frontliners: Damage Taken
+  - Interactive legend: Click to show or hide specific stats as needed.
+
+## Bug Fixes
+- **Updater Restart Button**:
+  - Resolved issue with the updater restart button not appearing after receiving a delayed translation request message.
+  - The restart button now consistently appears once the download is complete, regardless of other incoming messages.
+
+# 2.0.5
+
+- Fixed Magnus abilitys not showing for viewing past games in replay popup.
+- You no longer can see other players winrate but only your own.
+
+# 2.0.4 - The dino update
+
+- Added Magnus
+
+# 2.0.3 - The Discord Status Update
+
+- Discord Status update, Now you can see your launcher/In Game status in discord.
+  - you can enable/disable it in the settings page
+  - This will show
+    - If you are in the launcher and not in game (Ideling in the launcher)
+    - If you are in in game (Playing Atlas Reactor as `Username`)
+    - If you are in game and playing map It will show curent game and what character you are, what map you are on, curent score and time in game.
+
 # 2.0.2 - Just a chill update
 
 - Added Vonn

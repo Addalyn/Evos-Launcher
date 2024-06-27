@@ -402,7 +402,8 @@
     "pvpgames": "Alleen PvP-games weergeven",
     "customgames": "Alleen aangepaste games weergeven",
     "tournamentgames": "Alleen toernooigames weergeven",
-    "coopgames": "Alleen coöp-/solo-games weergeven"
+    "coopgames": "Alleen coöp-/solo-games weergeven",
+    "Last20PvPGames": "Laatste 20 PvP-spellen"
   },
   "months": {
     "January": "Januari",

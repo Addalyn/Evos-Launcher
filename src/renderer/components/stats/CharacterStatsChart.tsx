@@ -12,6 +12,7 @@ import React, { useState } from 'react';
 
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import { Bar } from 'react-chartjs-2';
+import CharacterStatsChartLine from './CharacterStatsChartLine';
 import { Chart } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
@@ -324,6 +325,11 @@ function CharacterStatsChart({ data, player, map }: CharacterStatsChartProps) {
                     />
                   </div>
                 </div>
+                <CharacterStatsChartLine
+                  character={characterData.character}
+                  player={player}
+                  map={map}
+                />
               </AccordionDetails>
             </Accordion>
           ),
