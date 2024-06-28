@@ -405,7 +405,13 @@
     "customgames": "Alleen aangepaste games weergeven",
     "tournamentgames": "Alleen toernooigames weergeven",
     "coopgames": "Alleen coöp-/solo-games weergeven",
-    "Last20PvPGames": "Laatste 20 PvP-spellen"
+    "Last20PvPGames": "Laatste 20 PvP-spellen",
+    "averageDamageForAll": "Gemiddelde schade toegebracht overall",
+    "averageDamageForSelf": "Gemiddelde schade toegebracht door zichzelf",
+    "averageHealingForAll": "Gemiddelde genezing overall",
+    "averageHealingForSelf": "Gemiddelde genezing ontvangen door zichzelf",
+    "averageTankingForAll": "Gemiddeld tanken overall",
+    "averageTankingForSelf": "Gemiddelde schade ontvangen door zichzelf"
   },
   "months": {
     "January": "Januari",

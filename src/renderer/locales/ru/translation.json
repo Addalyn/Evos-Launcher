@@ -392,7 +392,13 @@
     "customgames": "Показать только пользовательские игры",
     "tournamentgames": "Показать только турнирные игры",
     "coopgames": "Показать только кооперативные/соло игры",
-    "Last20PvPGames": "Последние 20 PvP-игр"
+    "Last20PvPGames": "Последние 20 PvP-игр",
+    "averageDamageForAll": "Средний урон общий",
+    "averageDamageForSelf": "Средний урон, нанесенный самому себе",
+    "averageHealingForAll": "Среднее лечение общее",
+    "averageHealingForSelf": "Среднее лечение, полученное самим собой",
+    "averageTankingForAll": "Средний танкование общий",
+    "averageTankingForSelf": "Средний урон, полученный самим собой"
   },
   "months": {
     "January": "Январь",

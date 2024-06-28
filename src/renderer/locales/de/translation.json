@@ -405,7 +405,13 @@
     "customgames": "Nur benutzerdefinierte Spiele anzeigen",
     "tournamentgames": "Nur Turnierspiele anzeigen",
     "coopgames": "Nur Koop-/Solo-Spiele anzeigen",
-    "Last20PvPGames": "Letzte 20 PvP-Spiele"
+    "Last20PvPGames": "Letzte 20 PvP-Spiele",
+    "averageDamageForAll": "Durchschnittlicher verursachter Schaden insgesamt",
+    "averageDamageForSelf": "Durchschnittlicher von sich selbst verursachter Schaden",
+    "averageHealingForAll": "Durchschnittliche Heilung insgesamt",
+    "averageHealingForSelf": "Durchschnittliche von sich selbst erhaltene Heilung",
+    "averageTankingForAll": "Durchschnittliches Aushalten insgesamt",
+    "averageTankingForSelf": "Durchschnittlicher von sich selbst erlittener Schaden"
   },
   "months": {
     "January": "Januar",

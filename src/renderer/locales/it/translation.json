@@ -377,7 +377,13 @@
     "customgames": "Mostra solo giochi personalizzati",
     "tournamentgames": "Mostra solo giochi di torneo",
     "coopgames": "Mostra solo giochi cooperativi/singoli",
-    "Last20PvPGames": "Ultimi 20 Giochi PvP"
+    "Last20PvPGames": "Ultimi 20 Giochi PvP",
+    "averageDamageForAll": "Media dei danni inflitti complessivamente",
+    "averageDamageForSelf": "Media dei danni inflitti da sé stessi",
+    "averageHealingForAll": "Media delle cure complessivamente",
+    "averageHealingForSelf": "Media delle cure ricevute da sé stessi",
+    "averageTankingForAll": "Media del tanking complessivamente",
+    "averageTankingForSelf": "Media dei danni subiti da sé stessi"
   },
   "months": {
     "January": "Gennaio",

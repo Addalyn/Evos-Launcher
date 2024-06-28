@@ -47,6 +47,20 @@ interface Stats {
   gametype: string;
 }
 
+interface Average {
+  avg: number;
+}
+interface Statistics {
+  averageForAll: Average[];
+  averageForUser: Average[];
+}
+
+interface Data {
+  damage: Statistics;
+  healing: Statistics;
+  tanking: Statistics;
+}
+
 const characterCategories: { [key: string]: string } = {
   Blackburn: 'Firepower',
   Celeste: 'Firepower',
@@ -109,6 +123,26 @@ const fetchInfo = async (map: string, player: string, character: string) => {
   }
 };
 
+const getAverage = async (map: string, player: string, character: string) => {
+  try {
+    const strapi = strapiClient
+      .from<Data>(
+        `stats/average?character=${encodeURIComponent(character)}&user=${encodeURIComponent(player)}${map !== 'All Maps' ? `?map=${encodeURIComponent(map)}` : ''}`,
+      )
+      .select();
+
+    const { data, error } = await strapi.get();
+
+    if (error) {
+      return null;
+    }
+    // @ts-ignore
+    return data || null;
+  } catch (error) {
+    return null;
+  }
+};
+
 export default function CharacterStatsChartLine({
   character,
   player,
@@ -117,6 +151,7 @@ export default function CharacterStatsChartLine({
   const { t } = useTranslation();
 
   const [gameData, setGameData] = useState<Stats[]>([]);
+  const [average, setAverage] = useState<Data>();
 
   const getOrCreateTooltip = (chart: {
     canvas: {
@@ -298,6 +333,13 @@ export default function CharacterStatsChartLine({
     },
   };
 
+  const averageDamage = average?.damage.averageForAll[0]?.avg;
+  const averageDamageSelf = average?.damage.averageForUser[0]?.avg;
+  const averageHealing = average?.healing.averageForAll[0]?.avg;
+  const averageHealingSelf = average?.healing.averageForUser[0]?.avg;
+  const averageTanking = average?.tanking.averageForAll[0]?.avg;
+  const averageTankingSelf = average?.tanking.averageForUser[0]?.avg;
+
   const dataStats = {
     labels: gameData.map((stats) => {
       const date = new Date(stats.createdAt);
@@ -320,6 +362,36 @@ export default function CharacterStatsChartLine({
         hidden: characterCategories[character] !== 'Firepower',
       },
       {
+        label: t('stats.averageDamageForAll'),
+        data: gameData.map((_, index) => ({
+          x: index + 1,
+          y: averageDamage,
+        })),
+        borderColor: 'rgb(128, 2, 2)',
+        backgroundColor: 'rgba(128, 0, 0, 0.313)',
+        datalabels: {
+          color: 'white',
+          backgroundColor: 'black',
+          display: false,
+        },
+        hidden: characterCategories[character] !== 'Firepower',
+      },
+      {
+        label: t('stats.averageDamageForSelf'),
+        data: gameData.map((_, index) => ({
+          x: index + 1,
+          y: averageDamageSelf,
+        })),
+        borderColor: 'rgb(191, 2, 2)',
+        backgroundColor: 'rgba(191, 0, 0, 0.313)',
+        datalabels: {
+          color: 'white',
+          backgroundColor: 'black',
+          display: false,
+        },
+        hidden: characterCategories[character] !== 'Firepower',
+      },
+      {
         label: t('stats.healingDone'),
         data: gameData.map((stats, index) => ({
           x: index + 1,
@@ -335,6 +407,36 @@ export default function CharacterStatsChartLine({
         hidden: characterCategories[character] !== 'Support',
       },
       {
+        label: t('stats.averageHealingForAll'),
+        data: gameData.map((_, index) => ({
+          x: index + 1,
+          y: averageHealing,
+        })),
+        borderColor: 'rgb(2, 151, 47)',
+        backgroundColor: 'rgba(2, 151, 47, 0.313)',
+        datalabels: {
+          color: 'white',
+          backgroundColor: 'black',
+          display: false,
+        },
+        hidden: characterCategories[character] !== 'Support',
+      },
+      {
+        label: t('stats.averageHealingForSelf'),
+        data: gameData.map((_, index) => ({
+          x: index + 1,
+          y: averageHealingSelf,
+        })),
+        borderColor: 'rgb(4, 190, 60)',
+        backgroundColor: 'rgba(4, 190, 60, 0.313)',
+        datalabels: {
+          color: 'white',
+          backgroundColor: 'black',
+          display: false,
+        },
+        hidden: characterCategories[character] !== 'Support',
+      },
+      {
         label: t('stats.damageReceived'),
         data: gameData.map((stats, index) => ({
           x: index + 1,
@@ -346,6 +448,36 @@ export default function CharacterStatsChartLine({
           color: 'white',
           backgroundColor: 'black',
           display: 'auto',
+        },
+        hidden: characterCategories[character] !== 'Frontline',
+      },
+      {
+        label: t('stats.averageTankingForAll'),
+        data: gameData.map((_, index) => ({
+          x: index + 1,
+          y: averageTanking,
+        })),
+        borderColor: 'rgb(25, 2, 143)',
+        backgroundColor: 'rgba(25, 2, 143, 0.313)',
+        datalabels: {
+          color: 'white',
+          backgroundColor: 'black',
+          display: false,
+        },
+        hidden: characterCategories[character] !== 'Frontline',
+      },
+      {
+        label: t('stats.averageTankingForSelf'),
+        data: gameData.map((_, index) => ({
+          x: index + 1,
+          y: averageTankingSelf,
+        })),
+        borderColor: 'rgb(33, 3, 184)',
+        backgroundColor: 'rgba(33, 3, 184, 0.313)',
+        datalabels: {
+          color: 'white',
+          backgroundColor: 'black',
+          display: false,
         },
         hidden: characterCategories[character] !== 'Frontline',
       },
@@ -370,13 +502,15 @@ export default function CharacterStatsChartLine({
   useEffect(() => {
     async function fetchData() {
       const data = await fetchInfo(map, player, character);
-      // @ts-ignore
+      const fetchAverage = await getAverage(map, player, character);
       setGameData(data);
+      // @ts-ignore
+      setAverage(fetchAverage);
     }
     setGameData([]);
+    setAverage(undefined);
     fetchData();
   }, [character, map, player]);
-
   return (
     <div>
       {/*
