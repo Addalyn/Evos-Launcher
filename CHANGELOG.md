@@ -1,3 +1,15 @@
+### Release Notes: Version 2.0.8
+
+## Improvements
+- **Enhanced Character Stats**:
+  - Added additional statistics to character stats:
+    - Average damage done overall in the last 20 games.
+    - Average damage done by yourself in the last 20 games.
+    - Average healing done overall in the last 20 games.
+    - Average healing done by yourself in the last 20 games.
+    - Average damage received overall in the last 20 games.
+    - Average damage received by yourself in the last 20 games.
+
 ### Release Notes: Version 2.0.7
 
 ## New Features

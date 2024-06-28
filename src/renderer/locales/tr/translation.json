@@ -403,7 +403,13 @@
     "customgames": "Yalnızca özel oyunları göster",
     "tournamentgames": "Yalnızca turnuva oyunlarını göster",
     "coopgames": "Yalnızca işbirliği/solo oyunları göster",
-    "Last20PvPGames": "Son 20 PvP Oyunu"
+    "Last20PvPGames": "Son 20 PvP Oyunu",
+    "averageDamageForAll": "Genel Ortalama Verilen Hasar",
+    "averageDamageForSelf": "Kendi Verdiği Hasar Ortalaması",
+    "averageHealingForAll": "Genel Ortalama İyileştirme",
+    "averageHealingForSelf": "Kendi Aldığı İyileştirme Ortalaması",
+    "averageTankingForAll": "Genel Ortalama Tanklama",
+    "averageTankingForSelf": "Kendi Aldığı Hasar Ortalaması"
   },
   "months": {
     "January": "Ocak",
