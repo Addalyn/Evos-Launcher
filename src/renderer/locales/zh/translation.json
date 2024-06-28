@@ -404,7 +404,13 @@
     "customgames": "仅显示自定义游戏",
     "tournamentgames": "仅显示锦标赛游戏",
     "coopgames": "仅显示合作/单人游戏",
-    "Last20PvPGames": "最近 20 场 PvP 游戏"
+    "Last20PvPGames": "最近 20 场 PvP 游戏",
+    "averageDamageForAll": "总体平均造成伤害",
+    "averageDamageForSelf": "个人平均造成伤害",
+    "averageHealingForAll": "总体平均治疗量",
+    "averageHealingForSelf": "个人平均接受治疗量",
+    "averageTankingForAll": "总体平均承受伤害",
+    "averageTankingForSelf": "个人平均承受伤害量"
   },
   "months": {
     "January": "1月",

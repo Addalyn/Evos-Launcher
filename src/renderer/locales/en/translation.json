@@ -405,7 +405,13 @@
     "customgames": "Show only Custom games",
     "tournamentgames": "Show only Tournament games",
     "coopgames": "Show only Coop/Solo games",
-    "Last20PvPGames": "Last 20 PvP Games"
+    "Last20PvPGames": "Last 20 PvP Games",
+    "averageDamageForAll": "Damage dealt average overall",
+    "averageDamageForSelf": "Average damage dealt by oneself",
+    "averageHealingForAll": "Healing average overall",
+    "averageHealingForSelf": "Average healing received by oneself",
+    "averageTankingForAll": "Tanking average overall",
+    "averageTankingForSelf": "Average damage taken by oneself"
   },
   "months": {
     "January": "January",
