@@ -1,43 +1,3 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable promise/always-return */
-import React, { useEffect, useMemo, useState } from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import {
-  Button,
-  Divider,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  MenuItem,
-  Paper,
-  Stack,
-  Tooltip,
-  Typography,
-  ListSubheader,
-  Select,
-  Alert,
-} from '@mui/material';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import ForumIcon from '@mui/icons-material/Forum';
-import InfoIcon from '@mui/icons-material/Info';
-import HomeIcon from '@mui/icons-material/Home';
-import SettingsIcon from '@mui/icons-material/Settings';
-import DownloadIcon from '@mui/icons-material/Download';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
-import HistoryIcon from '@mui/icons-material/History';
-// import LogoDevIcon from '@mui/icons-material/LogoDev';
-import TextSnippetIcon from '@mui/icons-material/TextSnippet';
-import EvosStore, { AuthUser } from 'renderer/lib/EvosStore';
-import useWindowDimensions from 'renderer/lib/useWindowDimensions';
 import {
   AccountData,
   PlayerData,
@@ -47,15 +7,56 @@ import {
   getTicket,
   logout,
 } from 'renderer/lib/Evos';
+import {
+  Alert,
+  Button,
+  Divider,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
+  MenuItem,
+  Paper,
+  Select,
+  Stack,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { EvosError, isValidExePath, processError } from 'renderer/lib/Error';
-import { useTranslation } from 'react-i18next';
-import { trackEvent } from '@aptabase/electron/renderer';
+import EvosStore, { AuthUser } from 'renderer/lib/EvosStore';
+import { NavLink, useNavigate } from 'react-router-dom';
+/* eslint-disable no-nested-ternary */
+/* eslint-disable promise/always-return */
+import React, { useEffect, useMemo, useState } from 'react';
+import { logo, logoSmall } from '../../lib/Resources';
+
+import AppBar from '@mui/material/AppBar';
+import Avatar from '@mui/material/Avatar';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import DownloadIcon from '@mui/icons-material/Download';
+import ErrorDialog from './ErrorDialog';
+import ForumIcon from '@mui/icons-material/Forum';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import HistoryIcon from '@mui/icons-material/History';
+import HomeIcon from '@mui/icons-material/Home';
+import InfoIcon from '@mui/icons-material/Info';
+import Player from '../atlas/Player';
 import { Replay } from '@mui/icons-material';
+import SettingsIcon from '@mui/icons-material/Settings';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+// import LogoDevIcon from '@mui/icons-material/LogoDev';
+import TextSnippetIcon from '@mui/icons-material/TextSnippet';
+import Toolbar from '@mui/material/Toolbar';
+import { trackEvent } from '@aptabase/electron/renderer';
 import useHasFocus from 'renderer/lib/useHasFocus';
 import useInterval from 'renderer/lib/useInterval';
-import ErrorDialog from './ErrorDialog';
-import { logo, logoSmall } from '../../lib/Resources';
-import Player from '../atlas/Player';
+import { useTranslation } from 'react-i18next';
+import useWindowDimensions from 'renderer/lib/useWindowDimensions';
 
 interface Language {
   nativeName: string;
@@ -74,14 +75,9 @@ const lngs: { [key: string]: Language } = {
   tr: { nativeName: 'Türkçe', icon: 'TR' },
 };
 
-function RoundToNearest5(x: number) {
-  return Math.round(x / 5) * 5;
-}
-
 export default function NavBar() {
   const evosStore = EvosStore();
 
-  const location = useLocation();
   const { t, i18n } = useTranslation();
   const [isDev, setIsDev] = useState(false);
 
@@ -143,21 +139,7 @@ export default function NavBar() {
     [t],
   );
 
-  function FormatAge(ageMs: number) {
-    if (ageMs < 5000) {
-      return t('formatAge.justNow');
-    }
-    if (ageMs < 60000) {
-      return `${RoundToNearest5(ageMs / 1000)} ${t('formatAge.secondsAgo')}`;
-    }
-    if (ageMs < 90000) {
-      return t('formatAge.aMinuteAgo');
-    }
-    return `${Math.round(ageMs / 60000)} ${t('formatAge.minutesAgo')}`;
-  }
-
   const {
-    age,
     exePath,
     ticketEnabled,
     updateAuthenticatedUsers,
@@ -698,26 +680,6 @@ export default function NavBar() {
               </List>
             </Paper>
           </Box>
-
-          {location.pathname === '/' && (
-            <Paper
-              sx={{
-                marginTop: `auto`,
-                width: '100%',
-                display: { xs: 'none', md: 'flex', borderRadius: 0 },
-              }}
-            >
-              <List>
-                <ListItem>
-                  <ListItemText>
-                    {age === undefined
-                      ? t('loading')
-                      : `${t('updated')} ${FormatAge(age)}`}
-                  </ListItemText>
-                </ListItem>
-              </List>
-            </Paper>
-          )}
         </Drawer>
       )}
     </>

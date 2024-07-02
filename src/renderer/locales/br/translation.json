@@ -409,7 +409,7 @@
     "averageDamageForAll": "Média de dano causado geral",
     "averageDamageForSelf": "Média de dano causado por si mesmo",
     "averageHealingForAll": "Média de cura geral",
-    "averageHealingForSelf": "Média de cura recebida por si mesmo",
+    "averageHealingForSelf": "Média de cura feita por si mesmo",
     "averageTankingForAll": "Média de aguentamento geral",
     "averageTankingForSelf": "Média de dano recebido por si mesmo"
   },

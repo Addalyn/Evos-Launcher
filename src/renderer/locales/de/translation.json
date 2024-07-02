@@ -409,7 +409,7 @@
     "averageDamageForAll": "Durchschnittlicher verursachter Schaden insgesamt",
     "averageDamageForSelf": "Durchschnittlicher von sich selbst verursachter Schaden",
     "averageHealingForAll": "Durchschnittliche Heilung insgesamt",
-    "averageHealingForSelf": "Durchschnittliche von sich selbst erhaltene Heilung",
+    "averageHealingForSelf": "Durchschnittliche von sich selbst durchgeführte Heilung",
     "averageTankingForAll": "Durchschnittliches Aushalten insgesamt",
     "averageTankingForSelf": "Durchschnittlicher von sich selbst erlittener Schaden"
   },

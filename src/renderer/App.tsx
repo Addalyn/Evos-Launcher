@@ -1,40 +1,41 @@
-import React, { useEffect, useState } from 'react';
-import { Routes, Route, HashRouter } from 'react-router-dom';
 import './App.css';
+
 import {
   Box,
-  colors,
-  createTheme,
   CssBaseline,
   ThemeProvider,
+  colors,
+  createTheme,
 } from '@mui/material';
+import { HashRouter, Route, Routes } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Status, WS_URL } from './lib/Evos';
 
-import { useTranslation } from 'react-i18next';
-import { trackEvent } from '@aptabase/electron/renderer';
-import NavBar from './components/generic/Navbar';
-import EvosStore from './lib/EvosStore';
-import StatusPage from './components/pages/StatusPage';
-import SettingsPage from './components/pages/SettingsPage';
 import AboutPage from './components/pages/AboutPage';
-import ChangeLogPage from './components/pages/ChangeLogPage';
 import AddAccountPage from './components/pages/AddAccountPage';
-import LoginPage from './components/pages/LoginPage';
-import RegisterPage from './components/pages/RegisterPage';
-import DownloadPage from './components/pages/DownloadPage';
-import Updater from './components/generic/Updater';
-import StatsPage from './components/pages/StatsPage';
-import PreviousGamesPage from './components/pages/PreviousGamesPage';
-import PlayerStatsPage from './components/pages/PlayerStatsPage';
-import NotificationMessage from './components/generic/NotificationMessage';
-import LogsPage from './components/pages/LogsPage';
-
-import DiscordPage from './components/pages/DiscordPage';
-import ReplaysPage from './components/pages/ReplaysPage';
 import AdminMessage from './components/generic/AdminMessage';
+import ChangeLogPage from './components/pages/ChangeLogPage';
 import DevPage from './components/pages/DevPage';
+import DiscordPage from './components/pages/DiscordPage';
+import DownloadPage from './components/pages/DownloadPage';
+import EvosStore from './lib/EvosStore';
 import LinkDiscord from './components/generic/LinkDiscord';
-import { Status, getStatus } from './lib/Evos';
+import LoginPage from './components/pages/LoginPage';
+import LogsPage from './components/pages/LogsPage';
+import NavBar from './components/generic/Navbar';
+import NotificationMessage from './components/generic/NotificationMessage';
+import PlayerStatsPage from './components/pages/PlayerStatsPage';
+import PreviousGamesPage from './components/pages/PreviousGamesPage';
+import RegisterPage from './components/pages/RegisterPage';
+import ReplaysPage from './components/pages/ReplaysPage';
+import SettingsPage from './components/pages/SettingsPage';
+import StatsPage from './components/pages/StatsPage';
+import StatusPage from './components/pages/StatusPage';
+import Updater from './components/generic/Updater';
 import { convertToRealName } from './lib/Resources';
+import { trackEvent } from '@aptabase/electron/renderer';
+import { useTranslation } from 'react-i18next';
+import useWebSocket from 'react-use-websocket';
 
 interface PageProps {
   title: string;
@@ -70,9 +71,11 @@ const page = (title: string, content: React.ReactNode) => {
 
 export default function App() {
   const evosStore = EvosStore();
+  const { activeUser } = evosStore;
   const mode = evosStore.mode as PaletteMode;
   const { t, i18n } = useTranslation();
   const [gameTimer, setGameTimer] = useState<Date | undefined>(undefined);
+  const [globalStatus, setGlobalStatus] = useState<Status>();
 
   useEffect(() => {
     trackEvent('Language', {
@@ -94,108 +97,138 @@ export default function App() {
     mode,
     evosStore.exePath,
   ]);
+  const { sendJsonMessage, readyState } = useWebSocket(WS_URL, {
+    share: true,
+    queryParams: { username: encodeURIComponent(activeUser?.handle as string) },
+    onMessage: (event) => {
+      const parsedMessage = JSON.parse(event.data);
+      if (parsedMessage.error === undefined) {
+        setGlobalStatus(parsedMessage);
+      }
+    },
+    shouldReconnect: () => true,
+  });
 
   useEffect(() => {
     // eslint-disable-next-line no-undef
-    let interval: NodeJS.Timeout | undefined;
-    if (evosStore.enableDiscordRPC === 'true') {
-      interval = setInterval(() => {
-        getStatus()
-          .then((response) => {
-            const status: Status = response.data;
-            const myUser = status.players.find(
-              (player) => player.handle === evosStore.activeUser?.handle,
-            );
-            let discordStatus: discordStatus;
-            if (myUser) {
-              let map = null as Status['games'][0] | null;
-              let currentTeam = '';
-              let currentCharacter = '';
-              if (myUser.status === 'In Game') {
-                if (gameTimer === undefined) {
-                  setGameTimer(new Date());
-                }
-              } else {
-                setGameTimer(undefined);
-              }
-              status.games.forEach((game) => {
-                const teamA = game.teamA.find(
-                  (player) => player.accountId === myUser.accountId,
-                );
-                const teamB = game.teamB.find(
-                  (player) => player.accountId === myUser.accountId,
-                );
-                if (teamA || teamB) {
-                  map = game;
-                  currentTeam = teamA ? 'Team A' : 'Team B';
-                  currentCharacter = teamA
-                    ? teamA.characterType
-                    : teamB?.characterType || '';
-                }
-              });
+    let retryTimeout: string | number | NodeJS.Timeout | undefined;
 
-              discordStatus = {
-                details: `Playing as ${myUser.handle}`,
-                state: `${myUser.status} ${map !== null && myUser.status === 'In Game' ? `as ${t(convertToRealName(currentCharacter.toLowerCase()) as string, { lng: 'en' })} (${map.teamAScore} - ${map.teamBScore})` : ''}`,
-                buttons: [
-                  {
-                    label: 'Start playing!',
-                    url: 'https://evos.live/discord',
-                  },
-                ],
-                startTimestamp:
-                  myUser.status === 'In Game'
-                    ? gameTimer || new Date()
-                    : undefined,
-                smallImageKey:
-                  map !== null && myUser.status === 'In Game'
-                    ? map.map.toLowerCase()
-                    : 'logo',
-                smallImageText:
-                  map !== null && myUser.status === 'In Game'
-                    ? `Playing on ${t(`maps.${map.map}`, { lng: 'en' })} as ${t(convertToRealName(currentCharacter.toLowerCase()) as string, { lng: 'en' })} in ${currentTeam}`
-                    : '',
-                largeImageKey:
-                  map !== null && myUser.status === 'In Game'
-                    ? currentCharacter.toLowerCase()
-                    : '',
-                largeImageText:
-                  map !== null && myUser.status === 'In Game'
-                    ? `${t(convertToRealName(currentCharacter.toLowerCase()) as string, { lng: 'en' })}`
-                    : '',
-              };
-            } else {
-              discordStatus = {
-                details: 'Idling in Launcher',
-                state: 'Waiting to start playing',
-                largeImageKey: 'logo',
-                // startTimestamp: discordTimestamp,
-                buttons: [
-                  {
-                    label: 'Start playing!',
-                    url: 'https://evos.live/discord',
-                  },
-                ],
-              };
-            }
-
-            window.electron.ipcRenderer.sendDiscordStatus(discordStatus);
-
-            return null;
-          })
-          .catch(() => {});
-      }, 1000 * 20);
-    } else if (interval !== undefined) {
-      window.electron.ipcRenderer.stopDiscord();
-      clearInterval(interval);
-    }
-
-    return () => {
-      if (interval !== undefined) {
-        clearInterval(interval);
+    const handleWebSocketInit = () => {
+      if (readyState === WebSocket.OPEN) {
+        sendJsonMessage({
+          type: 'INIT',
+          username: encodeURIComponent(activeUser?.handle as string),
+        });
+      } else if (readyState === WebSocket.CLOSED) {
+        setGlobalStatus(undefined);
+        retryTimeout = setTimeout(() => {
+          handleWebSocketInit();
+        }, 3000); // Retry every 3 seconds until connected
       }
     };
-  }, [evosStore.activeUser, evosStore.enableDiscordRPC, gameTimer, t]);
+
+    handleWebSocketInit();
+
+    return () => {
+      clearTimeout(retryTimeout);
+      if (readyState === WebSocket.OPEN) {
+        sendJsonMessage({
+          type: 'DISCONNECT',
+          username: encodeURIComponent(activeUser?.handle as string),
+        });
+      }
+    };
+  }, [activeUser, readyState, sendJsonMessage]);
+
+  useEffect(() => {
+    if (evosStore.enableDiscordRPC === 'true') {
+      const status: Status | undefined = globalStatus;
+      if (status === undefined) {
+        return;
+      }
+      const myUser = status.players.find(
+        (player) => player.handle === evosStore.activeUser?.handle,
+      );
+      let discordStatus: discordStatus;
+      if (myUser) {
+        let map = null as Status['games'][0] | null;
+        let currentTeam = '';
+        let currentCharacter = '';
+        if (myUser.status === 'In Game') {
+          if (gameTimer === undefined) {
+            setGameTimer(new Date());
+          }
+        } else {
+          setGameTimer(undefined);
+        }
+        status.games.forEach((game) => {
+          const teamA = game.teamA.find(
+            (player) => player.accountId === myUser.accountId,
+          );
+          const teamB = game.teamB.find(
+            (player) => player.accountId === myUser.accountId,
+          );
+          if (teamA || teamB) {
+            map = game;
+            currentTeam = teamA ? 'Team A' : 'Team B';
+            currentCharacter = teamA
+              ? teamA.characterType
+              : teamB?.characterType || '';
+          }
+        });
+
+        discordStatus = {
+          details: `Playing as ${myUser.handle}`,
+          state: `${myUser.status} ${map !== null && myUser.status === 'In Game' ? `as ${t(convertToRealName(currentCharacter.toLowerCase()) as string, { lng: 'en' })} (${map.teamAScore} - ${map.teamBScore})` : ''}`,
+          buttons: [
+            {
+              label: 'Start playing!',
+              url: 'https://evos.live/discord',
+            },
+          ],
+          startTimestamp:
+            myUser.status === 'In Game' ? gameTimer || new Date() : undefined,
+          smallImageKey:
+            map !== null && myUser.status === 'In Game'
+              ? map.map.toLowerCase()
+              : 'logo',
+          smallImageText:
+            map !== null && myUser.status === 'In Game'
+              ? `Playing on ${t(`maps.${map.map}`, { lng: 'en' })} as ${t(convertToRealName(currentCharacter.toLowerCase()) as string, { lng: 'en' })} in ${currentTeam}`
+              : '',
+          largeImageKey:
+            map !== null && myUser.status === 'In Game'
+              ? currentCharacter.toLowerCase()
+              : '',
+          largeImageText:
+            map !== null && myUser.status === 'In Game'
+              ? `${t(convertToRealName(currentCharacter.toLowerCase()) as string, { lng: 'en' })}`
+              : '',
+        };
+      } else {
+        discordStatus = {
+          details: 'Idling in Launcher',
+          state: 'Waiting to start playing',
+          largeImageKey: 'logo',
+          // startTimestamp: discordTimestamp,
+          buttons: [
+            {
+              label: 'Start playing!',
+              url: 'https://evos.live/discord',
+            },
+          ],
+        };
+      }
+
+      window.electron.ipcRenderer.sendDiscordStatus(discordStatus);
+    }
+  }, [
+    evosStore.activeUser,
+    evosStore.enableDiscordRPC,
+    gameTimer,
+    globalStatus,
+    t,
+  ]);
 
   const handleMessage = (event: any) => {
     window.electron.ipcRenderer.sendTranslate('translateReturn', t(event));
