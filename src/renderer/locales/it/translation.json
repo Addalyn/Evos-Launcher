@@ -381,7 +381,7 @@
     "averageDamageForAll": "Media dei danni inflitti complessivamente",
     "averageDamageForSelf": "Media dei danni inflitti da sé stessi",
     "averageHealingForAll": "Media delle cure complessivamente",
-    "averageHealingForSelf": "Media delle cure ricevute da sé stessi",
+    "averageHealingForSelf": "Media delle cure effettuate da sé stessi",
     "averageTankingForAll": "Media del tanking complessivamente",
     "averageTankingForSelf": "Media dei danni subiti da sé stessi"
   },

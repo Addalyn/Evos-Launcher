@@ -409,7 +409,7 @@
     "averageDamageForAll": "Damage dealt average overall",
     "averageDamageForSelf": "Average damage dealt by oneself",
     "averageHealingForAll": "Healing average overall",
-    "averageHealingForSelf": "Average healing received by oneself",
+    "averageHealingForSelf": "Average healing done by oneself",
     "averageTankingForAll": "Tanking average overall",
     "averageTankingForSelf": "Average damage taken by oneself"
   },

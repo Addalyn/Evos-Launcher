@@ -409,7 +409,7 @@
     "averageDamageForAll": "Genel Ortalama Verilen Hasar",
     "averageDamageForSelf": "Kendi Verdiği Hasar Ortalaması",
     "averageHealingForAll": "Genel Ortalama İyileştirme",
-    "averageHealingForSelf": "Kendi Aldığı İyileştirme Ortalaması",
+    "averageHealingForSelf": "Kendi Yaptığı İyileştirme Ortalaması",
     "averageTankingForAll": "Genel Ortalama Tanklama",
     "averageTankingForSelf": "Kendi Aldığı Hasar Ortalaması"
   },

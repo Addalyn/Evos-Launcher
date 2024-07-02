@@ -409,7 +409,7 @@
     "averageDamageForAll": "Gemiddelde schade toegebracht overall",
     "averageDamageForSelf": "Gemiddelde schade toegebracht door zichzelf",
     "averageHealingForAll": "Gemiddelde genezing overall",
-    "averageHealingForSelf": "Gemiddelde genezing ontvangen door zichzelf",
+    "averageHealingForSelf": "Gemiddelde genezing door zichzelf uitgevoerd",
     "averageTankingForAll": "Gemiddeld tanken overall",
     "averageTankingForSelf": "Gemiddelde schade ontvangen door zichzelf"
   },

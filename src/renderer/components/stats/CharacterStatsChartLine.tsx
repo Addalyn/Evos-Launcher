@@ -255,14 +255,22 @@ export default function CharacterStatsChartLine({
       tableRoot.appendChild(tableBody);
     }
 
-    const { offsetLeft: positionX, offsetTop: positionY } = chart.canvas;
-
-    // Display, position, and set styles for font
+    const {
+      offsetLeft: positionX,
+      offsetTop: positionY,
+      offsetWidth: chartWidth,
+    } = chart.canvas;
+    const tooltipWidth = tooltipEl.offsetWidth;
+    let leftPosition = positionX + tooltip.caretX;
+    const topPosition = positionY + tooltip.caretY;
+    if (leftPosition + tooltipWidth > positionX + chartWidth) {
+      leftPosition = positionX + chartWidth - tooltipWidth;
+    }
     tooltipEl.style.opacity = 1;
-    tooltipEl.style.left = `${positionX + tooltip.caretX}px`;
-    tooltipEl.style.top = `${positionY + tooltip.caretY}px`;
+    tooltipEl.style.zIndex = 9999;
+    tooltipEl.style.left = `${leftPosition}px`;
+    tooltipEl.style.top = `${topPosition}px`;
     tooltipEl.style.font = tooltip.options.bodyFont.string;
-    tooltipEl.style.padding = `${tooltip.options.padding}px ${tooltip.options.padding}px`;
   };
 
   const options = {

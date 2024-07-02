@@ -409,7 +409,7 @@
     "averageDamageForAll": "Moyenne des dégâts infligés globalement",
     "averageDamageForSelf": "Moyenne des dégâts infligés par soi-même",
     "averageHealingForAll": "Moyenne des soins globalement",
-    "averageHealingForSelf": "Moyenne des soins reçus par soi-même",
+    "averageHealingForSelf": "Moyenne des soins effectués par soi-même",
     "averageTankingForAll": "Moyenne du tanking globalement",
     "averageTankingForSelf": "Moyenne des dégâts subis par soi-même"
   },
