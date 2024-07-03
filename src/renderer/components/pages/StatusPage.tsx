@@ -1,28 +1,27 @@
-import { useMemo, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
-  LinearProgress,
-  Paper,
-  Typography,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Alert,
   AlertTitle,
   Grid,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
+  LinearProgress,
+  Paper,
+  Typography,
 } from '@mui/material';
-import EvosStore from 'renderer/lib/EvosStore';
+import { PlayerData, Status, WS_URL, getPlayerData } from '../../lib/Evos';
 import { Trans, useTranslation } from 'react-i18next';
-import { GridExpandMoreIcon } from '@mui/x-data-grid';
-import { getPlayerData, getStatus, PlayerData, Status } from '../../lib/Evos';
+import { useEffect, useMemo, useState } from 'react';
 
-import { EvosError, processError } from '../../lib/Error';
-import useInterval from '../../lib/useInterval';
-import useHasFocus from '../../lib/useHasFocus';
-import Server from '../atlas/Server';
-import Queue from '../atlas/Queue';
-import TrustBar from '../generic/TrustBar';
+import { EvosError } from '../../lib/Error';
+import EvosStore from 'renderer/lib/EvosStore';
+import { GridExpandMoreIcon } from '@mui/x-data-grid';
 import Player from '../atlas/Player';
+import Queue from '../atlas/Queue';
+import Server from '../atlas/Server';
+import TrustBar from '../generic/TrustBar';
+import { useNavigate } from 'react-router-dom';
+import useWebSocket from 'react-use-websocket';
 
 function GroupBy<V, K>(key: (item: V) => K, list?: V[]) {
   return list?.reduce((res, p) => {
@@ -31,15 +30,12 @@ function GroupBy<V, K>(key: (item: V) => K, list?: V[]) {
   }, new Map<K, V>());
 }
 
-const UPDATE_PERIOD_MS = 20000;
-
 function StatusPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<EvosError>();
   const [status, setStatus] = useState<Status>();
-  const [updateTime, setUpdateTime] = useState<Date>();
   const [expanded, setExpanded] = useState(false);
-  const { ip, setAge, activeUser } = EvosStore();
+  const { ip, activeUser } = EvosStore();
   const { t } = useTranslation();
   const [playerInfoList, setPlayerInfoList] = useState<PlayerData[]>([]);
   const navigate = useNavigate();
@@ -102,28 +98,73 @@ function StatusPage() {
     [status],
   );
 
-  const updatePeriodMs =
-    useHasFocus() || !status ? UPDATE_PERIOD_MS : undefined;
-
-  useInterval(() => {
-    // eslint-disable-next-line promise/catch-or-return
-    getStatus()
-      // eslint-disable-next-line promise/always-return
-      .then((resp) => {
+  const { sendJsonMessage, readyState } = useWebSocket(WS_URL, {
+    share: true,
+    queryParams: { username: encodeURIComponent(activeUser?.handle as string) },
+    onMessage: (event) => {
+      const parsedMessage: Status = JSON.parse(event.data);
+      if (parsedMessage.error !== undefined) {
+        setError({
+          text: t('errors.serverOffline'),
+          description: 'Try Again Later',
+        });
+        setStatus(undefined);
+        setLoading(true);
+      } else {
         setError(undefined);
-        setStatus(resp.data);
-        setUpdateTime(new Date());
-        setAge(0);
-      })
-      .catch((e) => processError(e, setError, navigate, () => {}, t))
-      .then(() => setLoading(false));
-  }, updatePeriodMs);
+        setLoading(false);
+        setStatus(parsedMessage);
+      }
+    },
+    shouldReconnect: () => true,
+  });
 
-  useInterval(() => {
-    if (updateTime) {
-      setAge(new Date().getTime() - updateTime.getTime());
+  useEffect(() => {
+    // eslint-disable-next-line no-undef
+    let retryTimeout: string | number | NodeJS.Timeout | undefined;
+
+    const handleWebSocketInit = () => {
+      if (readyState === WebSocket.OPEN) {
+        sendJsonMessage({
+          type: 'INIT',
+          username: encodeURIComponent(activeUser?.handle as string),
+        });
+      } else if (readyState === WebSocket.CLOSED) {
+        setStatus(undefined);
+        setLoading(true);
+        setError({
+          text: t('errors.serverOffline'),
+          description: 'Try Again Later',
+        });
+        retryTimeout = setTimeout(() => {
+          handleWebSocketInit();
+        }, 3000); // Retry every 3 seconds until connected
+      }
+    };
+
+    handleWebSocketInit();
+
+    return () => {
+      clearTimeout(retryTimeout);
+      if (readyState === WebSocket.OPEN) {
+        sendJsonMessage({
+          type: 'DISCONNECT',
+          username: encodeURIComponent(activeUser?.handle as string),
+        });
+      }
+    };
+  }, [activeUser, readyState, sendJsonMessage, t]);
+
+  useEffect(() => {
+    if (readyState === WebSocket.CLOSED) {
+      setStatus(undefined);
+      setLoading(true);
+      setError({
+        text: t('errors.serverOffline'),
+        description: 'Try Again Later',
+      });
     }
-  }, 5000);
+  }, [readyState, t]);
 
   const queuedGroups = new Set(status?.queues?.flatMap((q) => q.groupIds));
   const notQueuedGroups =

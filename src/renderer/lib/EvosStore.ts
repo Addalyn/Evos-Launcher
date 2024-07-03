@@ -48,13 +48,10 @@ export interface EvosStoreState {
     configFile?: string,
   ) => void;
   switchUser: (user: string) => void;
-  setAge: (age: number) => void;
   enablePatching: string;
   setEnablePatching: (enablePatching: string) => void;
   setDiscordId: (discord: number) => void;
   discordId: number;
-  enableDiscordRPC: string;
-  toggleDiscordRPC: () => void;
   isDev: boolean;
   setDev: (isDev: boolean) => void;
 }
@@ -95,7 +92,6 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       mode,
       authenticatedUsers,
       activeUser,
-      age,
       exePath,
       folderPath,
       gamePort,
@@ -107,7 +103,6 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       get().getFromStorage('mode') as string,
       get().getFromStorage('authenticatedUsers') as AuthUser[],
       get().getFromStorage('activeUser') as AuthUser | null,
-      get().getFromStorage('age') as number,
       get().getFromStorage('exePath') as string,
       get().getFromStorage('folderPath') as string,
       get().getFromStorage('gamePort') as string,
@@ -142,7 +137,6 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       ip: ip || '',
       authenticatedUsers: users || [],
       activeUser: activeUser || null,
-      age: age || 0,
       exePath: exePath || '',
       folderPath: folderPath || '',
       gamePort: gamePort || '6050',
@@ -334,10 +328,6 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
         }
       }
     }
-  },
-
-  setAge: (age: number) => {
-    set({ age });
   },
 
   setEnablePatching: async (enablePatching: string) => {

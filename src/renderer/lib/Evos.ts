@@ -172,6 +172,7 @@ export interface Status {
   games: GameData[];
   factionsData: number[];
   factionsEnabled: boolean;
+  error?: string;
 }
 
 export interface TextNotification {
@@ -196,6 +197,8 @@ export function asDate(date?: string): Date | undefined {
 export function cap(txt: string): string {
   return txt.charAt(0).toUpperCase() + txt.slice(1);
 }
+
+export const WS_URL = `wss://launcher.evos.live/websocket`;
 
 export async function login(
   abort: AbortController,

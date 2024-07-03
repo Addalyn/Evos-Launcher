@@ -1,3 +1,14 @@
+### Release Notes: Version 2.0.9
+
+## Improvements
+- **Status Changes**:
+  - Now uses WebSocket to fetch in-game status. No longer need to wait 20 seconds; WebSocket will fetch status and broadcast it to everyone connected.
+
+## Bug Fixes
+- **Enhanced Character Stats**:
+  - Fixed tooltip getting cropped when selecting the far-right dataset.
+  - Fixed typo in healing done.
+
 ### Release Notes: Version 2.0.8
 
 ## Improvements

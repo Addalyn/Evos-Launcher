@@ -406,7 +406,7 @@
     "averageDamageForAll": "总体平均造成伤害",
     "averageDamageForSelf": "个人平均造成伤害",
     "averageHealingForAll": "总体平均治疗量",
-    "averageHealingForSelf": "个人平均接受治疗量",
+    "averageHealingForSelf": "个人平均治疗量",
     "averageTankingForAll": "总体平均承受伤害",
     "averageTankingForSelf": "个人平均承受伤害量"
   },
