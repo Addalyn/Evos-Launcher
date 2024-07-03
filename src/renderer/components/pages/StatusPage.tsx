@@ -100,7 +100,9 @@ function StatusPage() {
 
   const { sendJsonMessage, readyState } = useWebSocket(WS_URL, {
     share: true,
-    queryParams: { username: encodeURIComponent(activeUser?.handle as string) },
+    queryParams: {
+      username: `${encodeURIComponent(activeUser?.handle as string)}-website`,
+    },
     onMessage: (event) => {
       const parsedMessage: Status = JSON.parse(event.data);
       if (parsedMessage.error !== undefined) {
@@ -127,7 +129,7 @@ function StatusPage() {
       if (readyState === WebSocket.OPEN) {
         sendJsonMessage({
           type: 'INIT',
-          username: encodeURIComponent(activeUser?.handle as string),
+          username: `${encodeURIComponent(activeUser?.handle as string)}-website`,
         });
       } else if (readyState === WebSocket.CLOSED) {
         setStatus(undefined);
@@ -149,7 +151,7 @@ function StatusPage() {
       if (readyState === WebSocket.OPEN) {
         sendJsonMessage({
           type: 'DISCONNECT',
-          username: encodeURIComponent(activeUser?.handle as string),
+          username: `${encodeURIComponent(activeUser?.handle as string)}-website`,
         });
       }
     };
