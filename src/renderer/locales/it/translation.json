@@ -232,7 +232,9 @@
     "122": "Il Discendente del Gelo",
     "123": "Sfidante S3",
     "124": "Sfidante S4",
-    "135": "Fenice"
+    "135": "Fenice",
+    "mentorDev": "Sviluppatore/Mentore",
+    "mentor": "Mentore"
   },
   "settings": {
     "configFilePlaceHolder": "File di configurazione Atlas Reactor per account",
@@ -486,6 +488,6 @@
   "joindiscordButton": "Unisciti a Discord",
   "linkwithcode": "Collega con il codice",
   "entercode": "Inserisci qui il codice Discord...",
-  "effectLegend": "BabyAddalyn#000 ha l'effetto speciale, dato dallo sviluppatore come ritengono opportuno.<br />Zheneq#412 ha l'effetto sviluppatore, dato a tutti gli sviluppatori.<br />Memedelyn#805 ha l'effetto MVP, queste persone possono ottenerlo essendo tra i primi 5 in una qualsiasi delle statistiche.<br />Lucas#210 ha l'effetto campione del torneo, dato alle persone che hanno vinto un torneo.<br />cEEKAY#828 ha l'effetto booster Nitro, dato alle persone che hanno boostato il server Discord.",
+  "effectLegend": "BabyAddalyn#000 ha l'effetto mentore, conferito ai mentori, persone che aiuteranno i giocatori nel gioco.<br />DrJester#888 ha l'effetto speciale, conferito dallo sviluppatore secondo il proprio giudizio.<br />Zheneq#412 ha l'effetto sviluppatore, conferito a tutti gli sviluppatori.<br />Memedelyn#805 ha l'effetto MVP, queste persone possono ottenerlo essendo tra i primi cinque in una qualsiasi statistica.<br />Lucas#210 ha l'effetto campione del torneo, conferito alle persone che hanno vinto un torneo.<br />cEEKAY#828 ha l'effetto boost Nitro, conferito alle persone che hanno potenziato il server Discord.",
   "effectLegendTitle": "Questi sono gli effetti che puoi ottenere nel launcher"
 }

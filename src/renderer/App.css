@@ -23,7 +23,7 @@ code {
     monospace;
 }
 
-/* hack */
+
 .MuiDrawer-paperAnchorDockedLeft {
   overflow-x: hidden;
 }
@@ -327,6 +327,97 @@ p {
   width: calc(100% + 4px);
   height: calc(100% + 4px);
   animation: glowing 30s linear infinite;
+  opacity: 1;
+  transition: opacity 0.3s;
+  border-radius: 1px;
+}
+
+.mentorSkew:before {
+  background: linear-gradient(
+    45deg,
+    #00ffec,
+    #00e5d4,
+    #00ccbd,
+    #00b3a6,
+    #00998e,
+    #008078,
+    #006861,
+    #00504b,
+    #003834,
+    #00211e,
+    #004c46,
+    #00786e,
+    #00a397,
+    #00cfbf,
+    #00ffec,
+    #00e5d4,
+    #00ccbd,
+    #00b3a6,
+    #00998e,
+    #008078,
+    #006861,
+    #00504b,
+    #003834,
+    #00211e,
+    #004c46,
+    #00786e,
+    #00a397,
+    #00cfbf
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: 0;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing 20s linear infinite;
+  opacity: 1;
+  transition: opacity 0.3s;
+  border-radius: 1px;
+  transform: skewX(-15deg);
+}
+
+.mentor:before {
+  background: linear-gradient(
+    45deg,
+    #00ffec,
+    #00e5d4,
+    #00ccbd,
+    #00b3a6,
+    #00998e,
+    #008078,
+    #006861,
+    #00504b,
+    #003834,
+    #00211e,
+    #004c46,
+    #00786e,
+    #00a397,
+    #00cfbf,
+    #00ffec,
+    #00e5d4,
+    #00ccbd,
+    #00b3a6,
+    #00998e,
+    #008078,
+    #006861,
+    #00504b,
+    #003834,
+    #00211e,
+    #004c46,
+    #00786e,
+    #00a397,
+    #00cfbf
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: 0;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing 20s linear infinite;
   opacity: 1;
   transition: opacity 0.3s;
   border-radius: 1px;

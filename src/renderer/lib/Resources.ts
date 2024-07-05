@@ -1,4 +1,5 @@
 import { CharacterType, MapType } from './Evos';
+
 import mods from './Mods.json';
 
 interface Mod {
@@ -53,6 +54,10 @@ export function mapMiniPic(map: MapType) {
 
 export function trustIcon(trust: string) {
   return `${path}/img/trusts/TrustIcon_${trust}.png`;
+}
+
+export function mentorIcon() {
+  return `${path}/img/mentor.png`;
 }
 
 export function catalystsIcon(catalyst: Number) {

@@ -260,7 +260,9 @@
     "146": "Soul Harvester",
     "147": "Night Assassin",
     "148": "Final Demise",
-    "149": "The Collector"
+    "149": "The Collector",
+    "mentorDev": "Developer/Mentor",
+    "mentor": "Mentor"
   },
   "settings": {
     "configFilePlaceHolder": "Atlas Reactor configuratiebestand voor account",
@@ -513,6 +515,6 @@
   "joindiscordButton": "Word lid van Discord",
   "linkwithcode": "Verbinden met code",
   "entercode": "Voer hier de Discord-code in...",
-  "effectLegend": "BabyAddalyn#000 heeft het speciale effect, gegeven door de ontwikkelaar zoals ze dat nodig achten.<br />Zheneq#412 heeft het ontwikkelaarseffect, gegeven aan alle ontwikkelaars.<br />Memedelyn#805 heeft het MVP-effect, deze mensen kunnen het krijgen door in de top 5 te staan in een van de statistieken.<br />Lucas#210 heeft het toernooikampioen-effect, deze worden gegeven aan mensen die een toernooi hebben gewonnen.<br />cEEKAY#828 heeft het Nitro Booster-effect, deze worden gegeven aan mensen die de Discord-server hebben geboost.",
+  "effectLegend": "BabyAddalyn#000 heeft het mentor-effect, toegekend aan mentoren, mensen die spelers zullen helpen in het spel.<br />DrJester#888 heeft het speciale effect, toegekend door de ontwikkelaar zoals zij dat passend achten.<br />Zheneq#412 heeft het ontwikkelaar-effect, toegekend aan alle ontwikkelaars.<br />Memedelyn#805 heeft het MVP-effect, deze personen kunnen dit krijgen door bij de top 5 te staan in een van de statistieken.<br />Lucas#210 heeft het effect van toernooikampioen, toegekend aan mensen die een toernooi hebben gewonnen.<br />cEEKAY#828 heeft het Nitro Booster-effect, toegekend aan mensen die de Discord-server hebben versterkt.",
   "effectLegendTitle": "Dit zijn de effecten die je kunt krijgen in de launcher"
 }

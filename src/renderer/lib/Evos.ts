@@ -337,6 +337,7 @@ interface SpecialNames {
   MVP: string[];
   Nitro: string[];
   Special: string[];
+  Mentor: string[];
 }
 
 interface SpecialNamesQuery {
@@ -354,6 +355,7 @@ async function convertSpecialNamesQueryToSpecialNames(
     MVP: [],
     Nitro: [],
     Special: [],
+    Mentor: [],
   };
 
   data.forEach((item) => {
@@ -372,6 +374,9 @@ async function convertSpecialNamesQueryToSpecialNames(
         break;
       case 'Special':
         specialNames.Special.push(item.playername);
+        break;
+      case 'Mentor':
+        specialNames.Mentor.push(item.playername);
         break;
       default:
         // Ignore unknown effect names

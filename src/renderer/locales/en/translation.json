@@ -281,7 +281,9 @@
     "146": "Soul Harvester",
     "147": "Night Assassin",
     "148": "Final Demise",
-    "149": "The Collector"
+    "149": "The Collector",
+    "mentorDev": "Developer/Mentor",
+    "mentor": "Mentor"
   },
   "maps": {
     "map": "Map",
@@ -514,6 +516,6 @@
   "joindiscordButton": "Join Discord",
   "linkwithcode": "Link with code",
   "entercode": "Enter discord code here...",
-  "effectLegend": "BabyAddalyn#000 has the special effect, given by the developer as they see fit.<br />Zheneq#412 has the developer effect, given to all the developers.<br />Memedelyn#805 has the MVP effect, these people can get it by be being top 5 in any of the stats.<br />Lucas#210 has the tournament champion effect, these are given to people who have won a tournament.<br />cEEKAY#828 has the Nitro Booster effect, these are given to people who have boosted the Discord server.",
+  "effectLegend": "BabyAddalyn#000 has the mentor effect, given to mentors, these are people who will help players to the game.<br />DrJester#888 has the special effect, given by the developer as they see fit.<br />Zheneq#412 has the developer effect, given to all the developers.<br />Memedelyn#805 has the MVP effect, these people can get it by be being top 5 in any of the stats.<br />Lucas#210 has the tournament champion effect, these are given to people who have won a tournament.<br />cEEKAY#828 has the Nitro Booster effect, these are given to people who have boosted the Discord server.",
   "effectLegendTitle": "These are the effects you can get in the launcher"
 }
