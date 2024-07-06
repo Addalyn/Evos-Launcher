@@ -77,6 +77,7 @@ const characterCategories: { [key: string]: string } = {
   'Tol-Ren': 'Firepower',
   Zuki: 'Firepower',
   Vonn: 'Firepower',
+  Lex: 'Firepower',
   Asana: 'Frontline',
   Magnus: 'Frontline',
   Brynn: 'Frontline',
