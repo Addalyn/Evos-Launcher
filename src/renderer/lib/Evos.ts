@@ -16,7 +16,7 @@ export const denydNames = [
   'Grey',
   'Juno',
   'Kaigin',
-  // 'Lex',
+  'Lex',
   'Lockwood',
   'NEV:3',
   'Nix',
