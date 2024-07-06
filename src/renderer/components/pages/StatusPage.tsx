@@ -44,6 +44,7 @@ function StatusPage() {
       try {
         const players = [
           'BabyAddalyn#000',
+          'DrJester#888',
           'Memedelyn#805',
           'zheneq#412',
           'Lucas#210',
@@ -64,7 +65,8 @@ function StatusPage() {
   }, [activeUser]);
 
   const legend: { [key: string]: string } = {
-    'BabyAddalyn#000': 'Special',
+    'BabyAddalyn#000': 'Mentor',
+    'DrJester#888': 'Special',
     'Memedelyn#805': 'MVP',
     'zheneq#412': 'Developer',
     'Lucas#210': 'Tournament Champion',

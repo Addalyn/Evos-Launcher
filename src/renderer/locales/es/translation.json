@@ -228,7 +228,9 @@
     "122": "El Vástago de Hielo",
     "123": "Contendiente T3",
     "124": "Contendiente T4",
-    "135": "Fénix"
+    "135": "Fénix",
+    "mentorDev": "Desarrollador/Mentor",
+    "mentor": "Mentor"
   },
   "settings": {
     "configFilePlaceHolder": "Archivo de configuración para la cuenta",
@@ -480,6 +482,6 @@
   "joindiscordButton": "Unirse a Discord",
   "linkwithcode": "Vincular con código",
   "entercode": "Ingresa el código de Discord aquí...",
-  "effectLegend": "BabyAddalyn#000 tiene el efecto especial, otorgado por el desarrollador según consideren adecuado.<br />Zheneq#412 tiene el efecto de desarrollador, otorgado a todos los desarrolladores.<br />Memedelyn#805 tiene el efecto de MVP, estas personas pueden obtenerlo al estar en el top 5 en cualquiera de las estadísticas.<br />Lucas#210 tiene el efecto de campeón de torneo, otorgado a personas que han ganado un torneo.<br />cEEKAY#828 tiene el efecto de impulsor Nitro, otorgado a personas que han impulsado el servidor de Discord.",
+  "effectLegend": "BabyAddalyn#000 tiene el efecto de mentor, otorgado a mentores, personas que ayudarán a los jugadores en el juego.<br />DrJester#888 tiene el efecto especial, otorgado por el desarrollador según consideren adecuado.<br />Zheneq#412 tiene el efecto de desarrollador, otorgado a todos los desarrolladores.<br />Memedelyn#805 tiene el efecto de MVP, estas personas pueden obtenerlo al estar entre los cinco primeros en cualquier estadística.<br />Lucas#210 tiene el efecto de campeón de torneo, otorgado a personas que han ganado un torneo.<br />cEEKAY#828 tiene el efecto de impulso Nitro, otorgado a personas que han potenciado el servidor Discord.",
   "effectLegendTitle": "Estos son los efectos que puedes obtener en el lanzador"
 }

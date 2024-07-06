@@ -1,3 +1,13 @@
+### Release Notes: Version 2.0.10
+
+## Improvements
+- **Mentors**
+  - Added special effects for Mentors
+
+## Bug Fixes
+- **Fix Github formating**
+  - Format with Markdown github messages
+
 ### Release Notes: Version 2.0.9
 
 ## Improvements

@@ -280,7 +280,9 @@
     "146": "Soul Harvester",
     "147": "Night Assassin",
     "148": "Final Demise",
-    "149": "The Collector"
+    "149": "The Collector",
+    "mentorDev": "Developer/Mentor",
+    "mentor": "Mentor"
   },
   "maps": {
     "map": "Harita",
@@ -512,6 +514,6 @@
   "joindiscordButton": "Discord'a Katıl",
   "linkwithcode": "Kod ile bağlantı kur",
   "entercode": "Buraya Discord kodunu gir...",
-  "effectLegend": "BabyAddalyn#000, geliştirici tarafından uygun görüldüğü şekilde özel etkiye sahiptir.<br />Zheneq#412, tüm geliştiricilere verilen geliştirici etkisine sahiptir.<br />Memedelyn#805, bu kişiler herhangi bir istatistikte ilk 5'e girerek bunu elde edebilirler.<br />Lucas#210, turnuva şampiyonu etkisine sahiptir, bu kişilere bir turnuva kazanmış olanlara verilir.<br />cEEKAY#828, Nitro Booster etkisine sahiptir, bu kişilere Discord sunucusunu artırmış olanlara verilir.",
+  "effectLegend": "BabyAddalyn#000 mentor etkiye sahiptir, mentorlere verilen bu etki, oyunculara oyun içinde yardımcı olacak kişilerdir.<br />DrJester#888 özel etkiye sahiptir, geliştirici tarafından uygun görüldüğü şekilde verilmiştir.<br />Zheneq#412 geliştirici etkiye sahiptir, tüm geliştiricilere verilmiştir.<br />Memedelyn#805 MVP etkiye sahiptir, bu kişiler herhangi bir istatistikte ilk 5'e girerek bunu elde edebilirler.<br />Lucas#210 turnuva şampiyonu etkiye sahiptir, bu etkiyi turnuva kazanan kişilere verilir.<br />cEEKAY#828 Nitro Booster etkiye sahiptir, Discord sunucusunu güçlendiren kişilere verilir.",
   "effectLegendTitle": "Bu, başlatıcıda alabileceğiniz etkilerdir"
 }

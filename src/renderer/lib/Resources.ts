@@ -56,6 +56,10 @@ export function trustIcon(trust: string) {
   return `${path}/img/trusts/TrustIcon_${trust}.png`;
 }
 
+export function mentorIcon() {
+  return `${path}/img/mentor.png`;
+}
+
 export function catalystsIcon(catalyst: Number) {
   const catalystNames: { [key: number]: string } = {
     26: 'Echo_Boost',

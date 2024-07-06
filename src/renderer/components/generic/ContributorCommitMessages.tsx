@@ -1,5 +1,12 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable react/prop-types */
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable jsx-a11y/anchor-has-content */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react/no-unstable-nested-components */
 import { List, ListItem, ListItemText, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+
+import Markdown from 'react-markdown';
 import { useTranslation } from 'react-i18next';
 
 interface Props {
@@ -65,7 +72,39 @@ function ContributorCommitMessages({ username, repo }: Props) {
                   {commit.commit.message.split('\n').map((line, idx) => (
                     // eslint-disable-next-line react/no-array-index-key
                     <React.Fragment key={idx}>
-                      {line}
+                      <Markdown
+                        skipHtml
+                        components={{
+                          a: ({ node, ...props }) => (
+                            <a
+                              {...props}
+                              target="_blank"
+                              rel="noreferrer"
+                              style={{ color: 'unset' }}
+                            />
+                          ),
+                          h1: ({ node, ...props }) => (
+                            <Typography
+                              variant="h2"
+                              component="h1"
+                              gutterBottom
+                            >
+                              {props.children}
+                            </Typography>
+                          ),
+                          h2: ({ node, ...props }) => (
+                            <Typography
+                              variant="h4"
+                              component="h2"
+                              gutterBottom
+                            >
+                              {props.children}
+                            </Typography>
+                          ),
+                        }}
+                      >
+                        {line}
+                      </Markdown>
                       <br />
                     </React.Fragment>
                   ))}

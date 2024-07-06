@@ -279,7 +279,9 @@
     "146": "Soul Harvester",
     "147": "Night Assassin",
     "148": "Final Demise",
-    "149": "The Collector"
+    "149": "The Collector",
+    "mentorDev": "Developer/Mentor",
+    "mentor": "Mentor"
   },
   "maps": {
     "map": "地图",
@@ -511,6 +513,6 @@
   "joindiscordButton": "加入 Discord",
   "linkwithcode": "使用代码连接",
   "entercode": "在此输入 Discord 代码...",
-  "effectLegend": "BabyAddalyn#000 拥有特殊效果，由开发人员酌情赋予。<br />Zheneq#412 拥有开发人员效果，赋予所有开发人员。<br />Memedelyn#805 拥有 MVP 效果，这些人可以通过在任何统计数据中排名前五来获得。<br />Lucas#210 拥有锦标赛冠军效果，这些效果赋予赢得锦标赛的人。<br />cEEKAY#828 拥有 Nitro Booster 效果，这些效果赋予为 Discord 服务器进行了增强的人。",
+  "effectLegend": "BabyAddalyn#000 拥有导师效果，授予导师，这些人将帮助玩家进行游戏。<br />DrJester#888 拥有特殊效果，由开发人员酌情赋予。<br />Zheneq#412 拥有开发者效果，赋予所有开发人员。<br />Memedelyn#805 拥有 MVP 效果，这些人可以通过在任何统计数据中排名前五来获得。<br />Lucas#210 拥有锦标赛冠军效果，这些效果赋予赢得锦标赛的人。<br />cEEKAY#828 拥有 Nitro Booster 效果，这些效果赋予为 Discord 服务器进行了增强的人。",
   "effectLegendTitle": "这些是您可以在启动器中获得的效果"
 }

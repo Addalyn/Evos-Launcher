@@ -1,5 +1,10 @@
 /* eslint-disable import/order */
-import { BannerType, playerBanner, trustIcon } from '../../lib/Resources';
+import {
+  BannerType,
+  mentorIcon,
+  playerBanner,
+  trustIcon,
+} from '../../lib/Resources';
 import { ButtonBase, Typography, styled, useTheme } from '@mui/material';
 import { PlayerData, denydNames, getSpecialNames } from '../../lib/Evos';
 /* eslint-disable react/require-default-props */
@@ -23,6 +28,7 @@ interface SpecialNames {
   MVP: string[];
   Nitro: string[];
   Special: string[];
+  Mentor: String[];
 }
 
 const ImageTextWrapper = styled('span')(({ theme }) => ({
@@ -69,6 +75,8 @@ function Player({ info, disableSkew, characterType, title }: Props) {
   }, [info]);
 
   let className = '';
+  let mentor = false;
+  let developer = false;
   if (specialNames?.TournamentWinners?.find((x) => x === info?.handle)) {
     className += disableSkew
       ? 'glow-on-hover champion'
@@ -81,6 +89,7 @@ function Player({ info, disableSkew, characterType, title }: Props) {
     className += disableSkew
       ? 'glow-on-hover developer'
       : 'glow-on-hover developerSkew';
+    developer = true;
   }
   if (specialNames?.Nitro?.find((x) => x === info?.handle)) {
     className += disableSkew
@@ -91,6 +100,12 @@ function Player({ info, disableSkew, characterType, title }: Props) {
     className += disableSkew
       ? 'glow-on-hover special'
       : 'glow-on-hover specialSkew';
+  }
+  if (specialNames?.Mentor?.find((x) => x === info?.handle)) {
+    className += disableSkew
+      ? 'glow-on-hover mentor'
+      : 'glow-on-hover mentorSkew';
+    mentor = true;
   }
   return (
     <div
@@ -184,6 +199,12 @@ function Player({ info, disableSkew, characterType, title }: Props) {
                 if (denydNames.includes(info.handle)) {
                   return 'Bot';
                 }
+                if (mentor && developer) {
+                  return t(`titles.mentorDev`);
+                }
+                if (mentor) {
+                  return t(`titles.mentor`);
+                }
                 if (title) {
                   return title;
                 }
@@ -233,14 +254,14 @@ function Player({ info, disableSkew, characterType, title }: Props) {
                   bottom: '2%',
                   fontSize: '1.7em',
                   zIndex: 1000,
-                  marginLeft: '143px',
+                  marginLeft: '147px',
                   marginBottom: '-5px',
                 }}
               >
                 <img
                   style={{
-                    width: 25,
-                    height: 25,
+                    width: 22,
+                    height: 22,
                     padding: '0px',
                     zIndex: 1000,
                     flex: 'none',
@@ -250,7 +271,7 @@ function Player({ info, disableSkew, characterType, title }: Props) {
                     border: `1px solid ${tcolor}`, // Fix the border property
                   }}
                   alt="Avatar"
-                  src={trustIcon(faction)}
+                  src={!mentor ? trustIcon(faction) : mentorIcon()}
                 />
               </ImageTextWrapper>
             );

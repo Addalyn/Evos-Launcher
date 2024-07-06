@@ -260,7 +260,9 @@
     "146": "Moissonneur d'âmes",
     "147": "Assassin nocturne",
     "148": "Ultime déchéance",
-    "149": "Le collectionneur"
+    "149": "Le collectionneur",
+    "mentorDev": "Développeur/Mentor",
+    "mentor": "Mentor"
   },
   "settings": {
     "configFilePlaceHolder": "Fichier de configuration Atlas Reactor du compte",
@@ -511,6 +513,6 @@
   "joindiscordButton": "Rejoindre Discord",
   "linkwithcode": "Lier avec le code",
   "entercode": "Entrez le code Discord ici...",
-  "effectLegend": "BabyAddalyn#000 a l'effet spécial, donné par le développeur comme ils le jugent approprié.<br />Zheneq#412 a l'effet développeur, donné à tous les développeurs.<br />Memedelyn#805 a l'effet MVP, ces personnes peuvent l'obtenir en étant dans le top 5 de l'une des statistiques.<br />Lucas#210 a l'effet de champion de tournoi, donné aux personnes ayant remporté un tournoi.<br />cEEKAY#828 a l'effet de booster Nitro, donné aux personnes ayant boosté le serveur Discord.",
+  "effectLegend": "BabyAddalyn#000 a l'effet mentor, attribué aux mentors, ces personnes aideront les joueurs dans le jeu.<br />DrJester#888 a l'effet spécial, attribué par le développeur selon leur jugement.<br />Zheneq#412 a l'effet développeur, attribué à tous les développeurs.<br />Memedelyn#805 a l'effet MVP, ces personnes peuvent l'obtenir en étant parmi les cinq premiers dans n'importe quelle statistique.<br />Lucas#210 a l'effet de champion de tournoi, attribué aux personnes ayant remporté un tournoi.<br />cEEKAY#828 a l'effet de boost Nitro, attribué aux personnes ayant boosté le serveur Discord.",
   "effectLegendTitle": "Ce sont les effets que vous pouvez obtenir dans le lanceur"
 }
