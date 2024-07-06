@@ -151,7 +151,7 @@ const names = [
   'Grey',
   'Juno',
   'Kaigin',
-  // 'Lex',
+  'Lex',
   'Lockwood',
   'NEV:3',
   'Nix',
@@ -197,6 +197,7 @@ const characterCategories: { [key: string]: string } = {
   'Tol-Ren': 'Firepower',
   Zuki: 'Firepower',
   Vonn: 'Firepower',
+  Lex: 'Firepower',
   Asana: 'Frontline',
   Magnus: 'Frontline',
   Brynn: 'Frontline',
@@ -287,51 +288,53 @@ function CharacterStatsChart({ data, player, map }: CharacterStatsChartProps) {
                   </Grid>
                 </div>
               </AccordionSummary>
-              <AccordionDetails>
-                <div
-                  className="chart-container"
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                  }}
-                >
-                  <div style={{ width: '100%' }}>
-                    <CharacterChart
-                      characterData={characterData}
-                      chartLabels={[
-                        'total_damage',
-                        'total_damage_received',
-                        'total_healing',
-                      ]}
-                      chartColors={[
-                        'rgba(255,99,132,0.6)',
-                        'rgba(54,162,235,0.6)',
-                        'rgba(75,192,192,0.6)',
-                      ]}
-                    />
+              {expanded === `panel${index}` && (
+                <AccordionDetails>
+                  <div
+                    className="chart-container"
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <div style={{ width: '100%' }}>
+                      <CharacterChart
+                        characterData={characterData}
+                        chartLabels={[
+                          'total_damage',
+                          'total_damage_received',
+                          'total_healing',
+                        ]}
+                        chartColors={[
+                          'rgba(255,99,132,0.6)',
+                          'rgba(54,162,235,0.6)',
+                          'rgba(75,192,192,0.6)',
+                        ]}
+                      />
+                    </div>
+                    <div style={{ width: '100%' }}>
+                      <CharacterChart
+                        characterData={characterData}
+                        chartLabels={[
+                          'total_deathblows',
+                          'total_takedowns',
+                          'total_deaths',
+                        ]}
+                        chartColors={[
+                          'rgba(255,205,86,0.6)',
+                          'rgba(153,102,255,0.6)',
+                          'rgba(255,159,64,0.6)',
+                        ]}
+                      />
+                    </div>
                   </div>
-                  <div style={{ width: '100%' }}>
-                    <CharacterChart
-                      characterData={characterData}
-                      chartLabels={[
-                        'total_deathblows',
-                        'total_takedowns',
-                        'total_deaths',
-                      ]}
-                      chartColors={[
-                        'rgba(255,205,86,0.6)',
-                        'rgba(153,102,255,0.6)',
-                        'rgba(255,159,64,0.6)',
-                      ]}
-                    />
-                  </div>
-                </div>
-                <CharacterStatsChartLine
-                  character={characterData.character}
-                  player={player}
-                  map={map}
-                />
-              </AccordionDetails>
+                  <CharacterStatsChartLine
+                    character={characterData.character}
+                    player={player}
+                    map={map}
+                  />
+                </AccordionDetails>
+              )}
             </Accordion>
           ),
       )}

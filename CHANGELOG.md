@@ -1,3 +1,13 @@
+### Release Notes: Version 2.0.11
+
+## New Features
+- **Let Fire Burn You**
+  - Added Lex to the stats and translation.
+
+## Improvements
+- **Personal Stats**
+  - Optimized personal stats to render character stats only when clicked, improving performance.
+
 ### Release Notes: Version 2.0.10
 
 ## Improvements
