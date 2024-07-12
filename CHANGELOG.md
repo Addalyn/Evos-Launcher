@@ -1,30 +1,79 @@
+### Release Notes: Version 2.1.0 - Such thing as too much stats?
+
+## New Features
+
+- **More Stats!**
+  - Added Advanced Stats to Previous Games, now you can see more stats about the game you played.
+  - Extra stats include:
+    - Total Healing Received
+    - Total Player Absorb
+    - Powerups Collected
+    - Damage Reduced by Cover
+    - Extra Damage from Might
+    - Reduced Damage from Weaken
+    - Movement Denied
+    - Enemies Sighted
+    - Prep Catalyst and used or not
+    - Dash Catalyst and used or not
+    - Combat Catalyst and used or not
+  - But wait! there's more!
+  - Ability History: see stats about the abilities you used
+    - Ability Name (Hovering over it will show the description of the ability; the values are WITHOUT mods)
+    - Action Type (Placement of ability button on the bar)
+    - Cast Count
+    - Total Absorb
+    - Total Damage
+    - Total Energy Gain on Self
+    - Total Energy Gain to Others
+    - Total Potential Absorb
+    - Total Targets Hit
+    - Taunt Count
+
+## Improvements
+
+- **Colors**
+  - Adjusted the win and lose colors to be more lighter.
+
+## Bug Fixes
+
+- **Localization**
+  - Poor Oz missing localization due to Evos Server Stats API, which should have been fixed in the first place.
+
+**Note:** This is not the end of the update; more stats are coming soon! For example, more top 20 stats! Soon™
+
 ### Release Notes: Version 2.0.11
 
 ## New Features
+
 - **Let Fire Burn You**
   - Added Lex to the stats and translation.
 
 ## Improvements
+
 - **Personal Stats**
   - Optimized personal stats to render character stats only when clicked, improving performance.
 
 ### Release Notes: Version 2.0.10
 
 ## Improvements
+
 - **Mentors**
   - Added special effects for Mentors
 
 ## Bug Fixes
+
 - **Fix Github formating**
   - Format with Markdown github messages
 
 ### Release Notes: Version 2.0.9
 
 ## Improvements
+
 - **Status Changes**:
   - Now uses WebSocket to fetch in-game status. No longer need to wait 20 seconds; WebSocket will fetch status and broadcast it to everyone connected.
 
 ## Bug Fixes
+
 - **Enhanced Character Stats**:
   - Fixed tooltip getting cropped when selecting the far-right dataset.
   - Fixed typo in healing done.
@@ -32,6 +81,7 @@
 ### Release Notes: Version 2.0.8
 
 ## Improvements
+
 - **Enhanced Character Stats**:
   - Added additional statistics to character stats:
     - Average damage done overall in the last 20 games.
@@ -44,17 +94,20 @@
 ### Release Notes: Version 2.0.7
 
 ## New Features
+
 - **Game Type and Unique Player Count Display**:
   - Game type and unique player count are now shown next to each game, making it easier to identify the game at a glance.
 
 ## Improvements
+
 - **Player List Management**:
   - Players are automatically returned to the player list once a game is stopped.
 
 ### Release Notes: Version 2.0.6
 
 ## New Features
-- **Enhanced Personal Stats**: 
+
+- **Enhanced Personal Stats**:
   - Added detailed graphs displaying performance metrics for the last 20 PvP games.
   - Metrics include damage, healing, damage taken, and deaths per game.
   - Default metric views:
@@ -64,6 +117,7 @@
   - Interactive legend: Click to show or hide specific stats as needed.
 
 ## Bug Fixes
+
 - **Updater Restart Button**:
   - Resolved issue with the updater restart button not appearing after receiving a delayed translation request message.
   - The restart button now consistently appears once the download is complete, regardless of other incoming messages.
