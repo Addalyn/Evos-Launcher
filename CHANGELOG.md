@@ -32,7 +32,11 @@
 ## Improvements
 
 - **Colors**
+
   - Adjusted the win and lose colors to be more lighter.
+
+- **Accolades in game and on launcher**
+  - Accolades now reflect the same in the game and on the launcher.
 
 ## Bug Fixes
 
