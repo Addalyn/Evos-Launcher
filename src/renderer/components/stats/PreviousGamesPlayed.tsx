@@ -24,6 +24,7 @@ import {
   FormGroup,
   FormControlLabel,
 } from '@mui/material';
+import { trackEvent } from '@aptabase/electron/renderer';
 import { GiBroadsword, GiHealthNormal, GiDeathSkull } from 'react-icons/gi';
 import { BsShield } from 'react-icons/bs';
 import { PiSwordDuotone, PiSwordFill } from 'react-icons/pi';
@@ -36,6 +37,8 @@ import { abilityIcon, ability, catalystsIcon } from 'renderer/lib/Resources';
 import Player from '../atlas/Player';
 // eslint-disable-next-line import/no-cycle
 import { ReplayDialog, ReplayFile } from '../pages/ReplaysPage';
+import AdvancedDialog from '../pages/AdvancedPage';
+import EvosStore from 'renderer/lib/EvosStore';
 
 interface CharacterSkin {
   skinIndex: number;
@@ -99,6 +102,23 @@ interface TeamPlayerInfo extends PlayerData {
   CharacterLevel: number;
 }
 
+type AbilityGameSummaryList = {
+  AbilityClassName: string;
+  AbilityName: string;
+  ActionType: number;
+  CastCount: number;
+  ModName: string;
+  TauntCount: number;
+  TotalAbsorb: number;
+  TotalDamage: number;
+  TotalEnergyGainOnSelf: number;
+  TotalEnergyGainToOthers: number;
+  TotalEnergyLossToOthers: number;
+  TotalHealing: number;
+  TotalPotentialAbsorb: number;
+  TotalTargetsHit: number;
+};
+
 type PlayerInfo = {
   id: number;
   game_id: number;
@@ -113,6 +133,26 @@ type PlayerInfo = {
   createdAt: string;
   updatedAt: string;
   team: string;
+  TotalHealingReceived: number;
+  TotalPlayerAbsorb: number;
+  PowerupsCollected: number;
+  DamageAvoidedByEvades: Number;
+  MyIncomingDamageReducedByCover: Number;
+  MyOutgoingExtraDamageFromEmpowered: Number;
+  MyOutgoingReducedDamageFromWeakened: Number;
+  MovementDeniedByMe: Number;
+  EnemiesSightedPerTurn: Number;
+  DashCatalystUsed: boolean;
+  DashCatalystName: string;
+  CombatCatalystUsed: boolean;
+  CombatCatalystName: string;
+  PrepCatalystUsed: boolean;
+  PrepCatalystName: string;
+  advancedstats: AbilityGameSummaryList[];
+  Deadliest: boolean;
+  Supportiest: boolean;
+  Tankiest: boolean;
+  MostDecorated: boolean;
 };
 
 type Game = {
@@ -154,7 +194,9 @@ const fetchInfo = async (
       strapi.filterDeep('stats.user', 'contains', playerName);
     }
 
-    strapi.populate();
+    strapi.populateWith('stats', ['*'], true);
+    strapi.populateWith('stats.advancedstats', ['*'], true);
+
     strapi.sortBy([{ field: 'id', order: 'desc' }]);
     strapi.paginate(page, pageSize);
 
@@ -219,6 +261,14 @@ const formatDate = (locale: string, dateString: string) => {
 };
 
 const calculateMVPBadge = (player: PlayerInfo, players: PlayerInfo[]) => {
+  // New badge calculation if theres advanced stats
+  if (player.advancedstats !== null) {
+    if (player.MostDecorated) {
+      return true;
+    }
+    return false;
+  }
+
   let mvpPlayer = player;
   let maxCombinedScore =
     (player.damage + player.healing - player.damage_received) /
@@ -238,6 +288,14 @@ const calculateMVPBadge = (player: PlayerInfo, players: PlayerInfo[]) => {
 };
 
 const calculateHealerBadge = (player: PlayerInfo, players: PlayerInfo[]) => {
+  // New badge calculation if theres advanced stats
+  if (player.advancedstats !== null) {
+    if (player.Supportiest) {
+      return true;
+    }
+    return false;
+  }
+
   let healerPlayer = player;
   let maxHealing = player.healing / (player.deaths + 1);
 
@@ -253,6 +311,14 @@ const calculateHealerBadge = (player: PlayerInfo, players: PlayerInfo[]) => {
 };
 
 const calculateDamageBadge = (player: PlayerInfo, players: PlayerInfo[]) => {
+  // New badge calculation if theres advanced stats
+  if (player.advancedstats !== null) {
+    if (player.Deadliest) {
+      return true;
+    }
+    return false;
+  }
+
   let damagePlayer = player;
   let maxDamage = player.damage / (player.deaths + 1);
 
@@ -268,6 +334,14 @@ const calculateDamageBadge = (player: PlayerInfo, players: PlayerInfo[]) => {
 };
 
 const calculateTankBadge = (player: PlayerInfo, players: PlayerInfo[]) => {
+  // New badge calculation if theres advanced stats
+  if (player.advancedstats !== null) {
+    if (player.Tankiest) {
+      return true;
+    }
+    return false;
+  }
+
   let tankPlayer = player;
   let maxDamageReceived = player.damage_received / (player.deaths + 1);
 
@@ -295,11 +369,13 @@ export function Games({
   navigate: any;
   customPlayers?: TeamPlayerInfo[];
 }) {
+  const { activeUser } = EvosStore();
   const [replay, setReplay] = useState<Uploads | undefined>();
   const [selectedReplay, setSelectedReplay] = useState<ReplayFile>();
   const [loading, setLoading] = useState(false);
   const [logError, setLogError] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
+  const [openAdvancedDialog, setOpenAdvancedDialog] = useState(false);
 
   useEffect(() => {
     const fetchReplayInfo = async (GameServerProcessCode: string) => {
@@ -387,6 +463,9 @@ export function Games({
       `${strapiClient.getApiUrl().replace('/api', '')}${replay?.url}` as string,
     );
   };
+  const handleOpenAdvanced = () => {
+    setOpenAdvancedDialog(true);
+  };
 
   return (
     <Paper
@@ -431,8 +510,7 @@ export function Games({
         </Grid>
         <Grid item xs={4}>
           <Typography variant="subtitle1" gutterBottom>
-            {t('stats.type')}:{' '}
-            {game.gametype === 'Ranked' ? 'Tournament' : game.gametype}
+            {t('stats.type')}: {game.gametype}
           </Typography>
         </Grid>
         <Grid item xs={4}>
@@ -513,8 +591,8 @@ export function Games({
                           (game.teamwin === 'TeamA' &&
                             player.team === 'TeamA') ||
                           (game.teamwin === 'TeamB' && player.team === 'TeamB')
-                            ? '#22c955'
-                            : '#ff423a',
+                            ? '#22c9554f'
+                            : '#ff423a4f',
                       }}
                     >
                       <TableCell
@@ -924,17 +1002,42 @@ export function Games({
           </TableContainer>
         ))}
       </Box>
-      {replay && !customPlayers && (
-        <Box display="flex" flexDirection="column">
+      <Box display="flex" flexDirection="row" gap={2}>
+        {replay && !customPlayers && (
           <Button
             variant="contained"
             color="primary"
-            onClick={() => handleOpenReplay()}
+            fullWidth
+            onClick={() => {
+              trackEvent('Open Replay', {
+                user: activeUser?.handle || '',
+                game: game.GameServerProcessCode,
+              });
+              handleOpenReplay();
+            }}
+            sx={{ marginRight: 2 }} // Add margin to the right
           >
             {t('replay.openReplay')}
           </Button>
-        </Box>
-      )}
+        )}
+        {game.stats.find((player) => player.advancedstats?.length > 0) && (
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            onClick={() => {
+              trackEvent('Open Advanced Stats', {
+                user: activeUser?.handle || '',
+                game: game.GameServerProcessCode,
+              });
+              handleOpenAdvanced();
+            }}
+          >
+            {t('advstats.openAdvanced')}
+          </Button>
+        )}
+      </Box>
+
       {selectedReplay && (
         <ReplayDialog
           selectedReplay={selectedReplay}
@@ -944,6 +1047,14 @@ export function Games({
           openDialog={openDialog}
           setOpenDialog={setOpenDialog}
           fromLogPage
+        />
+      )}
+      {openAdvancedDialog && (
+        <AdvancedDialog
+          game={game}
+          loading={loading}
+          openAdvancedDialog={openAdvancedDialog}
+          setOpenAdvancedDialog={setOpenAdvancedDialog}
         />
       )}
     </Paper>
@@ -1088,9 +1199,9 @@ export default function PreviousGamesPlayed() {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={curentType === 'Ranked'}
+                    checked={curentType === 'Tournament'}
                     onChange={handleChange}
-                    value="Ranked"
+                    value="Tournament"
                   />
                 }
                 label={t('stats.tournamentgames')}

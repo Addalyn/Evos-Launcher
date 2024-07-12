@@ -1,0 +1,1962 @@
+{
+  "Archer": {
+    "ABILITY_0": {
+      "ability_name": "Warped Arrow",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Loose a curving arrow that deals <color=#FFC000>29</color> direct damage. Click once to start aiming, then a second time to finish.\n\nGain <color=#FFC000>12</color> energy on hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Loose a curving arrow that deals [LaserDamageAmount] direct damage. Click once to start aiming, then a second time to finish.\n\nGain [RewardOnDamage_OncePerCast] energy on hit."
+    },
+    "ABILITY_1": {
+      "ability_name": "Resonance Burst",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Create an energy fluctuation that grants <color=#FFC000>30</color> shields to allies and <color=#FFC000>weakens</color> enemies until end of turn.\n\nGain <color=#FFC000>6</color> energy per enemy hit and <color=#FFC000>4</color> energy per ally hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Create an energy fluctuation that grants [DirectHitAllyEffect_Shield] shields to allies and [^weakens^] enemies until end of turn.\n\nGain [^6^] energy per enemy hit and [RewardOnHit_PerTarget] energy per ally hit."
+    },
+    "ABILITY_2": {
+      "ability_name": "Take Aim!",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Mark an enemy until end of next turn. The first time an ally deals direct damage to the marked enemy, the ally is healed for <color=#FFC000>20</color>.\n\nGain <color=#FFC000>4</color> energy on use and <color=#FFC000>2</color> energy each time the target is hit.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Mark an enemy until end of next turn. The first time an ally deals direct damage to the marked enemy, the ally is healed for [ReactionHealing].\n\nGain [RewardOnCast] energy on use and [TechPointsPerHeal] energy each time the target is hit."
+    },
+    "ABILITY_3": {
+      "ability_name": "Vaulting Shot",
+      "cooldown": 5,
+      "debug_unlocalized_tooltip": "Dash to a location then fire an arrow in the opposite direction which deals <color=#FFC000>20</color> direct damage and <color=#FFC000>slows</color> until end of turn.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Dash to a location then fire an arrow in the opposite direction which deals [DirectDamage] direct damage and [^slows^] until end of turn.\n\nGain [RewardOnHit_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_4": {
+      "ability_name": "Rain of Arrows",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Rain arrows down in a line, dealing <color=#FFC000>30</color> direct damage to enemies and <color=#FFC000>rooting</color> them. Choose two points within range to create the line of effect. Does not require line of sight. Ignores cover.\n\nRequires <color=#FFC000>100</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Rain arrows down in a line, dealing [Damage] direct damage to enemies and [^rooting^] them. Choose two points within range to create the line of effect. Does not require line of sight. Ignores cover.\n\nRequires [EnergyCost] energy."
+    }
+  },
+  "BattleMonk": {
+    "ABILITY_0": {
+      "ability_name": "Whirling Blade",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Unleash a spinning strike that deals <color=#FFC000>27</color> direct damage.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Unleash a spinning strike that deals [Damage] direct damage.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_1": {
+      "ability_name": "Rebounding Charge",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Dash in a direction, doing <color=#FFC000>27</color> direct damage to the first enemy hit. If you hit an enemy, you will chase them. This dash can bounce off walls. Ignores cover.\n\nGain <color=#FFC000>10</color> energy if you hit an enemy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Dash in a direction, doing [DamageAmount] direct damage to the first enemy hit. If you hit an enemy, you will chase them. This dash can bounce off walls. Ignores cover.\n\nGain [RewardOnDamage_OncePerCast] energy if you hit an enemy."
+    },
+    "ABILITY_2": {
+      "ability_name": "Stand and Fight!",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Lash out with a surge of energy that deals <color=#FFC000>27</color> direct damage and <color=#FFC000>roots</color> the enemy.\n\nGain <color=#FFC000>10</color> energy if you hit an enemy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Lash out with a surge of energy that deals [LaserDamageAmount] direct damage and [^roots^] the enemy.\n\nGain [RewardOnDamage_OncePerCast] energy if you hit an enemy."
+    },
+    "ABILITY_3": {
+      "ability_name": "Retribution",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Gain <color=#FFC000>30</color> shields until end of turn and deal <color=#FFC000>12</color> indirect damage back to enemies who damage you with direct damage. Ignores cover.\n\nGain <color=#FFC000>6</color> energy per enemy hit.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Gain [ShieldAmount] shields until end of turn and deal [DamageReturn] indirect damage back to enemies who damage you with direct damage. Ignores cover.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_4": {
+      "ability_name": "Guardian Angel",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Must target near an ally. Grants shields to you and targeted allies that absorbs up to <color=#FFC000>20</color> damage. In Dash Phase you will teleport to them, doing <color=#FFC000>35</color> direct damage to enemies in the area.\n\nRequires <color=#FFC000>100</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Must target near an ally. Grants shields to you and targeted allies that absorbs up to [AllyEffect_Shield] damage. In Dash Phase you will teleport to them, doing [Damage] direct damage to enemies in the area.\n\nRequires [EnergyCost] energy."
+    }
+  },
+  "BazookaGirl": {
+    "ABILITY_0": {
+      "ability_name": "Bombard",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Fires a missile that explodes when it hits an enemy or a wall, dealing <color=#FFC000>32</color> direct damage to the primary target and <color=#FFC000>25</color> direct damage to nearby enemies.\n\nGain <color=#FFC000>10</color> energy per enemy damaged.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Fires a missile that explodes when it hits an enemy or a wall, dealing [LaserDamageAmount] direct damage to the primary target and [ExplosionDamageAmount] direct damage to nearby enemies.\n\nGain [RewardOnDamage_PerTarget] energy per enemy damaged."
+    },
+    "ABILITY_1": {
+      "ability_name": "Sticky Bomb",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Attaches sticky bombs to enemies. The bombs will explode next turn, doing <color=#FFC000>26</color> indirect damage.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Attaches sticky bombs to enemies. The bombs will explode next turn, doing [Damage] indirect damage.\n\nGain [EnergyGainOnCastPerEnemyHit] energy per enemy hit."
+    },
+    "ABILITY_2": {
+      "ability_name": "The Big One",
+      "cooldown": 6,
+      "debug_unlocalized_tooltip": "Shoots a missile into the sky. After a one turn delay, the missile crashes down, dealing <color=#FFC000>50</color> indirect damage to enemies in the center, <color=#FFC000>35</color> indirect damage to enemies adjacent to the center, and <color=#FFC000>20</color> indirect damage to enemies in the outer squares. Ignores cover.\n\nGain <color=#FFC000>10</color> energy per enemy hit.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Shoots a missile into the sky. After a one turn delay, the missile crashes down, dealing [Damage] indirect damage to enemies in the center, [Damage_ExtraLayer_0] indirect damage to enemies adjacent to the center, and [Damage_ExtraLayer_1] indirect damage to enemies in the outer squares. Ignores cover.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_3": {
+      "ability_name": "Rocket Jump",
+      "cooldown": 6,
+      "debug_unlocalized_tooltip": "Jump to target position. Deals <color=#FFC000>25</color> direct damage to enemies near your takeoff.\n\nGain <color=#FFC000>10</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Jump to target position. Deals [DamageAmount] direct damage to enemies near your takeoff.\n\nGain [RewardOnCast] energy."
+    },
+    "ABILITY_4": {
+      "ability_name": "Missile Storm",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Locks on to enemy locations during the Prep Phase and fires a storm of missiles at them during the Blast Phase, dealing <color=#FFC000>42</color> direct damage. Ignores cover.\n\nRequires <color=#FFC000>100</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Locks on to enemy locations during the Prep Phase and fires a storm of missiles at them during the Blast Phase, dealing [Damage] direct damage. Ignores cover.\n\nRequires [EnergyCost] energy."
+    }
+  },
+  "Blaster": {
+    "ABILITY_0": {
+      "ability_name": "Plasma Volley",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Blast your enemies, dealing <color=#FFC000>26</color> direct damage to each enemy hit. \n\nMods for this ability apply to shots from Combat Reflexes as well.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Blast your enemies, dealing [Damage] direct damage to each enemy hit. \n\nMods for this ability apply to shots from Combat Reflexes as well.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_1": {
+      "ability_name": "Combat Reflexes",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Dash a short distance then fire your plasma gun, dealing <color=#FFC000>26</color> direct damage. This ability has <color=#FFC000>2</color> charges.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 2,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 4,
+      "tooltip": "Dash a short distance then fire your plasma gun, dealing [DamageAmountNormal] direct damage. This ability has [^2^] charges.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_2": {
+      "ability_name": "Overcharge",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Your next attack will deal <color=#FFC000>10</color> additional direct damage. Excludes Lurker Drone. Allows full movement.\n\nGain <color=#FFC000>5</color> energy on use.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Your next attack will deal [OverchargeExtraDamage] additional direct damage. Excludes Lurker Drone. Allows full movement.\n\nGain [RewardOnCast] energy on use."
+    },
+    "ABILITY_3": {
+      "ability_name": "Lurker Drone",
+      "cooldown": 5,
+      "debug_unlocalized_tooltip": "Place a Lurker Drone. Can be freely triggered on a subsequent turn, exploding for <color=#FFC000>20</color> indirect damage and <color=#FFC000>slowing</color> targets hit until end of that turn. Not affected by Overcharge. Fires automatically after <color=#FFC000>3</color> turns.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Place a Lurker Drone. Can be freely triggered on a subsequent turn, exploding for [DamageAmount] indirect damage and [^slowing^] targets hit until end of that turn. Not affected by Overcharge. Fires automatically after [MaxTurnsBeforeTrigger] turns.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_4": {
+      "ability_name": "Oblivion Shell",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Deals <color=#FFC000>40</color> direct damage and <color=#FFC000>knocks back</color> enemies in a cone. The <color=#FFC000>knockback</color> also affects you.\n\nRequires <color=#FFC000>100</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Combat_Knockback",
+      "stock_refresh_duration": 0,
+      "tooltip": "Deals [Damage] direct damage and [^knocks back^] enemies in a cone. The [^knockback^] also affects you.\n\nRequires [EnergyCost] energy."
+    }
+  },
+  "Claymore": {
+    "ABILITY_0": {
+      "ability_name": "Overhead Slam",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Chop at your enemies, dealing <color=#FFC000>32</color> direct damage to central enemies and <color=#FFC000>25</color> direct damage to others.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Chop at your enemies, dealing [MiddleDamage] direct damage to central enemies and [SideDamage] direct damage to others.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_1": {
+      "ability_name": "Berserker Charge",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Rush forward, dealing <color=#FFC000>30</color> direct damage and <color=#FFC000>slow</color> to the first enemy in your path, and cleaving nearby enemies for <color=#FFC000>30</color> direct damage. This ability's cooldown is reduced to <color=#FFC000>2</color> if an enemy is hit.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Rush forward, dealing [DirectHitDamage] direct damage and [^slow^] to the first enemy in your path, and cleaving nearby enemies for [AoeDamage] direct damage. This ability's cooldown is reduced to [CooldownOnHit] if an enemy is hit.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_2": {
+      "ability_name": "Thundering Roar",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Unleash a thunderous shout, causing enemies to become <color=#FFC000>weak</color> until end of turn.\n\nGain <color=#FFC000>6</color> energy per enemy hit.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Unleash a thunderous shout, causing enemies to become [^weak^] until end of turn.\n\nGain [RewardOnHit_PerEnemyTarget] energy per enemy hit."
+    },
+    "ABILITY_3": {
+      "ability_name": "Dirty Fighting",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Fling a dagger at an enemy's weak spot, causing them to take an additional <color=#FFC000>25</color> indirect damage the next time they are hit by a direct damage effect. They are also <color=#FFC000>revealed</color> until end of next decision mode.\n\nGain <color=#FFC000>10</color> energy if you hit an enemy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Fling a dagger at an enemy's weak spot, causing them to take an additional [EffectExplosionDamage] indirect damage the next time they are hit by a direct damage effect. They are also [^revealed^] until end of next decision mode.\n\nGain [RewardOnHit_OncePerCast] energy if you hit an enemy."
+    },
+    "ABILITY_4": {
+      "ability_name": "Deathblow",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Ravage the land, creating a shockwave of immense power dealing <color=#FFC000>40</color> direct damage and <color=#FFC000>rooting</color> nearby enemies, <color=#FFC000>35</color> direct damage and <color=#FFC000>slowing</color> further enemies, and <color=#FFC000>30</color> direct damage to furthest enemies.\n\nRequires <color=#FFC000>100</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Ravage the land, creating a shockwave of immense power dealing [DamageAmountInner] direct damage and [^rooting^] nearby enemies, [DamageAmountMiddle] direct damage and [^slowing^] further enemies, and [DamageAmountOuter] direct damage to furthest enemies.\n\nRequires [EnergyCost] energy."
+    }
+  },
+  "Cleric": {
+    "ABILITY_0": {
+      "ability_name": "Dawnhammer",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Smash the ground in front of you, dealing <color=#FFC000>27</color> direct damage.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Smash the ground in front of you, dealing [DamageAmount] direct damage.\n\nGain [RewardOnHit_PerEnemyTarget] energy per enemy hit."
+    },
+    "ABILITY_1": {
+      "ability_name": "Reforge",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Heal target ally and yourself for <color=#FFC000>10</color> to <color=#FFC000>32</color>, based on missing health. Enemies around the target are made <color=#FFC000>weak</color>. You can target yourself if no ally is in range, but you will not receive twice the healing.\n\nGain <color=#FFC000>10</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Heal target ally and yourself for [^10^] to [^32^], based on missing health. Enemies around the target are made [^weak^]. You can target yourself if no ally is in range, but you will not receive twice the healing.\n\nGain [RewardOnCast] energy."
+    },
+    "ABILITY_2": {
+      "ability_name": "Boneshatter",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Slam enemies for <color=#FFC000>28</color> direct damage. All enemies hit are <color=#FFC000>slowed</color> until end of turn.\n\nGain <color=#FFC000>8</color> energy per target hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Slam enemies for [DamageAmount] direct damage. All enemies hit are [^slowed^] until end of turn.\n\nGain [RewardOnDamage_PerTarget] energy per target hit."
+    },
+    "ABILITY_3": {
+      "ability_name": "Solar Strike",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Call down your hammer on target location, dealing <color=#FFC000>24</color> direct damage and <color=#FFC000>revealing</color> targets in the central ring, and dealing <color=#FFC000>20</color> direct damage to targets in the outer ring. Ignores cover.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Call down your hammer on target location, dealing [InnerHitDamage] direct damage and [^revealing^] targets in the central ring, and dealing [OuterHitDamage] direct damage to targets in the outer ring. Ignores cover.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_4": {
+      "ability_name": "Zenith",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Summon a fusion orb that shields you and your allies for <color=#FFC000>15</color> each turn. While active, you are <color=#FFC000>unstoppable</color>. Lasts until deactivated or until the energy cost cannot be paid. Goes on a <color=#FFC000>2</color> cooldown when disabled.\n\nRequires <color=#FFC000>20</color> energy to cast, but the cost increases by <color=#FFC000>20</color> per turn until deactivated.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Summon a fusion orb that shields you and your allies for [SelfShieldingOverride] each turn. While active, you are [^unstoppable^]. Lasts until deactivated or until the energy cost cannot be paid. Goes on a [^2^] cooldown when disabled.\n\nRequires [EnergyCost] energy to cast, but the cost increases by [^20^] per turn until deactivated."
+    }
+  },
+  "DigitalSorceress": {
+    "ABILITY_0": {
+      "ability_name": "Shock Therapy",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Project a stream of energy, dealing <color=#FFC000>20</color> direct damage to enemies and restoring <color=#FFC000>10</color> health to allies.\n\nGain <color=#FFC000>5</color> energy per enemy hit and <color=#FFC000>3</color> energy per ally hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Project a stream of energy, dealing [DamageAmount] direct damage to enemies and restoring [AllyHealAmount] health to allies.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit and [RewardOnHit_PerAllyTarget] energy per ally hit."
+    },
+    "ABILITY_1": {
+      "ability_name": "Ion Cloud",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Create an entropic cloud that deals <color=#FFC000>20</color> direct damage when cast and lasts <color=#FFC000>2</color> turns. Enemies moving through or starting their turn in the cloud take <color=#FFC000>20</color> additional indirect damage. Allies within or moving through the cloud heal for <color=#FFC000>4</color> health.\n\nGain <color=#FFC000>5</color> energy per enemy hit and <color=#FFC000>3</color> energy per ally hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Create an entropic cloud that deals [Damage] direct damage when cast and lasts [Duration] turns. Enemies moving through or starting their turn in the cloud take [Damage] additional indirect damage. Allies within or moving through the cloud heal for [Healing] health.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit and [RewardOnHit_PerAllyTarget] energy per ally hit."
+    },
+    "ABILITY_2": {
+      "ability_name": "Healing Flare",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Restore <color=#FFC000>30</color> health to yourself or an ally. <color=#FFC000>Knockback</color> enemies next to the target during the Blast Phase.\n\nGain <color=#FFC000>12</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Restore [OnCastHealAmount_Normal] health to yourself or an ally. [^Knockback^] enemies next to the target during the Blast Phase.\n\nGain [RewardOnHit_OncePerCast] energy."
+    },
+    "ABILITY_3": {
+      "ability_name": "Paralazer",
+      "cooldown": 5,
+      "debug_unlocalized_tooltip": "Unleash a surge of energy, making enemies <color=#FFC000>weak</color> and granting <color=#FFC000>10</color> shields to herself and allies for the turn. Can shoot through walls.\n\nGain <color=#FFC000>5</color> energy per enemy hit and <color=#FFC000>3</color> energy per ally hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Unleash a surge of energy, making enemies [^weak^] and granting [AllyHitEffect_Shield] shields to herself and allies for the turn. Can shoot through walls.\n\nGain [RewardOnHit_PerEnemyTarget] energy per enemy hit and [RewardOnHit_PerAllyTarget] energy per ally hit."
+    },
+    "ABILITY_4": {
+      "ability_name": "Heart of the Storm",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Project powerful beams in four directions, enemies take <color=#FFC000>24</color> direct damage while you and your allies gain <color=#FFC000>24</color> health. Can shoot through walls and ignores cover.\n\nRequires <color=#FFC000>100</color> energy. ",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Project powerful beams in four directions, enemies take [DamageAmount] direct damage while you and your allies gain [HealAmount] health. Can shoot through walls and ignores cover.\n\nRequires [EnergyCost] energy. "
+    }
+  },
+  "Dinolancer": {
+    "ABILITY_0": {
+      "ability_name": "Power Drive",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Throw a punch dealing <color=#FFC000>30</color> direct damage. This ability gains an additional arc of range each turn it isn't used, up to a max of <color=#FFC000>2</color>. The second range arc deals <color=#FFC000>25</color> direct damage and the third range arc deals <color=#FFC000>20</color> direct damage.\n\nGain <color=#FFC000>7</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Throw a punch dealing [InnerCone_Base] direct damage. This ability gains an additional arc of range each turn it isn't used, up to a max of [^2^]. The second range arc deals [^25^] direct damage and the third range arc deals [^20^] direct damage.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_1": {
+      "ability_name": "Extinction Event",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Target enemies in an area for assassination. During the next <color=#FFC000>Decision Mode</color>, orbital lasers will lock on to the locations of the targets, and then fire during the subsequent <color=#FFC000>Blast Phase</color>. Deals <color=#FFC000>24</color> indirect damage to enemies in the target locations, and <color=#FFC000>16</color> to adjacent enemies. Ignores cover.\n\nGain <color=#FFC000>4</color> energy per enemy targeted and <color=#FFC000>4</color> energy per enemy damaged.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Target enemies in an area for assassination. During the next [^Decision Mode^], orbital lasers will lock on to the locations of the targets, and then fire during the subsequent [^Blast Phase^]. Deals [DelayedDamageInCenter_Base] indirect damage to enemies in the target locations, and [DelayedDamage_Base] to adjacent enemies. Ignores cover.\n\nGain [RewardOnHit_PerEnemyTarget] energy per enemy targeted and [RewardOnHit_PerEnemyTarget] energy per enemy damaged."
+    },
+    "ABILITY_2": {
+      "ability_name": "Horns Up",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Enter a ready stance and gain <color=#FFC000>20</color> shields until end of turn. \n\nDuring the next <color=#FFC000>Decision Mode</color>, you can activate this ability again to charge in the <color=#FFC000>Dash Phase</color>, dealing <color=#FFC000>30</color> direct damage to all enemies hit. Gain <color=#FFC000>10</color> shields per enemy hit. This charge will stop short if it hits an enemy, but will <color=#FFC000>root</color> that enemy.\n\nIf you do not activate this ability again, you will instead gain <color=#FFC000>20</color> shields during the <color=#FFC000>Prep Phase</color> that last until end of turn.\n\nGain <color=#FFC000>5</color> energy on use and <color=#FFC000>8</color> energy per enemy hit by the charge.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Enter a ready stance and gain [OnCastSelfShield_Shield] shields until end of turn. \n\nDuring the next [^Decision Mode^], you can activate this ability again to charge in the [^Dash Phase^], dealing [DirectHitDamage_Base] direct damage to all enemies hit. Gain [^10^] shields per enemy hit. This charge will stop short if it hits an enemy, but will [^root^] that enemy.\n\nIf you do not activate this ability again, you will instead gain [ShieldEffect_Shield] shields during the [^Prep Phase^] that last until end of turn.\n\nGain [RewardOnCast] energy on use and [RewardOnDamage_PerTarget] energy per enemy hit by the charge."
+    },
+    "ABILITY_3": {
+      "ability_name": "Deal Breaker",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Deliver an uppercut that deals <color=#FFC000>30</color> direct damage to enemies and <color=#FFC000>knocks them back</color> to the selected location. \n\nGain <color=#FFC000>10</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Knockback",
+      "stock_refresh_duration": 0,
+      "tooltip": "Deliver an uppercut that deals [Damage_Base] direct damage to enemies and [^knocks them back^] to the selected location. \n\nGain [RewardOnHit_PerEnemyTarget] energy per enemy hit."
+    },
+    "ABILITY_4": {
+      "ability_name": "Boss Around",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Bellow an undeniable command, dealing <color=#FFC000>33</color> direct damage to enemies and forcing them to follow you this turn.\n\nRequires <color=#FFC000>100</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Bellow an undeniable command, dealing [Damage_Base] direct damage to enemies and forcing them to follow you this turn.\n\nRequires [EnergyCost] energy."
+    }
+  },
+  "Exo": {
+    "ABILITY_0": {
+      "ability_name": "Laser Barrage",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Fire a barrage of lasers from each cannon. Targets take <color=#FFC000>24</color> direct damage, or <color=#FFC000>32</color> if hit by both laser barrages.\n\nGain <color=#FFC000>6</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Fire a barrage of lasers from each cannon. Targets take [DamageAmount] direct damage, or [TotalDamageOverlap] if hit by both laser barrages.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_1": {
+      "ability_name": "Lockdown",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Tether a target to their current position for the turn, if they move further than <color=#FFC000>2</color> spaces away they take <color=#FFC000>30</color> indirect damage.\n\nGain <color=#FFC000>12</color> energy if damage is dealt.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Tether a target to their current position for the turn, if they move further than [TetherDistance] spaces away they take [Damage_TetherBreak] indirect damage.\n\nGain [RewardOnDamage_PerTarget] energy if damage is dealt."
+    },
+    "ABILITY_2": {
+      "ability_name": "Off Limits",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Create a shockwave dealing <color=#FFC000>25</color> direct damage. <color=#FFC000>Knockback</color> enemies hit up to <color=#FFC000>2</color> squares. \n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Knockback",
+      "stock_refresh_duration": 0,
+      "tooltip": "Create a shockwave dealing [Damage] direct damage. [^Knockback^] enemies hit up to [Knockback_Distance] squares. \n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_3": {
+      "ability_name": "Riot Shield",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Create an electrical barrier, generating <color=#FFC000>40</color> shields.\n\nGain <color=#FFC000>5</color> energy on use.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Create an electrical barrier, generating [AbsorbEffect_Shield] shields.\n\nGain [RewardOnCast] energy on use."
+    },
+    "ABILITY_4": {
+      "ability_name": "Lay Down the Law",
+      "cooldown": 2,
+      "debug_unlocalized_tooltip": "Anchor to the ground and unleash a superheated beam in a direction. Deals <color=#FFC000>38</color> direct damage and any enemies that move through the beam take <color=#FFC000>38</color> indirect damage. Can be used again on subsequent turns to sweep the beam. You cannot move and are <color=#FFC000>unstoppable</color> while using this ability.\n\nActivation Cost: <color=#FFC000>50</color> energy\nSweep Cost: <color=#FFC000>20</color> energy",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Anchor to the ground and unleash a superheated beam in a direction. Deals [Damage_Laser] direct damage and any enemies that move through the beam take [Laser_Barrier_EnemyCross_Damage] indirect damage. Can be used again on subsequent turns to sweep the beam. You cannot move and are [^unstoppable^] while using this ability.\n\nActivation Cost: [EnergyCost] energy\nSweep Cost: [AnchoredTechPointCost] energy"
+    }
+  },
+  "Fireborg": {
+    "ABILITY_0": {
+      "ability_name": "Firestarter",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Unleash twin flamethrowers, torching enemies for <color=#FFC000>28</color> direct damage. Spaces hit by both templates are set on fire until end of turn, dealing <color=#FFC000>5</color> indirect damage to enemies that touch them.\n\nGain <color=#FFC000>6</color> energy per enemy hit. Ground fire hits do not grant energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Unleash twin flamethrowers, torching enemies for [NormalDamage_Base] direct damage. Spaces hit by both templates are set on fire until end of turn, dealing [^5^] indirect damage to enemies that touch them.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit. Ground fire hits do not grant energy."
+    },
+    "ABILITY_1": {
+      "ability_name": "Flash Point",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Imbue yourself, an ally, or an enemy with an explosive charge until end of turn. This charge detonates during <color=#FFC000>Blast Phase</color>, dealing <color=#FFC000>10</color> indirect damage to nearby enemies, but not the target.\r\n\nGain <color=#FFC000>4</color> energy per enemy hit.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Imbue yourself, an ally, or an enemy with an explosive charge until end of turn. This charge detonates during [^Blast Phase^], dealing [NormalDamage_Base] indirect damage to nearby enemies, but not the target.\r\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_2": {
+      "ability_name": "Afterburners",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Launch yourself toward a target space, and dealing <color=#FFC000>23</color> direct damage to enemies around the destination. This dash will stop short at the first enemy in your path. Spaces covered by this template are set on fire until the end of the turn, dealing <color=#FFC000>5</color> indirect damage to enemies that touch them.\r\n\nDamage from this ability ignores cover.\n\nGain <color=#FFC000>5</color> energy per enemy hit. Ground fire hits do not grant energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Launch yourself toward a target space, and dealing [NormalDamage_Base] direct damage to enemies around the destination. This dash will stop short at the first enemy in your path. Spaces covered by this template are set on fire until the end of the turn, dealing [^5^] indirect damage to enemies that touch them.\r\n\nDamage from this ability ignores cover.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit. Ground fire hits do not grant energy."
+    },
+    "ABILITY_3": {
+      "ability_name": "Backdraft",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Gain <color=#FFC000>20</color> shields during <color=#FFC000>Prep Phase</color>. During <color=#FFC000>Blast Phase</color>, hurl a fireball that deals <color=#FFC000>15</color> direct damage to enemies it passes through. \n\nIf you are hit by a direct damage attack, you will throw a second fireball in the same direction, dealing <color=#FFC000>15</color> additional indirect damage and setting the ground on fire until end of turn. Enemies that touch the fire take <color=#FFC000>5</color> indirect damage.\n\nGain <color=#FFC000>8</color> energy if you hit an enemy, and <color=#FFC000>2</color> energy for each enemy hit per blast. Ground fire hits do not grant energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Gain [^20^] shields during [^Prep Phase^]. During [^Blast Phase^], hurl a fireball that deals [NormalDamage_Base] direct damage to enemies it passes through. \n\nIf you are hit by a direct damage attack, you will throw a second fireball in the same direction, dealing [^15^] additional indirect damage and setting the ground on fire until end of turn. Enemies that touch the fire take [^5^] indirect damage.\n\nGain [RewardOnDamage_OncePerCast] energy if you hit an enemy, and [RewardOnDamage_PerTarget] energy for each enemy hit per blast. Ground fire hits do not grant energy."
+    },
+    "ABILITY_4": {
+      "ability_name": "Superheated",
+      "cooldown": 1,
+      "debug_unlocalized_tooltip": "Unleash your inner flame, becoming <color=#FFC000>superheated</color> until end of next turn. While <color=#FFC000>superheated</color>, dealing damage to enemies with your abilities or ground fire will <color=#FFC000>ignite</color> them, dealing <color=#FFC000>5</color> indirect damage during the next turn and showing their location. \n\n<color=#FFC000>Ignite</color> damage will trigger <color=#FFC000>Cryo Cores</color>.\n\nRequires <color=#FFC000>50</color> energy.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Unleash your inner flame, becoming [^superheated^] until end of next turn. While [^superheated^], dealing damage to enemies with your abilities or ground fire will [^ignite^] them, dealing [^5^] indirect damage during the next turn and showing their location. \n\n[^Ignite^] damage will trigger [^Cryo Cores^].\n\nRequires [EnergyCost] energy."
+    }
+  },
+  "FishMan": {
+    "ABILITY_0": {
+      "ability_name": "Water Spout",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Create a cone of high pressured water that deals between <color=#FFC000>12</color> and <color=#FFC000>24</color> direct damage depending on the size of the targeter.\n\nGain <color=#FFC000>5</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Create a cone of high pressured water that deals between [DamageToEnemies] and [DamageToEnemiesMax] direct damage depending on the size of the targeter.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_1": {
+      "ability_name": "Refreshing Spray",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Create a cone of healing waters, healing allies for <color=#FFC000>24</color> to <color=#FFC000>30</color> depending on size, and himself for <color=#FFC000>12</color>.\n\nGain <color=#FFC000>6</color> energy per ally hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Create a cone of healing waters, healing allies for [HealingToAllies] to [HealingToAlliesMax] depending on size, and himself for [HealToCasterOnCast].\n\nGain [RewardOnHit_PerAllyTarget] energy per ally hit."
+    },
+    "ABILITY_2": {
+      "ability_name": "Electrifying Eels",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Launch eels at an enemy that deal <color=#FFC000>20</color> direct damage and <color=#FFC000>reveal</color> until end of next decision mode. Ignores cover. The next two Blast Phases the eels launch themselves at the nearest enemy within <color=#FFC000>4</color> spaces causing the same effect.\n\nGain <color=#FFC000>6</color> energy if you hit a target.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Launch eels at an enemy that deal [DamageToEnemiesOnJump] direct damage and [^reveal^] until end of next decision mode. Ignores cover. The next two Blast Phases the eels launch themselves at the nearest enemy within [JumpRadius_Rounded] spaces causing the same effect.\n\nGain [RewardOnHit_PerTarget] energy if you hit a target."
+    },
+    "ABILITY_3": {
+      "ability_name": "Bubble Trouble",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Attaches a bubble to an ally, shielding them for <color=#FFC000>45</color>. During <color=#FFC000>Blast</color> phase the bubble pops dealing <color=#FFC000>10</color> indirect damage and <color=#FFC000>slowing</color> enemies for the turn.\n\nGain <color=#FFC000>8</color> energy on cast and <color=#FFC000>4</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Attaches a bubble to an ally, shielding them for [EffectOnAllies_Shield]. During [^Blast^] phase the bubble pops dealing [ExplosionDamageToEnemies] indirect damage and [^slowing^] enemies for the turn.\n\nGain [RewardOnCast] energy on cast and [RewardOnHit_PerEnemyTarget] energy per enemy hit."
+    },
+    "ABILITY_4": {
+      "ability_name": "Maelstrom",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Summon churning waters that deal <color=#FFC000>30</color> direct damage and <color=#FFC000>pull in</color> enemies.\n\nRequires <color=#FFC000>100</color> energy. ",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Knockback",
+      "stock_refresh_duration": 0,
+      "tooltip": "Summon churning waters that deal [DamageToEnemiesOnCast] direct damage and [^pull in^] enemies.\n\nRequires [EnergyCost] energy. "
+    }
+  },
+  "Gremlins": {
+    "ABILITY_0": {
+      "ability_name": "Boom Boom",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Launch two arcing bombs that deal <color=#FFC000>22</color> direct damage. If they don't hit a target they leave behind a mine that deals <color=#FFC000>10</color> indirect damage and lasts for <color=#FFC000>2</color> turns.\n\nGain <color=#FFC000>7</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Launch two arcing bombs that deal [Damage_DirectHit] direct damage. If they don't hit a target they leave behind a mine that deals [Damage_MoveOverHit] indirect damage and lasts for [MineDuration] turns.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_1": {
+      "ability_name": "Splort!",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Drop mines in all adjacent squares that deal <color=#FFC000>10</color> indirect damage and last for <color=#FFC000>2</color> turns.\n\nGain <color=#FFC000>7</color> energy per enemy hit.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Drop mines in all adjacent squares that deal [Damage] indirect damage and last for [MineDuration] turns.\n\nGain [EnergyGainOnMineHit] energy per enemy hit."
+    },
+    "ABILITY_2": {
+      "ability_name": "Big Bang",
+      "cooldown": 5,
+      "debug_unlocalized_tooltip": "Lobs a concussive bomb that deals <color=#FFC000>25</color> direct damage and <color=#FFC000>knocks back</color> enemies.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Knockback",
+      "stock_refresh_duration": 0,
+      "tooltip": "Lobs a concussive bomb that deals [Damage] direct damage and [^knocks back^] enemies.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_3": {
+      "ability_name": "Bombing Run",
+      "cooldown": 7,
+      "debug_unlocalized_tooltip": "Jump to two locations in quick succession, dealing <color=#FFC000>20</color> direct damage to nearby enemies.\n\nGain <color=#FFC000>6</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Jump to two locations in quick succession, dealing [Damage] direct damage to nearby enemies.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_4": {
+      "ability_name": "Maniacal Mayhem",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Launches <color=#FFC000>4</color> bombs to target locations, dealing <color=#FFC000>30</color> direct damage to enemies. Enemies hit by more than one bomb take <color=#FFC000>8</color> extra direct damage per bomb. Bombs cannot be placed directly on top of one another.\n\nRequires <color=#FFC000>100</color> energy. ",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Launches [NumBombs] bombs to target locations, dealing [Damage] direct damage to enemies. Enemies hit by more than one bomb take [Damage_OnOverlap] extra direct damage per bomb. Bombs cannot be placed directly on top of one another.\n\nRequires [EnergyCost] energy. "
+    }
+  },
+  "Gryd": {
+    "ABILITY_0": {
+      "ability_name": "T Laser",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "A T-shaped damaging laser.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "A T-shaped damaging laser."
+    },
+    "ABILITY_1": {
+      "ability_name": "Place or Move Bomb",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Toss out a bomb along the grid. It explodes on direct hits, otherwise waiting until next turn to explode. Next turn this ability is a free action to telekinetically push the bomb in a cardinal direction, exploding at the end.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Toss out a bomb along the grid. It explodes on direct hits, otherwise waiting until next turn to explode. Next turn this ability is a free action to telekinetically push the bomb in a cardinal direction, exploding at the end."
+    },
+    "ABILITY_2": {
+      "ability_name": "Knockback Trap",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Create a 3x3 invisible trap with a specified direction. If an enemy is on this area during knockback, then they are knocked back in the specified direction.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Create a 3x3 invisible trap with a specified direction. If an enemy is on this area during knockback, then they are knocked back in the specified direction."
+    },
+    "ABILITY_3": {
+      "ability_name": "Cycle Dash",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Dash along the grid, leaving a field/barrier that damages enemies if crossed. Can change direction twice.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Dash along the grid, leaving a field/barrier that damages enemies if crossed. Can change direction twice."
+    },
+    "ABILITY_4": {
+      "ability_name": "Cardinal Bomb",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": ""
+    }
+  },
+  "Iceborg": {
+    "ABILITY_0": {
+      "ability_name": "Icebreaker",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Launch an icy spike, dealing <color=#FFC000>30</color> direct damage and afflicting your target with a <color=#FFC000>Cryo Core</color>. \n\n<color=#FFC000>Cryo Cores</color> last one turn and are detonated by direct damage to the target, dealing <color=#FFC000>7</color> indirect damage to the target and adjacent enemies. Detonated <color=#FFC000>Cryo Cores</color> grant <color=#FFC000>2</color> energy.\n\nGain <color=#FFC000>10</color> energy if you hit an enemy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Launch an icy spike, dealing [OnCastDamage_Base] direct damage and afflicting your target with a [^Cryo Core^]. \n\n[^Cryo Cores^] last one turn and are detonated by direct damage to the target, dealing [NovaDamage_Base] indirect damage to the target and adjacent enemies. Detonated [^Cryo Cores^] grant [NovaEnergyPerExplosion] energy.\n\nGain [RewardOnDamage_OncePerCast] energy if you hit an enemy."
+    },
+    "ABILITY_1": {
+      "ability_name": "Cold Snap",
+      "cooldown": 2,
+      "debug_unlocalized_tooltip": "Grant a freezing aura to Vonn or an ally. If the target is hit with direct damage, the enemy that attacked them takes <color=#FFC000>5</color> indirect damage and is afflicted with a <color=#FFC000>Cryo Core</color>.\n\nGain <color=#FFC000>3</color> energy per enemy hit.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Grant a freezing aura to Vonn or an ally. If the target is hit with direct damage, the enemy that attacked them takes [ReactDamage_Base] indirect damage and is afflicted with a [^Cryo Core^].\n\nGain [EnergyOnCasterPerReaction] energy per enemy hit."
+    },
+    "ABILITY_2": {
+      "ability_name": "Arctic Blast",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Fire a gale of ice shards, dealing <color=#FFC000>25</color> direct damage and <color=#FFC000>slowing</color> enemies.\n\nGain <color=#FFC000>6</color> energy per target hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Fire a gale of ice shards, dealing [LaserDamage_Base] direct damage and [^slowing^] enemies.\n\nGain [RewardOnDamage_PerTarget] energy per target hit."
+    },
+    "ABILITY_3": {
+      "ability_name": "Ice Aegis",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Create an icy shell that grants <color=#FFC000>60</color> shields and <color=#FFC000>slows</color> nearby enemies.  The shields last until end of next turn. This ability allows full movement.\n\nGain <color=#FFC000>5</color> energy on use.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Create an icy shell that grants [^60^] shields and [^slows^] nearby enemies.  The shields last until end of next turn. This ability allows full movement.\n\nGain [RewardOnCast] energy on use."
+    },
+    "ABILITY_4": {
+      "ability_name": "Polar Vortex",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Summon a raging blizzard that deals <color=#FFC000>30</color> direct damage. The blizzard lasts <color=#FFC000>2</color> turns, but deals <color=#FFC000>15</color> indirect damage on the second turn. Enemies that take damage from the blizzard are <color=#FFC000>slowed</color> until end of turn.\n\nThe blizzard can be moved on the second turn as a free action, causing direct damage instead. Enemies that move through the blizzard will take indirect damage.\n\nRequires <color=#FFC000>100</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Summon a raging blizzard that deals [DamageOnCast_Base] direct damage. The blizzard lasts [^2^] turns, but deals [^15^] indirect damage on the second turn. Enemies that take damage from the blizzard are [^slowed^] until end of turn.\n\nThe blizzard can be moved on the second turn as a free action, causing direct damage instead. Enemies that move through the blizzard will take indirect damage.\n\nRequires [EnergyCost] energy."
+    }
+  },
+  "Manta": {
+    "ABILITY_0": {
+      "ability_name": "Seismic Slam",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Deal <color=#FFC000>28</color> damage to nearby enemies and create a <color=#FFC000>12</color> damage shockwave that goes through walls and ignores cover.\n\nGain <color=#FFC000>6</color> energy per enemy hit. ",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Deal [^28^] damage to nearby enemies and create a [^12^] damage shockwave that goes through walls and ignores cover.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit. "
+    },
+    "ABILITY_1": {
+      "ability_name": "Putrid Spray",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Spray a swarm of bugs, <color=#FFC000>slowing</color> targets. If you hit any of these targets with abilities in the next <color=#FFC000>2</color> turns, the insects burst, dealing an additional <color=#FFC000>12</color> damage.\n\nGain <color=#FFC000>6</color> energy per enemy hit. ",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Spray a swarm of bugs, [^slowing^] targets. If you hit any of these targets with abilities in the next [DirtyFightingEffectData_Duration_MinusOne] turns, the insects burst, dealing an additional [EffectExplosionDamage] damage.\n\nGain [RewardOnHit_PerTarget] energy per enemy hit. "
+    },
+    "ABILITY_2": {
+      "ability_name": "Mending Swarm",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "<color=#FFC000>100%</color> of damage taken this turn, up to <color=#FFC000>80</color>, is recovered over the next <color=#FFC000>2</color> turns.\n\nGain <color=#FFC000>5</color> energy on use.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "[DamageToHealRatio] of damage taken this turn, up to [MaxRegeneration], is recovered over the next [TurnsOfRegeneration] turns.\n\nGain [RewardOnCast] energy on use."
+    },
+    "ABILITY_3": {
+      "ability_name": "Juggernaut",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Charge forward! When you hit an enemy or travel your maximum range, create a tremor that causes <color=#FFC000>24</color> direct damage and <color=#FFC000>slows</color> all enemies hit. Can dash through walls.\n\nGain <color=#FFC000>8</color> energy per enemy hit. ",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Charge forward! When you hit an enemy or travel your maximum range, create a tremor that causes [DirectHitDamage] direct damage and [^slows^] all enemies hit. Can dash through walls.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit. "
+    },
+    "ABILITY_4": {
+      "ability_name": "Lair",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Create a large earthquake around you dealing <color=#FFC000>32</color> direct damage. The edges of the lair prevent enemies from moving out of it until the end of next turn. \n\nRequires <color=#FFC000>100</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Create a large earthquake around you dealing [DamageOnCast] direct damage. The edges of the lair prevent enemies from moving out of it until the end of next turn. \n\nRequires [EnergyCost] energy."
+    }
+  },
+  "Martyr": {
+    "ABILITY_0": {
+      "ability_name": "Empyreal Ruin",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Blast enemies with empyrean energy, dealing <color=#FFC000>22</color> direct damage to targets in the center and <color=#FFC000>16</color> direct damage to others. Ignores cover.\n\n<b>Shards:</b> Increase outer explosion radius by <color=#FFC000>10%</color> per shard.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Blast enemies with empyrean energy, dealing [InnerRingDamage] direct damage to targets in the center and [BaseLaserDamage] direct damage to others. Ignores cover.\n\n<b>Shards:</b> Increase outer explosion radius by [^10%^] per shard."
+    },
+    "ABILITY_1": {
+      "ability_name": "Fate Transfer",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Grant yourself <color=#FFC000>15</color> shields, then redirect <color=#FFC000>75%</color> of the damage the ally takes this turn to you. <color=#FFC000>75%</color> of the damage taken from this ability converts directly into energy.\n\n<b>Shards:</b> You gain an additional <color=#FFC000>3</color> shields per shard.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Grant yourself [BaseAbsorb] shields, then redirect [DamageRedirectToCaster_Pct]% of the damage the ally takes this turn to you. [^75%^] of the damage taken from this ability converts directly into energy.\n\n<b>Shards:</b> You gain an additional [AbsorbPerCrystalSpent] shields per shard."
+    },
+    "ABILITY_2": {
+      "ability_name": "Quantum Core",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Target an ally as a focal point of pure energy. When they are hit with a damaging ability, an explosion erupts for <color=#FFC000>15</color> indirect damage.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Target an ally as a focal point of pure energy. When they are hit with a damaging ability, an explosion erupts for [ReactAoeDamage] indirect damage."
+    },
+    "ABILITY_3": {
+      "ability_name": "Astral Fusion",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Heal your target for <color=#FFC000>10</color> health a turn for <color=#FFC000>2</color> turns. Heals himself for the first turn's amount if used on an ally.\n\n<b>Shards:</b> Target gains an additional <color=#FFC000>2</color> health per turn per shard.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Heal your target for [HealBase] health a turn for [HealEffectData_Duration] turns. Heals himself for the first turn's amount if used on an ally.\n\n<b>Shards:</b> Target gains an additional [HealPerCrystal] health per turn per shard."
+    },
+    "ABILITY_4": {
+      "ability_name": "Cosmic Flare",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Consume all shards to gain <color=#FFC000>30</color> health and deal <color=#FFC000>30</color> direct damage in an area. Gain <color=#FFC000>unstoppable</color> for the turn.\n\nRequires <color=#FFC000>100</color> energy.\n\n<b>Passive:</b> Gain a shard for every <color=#FFC000>20</color> energy held. Half of the damage taken converts into energy. Lose <color=#FFC000>75%</color> of energy on death. Energize does not affect energy gained through taking damage.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Consume all shards to gain [SelfHealBase] health and deal [DamageBase] direct damage in an area. Gain [^unstoppable^] for the turn.\n\nRequires [EnergyCost] energy.\n\n<b>Passive:</b> Gain a shard for every [^20^] energy held. Half of the damage taken converts into energy. Lose [^75%^] of energy on death. Energize does not affect energy gained through taking damage."
+    }
+  },
+  "NanoSmith": {
+    "ABILITY_0": {
+      "ability_name": "Echo Hammer",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Strikes the first target for <color=#FFC000>22</color> direct damage, then chains up to three additional targets for <color=#FFC000>12</color> direct damage.\n\nGain <color=#FFC000>6</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Strikes the first target for [LaserDamage] direct damage, then chains up to three additional targets for [ChainDamage] direct damage.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_1": {
+      "ability_name": "Blast Shield",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Target ally gains <color=#FFC000>30</color> shields until end of turn. Has 2 charges.\n\nGain <color=#FFC000>7</color> energy.",
+      "free_action": true,
+      "max_stocks": 2,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 3,
+      "tooltip": "Target ally gains [ShieldEffect_Shield] shields until end of turn. Has 2 charges.\n\nGain [RewardOnHit_OncePerCast] energy."
+    },
+    "ABILITY_2": {
+      "ability_name": "Black Hole Generator",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Fabricate a miniature black hole on an ally that will detonate next turn, <color=#FFC000>pulling</color> enemies over the black hole and dealing <color=#FFC000>10</color> indirect damage to each. Ignores cover.\n\nGain <color=#FFC000>8</color> energy on use and <color=#FFC000>4</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Fabricate a miniature black hole on an ally that will detonate next turn, [^pulling^] enemies over the black hole and dealing [BombDamageAmount] indirect damage to each. Ignores cover.\n\nGain [RewardOnCast] energy on use and [RewardOnHit_PerEnemyTarget] energy per enemy hit."
+    },
+    "ABILITY_3": {
+      "ability_name": "Disruption Matrix",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Place a disruptive wall, dealing <color=#FFC000>23</color> indirect damage to enemies who move through it, and <color=#FFC000>weakening</color> them next turn.\n\nGain <color=#FFC000>8</color> energy on use and <color=#FFC000>4</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Place a disruptive wall, dealing [BarrierData_EnemyCross_Damage] indirect damage to enemies who move through it, and [^weakening^] them next turn.\n\nGain [RewardOnCast] energy on use and [RewardOnHit_PerEnemyTarget] energy per enemy hit."
+    },
+    "ABILITY_4": {
+      "ability_name": "Battleforged",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Target ally gains <color=#FFC000>60</color> shields. During the <color=#FFC000>Blast Phase</color>, a vortex of energy expands outwards, dealing <color=#FFC000>24</color> indirect damage to nearby enemies. Lasts <color=#FFC000>2</color> turns.\n\nRequires <color=#FFC000>100</color> energy. ",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Target ally gains [TargetAllyOnHitEffect_Shield] shields. During the [^Blast Phase^], a vortex of energy expands outwards, dealing [SweepDamageAmount] indirect damage to nearby enemies. Lasts [SweepDuration] turns.\n\nRequires [EnergyCost] energy. "
+    }
+  },
+  "Neko": {
+    "ABILITY_0": {
+      "ability_name": "Catarang",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Throw out a deadly energy disc, dealing <color=#FFC000>26</color> direct damage to enemies. The disc returns to you next turn, dealing <color=#FFC000>13</color> indirect damage to enemies. The returning disc passes through walls and ignores cover.\n\nGain <color=#FFC000>5</color> energy per enemy hit by outgoing or returning discs.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Throw out a deadly energy disc, dealing [DirectDamage] direct damage to enemies. The disc returns to you next turn, dealing [ReturnTripDamage] indirect damage to enemies. The returning disc passes through walls and ignores cover.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit by outgoing or returning discs."
+    },
+    "ABILITY_1": {
+      "ability_name": "Embiggify",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Empower a returning catarang, increasing its size by 66%, its damage by <color=#FFC000>11</color>, and causing it to <color=#FFC000>slow</color> enemies it passes through.\n\nGain <color=#FFC000>4</color> energy.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Empower a returning catarang, increasing its size by 66%, its damage by [AdditionalDamageAmount], and causing it to [^slow^] enemies it passes through.\n\nGain [RewardOnCast] energy."
+    },
+    "ABILITY_2": {
+      "ability_name": "Mouse Trap",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Throw a seeking catarang that <color=#FFC000>reveals</color> the first target hit. During the next <color=#FFC000>Decision Mode</color>, the seeker disc will lock on to the target's current space, and will travel there during the <color=#FFC000>Blast Phase</color>, dealing <color=#FFC000>26</color> direct damage to all enemies in the way. Ignores cover.\n\nGain <color=#FFC000>5</color> energy and an additional <color=#FFC000>5</color> energy per enemy damaged.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Throw a seeking catarang that [^reveals^] the first target hit. During the next [^Decision Mode^], the seeker disc will lock on to the target's current space, and will travel there during the [^Blast Phase^], dealing [TargetDamage] direct damage to all enemies in the way. Ignores cover.\n\nGain [RewardOnCast] energy and an additional [RewardOnDamage_PerTarget] energy per enemy damaged."
+    },
+    "ABILITY_3": {
+      "ability_name": "Acrocat",
+      "cooldown": 5,
+      "debug_unlocalized_tooltip": "Throw a catarang and dash to a location. Can move after dashing.\n\nGain <color=#FFC000>5</color> energy per enemy hit by outgoing or returning discs.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Throw a catarang and dash to a location. Can move after dashing.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit by outgoing or returning discs."
+    },
+    "ABILITY_4": {
+      "ability_name": "Cataclysm",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Throw out <color=#FFC000>3</color> catarangs. Damage from multiple catarangs does not stack. Can be targeted as a frontal cone, or as a 360.\n\nRequires <color=#FFC000>50</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Throw out [NumDiscs] catarangs. Damage from multiple catarangs does not stack. Can be targeted as a frontal cone, or as a 360.\n\nRequires [^50^] energy."
+    }
+  },
+  "RageBeast": {
+    "ABILITY_0": {
+      "ability_name": "Maul",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Claw your enemies, doing <color=#FFC000>28</color> direct damage to those adjacent to you, and <color=#FFC000>25</color> direct damage to those farther away.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Claw your enemies, doing [DamageAmountInner] direct damage to those adjacent to you, and [DamageAmountOuter] direct damage to those farther away.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_1": {
+      "ability_name": "Upheaval",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "<color=#FFC000>Knockback</color> an enemy, dealing <color=#FFC000>24</color> direct damage. Move cursor in or out to adjust knockback distance.\n\nGain <color=#FFC000>10</color> energy if you hit an enemy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Knockback",
+      "stock_refresh_duration": 0,
+      "tooltip": "[^Knockback^] an enemy, dealing [DamageAmount] direct damage. Move cursor in or out to adjust knockback distance.\n\nGain [RewardOnHit_OncePerCast] energy if you hit an enemy."
+    },
+    "ABILITY_2": {
+      "ability_name": "Pain Train",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Trample over enemies, dealing <color=#FFC000>24</color> direct damage.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Trample over enemies, dealing [DamageAmount] direct damage.\n\nGain [RewardOnHit_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_3": {
+      "ability_name": "Augmented Regeneration",
+      "cooldown": 8,
+      "debug_unlocalized_tooltip": "Gain <color=#FFC000>10</color> health per turn if over <color=#FFC000>65</color> health. Activate when at <color=#FFC000>65</color> or less health to gain <color=#FFC000>15</color> health per turn instead. Last <color=#FFC000>2</color> turns.\n\nGain <color=#FFC000>5</color> energy.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Gain [HealingOnCastIfOver] health per turn if over [HealthThreshold] health. Activate when at [HealthThreshold] or less health to gain [HealingOnCastIfUnder] health per turn instead. Last [StandardActorEffectData_Duration] turns.\n\nGain [RewardOnCast] energy."
+    },
+    "ABILITY_4": {
+      "ability_name": "Uncontrollable Fury",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Automatically activates at full energy, resetting all cooldowns and creating a zone of plasma that deals <color=#FFC000>20</color> indirect damage and lasts for <color=#FFC000>2</color> turns.\n\n<b>Passive:</b> Gain energy when damaged.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Automatically activates at full energy, resetting all cooldowns and creating a zone of plasma that deals [PlasmaDamage] indirect damage and lasts for [PlasmaDuration] turns.\n\n<b>Passive:</b> Gain energy when damaged."
+    }
+  },
+  "Rampart": {
+    "ABILITY_0": {
+      "ability_name": "Radamantium Flurry",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Stab in a line dealing <color=#FFC000>28</color> direct damage, then spin dealing <color=#FFC000>25</color> direct damage to adjacent enemies.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Stab in a line dealing [LaserDamage] direct damage, then spin dealing [ConeDamage] direct damage to adjacent enemies.\n\nGain [RewardOnHit_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_1": {
+      "ability_name": "Bulwark",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Place your shield during the Prep Phase, blocking attacks. Bash enemies during the Blast Phase, inflicting <color=#FFC000>28</color> direct damage and <color=#FFC000>slow</color>.\n\nGain <color=#FFC000>6</color> energy per enemy hit and <color=#FFC000>6</color> energy for each ability blocked.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Place your shield during the Prep Phase, blocking attacks. Bash enemies during the Blast Phase, inflicting [DamageAmount] direct damage and [^slow^].\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit and [ShieldBarrier_OnShot_EnergyOnOwner] energy for each ability blocked."
+    },
+    "ABILITY_2": {
+      "ability_name": "Fusion Lance",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Impale an enemy, dealing <color=#FFC000>28</color> direct damage and <color=#FFC000>pulling</color> the target to you.\n\nGain <color=#FFC000>10</color> energy if you hit an enemy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Knockback",
+      "stock_refresh_duration": 0,
+      "tooltip": "Impale an enemy, dealing [DamageAmount] direct damage and [^pulling^] the target to you.\n\nGain [RewardOnDamage_OncePerCast] energy if you hit an enemy."
+    },
+    "ABILITY_3": {
+      "ability_name": "Unstoppable Force",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Gain <color=#FFC000>unstoppable</color> and <color=#FFC000>haste</color> for the turn.\n\nGain <color=#FFC000>5</color> energy.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Gain [^unstoppable^] and [^haste^] for the turn.\n\nGain [RewardOnCast] energy."
+    },
+    "ABILITY_4": {
+      "ability_name": "Aegis Protocol",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Dash to target location and place your shield, blocking attacks. Enemies you trample over take <color=#FFC000>35</color> direct damage and are <color=#FFC000>slowed</color>. Ignores cover.\n\nRequires <color=#FFC000>100</color> energy. ",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Dash to target location and place your shield, blocking attacks. Enemies you trample over take [DamageAmount] direct damage and are [^slowed^]. Ignores cover.\n\nRequires [EnergyCost] energy. "
+    },
+    "CHAIN_0 R": {
+      "ability_name": "Barricade - Knockback",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": ""
+    }
+  },
+  "RobotAnimal": {
+    "ABILITY_0": {
+      "ability_name": "Megabite",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Chomp on enemies, dealing <color=#FFC000>36</color> direct damage. Recover <color=#FFC000>10</color> health per enemy hit.\n\nGain <color=#FFC000>10</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Chomp on enemies, dealing [DamageAmount] direct damage. Recover [LifePerHit] health per enemy hit.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_1": {
+      "ability_name": "Pounce",
+      "cooldown": 2,
+      "debug_unlocalized_tooltip": "Charge an enemy, automatically chasing the target and dealing <color=#FFC000>35</color> direct damage. Ignores cover. Can jump to allies. \n\nGain <color=#FFC000>12</color> energy if you hit your target.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Charge an enemy, automatically chasing the target and dealing [DamageAmount] direct damage. Ignores cover. Can jump to allies. \n\nGain [RewardOnHit_OncePerCast] energy if you hit your target."
+    },
+    "ABILITY_2": {
+      "ability_name": "Walkies",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Leash an enemy, dealing <color=#FFC000>30</color> direct damage, <color=#FFC000>revealing</color> them until end of next Decision Mode, and forcing them to chase you during the Move Phase.\n\nGain <color=#FFC000>12</color> energy if you hit an enemy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Leash an enemy, dealing [Damage] direct damage, [^revealing^] them until end of next Decision Mode, and forcing them to chase you during the Move Phase.\n\nGain [RewardOnHit_OncePerCast] energy if you hit an enemy."
+    },
+    "ABILITY_3": {
+      "ability_name": "Prowl Protocol",
+      "cooldown": 6,
+      "debug_unlocalized_tooltip": "Gain <color=#FFC000>invisibility</color> and <color=#FFC000>might</color> for <color=#FFC000>3</color> turns. Using an ability will remove these effects at the end of the turn. Allows full movement.\n\nGain <color=#FFC000>10</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Gain [^invisibility^] and [^might^] for [SelfEffect_Duration] turns. Using an ability will remove these effects at the end of the turn. Allows full movement.\n\nGain [RewardOnCast] energy."
+    },
+    "ABILITY_4": {
+      "ability_name": "SubWoof",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Unleash a disorienting howl, dealing <color=#FFC000>40</color> direct damage to enemies and <color=#FFC000>scrambling</color> them next turn.\n\nRequires <color=#FFC000>100</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Unleash a disorienting howl, dealing [Damage] direct damage to enemies and [^scrambling^] them next turn.\n\nRequires [EnergyCost] energy."
+    }
+  },
+  "Samurai": {
+    "ABILITY_0": {
+      "ability_name": "Twin Slash",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Slash twice with your sword, dealing <color=#FFC000>28</color> direct damage. Enemies hit by both slashes take <color=#FFC000>34</color> direct damage.\n\nGain <color=#FFC000>10</color> energy for the first enemy hit and <color=#FFC000>6</color> for each subsequent enemy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Slash twice with your sword, dealing [Damage] direct damage. Enemies hit by both slashes take [Damage_Overlap] direct damage.\n\nGain [^10^] energy for the first enemy hit and [RewardOnDamage_PerTarget] for each subsequent enemy."
+    },
+    "ABILITY_1": {
+      "ability_name": "Ren's Fury",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Gain <color=#FFC000>20</color> shields. If you take direct damage this turn, your blade will become empowered next turn, adding <color=#FFC000>10</color> damage to your next attack.\n\nGain <color=#FFC000>6</color> energy on cast, and <color=#FFC000>3</color> energy each time you take damage this turn.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Gain [BaseShielding] shields. If you take direct damage this turn, your blade will become empowered next turn, adding [^10^] damage to your next attack.\n\nGain [RewardOnCast] energy on cast, and [^3^] energy each time you take damage this turn."
+    },
+    "ABILITY_2": {
+      "ability_name": "Spirit Rend",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Slice the air, creating a piercing wave of energy. Enemies hit take <color=#FFC000>23</color> direct damage and are <color=#FFC000>slowed</color>. Click once to start aiming, then a second time to finish.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Slice the air, creating a piercing wave of energy. Enemies hit take [LaserDamageAmount] direct damage and are [^slowed^]. Click once to start aiming, then a second time to finish.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_3": {
+      "ability_name": "Rushing Steel",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Dash forward and stab, dealing <color=#FFC000>26</color> direct damage to targets hit.\n\nYou can move after using this ability.\n\nGain <color=#FFC000>12</color> energy for the first enemy hit and <color=#FFC000>8</color> for each subsequent enemy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Dash forward and stab, dealing [DamageAmount] direct damage to targets hit.\n\nYou can move after using this ability.\n\nGain [^12^] energy for the first enemy hit and [RewardOnDamage_PerTarget] for each subsequent enemy."
+    },
+    "ABILITY_4": {
+      "ability_name": "Showdown",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Dash to target location, marking the first enemy you travel through. During Blast Phase, the target takes <color=#FFC000>52</color> direct damage and is knocked down. If your target dashes out of the way of this attack, and you do not hit anyone else, you will recover <color=#FFC000>50</color> energy. Ignores cover. \n\nRequires <color=#FFC000>100</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Dash to target location, marking the first enemy you travel through. During Blast Phase, the target takes [DamageAmount] direct damage and is knocked down. If your target dashes out of the way of this attack, and you do not hit anyone else, you will recover [^50^] energy. Ignores cover. \n\nRequires [EnergyCost] energy."
+    },
+    "CHAIN_0 S": {
+      "ability_name": "Base Ability",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Knockback",
+      "stock_refresh_duration": 0,
+      "tooltip": ""
+    }
+  },
+  "Scamp": {
+    "ABILITY_0": {
+      "ability_name": "Doom Ray",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "<color=#0affda>Forceball:</color> Fire two lasers toward target location, creating an explosion. Enemies hit by a laser take <color=#FFC000>16</color> direct damage, while those caught by the explosion take <color=#FFC000>23</color> direct damage. The explosion is smaller the farther away it is.\n\n<color=#ff00ff>On Foot:</color> Fire a single laser toward target location, creating an explosion. Enemies hit by the laser take <color=#FFC000>25</color> direct damage, while those caught by the explosion take <color=#FFC000>31</color> direct damage. The explosion is bigger the farther away it is.\n\nGain <color=#FFC000>7</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "<color=#0affda>Forceball:</color> Fire two lasers toward target location, creating an explosion. Enemies hit by a laser take [LaserDmg_Base] direct damage, while those caught by the explosion take [AoeDmg_Base] direct damage. The explosion is smaller the farther away it is.\n\n<color=#ff00ff>On Foot:</color> Fire a single laser toward target location, creating an explosion. Enemies hit by the laser take [LaserDmgNoSuit_Base] direct damage, while those caught by the explosion take [AoeDmgNoSuit_Base] direct damage. The explosion is bigger the farther away it is.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_1": {
+      "ability_name": "Scamper",
+      "cooldown": 5,
+      "debug_unlocalized_tooltip": "<color=#0affda>Forceball:</color> Dash to target location, dealing <color=#FFC000>23</color> direct damage in an area. <color=#FFC000>5</color> turn cooldown.\n\n<color=#ff00ff>On Foot:</color> Dash to target location. Can move after dashing. <color=#FFC000>2</color> turn cooldown.\n\nGain <color=#FFC000>6</color> energy and an additional <color=#FFC000>4</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "<color=#0affda>Forceball:</color> Dash to target location, dealing [^23^] direct damage in an area. [^5^] turn cooldown.\n\n<color=#ff00ff>On Foot:</color> Dash to target location. Can move after dashing. [^2^] turn cooldown.\n\nGain [RewardOnCast] energy and an additional [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_2": {
+      "ability_name": "Reactive Chains",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Tether to all nearby enemies until the end of <color=#FFC000>Dash Phase</color>. If you or a tethered enemy dashes farther than <color=#FFC000>2.5</color> spaces away from each other, the tethers will react, pulling the enemy up to <color=#FFC000>3</color> squares towards you during <color=#FFC000>Blast Phase</color>.\n\nGain <color=#FFC000>5</color> energy per target hit, and <color=#FFC000>5</color> energy per tether reacting.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Tether to all nearby enemies until the end of [^Dash Phase^]. If you or a tethered enemy dashes farther than [^2.5^] spaces away from each other, the tethers will react, pulling the enemy up to [^3^] squares towards you during [^Blast Phase^].\n\nGain [RewardOnHit_PerTarget] energy per target hit, and [RewardOnHit_PerTarget] energy per tether reacting."
+    },
+    "ABILITY_3": {
+      "ability_name": "Going Ball-istic",
+      "cooldown": 2,
+      "debug_unlocalized_tooltip": "Overcharge yourself, creating a vortex that will explode around you next turn dealing <color=#FFC000>10</color> indirect damage. This damage is increased by <color=#FFC000>1</color> per <color=#FFC000>10</color> missing shields, dealing up to <color=#FFC000>20</color> damage with no shields remaining. <color=#FFC000>Slows</color> enemies hit.\n\nGain <color=#FFC000>5</color> energy per enemy hit.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Overcharge yourself, creating a vortex that will explode around you next turn dealing [^10^] indirect damage. This damage is increased by [^1^] per [^10^] missing shields, dealing up to [^20^] damage with no shields remaining. [^Slows^] enemies hit.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_4": {
+      "ability_name": "Suit Up",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Convert all of your energy into shields. Cannot exceed <color=#FFC000>100</color> shields. If <color=#ff00ff>On Foot</color>, using this ability reconstitutes the <color=#0affda>Forceball</color>.\n\nIf your shields are depleted, this ability goes on a <color=#FFC000>3</color> turn cooldown and the <color=#0affda>Forceball</color> shatters into <color=#FFC000>5</color> energy crystals. Collect these to gain <color=#FFC000>10</color> energy per crystal. Remaining crystals are removed upon using Suit Up or death.\n\nWhen the <color=#0affda>Forceball</color> is destroyed you are considered <color=#ff00ff>On Foot</color>, which changes the functionality of your 1st and 2nd abilities, and disables your 3rd and 4th.\n\nYou do not generate energy naturally and lose all energy upon death.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Convert all of your energy into shields. Cannot exceed [^100^] shields. If <color=#ff00ff>On Foot</color>, using this ability reconstitutes the <color=#0affda>Forceball</color>.\n\nIf your shields are depleted, this ability goes on a [^3^] turn cooldown and the <color=#0affda>Forceball</color> shatters into [^5^] energy crystals. Collect these to gain [^10^] energy per crystal. Remaining crystals are removed upon using Suit Up or death.\n\nWhen the <color=#0affda>Forceball</color> is destroyed you are considered <color=#ff00ff>On Foot</color>, which changes the functionality of your 1st and 2nd abilities, and disables your 3rd and 4th.\n\nYou do not generate energy naturally and lose all energy upon death."
+    }
+  },
+  "luckyscoundrel": {
+    "ABILITY_0": {
+      "ability_name": "Trick Shot",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Fire a trick shot dealing <color=#FFC000>33</color> direct damage to an enemy. This shot can bounce off walls.\n\nGain <color=#FFC000>12</color> energy if you hit an enemy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Fire a trick shot dealing [DamageAmount] direct damage to an enemy. This shot can bounce off walls.\n\nGain [RewardOnDamage_OncePerCast] energy if you hit an enemy."
+    },
+    "ABILITY_1": {
+      "ability_name": "Light 'em Up!",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Fire a barrage of bullets, dealing <color=#FFC000>30</color> direct damage to enemies.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Fire a barrage of bullets, dealing [DamageAmount] direct damage to enemies.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_2": {
+      "ability_name": "Trapwire",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Toss a laser trap on the ground. Enemies that move through it take <color=#FFC000>35</color> indirect damage. The trap lasts up to <color=#FFC000>2</color> turns.\n\nGain <color=#FFC000>12</color> energy if you hit any enemy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Toss a laser trap on the ground. Enemies that move through it take [Wall_EnemyCross_Damage] indirect damage. The trap lasts up to [Wall_Duration] turns.\n\nGain [RewardOnDamage_OncePerCast] energy if you hit any enemy."
+    },
+    "ABILITY_3": {
+      "ability_name": "Backup Plan",
+      "cooldown": 7,
+      "debug_unlocalized_tooltip": "Dash to target position. Taking damage reduces this ability's cooldown by <color=#FFC000>1</color> at the end of the turn.\n\nGain <color=#FFC000>10</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Dash to target position. Taking damage reduces this ability's cooldown by [CDR_OnDamageTaken] at the end of the turn.\n\nGain [RewardOnCast] energy."
+    },
+    "ABILITY_4": {
+      "ability_name": "Run and Gun",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Dash to target position, dealing <color=#FFC000>40</color> direct damage to enemies along the way.\n\nRequires <color=#FFC000>100</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Dash to target position, dealing [DamageAmount] direct damage to enemies along the way.\n\nRequires [EnergyCost] energy."
+    }
+  },
+  "Sensei": {
+    "ABILITY_0": {
+      "ability_name": "Martial Master",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Strike downwards in a line for <color=#FFC000>26</color> direct damage or in a circle for <color=#FFC000>22</color> direct damage.\n\nGain <color=#FFC000>6</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Strike downwards in a line for [LaserDamage] direct damage or in a circle for [CircleDamage] direct damage.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_1": {
+      "ability_name": "Serenity",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Heal yourself for <color=#FFC000>18</color> and allies for <color=#FFC000>24</color> health.\n\nGain <color=#FFC000>4</color> energy per target hit.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Heal yourself for [SelfHeal] and allies for [HealAmount] health.\n\nGain [RewardOnHit_PerTarget] energy per target hit."
+    },
+    "ABILITY_2": {
+      "ability_name": "Shifting Winds",
+      "cooldown": 5,
+      "debug_unlocalized_tooltip": "Dash to an enemy, dealing <color=#FFC000>20</color> direct damage or an ally, healing for <color=#FFC000>20</color>. Can be used two turns in a row but must target an enemy if an ally was targeted first and vice versa.\n\nGain <color=#FFC000>12</color> energy on hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Dash to an enemy, dealing [Damage] direct damage or an ally, healing for [HealOnAlly]. Can be used two turns in a row but must target an enemy if an ally was targeted first and vice versa.\n\nGain [RewardOnHit_OncePerCast] energy on hit."
+    },
+    "ABILITY_3": {
+      "ability_name": "Spirit Bend",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Grants might to target ally or weak to target enemy until their next attack within <color=#FFC000>2</color> turns. If that target attacks, anyone hit by the attack gains the opposite status effect.\n\nGain <color=#FFC000>10</color> energy on hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Grants might to target ally or weak to target enemy until their next attack within [EnemyCastHitEffectData_Duration] turns. If that target attacks, anyone hit by the attack gains the opposite status effect.\n\nGain [RewardOnCast] energy on hit."
+    },
+    "ABILITY_4": {
+      "ability_name": "Karmic Justice",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Grant a target <color=#FFC000>100</color> shields until end of the turn. Next turn a Chi Explosion originates from the target dealing up to <color=#FFC000>50</color> indirect damage, starting at <color=#FFC000>25</color> damage and increasing by <color=#FFC000>1</color> for every <color=#FFC000>4</color> damage taken during the first turn.\n\nCosts <color=#FFC000>100</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Grant a target [AdditionalTargetHitEffect_Shield] shields until end of the turn. Next turn a Chi Explosion originates from the target dealing up to [MaxDamage] indirect damage, starting at [BaseDamage] damage and increasing by [^1^] for every [^4^] damage taken during the first turn.\n\nCosts [EnergyCost] energy."
+    }
+  },
+  "Sniper": {
+    "ABILITY_0": {
+      "ability_name": "Headshot",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Snipe an enemy, dealing <color=#FFC000>35</color> direct damage.\n\nGain <color=#FFC000>12</color> energy if you hit an enemy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Snipe an enemy, dealing [LaserDamageAmount] direct damage.\n\nGain [RewardOnDamage_OncePerCast] energy if you hit an enemy."
+    },
+    "ABILITY_1": {
+      "ability_name": "Stalker Suit",
+      "cooldown": 5,
+      "debug_unlocalized_tooltip": "Grants <color=#FFC000>invisibility</color> until the end of next turn. Using an ability or getting hit reveals you temporarily.\n\nGain <color=#FFC000>8</color> energy.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Grants [^invisibility^] until the end of next turn. Using an ability or getting hit reveals you temporarily.\n\nGain [RewardOnCast] energy."
+    },
+    "ABILITY_2": {
+      "ability_name": "Overwatch Drone",
+      "cooldown": 2,
+      "debug_unlocalized_tooltip": "Place a drone that watches a direction. The first enemy to cross the line takes <color=#FFC000>30</color> indirect damage. The drone lasts <color=#FFC000>2</color> turns.\n\nGain <color=#FFC000>10</color> energy if you hit an enemy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Place a drone that watches a direction. The first enemy to cross the line takes [DroneBarrier_Damage] indirect damage. The drone lasts [Duration] turns.\n\nGain [RewardOnDamage_OncePerCast] energy if you hit an enemy."
+    },
+    "ABILITY_3": {
+      "ability_name": "Vortex Round",
+      "cooldown": 5,
+      "debug_unlocalized_tooltip": "Fire an exploding round that deals <color=#FFC000>30</color> direct damage to the target and <color=#FFC000>20</color> direct damage to the surrounding enemies. The main target is <color=#FFC000>slowed</color> for the turn.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Fire an exploding round that deals [LaserDamageAmount] direct damage to the target and [ExplosionDamageAmount] direct damage to the surrounding enemies. The main target is [^slowed^] for the turn.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_4": {
+      "ability_name": "Fusion Pulse",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Unleash an experimental round that deals <color=#FFC000>50</color> direct damage to all enemies in its path. Shoots through walls and ignores cover.\n\nRequires <color=#FFC000>100</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Unleash an experimental round that deals [LaserDamageAmount] direct damage to all enemies in its path. Shoots through walls and ignores cover.\n\nRequires [EnergyCost] energy."
+    }
+  },
+  "Soldier": {
+    "ABILITY_0": {
+      "ability_name": "Equalizer",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Can fire in a line at a single target dealing <color=#FFC000>33</color> direct damage or in a cone dealing <color=#FFC000>20</color> direct damage to enemies hit.\n\nGain <color=#FFC000>12</color> energy on single target hit or <color=#FFC000>6</color> energy per cone target hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Can fire in a line at a single target dealing [LaserDamage] direct damage or in a cone dealing [ConeDamage] direct damage to enemies hit.\n\nGain [ExtraEnergyForLaser] energy on single target hit or [ExtraEnergyForCone] energy per cone target hit."
+    },
+    "ABILITY_1": {
+      "ability_name": "Proteus Grenade",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Throw a grenade dealing <color=#FFC000>27</color> direct damage. Can be targeted through walls.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Throw a grenade dealing [DamageAmount] direct damage. Can be targeted through walls.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_2": {
+      "ability_name": "Adrenal Stim",
+      "cooldown": 5,
+      "debug_unlocalized_tooltip": "Grants <color=#FFC000>haste</color> and <color=#FFC000>might</color> until the end of the turn.\n\nGain <color=#FFC000>5</color> energy on use.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Grants [^haste^] and [^might^] until the end of the turn.\n\nGain [RewardOnCast] energy on use."
+    },
+    "ABILITY_3": {
+      "ability_name": "Blitz",
+      "cooldown": 5,
+      "debug_unlocalized_tooltip": "Dash next to cover then aim in a line at a single target dealing <color=#FFC000>33</color> direct damage or in a cone dealing <color=#FFC000>20</color> direct damage to enemies hit. Fires during Blast Phase.\n\nGain <color=#FFC000>12</color> energy on single target hit or <color=#FFC000>6</color> energy per cone target hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Dash next to cover then aim in a line at a single target dealing [LaserDamage] direct damage or in a cone dealing [OverwatchDamage] direct damage to enemies hit. Fires during Blast Phase.\n\nGain [ExtraEnergyForLaser] energy on single target hit or [ExtraEnergyForCone] energy per cone target hit."
+    },
+    "ABILITY_4": {
+      "ability_name": "Scorched Earth",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Call in an airship to attack enemies in a line across the map, dealing <color=#FFC000>40</color> direct damage. You choose the direct of the bombardment.\n\nRequires <color=#FFC000>100</color> energy. ",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Call in an airship to attack enemies in a line across the map, dealing [DamageAmount] direct damage. You choose the direct of the bombardment.\n\nRequires [EnergyCost] energy. "
+    }
+  },
+  "SpaceMarine": {
+    "ABILITY_0": {
+      "ability_name": "Piston Punch",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Punch the closest enemy for <color=#FFC000>29</color> direct damage. Other enemies in range take <color=#FFC000>25</color> direct damage.\n\nGain <color=#FFC000>10</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Punch the closest enemy for [TotalDamage_Closest] direct damage. Other enemies in range take [BaseDamage] direct damage.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_1": {
+      "ability_name": "Hand Cannon",
+      "cooldown": 1,
+      "debug_unlocalized_tooltip": "Blast an enemy, inflicting <color=#FFC000>24</color> direct damage and <color=#FFC000>slowing</color> the target. Enemies caught in the secondary blast take <color=#FFC000>14</color> direct damage.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Blast an enemy, inflicting [PrimaryDamage] direct damage and [^slowing^] the target. Enemies caught in the secondary blast take [ConeDamage] direct damage.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_2": {
+      "ability_name": "Missile Barrage",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "After a <color=#FFC000>1</color> turn delay, launch missiles that deal <color=#FFC000>10</color> indirect damage to <color=#FFC000>5</color> nearby enemies. Ignores cover.\n\nGain <color=#FFC000>6</color> energy per enemy hit.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "After a [DelayTurns] turn delay, launch missiles that deal [Damage] indirect damage to [Missiles] nearby enemies. Ignores cover.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_3": {
+      "ability_name": "Heavy Metal",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Jumps to target location, inflicting <color=#FFC000>24</color> direct damage and <color=#FFC000>slow</color> on nearby enemies. Garrison also gains <color=#FFC000>15</color> shields until end of next turn.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Jumps to target location, inflicting [Damage] direct damage and [^slow^] on nearby enemies. Garrison also gains [EffectOnSelf_Shield] shields until end of next turn.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_4": {
+      "ability_name": "Shockpod",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Call down a drop pod to target location anywhere on the map, dealing <color=#FFC000>32</color> direct damage. Spawns four minor power-ups that recover <color=#FFC000>10</color> health each.\n\nRequires <color=#FFC000>100</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Call down a drop pod to target location anywhere on the map, dealing [DamageAmount] direct damage. Spawns four minor power-ups that recover [PowerupHealing] health each.\n\nRequires [EnergyCost] energy."
+    }
+  },
+  "Spark": {
+    "ABILITY_0": {
+      "ability_name": "Gamma Ray",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Attaches a bond to an enemy that deals <color=#FFC000>24</color> direct damage and <color=#FFC000>reveals</color> them, then deals <color=#FFC000>24</color> indirect damage each turn while the bond remains intact. The bond breaks if the enemy gets too far away.\n\nGain <color=#FFC000>5</color> energy and <color=#FFC000>3</color> health each turn if attached.\n",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Attaches a bond to an enemy that deals [Damage_PerTurnAfterFirst] direct damage and [^reveals^] them, then deals [Damage_PerTurnAfterFirst] indirect damage each turn while the bond remains intact. The bond breaks if the enemy gets too far away.\n\nGain [EnergyOnCasterPerTurn] energy and [Heal_OnCasterPerTurn] health each turn if attached.\n"
+    },
+    "ABILITY_1": {
+      "ability_name": "Atomic Bond",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Attaches a bond to an ally that restores <color=#FFC000>10</color> health each turn. The bond breaks if the ally is too far away.\n\nGain <color=#FFC000>3</color> energy and <color=#FFC000>3</color> health each turn if attached.\n",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Attaches a bond to an ally that restores [Heal_PerTurnAfterFirst] health each turn. The bond breaks if the ally is too far away.\n\nGain [EnergyOnCasterPerTurn] energy and [Heal_OnCasterPerTurn] health each turn if attached.\n"
+    },
+    "ABILITY_2": {
+      "ability_name": "Radiate",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Increase the strength of an attached Gamma Ray by <color=#FFC000>6</color> and causes an attached Atomic Bond to grant the target <color=#FFC000>10</color> shields.\n\nGain <color=#FFC000>5</color> energy on use.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Defense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Increase the strength of an attached Gamma Ray by [RadiatedDamage_Diff] and causes an attached Atomic Bond to grant the target [AllyBuffEffect_Shield] shields.\n\nGain [RewardOnHit_OncePerCast] energy on use."
+    },
+    "ABILITY_3": {
+      "ability_name": "Quantum Collision",
+      "cooldown": 6,
+      "debug_unlocalized_tooltip": "Dash to a location adjacent to an enemy or an ally, attaching a bond to that target.\n\nGain <color=#FFC000>10</color> energy if you hit your target.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Dash to a location adjacent to an enemy or an ally, attaching a bond to that target.\n\nGain [RewardOnHit_OncePerCast] energy if you hit your target."
+    },
+    "ABILITY_4": {
+      "ability_name": "Positronic Surge",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Unleash a blast of energy that restores <color=#FFC000>20</color> health to you and your allies, and grants <color=#FFC000>15</color> shields and <color=#FFC000>energize</color> until end of turn.\n\nRequires <color=#FFC000>100</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Unleash a blast of energy that restores [Heal_OnAlly] health to you and your allies, and grants [EffectOnAlly_Shield] shields and [^energize^] until end of turn.\n\nRequires [EnergyCost] energy."
+    }
+  },
+  "TeleportingNinja": {
+    "ABILITY_0": {
+      "ability_name": "Twisting Blades",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Deal <color=#FFC000>35</color> direct damage to enemies in the front arc and <color=#FFC000>25</color> direct damage to enemies in the side arcs.\n\n<color=#FFC000><b>Void Mark:</b></color> Deal <color=#FFC000>10</color> more damage to the target if you damaged them last turn.\n\nGain <color=#FFC000>12</color> energy for the first enemy hit and <color=#FFC000>4</color> for each subsequent enemy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Deal [InnerAreaDamage] direct damage to enemies in the front arc and [DamageAmount] direct damage to enemies in the side arcs.\n\n[^<b>Void Mark:</b>^] Deal [^10^] more damage to the target if you damaged them last turn.\n\nGain [^12^] energy for the first enemy hit and [RewardOnDamage_PerTarget] for each subsequent enemy."
+    },
+    "ABILITY_1": {
+      "ability_name": "Razor Tempest",
+      "cooldown": 1,
+      "debug_unlocalized_tooltip": "Throw <color=#FFC000>3</color> shurikens, each dealing <color=#FFC000>20</color> direct damage. Deals <color=#FFC000>5</color> additional damage for each shuriken that hits the same target.\n\n<color=#FFC000><b>Void Mark:</b></color> Deal <color=#FFC000>10</color> more damage to the target if you damaged them last turn.\n\nGain <color=#FFC000>8</color> energy for the first hit and <color=#FFC000>2</color> for each other hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Throw [LaserCount] shurikens, each dealing [Damage] direct damage. Deals [ExtraDamagePerSubseqHit] additional damage for each shuriken that hits the same target.\n\n[^<b>Void Mark:</b>^] Deal [^10^] more damage to the target if you damaged them last turn.\n\nGain [^8^] energy for the first hit and [EnergyPerDartHit] for each other hit."
+    },
+    "ABILITY_2": {
+      "ability_name": "Void Strike",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Teleport to an enemy and slash them, dealing <color=#FFC000>33</color> direct damage.\n\nYou can move after teleporting.\n\n<color=#FFC000><b>Void Mark:</b></color> Deal <color=#FFC000>10</color> more damage to the target if you damaged them last turn.\n\nGain <color=#FFC000>12</color> energy on hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Teleport to an enemy and slash them, dealing [DashDamage] direct damage.\n\nYou can move after teleporting.\n\n[^<b>Void Mark:</b>^] Deal [^10^] more damage to the target if you damaged them last turn.\n\nGain [RewardOnDamage_PerTarget] energy on hit."
+    },
+    "ABILITY_3": {
+      "ability_name": "Shadowstalker",
+      "cooldown": 5,
+      "debug_unlocalized_tooltip": "Drop a smoke bomb at your location that blocks enemy line of sight until the end of next turn. Gain <color=#FFC000>invisibility</color> until the end of next Decision Mode.\n\nGain <color=#FFC000>8</color> energy on cast.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Drop a smoke bomb at your location that blocks enemy line of sight until the end of next turn. Gain [^invisibility^] until the end of next Decision Mode.\n\nGain [RewardOnCast] energy on cast."
+    },
+    "ABILITY_4": {
+      "ability_name": "Spectre of Death",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Teleport to a location, dealing <color=#FFC000>50</color> direct damage if there is only one target in the area. If there is more than one target in the area, the damage dealt to all targets is reduced by <color=#FFC000>8</color> for each target after the first. Ignores Cover.\n\nYou can move after teleporting.\n\n<color=#FFC000><b>Void Mark:</b></color> Deal <color=#FFC000>10</color> more damage to the target if you damaged them last turn.\n\nRequires <color=#FFC000>100</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Teleport to a location, dealing [BaseDamage] direct damage if there is only one target in the area. If there is more than one target in the area, the damage dealt to all targets is reduced by [DamageChangePerEnemyAfterFirst] for each target after the first. Ignores Cover.\n\nYou can move after teleporting.\n\n[^<b>Void Mark:</b>^] Deal [^10^] more damage to the target if you damaged them last turn.\n\nRequires [^100^] energy."
+    }
+  },
+  "Thief": {
+    "ABILITY_0": {
+      "ability_name": "Strong Arm",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Launch two grapplers, each dealing <color=#FFC000>24</color> direct damage, or <color=#FFC000>33</color> direct damage if they hit the same target. Grapplers can target power-ups instead of enemies to grab them.\n\nGain <color=#FFC000>6</color> energy for each hit including power-ups.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Launch two grapplers, each dealing [LaserDamageAmount] direct damage, or [LaserDamageTotalCombined] direct damage if they hit the same target. Grapplers can target power-ups instead of enemies to grab them.\n\nGain [EnergyGainPerLaserHit] energy for each hit including power-ups."
+    },
+    "ABILITY_1": {
+      "ability_name": "Proximo Charge",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Place a <color=#FFC000>4</color> turn duration trap that is invisible to enemies. If an enemy is on the trap during blast phase the trap explodes, dealing <color=#FFC000>26</color> indirect damage. The trap takes one turn to arm and cannot detonate the turn it is placed.\n\nGain <color=#FFC000>12</color> energy if an enemy is hit.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Place a [^4^] turn duration trap that is invisible to enemies. If an enemy is on the trap during blast phase the trap explodes, dealing [GroundEffect_Damage] indirect damage. The trap takes one turn to arm and cannot detonate the turn it is placed.\n\nGain [RewardOnDamage_OncePerCast] energy if an enemy is hit."
+    },
+    "ABILITY_2": {
+      "ability_name": "Smoke Bombs",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Throw two smoke bombs that last until end of next turn. Smoke bombs block enemy line of sight and deal <color=#FFC000>26</color> direct damage on initial hit.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Throw two smoke bombs that last until end of next turn. Smoke bombs block enemy line of sight and deal [ExtraDamageOnCast] direct damage on initial hit.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_3": {
+      "ability_name": "On the Run",
+      "cooldown": 5,
+      "debug_unlocalized_tooltip": "Dash to two locations in quick succession. Enemies hit take <color=#FFC000>26</color> direct damage.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Dash to two locations in quick succession. Enemies hit take [DamageAmount] direct damage.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_4": {
+      "ability_name": "Safecracker",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Fire two empowered grapplers, dealing <color=#FFC000>40</color> direct damage, or <color=#FFC000>50</color> direct damage if they hit the same target. If an enemy hit has <color=#FFC000>might</color>, <color=#FFC000>energize</color>, or <color=#FFC000>haste</color>, you gain that effect next turn.\n\nRequires <color=#FFC000>100</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Fire two empowered grapplers, dealing [LaserDamageAmount] direct damage, or [LaserDamageTotalCombined] direct damage if they hit the same target. If an enemy hit has [^might^], [^energize^], or [^haste^], you gain that effect next turn.\n\nRequires [EnergyCost] energy."
+    }
+  },
+  "Tracker": {
+    "ABILITY_0": {
+      "ability_name": "Tracer Bolt",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Deals <color=#FFC000>34</color> direct damage and tracks the target for <color=#FFC000>2</color> turns. Tracked targets are <color=#FFC000>revealed</color>.\n\nGain <color=#FFC000>12</color> energy if you hit an enemy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Deals [Damage] direct damage and tracks the target for [TrackedEffect_Duration] turns. Tracked targets are [^revealed^].\n\nGain [RewardOnDamage_OncePerCast] energy if you hit an enemy."
+    },
+    "ABILITY_1": {
+      "ability_name": "Hawk Drone",
+      "cooldown": 2,
+      "debug_unlocalized_tooltip": "Send out your drone, dealing <color=#FFC000>12</color> indirect damage to untracked targets or <color=#FFC000>16</color> indirect damage to tracked ones. The drone stays at the location, shooting enemies during the Blast Phase until an ability moves it. These attacks ignore cover.\n\nGain <color=#FFC000>4</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Send out your drone, dealing [DamageOnUntracked] indirect damage to untracked targets or [DamageOnTracked] indirect damage to tracked ones. The drone stays at the location, shooting enemies during the Blast Phase until an ability moves it. These attacks ignore cover.\n\nGain [RewardOnHit_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_2": {
+      "ability_name": "Tranquilizer Dart",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Launch a dart that <color=#FFC000>weakens</color> enemies until end of turn. Enemies hit by a dart are tracked and <color=#FFC000>revealed</color> for <color=#FFC000>2</color> turns.\n\nGain <color=#FFC000>6</color> energy per target hit.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Launch a dart that [^weakens^] enemies until end of turn. Enemies hit by a dart are tracked and [^revealed^] for [TrackedEffect_Duration] turns.\n\nGain [RewardOnHit_PerTarget] energy per target hit."
+    },
+    "ABILITY_3": {
+      "ability_name": "Slip Away",
+      "cooldown": 6,
+      "debug_unlocalized_tooltip": "",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Escape to target location adjacent to your drone.\n\nGain [RewardOnCast] energy."
+    },
+    "ABILITY_4": {
+      "ability_name": "Voltaic Cage",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Command your drone to target location, where it creates a cage for <color=#FFC000>2</color> turns. Enemies that cross a barrier are <color=#FFC000>rooted</color> and take <color=#FFC000>22</color> indirect damage.\n\nRequires <color=#FFC000>100</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Command your drone to target location, where it creates a cage for [Wall_Duration] turns. Enemies that cross a barrier are [^rooted^] and take [Wall_EnemyCross_Damage] indirect damage.\n\nRequires [EnergyCost] energy."
+    }
+  },
+  "Trickster": {
+    "ABILITY_0": {
+      "ability_name": "Phaser Laser",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Oz and his afterimages fire lasers that deal <color=#FFC000>26</color> direct damage, and an additional <color=#FFC000>10</color> direct damage per extra laser hitting the target. \n\nGain <color=#FFC000>7</color> energy for each attack that hits.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Oz and his afterimages fire lasers that deal [LaserDamageAmount] direct damage, and an additional [LaserSubsequentDamageAmount] direct damage per extra laser hitting the target. \n\nGain [EnergyGainPerLaserHit] energy for each attack that hits."
+    },
+    "ABILITY_1": {
+      "ability_name": "Photon Spray",
+      "cooldown": 2,
+      "debug_unlocalized_tooltip": "Oz and his afterimages fire photonic energy that deals <color=#FFC000>22</color> direct damage, and an additional <color=#FFC000>10</color> direct damage per extra spray hitting the target.\n\nGain <color=#FFC000>7</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Oz and his afterimages fire photonic energy that deals [DamageAmount] direct damage, and an additional [SubsequentDamageAmount] direct damage per extra spray hitting the target.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_2": {
+      "ability_name": "Zap Trap",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Create a damage field around Oz and his afterimages that deals <color=#FFC000>24</color> direct damage, and an additional <color=#FFC000>10</color> direct damage per field hitting the target that turn. Lasts until the end of next turn.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Create a damage field around Oz and his afterimages that deals [GroundEffect_Damage] direct damage, and an additional [GroundEffect_SubsequentDamage] direct damage per field hitting the target that turn. Lasts until the end of next turn.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_3": {
+      "ability_name": "Made You Look",
+      "cooldown": 4,
+      "debug_unlocalized_tooltip": "Switch locations with target afterimage. Abilities can be used as normal.\n\nYou can move after switching locations.\n\nGain <color=#FFC000>5</color> energy.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Switch locations with target afterimage. Abilities can be used as normal.\n\nYou can move after switching locations.\n\nGain [RewardOnCast] energy."
+    },
+    "ABILITY_4": {
+      "ability_name": "Catch Me If You Can",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Dash to target location then select two additional locations for afterimages to travel to. Oz and his afterimages each deal <color=#FFC000>25</color> direct damage and an additional <color=#FFC000>10</color> direct damage per extra hit. Gain <color=#FFC000>unstoppable</color> for the turn.\n\nRequires <color=#FFC000>100</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Dash to target location then select two additional locations for afterimages to travel to. Oz and his afterimages each deal [DamageAmount] direct damage and an additional [SubsequentDamageAmount] direct damage per extra hit. Gain [^unstoppable^] for the turn.\n\nRequires [EnergyCost] energy."
+    }
+  },
+  "Valkyrie": {
+    "ABILITY_0": {
+      "ability_name": "Impale",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Stab with your spear, dealing <color=#FFC000>28</color> direct damage. Each target hit takes <color=#FFC000>5</color> less damage than the previous.\n\nGain <color=#FFC000>8</color> energy per enemy hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Damage",
+      "stock_refresh_duration": 0,
+      "tooltip": "Stab with your spear, dealing [Damage] direct damage. Each target hit takes [LessDamagePerTarget] less damage than the previous.\n\nGain [RewardOnDamage_PerTarget] energy per enemy hit."
+    },
+    "ABILITY_1": {
+      "ability_name": "Aegis",
+      "cooldown": 2,
+      "debug_unlocalized_tooltip": "Gain <color=#FFC000>Cover</color> in a direction for one turn, reducing damage from attacks.\n\nGain <color=#FFC000>4</color> energy for each attack covered against.",
+      "free_action": true,
+      "max_stocks": 0,
+      "movement_adjustment": "FullMovement",
+      "run_priority": "Prep_Offense",
+      "stock_refresh_duration": 0,
+      "tooltip": "Gain [^Cover^] in a direction for one turn, reducing damage from attacks.\n\nGain [TechPointGainPerCoveredHit] energy for each attack covered against."
+    },
+    "ABILITY_2": {
+      "ability_name": "Soaring Shield",
+      "cooldown": 3,
+      "debug_unlocalized_tooltip": "Throw your shield, dealing <color=#FFC000>28</color> direct damage to the first enemy hit, and knocking them back. This attack can bounce off walls.\n\nGain <color=#FFC000>12</color> energy on hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Knockback",
+      "stock_refresh_duration": 0,
+      "tooltip": "Throw your shield, dealing [DamageAmount] direct damage to the first enemy hit, and knocking them back. This attack can bounce off walls.\n\nGain [RewardOnDamage_OncePerCast] energy on hit."
+    },
+    "ABILITY_3": {
+      "ability_name": "Flight of the Valkyrie",
+      "cooldown": 5,
+      "debug_unlocalized_tooltip": "Dash to a location and unleash a cone attack, dealing <color=#FFC000>26</color> direct damage to enemies and inflicting <color=#FFC000>weak</color> until end of turn. <color=#FFC000>Aegis</color> is activated automatically in the direction of your attack.\n\nGain <color=#FFC000>8</color> energy per target hit.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "NoMovement",
+      "run_priority": "Evasion",
+      "stock_refresh_duration": 0,
+      "tooltip": "Dash to a location and unleash a cone attack, dealing [Damage] direct damage to enemies and inflicting [^weak^] until end of turn. [^Aegis^] is activated automatically in the direction of your attack.\n\nGain [RewardOnHit_PerEnemyTarget] energy per target hit."
+    },
+    "ABILITY_4": {
+      "ability_name": "Spear of Hyperion",
+      "cooldown": 0,
+      "debug_unlocalized_tooltip": "Hurl your spear with the strength of Hyperion, dealing <color=#FFC000>37</color> direct damage and <color=#FFC000>pulling</color> enemies toward the center of the targeter.\n\nRequires <color=#FFC000>100</color> energy.",
+      "free_action": false,
+      "max_stocks": 0,
+      "movement_adjustment": "ReducedMovement",
+      "run_priority": "Combat_Knockback",
+      "stock_refresh_duration": 0,
+      "tooltip": "Hurl your spear with the strength of Hyperion, dealing [^37^] direct damage and [^pulling^] enemies toward the center of the targeter.\n\nRequires [EnergyCost] energy."
+    }
+  }
+}
