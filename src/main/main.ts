@@ -786,6 +786,7 @@ const createWindow = async () => {
         overwrite: true,
         onStarted: (item) => updateCurrentDownloadItem(item),
         onProgress: (status) => {
+          status.percent = Math.round(status.percent);
           mainWindow?.webContents.send('download progress', {
             id: i,
             fileName,
