@@ -1,3 +1,24 @@
+### Release Notes: Version 2.1.1
+
+## Improvements
+
+- **Mentor**
+
+  - Because of new Mentor ICON in game i have changed the launcher to be same icon
+  - Icon is moved next to the name of the player
+  - Special Effect for mentors is now orange (same as icon)
+  - Changed title of Mentors to `Mentor` (Looking at stats outside the game) and `Mentor/Online` `Mentor/In Game` etc... when they are online
+
+## Bug Fixes
+
+- **Launcher update**
+
+  - Rounded the percentage of the text
+
+- **Username**
+
+  - When a username is to long it will be a smaller font size to fit the box (On the Player box thingie)
+
 ### Release Notes: Version 2.1.0 - Such thing as too much stats?
 
 ## New Features

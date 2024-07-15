@@ -57,7 +57,7 @@ export function trustIcon(trust: string) {
 }
 
 export function mentorIcon() {
-  return `${path}/img/mentor.png`;
+  return `${path}/img/mentorv2.png`;
 }
 
 export function catalystsIcon(catalyst: Number) {
