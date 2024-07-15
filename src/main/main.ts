@@ -23,7 +23,7 @@ import { initialize, trackEvent } from '@aptabase/electron/main';
 import AuthClient from './discord/services/auth';
 import { Worker as NativeWorker } from 'worker_threads';
 import { autoUpdater } from 'electron-updater';
-import fs, { stat } from 'fs';
+import fs from 'fs';
 import log from 'electron-log';
 import { oauthConfig } from './discord/config/config';
 import path from 'path';
