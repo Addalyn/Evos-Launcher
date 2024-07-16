@@ -17,6 +17,23 @@ import { strapiClient } from 'renderer/lib/strapi';
 // eslint-disable-next-line import/no-cycle
 import { Games } from '../stats/PreviousGamesPlayed';
 
+type AbilityGameSummaryList = {
+  AbilityClassName: string;
+  AbilityName: string;
+  ActionType: number;
+  CastCount: number;
+  ModName: string;
+  TauntCount: number;
+  TotalAbsorb: number;
+  TotalDamage: number;
+  TotalEnergyGainOnSelf: number;
+  TotalEnergyGainToOthers: number;
+  TotalEnergyLossToOthers: number;
+  TotalHealing: number;
+  TotalPotentialAbsorb: number;
+  TotalTargetsHit: number;
+};
+
 type PlayerType = {
   id: number;
   game_id: number;
@@ -31,6 +48,26 @@ type PlayerType = {
   createdAt: string;
   updatedAt: string;
   team: string;
+  TotalHealingReceived: number;
+  TotalPlayerAbsorb: number;
+  PowerupsCollected: number;
+  DamageAvoidedByEvades: Number;
+  MyIncomingDamageReducedByCover: Number;
+  MyOutgoingExtraDamageFromEmpowered: Number;
+  MyOutgoingReducedDamageFromWeakened: Number;
+  MovementDeniedByMe: Number;
+  EnemiesSightedPerTurn: Number;
+  DashCatalystUsed: boolean;
+  DashCatalystName: string;
+  CombatCatalystUsed: boolean;
+  CombatCatalystName: string;
+  PrepCatalystUsed: boolean;
+  PrepCatalystName: string;
+  advancedstats: AbilityGameSummaryList[];
+  Deadliest: boolean;
+  Supportiest: boolean;
+  Tankiest: boolean;
+  MostDecorated: boolean;
 };
 
 type Game = {
