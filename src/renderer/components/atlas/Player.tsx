@@ -178,7 +178,28 @@ function Player({ info, disableSkew, characterType, title }: Props) {
             fontSize: '2.5em',
           }}
         >
-          <Typography component="span" style={{ fontSize: '1em' }}>
+          <Typography
+            component="span"
+            style={{ fontSize: username.length > 18 ? '0.8em' : '1em' }}
+          >
+            {mentor ? (
+              <img
+                style={{
+                  width: 28,
+                  height: 28,
+                  padding: '0px',
+                  zIndex: 1000,
+                  flex: 'none',
+                  margin: '-5px -3px -8px -5px',
+                  // @ts-ignore
+                  transform: disableSkew ?? theme.transform.skewA, // Fix the border property
+                }}
+                src={mentorIcon()}
+                alt="Avatar"
+              />
+            ) : (
+              ''
+            )}
             {username === 'Bot' ? characterType : username}
           </Typography>
           {discriminator && (
@@ -199,26 +220,29 @@ function Player({ info, disableSkew, characterType, title }: Props) {
                 if (denydNames.includes(info.handle)) {
                   return 'Bot';
                 }
-                if (mentor && developer) {
-                  return t(`titles.mentorDev`);
-                }
-                if (mentor) {
-                  return t(`titles.mentor`);
-                }
                 if (title) {
                   return title;
                 }
+
                 if (typeof info?.status === 'number') {
+                  if (mentor && developer) {
+                    return t(`titles.mentorDev`);
+                  }
+                  if (mentor) {
+                    return t(`titles.mentor`);
+                  }
                   // @ts-ignore
                   return t(`titles.${info?.status}`);
                 }
+
                 if (info?.status === '') {
                   return t('online');
                 }
                 if (info?.status === undefined) {
                   return '';
                 }
-                return t([`${info?.status}`]);
+
+                return `${mentor ? `${t(`titles.mentor`)}/` : ''}${t([`${info?.status}`])}`;
               })()}
             </Typography>
           </ImageTextWrapper>
@@ -254,14 +278,14 @@ function Player({ info, disableSkew, characterType, title }: Props) {
                   bottom: '2%',
                   fontSize: '1.7em',
                   zIndex: 1000,
-                  marginLeft: '147px',
+                  marginLeft: '146px',
                   marginBottom: '-5px',
                 }}
               >
                 <img
                   style={{
-                    width: 22,
-                    height: 22,
+                    width: 21,
+                    height: 21,
                     padding: '0px',
                     zIndex: 1000,
                     flex: 'none',
@@ -271,7 +295,7 @@ function Player({ info, disableSkew, characterType, title }: Props) {
                     border: `1px solid ${tcolor}`, // Fix the border property
                   }}
                   alt="Avatar"
-                  src={!mentor ? trustIcon(faction) : mentorIcon()}
+                  src={trustIcon(faction)}
                 />
               </ImageTextWrapper>
             );
