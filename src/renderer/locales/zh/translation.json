@@ -14,7 +14,8 @@
     "Login": "登录",
     "Register": "注册",
     "discord": "Discord",
-    "replays": "录像"
+    "replays": "录像",
+    "wiki": "Wiki"
   },
   "replay": {
     "replayOpen": "打开录像",

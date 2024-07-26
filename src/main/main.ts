@@ -1302,18 +1302,19 @@ const createWindow = async () => {
     if (isDiscordRPCConnected) {
       const config = await readConfig();
       if (config?.enableDiscordRPC === 'true') {
-        client.setActivity({
-          details: 'Idling in Launcher',
-          state: 'Waiting to start playing',
-          largeImageKey: 'logo',
-          // startTimestamp: discordTimestamp,
-          buttons: [
-            {
-              label: 'Start playing!',
-              url: 'https://evos.live/discord',
-            },
-          ],
-        });
+        // Only show when in game
+        // client.setActivity({
+        //   details: 'Idling in Launcher',
+        //   state: 'Waiting to start playing',
+        //   largeImageKey: 'logo',
+        //   // startTimestamp: discordTimestamp,
+        //   buttons: [
+        //     {
+        //       label: 'Start playing!',
+        //       url: 'https://evos.live/discord',
+        //     },
+        //   ],
+        // });
       }
     }
   });
@@ -1335,6 +1336,12 @@ const createWindow = async () => {
       }
     },
   );
+
+  ipcMain.handle('join-discord-channel', async (event, args: discordStatus) => {
+    if (isDiscordRPCConnected) {
+      // client.createLobby
+    }
+  });
 
   ipcMain.handle('stop-discord-rpc', async () => {
     client.clearActivity();

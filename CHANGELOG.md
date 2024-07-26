@@ -1,3 +1,12 @@
+### Release Notes: Version 2.1.2
+
+## New Features
+
+- **Wiki**
+  - Added a Wiki page to the launcher, where you can find information about the game, freelancers, and more.
+
+**Note:** Wiki is not complete yet; more information will be added as i work on it, As it does not require a launcher update to update the wiki.
+
 ### Release Notes: Version 2.1.1
 
 ## Improvements
