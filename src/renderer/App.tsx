@@ -36,6 +36,7 @@ import { convertToRealName } from './lib/Resources';
 import { trackEvent } from '@aptabase/electron/renderer';
 import { useTranslation } from 'react-i18next';
 import useWebSocket from 'react-use-websocket';
+import WikiPage from './components/pages/WikiPage';
 
 interface PageProps {
   title: string;
@@ -535,6 +536,18 @@ export default function App() {
                     <AdminMessage />
                     <Updater />
                     <ReplaysPage />
+                  </Box>
+                </>,
+              )}
+            />
+            <Route
+              path="/wiki"
+              element={page(
+                'wiki',
+                <>
+                  <NavBar />
+                  <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <WikiPage />
                   </Box>
                 </>,
               )}
