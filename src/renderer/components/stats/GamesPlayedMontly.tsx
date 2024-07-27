@@ -126,9 +126,11 @@ export default function GamesPlayedMonthly({ map, player }: Props) {
       const data = await Promise.all(dataPromises);
       // Filter out months with no data
       const filteredData = data
+        // @ts-ignore
         .map((count: number, index: number) =>
           count > 0 ? { count, label: labels[index] } : null,
         )
+        // @ts-ignore
         .filter((item: null) => item !== null);
 
       setGameData(filteredData);
