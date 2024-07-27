@@ -1,6 +1,6 @@
 /* eslint-disable react/require-default-props */
 import { useEffect, useState } from 'react';
-import { Grid } from '@mui/material';
+import { Grid, Skeleton } from '@mui/material';
 import { strapiClient } from 'renderer/lib/strapi';
 import { useTranslation } from 'react-i18next';
 import EvosStore from 'renderer/lib/EvosStore';
@@ -75,9 +75,9 @@ export async function fetchGameInfo(
 export default function PlayerWinRate({ player, characterName, map }: Props) {
   const { t } = useTranslation();
   const { activeUser, isDev } = EvosStore();
-  const [wins, setWins] = useState<number>(0);
-  const [losses, setLosses] = useState<number>(0);
-  const [winRate, setWinRate] = useState<number>(0.0);
+  const [wins, setWins] = useState<number>(-1);
+  const [losses, setLosses] = useState<number>(-1);
+  const [winRate, setWinRate] = useState<number>(-1);
 
   useEffect(() => {
     async function fetchData() {
@@ -109,13 +109,40 @@ export default function PlayerWinRate({ player, characterName, map }: Props) {
     return (
       <>
         <Grid item xs={4}>
-          {t('stats.wins')}: {wins}
+          {t('stats.wins')}:
+          {wins === -1 ? (
+            <Skeleton
+              variant="text"
+              width={50}
+              style={{ display: 'inline-block', marginLeft: '4px' }}
+            />
+          ) : (
+            wins
+          )}
         </Grid>
         <Grid item xs={4}>
-          {t('stats.losses')}: {losses}
+          {t('stats.losses')}:
+          {losses === -1 ? (
+            <Skeleton
+              variant="text"
+              width={50}
+              style={{ display: 'inline-block', marginLeft: '4px' }}
+            />
+          ) : (
+            losses
+          )}
         </Grid>
         <Grid item xs={4}>
-          {t('stats.winrate')}: {winRate.toFixed(2)}%
+          {t('stats.winrate')}:
+          {winRate === -1 ? (
+            <Skeleton
+              variant="text"
+              width={50}
+              style={{ display: 'inline-block', marginLeft: '4px' }}
+            />
+          ) : (
+            <>{winRate.toFixed(2)}%</>
+          )}
         </Grid>
       </>
     );

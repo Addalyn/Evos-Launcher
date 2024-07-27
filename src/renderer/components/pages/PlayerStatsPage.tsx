@@ -1,7 +1,15 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useMemo, useState } from 'react';
-import { Box, Paper, Tab, Tabs, Typography, Grid } from '@mui/material';
+import {
+  Box,
+  Paper,
+  Tab,
+  Tabs,
+  Typography,
+  Grid,
+  Skeleton,
+} from '@mui/material';
 import useWindowDimensions from 'renderer/lib/useWindowDimensions';
 import EvosStore from 'renderer/lib/EvosStore';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -132,7 +140,7 @@ export default function PlayerStatsPage() {
   }
 
   if (playerSearch === '') {
-    return <div>{t('loading')}</div>;
+    return null;
   }
 
   return (
@@ -148,7 +156,16 @@ export default function PlayerStatsPage() {
           padding: '1em',
         }}
       >
-        <Player info={playerData} disableSkew />
+        {!playerData ? (
+          <Skeleton
+            variant="rectangular"
+            width={240}
+            height={52}
+            style={{ display: 'inline-block', marginLeft: '4px' }}
+          />
+        ) : (
+          <Player info={playerData} disableSkew />
+        )}
         <Grid container spacing={2}>
           <Grid item xs={4}>
             <PlayerStats action="totaltakedowns" player={playerSearch} />
@@ -170,13 +187,40 @@ export default function PlayerStatsPage() {
           </Grid>
           <PlayerWinRate player={playerSearch} />
           <Grid item xs={4}>
-            Omni: {playerData?.factionData?.factions[0]}
+            Omni:{' '}
+            {!playerData ? (
+              <Skeleton
+                variant="text"
+                width={50}
+                style={{ display: 'inline-block', marginLeft: '4px' }}
+              />
+            ) : (
+              playerData?.factionData?.factions[0]
+            )}
           </Grid>
           <Grid item xs={4}>
-            Evos: {playerData?.factionData?.factions[1]}
+            Evos:{' '}
+            {!playerData ? (
+              <Skeleton
+                variant="text"
+                width={50}
+                style={{ display: 'inline-block', marginLeft: '4px' }}
+              />
+            ) : (
+              playerData?.factionData?.factions[1]
+            )}
           </Grid>
           <Grid item xs={4}>
-            Warbotics: {playerData?.factionData?.factions[2]}
+            Warbotics:{' '}
+            {!playerData ? (
+              <Skeleton
+                variant="text"
+                width={50}
+                style={{ display: 'inline-block', marginLeft: '4px' }}
+              />
+            ) : (
+              playerData?.factionData?.factions[2]
+            )}
           </Grid>
         </Grid>
       </Paper>
