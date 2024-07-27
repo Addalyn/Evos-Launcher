@@ -12,6 +12,7 @@ import {
 import { Bar } from 'react-chartjs-2';
 import { strapiClient } from 'renderer/lib/strapi';
 import { useTranslation } from 'react-i18next';
+import { Skeleton } from '@mui/material';
 
 ChartJS.register(
   CategoryScale,
@@ -22,11 +23,10 @@ ChartJS.register(
   Legend,
 );
 
-const currentMonth = new Date().getMonth(); // Get the current month (0-11)
-
-// Generate labels for the whole year starting from the current month
-const labels = Array.from({ length: 12 }, (_, i) => {
-  const monthIndex = (currentMonth - i + 12) % 12; // Ensure the month index wraps around
+// Generate labels for the past 60 months (5 years) starting from the current month
+const labels = Array.from({ length: 60 }, (_, i) => {
+  const date = new Date();
+  date.setMonth(date.getMonth() - i);
   const monthNames = [
     'January',
     'February',
@@ -41,15 +41,19 @@ const labels = Array.from({ length: 12 }, (_, i) => {
     'November',
     'December',
   ];
-  return monthNames[monthIndex];
+  return `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
 });
 
 function formatDateForStrapi(date: Date) {
   return date.toISOString();
 }
 
-function getMonthFromString(mon: string) {
-  return new Date(Date.parse(`${mon} 1, 2012`)).getMonth();
+function getMonthAndYearFromString(label: string) {
+  const [month, year] = label.split(' ');
+  return {
+    month: new Date(Date.parse(`${month} 1, 2012`)).getMonth(),
+    year: parseInt(year, 10),
+  };
 }
 
 const fetchInfo = async (
@@ -81,7 +85,7 @@ const fetchInfo = async (
     // @ts-ignore
     return data?.value || 0;
   } catch (error) {
-    return [];
+    return 0;
   }
 };
 
@@ -97,24 +101,14 @@ export default function GamesPlayedMonthly({ map, player }: Props) {
 
   useEffect(() => {
     async function fetchData() {
-      const currentDate = new Date();
-      const currentYear = currentDate.getFullYear();
+      const dataPromises = labels.map((label) => {
+        const { month, year } = getMonthAndYearFromString(label);
 
-      const dataPromises = labels.map((month) => {
-        let monthNumber = getMonthFromString(month);
-        let year = currentYear;
-
-        if (monthNumber > currentMonth) {
-          // If the month is in the previous year or the current month, adjust the year
-          year -= 1;
-        }
-
-        monthNumber += 1;
         const startDate = formatDateForStrapi(
-          new Date(year, monthNumber - 1, 1, 2, 0, 0),
+          new Date(year, month, 1, 0, 0, 0),
         );
 
-        const lastDay = new Date(year, monthNumber, 0);
+        const lastDay = new Date(year, month + 1, 0);
         const endDate = formatDateForStrapi(
           new Date(
             lastDay.getFullYear(),
@@ -130,15 +124,25 @@ export default function GamesPlayedMonthly({ map, player }: Props) {
       });
 
       const data = await Promise.all(dataPromises);
-      // @ts-ignore
-      setGameData(data);
+      // Filter out months with no data
+      const filteredData = data
+        .map((count: number, index: number) =>
+          count > 0 ? { count, label: labels[index] } : null,
+        )
+        .filter((item: null) => item !== null);
+
+      setGameData(filteredData);
     }
 
     fetchData();
   }, [map, player]);
 
   // Calculate the total games played per month
-  const gamesPlayedPerMonth = gameData.map((gamesInMonth) => gamesInMonth || 0);
+  // @ts-ignore
+  const gamesPlayedPerMonth = gameData.map((item) => item.count);
+  // @ts-ignore
+  const labelsWithData = gameData.map((item) => item.label);
+
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -150,15 +154,18 @@ export default function GamesPlayedMonthly({ map, player }: Props) {
         display: true,
         text: `${t('stats.gamesPlayed')} ${
           player !== '' ? `${t('stats.by')} ${player} ` : ''
-        }${t('stats.perMonth')} ${gameData.reduce(
+        }${t('stats.perMonth')} ${gamesPlayedPerMonth.reduce(
           (a, b) => a + b,
           0,
-        )} ${t('stats.gamesPlayedNoCapitalize')}`,
+        )} ${t('stats.gamesPlayed')}`,
       },
     },
   };
   const data = {
-    labels: labels.map((month: string) => t(`months.${month}`)),
+    labels: labelsWithData.map(
+      (label: string) =>
+        `${t(`months.${label.split(' ')[0]}`)} ${label.split(' ')[1]}`,
+    ),
     datasets: [
       {
         label: `${t('stats.gamesPlayed')} ${player !== '' ? `${t('stats.by')} ${player}` : ''}`,
@@ -167,6 +174,10 @@ export default function GamesPlayedMonthly({ map, player }: Props) {
       },
     ],
   };
+
+  if (gameData.length === 0) {
+    return <Skeleton variant="rectangular" width="100%" height={300} />;
+  }
 
   return <Bar options={options} data={data} height={300} />;
 }

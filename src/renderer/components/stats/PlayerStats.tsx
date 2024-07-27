@@ -1,3 +1,4 @@
+import { Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { fetchGameInfo } from 'renderer/lib/Evos';
@@ -40,7 +41,16 @@ export default function PlayerStats({ action, player }: Props) {
 
   return (
     <div>
-      {actionToName[action]}: {gameData?.toLocaleString()}
+      {actionToName[action]}:{' '}
+      {!gameData ? (
+        <Skeleton
+          variant="text"
+          width={50}
+          style={{ display: 'inline-block', marginLeft: '4px' }}
+        />
+      ) : (
+        gameData?.toLocaleString()
+      )}
     </div>
   );
 }
