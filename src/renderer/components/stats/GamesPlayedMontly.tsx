@@ -133,6 +133,7 @@ export default function GamesPlayedMonthly({ map, player }: Props) {
         // @ts-ignore
         .filter((item: null) => item !== null);
 
+      // @ts-ignore
       setGameData(filteredData);
     }
 
