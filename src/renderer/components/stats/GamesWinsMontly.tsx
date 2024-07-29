@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -13,6 +12,7 @@ import { Bar } from 'react-chartjs-2';
 import { strapiClient } from 'renderer/lib/strapi';
 import { useTranslation } from 'react-i18next';
 import EvosStore from 'renderer/lib/EvosStore';
+import { Skeleton } from '@mui/material';
 
 ChartJS.register(
   CategoryScale,
@@ -39,11 +39,15 @@ interface DataItem {
   winrate?: string;
 }
 
-const currentMonth = new Date().getMonth(); // Get the current month (0-11)
+interface FetchInfoResult {
+  wins: number;
+  losses: number;
+}
 
-// Generate labels for the whole year starting from the current month
-const labels = Array.from({ length: 12 }, (_, i) => {
-  const monthIndex = (currentMonth - i + 12) % 12; // Ensure the month index wraps around
+// Generate labels for the past 60 months (5 years) starting from the current month
+const labels = Array.from({ length: 60 }, (_, i) => {
+  const date = new Date();
+  date.setMonth(date.getMonth() - i);
   const monthNames = [
     'January',
     'February',
@@ -58,15 +62,22 @@ const labels = Array.from({ length: 12 }, (_, i) => {
     'November',
     'December',
   ];
-  return monthNames[monthIndex];
+  return `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
 });
 
-function formatDateForStrapi(date: Date) {
+function formatDateForStrapi(date: Date): string {
   return date.toISOString();
 }
 
-function getMonthFromString(mon: string) {
-  return new Date(Date.parse(`${mon} 1, 2012`)).getMonth();
+function getMonthAndYearFromString(label: string): {
+  month: number;
+  year: number;
+} {
+  const [month, year] = label.split(' ');
+  return {
+    month: new Date(Date.parse(`${month} 1, 2012`)).getMonth(),
+    year: parseInt(year, 10),
+  };
 }
 
 const fetchInfo = async (
@@ -74,7 +85,7 @@ const fetchInfo = async (
   player: string,
   startDate: string,
   endDate: string,
-) => {
+): Promise<FetchInfoResult> => {
   try {
     const strapi = strapiClient
       .from<DataItem>('games')
@@ -98,8 +109,9 @@ const fetchInfo = async (
     const { data, error } = await strapi.get();
 
     if (error) {
-      return 0;
+      return { wins: 0, losses: 0 };
     }
+
     let wins = 0;
     let losses = 0;
 
@@ -115,9 +127,9 @@ const fetchInfo = async (
       });
     });
 
-    return [wins, losses];
+    return { wins, losses };
   } catch (error) {
-    return [];
+    return { wins: 0, losses: 0 };
   }
 };
 
@@ -126,31 +138,26 @@ interface Props {
   player: string;
 }
 
-export default function GamesWinsMontly({ map, player }: Props) {
+interface GameDataItem {
+  counts: FetchInfoResult;
+  label: string;
+}
+
+export default function GamesWinsMonthly({ map, player }: Props) {
   const { t } = useTranslation();
   const { activeUser, isDev } = EvosStore();
-  const [gameData, setGameData] = useState([]);
+  const [gameData, setGameData] = useState<GameDataItem[]>([]);
 
   useEffect(() => {
     async function fetchData() {
-      const currentDate = new Date();
-      const currentYear = currentDate.getFullYear();
+      const dataPromises = labels.map(async (label) => {
+        const { month, year } = getMonthAndYearFromString(label);
 
-      const dataPromises = labels.map((month) => {
-        let monthNumber = getMonthFromString(month);
-        let year = currentYear;
-
-        if (monthNumber > currentMonth) {
-          // If the month is in the previous year or the current month, adjust the year
-          year -= 1;
-        }
-
-        monthNumber += 1;
         const startDate = formatDateForStrapi(
-          new Date(year, monthNumber - 1, 1, 2, 0, 0),
+          new Date(year, month, 1, 0, 0, 0),
         );
 
-        const lastDay = new Date(year, monthNumber, 0);
+        const lastDay = new Date(year, month + 1, 0);
         const endDate = formatDateForStrapi(
           new Date(
             lastDay.getFullYear(),
@@ -162,18 +169,26 @@ export default function GamesWinsMontly({ map, player }: Props) {
           ),
         );
 
-        return fetchInfo(map, player, startDate, endDate);
+        const counts = await fetchInfo(map, player, startDate, endDate);
+        return { counts, label };
       });
-      // Wait for all promises to resolve
-      if (player === activeUser?.handle || isDev) {
-        const data = await Promise.all(dataPromises);
-        // @ts-ignore
-        setGameData(data);
-      }
+
+      const data = await Promise.all(dataPromises);
+      // Filter out months with no data
+      const filteredData = data.filter(
+        (item) => item.counts.wins > 0 || item.counts.losses > 0,
+      );
+
+      setGameData(filteredData);
     }
 
     fetchData();
   }, [activeUser?.handle, isDev, map, player]);
+
+  // Calculate the total wins and losses per month
+  const winsPerMonth = gameData.map((item) => item.counts.wins);
+  const lossesPerMonth = gameData.map((item) => item.counts.losses);
+  const labelsWithData = gameData.map((item) => item.label);
 
   const options = {
     responsive: true,
@@ -188,22 +203,31 @@ export default function GamesWinsMontly({ map, player }: Props) {
       },
     },
   };
+
   const datasets = [
     {
       label: t('stats.wins'),
-      data: gameData.map((item) => item[0]),
+      data: winsPerMonth,
       backgroundColor: 'rgba(144, 202, 249, 0.5)',
     },
     {
       label: t('stats.losses'),
-      data: gameData.map((item) => item[1]),
+      data: lossesPerMonth,
       backgroundColor: 'rgba(255, 99, 132, 0.5)',
     },
   ];
+
   const data = {
-    labels: labels.map((month: string) => t(`months.${month}`)),
+    labels: labelsWithData.map((label: string) => {
+      const [month, year] = label.split(' ');
+      return `${t(`months.${month}`)} ${year}`;
+    }),
     datasets,
   };
+
+  if (gameData.length === 0) {
+    return <Skeleton variant="rectangular" width="100%" height={300} />;
+  }
 
   if (player === activeUser?.handle || isDev) {
     return <Bar options={options} data={data} height={300} />;

@@ -25,6 +25,14 @@ import { useTranslation } from 'react-i18next';
 import useWindowDimensions from 'renderer/lib/useWindowDimensions';
 import EvosStore from 'renderer/lib/EvosStore';
 import DiscordPage from './DiscordPage';
+import TopGamesHealRecieved from '../stats/TopGamesHealRecieved';
+import TopGamesPowerups from '../stats/TopGamesPowerups';
+import TopGamesReducedDamageCover from '../stats/TopGamesReducedDamageCover';
+import TopGamesExtraDamageFromMight from '../stats/TopGamesExtraDamageFromMight';
+import TopGamesReducedDamageFromWeaken from '../stats/TopGamesReducedDamageFromWeaken';
+import TopGamesMovementDenied from '../stats/TopGamesMovementDenied';
+import TopGamesEnemiesSighted from '../stats/TopGamesEnemiesSighted';
+import TopGamesAccoladesCollector from '../stats/TopGamesAccoladesCollector';
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -297,6 +305,86 @@ export default function StatsPage() {
         }}
       >
         <TopGamesDamageReceivedByAvg />
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <TopGamesHealRecieved />
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <TopGamesPowerups />
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <TopGamesReducedDamageCover />
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <TopGamesExtraDamageFromMight />
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <TopGamesReducedDamageFromWeaken />
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <TopGamesMovementDenied />
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <TopGamesEnemiesSighted />
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <TopGamesAccoladesCollector />
       </Paper>
     </>
   );

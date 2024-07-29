@@ -1,3 +1,44 @@
+### Release Notes: Version 2.1.4
+
+## Additions
+
+- **Top20 Stats**
+
+  - Added the following stats to the Top20 Stats page:
+    - Players who needed the most healing (per game on avarage) (min 50 games)
+    - Players who collected the most powerups (per game on avarage) (min 50 games)
+    - Players who got the most reduced damage from cover (per game on avarage) (min 50 games)
+    - Players who got the most extra damage from might (per game on avarage) (min 50 games)
+    - Players who got the most reduced damage from weaken (per game on avarage) (min 50 games)
+    - Players who denied the most movement (per game on avarage) (min 50 games)
+    - Players who sighted the most enemies (per game on avarage) (min 50 games)
+    - Players who collected the most accolades
+
+## Improvements
+
+- **Skeleton Loading**
+
+  - Added skeleton loading (to improve the user experience while waiting for the data to load.)
+    - Global Stats
+      - Games Played Per Month
+      - Games Played Per Character
+    - Persional Stats
+      - Player Banner
+      - All Total Stats
+      - ALL Posible Wins / Losses / Winrate
+      - Games Played Per Month
+      - Games Played Per Character
+
+- **Games Played (| by user)**
+
+  - Now fetches games from last 5 years instead of 1 year.
+  - If the month has no data the month will not be shown.
+
+- **Wins and Losses**
+
+  - Now fetches games from last 5 years instead of 1 year.
+  - If the month has no data the month will not be shown.
+
 ### Release Notes: Version 2.1.3 - The Furrbal
 
 ## New Features
