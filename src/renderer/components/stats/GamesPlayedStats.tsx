@@ -11,6 +11,7 @@ import {
 } from 'chart.js';
 import axios from 'axios';
 import CharacterStatsChart from './CharacterStatsChart';
+import { Skeleton } from '@mui/material';
 
 ChartJS.register(
   CategoryScale,
@@ -60,6 +61,10 @@ export default function GamesPlayedStats({ map, player }: Props) {
 
     fetchData();
   }, [map, player]);
+
+  if (gameData.length === 0) {
+    return <Skeleton variant="rectangular" width="100%" height={300} />;
+  }
 
   return <CharacterStatsChart data={gameData} player={player} map={map} />;
 }

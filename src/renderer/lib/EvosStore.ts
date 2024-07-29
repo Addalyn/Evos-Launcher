@@ -56,6 +56,8 @@ export interface EvosStoreState {
   toggleDiscordRPC: () => void;
   isDev: boolean;
   setDev: (isDev: boolean) => void;
+  gameExpanded: string;
+  setGameExpanded: (gameExpanded: string) => void;
 }
 
 const EvosStore = create<EvosStoreState>((set, get) => ({
@@ -75,6 +77,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   enablePatching: 'true',
   discordId: 0,
   enableDiscordRPC: 'true',
+  gameExpanded: 'true',
   setDiscordId: (discord: number) => {
     set({ discordId: discord });
   },
@@ -103,6 +106,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       showAllChat,
       enableDiscordRPC,
       // enablePatching,
+      gameExpanded,
     ] = await Promise.all([
       get().getFromStorage('mode') as string,
       get().getFromStorage('authenticatedUsers') as AuthUser[],
@@ -115,6 +119,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       get().getFromStorage('showAllChat') as string,
       get().getFromStorage('enableDiscordRPC') as string,
       // get().getFromStorage('enablePatching') as string,
+      get().getFromStorage('gameExpanded') as string,
     ]);
 
     let users: AuthUser[] = [];
@@ -150,6 +155,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       showAllChat: showAllChat || 'true',
       enablePatching: 'true', // enablePatching || 'true',
       enableDiscordRPC: enableDiscordRPC || 'true',
+      gameExpanded: gameExpanded || 'true',
     });
     window.electron.ipcRenderer.setTheme(
       mode !== 'dark' && mode !== 'light' ? 'dark' : mode,
@@ -354,6 +360,16 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       await window.electron.store.setItem('enablePatching', enablePatching);
     } catch (error) {
       console.error('Error while saving enablePatching to storage:', error);
+    }
+  },
+
+  setGameExpanded: async (gameExpanded: string) => {
+    set({ gameExpanded });
+
+    try {
+      await window.electron.store.setItem('gameExpanded', gameExpanded);
+    } catch (error) {
+      console.error('Error while saving gameExpanded to storage:', error);
     }
   },
 }));

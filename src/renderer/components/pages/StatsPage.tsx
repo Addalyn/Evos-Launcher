@@ -33,6 +33,7 @@ import TopGamesReducedDamageFromWeaken from '../stats/TopGamesReducedDamageFromW
 import TopGamesMovementDenied from '../stats/TopGamesMovementDenied';
 import TopGamesEnemiesSighted from '../stats/TopGamesEnemiesSighted';
 import TopGamesAccoladesCollector from '../stats/TopGamesAccoladesCollector';
+import TopGamesPerfectAccolades from '../stats/TopGamesPerfectAccolades';
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -385,6 +386,16 @@ export default function StatsPage() {
         }}
       >
         <TopGamesAccoladesCollector />
+      </Paper>
+      <Paper
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+        }}
+      >
+        <TopGamesPerfectAccolades />
       </Paper>
     </>
   );

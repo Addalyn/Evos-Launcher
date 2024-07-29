@@ -13,6 +13,7 @@ import { Bar } from 'react-chartjs-2';
 import { fetchGameInfo } from 'renderer/lib/Evos';
 import { useTranslation } from 'react-i18next';
 import EvosStore from 'renderer/lib/EvosStore';
+import { Skeleton } from '@mui/material';
 
 ChartJS.register(
   CategoryScale,
@@ -87,6 +88,10 @@ export default function TopGamesDeathsByAvgASC() {
       },
     ],
   };
+
+  if (gameData.length === 0) {
+    return <Skeleton variant="rectangular" width="100%" height={500} />;
+  }
 
   return <Bar options={options} data={data} height={500} />;
 }
