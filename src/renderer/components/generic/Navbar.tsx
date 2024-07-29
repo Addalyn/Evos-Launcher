@@ -45,6 +45,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import HistoryIcon from '@mui/icons-material/History';
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
+import ArticleIcon from '@mui/icons-material/Article';
 import Player from '../atlas/Player';
 import SettingsIcon from '@mui/icons-material/Settings';
 // import DownloadIcon from '@mui/icons-material/Download';
@@ -119,6 +120,11 @@ export default function NavBar() {
         href: '/settings',
         icon: <SettingsIcon />,
         devider: true,
+      },
+      {
+        title: t('menuOptions.wiki'),
+        href: '/wiki',
+        icon: <ArticleIcon />,
       },
       {
         title: t('menuOptions.joinDiscord'),

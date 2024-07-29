@@ -14,7 +14,8 @@
     "Login": "Se connecter",
     "Register": "S'inscrire",
     "discord": "Discord",
-    "replays": "Replays"
+    "replays": "Replays",
+    "wiki": "Wiki"
   },
   "replay": {
     "replayOpen": "Ouvrir la relecture",

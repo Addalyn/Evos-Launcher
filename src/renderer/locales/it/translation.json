@@ -14,7 +14,8 @@
     "Login": "Login",
     "Register": "Registrati",
     "discord": "Discord",
-    "replays": "Replays"
+    "replays": "Replays",
+    "wiki": "Wiki"
   },
   "replay": {
     "replayOpen": "Apri Replay",

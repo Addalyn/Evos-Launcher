@@ -30,6 +30,10 @@ import StatusPage from './components/pages/StatusPage';
 import Updater from './components/generic/Updater';
 import { trackEvent } from '@aptabase/electron/renderer';
 import { useTranslation } from 'react-i18next';
+import useWebSocket from 'react-use-websocket';
+import WikiPage from './components/pages/WikiPage';
+import ReplaysPage from './components/pages/ReplaysPage';
+import DevPage from './components/pages/DevPage';
 
 interface PageProps {
   title: string;
@@ -347,6 +351,46 @@ export default function App() {
                     <AdminMessage />
                     <Updater />
                     <DiscordPage />
+                  </Box>
+                </>,
+              )}
+            />
+            <Route
+              path="/replays"
+              element={page(
+                'replays',
+                <>
+                  <NavBar />
+                  <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <LinkDiscord />
+                    <NotificationMessage />
+                    <AdminMessage />
+                    <Updater />
+                    <ReplaysPage />
+                  </Box>
+                </>,
+              )}
+            />
+            <Route
+              path="/wiki"
+              element={page(
+                'wiki',
+                <>
+                  <NavBar />
+                  <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <WikiPage />
+                  </Box>
+                </>,
+              )}
+            />
+            <Route
+              path="/dev"
+              element={page(
+                'dev',
+                <>
+                  <NavBar />
+                  <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <DevPage />
                   </Box>
                 </>,
               )}

@@ -14,7 +14,8 @@
     "Login": "Войти",
     "Register": "Зарегистрироваться",
     "discord": "Discord",
-    "replays": "Повторы"
+    "replays": "Повторы",
+    "wiki": "Вики"
   },
   "replay": {
     "replayOpen": "Открыть повтор",
