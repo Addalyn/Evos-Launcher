@@ -16,7 +16,7 @@ function WikiPage() {
 
   return (
     <div style={{ height: '100%', width: '100%' }}>
-      <iframe style={iframeStyle} src="http://wiki.evos.live/" title="wiki" />
+      <iframe style={iframeStyle} src="https://wiki.evos.live/" title="wiki" />
     </div>
   );
 }
