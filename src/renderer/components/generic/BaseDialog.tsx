@@ -9,11 +9,12 @@ import {
   DialogTitle,
 } from '@mui/material';
 import { DialogProps } from '@mui/material/Dialog/Dialog';
+import React from 'react';
 
 interface BaseDialogProps {
   props?: DialogProps;
-  title?: string;
-  content?: string;
+  title?: string | React.ReactNode;
+  content?: string | React.ReactNode;
   dismissText?: string;
   onDismiss: () => void;
 }

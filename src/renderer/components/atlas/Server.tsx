@@ -8,6 +8,7 @@ interface Props {
   // eslint-disable-next-line react/require-default-props
   game?: GameData;
   playerData: Map<number, PlayerData>;
+  gameExpanded: string;
 }
 
 function countUniqueAccounts(
@@ -23,7 +24,12 @@ function countUniqueAccounts(
   return uniqueAccountIds.size;
 }
 
-export default function Server({ info, game, playerData }: Props) {
+export default function Server({
+  info,
+  game,
+  playerData,
+  gameExpanded,
+}: Props) {
   const { t } = useTranslation();
   // Hide servers that matches any of these conditions
   // Sinse servers can get stuck in a state, we don't want to show them
@@ -68,7 +74,9 @@ export default function Server({ info, game, playerData }: Props) {
           </Typography>
         </Grid>
       </Grid>
-      {game && <Game info={game} playerData={playerData} expanded={false} />}
+      {game && (
+        <Game info={game} playerData={playerData} gameExpanded={gameExpanded} />
+      )}
     </Paper>
   );
 }

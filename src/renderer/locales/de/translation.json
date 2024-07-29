@@ -15,7 +15,8 @@
     "Register": "Registrieren",
     "discord": "Discord",
     "replays": "Wiedergaben",
-    "wiki": "Wiki"
+    "wiki": "Wiki",
+    "SupportUs": "Unterstützen Sie uns"
   },
   "replay": {
     "replayOpen": "Wiedergabe öffnen",
@@ -134,7 +135,9 @@
     "noLogLaunchOptionsDisabled": "Wenn das Spiel häufig und bei verschiedenen Accounts abstürzt kann dies ggf. helfen. Es ist zu beachten, dass auch wenn es ggf. die Abstürze verhindern kann, kann es ebenfalls das Problem verschlimmbessern und zu weiteren Abstürzen führen. Besonders wenn man nicht mehrere Accounts nutzt.",
     "deleteAllAccounts": "Lösche alle Accounts (dadurch wird man ausgeloggt)",
     "resetApp": "Anwendung zurücksetzen (dadurch wird man ausgeloggt)",
-    "labelDarkMode": "Dunkler Modus"
+    "labelDarkMode": "Dunkler Modus",
+    "labelGameExpanded": "Spiel Erweitert",
+    "GameExpanded": "Das Deaktivieren hiervon lässt die Spiele standardmäßig zusammenklappen"
   },
   "titles": {
     "-1": "",
@@ -431,7 +434,9 @@
     "top20EnemiesSighted": "Top 20 Spieler, die die meisten Feinde gesichtet haben (pro Spiel im Durchschnitt)",
     "enemiesSighted": "Gesehene Feinde",
     "top20AccoladesCollector": "Top 20 Spieler, die die meisten Auszeichnungen gesammelt haben",
-    "accoladesCollector": "Gesammelte Auszeichnungen"
+    "accoladesCollector": "Gesammelte Auszeichnungen",
+    "top20PerfectAccolades": "Top 20 Spieler mit den meisten perfekten Auszeichnungen (Alle Auszeichnungen in einem Spiel)",
+    "perfectAccolades": "Perfekte Auszeichnungen"
   },
   "advstats": {
     "playerName": "Spielername",
@@ -578,5 +583,9 @@
   "linkwithcode": "Mit Code verknüpfen",
   "entercode": "Gib hier den Discord-Code ein...",
   "effectLegend": "BabyAddalyn#000 hat den Mentor-Effekt, der Mentoren zugesprochen wird, Personen, die Spielern im Spiel helfen werden.<br />DrJester#888 hat den Spezial-Effekt, der vom Entwickler nach eigenem Ermessen vergeben wird.<br />Zheneq#412 hat den Entwickler-Effekt, der allen Entwicklern verliehen wird.<br />Memedelyn#805 hat den MVP-Effekt, diese Personen können ihn erhalten, indem sie unter den Top 5 in einer beliebigen Statistik sind.<br />Lucas#210 hat den Effekt des Turnier-Champions, der Personen verliehen wird, die ein Turnier gewonnen haben.<br />cEEKAY#828 hat den Nitro-Booster-Effekt, der Personen verliehen wird, die den Discord-Server unterstützt haben.",
-  "effectLegendTitle": "Dies sind die Effekte, die du im Launcher erhalten kannst"
+  "effectLegendTitle": "Dies sind die Effekte, die du im Launcher erhalten kannst",
+  "supportUs": {
+    "title": "Unterstützen",
+    "text": "Wir haben viel Arbeit investiert, um Atlas Reactor vom Abgrund zurückzubringen.<br><br>Ihre Unterstützung wird sehr geschätzt, ist aber nicht erforderlich. Sie erhalten dafür nicht viel außer einem warmen Gefühl, aber Ihr Beitrag wird sehr geschätzt.<br><br>Wenn der Betrag zufällig höher als 20 ist (an BabyAddalyn), können Sie den Spezialstatus-Effekt im Launcher erhalten.<br><br><a href=\"https://paypal.me/BabyAddalyn\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Unterstützen Sie BabyAddalyn (Launcher- und Lobby-Entwickler) (Einmalig)</button></a><br><br><a href=\"https://boosty.to/zheneq\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Unterstützen Sie Zheneq (Lobby- und Spielserver-Entwickler) (Abonnement)</button></a>"
+  }
 }

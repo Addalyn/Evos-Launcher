@@ -15,7 +15,8 @@
     "Register": "Register",
     "discord": "Discord",
     "replays": "Replays",
-    "wiki": "Wiki"
+    "wiki": "Wiki",
+    "SupportUs": "Support Us"
   },
   "replay": {
     "replayOpen": "Open Replay",
@@ -134,7 +135,9 @@
     "noLogLaunchOptionsDisabled": "If you're experiencing crashes across multiple accounts, consider trying this solution. Keep in mind, though, that while it might help alleviate the issue, there's also a chance it could potentially exacerbate the problem and lead to further  crashes, especially if you do not use multiple accounts.",
     "deleteAllAccounts": "Delete All Accounts (this will log you out)",
     "resetApp": "Reset Application (this will log you out)",
-    "labelDarkMode": "Dark Mode"
+    "labelDarkMode": "Dark Mode",
+    "labelGameExpanded": "Game Expanded",
+    "GameExpanded": "Disabling this will make the games collapesed by default"
   },
   "titles": {
     "-1": "",
@@ -431,7 +434,9 @@
     "top20EnemiesSighted": "Top 20 players who sighted the most enemies (per game on avarage)",
     "enemiesSighted": "Enemies Sighted",
     "top20AccoladesCollector": "Top 20 players who collected the most accolades",
-    "accoladesCollector": "Accolades Collected"
+    "accoladesCollector": "Accolades Collected",
+    "top20PerfectAccolades": "Top 20 players who got the most perfect accolades (All accolades in one game)",
+    "perfectAccolades": "Perfect Accolades"
   },
   "advstats": {
     "playerName": "Player Name",
@@ -578,5 +583,9 @@
   "linkwithcode": "Link with code",
   "entercode": "Enter discord code here...",
   "effectLegend": "BabyAddalyn#000 has the mentor effect, given to mentors, these are people who will help players to the game.<br />DrJester#888 has the special effect, given by the developer as they see fit.<br />Zheneq#412 has the developer effect, given to all the developers.<br />Memedelyn#805 has the MVP effect, these people can get it by be being top 5 in any of the stats.<br />Lucas#210 has the tournament champion effect, these are given to people who have won a tournament.<br />cEEKAY#828 has the Nitro Booster effect, these are given to people who have boosted the Discord server.",
-  "effectLegendTitle": "These are the effects you can get in the launcher"
+  "effectLegendTitle": "These are the effects you can get in the launcher",
+  "supportUs": {
+    "title": "Support",
+    "text": "We put a lot of work into bringing Atlas Reactor back from the brink.<br><br>Your support is much appreciated, though not required. There isn't much you get from doing this other then a nice warm feeling, but your contribution is much appreciated.<br><br>If by any chance the amount is higher than 20 (to BabyAddalyn), you can get the Special status effect in the Launcher.<br><br><a href=\"https://paypal.me/BabyAddalyn\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Support BabyAddalyn (launcher and lobby dev) (One Time)</button></a><br><br><a href=\"https://boosty.to/zheneq\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Support Zheneq (lobby and game server dev) (Subscription)</button></a>"
+  }
 }

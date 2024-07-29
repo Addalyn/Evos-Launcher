@@ -15,7 +15,8 @@
     "Register": "S'inscrire",
     "discord": "Discord",
     "replays": "Replays",
-    "wiki": "Wiki"
+    "wiki": "Wiki",
+    "SupportUs": "Soutenez-nous"
   },
   "replay": {
     "replayOpen": "Ouvrir la relecture",
@@ -283,7 +284,9 @@
     "noLogLaunchOptionsDisabled": "Si vous rencontrez des plantages sur plusieurs comptes, envisagez d'essayer cette solution. Gardez cependant à l'esprit que bien que ceci puisse aider à atténuer le problème, il y a aussi une chance qu'il puisse potentiellement exacerber le problème et conduire à d'autres plantages, surtout si vous n'utilisez pas plusieurs comptes.",
     "deleteAllAccounts": "Supprimer tous les comptes (cela vous déconnectera)",
     "resetApp": "Réinitialiser l'application (cela vous déconnectera)",
-    "labelDarkMode": "Mode sombre"
+    "labelDarkMode": "Mode sombre",
+    "labelGameExpanded": "Jeu Étendu",
+    "GameExpanded": "Désactiver cela fera que les jeux seront réduits par défaut"
   },
   "maps": {
     "map": "Map",
@@ -431,7 +434,9 @@
     "top20EnemiesSighted": "Top 20 des joueurs ayant repéré le plus d'ennemis (par jeu en moyenne)",
     "enemiesSighted": "Ennemis Repérés",
     "top20AccoladesCollector": "Top 20 des joueurs ayant recueilli le plus de distinctions",
-    "accoladesCollector": "Distinctions Recueillies"
+    "accoladesCollector": "Distinctions Recueillies",
+    "top20PerfectAccolades": "Top 20 joueurs ayant obtenu le plus de distinctions parfaites (Toutes les distinctions dans un jeu)",
+    "perfectAccolades": "Distinctions Parfaites"
   },
   "advstats": {
     "playerName": "Nom du Joueur",
@@ -577,5 +582,9 @@
   "linkwithcode": "Lier avec le code",
   "entercode": "Entrez le code Discord ici...",
   "effectLegend": "BabyAddalyn#000 a l'effet mentor, attribué aux mentors, ces personnes aideront les joueurs dans le jeu.<br />DrJester#888 a l'effet spécial, attribué par le développeur selon leur jugement.<br />Zheneq#412 a l'effet développeur, attribué à tous les développeurs.<br />Memedelyn#805 a l'effet MVP, ces personnes peuvent l'obtenir en étant parmi les cinq premiers dans n'importe quelle statistique.<br />Lucas#210 a l'effet de champion de tournoi, attribué aux personnes ayant remporté un tournoi.<br />cEEKAY#828 a l'effet de boost Nitro, attribué aux personnes ayant boosté le serveur Discord.",
-  "effectLegendTitle": "Ce sont les effets que vous pouvez obtenir dans le lanceur"
+  "effectLegendTitle": "Ce sont les effets que vous pouvez obtenir dans le lanceur",
+  "supportUs": {
+    "title": "Soutenir",
+    "text": "Nous avons mis beaucoup de travail pour ramener Atlas Reactor du bord du gouffre.<br><br>Votre soutien est très apprécié, bien que non obligatoire. Vous n'obtenez pas grand-chose en retour à part un bon sentiment, mais votre contribution est très appréciée.<br><br>Si par hasard le montant est supérieur à 20 (pour BabyAddalyn), vous pouvez obtenir l'effet de statut spécial dans le Launcher.<br><br><a href=\"https://paypal.me/BabyAddalyn\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Soutenir BabyAddalyn (développeur du launcher et du lobby) (Unique)</button></a><br><br><a href=\"https://boosty.to/zheneq\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Soutenir Zheneq (développeur du lobby et du serveur de jeu) (Abonnement)</button></a>"
+  }
 }

@@ -5,8 +5,8 @@ import {
   Alert,
   AlertTitle,
   Grid,
-  LinearProgress,
   Paper,
+  Skeleton,
   Typography,
 } from '@mui/material';
 import { PlayerData, Status, WS_URL, getPlayerData } from '../../lib/Evos';
@@ -35,7 +35,7 @@ function StatusPage() {
   const [error, setError] = useState<EvosError>();
   const [status, setStatus] = useState<Status>();
   const [expanded, setExpanded] = useState(false);
-  const { ip, activeUser } = EvosStore();
+  const { ip, activeUser, gameExpanded } = EvosStore();
   const { t } = useTranslation();
   const [playerInfoList, setPlayerInfoList] = useState<PlayerData[]>([]);
   const navigate = useNavigate();
@@ -184,15 +184,24 @@ function StatusPage() {
 
   return (
     <>
-      {status?.factionsEnabled && (
-        <TrustBar factionsData={status?.factionsData} />
-      )}
-      {loading && <LinearProgress />}
       {error && (
         <Alert severity="error">
           <AlertTitle>{t('errors.error')}</AlertTitle>
           {error.text}
         </Alert>
+      )}
+      {loading && (
+        <>
+          <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
+            <Skeleton variant="rectangular" width="100%" height={56} />
+          </Paper>
+          <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
+            <Skeleton variant="rectangular" width="100%" height={200} />
+          </Paper>
+        </>
+      )}
+      {status?.factionsEnabled && (
+        <TrustBar factionsData={status?.factionsData} />
       )}
       {players?.size === 0 && (
         <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
@@ -230,6 +239,7 @@ function StatusPage() {
               info={s}
               game={games.get(s.id)}
               playerData={players}
+              gameExpanded={gameExpanded}
             />
           ))}
       <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>

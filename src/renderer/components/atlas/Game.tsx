@@ -100,10 +100,10 @@ function statusString(info: GameData, t: any) {
 interface Props {
   info: GameData;
   playerData: Map<number, PlayerData>;
-  expanded?: boolean;
+  gameExpanded?: string;
 }
 
-export default function Game({ info, playerData, expanded }: Props) {
+export default function Game({ info, playerData, gameExpanded }: Props) {
   const { t } = useTranslation();
 
   const A = {
@@ -123,7 +123,7 @@ export default function Game({ info, playerData, expanded }: Props) {
 
   const theme = useTheme();
 
-  const [collapsed, setCollapsed] = useState<boolean>(!expanded);
+  const [collapsed, setCollapsed] = useState<boolean>(gameExpanded !== 'true');
 
   return (
     <Stack width="100%">

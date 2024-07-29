@@ -1,3 +1,33 @@
+### Release Notes: Version 2.1.5
+
+## New Features
+
+- **Support Us**
+
+  - Added a "Support Us" dialog to the launcher, providing information on how you can support us.
+
+- **Collapsible Games**
+  - Introduced a setting to collapse or expand games by default on the status page.
+
+## Additions
+
+- **Top 20 Stats**
+  - Added the following stat to the Top 20 Stats page:
+    - Players who have earned all 4 accolades in a game.
+
+## Improvements
+
+- **Discord Integration**
+
+  - Discord status is now only displayed when you are in-game. You can now idle in the launcher without your status being visible to others.
+
+- **Skeleton Loading**
+
+  - Added skeleton loading (to improve the user experience while waiting for the data to load.)
+    - ALL Global Stats
+    - All Persional Stats
+    - Status Page
+
 ### Release Notes: Version 2.1.4
 
 ## Additions

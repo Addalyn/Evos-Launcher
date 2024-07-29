@@ -83,6 +83,8 @@ export default function SettingsPage() {
     // setShowAllChat,
     // enablePatching,
     // setEnablePatching,
+    setGameExpanded,
+    gameExpanded,
   } = EvosStore();
 
   const [password, setPassword] = useState('');
@@ -480,6 +482,25 @@ export default function SettingsPage() {
                 <MenuItem value="fi.evos.live">{t('ips.proxy3')}</MenuItem>
               </Select>
             </FormControl>
+          </Grid>
+        </Grid>
+      </Paper>
+      <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={12}>
+            <FormGroup>
+              <FormControlLabel
+                control={<Switch />}
+                label={t('settings.labelGameExpanded')}
+                checked={gameExpanded === 'true'}
+                onChange={() => {
+                  setGameExpanded(gameExpanded === 'true' ? 'false' : 'true');
+                }}
+              />
+            </FormGroup>
+            <span style={{ fontSize: '0.8em' }}>
+              {t('settings.GameExpanded')}
+            </span>
           </Grid>
         </Grid>
       </Paper>

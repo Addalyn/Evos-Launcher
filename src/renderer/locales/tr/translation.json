@@ -15,7 +15,8 @@
     "Register": "Kaydol",
     "discord": "Discord",
     "replays": "Tekrarlar",
-    "wiki": "Wiki"
+    "wiki": "Wiki",
+    "SupportUs": "Bizi Destekleyin"
   },
   "replay": {
     "replayOpen": "Tekrarı Aç",
@@ -134,7 +135,9 @@
     "noLogLaunchOptionsDisabled": "Eğer birden fazla hesapla çökme yaşıyorsanız bu seçeneği kullanın. Ama her ne kadar sorunu çözmeye yardım etse de, ileride daha da fazla çökmelere sebep olabilir, özellikle birden fazla hesap kullanmıyorsanız.",
     "deleteAllAccounts": "Bütün Hesapları Sil (hesaplardan çıkış yapar)",
     "resetApp": "Uygulamayı Sıfırla (hesaplardan çıkış yapar)",
-    "labelDarkMode": "Karanlık Mod"
+    "labelDarkMode": "Karanlık Mod",
+    "labelGameExpanded": "Oyun Genişletildi",
+    "GameExpanded": "Bunu devre dışı bırakmak, oyunların varsayılan olarak daraltılmasını sağlar"
   },
   "titles": {
     "-1": "",
@@ -431,7 +434,9 @@
     "top20EnemiesSighted": "En fazla düşman gören 20 oyuncu (oyun başına ortalama)",
     "enemiesSighted": "Görüşe Giren Düşmanlar",
     "top20AccoladesCollector": "En fazla ödül toplayan 20 oyuncu",
-    "accoladesCollector": "Toplanan Ödüller"
+    "accoladesCollector": "Toplanan Ödüller",
+    "top20PerfectAccolades": "En fazla mükemmel ödül alan 20 oyuncu (Bir oyundaki tüm ödüller)",
+    "perfectAccolades": "Mükemmel Ödüller"
   },
   "advstats": {
     "playerName": "Oyuncu Adı",
@@ -578,5 +583,9 @@
   "linkwithcode": "Kod ile bağlantı kur",
   "entercode": "Buraya Discord kodunu gir...",
   "effectLegend": "BabyAddalyn#000 mentor etkiye sahiptir, mentorlere verilen bu etki, oyunculara oyun içinde yardımcı olacak kişilerdir.<br />DrJester#888 özel etkiye sahiptir, geliştirici tarafından uygun görüldüğü şekilde verilmiştir.<br />Zheneq#412 geliştirici etkiye sahiptir, tüm geliştiricilere verilmiştir.<br />Memedelyn#805 MVP etkiye sahiptir, bu kişiler herhangi bir istatistikte ilk 5'e girerek bunu elde edebilirler.<br />Lucas#210 turnuva şampiyonu etkiye sahiptir, bu etkiyi turnuva kazanan kişilere verilir.<br />cEEKAY#828 Nitro Booster etkiye sahiptir, Discord sunucusunu güçlendiren kişilere verilir.",
-  "effectLegendTitle": "Bu, başlatıcıda alabileceğiniz etkilerdir"
+  "effectLegendTitle": "Bu, başlatıcıda alabileceğiniz etkilerdir",
+  "supportUs": {
+    "title": "Destek",
+    "text": "Atlas Reactor'u uçurumdan geri getirmek için çok çalıştık.<br><br>Destekleriniz çok takdir edilmektedir, ancak gerekli değildir. Bunun karşılığında pek bir şey elde edemezsiniz, hoş bir sıcak duygu dışında, ancak katkınız çok takdir edilmektedir.<br><br>Eğer miktar 20'nin üzerinde ise (BabyAddalyn'e), Launcher'da Özel durum etkisini alabilirsiniz.<br><br><a href=\"https://paypal.me/BabyAddalyn\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">BabyAddalyn'i Destekle (launcher ve lobi geliştiricisi) (Tek Seferlik)</button></a><br><br><a href=\"https://boosty.to/zheneq\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Zheneq'i Destekle (lobi ve oyun sunucusu geliştiricisi) (Abonelik)</button></a>"
+  }
 }

@@ -54,6 +54,8 @@ export interface EvosStoreState {
   discordId: number;
   isDev: boolean;
   setDev: (isDev: boolean) => void;
+  gameExpanded: string;
+  setGameExpanded: (gameExpanded: string) => void;
 }
 
 const EvosStore = create<EvosStoreState>((set, get) => ({
@@ -72,6 +74,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   showAllChat: 'true',
   enablePatching: 'true',
   discordId: 0,
+  gameExpanded: 'true',
   setDiscordId: (discord: number) => {
     set({ discordId: discord });
   },
@@ -99,6 +102,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       noLogEnabled,
       showAllChat,
       // enablePatching,
+      gameExpanded,
     ] = await Promise.all([
       get().getFromStorage('mode') as string,
       get().getFromStorage('authenticatedUsers') as AuthUser[],
@@ -110,6 +114,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       get().getFromStorage('noLogEnabled') as string,
       get().getFromStorage('showAllChat') as string,
       // get().getFromStorage('enablePatching') as string,
+      get().getFromStorage('gameExpanded') as string,
     ]);
 
     let users: AuthUser[] = [];
@@ -144,6 +149,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       noLogEnabled: noLogEnabled || 'false',
       showAllChat: showAllChat || 'true',
       enablePatching: 'true', // enablePatching || 'true',
+      gameExpanded: gameExpanded || 'true',
     });
     window.electron?.ipcRenderer?.setTheme(
       mode !== 'dark' && mode !== 'light' ? 'dark' : mode,
@@ -337,6 +343,16 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       localStorage.setItem('enablePatching', enablePatching);
     } catch (error) {
       console.error('Error while saving enablePatching to storage:', error);
+    }
+  },
+
+  setGameExpanded: async (gameExpanded: string) => {
+    set({ gameExpanded });
+
+    try {
+      await window.electron.store.setItem('gameExpanded', gameExpanded);
+    } catch (error) {
+      console.error('Error while saving gameExpanded to storage:', error);
     }
   },
 }));

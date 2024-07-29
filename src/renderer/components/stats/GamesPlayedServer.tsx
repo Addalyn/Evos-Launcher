@@ -12,6 +12,7 @@ import {
 import { Bar } from 'react-chartjs-2';
 import { strapiClient } from 'renderer/lib/strapi';
 import { useTranslation } from 'react-i18next';
+import { Skeleton } from '@mui/material';
 
 ChartJS.register(
   CategoryScale,
@@ -83,6 +84,10 @@ export default function GamesPlayedServer() {
     labels: gameData.map((item) => item.server),
     datasets,
   };
+
+  if (gameData.length === 0) {
+    return <Skeleton variant="rectangular" width="100%" height={300} />;
+  }
 
   return <Bar options={options} data={data} height={300} />;
 }

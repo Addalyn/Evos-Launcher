@@ -15,7 +15,8 @@
     "Register": "Registreren",
     "discord": "Discord",
     "replays": "Herhalingen",
-    "wiki": "Wiki"
+    "wiki": "Wiki",
+    "SupportUs": "Steun ons"
   },
   "replay": {
     "replayOpen": "Replay Openen",
@@ -283,7 +284,9 @@
     "noLogLaunchOptionsDisabled": "Als je crashes ervaart op meerdere accounts, overweeg dan deze oplossing. Houd er echter rekening mee dat het de kwestie kan verlichten, maar er is ook een kans dat het het probleem kan verergeren en kan leiden tot verdere crashes, vooral als je geen meerdere accounts gebruikt.",
     "deleteAllAccounts": "Verwijder Alle Accounts (dit zal je uitloggen)",
     "resetApp": "Reset Toepassing (dit zal je uitloggen)",
-    "labelDarkMode": "Donkere Modus"
+    "labelDarkMode": "Donkere Modus",
+    "labelGameExpanded": "Spel Uitgebreid",
+    "GameExpanded": "Het uitschakelen hiervan zorgt ervoor dat de spellen standaard ingeklapt worden"
   },
   "maps": {
     "map": "Map",
@@ -431,7 +434,9 @@
     "top20EnemiesSighted": "Top 20 spelers die de meeste vijanden hebben gespot (per spel gemiddeld)",
     "enemiesSighted": "Gespotte Vijanden",
     "top20AccoladesCollector": "Top 20 spelers die de meeste onderscheidingen hebben verzameld",
-    "accoladesCollector": "Verzamelde Onderscheidingen"
+    "accoladesCollector": "Verzamelde Onderscheidingen",
+    "top20PerfectAccolades": "Top 20 spelers met de meeste perfecte onderscheidingen (Alle onderscheidingen in één spel)",
+    "perfectAccolades": "Perfecte Onderscheidingen"
   },
   "advstats": {
     "playerName": "Spelersnaam",
@@ -577,5 +582,9 @@
   "linkwithcode": "Verbinden met code",
   "entercode": "Voer hier de Discord-code in...",
   "effectLegend": "BabyAddalyn#000 heeft het mentor-effect, toegekend aan mentoren, mensen die spelers zullen helpen in het spel.<br />DrJester#888 heeft het speciale effect, toegekend door de ontwikkelaar zoals zij dat passend achten.<br />Zheneq#412 heeft het ontwikkelaar-effect, toegekend aan alle ontwikkelaars.<br />Memedelyn#805 heeft het MVP-effect, deze personen kunnen dit krijgen door bij de top 5 te staan in een van de statistieken.<br />Lucas#210 heeft het effect van toernooikampioen, toegekend aan mensen die een toernooi hebben gewonnen.<br />cEEKAY#828 heeft het Nitro Booster-effect, toegekend aan mensen die de Discord-server hebben versterkt.",
-  "effectLegendTitle": "Dit zijn de effecten die je kunt krijgen in de launcher"
+  "effectLegendTitle": "Dit zijn de effecten die je kunt krijgen in de launcher",
+  "supportUs": {
+    "title": "Steun",
+    "text": "We hebben veel werk verzet om Atlas Reactor van de afgrond terug te brengen.<br><br>Uw steun wordt zeer gewaardeerd, hoewel het niet verplicht is. U krijgt hier niet veel voor terug, behalve een warm gevoel, maar uw bijdrage wordt zeer gewaardeerd.<br><br>Als het bedrag toevallig hoger is dan 20 (aan BabyAddalyn), kunt u de speciale statuseffect in de Launcher krijgen.<br><br><a href=\"https://paypal.me/BabyAddalyn\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Steun BabyAddalyn (launcher en lobby ontwikkelaar) (Eenmalig)</button></a><br><br><a href=\"https://boosty.to/zheneq\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Steun Zheneq (lobby en game server ontwikkelaar) (Abonnement)</button></a>"
+  }
 }

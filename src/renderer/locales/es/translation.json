@@ -15,7 +15,8 @@
     "Register": "Registrarse",
     "discord": "Discord",
     "replays": "Repetición",
-    "wiki": "Wiki"
+    "wiki": "Wiki",
+    "SupportUs": "Apóyanos"
   },
   "replay": {
     "replayOpen": "Abrir Repetición",
@@ -251,7 +252,9 @@
     "noLogLaunchOptionsDisabled": "Si experimentas cierres del juego en varias cuentas, considera intentar esta solución. Aunque esto pueda ayudar a aliviar el problema, Existe la posibilidad de agravarlo, especialmente si no usas multiples cuentas.",
     "deleteAllAccounts": "Borra todas las cuentas (esto te desconectará)",
     "resetApp": "Reset Aplicación (esto te desconectará)",
-    "labelDarkMode": "Modo Oscuro"
+    "labelDarkMode": "Modo Oscuro",
+    "labelGameExpanded": "Juego Expandido",
+    "GameExpanded": "Desactivar esto hará que los juegos se colapsen por defecto"
   },
   "maps": {
     "map": "Mapa",
@@ -399,7 +402,9 @@
     "top20EnemiesSighted": "Top 20 jugadores que avistaron más enemigos (por juego en promedio)",
     "enemiesSighted": "Enemigos Avistados",
     "top20AccoladesCollector": "Top 20 jugadores que recogieron más reconocimientos",
-    "accoladesCollector": "Reconocimientos Recogidos"
+    "accoladesCollector": "Reconocimientos Recogidos",
+    "top20PerfectAccolades": "Top 20 jugadores con más distinciones perfectas (Todas las distinciones en un juego)",
+    "perfectAccolades": "Distinciones Perfectas"
   },
   "advstats": {
     "playerName": "Nombre del Jugador",
@@ -546,5 +551,9 @@
   "linkwithcode": "Vincular con código",
   "entercode": "Ingresa el código de Discord aquí...",
   "effectLegend": "BabyAddalyn#000 tiene el efecto de mentor, otorgado a mentores, personas que ayudarán a los jugadores en el juego.<br />DrJester#888 tiene el efecto especial, otorgado por el desarrollador según consideren adecuado.<br />Zheneq#412 tiene el efecto de desarrollador, otorgado a todos los desarrolladores.<br />Memedelyn#805 tiene el efecto de MVP, estas personas pueden obtenerlo al estar entre los cinco primeros en cualquier estadística.<br />Lucas#210 tiene el efecto de campeón de torneo, otorgado a personas que han ganado un torneo.<br />cEEKAY#828 tiene el efecto de impulso Nitro, otorgado a personas que han potenciado el servidor Discord.",
-  "effectLegendTitle": "Estos son los efectos que puedes obtener en el lanzador"
+  "effectLegendTitle": "Estos son los efectos que puedes obtener en el lanzador",
+  "supportUs": {
+    "title": "Apoyar",
+    "text": "Hemos puesto mucho esfuerzo en traer de vuelta a Atlas Reactor desde el borde del abismo.<br><br>Agradecemos mucho su apoyo, aunque no es necesario. No obtendrá mucho a cambio de esto, aparte de una cálida sensación agradable, pero su contribución es muy apreciada.<br><br>Si por casualidad el monto es superior a 20 (para BabyAddalyn), puede obtener el efecto de estado Especial en el Lanzador.<br><br><a href=\"https://paypal.me/BabyAddalyn\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Apoyar a BabyAddalyn (desarrollador del lanzador y lobby) (Una Vez)</button></a><br><br><a href=\"https://boosty.to/zheneq\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Apoyar a Zheneq (desarrollador del lobby y del servidor del juego) (Suscripción)</button></a>"
+  }
 }

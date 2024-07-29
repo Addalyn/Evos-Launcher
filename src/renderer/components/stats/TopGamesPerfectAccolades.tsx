@@ -29,7 +29,7 @@ interface DataItem {
   user: string;
 }
 
-export default function TopGamesExtraDamageFromMight() {
+export default function TopGamesPerfectAccolades() {
   const { t } = useTranslation();
   const { activeUser } = EvosStore();
   const [gameData, setGameData] = useState([]);
@@ -44,7 +44,7 @@ export default function TopGamesExtraDamageFromMight() {
       },
       title: {
         display: true,
-        text: t('stats.top20ExtraDamageMight'),
+        text: t('stats.top20PerfectAccolades'),
       },
     },
   };
@@ -52,7 +52,7 @@ export default function TopGamesExtraDamageFromMight() {
   useEffect(() => {
     async function fetchData() {
       const data: DataItem[] = (await fetchGameInfo(
-        'extradamagefrommight',
+        'perfectaccolade',
       )) as DataItem[];
       setGameData([]);
       setNames([]);
@@ -72,7 +72,7 @@ export default function TopGamesExtraDamageFromMight() {
     labels: names,
     datasets: [
       {
-        label: t('stats.extraDamageMight'),
+        label: t('stats.perfectAccolades'),
         data: gameData,
         backgroundColor: (context: { dataIndex: number }) => {
           const index = context.dataIndex;
