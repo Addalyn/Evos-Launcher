@@ -30,7 +30,7 @@ import StatusPage from './components/pages/StatusPage';
 import Updater from './components/generic/Updater';
 import { trackEvent } from '@aptabase/electron/renderer';
 import { useTranslation } from 'react-i18next';
-import useWebSocket from 'react-use-websocket';
+// import useWebSocket from 'react-use-websocket';
 import WikiPage from './components/pages/WikiPage';
 import ReplaysPage from './components/pages/ReplaysPage';
 import DevPage from './components/pages/DevPage';
