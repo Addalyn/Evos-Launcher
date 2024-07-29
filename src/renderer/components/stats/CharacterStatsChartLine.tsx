@@ -13,6 +13,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Line } from 'react-chartjs-2';
 import { strapiClient } from 'renderer/lib/strapi';
 import { useTranslation } from 'react-i18next';
+import { Skeleton } from '@mui/material';
 
 ChartJS.register(
   CategoryScale,
@@ -521,6 +522,11 @@ export default function CharacterStatsChartLine({
     setAverage(undefined);
     fetchData();
   }, [character, map, player]);
+
+  if (gameData.length === 0) {
+    return <Skeleton variant="rectangular" width="100%" height={300} />;
+  }
+
   return (
     <div>
       {/*

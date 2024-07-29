@@ -101,7 +101,7 @@ export function convertToRealName(internalName: string): string | undefined {
       return 'Meridian';
     case 'digitalsorceress':
       return 'Aurora';
-    case 'dinolancer':
+    case 'dino':
       return 'Magnus';
     case 'exo':
       return 'Juno';

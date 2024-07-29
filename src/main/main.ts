@@ -480,7 +480,7 @@ const createWindow = async () => {
   mainWindow = new BrowserWindow({
     show: false,
     width: 1250,
-    height: 740,
+    height: 790,
     minWidth: 800,
     minHeight: 400,
     autoHideMenuBar: true,

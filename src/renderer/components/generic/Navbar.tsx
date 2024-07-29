@@ -1,3 +1,5 @@
+/* eslint-disable react/no-danger */
+/* eslint-disable-next-line react/no-array-index-key */
 import {
   AccountData,
   PlayerData,
@@ -26,6 +28,7 @@ import {
   Typography,
 } from '@mui/material';
 import { EvosError, isValidExePath, processError } from 'renderer/lib/Error';
+import BaseDialog from './BaseDialog';
 import EvosStore, { AuthUser } from 'renderer/lib/EvosStore';
 import { NavLink, useNavigate } from 'react-router-dom';
 /* eslint-disable no-nested-ternary */
@@ -52,6 +55,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 // import LogoDevIcon from '@mui/icons-material/LogoDev';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
+import PriceChangeIcon from '@mui/icons-material/PriceChange';
 import Toolbar from '@mui/material/Toolbar';
 import { trackEvent } from '@aptabase/electron/renderer';
 import useHasFocus from 'renderer/lib/useHasFocus';
@@ -84,7 +88,11 @@ export default function NavBar() {
 
   const pages = useMemo(
     () => [
-      { title: t('menuOptions.status'), href: '/', icon: <HomeIcon /> },
+      {
+        title: t('menuOptions.status'),
+        href: '/',
+        icon: <HomeIcon />,
+      },
       {
         title: t('menuOptions.gstats'),
         href: '/stats',
@@ -141,6 +149,12 @@ export default function NavBar() {
         href: '/about',
         icon: <InfoIcon />,
       },
+      {
+        title: t('menuOptions.SupportUs'),
+        href: '#support',
+        icon: <PriceChangeIcon />,
+        special: true,
+      },
     ],
     [t],
   );
@@ -165,6 +179,9 @@ export default function NavBar() {
   const [playerInfoMap, setPlayerInfoMap] = useState<{
     [key: string]: PlayerData;
   }>({});
+
+  const [supportUs, setSupportUs] = useState<boolean>(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -294,8 +311,12 @@ export default function NavBar() {
 
   const doNavigate = (href: string) => {
     trackEvent('Page', {
-      page: `${href}`,
+      page: `${activeUser?.user}: ${href}`,
     });
+    if (href === '#support') {
+      setSupportUs(true);
+      return;
+    }
     navigate(href);
   };
 
@@ -416,6 +437,20 @@ export default function NavBar() {
     <>
       {error && (
         <ErrorDialog error={error} onDismiss={() => setError(undefined)} />
+      )}
+      {supportUs && (
+        <BaseDialog
+          title={t('supportUs.title')}
+          content={
+            <div
+              dangerouslySetInnerHTML={{
+                __html: t('supportUs.text'),
+              }}
+            />
+          }
+          dismissText={t('replay.close')}
+          onDismiss={() => setSupportUs(!supportUs)}
+        />
       )}
       <AppBar
         position="fixed"
@@ -612,19 +647,26 @@ export default function NavBar() {
             maxWidth: drawerWidth,
             overflow: 'hidden',
             flexShrink: 0,
+            display: 'flex',
+            flexDirection: 'column',
             [`& .MuiDrawer-paper`]: {
               width: drawerWidth,
+              display: 'flex',
+              flexDirection: 'column',
             },
           }}
         >
-          <Toolbar sx={{ Height: '70px' }} />
+          <Toolbar sx={{ height: '70px' }} />
 
+          {/* MOTD - Always visible at the top */}
           <Paper
             elevation={0}
             sx={{
               width: '100%',
               borderRadius: 0,
               display: { xs: 'none', md: 'flex' },
+              position: 'sticky',
+              top: 0,
             }}
           >
             <Alert
@@ -632,9 +674,10 @@ export default function NavBar() {
               variant="filled"
               severity={severity as 'info' | 'error' | 'warning'}
               sx={{
-                marginTop: `auto`,
                 width: '100%',
                 borderRadius: 0,
+                display: 'flex',
+                alignItems: 'center',
               }}
             >
               <Typography sx={{ color: 'white', fontSize: '14px' }}>
@@ -642,49 +685,117 @@ export default function NavBar() {
               </Typography>
             </Alert>
           </Paper>
+
+          {/* Scrollable content area for the first list */}
           <Box
             sx={{
-              height: '100%',
-              overflow: 'hidden',
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              overflowY: 'auto', // Allow scrolling in this area
             }}
           >
             <Paper
               sx={{
-                height: '100%',
-                maxHeight: '100%',
+                flex: 1,
                 boxShadow: 'none',
                 borderRadius: 0,
-                overflowY: 'auto',
+                overflowY: 'auto', // Scrollable content
                 overflowX: 'hidden',
               }}
             >
               <List>
-                {pages.map((page, index) => (
-                  // eslint-disable-next-line react/no-array-index-key
-                  <React.Fragment key={index}>
-                    {page.devider && <Divider key={`${page.title}-divider`} />}
-                    <ListItem
-                      key={page.title}
-                      disablePadding
-                      sx={{ display: 'block' }}
-                      disabled={isDownloading}
-                      onClick={() => {
-                        if (!isDownloading) doNavigate(page.href);
-                      }}
-                    >
-                      <ListItemButton>
-                        <ListItemIcon>{page.icon}</ListItemIcon>
-                        <ListItemText
-                          primaryTypographyProps={{ fontSize: '16px' }}
-                          primary={page.title}
-                          sx={{ display: { xs: 'none', md: 'flex' } }}
-                        />
-                      </ListItemButton>
-                    </ListItem>
-                  </React.Fragment>
-                ))}
+                {pages.map((page, index) => {
+                  if (!page.special) {
+                    return (
+                      // eslint-disable-next-line react/no-array-index-key
+                      <React.Fragment key={index}>
+                        {page.devider && (
+                          <Divider key={`${page.title}-divider`} />
+                        )}
+                        <ListItem
+                          key={page.title}
+                          disablePadding
+                          sx={{ display: 'block' }}
+                          disabled={isDownloading}
+                          onClick={() => {
+                            if (!isDownloading) doNavigate(page.href);
+                          }}
+                        >
+                          <ListItemButton
+                            className={page.special ? 'glow-on-hover' : ''}
+                            sx={{
+                              width: page.special ? '98%' : '100%',
+                              left: page.special ? '3px' : '0px',
+                              bottom: page.special ? '4px' : '0px',
+                            }}
+                          >
+                            <ListItemIcon>{page.icon}</ListItemIcon>
+                            <ListItemText
+                              primaryTypographyProps={{ fontSize: '16px' }}
+                              primary={page.title}
+                              sx={{ display: { xs: 'none', md: 'flex' } }}
+                            />
+                          </ListItemButton>
+                        </ListItem>
+                      </React.Fragment>
+                    );
+                  }
+                  return null;
+                })}
               </List>
             </Paper>
+          </Box>
+
+          {/* Fixed bottom section for the last list */}
+          <Box
+            sx={{
+              padding: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              borderTop: '1px solid',
+              borderColor: 'divider',
+            }}
+          >
+            <List>
+              {pages.map((page, index) => {
+                if (page.special) {
+                  return (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <React.Fragment key={index}>
+                      <ListItem
+                        key={page.title}
+                        disablePadding
+                        sx={{
+                          display: 'block',
+                          marginBottom: pages.length < 1 ? '10px' : '',
+                        }}
+                        disabled={isDownloading}
+                        onClick={() => {
+                          if (!isDownloading) doNavigate(page.href);
+                        }}
+                      >
+                        <ListItemButton
+                          className="glow-on-hover"
+                          sx={{
+                            width: '97%',
+                            left: '4px',
+                          }}
+                        >
+                          <ListItemIcon>{page.icon}</ListItemIcon>
+                          <ListItemText
+                            primaryTypographyProps={{ fontSize: '16px' }}
+                            primary={page.title}
+                            sx={{ display: { xs: 'none', md: 'flex' } }}
+                          />
+                        </ListItemButton>
+                      </ListItem>
+                    </React.Fragment>
+                  );
+                }
+                return null;
+              })}
+            </List>
           </Box>
         </Drawer>
       )}

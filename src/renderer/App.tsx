@@ -206,22 +206,10 @@ export default function App() {
               ? `${t(convertToRealName(currentCharacter.toLowerCase()) as string, { lng: 'en' })}`
               : '',
         };
+        window.electron.ipcRenderer.sendDiscordStatus(discordStatus);
       } else {
-        discordStatus = {
-          details: 'Idling in Launcher',
-          state: 'Waiting to start playing',
-          largeImageKey: 'logo',
-          // startTimestamp: discordTimestamp,
-          buttons: [
-            {
-              label: 'Start playing!',
-              url: 'https://evos.live/discord',
-            },
-          ],
-        };
+        window.electron.ipcRenderer.stopDiscord();
       }
-
-      window.electron.ipcRenderer.sendDiscordStatus(discordStatus);
     }
   }, [
     evosStore.activeUser,
