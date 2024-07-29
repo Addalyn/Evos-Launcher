@@ -1,3 +1,10 @@
+### Release Notes: Version 2.1.3 - The Furrbal
+
+## New Features
+
+- **Isadora**
+  - Added Isadora
+
 ### Release Notes: Version 2.1.2
 
 ## New Features

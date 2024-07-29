@@ -30,7 +30,7 @@ export const denydNames = [
   'Asana',
   'Brynn',
   'Garrison',
-  // 'Isadora',
+  'Isadora',
   'Magnus',
   'Phaedra',
   'Rampart',

@@ -86,6 +86,7 @@ const characterCategories: { [key: string]: string } = {
   Rampart: 'Frontline',
   Rask: 'Frontline',
   Titus: 'Frontline',
+  Isadora: 'Frontline',
   Aurora: 'Support',
   'Dr. Finn': 'Support',
   Helio: 'Support',
