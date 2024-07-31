@@ -609,59 +609,71 @@ export default function SettingsPage() {
             </Grid>
             <Grid item xs={12}>
               {branch &&
+                // @ts-ignore
                 branchesData &&
-                branchesData[branch] &&
-                Array.isArray(branchesData[branch].arguments) &&
-                branchesData[branch].arguments.length > 0 && (
+                // @ts-ignore
+                branchesData[branch] !== undefined &&
+                // @ts-ignore
+                branchesData[branch].arguments !== undefined &&
+                // @ts-ignore
+                Array.isArray(branchesData[branch]?.arguments) &&
+                // @ts-ignore
+                branchesData[branch]?.arguments.length > 0 && (
                   <div>
-                    {(branchesData[branch].arguments.some(
-                      (arg) => !arg.showOnlyDev,
-                    ) ||
-                      isDev) && (
-                      <>
-                        <span
-                          style={{
-                            fontSize: '0.8em',
-                            marginBottom: '0.5em',
-                            display: 'block',
-                          }}
-                        >
-                          {t('settings.arguments')}:
-                        </span>
-                        {branchesData[branch].arguments.map((arg) => {
-                          if (arg.showOnlyDev && !isDev) {
-                            return null;
+                    {
+                      // @ts-ignore
+                      (branchesData[branch]?.arguments.some(
+                        (arg) => !arg.showOnlyDev,
+                      ) ||
+                        isDev) && (
+                        <>
+                          <span
+                            style={{
+                              fontSize: '0.8em',
+                              marginBottom: '0.5em',
+                              display: 'block',
+                            }}
+                          >
+                            {t('settings.arguments')}:
+                          </span>
+                          {
+                            // @ts-ignore
+                            branchesData[branch].arguments.map((arg) => {
+                              if (arg.showOnlyDev && !isDev) {
+                                return null;
+                              }
+                              return (
+                                <TextField
+                                  key={arg.key}
+                                  select
+                                  label={`${arg.key}`}
+                                  value={
+                                    selectedArguments[arg.key] ??
+                                    arg.defaultValue ??
+                                    ''
+                                  }
+                                  onChange={(e) =>
+                                    handleArgumentChange(
+                                      arg.key,
+                                      e.target.value as string,
+                                    )
+                                  }
+                                  helperText={`${arg.description}`}
+                                  fullWidth
+                                  margin="normal"
+                                >
+                                  {arg.value.map((value) => (
+                                    <MenuItem key={value} value={value}>
+                                      {value}
+                                    </MenuItem>
+                                  ))}
+                                </TextField>
+                              );
+                            })
                           }
-                          return (
-                            <TextField
-                              key={arg.key}
-                              select
-                              label={`${arg.key}`}
-                              value={
-                                selectedArguments[arg.key] ??
-                                arg.defaultValue ??
-                                ''
-                              }
-                              onChange={(e) =>
-                                handleArgumentChange(
-                                  arg.key,
-                                  e.target.value as string,
-                                )
-                              }
-                              helperText={`${arg.description}`}
-                              fullWidth
-                              margin="normal"
-                            >
-                              {arg.value.map((value) => (
-                                <MenuItem key={value} value={value}>
-                                  {value}
-                                </MenuItem>
-                              ))}
-                            </TextField>
-                          );
-                        })}
-                      </>
-                    )}
+                        </>
+                      )
+                    }
                   </div>
                 )}
             </Grid>
