@@ -137,7 +137,15 @@
     "labelDarkMode": "启用暗色模式",
     "labelDiscordRPC": "启用 Discord 状态",
     "labelGameExpanded": "游戏扩展",
-    "GameExpanded": "禁用此选项将使游戏默认折叠"
+    "GameExpanded": "禁用此选项将使游戏默认折叠",
+    "selectBranch": "选择分支",
+    "selectBranchHelper": "选择您想要使用的分支，更改此项将自动下载所选分支。",
+    "refreshBranch": "重新下载并应用分支",
+    "arguments": "设置",
+    "branchTitle": "分支已更新",
+    "branchContent": "选定的分支 ({{branch}}) 已更新！",
+    "branchInvalid": "选定的分支 ({{branch}}) 无效或已被删除。请在设置中选择一个新分支以下载文件。",
+    "branchOutdated": "当前分支 ({{branch}}) 已过时。重新下载文件..."
   },
   "titles": {
     "-1": "",

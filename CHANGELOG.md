@@ -1,3 +1,27 @@
+### Release Notes: Version 2.1.6 - Branches!
+
+## New Features
+
+- **Branch Management**
+  - Introduced support for branches, allowing users to download specific branches of the game. This feature facilitates the release of new content and patches.
+  - The default branch is "Vanilla," representing the unmodified version of the game. Future branches will be added automatically without requiring a launcher update.
+  - Branches can include custom launch settings where applicable, such as enabling or disabling new features.
+  - When a branch is updated, the launcher will automatically download the update.
+  - Branches can be deleted by us. If a branch is removed, you will need to switch to another branch before you can play the game again.
+  - This feature also supports releasing new content like the Snowspire map, which replaces the previous patching option in the launcher.
+  - If a branch is outdated, the launcher will automatically switch and download the latest version.
+  - Example branches could include:
+    - **Vanilla**: The default branch with no modifications.
+    - **Stable**: Stable branches with modifications.
+    - **Beta**: Unstable branches with modifications.
+    - **Custom**: Custom branches for testing and development.
+  - These are just examples; currently, only the **Vanilla** branch is available.
+
+## Bug Fixes
+
+- **Support Us**
+  - Updated the "Support Us" button for light mode.
+
 ### Release Notes: Version 2.1.5
 
 ## New Features

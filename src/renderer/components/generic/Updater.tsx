@@ -5,21 +5,46 @@ import { Alert, Button, Paper } from '@mui/material';
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { useEffect, useState } from 'react';
 
-import { getUpdateInfo } from 'renderer/lib/Evos';
+import { Branches, getBranches, getUpdateInfo } from 'renderer/lib/Evos';
 import useHasFocus from 'renderer/lib/useHasFocus';
 import useInterval from 'renderer/lib/useInterval';
 import { useTranslation } from 'react-i18next';
+import BaseDialog from './BaseDialog';
+import EvosStore from 'renderer/lib/EvosStore';
+import { useNavigate } from 'react-router-dom';
 
 interface getVersion {
   version: number;
 }
 
 function Updater() {
+  const {
+    setBranch,
+    setNeedPatching,
+    needPatching,
+    setLocked,
+    locked,
+    branch,
+  } = EvosStore();
   const [message, setMessage] = useState('');
   const [latestVersion, setLatestVersion] = useState<getVersion>();
   const [version, setVersion] = useState<number>();
   const [ready, setReady] = useState<boolean>(false);
+  const [branchReady, setBranchReady] = useState<boolean>(false);
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [branchesData, setBranchesData] = useState<Branches>();
+
+  useEffect(() => {
+    const getBranchesInfo = async () => {
+      const response = await getBranches();
+      const { data }: { data: Branches } = response;
+      setBranchesData(data);
+    };
+
+    getBranchesInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [branch, setBranchesData]);
 
   function handleMessage(event: any) {
     setMessage(event);
@@ -57,15 +82,66 @@ function Updater() {
     if (message === 'updateDownloaded') {
       setReady(true);
     }
-  }, [latestVersion, message, version]);
+    if (message === 'completed') {
+      setMessage('');
+      setBranchReady(true);
+      setNeedPatching(false);
+      setLocked(false);
+    }
+    if (message.includes('branchOutdated')) {
+      if (branchesData && !locked && !needPatching) {
+        // timeout 3seconds
+        setLocked(true);
+        setTimeout(() => {
+          window.electron.ipcRenderer.updateBranch(branchesData[branch]);
+        }, 3000);
+      }
+      setNeedPatching(true);
+    }
+
+    if (message.includes('branchInvalid')) {
+      setNeedPatching(true);
+    }
+    if (message.includes('Downloading:')) {
+      setNeedPatching(true);
+    }
+    // Error
+    if (message.includes('Error')) {
+      setLocked(false);
+      setNeedPatching(false);
+    }
+  }, [
+    setNeedPatching,
+    latestVersion,
+    message,
+    setBranch,
+    version,
+    t,
+    setLocked,
+    navigate,
+    branchesData,
+    branch,
+    locked,
+    needPatching,
+  ]);
 
   window.electron.ipcRenderer.on('message', handleMessage);
   return (
     <div>
-      {message !== '' && (
+      {branchReady && (
+        <BaseDialog
+          title={t('settings.branchTitle')}
+          content={t('settings.branchContent', {
+            branch,
+          })}
+          dismissText={t('replay.close')}
+          onDismiss={() => setBranchReady(!branchReady)}
+        />
+      )}
+      {message === 'branchOutdated' && (
         <Paper elevation={5} sx={{ width: '100%', height: '65px' }}>
           <Alert
-            severity="info"
+            severity="error"
             sx={{ display: 'flex', alignItems: 'center', height: '65px' }}
           >
             {ready ? (
@@ -83,7 +159,44 @@ function Updater() {
               </div>
             ) : (
               <div style={{ display: 'flex', alignItems: 'center' }}>
-                {message}
+                {t(`settings.${message}`, {
+                  branch,
+                })}
+              </div>
+            )}
+          </Alert>
+        </Paper>
+      )}
+      {message !== '' && message !== 'branchOutdated' && (
+        <Paper elevation={5} sx={{ width: '100%', height: '65px' }}>
+          <Alert
+            severity={
+              message === 'branchInvalid' || message === 'branchOutdated'
+                ? 'error'
+                : 'info'
+            }
+            sx={{ display: 'flex', alignItems: 'center', height: '65px' }}
+          >
+            {ready ? (
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => notifyAndRestart()}
+                  sx={{
+                    cursor: 'pointer',
+                  }}
+                >
+                  {t('update')}
+                </Button>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                {message === 'branchInvalid'
+                  ? t(`settings.${message}`, {
+                      branch,
+                    })
+                  : message}
               </div>
             )}
           </Alert>

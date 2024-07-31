@@ -138,7 +138,15 @@
     "labelDarkMode": "Karanlık Mod",
     "labelDiscordRPC": "Discord Durumunu Etkinleştir",
     "labelGameExpanded": "Oyun Genişletildi",
-    "GameExpanded": "Bunu devre dışı bırakmak, oyunların varsayılan olarak daraltılmasını sağlar"
+    "GameExpanded": "Bunu devre dışı bırakmak, oyunların varsayılan olarak daraltılmasını sağlar",
+    "selectBranch": "Dal Seç",
+    "selectBranchHelper": "Kullanmak istediğiniz dalı seçin; bunu değiştirmek, seçilen dalı otomatik olarak indirecektir.",
+    "refreshBranch": "Dalı yeniden indir ve uygula",
+    "arguments": "Ayarlar",
+    "branchTitle": "Dal Güncellendi",
+    "branchContent": "Seçilen dal ({{branch}}) güncellendi!",
+    "branchInvalid": "Seçilen dal ({{branch}}) geçersiz veya silinmiş. Lütfen dosyaları indirmek için ayarlardan yeni bir dal seçin.",
+    "branchOutdated": "Mevcut dal ({{branch}}) güncel değil. Dosyalar yeniden indiriliyor..."
   },
   "titles": {
     "-1": "",

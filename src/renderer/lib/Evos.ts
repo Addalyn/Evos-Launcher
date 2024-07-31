@@ -190,6 +190,30 @@ export interface TrustWar {
   selectedRibbonID?: number;
 }
 
+export interface Argument {
+  key: string;
+  value: string[];
+  description: string;
+  defaultValue: string;
+  showOnlyDev?: boolean;
+}
+
+export interface Branch {
+  path: string;
+  text: string;
+  enabled: boolean;
+  devOnly: boolean;
+  files: {
+    path: string;
+    checksum: string;
+  }[];
+  arguments?: Argument[];
+}
+
+export interface Branches {
+  [key: string]: Branch;
+}
+
 export function asDate(date?: string): Date | undefined {
   return date ? new Date(date) : undefined;
 }
@@ -450,4 +474,9 @@ export async function getSpecialNames(): Promise<SpecialNames | null> {
 
 export async function getUpdateInfo() {
   return axios.get(`https://misc.evos.live/version.json?rand=${Math.random()}`);
+}
+
+export async function getBranches() {
+  const baseUrl = `https://builds.evos.live/builds.json`;
+  return axios.get<Branches>(baseUrl);
 }

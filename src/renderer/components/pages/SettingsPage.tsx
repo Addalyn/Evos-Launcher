@@ -14,21 +14,31 @@ import {
   Switch,
   TextField,
   Tooltip,
+  Typography,
 } from '@mui/material';
-import { changePassword, logout } from 'renderer/lib/Evos';
+import {
+  Branches,
+  changePassword,
+  getBranches,
+  logout,
+} from 'renderer/lib/Evos';
 import { isValidExePath, isWarningPath } from 'renderer/lib/Error';
 
 import EvosStore from 'renderer/lib/EvosStore';
 import Flag from 'react-flagkit';
 import { logoSmall } from 'renderer/lib/Resources';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { trackEvent } from '@aptabase/electron/renderer';
 
 interface Language {
   nativeName: string;
   icon: string;
 }
+
+type SelectedArguments = Record<string, string | null>;
+
 const lngs: { [key: string]: Language } = {
   en: { nativeName: 'English', icon: 'US' },
   nl: { nativeName: 'Nederlands', icon: 'NL' },
@@ -81,12 +91,17 @@ export default function SettingsPage() {
     setIp,
     showAllChat,
     setShowAllChat,
-    enablePatching,
-    setEnablePatching,
     enableDiscordRPC,
     toggleDiscordRPC,
     setGameExpanded,
     gameExpanded,
+    branch,
+    setBranch,
+    isDev,
+    selectedArguments,
+    setSelectedArguments,
+    setLocked,
+    locked,
   } = EvosStore();
 
   const [password, setPassword] = useState('');
@@ -94,6 +109,39 @@ export default function SettingsPage() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const [branchesData, setBranchesData] = useState<Branches>();
+
+  // Your state and updater function
+  const [selectedArgumentsTemp, setSelectedArgumentsTemp] =
+    useState<SelectedArguments>({});
+
+  useEffect(() => {
+    const getBranchesInfo = async () => {
+      const response = await getBranches();
+      const { data }: { data: Branches } = response;
+      setBranchesData(data);
+
+      // Set default selected arguments
+      const defaultArguments: Record<string, string | null> = {};
+      const branchData = data[branch];
+
+      if (branchData) {
+        branchData.arguments?.forEach((arg) => {
+          if (!arg.showOnlyDev || isDev) {
+            defaultArguments[arg.key] =
+              selectedArguments[arg.key] || arg.defaultValue || null;
+          } else {
+            defaultArguments[arg.key] = arg.defaultValue;
+          }
+        });
+
+        setSelectedArgumentsTemp(defaultArguments);
+      }
+    };
+
+    getBranchesInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [branch, setBranchesData, setSelectedArguments]);
 
   const signOut = () => {
     logout(activeUser?.token ?? '');
@@ -193,6 +241,24 @@ export default function SettingsPage() {
     signOut();
   };
 
+  const handleChangeBranch = (event: { target: { value: any } }) => {
+    const selectedValue = event.target.value;
+    trackEvent('Branch', {
+      branch: selectedValue,
+    });
+    setBranch(selectedValue);
+    setLocked(true);
+    if (branchesData) {
+      window.electron.ipcRenderer.updateBranch(branchesData[selectedValue]);
+    }
+  };
+
+  const handleRefresh = () => {
+    if (branchesData) {
+      setLocked(true);
+      window.electron.ipcRenderer.updateBranch(branchesData[branch]);
+    }
+  };
   const setShowAllChatInternal = (value: string) => {
     setShowAllChat(value);
     window.electron.ipcRenderer.setShowAllChat(value);
@@ -204,6 +270,20 @@ export default function SettingsPage() {
     }
     toggleDiscordRPC();
   };
+
+  const handleArgumentChange = (key: string, value: string) => {
+    trackEvent('Arguments', {
+      [key]: `${activeUser?.handle}: ${value}`,
+    });
+    setSelectedArgumentsTemp((prevSelected) => ({
+      ...prevSelected,
+      [key]: value,
+    }));
+  };
+
+  useEffect(() => {
+    setSelectedArguments(selectedArgumentsTemp);
+  }, [selectedArgumentsTemp, setSelectedArguments]);
 
   return (
     <>
@@ -472,6 +552,122 @@ export default function SettingsPage() {
           </Grid>
         </Grid>
       </Paper>
+      {branchesData && isValidExePath(exePath) && (
+        <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item xs={12}>
+              <Typography variant="caption">
+                {t('settings.selectBranchHelper')}
+              </Typography>
+            </Grid>
+            <Grid item xs={8}>
+              <TextField
+                id="branch-select"
+                select
+                label={t('settings.selectBranch')}
+                value={branch}
+                onChange={handleChangeBranch}
+                variant="outlined"
+                disabled={locked}
+                fullWidth
+              >
+                {Object.keys(branchesData).map((key) => {
+                  const branchInfo = branchesData[key];
+                  if (
+                    branchInfo &&
+                    (branchInfo.enabled || (isDev && branchInfo.devOnly))
+                  ) {
+                    return (
+                      <MenuItem key={key} value={key}>
+                        {key}
+                        {branchInfo.text !== '' ? ` (${branchInfo.text})` : ''}
+                        {isDev && branchInfo.devOnly ? ' (dev branch)' : ''}
+                      </MenuItem>
+                    );
+                  }
+                  return null;
+                })}
+              </TextField>
+            </Grid>
+            <Grid item xs={4}>
+              <Button
+                onClick={handleRefresh}
+                variant="contained"
+                color="primary"
+                disabled={locked}
+                sx={{
+                  width: '100%',
+                  height: '56px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: (theme) => theme.palette.primary.light,
+                }}
+              >
+                {t('settings.refreshBranch')}
+              </Button>
+            </Grid>
+            <Grid item xs={12}>
+              {branch &&
+                branchesData[branch] &&
+                Array.isArray(branchesData[branch].arguments) &&
+                branchesData[branch].arguments.length > 0 && (
+                  <div>
+                    {(branchesData[branch].arguments.some(
+                      (arg) => !arg.showOnlyDev,
+                    ) ||
+                      isDev) && (
+                      <>
+                        <span
+                          style={{
+                            fontSize: '0.8em',
+                            marginBottom: '0.5em',
+                            display: 'block',
+                          }}
+                        >
+                          {t('settings.arguments')}:
+                        </span>
+                        {branchesData[branch].arguments.map((arg) => {
+                          if (arg.showOnlyDev && !isDev) {
+                            return null;
+                          }
+                          return (
+                            <TextField
+                              key={arg.key}
+                              select
+                              label={`${arg.key}`}
+                              value={
+                                selectedArguments[arg.key] ||
+                                arg.defaultValue ||
+                                ''
+                              }
+                              onChange={(e) =>
+                                handleArgumentChange(
+                                  arg.key,
+                                  e.target.value as string,
+                                )
+                              }
+                              helperText={`${arg.description}`}
+                              fullWidth
+                              margin="normal"
+                            >
+                              {arg.value.map((value) => (
+                                <MenuItem key={value} value={value}>
+                                  {value}
+                                </MenuItem>
+                              ))}
+                            </TextField>
+                          );
+                        })}
+                      </>
+                    )}
+                  </div>
+                )}
+            </Grid>
+          </Grid>
+        </Paper>
+      )}
+
       <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
         <Grid container spacing={2} alignItems="center">
           <Grid item xs={12}>
@@ -529,30 +725,6 @@ export default function SettingsPage() {
               {t('settings.allChatLabelDisabled')}
               <br />
               {t('settings.allChatLabelDisabled2')}
-            </span>
-          </Grid>
-        </Grid>
-      </Paper>
-      <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
-        <Grid container spacing={2} alignItems="center">
-          <Grid item xs={12}>
-            <FormGroup>
-              <FormControlLabel
-                control={<Switch />}
-                label={t('settings.autoPatchingLabel')}
-                checked={false} // {enablePatching === 'true'}
-                disabled // Only for christmas we need it next year!
-                onChange={() => {
-                  setEnablePatching(
-                    enablePatching === 'true' ? 'false' : 'true',
-                  );
-                }}
-              />
-            </FormGroup>
-            <span style={{ fontSize: '0.8em' }}>
-              {t('settings.autoPatchingLabelDisabled')}
-              <br />
-              {t('settings.autoPatchingLabelDisabled2')}
             </span>
           </Grid>
         </Grid>

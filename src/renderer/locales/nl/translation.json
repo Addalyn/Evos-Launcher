@@ -287,7 +287,15 @@
     "labelDarkMode": "Donkere Modus",
     "labelDiscordRPC": "Discord-status inschakelen",
     "labelGameExpanded": "Spel Uitgebreid",
-    "GameExpanded": "Het uitschakelen hiervan zorgt ervoor dat de spellen standaard ingeklapt worden"
+    "GameExpanded": "Het uitschakelen hiervan zorgt ervoor dat de spellen standaard ingeklapt worden",
+    "selectBranch": "Selecteer branch",
+    "selectBranchHelper": "Selecteer de branch die je wilt gebruiken. Het wijzigen hiervan zal de geselecteerde branch automatisch downloaden.",
+    "refreshBranch": "Branch opnieuw downloaden en toepassen",
+    "arguments": "Instellingen",
+    "branchTitle": "Branch Bijgewerkt",
+    "branchContent": "De geselecteerde branch ({{branch}}) is bijgewerkt!",
+    "branchInvalid": "De geselecteerde branch ({{branch}}) is ongeldig of is verwijderd. Kies een nieuwe branch in de instellingen om de bestanden te downloaden.",
+    "branchOutdated": "De huidige branch ({{branch}}) is verouderd. Bestanden opnieuw downloaden..."
   },
   "maps": {
     "map": "Map",

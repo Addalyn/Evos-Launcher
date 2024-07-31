@@ -287,7 +287,15 @@
     "labelDarkMode": "Mode sombre",
     "labelDiscordRPC": "Activer le statut Discord",
     "labelGameExpanded": "Jeu Étendu",
-    "GameExpanded": "Désactiver cela fera que les jeux seront réduits par défaut"
+    "GameExpanded": "Désactiver cela fera que les jeux seront réduits par défaut",
+    "selectBranch": "Sélectionner Branche",
+    "selectBranchHelper": "Sélectionnez la branche que vous souhaitez utiliser. Modifier cela téléchargera automatiquement la branche sélectionnée.",
+    "refreshBranch": "Télécharger à nouveau et appliquer la branche",
+    "arguments": "Paramètres",
+    "branchTitle": "Branche Mise à Jour",
+    "branchContent": "La branche sélectionnée ({{branch}}) a été mise à jour !",
+    "branchInvalid": "La branche sélectionnée ({{branch}}) est invalide ou a été supprimée. Veuillez choisir une nouvelle branche dans les paramètres pour télécharger les fichiers.",
+    "branchOutdated": "La branche actuelle ({{branch}}) est obsolète. Téléchargement des fichiers en cours..."
   },
   "maps": {
     "map": "Map",
