@@ -614,7 +614,7 @@ export default function SettingsPage() {
                 // @ts-ignore
                 branchesData[branch] !== undefined &&
                 // @ts-ignore
-                branchesData[branch].arguments !== undefined &&
+                branchesData[branch]?.arguments !== undefined &&
                 // @ts-ignore
                 Array.isArray(branchesData[branch]?.arguments) &&
                 // @ts-ignore
