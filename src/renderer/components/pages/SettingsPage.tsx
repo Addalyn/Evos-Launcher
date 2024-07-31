@@ -609,6 +609,7 @@ export default function SettingsPage() {
             </Grid>
             <Grid item xs={12}>
               {branch &&
+                branchesData &&
                 branchesData[branch] &&
                 Array.isArray(branchesData[branch].arguments) &&
                 branchesData[branch].arguments.length > 0 && (
@@ -637,8 +638,8 @@ export default function SettingsPage() {
                               select
                               label={`${arg.key}`}
                               value={
-                                selectedArguments[arg.key] ||
-                                arg.defaultValue ||
+                                selectedArguments[arg.key] ??
+                                arg.defaultValue ??
                                 ''
                               }
                               onChange={(e) =>
