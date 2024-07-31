@@ -138,7 +138,15 @@
     "labelDarkMode": "Dunkler Modus",
     "labelDiscordRPC": "Discord-Status aktivieren",
     "labelGameExpanded": "Spiel Erweitert",
-    "GameExpanded": "Das Deaktivieren hiervon lässt die Spiele standardmäßig zusammenklappen"
+    "GameExpanded": "Das Deaktivieren hiervon lässt die Spiele standardmäßig zusammenklappen",
+    "selectBranch": "Branch Auswählen",
+    "selectBranchHelper": "Wählen Sie den Branch aus, den Sie verwenden möchten. Eine Änderung wird den ausgewählten Branch automatisch herunterladen.",
+    "refreshBranch": "Branch neu herunterladen und anwenden",
+    "arguments": "Einstellungen",
+    "branchTitle": "Branch Aktualisiert",
+    "branchContent": "Die ausgewählte Branch ({{branch}}) wurde aktualisiert!",
+    "branchInvalid": "Die ausgewählte Branch ({{branch}}) ist entweder ungültig oder wurde gelöscht. Bitte wählen Sie einen neuen Branch in den Einstellungen aus, um die Dateien herunterzuladen.",
+    "branchOutdated": "Die aktuelle Branch ({{branch}}) ist veraltet. Dateien werden neu heruntergeladen..."
   },
   "titles": {
     "-1": "",

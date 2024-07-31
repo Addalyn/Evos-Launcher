@@ -287,7 +287,15 @@
     "labelDarkMode": "Modo escuro",
     "labelDiscordRPC": "Ativar Status do Discord",
     "labelGameExpanded": "Jogo Expandido",
-    "GameExpanded": "Desativar isso fará com que os jogos sejam colapsados por padrão"
+    "GameExpanded": "Desativar isso fará com que os jogos sejam colapsados por padrão",
+    "selectBranch": "Selecionar Ramificação",
+    "selectBranchHelper": "Selecione a ramificação que deseja usar, mudar isso fará com que a ramificação selecionada seja baixada automaticamente",
+    "refreshBranch": "Redownload e aplicar ramificação",
+    "arguments": "Configurações",
+    "branchTitle": "Ramificação Atualizada",
+    "branchContent": "A ramificação selecionada ({{branch}}) foi atualizada!",
+    "branchInvalid": "A ramificação selecionada ({{branch}}) é inválida ou foi excluída. Por favor, escolha uma nova ramificação nas configurações para baixar os arquivos.",
+    "branchOutdated": "A ramificação atual ({{branch}}) está desatualizada. Rebaixando arquivos..."
   },
   "maps": {
     "map": "Mapa",

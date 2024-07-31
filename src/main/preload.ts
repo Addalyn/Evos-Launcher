@@ -17,6 +17,17 @@ interface discordStatus {
   smallImageText?: string;
 }
 
+interface branch {
+  path: string;
+  text: string;
+  enabled: boolean;
+  devOnly: boolean;
+  files: {
+    path: string;
+    checksum: string;
+  }[];
+}
+
 export type Channels =
   | 'getAssetPath'
   | 'open-file-dialog'
@@ -146,11 +157,21 @@ const electronHandler = {
       storeStatus = status;
       ipcRenderer.invoke('set-discord-rpc-status', status);
     },
+    updateBranch(branch: branch) {
+      ipcRenderer.invoke('update-branch', branch);
+    },
+
+    checkBranch(branch: branch) {
+      ipcRenderer.invoke('check-branch', branch);
+    },
   },
   store: {
     isWriting: false,
 
-    async setItem(key: string, value: string | AuthUser): Promise<void> {
+    async setItem(
+      key: string,
+      value: string | AuthUser | Record<string, string | null>,
+    ): Promise<void> {
       if (this.isWriting) {
         // If a write operation is already in progress, wait until it completes.
         await new Promise((resolve) => setTimeout(resolve, 200));

@@ -2,7 +2,9 @@
 /* eslint-disable-next-line react/no-array-index-key */
 import {
   AccountData,
+  Branches,
   PlayerData,
+  getBranches,
   getMotd,
   getPlayerData,
   getPlayerInfo,
@@ -169,6 +171,10 @@ export default function NavBar() {
     isDownloading,
     noLogEnabled,
     setDev,
+    needPatching,
+    branch,
+    locked,
+    setLocked,
   } = evosStore;
   const [error, setError] = useState<EvosError>();
   const [severity, setSeverity] = useState<string>('info');
@@ -339,10 +345,22 @@ export default function NavBar() {
   };
 
   const handleSetActiveGame = (event: any) => {
-    setActiveGames((prevActiveGames) => ({
-      ...prevActiveGames,
-      [event[0]]: event[1],
-    }));
+    setActiveGames((prevActiveGames) => {
+      const newActiveGames = {
+        ...prevActiveGames,
+        [event[0]]: event[1],
+      };
+
+      // Check if any game is active
+      const hasActiveGame = Object.values(newActiveGames).some(
+        (isActive) => isActive,
+      );
+
+      // Update locked state
+      setLocked(hasActiveGame);
+
+      return newActiveGames;
+    });
   };
 
   const handleIsPatching = (event: any) => {
@@ -377,7 +395,35 @@ export default function NavBar() {
   window.electron.ipcRenderer.on('setActiveGame', handleSetActiveGame);
   window.electron.ipcRenderer.on('handleIsPatching', handleIsPatching);
 
-  const handleLaunchGameClick = () => {
+  useEffect(() => {
+    // eslint-disable-next-line no-undef
+    let intervalId: string | number | NodeJS.Timeout | undefined;
+
+    if (branch !== '') {
+      const getBranchesInfo = async () => {
+        const response = await getBranches();
+        const { data }: { data: Branches } = response;
+        if (data && !locked) {
+          // time out 3seconds
+          setTimeout(() => {
+            window.electron.ipcRenderer.checkBranch(data[branch]);
+          }, 1000);
+        }
+      };
+
+      getBranchesInfo();
+
+      // check it every 5minutes when not in game
+      if (!activeGames[activeUser?.user as string]) {
+        intervalId = setInterval(getBranchesInfo, 5 * 60 * 1000);
+      } else {
+        clearInterval(intervalId);
+      }
+    }
+    return () => clearInterval(intervalId);
+  }, [activeGames, activeUser?.user, branch, locked, needPatching, t]);
+
+  const handleLaunchGameClick = async () => {
     if (!activeGames[activeUser?.user as string]) {
       if (exePath.endsWith('AtlasReactor.exe')) {
         const userName = (activeUser?.user as string) ?? '';
@@ -493,6 +539,7 @@ export default function NavBar() {
             {isAuthenticated() &&
               !isDownloading &&
               !isPatching &&
+              !needPatching &&
               !account?.locked && (
                 <Box
                   sx={{
@@ -782,11 +829,16 @@ export default function NavBar() {
                             left: '4px',
                           }}
                         >
-                          <ListItemIcon>{page.icon}</ListItemIcon>
+                          <ListItemIcon sx={{ color: 'white' }}>
+                            {page.icon}
+                          </ListItemIcon>
                           <ListItemText
                             primaryTypographyProps={{ fontSize: '16px' }}
                             primary={page.title}
-                            sx={{ display: { xs: 'none', md: 'flex' } }}
+                            sx={{
+                              color: 'white',
+                              display: { xs: 'none', md: 'flex' },
+                            }}
                           />
                         </ListItemButton>
                       </ListItem>

@@ -138,7 +138,15 @@
     "labelDarkMode": "Dark Mode",
     "labelDiscordRPC": "Enable Discord Status",
     "labelGameExpanded": "Game Expanded",
-    "GameExpanded": "Disabling this will make the games collapesed by default"
+    "GameExpanded": "Disabling this will make the games collapesed by default",
+    "selectBranch": "Select Game Branch",
+    "selectBranchHelper": "Select the branch you want to use, changing this will download the selected branch automatically",
+    "refreshBranch": "Redownload and apply branch",
+    "arguments": "Settings",
+    "branchTitle": "Branch Updated",
+    "branchContent": "The selected branch ({{branch}}) has been updated!",
+    "branchInvalid": "The selected branch ({{branch}})  is either invalid or has been deleted. Please choose a new branch in the settings to download the files.",
+    "branchOutdated": "The current branch ({{branch}}) is outdated. Redownloading files..."
   },
   "titles": {
     "-1": "",

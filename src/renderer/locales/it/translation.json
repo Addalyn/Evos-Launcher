@@ -259,7 +259,15 @@
     "labelDarkMode": "Modalità Scura",
     "labelDiscordRPC": "Abilita lo stato di Discord",
     "labelGameExpanded": "Gioco Espanso",
-    "GameExpanded": "Disattivare questa opzione farà sì che i giochi siano collassati per impostazione predefinita"
+    "GameExpanded": "Disattivare questa opzione farà sì che i giochi siano collassati per impostazione predefinita",
+    "selectBranch": "Seleziona Ramificazione",
+    "selectBranchHelper": "Seleziona la ramificazione che desideri utilizzare; modificare questa impostazione scaricherà automaticamente la ramificazione selezionata.",
+    "refreshBranch": "Ricarica e applica ramificazione",
+    "arguments": "Impostazioni",
+    "branchTitle": "Ramificazione Aggiornata",
+    "branchContent": "La ramificazione selezionata ({{branch}}) è stata aggiornata!",
+    "branchInvalid": "La ramificazione selezionata ({{branch}}) è invalida o è stata eliminata. Per favore, scegli una nuova ramificazione nelle impostazioni per scaricare i file.",
+    "branchOutdated": "La ramificazione attuale ({{branch}}) è obsoleta. Ricaricamento dei file..."
   },
   "maps": {
     "map": "Mappa",

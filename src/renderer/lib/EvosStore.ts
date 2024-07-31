@@ -48,8 +48,6 @@ export interface EvosStoreState {
     configFile?: string,
   ) => void;
   switchUser: (user: string) => void;
-  enablePatching: string;
-  setEnablePatching: (enablePatching: string) => void;
   setDiscordId: (discord: number) => void;
   discordId: number;
   enableDiscordRPC: string;
@@ -58,6 +56,16 @@ export interface EvosStoreState {
   setDev: (isDev: boolean) => void;
   gameExpanded: string;
   setGameExpanded: (gameExpanded: string) => void;
+  branch: string;
+  setBranch: (branch: string) => void;
+  selectedArguments: Record<string, string | null>;
+  setSelectedArguments: (
+    selectedArguments: Record<string, string | null>,
+  ) => void;
+  needPatching: boolean;
+  setNeedPatching: (isPatching: boolean) => void;
+  locked: boolean;
+  setLocked: (locked: boolean) => void;
 }
 
 const EvosStore = create<EvosStoreState>((set, get) => ({
@@ -74,10 +82,22 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   isDownloading: false,
   noLogEnabled: 'false',
   showAllChat: 'true',
-  enablePatching: 'true',
   discordId: 0,
   enableDiscordRPC: 'true',
   gameExpanded: 'true',
+  branch: '',
+  selectedArguments: {},
+  needPatching: false,
+  locked: false,
+
+  setLocked: (locked: boolean) => {
+    set({ locked });
+  },
+
+  setNeedPatching: (isPatching: boolean) => {
+    set({ needPatching: isPatching });
+  },
+
   setDiscordId: (discord: number) => {
     set({ discordId: discord });
   },
@@ -105,8 +125,9 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       noLogEnabled,
       showAllChat,
       enableDiscordRPC,
-      // enablePatching,
       gameExpanded,
+      branch,
+      selectedArguments,
     ] = await Promise.all([
       get().getFromStorage('mode') as string,
       get().getFromStorage('authenticatedUsers') as AuthUser[],
@@ -118,8 +139,12 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       get().getFromStorage('noLogEnabled') as string,
       get().getFromStorage('showAllChat') as string,
       get().getFromStorage('enableDiscordRPC') as string,
-      // get().getFromStorage('enablePatching') as string,
       get().getFromStorage('gameExpanded') as string,
+      get().getFromStorage('branch') as string,
+      get().getFromStorage('selectedArguments') as Record<
+        string,
+        string | null
+      >,
     ]);
 
     let users: AuthUser[] = [];
@@ -153,9 +178,10 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       ticketEnabled: ticketEnabled || 'true',
       noLogEnabled: noLogEnabled || 'false',
       showAllChat: showAllChat || 'true',
-      enablePatching: 'true', // enablePatching || 'true',
       enableDiscordRPC: enableDiscordRPC || 'true',
       gameExpanded: gameExpanded || 'true',
+      branch: branch || 'Vanilla',
+      selectedArguments: selectedArguments || {},
     });
     window.electron.ipcRenderer.setTheme(
       mode !== 'dark' && mode !== 'light' ? 'dark' : mode,
@@ -353,16 +379,6 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     }
   },
 
-  setEnablePatching: async (enablePatching: string) => {
-    set({ enablePatching });
-
-    try {
-      await window.electron.store.setItem('enablePatching', enablePatching);
-    } catch (error) {
-      console.error('Error while saving enablePatching to storage:', error);
-    }
-  },
-
   setGameExpanded: async (gameExpanded: string) => {
     set({ gameExpanded });
 
@@ -370,6 +386,31 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       await window.electron.store.setItem('gameExpanded', gameExpanded);
     } catch (error) {
       console.error('Error while saving gameExpanded to storage:', error);
+    }
+  },
+
+  setBranch: async (branch: string) => {
+    set({ branch });
+
+    try {
+      await window.electron.store.setItem('branch', branch);
+    } catch (error) {
+      console.error('Error while saving branch to storage:', error);
+    }
+  },
+
+  setSelectedArguments: async (
+    selectedArguments: Record<string, string | null>,
+  ) => {
+    set({ selectedArguments });
+
+    try {
+      await window.electron.store.setItem(
+        'selectedArguments',
+        selectedArguments,
+      );
+    } catch (error) {
+      console.error('Error while saving selectedArguments to storage:', error);
     }
   },
 }));
