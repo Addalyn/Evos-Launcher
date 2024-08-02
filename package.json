@@ -96,7 +96,7 @@
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@hookform/resolvers": "^3.3.4",
-    "@kmariappan/strapi-client-js": "^1.4.0",
+    "@kmariappan/strapi-client-js": "github:malmgren/strapi-client-js",
     "@mui/icons-material": "^5.15.7",
     "@mui/material": "^5.15.7",
     "@mui/x-data-grid": "^6.19.2",
@@ -131,7 +131,6 @@
     "react-use-websocket": "^4.8.1",
     "regedit": "^5.1.2",
     "semaphore": "^1.1.0",
-    "strapi-sdk-js": "^2.3.3",
     "zod": "^3.22.4",
     "zustand": "^4.5.0"
   },
