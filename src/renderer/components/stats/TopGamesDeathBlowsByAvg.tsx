@@ -51,9 +51,12 @@ export default function TopGamesDeathBlowsByAvg() {
   };
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     async function fetchData() {
       const data: DataItem[] = (await fetchGameInfo(
         'totaldeathblowsavg',
+        signal,
       )) as DataItem[];
       setGameData([]);
       setNames([]);
@@ -67,6 +70,10 @@ export default function TopGamesDeathBlowsByAvg() {
     }
 
     fetchData();
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   const data = {

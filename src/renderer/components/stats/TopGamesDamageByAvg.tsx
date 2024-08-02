@@ -50,9 +50,12 @@ export default function TopGamesDamageByAvg() {
   };
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     async function fetchData() {
       const data: DataItem[] = (await fetchGameInfo(
         'totaldamageavg',
+        signal,
       )) as DataItem[];
       setGameData([]);
       setNames([]);
@@ -66,6 +69,10 @@ export default function TopGamesDamageByAvg() {
     }
 
     fetchData();
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   const data = {

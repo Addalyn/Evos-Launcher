@@ -50,9 +50,12 @@ export default function TopGamesExtraDamageFromMight() {
   };
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     async function fetchData() {
       const data: DataItem[] = (await fetchGameInfo(
         'extradamagefrommight',
+        signal,
       )) as DataItem[];
       setGameData([]);
       setNames([]);
@@ -66,6 +69,10 @@ export default function TopGamesExtraDamageFromMight() {
     }
 
     fetchData();
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   const data = {

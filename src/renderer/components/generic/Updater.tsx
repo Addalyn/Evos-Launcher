@@ -1,8 +1,15 @@
-import { Alert, Button, Paper } from '@mui/material';
 /* eslint-disable promise/catch-or-return */
 /* eslint-disable promise/always-return */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
+import {
+  Alert,
+  Button,
+  Paper,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+} from '@mui/material';
 import { useEffect, useState } from 'react';
 
 import { Branches, getBranches, getUpdateInfo } from 'renderer/lib/Evos';
@@ -34,6 +41,7 @@ function Updater() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [branchesData, setBranchesData] = useState<Branches>();
+  const [needUpdate, setNeedUpdate] = useState<boolean>(false);
 
   useEffect(() => {
     const getBranchesInfo = async () => {
@@ -56,7 +64,7 @@ function Updater() {
     // wait 3seconds
     setTimeout(() => {
       window.electron.ipcRenderer.restartApp();
-    }, 3000);
+    }, 1000);
   }
 
   const UPDATE_PERIOD_MS = 300000;
@@ -76,8 +84,14 @@ function Updater() {
       if (version) {
         if (latestVersion?.version > version) {
           window.electron.ipcRenderer.checkVersion();
+          setNeedUpdate(true);
+        } else {
+          setNeedUpdate(false);
         }
       }
+    }
+    if (message === 'Update available.') {
+      setNeedUpdate(true);
     }
     if (message === 'updateDownloaded') {
       setReady(true);
@@ -128,6 +142,28 @@ function Updater() {
   window.electron.ipcRenderer.on('message', handleMessage);
   return (
     <div>
+      {needUpdate && (
+        <Dialog maxWidth="xl" open={needUpdate}>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              {ready ? (
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => notifyAndRestart()}
+                  sx={{
+                    cursor: 'pointer',
+                  }}
+                >
+                  {t('update')}
+                </Button>
+              ) : (
+                message
+              )}
+            </DialogContentText>
+          </DialogContent>
+        </Dialog>
+      )}
       {branchReady && (
         <BaseDialog
           title={t('settings.branchTitle')}
@@ -144,30 +180,15 @@ function Updater() {
             severity="error"
             sx={{ display: 'flex', alignItems: 'center', height: '65px' }}
           >
-            {ready ? (
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={() => notifyAndRestart()}
-                  sx={{
-                    cursor: 'pointer',
-                  }}
-                >
-                  {t('update')}
-                </Button>
-              </div>
-            ) : (
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                {t(`settings.${message}`, {
-                  branch,
-                })}
-              </div>
-            )}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              {t(`settings.${message}`, {
+                branch,
+              })}
+            </div>
           </Alert>
         </Paper>
       )}
-      {message !== '' && message !== 'branchOutdated' && (
+      {!needUpdate && message !== '' && message !== 'branchOutdated' && (
         <Paper elevation={5} sx={{ width: '100%', height: '65px' }}>
           <Alert
             severity={
@@ -177,28 +198,13 @@ function Updater() {
             }
             sx={{ display: 'flex', alignItems: 'center', height: '65px' }}
           >
-            {ready ? (
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={() => notifyAndRestart()}
-                  sx={{
-                    cursor: 'pointer',
-                  }}
-                >
-                  {t('update')}
-                </Button>
-              </div>
-            ) : (
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                {message === 'branchInvalid'
-                  ? t(`settings.${message}`, {
-                      branch,
-                    })
-                  : message}
-              </div>
-            )}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              {message === 'branchInvalid'
+                ? t(`settings.${message}`, {
+                    branch,
+                  })
+                : message}
+            </div>
           </Alert>
         </Paper>
       )}

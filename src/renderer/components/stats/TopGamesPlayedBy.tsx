@@ -49,10 +49,14 @@ export default function TopGamesPlayedBy() {
       },
     },
   };
+
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     async function fetchData() {
       const data: DataItem[] = (await fetchGameInfo(
         'totalgames',
+        signal,
       )) as DataItem[];
       setGameData([]);
       setNames([]);
@@ -66,6 +70,10 @@ export default function TopGamesPlayedBy() {
     }
 
     fetchData();
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   const data = {

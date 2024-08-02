@@ -196,10 +196,6 @@ export default function NavBar() {
         .then((data) => {
           const info = data.data as PlayerData;
           info.status = info.titleId as unknown as string;
-          if (info.titleId === 26 && activeUser?.handle === user.handle) {
-            setIsDev(true);
-            setDev(true);
-          }
           return info as PlayerData;
         })
         .catch(() => {
@@ -228,8 +224,6 @@ export default function NavBar() {
       }
       setPlayerInfoMap(infoMap);
     };
-    setDev(false);
-    setIsDev(false);
     fetchData();
   }, [
     activeUser?.banner,
@@ -239,7 +233,6 @@ export default function NavBar() {
     activeUser?.user,
     authenticatedUsers,
     navigate,
-    setDev,
     updateAuthenticatedUsers,
   ]);
 
@@ -289,6 +282,13 @@ export default function NavBar() {
           setError(undefined);
           setAccount(resp.data);
           if (resp.data) {
+            if (resp.data.isDev) {
+              setIsDev(true);
+              setDev(true);
+            } else {
+              setIsDev(false);
+              setDev(false);
+            }
             if (new Date(resp.data.lockedUntil) < new Date()) {
               setAccount((prev) => {
                 if (prev) {
@@ -306,6 +306,7 @@ export default function NavBar() {
     i18n,
     i18n.language,
     navigate,
+    setDev,
     t,
     updateAuthenticatedUsers,
   ]);
