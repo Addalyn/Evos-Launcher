@@ -260,8 +260,7 @@ if (isDebug) {
 let worker: NativeWorker | null = null;
 
 function sendStatusToWindow(win: BrowserWindow, text: string) {
-  log.info(text);
-  win.webContents.send('message', text);
+  win?.webContents?.send('message', text);
 }
 
 function translate(key: string): Promise<string> {
@@ -437,7 +436,7 @@ const createWindow = async () => {
   mainWindow = new BrowserWindow({
     show: false,
     width: 1250,
-    height: 790,
+    height: 800,
     minWidth: 800,
     minHeight: 400,
     autoHideMenuBar: true,
@@ -1409,8 +1408,10 @@ const createWindow = async () => {
       );
     });
     autoUpdater.on('download-progress', async (progressObj) => {
-      let logMessage = `${await translate('Download speed')}: ${progressObj.bytesPerSecond}`;
-      logMessage = `${logMessage} - ${await translate('Downloaded')} ${progressObj.percent}%`;
+      let logMessage = `Download speed: ${progressObj.bytesPerSecond}`;
+      logMessage = `${logMessage} - Downloaded ${progressObj.percent.toFixed(
+        2,
+      )}%`;
       logMessage = `${logMessage} (${progressObj.transferred}/${progressObj.total})`;
       sendStatusToWindow(mainWindow as BrowserWindow, logMessage);
     });

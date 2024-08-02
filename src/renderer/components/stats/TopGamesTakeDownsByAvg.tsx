@@ -51,9 +51,13 @@ export default function TopGamesTakeDownsByAvg() {
   };
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
+
     async function fetchData() {
       const data: DataItem[] = (await fetchGameInfo(
         'totaltakedownsavg',
+        signal,
       )) as DataItem[];
       setGameData([]);
       setNames([]);
@@ -67,6 +71,10 @@ export default function TopGamesTakeDownsByAvg() {
     }
 
     fetchData();
+
+    return () => {
+      controller.abort(); // Cleanup function to abort the request if the component unmounts
+    };
   }, []);
 
   const data = {

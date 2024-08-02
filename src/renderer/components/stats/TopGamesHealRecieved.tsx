@@ -50,9 +50,12 @@ export default function TopGamesHealRecieved() {
   };
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     async function fetchData() {
       const data: DataItem[] = (await fetchGameInfo(
         'totalhealingreceived',
+        signal,
       )) as DataItem[];
       setGameData([]);
       setNames([]);
@@ -66,6 +69,10 @@ export default function TopGamesHealRecieved() {
     }
 
     fetchData();
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   const data = {

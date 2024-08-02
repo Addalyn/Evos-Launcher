@@ -51,9 +51,12 @@ export default function TopGamesDeathsBy() {
   };
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     async function fetchData() {
       const data: DataItem[] = (await fetchGameInfo(
         'totaldeaths',
+        signal,
       )) as DataItem[];
       setGameData([]);
       setNames([]);
@@ -67,6 +70,10 @@ export default function TopGamesDeathsBy() {
     }
 
     fetchData();
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   const data = {

@@ -1,4 +1,7 @@
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Alert,
   Avatar,
   Button,
@@ -16,6 +19,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
   Branches,
   changePassword,
@@ -331,6 +335,177 @@ export default function SettingsPage() {
           </Grid>
         </Grid>
       </Paper>
+      {branchesData && isValidExePath(exePath) && (
+        <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item xs={12}>
+              <Typography variant="caption">
+                {t('settings.selectBranchHelper')}
+              </Typography>
+            </Grid>
+            <Grid item xs={8}>
+              <TextField
+                id="branch-select"
+                select
+                label={t('settings.selectBranch')}
+                value={branch}
+                onChange={handleChangeBranch}
+                variant="outlined"
+                disabled={locked}
+                fullWidth
+              >
+                {Object.keys(branchesData).map((key) => {
+                  const branchInfo = branchesData[key];
+                  if (
+                    branchInfo &&
+                    (branchInfo.enabled || (isDev && branchInfo.devOnly))
+                  ) {
+                    return (
+                      <MenuItem key={key} value={key}>
+                        {key}
+                        {branchInfo.version !== ''
+                          ? ` (${branchInfo.version})`
+                          : ''}
+                        {isDev && branchInfo.devOnly ? ' (dev branch)' : ''}
+                      </MenuItem>
+                    );
+                  }
+                  return null;
+                })}
+              </TextField>
+            </Grid>
+            <Grid item xs={4}>
+              <Button
+                onClick={handleRefresh}
+                variant="contained"
+                color="primary"
+                disabled={locked}
+                sx={{
+                  width: '100%',
+                  height: '56px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: (theme) => theme.palette.primary.light,
+                }}
+              >
+                {t('settings.refreshBranch')}
+              </Button>
+            </Grid>
+            <Grid item xs={12}>
+              {branch &&
+                // @ts-ignore
+                branchesData &&
+                // @ts-ignore
+                branchesData[branch] !== undefined &&
+                // @ts-ignore
+                branchesData[branch]?.arguments !== undefined &&
+                // @ts-ignore
+                Array.isArray(branchesData[branch]?.arguments) &&
+                // @ts-ignore
+                branchesData[branch]?.arguments.length > 0 &&
+                branchesData[branch].text}
+            </Grid>
+            <Grid item xs={12}>
+              {branch &&
+                // @ts-ignore
+                branchesData &&
+                // @ts-ignore
+                branchesData[branch] !== undefined &&
+                // @ts-ignore
+                branchesData[branch]?.arguments !== undefined &&
+                // @ts-ignore
+                Array.isArray(branchesData[branch]?.arguments) &&
+                // @ts-ignore
+                branchesData[branch]?.arguments.length > 0 && (
+                  <div>
+                    {
+                      // @ts-ignore
+                      (branchesData[branch]?.arguments.some(
+                        (arg) => !arg.showOnlyDev,
+                      ) ||
+                        isDev) && (
+                        <>
+                          <span
+                            style={{
+                              fontSize: '0.8em',
+                              marginBottom: '0.5em',
+                              display: 'block',
+                            }}
+                          >
+                            {t('settings.arguments')}:
+                          </span>
+                          {
+                            // @ts-ignore
+                            branchesData[branch].arguments.map((arg) => {
+                              if (arg.showOnlyDev && !isDev) {
+                                return null;
+                              }
+                              return (
+                                <TextField
+                                  key={arg.key}
+                                  select
+                                  label={`${arg.key}`}
+                                  value={
+                                    selectedArguments[arg.key] ??
+                                    arg.defaultValue ??
+                                    ''
+                                  }
+                                  onChange={(e) =>
+                                    handleArgumentChange(
+                                      arg.key,
+                                      e.target.value as string,
+                                    )
+                                  }
+                                  helperText={`${arg.description}`}
+                                  fullWidth
+                                  margin="normal"
+                                >
+                                  {arg.value.map((value) => (
+                                    <MenuItem key={value} value={value}>
+                                      {value}
+                                    </MenuItem>
+                                  ))}
+                                </TextField>
+                              );
+                            })
+                          }
+                        </>
+                      )
+                    }
+                  </div>
+                )}
+            </Grid>
+            <Grid item xs={12}>
+              {branch &&
+                // @ts-ignore
+                branchesData &&
+                // @ts-ignore
+                branchesData[branch]?.files && (
+                  <Accordion>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="files-content"
+                      id="files-header"
+                    >
+                      <Typography>{t('Downloaded')}</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <ul>
+                        {// @ts-ignore
+                        branchesData[branch]?.files.map((file) => (
+                          <li key={file.path}>
+                            {file.path}: {file.checksum}
+                          </li>
+                        ))}
+                      </ul>
+                    </AccordionDetails>
+                  </Accordion>
+                )}
+            </Grid>
+          </Grid>
+        </Paper>
+      )}
       <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
         <Grid
           container
@@ -552,135 +727,6 @@ export default function SettingsPage() {
           </Grid>
         </Grid>
       </Paper>
-      {branchesData && isValidExePath(exePath) && (
-        <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12}>
-              <Typography variant="caption">
-                {t('settings.selectBranchHelper')}
-              </Typography>
-            </Grid>
-            <Grid item xs={8}>
-              <TextField
-                id="branch-select"
-                select
-                label={t('settings.selectBranch')}
-                value={branch}
-                onChange={handleChangeBranch}
-                variant="outlined"
-                disabled={locked}
-                fullWidth
-              >
-                {Object.keys(branchesData).map((key) => {
-                  const branchInfo = branchesData[key];
-                  if (
-                    branchInfo &&
-                    (branchInfo.enabled || (isDev && branchInfo.devOnly))
-                  ) {
-                    return (
-                      <MenuItem key={key} value={key}>
-                        {key}
-                        {branchInfo.text !== '' ? ` (${branchInfo.text})` : ''}
-                        {isDev && branchInfo.devOnly ? ' (dev branch)' : ''}
-                      </MenuItem>
-                    );
-                  }
-                  return null;
-                })}
-              </TextField>
-            </Grid>
-            <Grid item xs={4}>
-              <Button
-                onClick={handleRefresh}
-                variant="contained"
-                color="primary"
-                disabled={locked}
-                sx={{
-                  width: '100%',
-                  height: '56px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: (theme) => theme.palette.primary.light,
-                }}
-              >
-                {t('settings.refreshBranch')}
-              </Button>
-            </Grid>
-            <Grid item xs={12}>
-              {branch &&
-                // @ts-ignore
-                branchesData &&
-                // @ts-ignore
-                branchesData[branch] !== undefined &&
-                // @ts-ignore
-                branchesData[branch]?.arguments !== undefined &&
-                // @ts-ignore
-                Array.isArray(branchesData[branch]?.arguments) &&
-                // @ts-ignore
-                branchesData[branch]?.arguments.length > 0 && (
-                  <div>
-                    {
-                      // @ts-ignore
-                      (branchesData[branch]?.arguments.some(
-                        (arg) => !arg.showOnlyDev,
-                      ) ||
-                        isDev) && (
-                        <>
-                          <span
-                            style={{
-                              fontSize: '0.8em',
-                              marginBottom: '0.5em',
-                              display: 'block',
-                            }}
-                          >
-                            {t('settings.arguments')}:
-                          </span>
-                          {
-                            // @ts-ignore
-                            branchesData[branch].arguments.map((arg) => {
-                              if (arg.showOnlyDev && !isDev) {
-                                return null;
-                              }
-                              return (
-                                <TextField
-                                  key={arg.key}
-                                  select
-                                  label={`${arg.key}`}
-                                  value={
-                                    selectedArguments[arg.key] ??
-                                    arg.defaultValue ??
-                                    ''
-                                  }
-                                  onChange={(e) =>
-                                    handleArgumentChange(
-                                      arg.key,
-                                      e.target.value as string,
-                                    )
-                                  }
-                                  helperText={`${arg.description}`}
-                                  fullWidth
-                                  margin="normal"
-                                >
-                                  {arg.value.map((value) => (
-                                    <MenuItem key={value} value={value}>
-                                      {value}
-                                    </MenuItem>
-                                  ))}
-                                </TextField>
-                              );
-                            })
-                          }
-                        </>
-                      )
-                    }
-                  </div>
-                )}
-            </Grid>
-          </Grid>
-        </Paper>
-      )}
-
       <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
         <Grid container spacing={2} alignItems="center">
           <Grid item xs={12}>

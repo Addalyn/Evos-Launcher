@@ -50,9 +50,13 @@ export default function TopGamesAccoladesCollector() {
   };
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
+
     async function fetchData() {
       const data: DataItem[] = (await fetchGameInfo(
         'accoladescollector',
+        signal,
       )) as DataItem[];
       setGameData([]);
       setNames([]);
@@ -66,6 +70,10 @@ export default function TopGamesAccoladesCollector() {
     }
 
     fetchData();
+
+    return () => {
+      controller.abort(); // Cleanup function to abort the request if the component unmounts
+    };
   }, []);
 
   const data = {

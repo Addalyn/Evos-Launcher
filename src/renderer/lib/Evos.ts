@@ -116,6 +116,7 @@ export interface PlayerData {
   titleId: number;
   status: string;
   factionData?: factionData;
+  isDev: boolean;
 }
 
 export interface AccountData extends PlayerData {
@@ -201,6 +202,7 @@ export interface Argument {
 export interface Branch {
   path: string;
   text: string;
+  version: string;
   enabled: boolean;
   devOnly: boolean;
   files: {
@@ -331,17 +333,31 @@ export async function getPlayerData(authHeader: string, queryParams: string) {
   );
 }
 
-export async function fetchGameInfo(action: string) {
+// export async function fetchGameInfo(action: string) {
+//   try {
+//     const strapi = strapiClient.from(`stats/${action}`).select();
+
+//     const { data, error } = await strapi.get();
+
+//     if (error) {
+//       return [] as DataItem[];
+//     }
+//     return data as DataItem[];
+//   } catch (error) {
+//     return [] as DataItem[];
+//   }
+// }
+
+export async function fetchGameInfo(action: string, signal?: AbortSignal) {
+  const url = `https://stats-production.evos.live/api/stats/${action}`;
+
   try {
-    const strapi = strapiClient.from(`stats/${action}`).select();
-
-    const { data, error } = await strapi.get();
-
-    if (error) {
+    const response = await axios.get(url, { signal });
+    return response.data.data as DataItem[];
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.code === 'ERR_CANCELED') {
       return [] as DataItem[];
     }
-    return data as DataItem[];
-  } catch (error) {
     return [] as DataItem[];
   }
 }

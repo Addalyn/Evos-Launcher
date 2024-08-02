@@ -19,8 +19,10 @@ export default function PlayerStats({ action, player }: Props) {
   const [gameData, setGameData] = useState<string | undefined>();
 
   useEffect(() => {
+    const controller = new AbortController();
+    const { signal } = controller;
     async function fetchData() {
-      const data: DataItem[] = await fetchGameInfo(action);
+      const data: DataItem[] = await fetchGameInfo(action, signal);
       data.forEach((item) => {
         if (item.user !== player) return;
         setGameData(item.total);
@@ -28,6 +30,10 @@ export default function PlayerStats({ action, player }: Props) {
     }
 
     fetchData();
+
+    return () => {
+      controller.abort();
+    };
   }, [action, player]);
 
   const actionToName: Record<string, string> = {

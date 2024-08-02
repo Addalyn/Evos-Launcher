@@ -1,3 +1,32 @@
+### Release Notes: Version 2.1.7
+
+## Improvements
+
+- **Branches**
+  - Branches now include version numbers, allowing you to view the latest version of each branch.
+
+- **Updater**
+  - New versions are now required to play the game and use the launcher.
+
+- **Developer Tools**
+  - Added `isDev` from the lobby server to determine if the logged in user is a developer or not.
+
+- **Stats calls**
+  - Added AbortController to the stats calls to cancel the fetch if the user navigates away from the page.
+
+## Bug Fixes
+
+- **Updater**
+  - Updates now display the correct percentage progress.
+
+- **Crash**
+  - Fixed a rare crash occurring with `sendStatusToWindow`.
+
+## Backend
+
+- **API Server**
+  - Now features significantly faster response times.
+
 ### Release Notes: Version 2.1.6 - Branches!
 
 ## New Features
