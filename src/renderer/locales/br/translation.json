@@ -295,7 +295,9 @@
     "branchTitle": "Ramificação Atualizada",
     "branchContent": "A ramificação selecionada ({{branch}}) foi atualizada!",
     "branchInvalid": "A ramificação selecionada ({{branch}}) é inválida ou foi excluída. Por favor, escolha uma nova ramificação nas configurações para baixar os arquivos.",
-    "branchOutdated": "A ramificação atual ({{branch}}) está desatualizada. Rebaixando arquivos..."
+    "branchOutdated": "A ramificação atual ({{branch}}) está desatualizada. Rebaixando arquivos...",
+    "removed": "Removido",
+    "recommended": "Recomendado"
   },
   "maps": {
     "map": "Mapa",

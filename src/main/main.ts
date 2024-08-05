@@ -159,6 +159,24 @@ async function calculateFileChecksum(filePath: string): Promise<string> {
   });
 }
 
+const checkFileAccessibility = (filePath: fs.PathLike) => {
+  return new Promise((resolve, reject) => {
+    fs.access(filePath, fs.constants.W_OK, (err) => {
+      if (err) {
+        if (err.code === 'ENOENT') {
+          resolve(false);
+        } else if (err.code === 'EBUSY') {
+          reject(new Error('File is locked or busy.'));
+        } else {
+          reject(new Error('Failed to access file.'));
+        }
+      } else {
+        resolve(true);
+      }
+    });
+  });
+};
+
 async function readConfig() {
   try {
     const config = await fs.promises.readFile(configFilePath, 'utf-8');
@@ -1296,12 +1314,20 @@ const createWindow = async () => {
     if (exePath !== '') {
       const basePath = path.dirname(exePath);
       const failedDownloads: string[] = [];
-
+      let failedDownloadReasons = '';
       const processFile = async (file: { path: any; checksum: any }) => {
         const filePath = path.join(basePath, file.path);
 
         if (fs.existsSync(filePath)) {
           try {
+            const isAccessible = await checkFileAccessibility(filePath);
+
+            if (!isAccessible) {
+              log.info(`File is not accessible: ${filePath}`);
+              failedDownloadReasons = `File is not accessible: ${filePath}`;
+              return false;
+            }
+
             const actualChecksum = await calculateFileChecksum(filePath);
             const isChecksumValid =
               actualChecksum.toUpperCase() === file.checksum.toUpperCase();
@@ -1317,6 +1343,9 @@ const createWindow = async () => {
             }
             return true;
           } catch (error) {
+            log.info(`Error while processing file: ${file.path}`, error);
+            // @ts-ignore
+            failedDownloadReasons = error.toString();
             return false;
           }
         } else {
@@ -1345,7 +1374,7 @@ const createWindow = async () => {
         } else {
           sendStatusToWindow(
             mainWindow as BrowserWindow,
-            `Error: The following files failed to download: ${failedDownloads.join(', ')}`,
+            `Error: The following files failed to download: ${failedDownloads.join(', ')}\nReason: ${failedDownloadReasons}`,
           );
         }
       } catch (error) {

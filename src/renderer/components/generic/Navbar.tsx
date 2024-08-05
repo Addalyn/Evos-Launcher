@@ -5,14 +5,12 @@ import {
   Branches,
   PlayerData,
   getBranches,
-  getMotd,
   getPlayerData,
   getPlayerInfo,
   getTicket,
   logout,
 } from 'renderer/lib/Evos';
 import {
-  Alert,
   Button,
   Divider,
   Drawer,
@@ -26,6 +24,7 @@ import {
   Paper,
   Select,
   Stack,
+  TextField,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -87,7 +86,47 @@ export default function NavBar() {
 
   const { t, i18n } = useTranslation();
   const [isDev, setIsDev] = useState(false);
+  const [branchesData, setBranchesData] = useState<Branches>();
 
+  const {
+    exePath,
+    ticketEnabled,
+    updateAuthenticatedUsers,
+    activeUser,
+    switchUser,
+    authenticatedUsers,
+    isDownloading,
+    noLogEnabled,
+    setDev,
+    needPatching,
+    branch,
+    locked,
+    setLocked,
+    setBranch,
+  } = evosStore;
+
+  useEffect(() => {
+    const getBranchesInfo = async () => {
+      const response = await getBranches();
+      const { data }: { data: Branches } = response;
+      setBranchesData(data);
+    };
+
+    getBranchesInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [branch, setBranchesData]);
+
+  const handleChangeBranch = (event: { target: { value: any } }) => {
+    const selectedValue = event.target.value;
+    trackEvent('Branch', {
+      branch: selectedValue,
+    });
+    setBranch(selectedValue);
+    setLocked(true);
+    if (branchesData) {
+      window.electron.ipcRenderer.updateBranch(branchesData[selectedValue]);
+    }
+  };
   const pages = useMemo(
     () => [
       {
@@ -161,25 +200,8 @@ export default function NavBar() {
     [t],
   );
 
-  const {
-    exePath,
-    ticketEnabled,
-    updateAuthenticatedUsers,
-    activeUser,
-    switchUser,
-    authenticatedUsers,
-    isDownloading,
-    noLogEnabled,
-    setDev,
-    needPatching,
-    branch,
-    locked,
-    setLocked,
-  } = evosStore;
   const [error, setError] = useState<EvosError>();
-  const [severity, setSeverity] = useState<string>('info');
   const { width } = useWindowDimensions();
-  const [motd, setMotd] = useState<string>('');
   const [isPatching, setIsPatching] = useState(false);
   const [account, setAccount] = useState<AccountData>();
   const [playerInfoMap, setPlayerInfoMap] = useState<{
@@ -266,14 +288,6 @@ export default function NavBar() {
       if (!Object.keys(lngs).includes(i18n.language)) {
         i18n.changeLanguage('en');
       }
-      getMotd(i18n.language ?? 'en')
-        .then((resp) => {
-          setMotd(resp.data.text);
-          setSeverity(resp.data.severity);
-        })
-        .catch(async () => {
-          setMotd(t('errors.errorMotd'));
-        });
     }
     get();
     getPlayerInfo(activeUser?.token ?? '')
@@ -408,7 +422,7 @@ export default function NavBar() {
           // time out 3seconds
           setTimeout(() => {
             window.electron.ipcRenderer.checkBranch(data[branch]);
-          }, 1000);
+          }, 5000);
         }
       };
 
@@ -704,36 +718,56 @@ export default function NavBar() {
             },
           }}
         >
-          <Toolbar sx={{ height: '70px' }} />
-
-          {/* MOTD - Always visible at the top */}
-          <Paper
-            elevation={0}
-            sx={{
-              width: '100%',
-              borderRadius: 0,
-              display: { xs: 'none', md: 'flex' },
-              position: 'sticky',
-              top: 0,
-            }}
-          >
-            <Alert
-              icon={false}
-              variant="filled"
-              severity={severity as 'info' | 'error' | 'warning'}
+          <Toolbar sx={{ height: '63px' }} />
+          {branchesData && (
+            <Paper
+              elevation={3}
               sx={{
                 width: '100%',
                 borderRadius: 0,
-                display: 'flex',
-                alignItems: 'center',
+                display: { xs: 'none', md: 'flex' },
+                position: 'sticky',
+                top: 0,
               }}
             >
-              <Typography sx={{ color: 'white', fontSize: '14px' }}>
-                {motd}
-              </Typography>
-            </Alert>
-          </Paper>
-
+              <TextField
+                id="branch-select"
+                select
+                label={t('settings.selectBranch')}
+                value={branch}
+                onChange={handleChangeBranch}
+                variant="filled"
+                disabled={locked}
+                fullWidth
+                inputProps={{ IconComponent: () => null }}
+              >
+                {Object.keys(branchesData).map((key) => {
+                  const branchInfo = branchesData[key];
+                  if (
+                    branchInfo &&
+                    (branchInfo.enabled || (isDev && branchInfo.devOnly))
+                  ) {
+                    return (
+                      <MenuItem
+                        key={key}
+                        value={key}
+                        disabled={branchInfo.disabled}
+                      >
+                        {key}{' '}
+                        {branchInfo.recommended
+                          ? ` (${t('settings.recommended')})`
+                          : ''}
+                        {branchInfo.removed
+                          ? ` (${t('settings.removed')})`
+                          : ''}
+                      </MenuItem>
+                    );
+                  }
+                  return null;
+                })}
+              </TextField>
+            </Paper>
+          )}
           {/* Scrollable content area for the first list */}
           <Box
             sx={{

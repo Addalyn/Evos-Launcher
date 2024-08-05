@@ -108,7 +108,7 @@ function Updater() {
         setLocked(true);
         setTimeout(() => {
           window.electron.ipcRenderer.updateBranch(branchesData[branch]);
-        }, 3000);
+        }, 5000);
       }
       setNeedPatching(true);
     }
