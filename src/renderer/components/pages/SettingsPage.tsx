@@ -370,7 +370,6 @@ export default function SettingsPage() {
                         {branchInfo.version !== ''
                           ? ` (${branchInfo.version})`
                           : ''}
-                        {key}{' '}
                         {branchInfo.recommended
                           ? ` (${t('settings.recommended')})`
                           : ''}
