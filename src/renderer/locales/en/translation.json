@@ -146,7 +146,9 @@
     "branchTitle": "Branch Updated",
     "branchContent": "The selected branch ({{branch}}) has been updated!",
     "branchInvalid": "The selected branch ({{branch}})  is either invalid or has been deleted. Please choose a new branch in the settings to download the files.",
-    "branchOutdated": "The current branch ({{branch}}) is outdated. Redownloading files..."
+    "branchOutdated": "The current branch ({{branch}}) is outdated. Redownloading files...",
+    "removed": "Removed",
+    "recommended": "Recommended"
   },
   "titles": {
     "-1": "",

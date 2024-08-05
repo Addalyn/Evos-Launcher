@@ -361,10 +361,20 @@ export default function SettingsPage() {
                     (branchInfo.enabled || (isDev && branchInfo.devOnly))
                   ) {
                     return (
-                      <MenuItem key={key} value={key}>
+                      <MenuItem
+                        key={key}
+                        value={key}
+                        disabled={branchInfo.disabled}
+                      >
                         {key}
                         {branchInfo.version !== ''
                           ? ` (${branchInfo.version})`
+                          : ''}
+                        {branchInfo.recommended
+                          ? ` (${t('settings.recommended')})`
+                          : ''}
+                        {branchInfo.removed
+                          ? ` (${t('settings.removed')})`
                           : ''}
                         {isDev && branchInfo.devOnly ? ' (dev branch)' : ''}
                       </MenuItem>

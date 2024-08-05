@@ -1,14 +1,32 @@
+### Release Notes: Version 2.1.8
+
+## Improvements
+
+- **Branches**
+  - Added "Recommended" and "Disabled" labels to clarify which branches are recommended for use.
+  - Integrated branches into the menu, removing the MOTD (was this feature crucial?).
+  - Introduced the "Stable" branch as our recommended option. This branch includes the latest titles but excludes experimental features.
+
+## Bug Fixes
+
+- **Branches**
+  - Resolved an issue where the launcher would repeatedly show a branch update popup if a file was locked by a process.
+  - The launcher now retries downloading the file upon failure, without displaying a popup. It also provides an explanation for the download failure and includes a delay before retrying.
+
 ### Release Notes: Version 2.1.7
 
 ## Improvements
 
 - **Branches**
+
   - Branches now include version numbers, allowing you to view the latest version of each branch.
 
 - **Updater**
+
   - New versions are now required to play the game and use the launcher.
 
 - **Developer Tools**
+
   - Added `isDev` from the lobby server to determine if the logged in user is a developer or not.
 
 - **Stats calls**
@@ -17,6 +35,7 @@
 ## Bug Fixes
 
 - **Updater**
+
   - Updates now display the correct percentage progress.
 
 - **Crash**

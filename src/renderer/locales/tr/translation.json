@@ -146,7 +146,9 @@
     "branchTitle": "Dal Güncellendi",
     "branchContent": "Seçilen dal ({{branch}}) güncellendi!",
     "branchInvalid": "Seçilen dal ({{branch}}) geçersiz veya silinmiş. Lütfen dosyaları indirmek için ayarlardan yeni bir dal seçin.",
-    "branchOutdated": "Mevcut dal ({{branch}}) güncel değil. Dosyalar yeniden indiriliyor..."
+    "branchOutdated": "Mevcut dal ({{branch}}) güncel değil. Dosyalar yeniden indiriliyor...",
+    "removed": "Kaldırıldı",
+    "recommended": "Tavsiye Edilen"
   },
   "titles": {
     "-1": "",

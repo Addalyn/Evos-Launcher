@@ -205,6 +205,9 @@ export interface Branch {
   version: string;
   enabled: boolean;
   devOnly: boolean;
+  disabled: boolean;
+  recommended: boolean;
+  removed: boolean;
   files: {
     path: string;
     checksum: string;
