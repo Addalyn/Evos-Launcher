@@ -1,3 +1,17 @@
+### Release Notes: Version 2.1.9
+
+## Improvements
+
+- **File Handling for Branches**
+
+  - Improved file handling process by downloading files to a temporary `.download` file first.
+  - Added a backup step by creating a `.bak` copy of the original file.
+  - After successful download, the `.download` file is renamed to replace the original file.
+
+- **User Interface**
+  - For users experiencing issues, the "Play" button has been changed to a "Cancel" button. Pressing "Cancel" will no longer trigger branch outdated checks; users must manually update by pressing the button in settings.
+  - If there is an error branch will no longer update the branch, this will prevent the launcher from trying to update the branch over and over again; Users must manually update the branch in settings.
+
 ### Release Notes: Version 2.1.8
 
 ## Improvements

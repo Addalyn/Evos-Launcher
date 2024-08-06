@@ -145,7 +145,7 @@
     "branchTitle": "分支已更新",
     "branchContent": "选定的分支 ({{branch}}) 已更新！",
     "branchInvalid": "选定的分支 ({{branch}}) 无效或已被删除。请在设置中选择一个新分支以下载文件。",
-    "branchOutdated": "当前分支 ({{branch}}) 已过时。重新下载文件...",
+    "branchOutdated": "当前分支 ({{branch}}) 已过时。",
     "removed": "已移除",
     "recommended": "推荐"
   },

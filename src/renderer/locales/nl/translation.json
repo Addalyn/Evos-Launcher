@@ -295,7 +295,7 @@
     "branchTitle": "Branch Bijgewerkt",
     "branchContent": "De geselecteerde branch ({{branch}}) is bijgewerkt!",
     "branchInvalid": "De geselecteerde branch ({{branch}}) is ongeldig of is verwijderd. Kies een nieuwe branch in de instellingen om de bestanden te downloaden.",
-    "branchOutdated": "De huidige branch ({{branch}}) is verouderd. Bestanden opnieuw downloaden...",
+    "branchOutdated": "De huidige branch ({{branch}}) is verouderd.",
     "removed": "Verwijderd",
     "recommended": "Aanbevolen"
   },

@@ -164,6 +164,9 @@ const electronHandler = {
     checkBranch(branch: branch) {
       ipcRenderer.invoke('check-branch', branch);
     },
+    cancelDownloadBranch() {
+      ipcRenderer.invoke('cancelDownload');
+    },
   },
   store: {
     isWriting: false,

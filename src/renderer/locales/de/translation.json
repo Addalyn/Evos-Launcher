@@ -146,7 +146,7 @@
     "branchTitle": "Branch Aktualisiert",
     "branchContent": "Die ausgewählte Branch ({{branch}}) wurde aktualisiert!",
     "branchInvalid": "Die ausgewählte Branch ({{branch}}) ist entweder ungültig oder wurde gelöscht. Bitte wählen Sie einen neuen Branch in den Einstellungen aus, um die Dateien herunterzuladen.",
-    "branchOutdated": "Die aktuelle Branch ({{branch}}) ist veraltet. Dateien werden neu heruntergeladen...",
+    "branchOutdated": "Die aktuelle Branch ({{branch}}) ist veraltet.",
     "removed": "Entfernt",
     "recommended": "Empfohlen"
   },

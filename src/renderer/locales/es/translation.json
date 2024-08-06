@@ -263,7 +263,7 @@
     "branchTitle": "Rama Actualizada",
     "branchContent": "La rama seleccionada ({{branch}}) ha sido actualizada!",
     "branchInvalid": "La rama seleccionada ({{branch}}) es inválida o ha sido eliminada. Por favor, elige una nueva rama en la configuración para descargar los archivos.",
-    "branchOutdated": "La rama actual ({{branch}}) está desactualizada. Volviendo a descargar archivos...",
+    "branchOutdated": "La rama actual ({{branch}}) está desactualizada.",
     "removed": "Eliminado",
     "recommended": "Recomendado"
   },
