@@ -32,6 +32,8 @@ function Updater() {
     setLocked,
     locked,
     branch,
+    nobranchDownload,
+    setNoBranchDownload,
   } = EvosStore();
   const [message, setMessage] = useState('');
   const [latestVersion, setLatestVersion] = useState<getVersion>();
@@ -103,14 +105,14 @@ function Updater() {
       setLocked(false);
     }
     if (message.includes('branchOutdated')) {
-      if (branchesData && !locked && !needPatching) {
+      if (branchesData && !locked && !needPatching && !nobranchDownload) {
+        setNeedPatching(true);
         // timeout 3seconds
         setLocked(true);
         setTimeout(() => {
           window.electron.ipcRenderer.updateBranch(branchesData[branch]);
         }, 5000);
       }
-      setNeedPatching(true);
     }
 
     if (message.includes('branchInvalid')) {
@@ -123,6 +125,7 @@ function Updater() {
     if (message.includes('Error')) {
       setLocked(false);
       setNeedPatching(false);
+      setNoBranchDownload(true);
     }
   }, [
     setNeedPatching,
@@ -137,6 +140,8 @@ function Updater() {
     branch,
     locked,
     needPatching,
+    setNoBranchDownload,
+    nobranchDownload,
   ]);
 
   window.electron.ipcRenderer.on('message', handleMessage);

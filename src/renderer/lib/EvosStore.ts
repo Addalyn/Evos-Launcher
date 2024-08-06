@@ -66,6 +66,10 @@ export interface EvosStoreState {
   setNeedPatching: (isPatching: boolean) => void;
   locked: boolean;
   setLocked: (locked: boolean) => void;
+  setOldBranch: (branch: string) => void;
+  oldBranch: string;
+  nobranchDownload: boolean;
+  setNoBranchDownload: (nodownload: boolean) => void;
 }
 
 const EvosStore = create<EvosStoreState>((set, get) => ({
@@ -89,6 +93,16 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   selectedArguments: {},
   needPatching: false,
   locked: false,
+  oldBranch: '',
+  nobranchDownload: false,
+
+  setNoBranchDownload: (nobranchDownload: boolean) => {
+    set({ nobranchDownload });
+  },
+
+  setOldBranch: (branch: string) => {
+    set({ oldBranch: branch });
+  },
 
   setLocked: (locked: boolean) => {
     set({ locked });

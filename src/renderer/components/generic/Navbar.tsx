@@ -99,10 +99,14 @@ export default function NavBar() {
     noLogEnabled,
     setDev,
     needPatching,
+    setNeedPatching,
     branch,
     locked,
     setLocked,
     setBranch,
+    setOldBranch,
+    oldBranch,
+    setNoBranchDownload,
   } = evosStore;
 
   useEffect(() => {
@@ -117,10 +121,12 @@ export default function NavBar() {
   }, [branch, setBranchesData]);
 
   const handleChangeBranch = (event: { target: { value: any } }) => {
+    setNoBranchDownload(false);
     const selectedValue = event.target.value;
     trackEvent('Branch', {
       branch: selectedValue,
     });
+    setOldBranch(branch);
     setBranch(selectedValue);
     setLocked(true);
     if (branchesData) {
@@ -407,6 +413,14 @@ export default function NavBar() {
       .catch((e) => processError(e, setError, navigate, () => {}, t));
   }, updatePeriodMs);
 
+  const handleCancelDownloadBranch = () => {
+    window.electron.ipcRenderer.sendMessage('cancelDownload');
+    setBranch(oldBranch || 'Vanilla');
+    setLocked(false);
+    setNeedPatching(false);
+    setNoBranchDownload(true);
+  };
+
   window.electron.ipcRenderer.on('setActiveGame', handleSetActiveGame);
   window.electron.ipcRenderer.on('handleIsPatching', handleIsPatching);
 
@@ -622,6 +636,60 @@ export default function NavBar() {
                   </Tooltip>
                 </Box>
               )}
+            {locked && needPatching && (
+              <Box
+                sx={{
+                  flexGrow: 1,
+                  justifyContent: 'center',
+                }}
+              >
+                <Tooltip
+                  title={tooltipTitle}
+                  slotProps={{
+                    popper: {
+                      modifiers: [
+                        {
+                          name: 'offset',
+                          options: {
+                            offset: [0, 14],
+                          },
+                        },
+                      ],
+                    },
+                  }}
+                >
+                  <span>
+                    <Button
+                      variant="outlined"
+                      className="glow-on-hover"
+                      sx={{
+                        color: 'white',
+                        '-webkit-app-region': 'no-drag',
+                        height: '49.5px',
+                        borderRadius: '0px',
+                      }}
+                      onClick={handleCancelDownloadBranch}
+                    >
+                      <SportsEsportsIcon
+                        sx={{
+                          height: '25px',
+                          width: '25px',
+                          display: { xs: 'flex', md: 'none' },
+                        }}
+                      />
+                      <Typography
+                        variant="button"
+                        display="block"
+                        gutterBottom
+                        sx={{ display: { xs: 'none', md: 'flex' } }}
+                      >
+                        {t('download.cancel')}
+                      </Typography>
+                    </Button>
+                  </span>
+                </Tooltip>
+              </Box>
+            )}
             <Box
               sx={{
                 flexGrow: 0,

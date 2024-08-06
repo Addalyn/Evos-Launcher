@@ -164,7 +164,7 @@ const checkFileAccessibility = (filePath: fs.PathLike) => {
     fs.access(filePath, fs.constants.W_OK, (err) => {
       if (err) {
         if (err.code === 'ENOENT') {
-          resolve(false);
+          resolve(true);
         } else if (err.code === 'EBUSY') {
           reject(new Error('File is locked or busy.'));
         } else {
@@ -1315,47 +1315,82 @@ const createWindow = async () => {
       const basePath = path.dirname(exePath);
       const failedDownloads: string[] = [];
       let failedDownloadReasons = '';
-      const processFile = async (file: { path: any; checksum: any }) => {
+
+      const processFile = async (file: { path: string; checksum: string }) => {
         const filePath = path.join(basePath, file.path);
+        const downloadPath = `${filePath}.download`;
 
-        if (fs.existsSync(filePath)) {
-          try {
-            const isAccessible = await checkFileAccessibility(filePath);
-
-            if (!isAccessible) {
-              log.info(`File is not accessible: ${filePath}`);
-              failedDownloadReasons = `File is not accessible: ${filePath}`;
-              return false;
-            }
-
-            const actualChecksum = await calculateFileChecksum(filePath);
+        try {
+          // Check if the file exists and has a matching checksum
+          if (fs.existsSync(filePath)) {
+            const existingChecksum = await calculateFileChecksum(filePath);
             const isChecksumValid =
-              actualChecksum.toUpperCase() === file.checksum.toUpperCase();
+              existingChecksum.toUpperCase() === file.checksum.toUpperCase();
 
-            if (!isChecksumValid) {
-              return await downloadGame(
-                basePath,
-                file.path,
-                `https://builds.evos.live/${args.path}/${file.path}`,
-                0,
-                mainWindow as BrowserWindow,
-              );
+            if (isChecksumValid) {
+              log.info(`File is up to date: ${filePath}`);
+              return true;
             }
-            return true;
-          } catch (error) {
-            log.info(`Error while processing file: ${file.path}`, error);
-            // @ts-ignore
-            failedDownloadReasons = error.toString();
-            return false;
           }
-        } else {
-          return downloadGame(
+
+          // Download the file to a temporary .download path
+          const downloadSuccess = await downloadGame(
             basePath,
-            file.path,
+            `${file.path}.download`,
             `https://builds.evos.live/${args.path}/${file.path}`,
             0,
             mainWindow as BrowserWindow,
           );
+
+          if (!downloadSuccess) {
+            failedDownloadReasons = `Failed to download: ${file.path}`;
+            return false;
+          }
+
+          // Check file accessibility
+          const isAccessible = await checkFileAccessibility(downloadPath);
+
+          if (!isAccessible) {
+            log.info(`File is not accessible: ${downloadPath}`);
+            failedDownloadReasons = `File is not accessible: ${downloadPath}`;
+            return false;
+          }
+
+          // Validate checksum
+          const actualChecksum = await calculateFileChecksum(downloadPath);
+          const isChecksumValid =
+            actualChecksum.toUpperCase() === file.checksum.toUpperCase();
+
+          if (!isChecksumValid) {
+            failedDownloadReasons = `Checksum mismatch: ${file.path}`;
+            return false;
+          }
+
+          // Backup the original file, if it exists
+          if (fs.existsSync(filePath)) {
+            const backupPath = `${filePath}.bak`;
+            fs.renameSync(filePath, backupPath);
+          }
+
+          // Check original file accessibility
+          const isAccessibleOriginalFile =
+            await checkFileAccessibility(filePath);
+
+          if (!isAccessibleOriginalFile) {
+            log.info(`Original File is not accessible: ${filePath}`);
+            failedDownloadReasons = `File is not accessible: ${filePath}`;
+            return false;
+          }
+
+          // Replace the original file with the downloaded .download file
+          fs.renameSync(downloadPath, filePath);
+
+          return true;
+        } catch (error) {
+          log.info(`Error while processing file: ${file.path}`, error);
+          // @ts-ignore
+          failedDownloadReasons = error.toString();
+          return false;
         }
       };
       const processFiles = args.files.reduce(async (previousPromise, file) => {
