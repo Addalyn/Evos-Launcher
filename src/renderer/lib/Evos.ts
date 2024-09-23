@@ -374,6 +374,12 @@ export async function getPlayerInfo(authHeader: string) {
   });
 }
 
+interface BannersQuery {
+  id: number;
+  handle: string;
+  banner: string;
+}
+
 interface SpecialNames {
   TournamentWinners: string[];
   Developers: string[];
@@ -435,6 +441,10 @@ const cacheTimeout = 1 * 60 * 1000;
 let cache: { data: SpecialNames | null; timestamp: number } | null = null;
 let isFetching = false;
 let fetchPromise: Promise<SpecialNames | null> | null = null;
+let cacheBanner: { data: BannersQuery[] | null; timestamp: number } | null =
+  null;
+let isFetchingBanner = false;
+let fetchPromiseBanner: Promise<BannersQuery[] | null> | null = null;
 
 export async function getSpecialNames(): Promise<SpecialNames | null> {
   try {
@@ -488,6 +498,58 @@ export async function getSpecialNames(): Promise<SpecialNames | null> {
     isFetching = false;
     fetchPromise = null;
     return null as unknown as SpecialNames;
+  }
+}
+
+export async function getBanners(): Promise<BannersQuery[] | null> {
+  try {
+    const currentTime = Date.now();
+
+    // Check if cache exists and is still valid
+    if (cacheBanner && currentTime - cacheBanner.timestamp < cacheTimeout) {
+      return cacheBanner.data;
+    }
+
+    // If a fetch is already in progress, wait for it to complete
+    if (isFetchingBanner && fetchPromiseBanner) {
+      return await fetchPromiseBanner;
+    }
+
+    // Set fetching state and create a fetch promise
+    isFetchingBanner = true;
+    fetchPromiseBanner = (async () => {
+      try {
+        // Fetch data from the Strapi client
+        const strapi = strapiClient.from<BannersQuery>('banners').select();
+        const { data, error } = await strapi.get();
+
+        // Handle errors and empty data
+        if (error || !data || data.length === 0) {
+          return null;
+        }
+
+        // Update cache with all data
+        cacheBanner = {
+          data,
+          timestamp: currentTime,
+        };
+
+        return data;
+      } catch (fetchError) {
+        return null;
+      } finally {
+        // Reset fetching state
+        isFetchingBanner = false;
+        fetchPromiseBanner = null;
+      }
+    })();
+
+    return await fetchPromiseBanner;
+  } catch (outerError) {
+    // Reset fetching state on error
+    isFetchingBanner = false;
+    fetchPromiseBanner = null;
+    return null;
   }
 }
 

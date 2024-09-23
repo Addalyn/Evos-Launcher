@@ -1,4 +1,9 @@
-### Release Notes: Version 2.1.9
+### Release Notes: Version 2.2.0
+
+## New Features
+
+- **Custom Banners**
+  - If a player has a custom banner, The launcher will now display this
 
 ## Improvements
 

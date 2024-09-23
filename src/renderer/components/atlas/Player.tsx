@@ -6,7 +6,12 @@ import {
   trustIcon,
 } from '../../lib/Resources';
 import { ButtonBase, Typography, styled, useTheme } from '@mui/material';
-import { PlayerData, denydNames, getSpecialNames } from '../../lib/Evos';
+import {
+  PlayerData,
+  denydNames,
+  getBanners,
+  getSpecialNames,
+} from '../../lib/Evos';
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/jsx-no-useless-fragment */
 import { useEffect, useState } from 'react';
@@ -31,6 +36,12 @@ interface SpecialNames {
   Mentor: String[];
 }
 
+interface BannersQuery {
+  id: number;
+  handle: string;
+  banner: string;
+}
+
 const ImageTextWrapper = styled('span')(({ theme }) => ({
   position: 'absolute',
   left: '28%',
@@ -45,6 +56,7 @@ const ImageTextWrapper = styled('span')(({ theme }) => ({
 function Player({ info, disableSkew, characterType, title }: Props) {
   const { t } = useTranslation();
   const [specialNames, setSpecialNames] = useState<SpecialNames>();
+  const [customBanner, setCustomBanner] = useState<BannersQuery[]>();
 
   let username = t('offline');
   let discriminator;
@@ -67,6 +79,14 @@ function Player({ info, disableSkew, characterType, title }: Props) {
     getSpecialNames()
       .then((response) => {
         setSpecialNames(response || undefined);
+        return response;
+      })
+      .catch(() => {
+        // noting
+      });
+    getBanners()
+      .then((response) => {
+        setCustomBanner(response || undefined);
         return response;
       })
       .catch(() => {
@@ -147,7 +167,7 @@ function Player({ info, disableSkew, characterType, title }: Props) {
               zIndex: '0',
               backgroundImage:
                 info &&
-                `url(${playerBanner(BannerType.background, denydNames.includes(info.handle) ? 95 : info.bannerBg)})`,
+                `url(${customBanner?.find((x) => x.handle === info.handle)?.banner || playerBanner(BannerType.background, denydNames.includes(info.handle) ? 95 : info.bannerBg)})`,
             }}
           />
         </div>
@@ -168,7 +188,7 @@ function Player({ info, disableSkew, characterType, title }: Props) {
             marginLeft: '-4%',
             backgroundImage:
               info &&
-              `url(${playerBanner(BannerType.foreground, denydNames.includes(info.handle) ? 65 : info.bannerFg)})`,
+              `url(${customBanner?.find((x) => x.handle === info.handle) ? '' : playerBanner(BannerType.foreground, denydNames.includes(info.handle) ? 65 : info.bannerFg)})`,
             width: '36%',
             zIndex: 0,
           }}
