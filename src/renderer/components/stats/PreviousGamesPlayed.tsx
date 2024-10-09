@@ -1,6 +1,6 @@
 /* eslint-disable react/no-danger */
 /* eslint-disable react/require-default-props */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   Typography,
   Table,
@@ -20,9 +20,9 @@ import {
   Chip,
   Tooltip,
   Button,
-  Checkbox,
-  FormGroup,
-  FormControlLabel,
+  InputLabel,
+  InputAdornment,
+  IconButton,
 } from '@mui/material';
 import { trackEvent } from '@aptabase/electron/renderer';
 import { GiBroadsword, GiHealthNormal, GiDeathSkull } from 'react-icons/gi';
@@ -39,6 +39,7 @@ import Player from '../atlas/Player';
 import { ReplayDialog, ReplayFile } from '../pages/ReplaysPage';
 import AdvancedDialog from '../pages/AdvancedPage';
 import EvosStore from 'renderer/lib/EvosStore';
+import { Close } from '@mui/icons-material';
 
 interface CharacterSkin {
   skinIndex: number;
@@ -182,16 +183,33 @@ const fetchInfo = async (
   pageSize: number,
   playerName: string,
   curentType: string,
+  gameServerProcessCode: string,
+  searchByTurns: string,
+  score: string,
+  curentTeam: string,
 ) => {
   try {
     const strapi = strapiClient.from('games').select();
 
-    if (map !== 'All Maps') {
-      strapi.filterDeep('map', 'eq', map);
-    }
-    strapi.equalTo('gametype', curentType);
-    if (playerName) {
-      strapi.filterDeep('stats.user', 'contains', playerName);
+    if (gameServerProcessCode !== '') {
+      strapi.equalTo('GameServerProcessCode', gameServerProcessCode);
+    } else {
+      if (map !== 'All Maps') {
+        strapi.filterDeep('map', 'eq', map);
+      }
+      if (playerName !== '') {
+        strapi.filterDeep('stats.user', 'contains', playerName);
+      }
+      strapi.equalTo('gametype', curentType);
+      if (searchByTurns !== '') {
+        strapi.equalTo('turns', searchByTurns);
+      }
+      if (score !== '') {
+        strapi.equalTo('score', score);
+      }
+      if (curentTeam !== 'Both') {
+        strapi.equalTo('teamwin', curentTeam);
+      }
     }
 
     strapi.populateWith('stats', ['*'], true);
@@ -216,16 +234,33 @@ const fetchCount = async (
   map: string,
   playerName: string,
   curentType: string,
+  gameServerProcessCode: string,
+  searchByTurns: string,
+  score: string,
+  curentTeam: string,
 ) => {
   try {
     const strapi = strapiClient.from('games/count').select();
 
-    if (map !== 'All Maps') {
-      strapi.filterDeep('map', 'eq', map);
-    }
-    strapi.equalTo('gametype', curentType);
-    if (playerName) {
-      strapi.filterDeep('stats.user', 'contains', playerName);
+    if (gameServerProcessCode !== '') {
+      strapi.equalTo('GameServerProcessCode', gameServerProcessCode);
+    } else {
+      if (map !== 'All Maps') {
+        strapi.filterDeep('map', 'eq', map);
+      }
+      if (playerName !== '') {
+        strapi.filterDeep('stats.user', 'contains', playerName);
+      }
+      strapi.equalTo('gametype', curentType);
+      if (searchByTurns !== '') {
+        strapi.equalTo('turns', searchByTurns);
+      }
+      if (score !== '') {
+        strapi.equalTo('score', score);
+      }
+      if (curentTeam !== 'Both') {
+        strapi.equalTo('teamwin', curentTeam);
+      }
     }
     const { data, error } = await strapi.get();
 
@@ -493,12 +528,12 @@ export function Games({
             </a>
           </Typography>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <Typography variant="subtitle1" gutterBottom>
             {t('stats.score')}: {game.score}
           </Typography>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={5}>
           <Typography variant="subtitle1" gutterBottom>
             {t('stats.turns')}: {game.turns}
           </Typography>
@@ -508,14 +543,14 @@ export function Games({
             {t('stats.played')}: {formatDate(i18n.language, game.date)}
           </Typography>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <Typography variant="subtitle1" gutterBottom>
             {t('stats.type')}: {game.gametype}
           </Typography>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={5}>
           <Typography variant="subtitle1" gutterBottom>
-            {t('stats.version')}: {game.version}
+            {game.GameServerProcessCode} ({t('stats.version')}: {game.version})
           </Typography>
         </Grid>
       </Grid>
@@ -1070,47 +1105,118 @@ export default function PreviousGamesPlayed() {
   const pageSize = 5;
   const [selectedMap, setSelectedMap] = useState<string>('All Maps');
   const [curentType, setCurrentType] = useState<string>('PvP');
-  const [searchedPlayer, setSearchedPlayer] = useState<string>(''); // Add player search state
+  const [gameServerProcessCode, setGameServerProcessCode] =
+    useState<string>('');
+  const [searchByTurns, setSearchByTurns] = useState<string>('');
+  const [score, setScore] = useState<string>('');
+  const [curentTeam, setCurentTeam] = useState<string>('Both');
+  const [searchedPlayer, setSearchedPlayer] = useState<string>('');
+  const [errorGameServerProcessCode, setErrorGameServerProcessCode] =
+    useState(false);
+  const [errorScore, setErrorScore] = useState(false);
+  const [errorTurns, setErrorTurns] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const regexServerProcessCode =
+    /^[a-zA-Z]+-\d+-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}$/;
+  const handleInputChangeServerProcessCode = (event: {
+    target: { value: string };
+  }) => {
+    const { value } = event.target;
+    setGameServerProcessCode(value);
+
+    if (regexServerProcessCode.test(value)) {
+      setErrorGameServerProcessCode(false);
+    } else {
+      setErrorGameServerProcessCode(true);
+    }
+  };
+
+  const regexScore = /^(0|[1-9]\d*)-(0|[1-9]\d*)$/;
+  const handleInputChangeScore = (event: { target: { value: string } }) => {
+    const { value } = event.target;
+    setScore(value);
+
+    if (regexScore.test(value)) {
+      setErrorScore(false);
+    } else {
+      setErrorScore(true);
+    }
+  };
+
+  const regexTurns = /^(0|[1-9]\d*)$/;
+  const handleInputChangeTurns = (event: { target: { value: string } }) => {
+    const { value } = event.target;
+    setSearchByTurns(value);
+
+    if (regexTurns.test(value)) {
+      setErrorTurns(false);
+    } else {
+      setErrorTurns(true);
+    }
+  };
+
+  const searchGames = useCallback(() => {
     async function fetchData() {
-      const result = (await fetchInfo(
-        selectedMap,
-        currentPage,
-        pageSize,
-        searchedPlayer,
-        curentType,
-      )) as Game[];
-      setData(result);
-      const result1 = await fetchCount(selectedMap, searchedPlayer, curentType);
+      const [result, result1] = await Promise.all([
+        fetchInfo(
+          selectedMap,
+          currentPage,
+          pageSize,
+          searchedPlayer,
+          curentType,
+          gameServerProcessCode,
+          searchByTurns,
+          score,
+          curentTeam,
+        ),
+        fetchCount(
+          selectedMap,
+          searchedPlayer,
+          curentType,
+          gameServerProcessCode,
+          searchByTurns,
+          score,
+          curentTeam,
+        ),
+      ]);
+
       setTotal(result1);
+      setData(result);
     }
     fetchData();
-  }, [currentPage, selectedMap, searchedPlayer, curentType]);
+  }, [
+    selectedMap,
+    currentPage,
+    pageSize,
+    searchedPlayer,
+    curentType,
+    gameServerProcessCode,
+    searchByTurns,
+    score,
+    curentTeam,
+  ]);
+
+  useEffect(
+    () => {
+      searchGames();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
     page: number,
   ) => {
     setCurrentPage(page);
+    searchGames();
   };
 
   const handleMapChange = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
     setSelectedMap(event.target.value);
-    setCurrentPage(1);
-  };
-
-  const handlePlayerSearchChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setSearchedPlayer(event.target.value);
-  };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentType(event.target.value);
   };
 
   const maps = [
@@ -1145,6 +1251,7 @@ export default function PreviousGamesPlayed() {
                 id="map-filter"
                 value={selectedMap}
                 onChange={handleMapChange}
+                disabled={gameServerProcessCode !== ''}
               >
                 {maps.map((map) => (
                   <MenuItem key={map} value={map}>
@@ -1155,58 +1262,169 @@ export default function PreviousGamesPlayed() {
             </FormControl>
           </Grid>
           <Grid item xs={6}>
+            <FormControl fullWidth>
+              <Select
+                value={curentType}
+                onChange={(event) => setCurrentType(event.target.value)}
+                disabled={gameServerProcessCode !== ''}
+              >
+                <MenuItem value="PvP">{t('stats.pvpgames')}</MenuItem>
+                <MenuItem value="Coop">{t('stats.coopgames')}</MenuItem>
+                <MenuItem value="Custom">{t('stats.customgames')}</MenuItem>
+                <MenuItem value="Tournament">
+                  {t('stats.tournamentgames')}
+                </MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
             <TextField
               label={t('stats.searchByPlayer')}
+              disabled={gameServerProcessCode !== ''}
               variant="outlined"
               value={searchedPlayer}
-              onChange={handlePlayerSearchChange}
+              onChange={(event) => setSearchedPlayer(event.target.value)}
               fullWidth
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="clear text"
+                      onClick={() => setSearchedPlayer('')}
+                      edge="end"
+                      disabled={gameServerProcessCode !== ''}
+                    >
+                      <Close />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
           </Grid>
-          <Grid item xs={12}>
-            <FormGroup row>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    defaultChecked
-                    checked={curentType === 'PvP'}
-                    onChange={handleChange}
-                    value="PvP"
-                  />
-                }
-                label={t('stats.pvpgames')}
+          <Grid item xs={6}>
+            <FormControl fullWidth>
+              <InputLabel>{t('stats.searchByTeamWin')}</InputLabel>
+              <Select
+                value={curentTeam}
+                onChange={(event) => setCurentTeam(event.target.value)}
+                label={t('stats.searchByTeamWin')}
+                disabled={gameServerProcessCode !== ''}
+              >
+                <MenuItem value="Both">{t('stats.Both')}</MenuItem>
+                <MenuItem value="TeamA">{t('stats.TeamA')}</MenuItem>
+                <MenuItem value="TeamB">{t('stats.TeamB')}</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth>
+              <TextField
+                label={t('stats.searchByTurns')}
+                variant="outlined"
+                value={searchByTurns}
+                disabled={gameServerProcessCode !== ''}
+                onChange={handleInputChangeTurns}
+                error={errorTurns}
+                helperText={errorTurns ? t('stats.invalidTurnsFormat') : ''}
+                fullWidth
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="clear text"
+                        onClick={() => {
+                          setSearchByTurns('');
+                          setErrorTurns(false);
+                        }}
+                        edge="end"
+                        disabled={gameServerProcessCode !== ''}
+                      >
+                        <Close />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={curentType === 'Coop'}
-                    onChange={handleChange}
-                    value="Coop"
-                  />
-                }
-                label={t('stats.coopgames')}
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth>
+              <TextField
+                label={t('stats.searchByScore')}
+                variant="outlined"
+                value={score}
+                disabled={gameServerProcessCode !== ''}
+                onChange={handleInputChangeScore}
+                fullWidth
+                error={errorScore}
+                helperText={errorScore ? t('stats.invalidScoreFormat') : ''}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="clear text"
+                        onClick={() => {
+                          setScore('');
+                          setErrorScore(false);
+                        }}
+                        edge="end"
+                        disabled={gameServerProcessCode !== ''}
+                      >
+                        <Close />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={curentType === 'Custom'}
-                    onChange={handleChange}
-                    value="Custom"
-                  />
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <FormControl fullWidth>
+              <TextField
+                label={t('stats.searchByGameServerProcessCode')}
+                variant="outlined"
+                value={gameServerProcessCode}
+                onChange={handleInputChangeServerProcessCode}
+                error={errorGameServerProcessCode}
+                helperText={
+                  errorGameServerProcessCode
+                    ? t('stats.invalidGameServerProcessCode')
+                    : ''
                 }
-                label={t('stats.customgames')}
+                fullWidth
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="clear text"
+                        onClick={() => {
+                          setGameServerProcessCode('');
+                          setErrorGameServerProcessCode(false);
+                        }}
+                        edge="end"
+                      >
+                        <Close />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={curentType === 'Tournament'}
-                    onChange={handleChange}
-                    value="Tournament"
-                  />
-                }
-                label={t('stats.tournamentgames')}
-              />
-            </FormGroup>
+            </FormControl>
+          </Grid>
+          <Grid item xs={6}>
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              onClick={() => {
+                searchGames();
+                setCurrentPage(1);
+              }}
+              disabled={errorGameServerProcessCode || errorScore || errorTurns}
+              sx={{ marginRight: 2, height: '57px' }} // Add margin to the right
+            >
+              {t('search')}
+            </Button>
           </Grid>
           <Grid item xs={6} />
           <Grid item xs={6}>

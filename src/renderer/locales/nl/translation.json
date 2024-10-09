@@ -447,7 +447,17 @@
     "top20AccoladesCollector": "Top 20 spelers die de meeste onderscheidingen hebben verzameld",
     "accoladesCollector": "Verzamelde Onderscheidingen",
     "top20PerfectAccolades": "Top 20 spelers met de meeste perfecte onderscheidingen (Alle onderscheidingen in één spel)",
-    "perfectAccolades": "Perfecte Onderscheidingen"
+    "perfectAccolades": "Perfecte Onderscheidingen",
+    "searchByGameServerProcessCode": "Zoeken op Game Server Procescode",
+    "searchByTurns": "Zoeken op Beurten",
+    "searchByScore": "Zoeken op Score (bijv: 6-5)",
+    "searchByTeamWin": "Zoeken op Teamwinst",
+    "Both": "Elke teamwinst",
+    "TeamA": "Team A",
+    "TeamB": "Team B",
+    "invalidTurnsFormat": "Ongeldig formaat. Voorbeeld: 15",
+    "invalidScoreFormat": "Ongeldig formaat. Voorbeeld: 6-5",
+    "invalidGameServerProcessCode": "Ongeldig formaat. Voorbeeld: Tethys-3-41158c11-6692-c073"
   },
   "advstats": {
     "playerName": "Spelersnaam",
@@ -597,5 +607,9 @@
   "supportUs": {
     "title": "Steun",
     "text": "We hebben veel werk verzet om Atlas Reactor van de afgrond terug te brengen.<br><br>Uw steun wordt zeer gewaardeerd, hoewel het niet verplicht is. U krijgt hier niet veel voor terug, behalve een warm gevoel, maar uw bijdrage wordt zeer gewaardeerd.<br><br>Als het bedrag toevallig hoger is dan 20 (aan BabyAddalyn), kunt u de speciale statuseffect in de Launcher krijgen.<br><br><a href=\"https://paypal.me/BabyAddalyn\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Steun BabyAddalyn (launcher en lobby ontwikkelaar) (Eenmalig)</button></a><br><br><a href=\"https://boosty.to/zheneq\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Steun Zheneq (lobby en game server ontwikkelaar) (Abonnement)</button></a>"
+  },
+  "unSuportedBranch": {
+    "title": "Niet Ondersteunde Branch",
+    "text": "Deze branch wordt niet ondersteund in de launcher. Je kunt je spel echter nog steeds opstarten met deze branch.<br><br>Je kunt ook upgraden naar een ondersteunde branch, zoals Stabiel of Beta.<br><br>Let op dat je de launcher voor niets anders kunt gebruiken terwijl je op deze branch bent.<br><br>Als je vragen hebt, sluit je aan bij onze Discord-server en vraag in het kanaal #support."
   }
 }

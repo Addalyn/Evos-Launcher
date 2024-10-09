@@ -447,7 +447,17 @@
     "top20AccoladesCollector": "Top 20 jogadores que coletaram mais conquistas",
     "accoladesCollector": "Conquistas Coletadas",
     "top20PerfectAccolades": "Top 20 jogadores com mais distinções perfeitas (Todas as distinções em um jogo)",
-    "perfectAccolades": "Distinções Perfeitas"
+    "perfectAccolades": "Condecorações Perfeitas",
+    "searchByGameServerProcessCode": "Pesquisar pelo Código do Processo do Servidor de Jogo",
+    "searchByTurns": "Pesquisar por Turnos",
+    "searchByScore": "Pesquisar por Pontuação (ex: 6-5)",
+    "searchByTeamWin": "Pesquisar por Vitória da Equipe",
+    "Both": "Qualquer vitória de equipe",
+    "TeamA": "Equipe A",
+    "TeamB": "Equipe B",
+    "invalidTurnsFormat": "Formato inválido. Exemplo: 15",
+    "invalidScoreFormat": "Formato inválido. Exemplo: 6-5",
+    "invalidGameServerProcessCode": "Formato inválido. Exemplo: Tethys-3-41158c11-6692-c073"
   },
   "advstats": {
     "playerName": "Nome do Jogador",
@@ -598,5 +608,9 @@
   "supportUs": {
     "title": "Apoiar",
     "text": "Trabalhamos muito para trazer o Atlas Reactor de volta do abismo.<br><br>Sua ajuda é muito apreciada, embora não seja obrigatória. Não há muito que você ganhe com isso além de uma sensação boa, mas sua contribuição é muito apreciada.<br><br>Se por acaso o valor for superior a 20 (para BabyAddalyn), você pode obter o efeito de status Especial no Launcher.<br><br><a href=\"https://paypal.me/BabyAddalyn\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Apoiar BabyAddalyn (desenvolvedor do launcher e lobby) (Uma Vez)</button></a><br><br><a href=\"https://boosty.to/zheneq\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Apoiar Zheneq (desenvolvedor do lobby e servidor de jogos) (Assinatura)</button></a>"
+  },
+  "unSuportedBranch": {
+    "title": "Ramo Não Suportado",
+    "text": "Este ramo não é suportado no lançador. Você ainda pode iniciar seu jogo usando-o.<br><br>Você também pode atualizar para um ramo suportado, como Estável ou Beta.<br><br>Observe que você não poderá usar o lançador para mais nada enquanto estiver neste ramo.<br><br>Se você tiver alguma dúvida, junte-se ao nosso servidor Discord e pergunte no canal #support."
   }
 }

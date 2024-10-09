@@ -409,7 +409,7 @@ export function ReplayDialog({
               {t('replay.downloadReplay')}
             </Button>
           )}
-          {!fromLogPage ?? (
+          {!fromLogPage && (
             <Button onClick={handleOpenFolder} color="primary">
               {t('replay.openReplayFolder')}
             </Button>

@@ -447,7 +447,17 @@
     "top20AccoladesCollector": "En fazla ödül toplayan 20 oyuncu",
     "accoladesCollector": "Toplanan Ödüller",
     "top20PerfectAccolades": "En fazla mükemmel ödül alan 20 oyuncu (Bir oyundaki tüm ödüller)",
-    "perfectAccolades": "Mükemmel Ödüller"
+    "perfectAccolades": "Mükemmel Ödüller",
+    "searchByGameServerProcessCode": "Oyun Sunucusu İşlem Kodu ile Ara",
+    "searchByTurns": "Turlar ile Ara",
+    "searchByScore": "Skora Göre Ara (örneğin: 6-5)",
+    "searchByTeamWin": "Takım Kazanımı ile Ara",
+    "Both": "Herhangi bir takım kazanımı",
+    "TeamA": "Takım A",
+    "TeamB": "Takım B",
+    "invalidTurnsFormat": "Geçersiz format. Örnek: 15",
+    "invalidScoreFormat": "Geçersiz format. Örnek: 6-5",
+    "invalidGameServerProcessCode": "Geçersiz format. Örnek: Tethys-3-41158c11-6692-c073"
   },
   "advstats": {
     "playerName": "Oyuncu Adı",
@@ -598,5 +608,9 @@
   "supportUs": {
     "title": "Destek",
     "text": "Atlas Reactor'u uçurumdan geri getirmek için çok çalıştık.<br><br>Destekleriniz çok takdir edilmektedir, ancak gerekli değildir. Bunun karşılığında pek bir şey elde edemezsiniz, hoş bir sıcak duygu dışında, ancak katkınız çok takdir edilmektedir.<br><br>Eğer miktar 20'nin üzerinde ise (BabyAddalyn'e), Launcher'da Özel durum etkisini alabilirsiniz.<br><br><a href=\"https://paypal.me/BabyAddalyn\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">BabyAddalyn'i Destekle (launcher ve lobi geliştiricisi) (Tek Seferlik)</button></a><br><br><a href=\"https://boosty.to/zheneq\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Zheneq'i Destekle (lobi ve oyun sunucusu geliştiricisi) (Abonelik)</button></a>"
+  },
+  "unSuportedBranch": {
+    "title": "Desteklenmeyen Dal",
+    "text": "Bu dal, başlatıcıda desteklenmiyor. Yine de oyununuzu bu dalı kullanarak başlatabilirsiniz.<br><br>Ayrıca, Kararlı veya Beta gibi desteklenen bir dala güncelleyebilirsiniz.<br><br>Bu dalda bulunduğunuz süre boyunca başlatıcıyı başka bir şey için kullanamayacağınızı unutmayın.<br><br>Herhangi bir sorunuz varsa, Discord sunucumuza katılın ve #support kanalında sorun."
   }
 }

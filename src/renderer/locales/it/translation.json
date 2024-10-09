@@ -419,7 +419,17 @@
     "top20AccoladesCollector": "Top 20 giocatori che hanno raccolto il maggior numero di riconoscimenti",
     "accoladesCollector": "Riconoscimenti Raccolti",
     "top20PerfectAccolades": "Top 20 giocatori con il maggior numero di riconoscimenti perfetti (Tutti i riconoscimenti in una partita)",
-    "perfectAccolades": "Riconoscimenti Perfetti"
+    "perfectAccolades": "Accolade Perfette",
+    "searchByGameServerProcessCode": "Cerca per Codice Processo Server di Gioco",
+    "searchByTurns": "Cerca per Turni",
+    "searchByScore": "Cerca per Punteggio (es: 6-5)",
+    "searchByTeamWin": "Cerca per Vittoria di Squadra",
+    "Both": "Qualsiasi vittoria di squadra",
+    "TeamA": "Squadra A",
+    "TeamB": "Squadra B",
+    "invalidTurnsFormat": "Formato non valido. Esempio: 15",
+    "invalidScoreFormat": "Formato non valido. Esempio: 6-5",
+    "invalidGameServerProcessCode": "Formato non valido. Esempio: Tethys-3-41158c11-6692-c073"
   },
   "advstats": {
     "playerName": "Nome del Giocatore",
@@ -570,5 +580,9 @@
   "supportUs": {
     "title": "Supporto",
     "text": "Abbiamo lavorato molto per riportare Atlas Reactor dal baratro.<br><br>Il tuo supporto è molto apprezzato, anche se non è obbligatorio. Non otterrai molto da questo se non una piacevole sensazione calda, ma il tuo contributo è molto apprezzato.<br><br>Se per caso l'importo è superiore a 20 (a BabyAddalyn), puoi ottenere l'effetto di stato speciale nel Launcher.<br><br><a href=\"https://paypal.me/BabyAddalyn\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Supporta BabyAddalyn (sviluppatore del launcher e della lobby) (Una Volta)</button></a><br><br><a href=\"https://boosty.to/zheneq\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Supporta Zheneq (sviluppatore della lobby e del server di gioco) (Abbonamento)</button></a>"
+  },
+  "unSuportedBranch": {
+    "title": "Ramo Non Supportato",
+    "text": "Questo ramo non è supportato nel lanciatore. Puoi comunque avviare il tuo gioco utilizzandolo.<br><br>Puoi anche aggiornare a un ramo supportato, come Stabile o Beta.<br><br>Nota che non potrai utilizzare il lanciatore per nient'altro mentre sei su questo ramo.<br><br>Se hai domande, unisciti al nostro server Discord e chiedi nel canale #support."
   }
 }

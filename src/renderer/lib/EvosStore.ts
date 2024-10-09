@@ -194,7 +194,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       showAllChat: showAllChat || 'true',
       enableDiscordRPC: enableDiscordRPC || 'true',
       gameExpanded: gameExpanded || 'true',
-      branch: branch || 'Vanilla',
+      branch: branch || 'Original',
       selectedArguments: selectedArguments || {},
     });
     window.electron.ipcRenderer.setTheme(

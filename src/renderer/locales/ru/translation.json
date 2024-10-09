@@ -434,7 +434,17 @@
     "top20AccoladesCollector": "Топ 20 игроков, собравших больше всего наград",
     "accoladesCollector": "Собранные Награды",
     "top20PerfectAccolades": "Топ 20 игроков с наибольшим количеством идеальных наград (Все награды в одной игре)",
-    "perfectAccolades": "Идеальные Награды"
+    "perfectAccolades": "Совершенные Награды",
+    "searchByGameServerProcessCode": "Поиск по коду процесса игрового сервера",
+    "searchByTurns": "Поиск по турам",
+    "searchByScore": "Поиск по счету (например: 6-5)",
+    "searchByTeamWin": "Поиск по победе команды",
+    "Both": "Любая победа команды",
+    "TeamA": "Команда A",
+    "TeamB": "Команда B",
+    "invalidTurnsFormat": "Неверный формат. Пример: 15",
+    "invalidScoreFormat": "Неверный формат. Пример: 6-5",
+    "invalidGameServerProcessCode": "Неверный формат. Пример: Tethys-3-41158c11-6692-c073"
   },
   "advstats": {
     "playerName": "Имя Игрока",
@@ -585,5 +595,9 @@
   "supportUs": {
     "title": "Поддержка",
     "text": "Мы приложили много усилий, чтобы вернуть Atlas Reactor с края пропасти.<br><br>Ваша поддержка очень ценится, хотя и не обязательна. Вы не получите много взамен, кроме приятного теплого чувства, но ваш вклад очень ценится.<br><br>Если случайно сумма превышает 20 (для BabyAddalyn), вы можете получить специальный статус в Launcher.<br><br><a href=\"https://paypal.me/BabyAddalyn\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Поддержать BabyAddalyn (разработчик лаунчера и лобби) (Разово)</button></a><br><br><a href=\"https://boosty.to/zheneq\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Поддержать Zheneq (разработчик лобби и игрового сервера) (Подписка)</button></a>"
+  },
+  "unSuportedBranch": {
+    "title": "Несupported Branch",
+    "text": "Этот branch не поддерживается в лаунчере. Вы все равно можете запустить свою игру, используя его.<br><br>Вы также можете обновиться до поддерживаемого branch, например Stable или Beta.<br><br>Обратите внимание, что вы не сможете использовать лаунчер для чего-либо еще, пока находитесь на этом branch.<br><br>Если у вас есть вопросы, присоединяйтесь к нашему серверу Discord и задайте вопрос в канале #support."
   }
 }

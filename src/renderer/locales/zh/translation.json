@@ -446,7 +446,17 @@
     "top20AccoladesCollector": "收集最多奖项的前20名玩家",
     "accoladesCollector": "收集的奖项",
     "top20PerfectAccolades": "获得最多完美荣誉的前20名玩家（单局游戏中的所有荣誉）",
-    "perfectAccolades": "完美荣誉"
+    "perfectAccolades": "完美荣誉",
+    "searchByGameServerProcessCode": "通过游戏服务器过程代码搜索",
+    "searchByTurns": "按回合搜索",
+    "searchByScore": "按分数搜索（例如：6-5）",
+    "searchByTeamWin": "按团队胜利搜索",
+    "Both": "任何团队胜利",
+    "TeamA": "团队A",
+    "TeamB": "团队B",
+    "invalidTurnsFormat": "无效格式。示例：15",
+    "invalidScoreFormat": "无效格式。示例：6-5",
+    "invalidGameServerProcessCode": "无效格式。示例：Tethys-3-41158c11-6692-c073"
   },
   "advstats": {
     "playerName": "玩家姓名",
@@ -597,5 +607,9 @@
   "supportUs": {
     "title": "支持",
     "text": "我们投入了大量工作，将 Atlas Reactor 从悬崖边缘带回来。<br><br>您的支持非常感谢，但不是必须的。您不会从中获得太多其他的东西，只是温暖的感觉，但您的贡献非常感谢。<br><br>如果金额超过 20（给 BabyAddalyn），您可以在启动器中获得特殊状态效果。<br><br><a href=\"https://paypal.me/BabyAddalyn\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">支持 BabyAddalyn（启动器和大厅开发者）（一次性）</button></a><br><br><a href=\"https://boosty.to/zheneq\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">支持 Zheneq（大厅和游戏服务器开发者）（订阅）</button></a>"
+  },
+  "unSuportedBranch": {
+    "title": "不支持的分支",
+    "text": "此分支在启动器中不受支持。您仍然可以使用它启动游戏。<br><br>您还可以更新到受支持的分支，例如稳定版或测试版。<br><br>请注意，在此分支上，您无法使用启动器执行其他操作。<br><br>如果您有任何问题，请加入我们的 Discord 服务器并在 #support 频道询问。"
   }
 }

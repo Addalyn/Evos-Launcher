@@ -447,7 +447,17 @@
     "top20AccoladesCollector": "Top 20 Spieler, die die meisten Auszeichnungen gesammelt haben",
     "accoladesCollector": "Gesammelte Auszeichnungen",
     "top20PerfectAccolades": "Top 20 Spieler mit den meisten perfekten Auszeichnungen (Alle Auszeichnungen in einem Spiel)",
-    "perfectAccolades": "Perfekte Auszeichnungen"
+    "perfectAccolades": "Perfekte Auszeichnungen",
+    "searchByGameServerProcessCode": "Nach Spielserver-Prozesscode suchen",
+    "searchByTurns": "Nach Zügen suchen",
+    "searchByScore": "Nach Punktzahl suchen (z. B.: 6-5)",
+    "searchByTeamWin": "Nach Teamgewinn suchen",
+    "Both": "Irgendein Team gewinnt",
+    "TeamA": "Team A",
+    "TeamB": "Team B",
+    "invalidTurnsFormat": "Ungültiges Format. Beispiel: 15",
+    "invalidScoreFormat": "Ungültiges Format. Beispiel: 6-5",
+    "invalidGameServerProcessCode": "Ungültiges Format. Beispiel: Tethys-3-41158c11-6692-c073"
   },
   "advstats": {
     "playerName": "Spielername",
@@ -598,5 +608,9 @@
   "supportUs": {
     "title": "Unterstützen",
     "text": "Wir haben viel Arbeit investiert, um Atlas Reactor vom Abgrund zurückzubringen.<br><br>Ihre Unterstützung wird sehr geschätzt, ist aber nicht erforderlich. Sie erhalten dafür nicht viel außer einem warmen Gefühl, aber Ihr Beitrag wird sehr geschätzt.<br><br>Wenn der Betrag zufällig höher als 20 ist (an BabyAddalyn), können Sie den Spezialstatus-Effekt im Launcher erhalten.<br><br><a href=\"https://paypal.me/BabyAddalyn\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Unterstützen Sie BabyAddalyn (Launcher- und Lobby-Entwickler) (Einmalig)</button></a><br><br><a href=\"https://boosty.to/zheneq\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Unterstützen Sie Zheneq (Lobby- und Spielserver-Entwickler) (Abonnement)</button></a>"
+  },
+  "unSuportedBranch": {
+    "title": "Nicht Unterstützter Branch",
+    "text": "Dieser Branch wird im Launcher nicht unterstützt. Sie können Ihr Spiel dennoch damit starten.<br><br>Sie können auch auf einen unterstützten Branch wie Stable oder Beta aktualisieren.<br><br>Bitte beachten Sie, dass Sie den Launcher während dieses Branches für nichts anderes verwenden können.<br><br>Wenn Sie Fragen haben, treten Sie unserem Discord-Server bei und fragen Sie im Kanal #support."
   }
 }
