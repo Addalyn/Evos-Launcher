@@ -1,3 +1,28 @@
+### Release Notes: Version 2.2.1
+
+## Improvements
+
+- **Advanced Game Search**
+
+  - Enhanced functionality for searching previous games:
+    - **Team Win**: Select witch team that won, or Any to ignore.
+    - **Turns**: Must be entered as a valid number (e.g., `15`).
+    - **Score**: Must be formatted correctly (e.g., `4-3`).
+    - **Game Server Process Code**: Requires a valid format, such as `"Tethys-3-41158c11-6692-c073"`. You can find these codes in the game info or in the footer of the Discord #game channel. All other search options are disabled when searching for process code.
+
+- **Original Branch**
+
+  - When selecting the "Original" branch, a notification will pop up indicating that this option is unsupported. You may still play, but functionality within the launcher will be limited.
+
+- **Settings**
+
+  - Moved Branch under select exe path and gave it "loading" effect when fetching branch data, to minimize ui change impact when fetching data
+
+## Bug Fixes
+
+- **Replays Open Folder**
+  - Resolved a minor issue where the option to open the folder was not displayed if you already had the replay file.
+
 ### Release Notes: Version 2.2.0
 
 ## New Features

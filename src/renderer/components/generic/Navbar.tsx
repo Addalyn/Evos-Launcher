@@ -31,7 +31,7 @@ import {
 import { EvosError, isValidExePath, processError } from 'renderer/lib/Error';
 import BaseDialog from './BaseDialog';
 import EvosStore, { AuthUser } from 'renderer/lib/EvosStore';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 /* eslint-disable no-nested-ternary */
 /* eslint-disable promise/always-return */
 import React, { useEffect, useMemo, useState } from 'react';
@@ -108,7 +108,7 @@ export default function NavBar() {
     oldBranch,
     setNoBranchDownload,
   } = evosStore;
-
+  const location = useLocation();
   useEffect(() => {
     const getBranchesInfo = async () => {
       const response = await getBranches();
@@ -120,19 +120,29 @@ export default function NavBar() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [branch, setBranchesData]);
 
-  const handleChangeBranch = (event: { target: { value: any } }) => {
+  const handleChangeBranch = (
+    eventOrValue: { target: { value: any } } | string,
+  ) => {
     setNoBranchDownload(false);
-    const selectedValue = event.target.value;
+
+    // Determine if the input is an event object or a direct value
+    const selectedValue =
+      typeof eventOrValue === 'string'
+        ? eventOrValue
+        : eventOrValue.target.value;
+
     trackEvent('Branch', {
       branch: selectedValue,
     });
     setOldBranch(branch);
     setBranch(selectedValue);
     setLocked(true);
+
     if (branchesData) {
       window.electron.ipcRenderer.updateBranch(branchesData[selectedValue]);
     }
   };
+
   const pages = useMemo(
     () => [
       {
@@ -415,7 +425,7 @@ export default function NavBar() {
 
   const handleCancelDownloadBranch = () => {
     window.electron.ipcRenderer.sendMessage('cancelDownload');
-    setBranch(oldBranch || 'Vanilla');
+    setBranch(oldBranch || 'Original');
     setLocked(false);
     setNeedPatching(false);
     setNoBranchDownload(true);
@@ -527,6 +537,102 @@ export default function NavBar() {
           onDismiss={() => setSupportUs(!supportUs)}
         />
       )}
+      {branch === 'Original' && location.pathname !== '/settings' && (
+        <BaseDialog
+          title={t('unSuportedBranch.title')}
+          content={
+            <div>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: t('unSuportedBranch.text'),
+                }}
+              />
+              <div style={{ marginTop: '20px' }}>
+                <Button
+                  variant="outlined"
+                  disabled={
+                    !exePath.endsWith('AtlasReactor.exe') ||
+                    isDownloading ||
+                    isPatching ||
+                    !isValidExePath(exePath) ||
+                    account?.locked
+                  }
+                  onClick={handleLaunchGameClick}
+                >
+                  <SportsEsportsIcon
+                    sx={{
+                      height: '25px',
+                      width: '25px',
+                      display: { xs: 'flex', md: 'none' },
+                    }}
+                  />
+                  <Typography
+                    variant="button"
+                    display="block"
+                    gutterBottom
+                    sx={{ display: { xs: 'none', md: 'flex' } }}
+                  >
+                    {activeGames[activeUser?.user as string]
+                      ? `${t('game.kill')} ${activeUser?.user}`
+                      : `${t('game.play')} ${activeUser?.user}`}
+                  </Typography>
+                </Button>
+                <br />
+                <br />
+                <Button
+                  disabled={
+                    !exePath.endsWith('AtlasReactor.exe') ||
+                    isDownloading ||
+                    isPatching ||
+                    !isValidExePath(exePath) ||
+                    account?.locked
+                  }
+                  style={{
+                    padding: '8px 16px',
+                    backgroundColor: '#1976d2',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    marginRight: '10px',
+                  }}
+                  onClick={() => {
+                    handleChangeBranch('Stable');
+                  }}
+                >
+                  Update to Stable
+                </Button>
+                <Button
+                  disabled={
+                    !exePath.endsWith('AtlasReactor.exe') ||
+                    isDownloading ||
+                    isPatching ||
+                    !isValidExePath(exePath) ||
+                    account?.locked
+                  }
+                  style={{
+                    padding: '8px 16px',
+                    backgroundColor: '#1976d2',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => {
+                    handleChangeBranch('Beta');
+                  }}
+                >
+                  Update to Beta
+                </Button>
+              </div>
+            </div>
+          }
+          dismissText="Go to Settings"
+          onDismiss={() => {
+            navigate('/settings');
+          }}
+        />
+      )}
       <AppBar
         position="fixed"
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -569,7 +675,8 @@ export default function NavBar() {
               !isDownloading &&
               !isPatching &&
               !needPatching &&
-              !account?.locked && (
+              !account?.locked &&
+              branch !== 'Original' && (
                 <Box
                   sx={{
                     flexGrow: 1,

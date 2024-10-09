@@ -447,7 +447,17 @@
     "top20AccoladesCollector": "Top 20 players who collected the most accolades",
     "accoladesCollector": "Accolades Collected",
     "top20PerfectAccolades": "Top 20 players who got the most perfect accolades (All accolades in one game)",
-    "perfectAccolades": "Perfect Accolades"
+    "perfectAccolades": "Perfect Accolades",
+    "searchByGameServerProcessCode": "Search by Game Server Process Code",
+    "searchByTurns": "Search by Turns",
+    "searchByScore": "Search by Score (eg: 6-5)",
+    "searchByTeamWin": "Search by Team Win",
+    "Both": "Any team win",
+    "TeamA": "Team A",
+    "TeamB": "Team B",
+    "invalidTurnsFormat": "Invalid format. Example: 15",
+    "invalidScoreFormat": "Invalid format. Example: 6-5",
+    "invalidGameServerProcessCode": "Invalid format. Example: Tethys-3-41158c11-6692-c073"
   },
   "advstats": {
     "playerName": "Player Name",
@@ -598,5 +608,9 @@
   "supportUs": {
     "title": "Support",
     "text": "We put a lot of work into bringing Atlas Reactor back from the brink.<br><br>Your support is much appreciated, though not required. There isn't much you get from doing this other then a nice warm feeling, but your contribution is much appreciated.<br><br>If by any chance the amount is higher than 20 (to BabyAddalyn), you can get the Special status effect in the Launcher.<br><br><a href=\"https://paypal.me/BabyAddalyn\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Support BabyAddalyn (launcher and lobby dev) (One Time)</button></a><br><br><a href=\"https://boosty.to/zheneq\" style=\"text-decoration: none;\" target=\"_new\"><button style=\"padding: 8px 16px; background-color: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;\" class=\"glow-on-hover\">Support Zheneq (lobby and game server dev) (Subscription)</button></a>"
+  },
+  "unSuportedBranch": {
+    "title": "Unsupported Branch",
+    "text": "This branch is not supported in the launcher. You may still launch your game using it.<br><br>You can also update to a supported branch, such as Stable or Beta.<br><br>Note that you will not be able to use the launcher for anything else while on this branch.<br><br>If you have any questions, please join our Discord server and ask in the #support channel."
   }
 }

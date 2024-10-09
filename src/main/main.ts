@@ -99,7 +99,7 @@ const defaultConfig: Config = {
   ticketEnabled: 'true',
   showAllChat: 'true',
   enableDiscordRPC: 'true',
-  branch: 'Vanilla',
+  branch: 'Stable',
   selectedArguments: {},
 };
 
