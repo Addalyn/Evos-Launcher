@@ -54,16 +54,18 @@ export default function Server({
       style={{ padding: '1em', margin: '1em', overflow: 'hidden' }}
     >
       <Grid container spacing={2}>
-        <Grid item xs={6} style={{ textAlign: 'left' }}>
+        <Grid item xs={4} style={{ textAlign: 'left' }}>
           <Typography variant="h3">
             {info.name.replace(/-/, ' ') === 'Custom game'
               ? t(info.name.replace(/-/, ' '))
               : info.name.replace(/-/, ' ')}
           </Typography>
         </Grid>
-        <Grid item xs={6} style={{ textAlign: 'right' }}>
+        <Grid item xs={8} style={{ textAlign: 'right' }}>
           <Typography variant="h3">
             {game.gameType} -{' '}
+            {game.gameSubType ? `${t(`gamesubtype.${game.gameSubType}`)}` : ''}{' '}
+            -{' '}
             {countUniqueAccounts(game, 'teamA') === 0
               ? 'Bots'
               : countUniqueAccounts(game, 'teamA')}{' '}

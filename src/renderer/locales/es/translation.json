@@ -391,6 +391,7 @@
     "customgames": "Mostrar solo juegos personalizados",
     "tournamentgames": "Mostrar solo juegos de torneo",
     "coopgames": "Mostrar solo juegos cooperativos/solo",
+    "fourlancergames": "Mostrar solo juegos de Cuatrolanza",
     "Last20PvPGames": "Últimos 20 Juegos PvP",
     "averageDamageForAll": "Promedio de daño causado en general",
     "averageDamageForSelf": "Promedio de daño causado por uno mismo",
@@ -580,5 +581,21 @@
   "unSuportedBranch": {
     "title": "Rama No Soportada",
     "text": "Esta rama no es compatible con el lanzador. Sin embargo, aún puedes iniciar tu juego usando esta rama.<br><br>También puedes actualizar a una rama compatible, como Estable o Beta.<br><br>Tenga en cuenta que no podrá usar el lanzador para nada más mientras esté en esta rama.<br><br>Si tienes alguna pregunta, únete a nuestro servidor de Discord y pregunta en el canal #support."
+  },
+  "gamesubtype": {
+    "SingleGroupVsBots": "Individual vs Bots",
+    "CoopWithHumans": "Combate a Muerte vs Bots",
+    "AllFourCharacters": "Cuatrolanza",
+    "Deathmatch": "Combate a Muerte",
+    "Deathmatch@SubTypes": "Combate a Muerte",
+    "AllFourCharacters@SubTypes": "Cuatrolanza",
+    "SingleGroupVsBots@SubTypes": "Individual vs Bots",
+    "CoopWithHumans@SubTypes": "Combate a Muerte vs Bots",
+    "UnlimitedTimer@HUDScene": "Temporizador Ilimitado",
+    "Tournament_Draft_Bans@GameWideData": "Torneo Draft (Prohibiciones)",
+    "Tournament_Draft_NoBans@GameWideData": "Torneo Draft (Sin Prohibiciones)",
+    "Tournament_NoDraft@GameWideData": "Torneo (Sin Draft)",
+    "Draft_Bans@GameWideData": "Draft (Prohibiciones)",
+    "Draft_NoBans@GameWideData": "Draft (Sin Prohibiciones)"
   }
 }

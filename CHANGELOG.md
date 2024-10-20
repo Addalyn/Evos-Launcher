@@ -1,3 +1,12 @@
+### Release Notes: Version 2.2.2
+
+## Improvements
+
+- **Add support for Fourlancer**
+  - Split status based on Type and Mode (e.g., `PvP - Deathmatch` or `PvP - Fourlancer`, etc.).
+  - Add search functionality for Fourlancer in previous games.
+  - Display Mode in current games (e.g., `PvP - Deathmatch - 4 vs 4`).
+
 ### Release Notes: Version 2.2.1
 
 ## Improvements

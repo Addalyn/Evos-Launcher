@@ -1270,6 +1270,9 @@ export default function PreviousGamesPlayed() {
               >
                 <MenuItem value="PvP">{t('stats.pvpgames')}</MenuItem>
                 <MenuItem value="Coop">{t('stats.coopgames')}</MenuItem>
+                <MenuItem value="FourLancer">
+                  {t('stats.fourlancergames')}
+                </MenuItem>
                 <MenuItem value="Custom">{t('stats.customgames')}</MenuItem>
                 <MenuItem value="Tournament">
                   {t('stats.tournamentgames')}

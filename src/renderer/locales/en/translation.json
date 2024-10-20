@@ -423,6 +423,7 @@
     "customgames": "Show only Custom games",
     "tournamentgames": "Show only Tournament games",
     "coopgames": "Show only Coop/Solo games",
+    "fourlancergames": "Show only FourLancer games",
     "Last20PvPGames": "Last 20 PvP Games",
     "averageDamageForAll": "Damage dealt average overall",
     "averageDamageForSelf": "Average damage dealt by oneself",
@@ -612,5 +613,21 @@
   "unSuportedBranch": {
     "title": "Unsupported Branch",
     "text": "This branch is not supported in the launcher. You may still launch your game using it.<br><br>You can also update to a supported branch, such as Stable or Beta.<br><br>Note that you will not be able to use the launcher for anything else while on this branch.<br><br>If you have any questions, please join our Discord server and ask in the #support channel."
+  },
+  "gamesubtype": {
+    "SingleGroupVsBots": "Single vs Bots",
+    "CoopWithHumans": "Deathmatch vs Bots",
+    "AllFourCharacters": "Fourlancer",
+    "Deathmatch": "Deathmatch",
+    "Deathmatch@SubTypes": "Deathmatch",
+    "AllFourCharacters@SubTypes": "Fourlancer",
+    "SingleGroupVsBots@SubTypes": "Single vs Bots",
+    "CoopWithHumans@SubTypes": "Deathmatch vs Bots",
+    "UnlimitedTimer@HUDScene": "Unlimited Timer",
+    "Tournament_Draft_Bans@GameWideData": "Tournament Draft (Bans)",
+    "Tournament_Draft_NoBans@GameWideData": "Tournament Draft (No Bans)",
+    "Tournament_NoDraft@GameWideData": "Tournament (No Draft)",
+    "Draft_Bans@GameWideData": "Draft (Bans)",
+    "Draft_NoBans@GameWideData": "Draft (No Bans)"
   }
 }

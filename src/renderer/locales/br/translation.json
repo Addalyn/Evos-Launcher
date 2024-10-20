@@ -423,6 +423,7 @@
     "customgames": "Mostrar apenas jogos personalizados",
     "tournamentgames": "Mostrar apenas jogos de torneio",
     "coopgames": "Mostrar apenas jogos cooperativos/solo",
+    "fourlancergames": "Mostrar apenas jogos Quatrolancer",
     "Last20PvPGames": "Últimos 20 Jogos PvP",
     "averageDamageForAll": "Média de dano causado geral",
     "averageDamageForSelf": "Média de dano causado por si mesmo",
@@ -612,5 +613,21 @@
   "unSuportedBranch": {
     "title": "Ramo Não Suportado",
     "text": "Este ramo não é suportado no lançador. Você ainda pode iniciar seu jogo usando-o.<br><br>Você também pode atualizar para um ramo suportado, como Estável ou Beta.<br><br>Observe que você não poderá usar o lançador para mais nada enquanto estiver neste ramo.<br><br>Se você tiver alguma dúvida, junte-se ao nosso servidor Discord e pergunte no canal #support."
+  },
+  "gamesubtype": {
+    "SingleGroupVsBots": "Individual vs Bots",
+    "CoopWithHumans": "Combate Mortal vs Bots",
+    "AllFourCharacters": "Quatrolancer",
+    "Deathmatch": "Combate Mortal",
+    "Deathmatch@SubTypes": "Combate Mortal",
+    "AllFourCharacters@SubTypes": "Quatrolancer",
+    "SingleGroupVsBots@SubTypes": "Individual vs Bots",
+    "CoopWithHumans@SubTypes": "Combate Mortal vs Bots",
+    "UnlimitedTimer@HUDScene": "Cronômetro Ilimitado",
+    "Tournament_Draft_Bans@GameWideData": "Torneio Draft (Banimentos)",
+    "Tournament_Draft_NoBans@GameWideData": "Torneio Draft (Sem Banimentos)",
+    "Tournament_NoDraft@GameWideData": "Torneio (Sem Draft)",
+    "Draft_Bans@GameWideData": "Draft (Banimentos)",
+    "Draft_NoBans@GameWideData": "Draft (Sem Banimentos)"
   }
 }
