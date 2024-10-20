@@ -20,7 +20,10 @@ function Queue({ queueInfo, groupData, playerData, hidePlayers }: Props) {
   }
   return (
     <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
-      <Typography variant="h3">{t(queueInfo.type)}</Typography>
+      <Typography variant="h3">
+        {t(queueInfo.type)}{' '}
+        {queueInfo.subtype ? `- ${t(`gamesubtype.${queueInfo.subtype}`)}` : ''}
+      </Typography>
       <FlexBox style={{ flexWrap: 'wrap' }}>
         {queueInfo.groupIds.map((groupId) => {
           const info = groupData.get(groupId);

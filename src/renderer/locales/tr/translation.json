@@ -423,6 +423,7 @@
     "customgames": "Yalnızca özel oyunları göster",
     "tournamentgames": "Yalnızca turnuva oyunlarını göster",
     "coopgames": "Yalnızca işbirliği/solo oyunları göster",
+    "fourlancergames": "Yalnızca Dörtlans oyunlarını göster",
     "Last20PvPGames": "Son 20 PvP Oyunu",
     "averageDamageForAll": "Genel Ortalama Verilen Hasar",
     "averageDamageForSelf": "Kendi Verdiği Hasar Ortalaması",
@@ -612,5 +613,21 @@
   "unSuportedBranch": {
     "title": "Desteklenmeyen Dal",
     "text": "Bu dal, başlatıcıda desteklenmiyor. Yine de oyununuzu bu dalı kullanarak başlatabilirsiniz.<br><br>Ayrıca, Kararlı veya Beta gibi desteklenen bir dala güncelleyebilirsiniz.<br><br>Bu dalda bulunduğunuz süre boyunca başlatıcıyı başka bir şey için kullanamayacağınızı unutmayın.<br><br>Herhangi bir sorunuz varsa, Discord sunucumuza katılın ve #support kanalında sorun."
+  },
+  "gamesubtype": {
+    "SingleGroupVsBots": "Tekli vs Botlar",
+    "CoopWithHumans": "Ölüm Maçı vs Botlar",
+    "AllFourCharacters": "Dörtlans",
+    "Deathmatch": "Ölüm Maçı",
+    "Deathmatch@SubTypes": "Ölüm Maçı",
+    "AllFourCharacters@SubTypes": "Dörtlans",
+    "SingleGroupVsBots@SubTypes": "Tekli vs Botlar",
+    "CoopWithHumans@SubTypes": "Ölüm Maçı vs Botlar",
+    "UnlimitedTimer@HUDScene": "Sınırsız Zamanlayıcı",
+    "Tournament_Draft_Bans@GameWideData": "Turnuva Taslağı (Yasaklamalar)",
+    "Tournament_Draft_NoBans@GameWideData": "Turnuva Taslağı (Yasaklama Yok)",
+    "Tournament_NoDraft@GameWideData": "Turnuva (Taslak Yok)",
+    "Draft_Bans@GameWideData": "Taslak (Yasaklamalar)",
+    "Draft_NoBans@GameWideData": "Taslak (Yasaklama Yok)"
   }
 }

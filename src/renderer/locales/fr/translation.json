@@ -423,6 +423,7 @@
     "customgames": "Afficher uniquement les jeux personnalisés",
     "tournamentgames": "Afficher uniquement les jeux de tournoi",
     "coopgames": "Afficher uniquement les jeux coopératifs/solo",
+    "fourlancergames": "Afficher uniquement les jeux Quatrelancier",
     "Last20PvPGames": "20 Derniers Jeux PvP",
     "averageDamageForAll": "Moyenne des dégâts infligés globalement",
     "averageDamageForSelf": "Moyenne des dégâts infligés par soi-même",
@@ -611,5 +612,21 @@
   "unSuportedBranch": {
     "title": "Branche Non Supportée",
     "text": "Cette branche n'est pas prise en charge dans le lanceur. Vous pouvez néanmoins lancer votre jeu en l'utilisant.<br><br>Vous pouvez également mettre à jour vers une branche prise en charge, comme Stable ou Beta.<br><br>Notez que vous ne pourrez pas utiliser le lanceur pour autre chose tant que vous êtes sur cette branche.<br><br>Si vous avez des questions, rejoignez notre serveur Discord et demandez dans le canal #support."
+  },
+  "gamesubtype": {
+    "SingleGroupVsBots": "Solo vs Bots",
+    "CoopWithHumans": "Match à Mort vs Bots",
+    "AllFourCharacters": "Quatrelancier",
+    "Deathmatch": "Match à Mort",
+    "Deathmatch@SubTypes": "Match à Mort",
+    "AllFourCharacters@SubTypes": "Quatrelancier",
+    "SingleGroupVsBots@SubTypes": "Solo vs Bots",
+    "CoopWithHumans@SubTypes": "Match à Mort vs Bots",
+    "UnlimitedTimer@HUDScene": "Minuteur Illimité",
+    "Tournament_Draft_Bans@GameWideData": "Tournoi Draft (Bannissements)",
+    "Tournament_Draft_NoBans@GameWideData": "Tournoi Draft (Sans Bannissements)",
+    "Tournament_NoDraft@GameWideData": "Tournoi (Sans Draft)",
+    "Draft_Bans@GameWideData": "Draft (Bannissements)",
+    "Draft_NoBans@GameWideData": "Draft (Sans Bannissements)"
   }
 }

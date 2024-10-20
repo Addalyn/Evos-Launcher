@@ -410,6 +410,7 @@
     "customgames": "Показать только пользовательские игры",
     "tournamentgames": "Показать только турнирные игры",
     "coopgames": "Показать только кооперативные/соло игры",
+    "fourlancergames": "Показывать только игры Четырех Ланцеров",
     "Last20PvPGames": "Последние 20 PvP-игр",
     "averageDamageForAll": "Средний урон общий",
     "averageDamageForSelf": "Средний урон, нанесенный самому себе",
@@ -599,5 +600,21 @@
   "unSuportedBranch": {
     "title": "Несupported Branch",
     "text": "Этот branch не поддерживается в лаунчере. Вы все равно можете запустить свою игру, используя его.<br><br>Вы также можете обновиться до поддерживаемого branch, например Stable или Beta.<br><br>Обратите внимание, что вы не сможете использовать лаунчер для чего-либо еще, пока находитесь на этом branch.<br><br>Если у вас есть вопросы, присоединяйтесь к нашему серверу Discord и задайте вопрос в канале #support."
+  },
+  "gamesubtype": {
+    "SingleGroupVsBots": "Одиночный против ботов",
+    "CoopWithHumans": "Deathmatch против ботов",
+    "AllFourCharacters": "Четыре Ланцера",
+    "Deathmatch": "Deathmatch",
+    "Deathmatch@SubTypes": "Deathmatch",
+    "AllFourCharacters@SubTypes": "Четыре Ланцера",
+    "SingleGroupVsBots@SubTypes": "Одиночный против ботов",
+    "CoopWithHumans@SubTypes": "Deathmatch против ботов",
+    "UnlimitedTimer@HUDScene": "Неограниченный Таймер",
+    "Tournament_Draft_Bans@GameWideData": "Турнирный драфт (баны)",
+    "Tournament_Draft_NoBans@GameWideData": "Турнирный драфт (без банов)",
+    "Tournament_NoDraft@GameWideData": "Турнир (без драфта)",
+    "Draft_Bans@GameWideData": "Драфт (баны)",
+    "Draft_NoBans@GameWideData": "Драфт (без банов)"
   }
 }

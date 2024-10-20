@@ -211,7 +211,7 @@ function StatusPage() {
         players &&
         status.queues.map((q) => (
           <Queue
-            key={q.type}
+            key={q.subtype || q.type}
             queueInfo={q}
             groupData={groups}
             playerData={players}

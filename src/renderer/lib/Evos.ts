@@ -134,6 +134,7 @@ export interface GroupData {
 export interface QueueData {
   type: string;
   groupIds: number[];
+  subtype?: string;
 }
 
 export interface ServerData {
@@ -158,6 +159,7 @@ export interface GameData {
   teamAScore: number;
   teamBScore: number;
   gameType: string;
+  gameSubType: string;
 }
 
 export interface DataItem {

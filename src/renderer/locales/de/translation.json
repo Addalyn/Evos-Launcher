@@ -423,6 +423,7 @@
     "customgames": "Nur benutzerdefinierte Spiele anzeigen",
     "tournamentgames": "Nur Turnierspiele anzeigen",
     "coopgames": "Nur Koop-/Solo-Spiele anzeigen",
+    "fourlancergames": "Nur Vierlanzer-Spiele anzeigen",
     "Last20PvPGames": "Letzte 20 PvP-Spiele",
     "averageDamageForAll": "Durchschnittlicher verursachter Schaden insgesamt",
     "averageDamageForSelf": "Durchschnittlicher von sich selbst verursachter Schaden",
@@ -612,5 +613,21 @@
   "unSuportedBranch": {
     "title": "Nicht Unterstützter Branch",
     "text": "Dieser Branch wird im Launcher nicht unterstützt. Sie können Ihr Spiel dennoch damit starten.<br><br>Sie können auch auf einen unterstützten Branch wie Stable oder Beta aktualisieren.<br><br>Bitte beachten Sie, dass Sie den Launcher während dieses Branches für nichts anderes verwenden können.<br><br>Wenn Sie Fragen haben, treten Sie unserem Discord-Server bei und fragen Sie im Kanal #support."
+  },
+  "gamesubtype": {
+    "SingleGroupVsBots": "Einzelspieler vs Bots",
+    "CoopWithHumans": "Deathmatch vs Bots",
+    "AllFourCharacters": "Vierlanzer",
+    "Deathmatch": "Deathmatch",
+    "Deathmatch@SubTypes": "Deathmatch",
+    "AllFourCharacters@SubTypes": "Vierlanzer",
+    "SingleGroupVsBots@SubTypes": "Einzelspieler vs Bots",
+    "CoopWithHumans@SubTypes": "Deathmatch vs Bots",
+    "UnlimitedTimer@HUDScene": "Unbegrenzter Timer",
+    "Tournament_Draft_Bans@GameWideData": "Turnier Draft (Banns)",
+    "Tournament_Draft_NoBans@GameWideData": "Turnier Draft (Keine Banns)",
+    "Tournament_NoDraft@GameWideData": "Turnier (Kein Draft)",
+    "Draft_Bans@GameWideData": "Draft (Banns)",
+    "Draft_NoBans@GameWideData": "Draft (Keine Banns)"
   }
 }
