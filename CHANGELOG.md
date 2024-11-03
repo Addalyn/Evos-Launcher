@@ -1,3 +1,10 @@
+### Release Notes: Version 2.2.3
+
+## Bug Fixes
+
+- **Locilization**
+  -Add missing locilization for draft
+
 ### Release Notes: Version 2.2.2
 
 ## Improvements

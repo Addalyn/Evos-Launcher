@@ -628,6 +628,8 @@
     "Tournament_Draft_NoBans@GameWideData": "Turnuva Taslağı (Yasaklama Yok)",
     "Tournament_NoDraft@GameWideData": "Turnuva (Taslak Yok)",
     "Draft_Bans@GameWideData": "Taslak (Yasaklamalar)",
-    "Draft_NoBans@GameWideData": "Taslak (Yasaklama Yok)"
+    "Draft_NoBans@GameWideData": "Taslak (Yasaklama Yok)",
+    "RankedCustom": "Taslak",
+    "RankedCustom@SubTypes": "Taslak"
   }
 }
