@@ -600,6 +600,8 @@
     "Tournament_Draft_NoBans@GameWideData": "Torneo Draft (Senza Ban)",
     "Tournament_NoDraft@GameWideData": "Torneo (Senza Draft)",
     "Draft_Bans@GameWideData": "Draft (Ban)",
-    "Draft_NoBans@GameWideData": "Draft (Senza Ban)"
+    "Draft_NoBans@GameWideData": "Draft (Senza Ban)",
+    "RankedCustom": "Draft",
+    "RankedCustom@SubTypes": "Draft"
   }
 }

@@ -627,6 +627,8 @@
     "Tournament_Draft_NoBans@GameWideData": "Tournoi Draft (Sans Bannissements)",
     "Tournament_NoDraft@GameWideData": "Tournoi (Sans Draft)",
     "Draft_Bans@GameWideData": "Draft (Bannissements)",
-    "Draft_NoBans@GameWideData": "Draft (Sans Bannissements)"
+    "Draft_NoBans@GameWideData": "Draft (Sans Bannissements)",
+    "RankedCustom": "Draft",
+    "RankedCustom@SubTypes": "Draft"
   }
 }

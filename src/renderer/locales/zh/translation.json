@@ -627,6 +627,8 @@
     "Tournament_Draft_NoBans@GameWideData": "锦标赛选秀（无禁用）",
     "Tournament_NoDraft@GameWideData": "锦标赛（无选秀）",
     "Draft_Bans@GameWideData": "选秀（禁用）",
-    "Draft_NoBans@GameWideData": "选秀（无禁用）"
+    "Draft_NoBans@GameWideData": "选秀（无禁用）",
+    "RankedCustom": "选秀",
+    "RankedCustom@SubTypes": "选秀"
   }
 }

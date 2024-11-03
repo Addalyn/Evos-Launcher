@@ -615,6 +615,8 @@
     "Tournament_Draft_NoBans@GameWideData": "Турнирный драфт (без банов)",
     "Tournament_NoDraft@GameWideData": "Турнир (без драфта)",
     "Draft_Bans@GameWideData": "Драфт (баны)",
-    "Draft_NoBans@GameWideData": "Драфт (без банов)"
+    "Draft_NoBans@GameWideData": "Драфт (без банов)",
+    "RankedCustom": "Драфт",
+    "RankedCustom@SubTypes": "Драфт"
   }
 }

@@ -627,6 +627,8 @@
     "Tournament_Draft_NoBans@GameWideData": "Toernooi Draft (Geen Verbanningen)",
     "Tournament_NoDraft@GameWideData": "Toernooi (Geen Draft)",
     "Draft_Bans@GameWideData": "Draft (Verbanningen)",
-    "Draft_NoBans@GameWideData": "Draft (Geen Verbanningen)"
+    "Draft_NoBans@GameWideData": "Draft (Geen Verbanningen)",
+    "RankedCustom": "Draft",
+    "RankedCustom@SubTypes": "Draft"
   }
 }
