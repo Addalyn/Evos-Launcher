@@ -297,7 +297,13 @@
     "branchInvalid": "De geselecteerde branch ({{branch}}) is ongeldig of is verwijderd. Kies een nieuwe branch in de instellingen om de bestanden te downloaden.",
     "branchOutdated": "De huidige branch ({{branch}}) is verouderd.",
     "removed": "Verwijderd",
-    "recommended": "Aanbevolen"
+    "recommended": "Aanbevolen",
+    "labelPrimaryColor": "Primaire Kleur",
+    "labelSecondaryColor": "Secundaire Kleur",
+    "labelPaperColor": "Papierkleur",
+    "labelBackgroundColor": "Achtergrondkleur",
+    "labelTextColor": "Tekstkleur",
+    "labelScrollbarColor": "Scrollbalkkleur"
   },
   "maps": {
     "map": "Map",

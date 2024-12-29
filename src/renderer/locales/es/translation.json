@@ -265,7 +265,13 @@
     "branchInvalid": "La rama seleccionada ({{branch}}) es inválida o ha sido eliminada. Por favor, elige una nueva rama en la configuración para descargar los archivos.",
     "branchOutdated": "La rama actual ({{branch}}) está desactualizada.",
     "removed": "Eliminado",
-    "recommended": "Recomendado"
+    "recommended": "Recomendado",
+    "labelPrimaryColor": "Color Primario",
+    "labelSecondaryColor": "Color Secundario",
+    "labelPaperColor": "Color del Papel",
+    "labelBackgroundColor": "Color de Fondo",
+    "labelTextColor": "Color del Texto",
+    "labelScrollbarColor": "Color de la Barra de Desplazamiento"
   },
   "maps": {
     "map": "Mapa",

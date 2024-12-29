@@ -269,7 +269,13 @@
     "branchInvalid": "La ramificazione selezionata ({{branch}}) è invalida o è stata eliminata. Per favore, scegli una nuova ramificazione nelle impostazioni per scaricare i file.",
     "branchOutdated": "La ramificazione attuale ({{branch}}) è obsoleta.",
     "removed": "Rimosso",
-    "recommended": "Consigliato"
+    "recommended": "Consigliato",
+    "labelPrimaryColor": "Colore Primario",
+    "labelSecondaryColor": "Colore Secondario",
+    "labelPaperColor": "Colore della Carta",
+    "labelBackgroundColor": "Colore di Sfondo",
+    "labelTextColor": "Colore del Testo",
+    "labelScrollbarColor": "Colore della Barra di Scorrimento"
   },
   "maps": {
     "map": "Mappa",

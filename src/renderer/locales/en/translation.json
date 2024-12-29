@@ -148,7 +148,13 @@
     "branchInvalid": "The selected branch ({{branch}})  is either invalid or has been deleted. Please choose a new branch in the settings to download the files.",
     "branchOutdated": "The current branch ({{branch}}) is outdated.",
     "removed": "Removed",
-    "recommended": "Recommended"
+    "recommended": "Recommended",
+    "labelPrimaryColor": "Primary Color",
+    "labelSecondaryColor": "Secondary Color",
+    "labelPaperColor": "Paper Color",
+    "labelBackgroundColor": "Background Color",
+    "labelTextColor": "Text Color",
+    "labelScrollbarColor": "Scrollbar Color"
   },
   "titles": {
     "-1": "",

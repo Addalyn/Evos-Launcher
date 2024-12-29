@@ -297,7 +297,13 @@
     "branchInvalid": "La branche sélectionnée ({{branch}}) est invalide ou a été supprimée. Veuillez choisir une nouvelle branche dans les paramètres pour télécharger les fichiers.",
     "branchOutdated": "La branche actuelle ({{branch}}) est obsolète.",
     "removed": "Supprimé",
-    "recommended": "Recommandé"
+    "recommended": "Recommandé",
+    "labelPrimaryColor": "Couleur Principale",
+    "labelSecondaryColor": "Couleur Secondaire",
+    "labelPaperColor": "Couleur du Papier",
+    "labelBackgroundColor": "Couleur de Fond",
+    "labelTextColor": "Couleur du Texte",
+    "labelScrollbarColor": "Couleur de la Barre de Défilement"
   },
   "maps": {
     "map": "Map",

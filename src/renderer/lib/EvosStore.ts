@@ -11,6 +11,18 @@ export interface AuthUser {
 }
 
 export interface EvosStoreState {
+  colorPrimary: string;
+  colorSecondary: string;
+  colorBackground: string;
+  colorText: string;
+  colorScrollBar: string;
+  colorPaper: string;
+  setColorPrimary: (color: string) => void;
+  setColorSecondary: (color: string) => void;
+  setColorBackground: (color: string) => void;
+  setColorText: (color: string) => void;
+  setColorScrollBar: (color: string) => void;
+  setColorPaper: (color: string) => void;
   getFromStorage(arg0: string): any;
   mode: string;
   ip: string;
@@ -74,6 +86,12 @@ export interface EvosStoreState {
 
 const EvosStore = create<EvosStoreState>((set, get) => ({
   isDev: false,
+  colorPrimary: '#9cb8ba',
+  colorSecondary: '#000000',
+  colorBackground: '#000000fc',
+  colorText: '#ffffff',
+  colorScrollBar: '#6b6b6b',
+  colorPaper: '#000000',
   mode: 'dark', // Default value while fetching from storage.
   ip: '',
   authenticatedUsers: [],
@@ -96,6 +114,78 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   oldBranch: '',
   nobranchDownload: false,
 
+  setColorPrimary: async (colorPrimary: string) => {
+    window.electron.ipcRenderer.setTheme(
+      get().mode !== 'dark' ? get().colorPrimary : get().colorPaper,
+      get().colorText,
+    );
+    set({ colorPrimary });
+    try {
+      await window.electron.store.setItem('colorPrimary', colorPrimary);
+    } catch (error) {
+      console.error('Error while saving colorPrimary to storage:', error);
+    }
+  },
+
+  setColorSecondary: async (colorSecondary: string) => {
+    window.electron.ipcRenderer.setTheme(
+      get().mode !== 'dark' ? get().colorPrimary : get().colorPaper,
+      get().colorText,
+    );
+    set({ colorSecondary });
+    try {
+      await window.electron.store.setItem('colorSecondary', colorSecondary);
+    } catch (error) {
+      console.error('Error while saving colorSecondary to storage:', error);
+    }
+  },
+  setColorBackground: async (colorBackground: string) => {
+    set({ colorBackground });
+    try {
+      await window.electron.store.setItem('colorBackground', colorBackground);
+    } catch (error) {
+      console.error('Error while saving colorBackground to storage:', error);
+    }
+  },
+
+  setColorText: async (colorText: string) => {
+    window.electron.ipcRenderer.setTheme(
+      get().mode !== 'dark' ? get().colorPrimary : get().colorPaper,
+      get().colorText,
+    );
+    set({ colorText });
+    try {
+      await window.electron.store.setItem('colorText', colorText);
+    } catch (error) {
+      console.error('Error while saving colorText to storage:', error);
+    }
+  },
+
+  setColorPaper: async (colorPaper: string) => {
+    window.electron.ipcRenderer.setTheme(
+      get().mode !== 'dark' ? get().colorPrimary : colorPaper,
+      get().colorText,
+    );
+    set({ colorPaper });
+    try {
+      await window.electron.store.setItem('colorPaper', colorPaper);
+    } catch (error) {
+      console.error('Error while saving colorPaper to storage:', error);
+    }
+  },
+
+  setColorScrollBar: async (colorScrollBar: string) => {
+    window.electron.ipcRenderer.setTheme(
+      get().mode !== 'dark' ? get().colorPrimary : get().colorPaper,
+      get().colorText,
+    );
+    set({ colorScrollBar });
+    try {
+      await window.electron.store.setItem('colorScrollBar', colorScrollBar);
+    } catch (error) {
+      console.error('Error while saving colorScrollBar to storage:', error);
+    }
+  },
   setNoBranchDownload: (nobranchDownload: boolean) => {
     set({ nobranchDownload });
   },
@@ -142,6 +232,12 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       gameExpanded,
       branch,
       selectedArguments,
+      colorPrimary,
+      colorSecondary,
+      colorBackground,
+      colorText,
+      colorScrollBar,
+      colorPaper,
     ] = await Promise.all([
       get().getFromStorage('mode') as string,
       get().getFromStorage('authenticatedUsers') as AuthUser[],
@@ -159,6 +255,12 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
         string,
         string | null
       >,
+      get().getFromStorage('colorPrimary') as string,
+      get().getFromStorage('colorSecondary') as string,
+      get().getFromStorage('colorBackground') as string,
+      get().getFromStorage('colorText') as string,
+      get().getFromStorage('colorScrollBar') as string,
+      get().getFromStorage('colorPaper') as string,
     ]);
 
     let users: AuthUser[] = [];
@@ -196,9 +298,16 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       gameExpanded: gameExpanded || 'true',
       branch: branch || 'Original',
       selectedArguments: selectedArguments || {},
+      colorPrimary: colorPrimary || '#9cb8ba',
+      colorSecondary: colorSecondary || '#0000',
+      colorBackground: colorBackground || '#000000fc',
+      colorText: colorText || '#ffffff',
+      colorScrollBar: colorScrollBar || '#6b6b6b',
+      colorPaper: colorPaper || '#0000',
     });
     window.electron.ipcRenderer.setTheme(
-      mode !== 'dark' && mode !== 'light' ? 'dark' : mode,
+      get().mode !== 'dark' ? get().colorPrimary : get().colorPaper,
+      get().colorText,
     );
     get().switchUser(activeUser?.user || users[0]?.user || '');
   },
@@ -220,10 +329,43 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   toggleMode: async () => {
     const newMode = get().mode === 'dark' ? 'light' : 'dark';
     set({ mode: newMode });
+    if (newMode === 'light') {
+      set({ colorPrimary: '#0029ff' });
+      set({ colorSecondary: '#ffffff' });
+      set({ colorBackground: '#fffffffc' });
+      set({ colorText: '#000000fc' });
+      set({ colorScrollBar: '#0029ff' });
+      set({ colorPaper: '#ffffff' });
+    } else {
+      set({ colorPrimary: '#9cb8ba' });
+      set({ colorSecondary: '#9cb8ba' });
+      set({ colorBackground: '#000000fc' });
+      set({ colorText: '#ffffff' });
+      set({ colorScrollBar: '#6b6b6b' });
+      set({ colorPaper: '#000000' });
+    }
 
     try {
-      window.electron.ipcRenderer.setTheme(newMode);
+      window.electron.ipcRenderer.setTheme(
+        newMode === 'dark' ? '#0000' : '#0029ff',
+        newMode !== 'dark' ? '#000000fc' : '#ffffff',
+      );
       await window.electron.store.setItem('mode', newMode);
+      await window.electron.store.setItem('colorPrimary', get().colorPrimary);
+      await window.electron.store.setItem(
+        'colorSecondary',
+        get().colorSecondary,
+      );
+      await window.electron.store.setItem(
+        'colorBackground',
+        get().colorBackground,
+      );
+      await window.electron.store.setItem('colorText', get().colorText);
+      await window.electron.store.setItem(
+        'colorScrollBar',
+        get().colorScrollBar,
+      );
+      await window.electron.store.setItem('colorPaper', get().colorPaper);
     } catch (error) {
       console.error('Error while saving mode to storage:', error);
     }

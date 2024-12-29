@@ -77,6 +77,12 @@ interface AuthUser {
 
 interface Config {
   mode: string;
+  colorPrimary: string;
+  colorSecondary: string;
+  colorBackground: string;
+  colorText: string;
+  colorScrollBar: string;
+  colorPaper: string;
   ip: string;
   authenticatedUsers: AuthUser[];
   activeUser: AuthUser | null;
@@ -91,6 +97,12 @@ interface Config {
 
 const defaultConfig: Config = {
   mode: 'dark',
+  colorPrimary: '#9cb8ba',
+  colorSecondary: '#000000',
+  colorBackground: '#000000fc',
+  colorText: '#ffffff',
+  colorScrollBar: '6b6b6b',
+  colorPaper: '#000000',
   ip: '',
   authenticatedUsers: [],
   activeUser: null,
@@ -648,10 +660,10 @@ const createWindow = async () => {
     }
   });
   // settheme
-  ipcMain.handle('setTitleBarOverlay', async (event, args) => {
+  ipcMain.handle('setTitleBarOverlay', async (event, settings) => {
     mainWindow?.setTitleBarOverlay({
-      color: args === 'dark' ? '#272727' : '#1976d2',
-      symbolColor: args === 'dark' ? '#74b1be' : '#ffffff',
+      color: settings[0],
+      symbolColor: settings[1],
       height: 63,
     });
   });

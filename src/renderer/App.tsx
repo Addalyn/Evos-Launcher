@@ -37,6 +37,7 @@ import { trackEvent } from '@aptabase/electron/renderer';
 import { useTranslation } from 'react-i18next';
 import useWebSocket from 'react-use-websocket';
 import WikiPage from './components/pages/WikiPage';
+import { Chart } from 'chart.js';
 
 interface PageProps {
   title: string;
@@ -224,7 +225,7 @@ export default function App() {
   };
 
   window.electron.ipcRenderer.on('translate', handleMessage);
-
+  Chart.defaults.color = evosStore.colorText || '#000000';
   const theme = React.useMemo(
     () =>
       createTheme({
@@ -233,6 +234,19 @@ export default function App() {
           skewB: 'skewX(15deg)',
         },
         palette: {
+          primary: {
+            main: evosStore.colorPrimary,
+          },
+          secondary: {
+            main: evosStore.colorSecondary,
+          },
+          background: {
+            default: evosStore.colorBackground,
+            paper: evosStore.colorPaper,
+          },
+          text: {
+            primary: evosStore.colorText,
+          },
           mode,
           // @ts-ignore
           teamA: {
@@ -255,7 +269,7 @@ export default function App() {
                 },
                 '&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb': {
                   borderRadius: 0,
-                  backgroundColor: mode === 'dark' ? '#6b6b6b' : '#1976d2',
+                  backgroundColor: evosStore.colorScrollBar,
                   minHeight: 24,
                   border: `0px solid ${mode === 'dark' ? '#272727' : '#1976d2'}`,
                 },
@@ -279,7 +293,15 @@ export default function App() {
           },
         },
       }),
-    [mode],
+    [
+      evosStore.colorPrimary,
+      evosStore.colorSecondary,
+      evosStore.colorBackground,
+      evosStore.colorPaper,
+      evosStore.colorText,
+      evosStore.colorScrollBar,
+      mode,
+    ],
   );
 
   if (evosStore === null) {

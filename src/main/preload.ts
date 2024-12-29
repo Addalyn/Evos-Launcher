@@ -138,8 +138,8 @@ const electronHandler = {
     checkVersion() {
       ipcRenderer.invoke('checkVersion');
     },
-    setTheme(theme: string) {
-      ipcRenderer.invoke('setTitleBarOverlay', theme);
+    setTheme(background: string, color: string) {
+      ipcRenderer.invoke('setTitleBarOverlay', [background, color]);
     },
     linkAccount(authUser: AuthUser) {
       ipcRenderer.invoke('link-account', authUser as AuthUser);
