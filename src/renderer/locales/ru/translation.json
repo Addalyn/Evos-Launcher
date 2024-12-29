@@ -284,7 +284,13 @@
     "branchInvalid": "Выбранная ветка ({{branch}}) недействительна или была удалена. Пожалуйста, выберите новую ветку в настройках для загрузки файлов.",
     "branchOutdated": "Текущая ветка ({{branch}}) устарела.",
     "removed": "Удалено",
-    "recommended": "Рекомендуется"
+    "recommended": "Рекомендуется",
+    "labelPrimaryColor": "Основной Цвет",
+    "labelSecondaryColor": "Вторичный Цвет",
+    "labelPaperColor": "Цвет Бумаги",
+    "labelBackgroundColor": "Цвет Фона",
+    "labelTextColor": "Цвет Текста",
+    "labelScrollbarColor": "Цвет Полосы Прокрутки"
   },
   "maps": {
     "map": "Карта",

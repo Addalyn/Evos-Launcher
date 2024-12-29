@@ -36,6 +36,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { trackEvent } from '@aptabase/electron/renderer';
+import { MuiColorInput } from 'mui-color-input';
 
 interface Language {
   nativeName: string;
@@ -107,6 +108,18 @@ export default function SettingsPage() {
     setSelectedArguments,
     setLocked,
     locked,
+    colorPrimary,
+    setColorPrimary,
+    colorSecondary,
+    setColorSecondary,
+    colorBackground,
+    setColorBackground,
+    colorText,
+    setColorText,
+    colorScrollBar,
+    setColorScrollBar,
+    colorPaper,
+    setColorPaper,
   } = EvosStore();
 
   const [password, setPassword] = useState('');
@@ -302,6 +315,26 @@ export default function SettingsPage() {
     setSelectedArguments(selectedArgumentsTemp);
   }, [selectedArgumentsTemp, setSelectedArguments]);
 
+  const handleChangeColorPrimary = (sitecolor: string) => {
+    setColorPrimary(sitecolor);
+  };
+  const handleChangeColorSecondary = (sitecolor: string) => {
+    setColorSecondary(sitecolor);
+  };
+  const handleChangeColorBackground = (sitecolor: string) => {
+    setColorBackground(sitecolor);
+  };
+  const handleChangeColorText = (sitecolor: string) => {
+    setColorText(sitecolor);
+  };
+  const handleChangeColorScrollBar = (sitecolor: string) => {
+    setColorScrollBar(sitecolor);
+  };
+
+  const handleChangeColorPaper = (sitecolor: string) => {
+    setColorPaper(sitecolor);
+  };
+
   return (
     <>
       <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
@@ -345,6 +378,60 @@ export default function SettingsPage() {
                 onChange={toggleDiscord}
               />
             </FormGroup>
+          </Grid>
+          <Grid item xs={4}>
+            <MuiColorInput
+              value={colorPrimary}
+              onChange={handleChangeColorPrimary}
+              fallbackValue="#9cb8ba"
+              format="hex"
+              label={t('settings.labelPrimaryColor')}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <MuiColorInput
+              value={colorSecondary}
+              onChange={handleChangeColorSecondary}
+              fallbackValue="#000000"
+              format="hex"
+              label={t('settings.labelSecondaryColor')}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <MuiColorInput
+              value={colorPaper}
+              onChange={handleChangeColorPaper}
+              fallbackValue="#ffffff"
+              format="hex"
+              label={t('settings.labelPaperColor')}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <MuiColorInput
+              value={colorBackground}
+              onChange={handleChangeColorBackground}
+              fallbackValue="#000000fc"
+              format="hex8"
+              label={t('settings.labelBackgroundColor')}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <MuiColorInput
+              value={colorText}
+              onChange={handleChangeColorText}
+              fallbackValue="#fffffffc"
+              format="hex8"
+              label={t('settings.labelTextColor')}
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <MuiColorInput
+              value={colorScrollBar}
+              onChange={handleChangeColorScrollBar}
+              fallbackValue="#ffffff"
+              format="hex"
+              label={t('settings.labelScrollbarColor')}
+            />
           </Grid>
         </Grid>
       </Paper>

@@ -1,3 +1,10 @@
+### Release Notes: Version 2.2.4
+
+## Improvements
+
+- **Colors, Colors and Colors**
+  -you can change the colors of the launcher to your liking found in settings.
+
 ### Release Notes: Version 2.2.3
 
 ## Bug Fixes

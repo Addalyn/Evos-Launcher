@@ -700,14 +700,9 @@ export default function NavBar() {
                   >
                     <span>
                       <Button
-                        variant="outlined"
-                        className={
-                          activeGames[activeUser?.user as string]
-                            ? 'glow-on-hover active'
-                            : 'glow-on-hover '
-                        }
+                        variant="contained"
+                        color="secondary"
                         sx={{
-                          color: 'white',
                           '-webkit-app-region': 'no-drag',
                           height: '49.5px',
                           borderRadius: '0px',

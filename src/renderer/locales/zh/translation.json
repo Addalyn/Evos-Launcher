@@ -147,7 +147,13 @@
     "branchInvalid": "选定的分支 ({{branch}}) 无效或已被删除。请在设置中选择一个新分支以下载文件。",
     "branchOutdated": "当前分支 ({{branch}}) 已过时。",
     "removed": "已移除",
-    "recommended": "推荐"
+    "recommended": "推荐",
+    "labelPrimaryColor": "主要颜色",
+    "labelSecondaryColor": "次要颜色",
+    "labelPaperColor": "纸张颜色",
+    "labelBackgroundColor": "背景颜色",
+    "labelTextColor": "文字颜色",
+    "labelScrollbarColor": "滚动条颜色"
   },
   "titles": {
     "-1": "",

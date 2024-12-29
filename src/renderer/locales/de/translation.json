@@ -148,7 +148,13 @@
     "branchInvalid": "Die ausgewählte Branch ({{branch}}) ist entweder ungültig oder wurde gelöscht. Bitte wählen Sie einen neuen Branch in den Einstellungen aus, um die Dateien herunterzuladen.",
     "branchOutdated": "Die aktuelle Branch ({{branch}}) ist veraltet.",
     "removed": "Entfernt",
-    "recommended": "Empfohlen"
+    "recommended": "Empfohlen",
+    "labelPrimaryColor": "Primärfarbe",
+    "labelSecondaryColor": "Sekundärfarbe",
+    "labelPaperColor": "Papierfarbe",
+    "labelBackgroundColor": "Hintergrundfarbe",
+    "labelTextColor": "Textfarbe",
+    "labelScrollbarColor": "Scrollleistenfarbe"
   },
   "titles": {
     "-1": "",

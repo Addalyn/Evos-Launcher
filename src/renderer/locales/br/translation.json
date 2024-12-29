@@ -297,7 +297,13 @@
     "branchInvalid": "A ramificação selecionada ({{branch}}) é inválida ou foi excluída. Por favor, escolha uma nova ramificação nas configurações para baixar os arquivos.",
     "branchOutdated": "A ramificação atual ({{branch}}) está desatualizada.",
     "removed": "Removido",
-    "recommended": "Recomendado"
+    "recommended": "Recomendado",
+    "labelPrimaryColor": "Cor Primária",
+    "labelSecondaryColor": "Cor Secundária",
+    "labelPaperColor": "Cor do Papel",
+    "labelBackgroundColor": "Cor de Fundo",
+    "labelTextColor": "Cor do Texto",
+    "labelScrollbarColor": "Cor da Barra de Rolagem"
   },
   "maps": {
     "map": "Mapa",
