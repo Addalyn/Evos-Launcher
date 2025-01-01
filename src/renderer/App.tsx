@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-default */
 import './App.css';
 
 import {
@@ -25,11 +26,14 @@ import LogsPage from './components/pages/LogsPage';
 import NavBar from './components/generic/Navbar';
 import NotificationMessage from './components/generic/NotificationMessage';
 import PlayerStatsPage from './components/pages/PlayerStatsPage';
+import { default as PlayerStatsPagev1 } from './components/pages/PlayerStatsPageV1';
 import PreviousGamesPage from './components/pages/PreviousGamesPage';
+import { default as PreviousGamesPagev1 } from './components/pages/PreviousGamesPageV1';
 import RegisterPage from './components/pages/RegisterPage';
 import ReplaysPage from './components/pages/ReplaysPage';
 import SettingsPage from './components/pages/SettingsPage';
 import StatsPage from './components/pages/StatsPage';
+import { default as StatsPagev1 } from './components/pages/StatsPageV1';
 import StatusPage from './components/pages/StatusPage';
 import Updater from './components/generic/Updater';
 import { convertToRealName } from './lib/Resources';
@@ -471,6 +475,22 @@ export default function App() {
               )}
             />
             <Route
+              path="/statsv1"
+              element={page(
+                'gstats',
+                <>
+                  <NavBar />
+                  <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <LinkDiscord />
+                    <NotificationMessage />
+                    <AdminMessage />
+                    <Updater />
+                    <StatsPagev1 />
+                  </Box>
+                </>,
+              )}
+            />
+            <Route
               path="/stats"
               element={page(
                 'gstats',
@@ -503,6 +523,22 @@ export default function App() {
               )}
             />
             <Route
+              path="/playerstatsv1"
+              element={page(
+                'pstats',
+                <>
+                  <NavBar />
+                  <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <LinkDiscord />
+                    <NotificationMessage />
+                    <AdminMessage />
+                    <Updater />
+                    <PlayerStatsPagev1 />
+                  </Box>
+                </>,
+              )}
+            />
+            <Route
               path="/previousgames"
               element={page(
                 'previousGames',
@@ -514,6 +550,22 @@ export default function App() {
                     <AdminMessage />
                     <Updater />
                     <PreviousGamesPage />
+                  </Box>
+                </>,
+              )}
+            />
+            <Route
+              path="/previousgamesv1"
+              element={page(
+                'previousGames',
+                <>
+                  <NavBar />
+                  <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
+                    <LinkDiscord />
+                    <NotificationMessage />
+                    <AdminMessage />
+                    <Updater />
+                    <PreviousGamesPagev1 />
                   </Box>
                 </>,
               )}

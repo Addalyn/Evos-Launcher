@@ -82,12 +82,15 @@ export interface EvosStoreState {
   oldBranch: string;
   nobranchDownload: boolean;
   setNoBranchDownload: (nodownload: boolean) => void;
+  stats: string;
+  setStats: (stats: string) => void;
 }
 
 const EvosStore = create<EvosStoreState>((set, get) => ({
   isDev: false,
+  stats: 'https://stats-production.evos.live/',
   colorPrimary: '#9cb8ba',
-  colorSecondary: '#000000',
+  colorSecondary: '#9cb8ba',
   colorBackground: '#000000fc',
   colorText: '#ffffff',
   colorScrollBar: '#6b6b6b',
@@ -113,6 +116,10 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   locked: false,
   oldBranch: '',
   nobranchDownload: false,
+
+  setStats: async (stats: string) => {
+    set({ stats });
+  },
 
   setColorPrimary: async (colorPrimary: string) => {
     window.electron.ipcRenderer.setTheme(

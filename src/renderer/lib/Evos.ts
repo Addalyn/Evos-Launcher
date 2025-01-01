@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { strapiClient } from './strapi';
+import EvosStore from './EvosStore';
 
 export interface LoginResponse {
   handle: string;
@@ -354,7 +355,8 @@ export async function getPlayerData(authHeader: string, queryParams: string) {
 // }
 
 export async function fetchGameInfo(action: string, signal?: AbortSignal) {
-  const url = `https://stats-production.evos.live/api/stats/${action}`;
+  const { stats } = EvosStore.getState();
+  const url = `${stats}api/stats/${action}`;
 
   try {
     const response = await axios.get(url, { signal });

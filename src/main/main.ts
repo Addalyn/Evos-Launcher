@@ -487,7 +487,7 @@ const createWindow = async () => {
       allowRunningInsecureContent: true,
     },
   });
-
+  mainWindow.webContents.session.clearCache();
   const splash = new BrowserWindow({
     width: 600,
     height: 300,

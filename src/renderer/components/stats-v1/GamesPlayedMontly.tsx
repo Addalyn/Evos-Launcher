@@ -10,7 +10,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { strapiClient } from 'renderer/lib/strapi';
+import { strapiClientv1 } from 'renderer/lib/strapi';
 import { useTranslation } from 'react-i18next';
 import { Skeleton } from '@mui/material';
 
@@ -63,7 +63,7 @@ const fetchInfo = async (
   endDate: string,
 ) => {
   try {
-    const strapi = strapiClient
+    const strapi = strapiClientv1
       .from('games/count')
       .select(['id'])
       .greaterThan('date', startDate)
