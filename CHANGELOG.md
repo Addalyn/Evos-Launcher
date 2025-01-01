@@ -1,16 +1,33 @@
+### Release Notes: Version 2.2.5
+
+## Reset
+
+- **Stats are reset**
+
+## Improvements
+
+- **Stats**
+  - You can now see the new stats and the old stats. Select it by using the dropdown menu in Globals Stats, Personal Stats, and Previous games.
+  - Persistance of the selected stats, if you select the old stats it will stay on the old stats untill you change it back to the new stats. Or application restart.
+
+## Bug Fixes
+
+- **Colors**
+  - Fixed the default secondary color to be the same as the primary color on first(reset) start.
+
 ### Release Notes: Version 2.2.4
 
 ## Improvements
 
 - **Colors, Colors and Colors**
-  -you can change the colors of the launcher to your liking found in settings.
+  - you can change the colors of the launcher to your liking found in settings.
 
 ### Release Notes: Version 2.2.3
 
 ## Bug Fixes
 
 - **Locilization**
-  -Add missing locilization for draft
+  - Add missing locilization for draft
 
 ### Release Notes: Version 2.2.2
 

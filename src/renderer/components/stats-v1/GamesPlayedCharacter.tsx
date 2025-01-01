@@ -10,7 +10,7 @@ import {
 import { useEffect, useState } from 'react';
 
 import { Bar } from 'react-chartjs-2';
-import { strapiClient } from 'renderer/lib/strapi';
+import { strapiClientv1 } from 'renderer/lib/strapi';
 import { useTranslation } from 'react-i18next';
 import { Skeleton } from '@mui/material';
 
@@ -111,7 +111,7 @@ const categoryColors: { [key: string]: string } = {
 
 const fetchInfo = async (character: string, map: string, player: string) => {
   try {
-    const strapi = strapiClient.from('stats/count').select(['id']);
+    const strapi = strapiClientv1.from('stats/count').select(['id']);
 
     strapi.equalTo('character', character);
 
