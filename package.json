@@ -92,7 +92,6 @@
     }
   },
   "dependencies": {
-    "@apollo/client": "^3.12.4",
     "@aptabase/electron": "^0.3.1",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
@@ -113,7 +112,6 @@
     "electron-updater": "^6.1.7",
     "follow-redirects": "^1.15.5",
     "fs-extra": "^11.2.0",
-    "graphql": "^16.10.0",
     "html2canvas": "^1.4.1",
     "i18next": "^23.8.2",
     "i18next-browser-languagedetector": "^7.2.0",
