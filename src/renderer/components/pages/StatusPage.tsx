@@ -256,7 +256,11 @@ function StatusPage() {
             <Grid container spacing={1}>
               {playerInfoList.map((info) => (
                 <Grid item xs={4} key={`player-${info.handle}`}>
-                  <Player info={info} disableSkew title={legend[info.handle]} />
+                  <Player
+                    info={info}
+                    disableSkew
+                    titleOld={legend[info.handle]}
+                  />
                 </Grid>
               ))}
             </Grid>
