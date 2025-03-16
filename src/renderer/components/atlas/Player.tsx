@@ -19,12 +19,13 @@ import { useEffect, useState } from 'react';
 import { BgImage } from '../generic/BasicComponents';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { strapiClient } from 'renderer/lib/strapi';
 
 interface Props {
   info?: PlayerData;
   disableSkew?: boolean;
   characterType?: string;
-  title?: string;
+  titleOld?: string;
 }
 
 interface SpecialNames {
@@ -53,10 +54,77 @@ const ImageTextWrapper = styled('span')(({ theme }) => ({
     '1px 1px 2px black, -1px -1px 2px black, 1px -1px 2px black, -1px 1px 2px black',
 }));
 
-function Player({ info, disableSkew, characterType, title }: Props) {
+interface DataItem {
+  id: number;
+  handle: string;
+  title: string;
+}
+
+const titleCache = new Map<string, { data: DataItem[]; expiry: number }>();
+
+async function fetchTitle(playerName: string): Promise<DataItem[]> {
+  const cacheKey = playerName.toLowerCase(); // Normalize case for consistency
+  const cached = titleCache.get(cacheKey);
+
+  if (cached && Date.now() < cached.expiry) {
+    return cached.data; // Return cached data if still valid
+  }
+
+  try {
+    const strapi = strapiClient
+      .from<DataItem>(`titles`)
+      .select(['title'])
+      .contains('handle', playerName);
+
+    strapi.paginate(1, 100000);
+
+    const { data, error } = (await strapi.get()) as {
+      data: DataItem[];
+      error: unknown;
+    };
+
+    if (error) {
+      return [];
+    }
+
+    // Store in cache with 10-minute expiry
+    titleCache.set(cacheKey, {
+      data: data ?? [],
+      expiry: Date.now() + 10 * 60 * 1000,
+    });
+
+    return data ?? [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function lightenColor(color: string): string {
+  const colorMap: Record<string, string> = {
+    red: 'rgb(255, 150, 150)',
+    orange: 'rgb(255, 180, 130)',
+    yellow: 'rgb(255, 255, 180)',
+    green: 'rgb(180, 255, 180)',
+    blue: 'rgb(180, 220, 255)',
+    purple: 'rgb(220, 180, 255)',
+  };
+
+  return colorMap[color.toLowerCase()] || color; // Default to original if not in map
+}
+
+function convertUnityRichTextToHTML(unityText: string): string {
+  return unityText
+    .replace(/<size=\d+>|<\/size>|<sprite=\d+>/g, '') // Remove size and sprite tags
+    .replace(/<color=(.*?)>(.*?)<\/color>/g, (_, color, text) => {
+      return `<span style="color:${lightenColor(color)};">${text}</span>`;
+    });
+}
+
+function Player({ info, disableSkew, characterType, titleOld }: Props) {
   const { t } = useTranslation();
   const [specialNames, setSpecialNames] = useState<SpecialNames>();
   const [customBanner, setCustomBanner] = useState<BannersQuery[]>();
+  const [title, setTitle] = useState<string>(titleOld || '');
 
   let username = t('offline');
   let discriminator;
@@ -92,7 +160,20 @@ function Player({ info, disableSkew, characterType, title }: Props) {
       .catch(() => {
         // noting
       });
-  }, [info]);
+    if (t('offline') !== username) {
+      fetchTitle(username)
+        .then((response) => {
+          if (response.length > 0) {
+            const htmlTitle = convertUnityRichTextToHTML(response[0].title);
+            setTitle(htmlTitle);
+          }
+          return response;
+        })
+        .catch(() => {
+          // noting
+        });
+    }
+  }, [info, t, username]);
 
   let className = '';
   let mentor = false;
@@ -235,36 +316,46 @@ function Player({ info, disableSkew, characterType, title }: Props) {
               fontSize: '1.7em',
             }}
           >
-            <Typography component="span" style={{ fontSize: '1em' }}>
-              {(() => {
-                if (denydNames.includes(info.handle)) {
-                  return 'Bot';
-                }
-                if (title) {
-                  return title;
-                }
-
-                if (typeof info?.status === 'number') {
-                  if (mentor && developer) {
-                    return t(`titles.mentorDev`);
+            <Typography
+              component="span"
+              style={{ fontSize: '1em' }}
+              dangerouslySetInnerHTML={{
+                __html: (() => {
+                  if (denydNames.includes(info.handle)) {
+                    return 'Bot';
                   }
-                  if (mentor) {
-                    return t(`titles.mentor`);
+                  if (
+                    title &&
+                    info?.status !== 'Queued' &&
+                    info?.status !== 'Character Select' &&
+                    info?.status !== 'In Game'
+                  ) {
+                    return title;
                   }
-                  // @ts-ignore
-                  return t(`titles.${info?.status}`);
-                }
 
-                if (info?.status === '') {
-                  return t('online');
-                }
-                if (info?.status === undefined) {
-                  return '';
-                }
+                  if (typeof info?.status === 'number') {
+                    if (mentor && developer) {
+                      return t(`titles.mentorDev`);
+                    }
+                    if (mentor) {
+                      return t(`titles.mentor`);
+                    }
+                    // @ts-ignore
+                    return t(`titles.${info?.status}`);
+                  }
 
-                return `${mentor ? `${t(`titles.mentor`)}/` : ''}${t([`${info?.status}`])}`;
-              })()}
-            </Typography>
+                  if (info?.status === '') {
+                    return t('online');
+                  }
+                  if (info?.status === undefined) {
+                    return '';
+                  }
+
+                  // eslint-disable-next-line no-nested-ternary
+                  return `${mentor && developer ? `${t('titles.mentorDev')}/` : mentor ? `${t('titles.mentor')}/` : ''}${t(`${info?.status}`)}`;
+                })(),
+              }}
+            />
           </ImageTextWrapper>
         )}
         {info?.factionData?.selectedRibbonID !== undefined &&
