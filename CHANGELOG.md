@@ -1,3 +1,11 @@
+### Release Notes: Version 2.2.6
+
+## Improvements
+
+## Player banners
+
+- Added custom titles to the player banners including some color codes that some players have.
+
 ### Release Notes: Version 2.2.5
 
 ## Reset
