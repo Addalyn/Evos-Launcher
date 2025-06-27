@@ -85,7 +85,8 @@
     "noProxy": "evos-emu.com (Geen Proxy)",
     "proxy1": "de.evos.live (Proxy in Duitsland)",
     "proxy2": "fr.evos.live (Proxy in Frankrijk)",
-    "proxy3": "fi.evos.live (Proxy in Finland)"
+    "proxy3": "fi.evos.live (Proxy in Finland)",
+    "proxy4": "ru.ar.zheneq.net (Proxy in Rusland)"
   },
   "download": {
     "infoLine1": "Download het spel bij voorkeur van Steam of een andere officiële bron.",
