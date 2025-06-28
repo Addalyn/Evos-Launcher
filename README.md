@@ -1,4 +1,4 @@
-![Build Status](https://github.com/Addalyn/Evos-Launcher/actions/workflows/publish.yml/badge.svg 'Build Status') ![Test Status](https://github.com/Addalyn/Evos-Launcher/actions/workflows/test.yml/badge.svg 'Test') ![CodeQL Status](https://github.com/Addalyn/Evos-Launcher/actions/workflows/codeql-analysis.yml/badge.svg 'CodeQL')
+![Build Status](https://github.com/Addalyn/Evos-Launcher/actions/workflows/publish.yml/badge.svg 'Build Status') ![Test Status](https://github.com/Addalyn/Evos-Launcher/actions/workflows/test.yml/badge.svg 'Test') ![CodeQL Status](https://github.com/Addalyn/Evos-Launcher/actions/workflows/codeql-analysis.yml/badge.svg 'CodeQL') ![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/Addalyn/Evos-Launcher?utm_source=oss&utm_medium=github&utm_campaign=Addalyn%2FEvos-Launcher&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)
 
 [![Support Us](<https://img.shields.io/badge/Support%20Us-PayPal%20(BabyAddalyn)-green.svg>)](https://paypal.me/BabyAddalyn) [![Support Us](<https://img.shields.io/badge/Support%20Us-boosty%20(Zheneq)-green.svg>)](https://boosty.to/zheneq)
 
