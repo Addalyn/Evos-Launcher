@@ -85,7 +85,8 @@
     "noProxy": "evos-emu.com (无代理)",
     "proxy1": "evos-emu.com (德国代理)",
     "proxy2": "evos-emu.com (法国代理)",
-    "proxy3": "evos-emu.com (芬兰代理)"
+    "proxy3": "evos-emu.com (芬兰代理)",
+    "proxy4": "ru.ar.zheneq.net (俄罗斯代理)"
   },
   "download": {
     "infoLine1": "推荐从Steam或其他官方渠道下载游戏。",

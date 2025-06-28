@@ -1,3 +1,9 @@
+### Release Notes: Version 2.2.7
+
+## Improvements
+
+- Added a proxy server in Russia
+
 ### Release Notes: Version 2.2.6
 
 ## Improvements
