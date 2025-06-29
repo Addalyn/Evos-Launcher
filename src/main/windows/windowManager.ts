@@ -11,7 +11,8 @@ import path from 'path';
 import { resolveHtmlPath } from '../util';
 import install, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 
-const isDebug = true; //  process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
+const isDebug =
+  process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 
 if (isDebug) {
   // eslint-disable-next-line global-require
