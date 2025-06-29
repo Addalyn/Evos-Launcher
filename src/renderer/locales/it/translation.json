@@ -276,7 +276,8 @@
     "labelPaperColor": "Colore della Carta",
     "labelBackgroundColor": "Colore di Sfondo",
     "labelTextColor": "Colore del Testo",
-    "labelScrollbarColor": "Colore della Barra di Scorrimento"
+    "labelScrollbarColor": "Colore della Barra di Scorrimento",
+    "statsVersion": "Versione Statistiche"
   },
   "maps": {
     "map": "Mappa",
@@ -610,5 +611,30 @@
     "Draft_NoBans@GameWideData": "Draft (Senza Ban)",
     "RankedCustom": "Draft",
     "RankedCustom@SubTypes": "Draft"
+  },
+  "dev": {
+    "title": "Centro di Documentazione per Sviluppatori",
+    "subtitle": "Esplora la documentazione JSDoc dell'intera base di codice di Evos Launcher",
+    "refresh": "Aggiorna elenco file",
+    "selectFile": "Seleziona File Sorgente",
+    "filterType": "Tipo di Filtro",
+    "allDocs": "Tutta la Documentazione",
+    "fileOverviews": "Panoramiche File",
+    "functions": "Funzioni e Metodi",
+    "interfaces": "Interfacce e Tipi",
+    "searchDocs": "Cerca Documentazione",
+    "docsFor": "Documentazione per",
+    "noComments": "Nessun commento JSDoc trovato in questo file che corrisponda ai tuoi criteri.",
+    "fileOverview": "Panoramica File",
+    "file": "File",
+    "function": "Funzione",
+    "interface": "Interfaccia",
+    "line": "Riga",
+    "author": "Autore",
+    "since": "Da",
+    "parameters": "Parametri",
+    "returns": "Restituisce",
+    "additionalTags": "Tag Aggiuntivi",
+    "viewRaw": "Visualizza Commento JSDoc Grezzo"
   }
 }

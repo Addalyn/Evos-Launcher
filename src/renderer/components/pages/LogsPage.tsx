@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 /* eslint-disable react/no-array-index-key */
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -10,33 +10,67 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Paper } from '@mui/material';
 import EvosStore from 'renderer/lib/EvosStore';
 import { useTranslation } from 'react-i18next';
+import { withElectron } from 'renderer/utils/electronUtils';
 
+/**
+ * Represents a log file with metadata and content
+ */
 interface LogFile {
+  /** Unique identifier for the log file */
   id: string;
+  /** Display name of the log file */
   name: string;
+  /** Full file system path to the log file */
   fullPath: string;
+  /** Last modification date of the log file */
   lastModified: Date;
+  /** Content of the log file (loaded on demand) */
   content?: string;
+  /** Whether this log file is part of a group */
   group?: boolean;
+  /** Last read position in the file */
   lastPosition?: number;
+  /** File size in bytes */
+  size?: number;
 }
 
+/**
+ * Represents a folder containing log files
+ */
 interface LogFolder {
+  /** Name of the folder */
   name: string;
+  /** Full file system path to the folder */
   fullPath: string;
+  /** Array of log files in this folder */
   files: LogFile[];
 }
 
-function formatLog(logFile: string) {
+/**
+ * Extended LogFile interface for DataGrid rows with additional display properties
+ */
+interface LogFileRow extends LogFile {
+  /** Style object for background color based on file age */
+  colorStyle: React.CSSProperties;
+  /** File size in kilobytes for display */
+  sizeInKB: number;
+}
+
+/**
+ * Formats log file content with color-coded log levels
+ * @param logFile - Raw log file content as string
+ * @returns Array of JSX elements with styled log lines
+ */
+function formatLog(logFile: string): React.JSX.Element[] {
   const logLines = logFile.split('\n');
 
-  let lastColorStyle = {};
+  let lastColorStyle: React.CSSProperties = {};
 
   const formattedLog = logLines.map((line, index) => {
     const match = line.match(/(\[\w+\])/);
     if (match) {
       const logLevel = match[1];
-      let colorStyle;
+      let colorStyle: React.CSSProperties;
 
       switch (logLevel) {
         case '[NOT]':
@@ -84,124 +118,178 @@ function formatLog(logFile: string) {
   return formattedLog;
 }
 
-function LogsPage() {
+/**
+ * LogsPage component for displaying and managing application log files
+ * Provides functionality to view, browse, and open log files in a data grid format
+ * @returns JSX.Element representing the logs page
+ */
+function LogsPage(): React.JSX.Element {
   const { exePath } = EvosStore();
   const [logData, setLogData] = useState<LogFolder[]>([]);
   const [selectedLog, setSelectedLog] = useState<LogFile | null>(null);
-  const [openDialog, setOpenDialog] = useState(false);
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [dialogContentRef, setDialogContentRef] =
     useState<HTMLDivElement | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const { t } = useTranslation();
 
-  const handleAccordionClick = async (log: LogFile) => {
+  /**
+   * Handles clicking on a log file accordion/row to open its content in a dialog
+   * @param log - The log file to open
+   */
+  const handleAccordionClick = async (log: LogFile): Promise<void> => {
     try {
       setSelectedLog(log);
       setOpenDialog(true);
       setLoading(true);
-      const content = await window.electron.ipcRenderer.getLogContent(
-        log.fullPath,
+      const content = await withElectron(
+        (electron) => electron.ipcRenderer.getLogContent(log.fullPath),
+        null,
       );
-      log.content = content;
-      setLogData((prevData) => {
-        const updatedData = prevData.map((folder) => {
-          return {
-            ...folder,
-            files: folder.files.map((file) =>
-              file.id === log.id ? { ...file, content } : file,
-            ),
-          };
+      if (content !== null) {
+        log.content = content;
+        setLogData((prevData) => {
+          const updatedData = prevData.map((folder) => {
+            return {
+              ...folder,
+              files: folder.files.map((file) =>
+                file.id === log.id ? { ...file, content } : file,
+              ),
+            };
+          });
+          return updatedData;
         });
-        return updatedData;
-      });
+      }
     } catch (error) {
-      // Handle error
+      // Handle error - could add proper error handling here
+      // Error loading log content: error
     } finally {
-      setLoading(false); // Reset loading state after content is fetched or on error
+      setLoading(false);
     }
   };
 
-  const handleOpenFolder = () => {
+  /**
+   * Opens the folder containing the selected log file in the system file explorer
+   */
+  const handleOpenFolder = (): void => {
     if (selectedLog) {
       const folderPath = selectedLog.fullPath.substring(
         0,
         selectedLog.fullPath.lastIndexOf('\\'),
       );
-      window.electron.ipcRenderer.openFolder(folderPath);
+      withElectron((electron) => electron.ipcRenderer.openFolder(folderPath));
     }
   };
 
-  const handleCloseDialog = () => {
+  /**
+   * Closes the log content dialog
+   */
+  const handleCloseDialog = (): void => {
     setOpenDialog(false);
   };
 
+  /**
+   * Effect hook to fetch log data on component mount and set up periodic refresh
+   * Fetches log files from the Logs folder relative to the executable path
+   */
   useEffect(() => {
-    const fetchLogData = async () => {
+    const fetchLogData = async (): Promise<void> => {
       try {
         const forwardSlashPath = exePath.replace(/\\/g, '/');
         const pathArray = forwardSlashPath.split('/');
         pathArray.splice(-2);
         pathArray.push('Logs');
         const logFolderPath = pathArray.join('\\');
-        const data =
-          await window.electron.ipcRenderer.getLogData(logFolderPath);
-        data.forEach((folder: { files: LogFile[] }) => {
-          folder.files.forEach((file) => {
-            file.lastModified = new Date(file.lastModified);
-          });
-
-          folder.files.sort(
-            (a, b) => b.lastModified.getTime() - a.lastModified.getTime(),
-          );
-        });
-
-        data.sort(
-          (
-            a: { files: { lastModified: { getTime: () => number } }[] },
-            b: { files: { lastModified: { getTime: () => number } }[] },
-          ) =>
-            b.files[0].lastModified.getTime() -
-            a.files[0].lastModified.getTime(),
+        const data = await withElectron(
+          (electron) => electron.ipcRenderer.getLogData(logFolderPath),
+          null,
         );
 
-        setLogData(data);
+        // Process the fetched data with proper typing
+        if (data && Array.isArray(data)) {
+          (data as LogFolder[]).forEach((folder: LogFolder) => {
+            folder.files.forEach((file) => {
+              file.lastModified = new Date(file.lastModified);
+            });
+
+            folder.files.sort(
+              (a, b) => b.lastModified.getTime() - a.lastModified.getTime(),
+            );
+          });
+
+          (data as LogFolder[]).sort(
+            (a: LogFolder, b: LogFolder) =>
+              b.files[0].lastModified.getTime() -
+              a.files[0].lastModified.getTime(),
+          );
+
+          setLogData(data as LogFolder[]);
+        }
       } catch (error) {
-        // console.error(error);
+        // Handle error silently - could add proper error handling here
       }
     };
+
     fetchLogData();
     const intervalId = setInterval(fetchLogData, 10000);
 
     return () => clearInterval(intervalId);
   }, [exePath]);
 
+  /**
+   * Effect hook to auto-scroll dialog content to bottom only when a new log is opened
+   * Only triggers once when the log content is loaded
+   */
   useEffect(() => {
-    if (dialogContentRef) {
-      dialogContentRef.scrollTop = dialogContentRef.scrollHeight;
+    if (dialogContentRef && selectedLog && selectedLog.content && !loading) {
+      // Only auto-scroll when content is first loaded and available
+      setTimeout(() => {
+        if (dialogContentRef) {
+          dialogContentRef.scrollTop = dialogContentRef.scrollHeight;
+        }
+      }, 200); // Increased delay to ensure content is fully rendered
     }
-  }, [dialogContentRef, selectedLog, logData]);
+  }, [dialogContentRef, selectedLog?.content, selectedLog, loading]); // Only depend on content availability
 
-  function calculateColorIntensity(lastModified: Date) {
+  /**
+   * Calculates background color intensity based on file age
+   * Newer files appear more green, older files appear more red
+   * @param lastModified - Date when the file was last modified
+   * @returns RGBA color string for background
+   */
+  function calculateColorIntensity(lastModified: Date): string {
     const now = new Date();
     const timeDifference = now.getTime() - lastModified.getTime();
     const minutesDifference = timeDifference / (1000 * 60);
 
-    const maxIntensity = 60;
-    const intensity = Math.min(
-      (minutesDifference / 20) * maxIntensity,
-      maxIntensity,
-    );
+    // Debug: files from today should have low minutesDifference
+    // console.log(`File age in minutes: ${minutesDifference}`);
 
-    const redValue = Math.floor(255 * (1 - intensity / 100));
-    const greenValue = Math.floor(255 * (intensity / 100));
-    const color = `rgba(${redValue}, ${greenValue}, 0, 1)`;
+    // Files newer than 1 minute: bright green
+    if (minutesDifference < 1) {
+      return 'rgba(0, 255, 0, 0.4)'; // Bright green for very recent files
+    }
+
+    // Files 1-240 minutes: transition from green to yellow/red
+    const maxAgeMinutes = 240;
+    const normalizedAge = Math.min(minutesDifference / maxAgeMinutes, 1);
+
+    // For recent files: more green, less red
+    // For old files: more red, less green
+    const redValue = Math.floor(255 * normalizedAge);
+    const greenValue = Math.floor(255 * (1 - normalizedAge));
+    const blueValue = 30;
+
+    const color = `rgba(${redValue}, ${greenValue}, ${blueValue}, 0.4)`;
+    // console.log(`Minutes: ${minutesDifference.toFixed(1)}, Color: ${color}`);
 
     return color;
   }
 
-  const coloredRows: LogFile[] = logData.reduce((acc, folder) => {
-    const folderRows = folder.files.map((file) => {
-      const colorStyle = {
+  // Transform log data into rows for the DataGrid with color styling
+  const coloredRows: LogFileRow[] = logData.reduce((acc, folder) => {
+    const folderRows = folder.files.map((file): LogFileRow => {
+      const colorStyle: React.CSSProperties = {
         backgroundColor: calculateColorIntensity(file.lastModified),
       };
 
@@ -209,14 +297,15 @@ function LogsPage() {
         ...file,
         id: file.fullPath,
         colorStyle,
-        sizeInKB: (file.content?.length || 0) / 1024,
+        sizeInKB: (file.size || 0) / 1024,
       };
     });
 
     return acc.concat(folderRows);
-  }, [] as LogFile[]);
+  }, [] as LogFileRow[]);
 
-  const columns: GridColDef[] = [
+  // Define columns for the DataGrid
+  const columns: GridColDef<LogFileRow>[] = [
     {
       field: 'name',
       headerName: t('logs.logName'),
@@ -241,7 +330,7 @@ function LogsPage() {
       headerName: t('logs.logSize'),
       flex: 1,
       valueGetter: (params) => {
-        let sizeInKB = params.row.size / 1024 || 0;
+        let sizeInKB = (params.row.size || 0) / 1024;
         // round up
         sizeInKB = Math.ceil(sizeInKB);
         return `${sizeInKB}KB`;
@@ -264,6 +353,8 @@ function LogsPage() {
       ),
     },
   ];
+
+  // Render the logs page with DataGrid and dialog components
   return (
     <Paper elevation={3} style={{ margin: '1em', width: '95%' }}>
       <DataGrid
@@ -293,7 +384,15 @@ function LogsPage() {
         >
           <DialogTitle>{selectedLog.name}</DialogTitle>
           <DialogContent
-            style={{ overflowX: 'hidden' }}
+            className="log-dialog-content"
+            style={{
+              overflowX: 'hidden',
+              overflowY: 'auto',
+              maxHeight: '70vh',
+              padding: '16px',
+              scrollbarWidth: 'thin',
+              scrollbarColor: '#888 #f1f1f1',
+            }}
             ref={(ref: HTMLDivElement | null) => setDialogContentRef(ref)}
           >
             {loading ? (

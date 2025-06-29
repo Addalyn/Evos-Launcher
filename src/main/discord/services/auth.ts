@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Discord OAuth authentication service for account linking
+ * Handles Discord OAuth flow, server verification, and user authentication for Discord integration.
+ * Manages the Express server for OAuth callbacks and validates user permissions.
+ * @author Evos Launcher Team
+ * @since 1.0.0
+ */
+
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-underscore-dangle */
 
@@ -5,11 +13,23 @@ import { Server } from 'http';
 import { shell } from 'electron';
 import Express, { Request, Response } from 'express';
 import got from 'got';
-import { setAuthResult, setAuthResultLinked } from '../../main';
-import { listeningPort, validGuild, validRole } from '../config/config';
-
 import OAuthConfig from '../models/OAuthConfig';
 import Guild from '../models/Guild';
+import { listeningPort, validGuild, validRole } from '../config/config';
+
+// Define the callback type for auth results
+type AuthResultCallback = (status: boolean, guildInfo?: any) => Promise<void>;
+
+let authResultCallback: AuthResultCallback | null = null;
+let authResultLinkedCallback: AuthResultCallback | null = null;
+
+export function setAuthCallbacks(
+  resultCallback: AuthResultCallback,
+  linkedCallback: AuthResultCallback,
+): void {
+  authResultCallback = resultCallback;
+  authResultLinkedCallback = linkedCallback;
+}
 
 class AuthClient {
   private _oauthConfig: OAuthConfig;
@@ -28,8 +48,8 @@ class AuthClient {
 
     this.expressApp.get('/auth', async (req: Request, res: Response) => {
       if (!req.query.code) {
-        setAuthResult(false);
-        setAuthResultLinked(false, null);
+        authResultCallback?.(false);
+        authResultLinkedCallback?.(false, null);
       }
 
       const data: OAuthConfig = {
@@ -46,8 +66,8 @@ class AuthClient {
         });
 
         if (!result) {
-          setAuthResult(false);
-          setAuthResultLinked(false, null);
+          authResultCallback?.(false);
+          authResultLinkedCallback?.(false, null);
         }
 
         const token: string = JSON.parse(result.body).access_token;
@@ -71,22 +91,22 @@ class AuthClient {
             },
           );
 
-          if (!result) setAuthResult(false);
+          if (!result) authResultCallback?.(false);
           const guildInfo = JSON.parse(result.body);
 
           if (guildInfo.roles.includes(validRole)) {
-            setAuthResult(true);
+            authResultCallback?.(true);
           } else {
-            setAuthResult(false);
+            authResultCallback?.(false);
           }
-          setAuthResultLinked(true, guildInfo as Guild);
+          authResultLinkedCallback?.(true, guildInfo as Guild);
         } else {
-          setAuthResult(false);
-          setAuthResultLinked(false, null);
+          authResultCallback?.(false);
+          authResultLinkedCallback?.(false, null);
         }
       } catch (err) {
-        setAuthResult(false);
-        setAuthResultLinked(false, null);
+        authResultCallback?.(false);
+        authResultLinkedCallback?.(false, null);
       }
 
       res.send(`
