@@ -1,87 +1,7 @@
-/**
- * @fileoverview Global state management store for the Evos Launcher using Zustand
- * Manages application state including user authentication, settings, theming, and game configuration.
- * Provides persistent storage integration and state management across the entire renderer process.
- * @author Evos Launcher Team
- * @since 1.0.0
- */
-
 import { create } from 'zustand';
 /* eslint-disable no-console */
 import { trackEvent } from '@aptabase/electron/renderer';
 
-/**
- * Helper function to safely execute Electron operations
- */
-const withElectron = <T>(
-  fn: (electron: any) => T,
-  fallback?: T | (() => T),
-): T | null => {
-  if (typeof window !== 'undefined' && window.electron) {
-    return fn(window.electron);
-  }
-
-  if (fallback !== undefined) {
-    return typeof fallback === 'function' ? (fallback as () => T)() : fallback;
-  }
-
-  return null;
-};
-
-/**
- * Browser storage fallback functions for web mode
- */
-const browserStorage = {
-  async getItem(key: string): Promise<any> {
-    try {
-      const item = localStorage.getItem(`evos_${key}`);
-      return item ? JSON.parse(item) : null;
-    } catch (error) {
-      console.error(`Error reading from localStorage for key ${key}:`, error);
-      return null;
-    }
-  },
-
-  async setItem(key: string, value: any): Promise<void> {
-    try {
-      localStorage.setItem(`evos_${key}`, JSON.stringify(value));
-    } catch (error) {
-      console.error(`Error writing to localStorage for key ${key}:`, error);
-    }
-  },
-
-  async removeItem(key: string): Promise<void> {
-    try {
-      localStorage.removeItem(`evos_${key}`);
-    } catch (error) {
-      console.error(`Error removing from localStorage for key ${key}:`, error);
-    }
-  },
-
-  clear(): void {
-    try {
-      // Only clear evos-related items
-      const keys = Object.keys(localStorage);
-      keys.forEach((key) => {
-        if (key.startsWith('evos_')) {
-          localStorage.removeItem(key);
-        }
-      });
-    } catch (error) {
-      console.error('Error clearing localStorage:', error);
-    }
-  },
-};
-
-/**
- * Interface representing an authenticated user
- * @interface AuthUser
- * @property {string} user - The username of the authenticated user
- * @property {string} token - Authentication token for the user
- * @property {string} handle - Display handle/name for the user
- * @property {number} banner - Banner ID for user customization
- * @property {string} [configFile] - Optional path to user's config file
- */
 export interface AuthUser {
   user: string;
   token: string;
@@ -104,9 +24,6 @@ export interface EvosStoreState {
   setColorScrollBar: (color: string) => void;
   setColorPaper: (color: string) => void;
   getFromStorage(arg0: string): any;
-  setToStorage: (key: string, value: any) => Promise<void>;
-  removeFromStorage: (key: string) => Promise<void>;
-  clearStorage: () => void;
   mode: string;
   ip: string;
   authenticatedUsers: AuthUser[];
@@ -119,11 +36,11 @@ export interface EvosStoreState {
   isDownloading: boolean;
   noLogEnabled: string;
   showAllChat: string;
-  setShowAllChat: (showAllChat: string) => Promise<void>;
+  setShowAllChat: (showAllChat: string) => void;
   setIsDownloading: (isDownloading: boolean) => void;
   init: () => void;
   toggleMode: () => void;
-  setIp: (ip: string) => Promise<void>;
+  setIp: (ip: string) => void;
   setAuthenticatedUsers: (
     user: string,
     token: string,
@@ -167,8 +84,6 @@ export interface EvosStoreState {
   setNoBranchDownload: (nodownload: boolean) => void;
   stats: string;
   setStats: (stats: string) => void;
-  apiVersion: 'v1' | 'production';
-  setApiVersion: (apiVersion: 'v1' | 'production') => void;
 }
 
 const EvosStore = create<EvosStoreState>((set, get) => ({
@@ -201,82 +116,82 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   locked: false,
   oldBranch: '',
   nobranchDownload: false,
-  apiVersion: 'production',
 
   setStats: async (stats: string) => {
     set({ stats });
   },
 
   setColorPrimary: async (colorPrimary: string) => {
-    withElectron((electron) => {
-      electron.ipcRenderer.setTheme(
-        get().mode !== 'dark' ? get().colorPrimary : get().colorPaper,
-        get().colorText,
-      );
-    });
+    window.electron.ipcRenderer.setTheme(
+      get().mode !== 'dark' ? get().colorPrimary : get().colorPaper,
+      get().colorText,
+    );
     set({ colorPrimary });
     try {
-      await withElectron((electron) =>
-        electron.store.setItem('colorPrimary', colorPrimary),
-      );
+      await window.electron.store.setItem('colorPrimary', colorPrimary);
     } catch (error) {
       console.error('Error while saving colorPrimary to storage:', error);
     }
   },
 
   setColorSecondary: async (colorSecondary: string) => {
-    withElectron((electron) =>
-      electron.ipcRenderer.setTheme(
-        get().mode !== 'dark' ? get().colorPrimary : get().colorPaper,
-        get().colorText,
-      ),
+    window.electron.ipcRenderer.setTheme(
+      get().mode !== 'dark' ? get().colorPrimary : get().colorPaper,
+      get().colorText,
     );
     set({ colorSecondary });
     try {
-      await withElectron(
-        (electron) => electron.store.setItem('colorSecondary', colorSecondary),
-        Promise.resolve(),
-      );
+      await window.electron.store.setItem('colorSecondary', colorSecondary);
     } catch (error) {
       console.error('Error while saving colorSecondary to storage:', error);
     }
   },
   setColorBackground: async (colorBackground: string) => {
     set({ colorBackground });
-    await get().setToStorage('colorBackground', colorBackground);
+    try {
+      await window.electron.store.setItem('colorBackground', colorBackground);
+    } catch (error) {
+      console.error('Error while saving colorBackground to storage:', error);
+    }
   },
 
   setColorText: async (colorText: string) => {
-    withElectron((electron) =>
-      electron.ipcRenderer.setTheme(
-        get().mode !== 'dark' ? get().colorPrimary : get().colorPaper,
-        get().colorText,
-      ),
+    window.electron.ipcRenderer.setTheme(
+      get().mode !== 'dark' ? get().colorPrimary : get().colorPaper,
+      get().colorText,
     );
     set({ colorText });
-    await get().setToStorage('colorText', colorText);
+    try {
+      await window.electron.store.setItem('colorText', colorText);
+    } catch (error) {
+      console.error('Error while saving colorText to storage:', error);
+    }
   },
 
   setColorPaper: async (colorPaper: string) => {
-    withElectron((electron) =>
-      electron.ipcRenderer.setTheme(
-        get().mode !== 'dark' ? get().colorPrimary : colorPaper,
-        get().colorText,
-      ),
+    window.electron.ipcRenderer.setTheme(
+      get().mode !== 'dark' ? get().colorPrimary : colorPaper,
+      get().colorText,
     );
     set({ colorPaper });
-    await get().setToStorage('colorPaper', colorPaper);
+    try {
+      await window.electron.store.setItem('colorPaper', colorPaper);
+    } catch (error) {
+      console.error('Error while saving colorPaper to storage:', error);
+    }
   },
 
   setColorScrollBar: async (colorScrollBar: string) => {
-    withElectron((electron) =>
-      electron.ipcRenderer.setTheme(
-        get().mode !== 'dark' ? get().colorPrimary : get().colorPaper,
-        get().colorText,
-      ),
+    window.electron.ipcRenderer.setTheme(
+      get().mode !== 'dark' ? get().colorPrimary : get().colorPaper,
+      get().colorText,
     );
     set({ colorScrollBar });
-    await get().setToStorage('colorScrollBar', colorScrollBar);
+    try {
+      await window.electron.store.setItem('colorScrollBar', colorScrollBar);
+    } catch (error) {
+      console.error('Error while saving colorScrollBar to storage:', error);
+    }
   },
   setNoBranchDownload: (nobranchDownload: boolean) => {
     set({ nobranchDownload });
@@ -300,51 +215,11 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   // Helper async function to fetch values from storage
   getFromStorage: async <T>(key: string): Promise<T | null> => {
     try {
-      // Try Electron storage first, fallback to browser storage
-      const value = await withElectron(
-        (electron) => electron.store.getItem(key),
-        browserStorage.getItem(key),
-      );
+      const value = await window.electron.store.getItem(key);
       return value || null;
     } catch (error) {
       console.error(`Error while fetching ${key} from storage:`, error);
       return null;
-    }
-  },
-
-  // Helper async function to set values in storage
-  setToStorage: async (key: string, value: any): Promise<void> => {
-    try {
-      await withElectron(
-        (electron) => electron.store.setItem(key, value),
-        browserStorage.setItem(key, value),
-      );
-    } catch (error) {
-      console.error(`Error while saving ${key} to storage:`, error);
-    }
-  },
-
-  // Helper async function to remove values from storage
-  removeFromStorage: async (key: string): Promise<void> => {
-    try {
-      await withElectron(
-        (electron) => electron.store.removeItem(key),
-        browserStorage.removeItem(key),
-      );
-    } catch (error) {
-      console.error(`Error while removing ${key} from storage:`, error);
-    }
-  },
-
-  // Helper function to clear all storage
-  clearStorage: (): void => {
-    try {
-      withElectron(
-        (electron) => electron.store.clear(),
-        browserStorage.clear(),
-      );
-    } catch (error) {
-      console.error('Error while clearing storage:', error);
     }
   },
 
@@ -370,7 +245,6 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       colorText,
       colorScrollBar,
       colorPaper,
-      apiVersion,
     ] = await Promise.all([
       get().getFromStorage('mode') as string,
       get().getFromStorage('authenticatedUsers') as AuthUser[],
@@ -394,7 +268,6 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       get().getFromStorage('colorText') as string,
       get().getFromStorage('colorScrollBar') as string,
       get().getFromStorage('colorPaper') as string,
-      get().getFromStorage('apiVersion') as 'v1' | 'production',
     ]);
 
     let users: AuthUser[] = [];
@@ -438,13 +311,10 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       colorText: colorText || '#ffffff',
       colorScrollBar: colorScrollBar || '#6b6b6b',
       colorPaper: colorPaper || '#0000',
-      apiVersion: apiVersion || 'production',
     });
-    withElectron((electron) =>
-      electron.ipcRenderer.setTheme(
-        get().mode !== 'dark' ? get().colorPrimary : get().colorPaper,
-        get().colorText,
-      ),
+    window.electron.ipcRenderer.setTheme(
+      get().mode !== 'dark' ? get().colorPrimary : get().colorPaper,
+      get().colorText,
     );
     get().switchUser(activeUser?.user || users[0]?.user || '');
   },
@@ -453,9 +323,14 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     set({ isDev });
   },
 
-  setShowAllChat: async (showAllChat: string) => {
+  setShowAllChat: (showAllChat: string) => {
     set({ showAllChat });
-    await get().setToStorage('showAllChat', showAllChat);
+
+    try {
+      window.electron.store.setItem('showAllChat', showAllChat);
+    } catch (error) {
+      console.error('Error while saving showAllChat to storage:', error);
+    }
   },
 
   toggleMode: async () => {
@@ -478,19 +353,26 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     }
 
     try {
-      withElectron((electron) =>
-        electron.ipcRenderer.setTheme(
-          newMode === 'dark' ? '#0000' : '#0029ff',
-          newMode !== 'dark' ? '#000000fc' : '#ffffff',
-        ),
+      window.electron.ipcRenderer.setTheme(
+        newMode === 'dark' ? '#0000' : '#0029ff',
+        newMode !== 'dark' ? '#000000fc' : '#ffffff',
       );
-      await get().setToStorage('mode', newMode);
-      await get().setToStorage('colorPrimary', get().colorPrimary);
-      await get().setToStorage('colorSecondary', get().colorSecondary);
-      await get().setToStorage('colorBackground', get().colorBackground);
-      await get().setToStorage('colorText', get().colorText);
-      await get().setToStorage('colorScrollBar', get().colorScrollBar);
-      await get().setToStorage('colorPaper', get().colorPaper);
+      await window.electron.store.setItem('mode', newMode);
+      await window.electron.store.setItem('colorPrimary', get().colorPrimary);
+      await window.electron.store.setItem(
+        'colorSecondary',
+        get().colorSecondary,
+      );
+      await window.electron.store.setItem(
+        'colorBackground',
+        get().colorBackground,
+      );
+      await window.electron.store.setItem('colorText', get().colorText);
+      await window.electron.store.setItem(
+        'colorScrollBar',
+        get().colorScrollBar,
+      );
+      await window.electron.store.setItem('colorPaper', get().colorPaper);
     } catch (error) {
       console.error('Error while saving mode to storage:', error);
     }
@@ -499,7 +381,12 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   toggleDiscordRPC: async () => {
     const newMode = get().enableDiscordRPC === 'true' ? 'false' : 'true';
     set({ enableDiscordRPC: newMode });
-    await get().setToStorage('enableDiscordRPC', newMode);
+
+    try {
+      await window.electron.store.setItem('enableDiscordRPC', newMode);
+    } catch (error) {
+      console.error('Error while saving enableDiscordRPC to storage:', error);
+    }
   },
 
   setIp: async (ip: string) => {
@@ -509,7 +396,11 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       ip,
     });
 
-    await get().setToStorage('ip', ip);
+    try {
+      await window.electron.store.setItem('ip', ip);
+    } catch (error) {
+      console.error('Error while saving ip to storage:', error);
+    }
   },
 
   setIsDownloading: async (isDownloading: boolean) => {
@@ -518,27 +409,51 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
 
   setExePath: async (exePath: string) => {
     set({ exePath });
-    await get().setToStorage('exePath', exePath);
+
+    try {
+      await window.electron.store.setItem('exePath', exePath);
+    } catch (error) {
+      console.error('Error while saving exePath to storage:', error);
+    }
   },
 
   setFolderPath: async (folderPath: string) => {
     set({ folderPath });
-    await get().setToStorage('folderPath', folderPath);
+
+    try {
+      await window.electron.store.setItem('folderPath', folderPath);
+    } catch (error) {
+      console.error('Error while saving folderPath to storage:', error);
+    }
   },
 
   setTicketEnabled: async (ticketEnabled: string) => {
     set({ ticketEnabled });
-    await get().setToStorage('ticketEnabled', ticketEnabled);
+
+    try {
+      await window.electron.store.setItem('ticketEnabled', ticketEnabled);
+    } catch (error) {
+      console.error('Error while saving ticketEnabled to storage:', error);
+    }
   },
 
-  setNoLogEnabled: async (noLogEnabled: string) => {
+  setNoLogEnabled: async (noLogEnabled) => {
     set({ noLogEnabled });
-    await get().setToStorage('noLogEnabled', noLogEnabled);
+    try {
+      await window.electron.store.setItem('noLogEnabled', noLogEnabled);
+    } catch (error) {
+      console.error('Error while saving noLogEnabled to storage:', error);
+    }
   },
 
   setGamePort: async (gamePort: string) => {
     set({ gamePort });
-    await get().setToStorage('gamePort', gamePort);
+
+    try {
+      await window.electron.store.setItem('gamePort', gamePort);
+    } catch (error) {
+      console.error('Error while saving gamePort to storage:', error);
+    }
   },
 
   setAuthenticatedUsers: async (
@@ -553,10 +468,15 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       { user, token, handle, banner },
     ];
     set({ authenticatedUsers: updatedAuthenticatedUsers });
-    await get().setToStorage(
-      'authenticatedUsers',
-      JSON.stringify(updatedAuthenticatedUsers),
-    );
+
+    try {
+      await window.electron.store.setItem(
+        'authenticatedUsers',
+        JSON.stringify(updatedAuthenticatedUsers),
+      );
+    } catch (error) {
+      console.error('Error while saving authenticatedUsers to storage:', error);
+    }
   },
 
   updateAuthenticatedUsers: async (
@@ -577,10 +497,18 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
         },
       );
       set({ authenticatedUsers: updatedAuthenticatedUsers });
-      await get().setToStorage(
-        'authenticatedUsers',
-        JSON.stringify(updatedAuthenticatedUsers),
-      );
+
+      try {
+        await window.electron.store.setItem(
+          'authenticatedUsers',
+          JSON.stringify(updatedAuthenticatedUsers),
+        );
+      } catch (error) {
+        console.error(
+          'Error while saving authenticatedUsers to storage:',
+          error,
+        );
+      }
     }
 
     // update user
@@ -589,7 +517,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
 
   switchUser: async (user: string) => {
     if (user !== undefined && user === '') {
-      await get().removeFromStorage('activeUser');
+      await window.electron.store.removeItem('activeUser');
     }
     const currentAuthenticatedUsers = get().authenticatedUsers;
 
@@ -604,31 +532,49 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
 
       if (selectedUser) {
         set({ activeUser: selectedUser });
-        await get().setToStorage('activeUser', selectedUser);
+
+        try {
+          await window.electron.store.setItem('activeUser', selectedUser);
+        } catch (error) {
+          console.error('Error while saving activeUser to storage:', error);
+        }
       }
     }
   },
 
   setGameExpanded: async (gameExpanded: string) => {
     set({ gameExpanded });
-    await get().setToStorage('gameExpanded', gameExpanded);
+
+    try {
+      await window.electron.store.setItem('gameExpanded', gameExpanded);
+    } catch (error) {
+      console.error('Error while saving gameExpanded to storage:', error);
+    }
   },
 
   setBranch: async (branch: string) => {
     set({ branch });
-    await get().setToStorage('branch', branch);
+
+    try {
+      await window.electron.store.setItem('branch', branch);
+    } catch (error) {
+      console.error('Error while saving branch to storage:', error);
+    }
   },
 
   setSelectedArguments: async (
     selectedArguments: Record<string, string | null>,
   ) => {
     set({ selectedArguments });
-    await get().setToStorage('selectedArguments', selectedArguments);
-  },
 
-  setApiVersion: async (apiVersion: 'v1' | 'production') => {
-    set({ apiVersion });
-    await get().setToStorage('apiVersion', apiVersion);
+    try {
+      await window.electron.store.setItem(
+        'selectedArguments',
+        selectedArguments,
+      );
+    } catch (error) {
+      console.error('Error while saving selectedArguments to storage:', error);
+    }
   },
 }));
 

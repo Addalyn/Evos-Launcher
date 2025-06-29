@@ -1,11 +1,3 @@
-/**
- * @fileoverview Internationalization configuration for the Evos Launcher
- * Sets up i18next with language detection, React integration, and translation resources.
- * Supports multiple languages including English, Dutch, French, Russian, German, Spanish, Italian, Portuguese, Chinese, and Turkish.
- * @author Evos Launcher Team
- * @since 1.0.0
- */
-
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';

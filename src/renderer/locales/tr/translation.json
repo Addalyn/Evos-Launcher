@@ -155,8 +155,7 @@
     "labelPaperColor": "Kağıt Rengi",
     "labelBackgroundColor": "Arka Plan Rengi",
     "labelTextColor": "Metin Rengi",
-    "labelScrollbarColor": "Kaydırma Çubuğu Rengi",
-    "statsVersion": "İstatistik Sürümü"
+    "labelScrollbarColor": "Kaydırma Çubuğu Rengi"
   },
   "titles": {
     "-1": "",
@@ -639,30 +638,5 @@
     "Draft_NoBans@GameWideData": "Taslak (Yasaklama Yok)",
     "RankedCustom": "Taslak",
     "RankedCustom@SubTypes": "Taslak"
-  },
-  "dev": {
-    "title": "Geliştirici Dokümantasyon Merkezi",
-    "subtitle": "Evos Launcher kod tabanının tamamında JSDoc dokümantasyonunu keşfedin",
-    "refresh": "Dosya listesini yenile",
-    "selectFile": "Kaynak Dosya Seç",
-    "filterType": "Filtre Türü",
-    "allDocs": "Tüm Dokümantasyon",
-    "fileOverviews": "Dosya Genel Bakışları",
-    "functions": "Fonksiyonlar ve Metodlar",
-    "interfaces": "Arayüzler ve Türler",
-    "searchDocs": "Dokümantasyon Ara",
-    "docsFor": "Dokümantasyon:",
-    "noComments": "Bu dosyada kriterlerinizle eşleşen JSDoc yorumu bulunamadı.",
-    "fileOverview": "Dosya Genel Bakışı",
-    "file": "Dosya",
-    "function": "Fonksiyon",
-    "interface": "Arayüz",
-    "line": "Satır",
-    "author": "Yazar",
-    "since": "Tarihinden beri",
-    "parameters": "Parametreler",
-    "returns": "Döndürür",
-    "additionalTags": "Ek Etiketler",
-    "viewRaw": "Ham JSDoc Yorumunu Görüntüle"
   }
 }

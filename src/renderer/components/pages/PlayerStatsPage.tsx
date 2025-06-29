@@ -1,20 +1,5 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-props-no-spreading */
-
-/**
- * @fileoverview PlayerStatsPage component for displaying comprehensive player statistics
- *
- * This component provides a detailed view of player statistics including:
- * - Player profile information with avatar and basic stats
- * - Tabbed interface for different game maps
- * - Monthly game statistics and win rates
- * - Character-specific performance data
- * - Faction allegiance information
- *
- * @author Evos Launcher Team
- * @version 1.0.0
- */
-
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   Box,
@@ -31,34 +16,22 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { PlayerData, getPlayerData, logout } from 'renderer/lib/Evos';
 import { EvosError, processError } from 'renderer/lib/Error';
 import { useTranslation } from 'react-i18next';
-import GamesPlayedMontly from '../stats-unified/GamesPlayedMontly';
-import GamesPlayedCharacter from '../stats-unified/GamesPlayedCharacter';
-import PlayerStats from '../stats-unified/PlayerStats';
-import GamesWinsMontly from '../stats-unified/GamesWinsMontly';
+import GamesPlayedMontly from '../stats/GamesPlayedMontly';
+import GamesPlayedCharacter from '../stats/GamesPlayedCharacter';
+import PlayerStats from '../stats/PlayerStats';
+import GamesWinsMontly from '../stats/GamesWinsMontly';
 import Player from '../atlas/Player';
-import GamesPlayedStats from '../stats-unified/GamesPlayedStats';
-import PlayerWinRate from '../stats-unified/PlayerStatsWinRate';
+import GamesPlayedStats from '../stats/GamesPlayedStats';
+import PlayerWinRate from '../stats/PlayerStatsWinRate';
 import ErrorDialog from '../generic/ErrorDialog';
 import DiscordPage from './DiscordPage';
-import ApiVersionToggle from '../generic/ApiVersionToggle';
 
-/**
- * Props interface for the CustomTabPanel component
- */
 interface TabPanelProps {
-  /** The content to be displayed within the tab panel */
   children: React.ReactNode;
-  /** The index of this tab panel */
   index: number;
-  /** The currently active tab value */
   value: number;
 }
 
-/**
- * A custom tab panel component that conditionally renders content based on the active tab
- * @param props - The tab panel properties
- * @returns JSX element representing the tab panel
- */
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
@@ -80,11 +53,6 @@ function CustomTabPanel(props: TabPanelProps) {
   );
 }
 
-/**
- * Generates accessibility properties for tab elements
- * @param index - The index of the tab
- * @returns Object containing accessibility properties for the tab
- */
 function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
@@ -92,9 +60,6 @@ function a11yProps(index: number) {
   };
 }
 
-/**
- * Read-only interface extending URLSearchParams to prevent mutation operations
- */
 interface ReadOnlyURLSearchParams extends URLSearchParams {
   append: never;
   set: never;
@@ -102,58 +67,22 @@ interface ReadOnlyURLSearchParams extends URLSearchParams {
   sort: never;
 }
 
-/**
- * PlayerStatsPage component displays comprehensive player statistics including
- * games played, win rates, character stats, and faction data across different maps
- *
- * Features:
- * - Player profile display with avatar and basic info
- * - Tabbed interface for different map statistics
- * - Real-time data fetching and error handling
- * - Discord integration check
- * - Responsive design with skeleton loading states
- *
- * @returns JSX element representing the player statistics page
- */
 export default function PlayerStatsPage() {
-  /** Currently active tab index */
   const [value, setValue] = useState(0);
-
-  /** Search string for the player to display stats for */
   const [playerSearch, setPlayerSearch] = useState('');
-
-  /** Player data retrieved from the API */
   const [playerData, setPlayerData] = useState<PlayerData>();
-
-  /** Current window dimensions for responsive design */
   const { width } = useWindowDimensions();
-
-  /** Application store containing user authentication data */
-  const { activeUser, updateAuthenticatedUsers, discordId, apiVersion } =
-    EvosStore();
-
-  /** URL search parameters from the current location */
+  const { activeUser, updateAuthenticatedUsers, discordId } = EvosStore();
   const { search } = useLocation();
-
-  /** Error state for displaying error dialogs */
   const [error, setError] = useState<EvosError>();
-
-  /** React Router navigation function */
   const navigate = useNavigate();
-
-  /** Translation function for internationalization */
   const { t } = useTranslation();
 
-  /** Memoized search parameters to prevent unnecessary re-renders */
   const searchParams = useMemo(
     () => new URLSearchParams(search) as ReadOnlyURLSearchParams,
     [search],
   );
 
-  /**
-   * Effect to initialize player search based on URL parameters or active user
-   * Sets the player search to either the URL parameter or the current user's handle
-   */
   useEffect(() => {
     if (searchParams.get('player') === null) {
       setPlayerSearch(activeUser?.handle || '');
@@ -162,34 +91,18 @@ export default function PlayerStatsPage() {
     }
   }, [searchParams, activeUser]);
 
-  /** Calculated drawer width for responsive tab display */
   const drawerWidth =
     width !== null && width < 916
       ? window.innerWidth - 100
       : window.innerWidth - 300;
 
-  /**
-   * Handles tab change events
-   * @param event - The synthetic event triggered by tab change
-   * @param newValue - The index of the newly selected tab
-   */
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-
-  /**
-   * Effect to fetch player data when playerSearch changes
-   * Handles authentication, data fetching, error processing, and logout scenarios
-   */
   useEffect(() => {
     if (playerSearch === '') {
       return;
     }
-
-    /**
-     * Handles user logout when authentication fails
-     * Clears user data and redirects to login page
-     */
     const handleLogOut = () => {
       logout(activeUser?.token ?? '');
       updateAuthenticatedUsers(
@@ -201,8 +114,6 @@ export default function PlayerStatsPage() {
       );
       navigate('/login');
     };
-
-    // Fetch player data and handle response/errors
     getPlayerData(activeUser?.token ?? '', playerSearch)
       // eslint-disable-next-line promise/always-return
       .then((resp) => {
@@ -212,7 +123,6 @@ export default function PlayerStatsPage() {
       .catch((e) => processError(e, setError, navigate, handleLogOut, t));
   }, [playerSearch, activeUser, navigate, updateAuthenticatedUsers, t]);
 
-  /** Available map options for the tabbed interface */
   const mapTabs = [
     'All Maps',
     'Omni Reactor Core',
@@ -225,7 +135,6 @@ export default function PlayerStatsPage() {
     'Christmas Cloudspire',
   ];
 
-  // Early returns for specific states
   if (discordId === 0) {
     return <DiscordPage />;
   }
@@ -239,11 +148,6 @@ export default function PlayerStatsPage() {
       {error && (
         <ErrorDialog error={error} onDismiss={() => setError(undefined)} />
       )}
-
-      {/* API Version Toggle */}
-      <ApiVersionToggle />
-
-      {/* Player Information Section */}
       <Paper
         sx={{
           borderBottom: 1,
@@ -260,61 +164,28 @@ export default function PlayerStatsPage() {
             style={{ display: 'inline-block', marginLeft: '4px' }}
           />
         ) : (
-          <Player
-            info={playerData}
-            disableSkew
-            characterType={undefined}
-            titleOld=""
-          />
+          <Player info={playerData} disableSkew />
         )}
-
-        {/* Player Statistics Grid */}
         <Grid container spacing={2}>
           <Grid item xs={4}>
-            <PlayerStats
-              action="totaltakedowns"
-              player={playerSearch}
-              apiVersion={apiVersion}
-            />
+            <PlayerStats action="totaltakedowns" player={playerSearch} />
           </Grid>
           <Grid item xs={4}>
-            <PlayerStats
-              action="totaldeaths"
-              player={playerSearch}
-              apiVersion={apiVersion}
-            />
+            <PlayerStats action="totaldeaths" player={playerSearch} />
           </Grid>
           <Grid item xs={4}>
-            <PlayerStats
-              action="totaldeathblows"
-              player={playerSearch}
-              apiVersion={apiVersion}
-            />
+            <PlayerStats action="totaldeathblows" player={playerSearch} />
           </Grid>
           <Grid item xs={4}>
-            <PlayerStats
-              action="totaldamage"
-              player={playerSearch}
-              apiVersion={apiVersion}
-            />
+            <PlayerStats action="totaldamage" player={playerSearch} />
           </Grid>
           <Grid item xs={4}>
-            <PlayerStats
-              action="totalhealing"
-              player={playerSearch}
-              apiVersion={apiVersion}
-            />
+            <PlayerStats action="totalhealing" player={playerSearch} />
           </Grid>
           <Grid item xs={4}>
-            <PlayerStats
-              action="totaldamagereceived"
-              player={playerSearch}
-              apiVersion={apiVersion}
-            />
+            <PlayerStats action="totaldamagereceived" player={playerSearch} />
           </Grid>
-          <PlayerWinRate player={playerSearch} apiVersion={apiVersion} />
-
-          {/* Faction Data */}
+          <PlayerWinRate player={playerSearch} />
           <Grid item xs={4}>
             Omni:{' '}
             {!playerData ? (
@@ -353,8 +224,6 @@ export default function PlayerStatsPage() {
           </Grid>
         </Grid>
       </Paper>
-
-      {/* Map Statistics Section */}
       <Paper
         sx={{
           borderBottom: 1,
@@ -363,7 +232,6 @@ export default function PlayerStatsPage() {
           paddingBottom: '0px',
         }}
       >
-        {/* Map Tabs */}
         <Tabs
           value={value}
           onChange={handleChange}
@@ -376,52 +244,24 @@ export default function PlayerStatsPage() {
             <Tab label={t(`maps.${label}`)} key={index} {...a11yProps(index)} />
           ))}
         </Tabs>
-
-        {/* Games Played Monthly Charts */}
         {mapTabs.map((map, index) => (
           <CustomTabPanel key={index} value={value} index={index}>
-            <GamesPlayedMontly
-              key={`games-played-monthly-${map}-${apiVersion}`}
-              map={map}
-              player={playerSearch}
-              apiVersion={apiVersion}
-            />
+            <GamesPlayedMontly map={map} player={playerSearch} />
           </CustomTabPanel>
         ))}
-
-        {/* Games Wins Monthly Charts */}
         {mapTabs.map((map, index) => (
           <CustomTabPanel key={index} value={value} index={index}>
-            <GamesWinsMontly
-              key={`games-wins-monthly-${map}-${apiVersion}`}
-              map={map}
-              player={playerSearch}
-              apiVersion={apiVersion}
-            />
+            <GamesWinsMontly map={map} player={playerSearch} />
           </CustomTabPanel>
         ))}
-
-        {/* Games Played by Character Charts */}
         {mapTabs.map((map, index) => (
           <CustomTabPanel key={index} value={value} index={index}>
-            <GamesPlayedCharacter
-              key={`games-played-character-${map}-${apiVersion}`}
-              map={map}
-              player={playerSearch}
-              apiVersion={apiVersion}
-            />
+            <GamesPlayedCharacter map={map} player={playerSearch} />
           </CustomTabPanel>
         ))}
-
-        {/* Games Played Statistics */}
         {mapTabs.map((map, index) => (
           <CustomTabPanel key={index} value={value} index={index}>
-            <GamesPlayedStats
-              key={`games-played-stats-${map}-${apiVersion}`}
-              map={map}
-              player={playerSearch}
-              apiVersion={apiVersion}
-            />
+            <GamesPlayedStats map={map} player={playerSearch} />
           </CustomTabPanel>
         ))}
       </Paper>

@@ -1,40 +1,7 @@
-/**
- * @fileoverview API client and game logic for the Evos Launcher
- * Provides functions for user authentication, player data retrieval, game server communication,
- * and various game-related operations like ticket validation and player statistics.
- * @author Evos Launcher Team
- * @since 1.0.0
- */
-
 import axios from 'axios';
 import { strapiClient } from './strapi';
 import EvosStore from './EvosStore';
-import { withElectron } from '../utils/electronUtils';
 
-/**
- * Helper function to get IP from either Electron storage or EvosStore
- */
-const getIp = async (): Promise<string> => {
-  try {
-    const electronIp = await withElectron(
-      (electron) => electron.store.getItem('ip'),
-      null,
-    );
-    return electronIp || EvosStore.getState().ip || '';
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.warn('Failed to get IP from storage, using fallback:', error);
-    return EvosStore.getState().ip || '';
-  }
-};
-
-/**
- * Response interface for login API calls
- * @interface LoginResponse
- * @property {string} handle - User's display name/handle
- * @property {string} token - Authentication token
- * @property {number} banner - User's banner/avatar ID
- */
 export interface LoginResponse {
   handle: string;
   token: string;
@@ -270,7 +237,7 @@ export async function login(
   username: string,
   password: string,
 ) {
-  const ip = await getIp();
+  const ip = await window.electron.store.getItem('ip');
   const baseUrl = `https://${ip}`;
 
   return axios.post<LoginResponse>(
@@ -286,7 +253,7 @@ export async function registerAccount(
   password: string,
   code: string,
 ) {
-  const ip = await getIp();
+  const ip = await window.electron.store.getItem('ip');
   const baseUrl = `https://${ip}`;
 
   return axios.post<LoginResponse>(
@@ -297,7 +264,7 @@ export async function registerAccount(
 }
 
 export async function logout(authHeader: string) {
-  const ip = await getIp();
+  const ip = await window.electron.store.getItem('ip');
   const baseUrl = `https://${ip}`;
   return axios.get<Status>(`${baseUrl}/api/logout`, {
     headers: { Authorization: `bearer ${authHeader}` },
@@ -305,7 +272,7 @@ export async function logout(authHeader: string) {
 }
 
 export async function changePassword(authHeader: string, password: string) {
-  const ip = await getIp();
+  const ip = await window.electron.store.getItem('ip');
   const baseUrl = `https://${ip}`;
   return axios.put(
     `${baseUrl}/api/account/changePassword`,
@@ -319,13 +286,13 @@ export async function changePassword(authHeader: string, password: string) {
 }
 
 export async function getStatus() {
-  const ip = await getIp();
+  const ip = await window.electron.store.getItem('ip');
   const baseUrl = `https://${ip}`;
   return axios.get<Status>(`${baseUrl}/api/lobby/status`);
 }
 
 export async function getMotd(language: string) {
-  const ip = await getIp();
+  const ip = await window.electron.store.getItem('ip');
   const baseUrl = `https://${ip}`;
 
   try {
@@ -340,7 +307,7 @@ export async function getMotd(language: string) {
 }
 
 export async function getNotification(language: string) {
-  const ip = await getIp();
+  const ip = await window.electron.store.getItem('ip');
   const baseUrl = `https://${ip}`;
   try {
     return await axios.get<TextNotification>(
@@ -354,7 +321,7 @@ export async function getNotification(language: string) {
 }
 
 export async function getTicket(authHeader: string) {
-  const ip = await getIp();
+  const ip = await window.electron.store.getItem('ip');
   const baseUrl = `https://${ip}`;
   return axios.get<Status>(`${baseUrl}/api/ticket`, {
     headers: { Authorization: `bearer ${authHeader}` },
@@ -362,7 +329,7 @@ export async function getTicket(authHeader: string) {
 }
 
 export async function getPlayerData(authHeader: string, queryParams: string) {
-  const ip = await getIp();
+  const ip = await window.electron.store.getItem('ip');
   const baseUrl = `https://${ip}`;
   return axios.get<PlayerData>(
     `${baseUrl}/api/lobby/playerInfo?handle=${queryParams}`,
@@ -404,7 +371,7 @@ export async function fetchGameInfo(action: string, signal?: AbortSignal) {
 
 export async function getPlayerInfo(authHeader: string) {
   if (authHeader === '') return null;
-  const ip = await getIp();
+  const ip = await window.electron.store.getItem('ip');
   const baseUrl = `https://${ip}`;
   return axios.get<AccountData>(`${baseUrl}/api/account/me`, {
     headers: { Authorization: `bearer ${authHeader}` },
