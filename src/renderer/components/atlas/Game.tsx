@@ -16,7 +16,7 @@ import {
   useTheme,
   Theme,
 } from '@mui/material';
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
 import { trackEvent } from '@aptabase/electron/renderer';
@@ -99,27 +99,22 @@ interface TeamRowProps {
  */
 const TeamRow = React.forwardRef<HTMLDivElement, TeamRowProps>(
   ({ info, isTeamA, playerData, status }, ref) => {
-    const keyCounterRef = useRef(0);
-
     return (
       <TeamFlexBox ref={ref} flexGrow={1} flexShrink={1} flexBasis="auto">
-        {info.map((player) => {
-          keyCounterRef.current += 1;
-          return (
-            <CharacterIcon
-              key={`teamrow_${isTeamA ? 'A' : 'B'}_${player.accountId}_${keyCounterRef.current}`}
-              characterType={
-                status !== 'Assembling'
-                  ? player.characterType
-                  : CharacterType.None
-              }
-              data={playerData.get(player.accountId)}
-              isTeamA={isTeamA}
-              rightSkew={false}
-              noTooltip={false}
-            />
-          );
-        })}
+        {info.map((player) => (
+          <CharacterIcon
+            key={`teamrow_${isTeamA ? 'A' : 'B'}_${player.accountId}`}
+            characterType={
+              status !== 'Assembling'
+                ? player.characterType
+                : CharacterType.None
+            }
+            data={playerData.get(player.accountId)}
+            isTeamA={isTeamA}
+            rightSkew={false}
+            noTooltip={false}
+          />
+        ))}
       </TeamFlexBox>
     );
   },
@@ -135,36 +130,31 @@ const TeamRow = React.forwardRef<HTMLDivElement, TeamRowProps>(
  * @returns A Stack containing team caption and player details
  */
 function Team({ caption, info, isTeamA, playerData, status }: TeamProps) {
-  const keyCounterRef = useRef(0);
-
   return (
     <Stack>
       {caption && <Typography variant="h5">{caption}</Typography>}
-      {info.map((p) => {
-        keyCounterRef.current += 1;
-        return (
-          <Stack
-            key={`teamdetail_${isTeamA ? 'A' : 'B'}_player_${p.accountId}_${keyCounterRef.current}`}
-            direction={isTeamA ? 'row' : 'row-reverse'}
-          >
-            <Player
-              info={playerData.get(p.accountId)}
-              disableSkew={false}
-              characterType={p.characterType}
-              titleOld=""
-            />
-            <CharacterIcon
-              characterType={
-                status !== 'Assembling' ? p.characterType : CharacterType.None
-              }
-              data={playerData.get(p.accountId)}
-              isTeamA={isTeamA}
-              rightSkew
-              noTooltip
-            />
-          </Stack>
-        );
-      })}
+      {info.map((p) => (
+        <Stack
+          key={`teamdetail_${isTeamA ? 'A' : 'B'}_player_${p.accountId}`}
+          direction={isTeamA ? 'row' : 'row-reverse'}
+        >
+          <Player
+            info={playerData.get(p.accountId)}
+            disableSkew={false}
+            characterType={p.characterType}
+            titleOld=""
+          />
+          <CharacterIcon
+            characterType={
+              status !== 'Assembling' ? p.characterType : CharacterType.None
+            }
+            data={playerData.get(p.accountId)}
+            isTeamA={isTeamA}
+            rightSkew
+            noTooltip
+          />
+        </Stack>
+      ))}
     </Stack>
   );
 }
