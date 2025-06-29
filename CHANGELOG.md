@@ -2,6 +2,10 @@
 
 ## [3.0.0] - 2025-06-29
 
+-- **Test Release**: This is a test release for internal review and testing purposes. to see if our update system still works properly.
+
+## [3.0.0] - 2025-06-29
+
 ### Major Refactoring & Code Organization
 
 - **Main Process Architecture Restructure**
