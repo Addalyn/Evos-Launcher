@@ -1,6 +1,12 @@
 # Evos Launcher Changelog
 
-## [3.0.0] - 2025-06-29
+## [3.0.2] - 2025-06-30
+
+### Improvements
+
+- **Update System**: Improved reliability of the in-app update mechanism and error handling for update failures
+
+## [3.0.1] - 2025-06-29
 
 -- **Test Release**: This is a test release for internal review and testing purposes. to see if our update system still works properly.
 
