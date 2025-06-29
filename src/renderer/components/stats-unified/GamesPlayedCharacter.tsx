@@ -142,7 +142,7 @@ const fetchInfo = async (
   }
 };
 
-export default function GamesPlayedCharacter({
+function GamesPlayedCharacter({
   map,
   player,
   apiVersion = 'production',
@@ -206,3 +206,12 @@ export default function GamesPlayedCharacter({
 
   return <Bar options={options} data={data} height={300} />;
 }
+
+// Set defaultProps for apiVersion to avoid react/require-default-props warning
+// This must be after the function definition
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+GamesPlayedCharacter.defaultProps = {
+  apiVersion: 'production',
+};
+export default GamesPlayedCharacter;
