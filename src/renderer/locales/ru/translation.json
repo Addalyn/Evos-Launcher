@@ -291,7 +291,8 @@
     "labelPaperColor": "Цвет Бумаги",
     "labelBackgroundColor": "Цвет Фона",
     "labelTextColor": "Цвет Текста",
-    "labelScrollbarColor": "Цвет Полосы Прокрутки"
+    "labelScrollbarColor": "Цвет Полосы Прокрутки",
+    "statsVersion": "Версия Статистики"
   },
   "maps": {
     "map": "Карта",
@@ -625,5 +626,30 @@
     "Draft_NoBans@GameWideData": "Драфт (без банов)",
     "RankedCustom": "Драфт",
     "RankedCustom@SubTypes": "Драфт"
+  },
+  "dev": {
+    "title": "Центр Документации Разработчика",
+    "subtitle": "Изучите JSDoc документацию всей кодовой базы Evos Launcher",
+    "refresh": "Обновить список файлов",
+    "selectFile": "Выбрать Исходный Файл",
+    "filterType": "Тип Фильтра",
+    "allDocs": "Вся Документация",
+    "fileOverviews": "Обзоры Файлов",
+    "functions": "Функции и Методы",
+    "interfaces": "Интерфейсы и Типы",
+    "searchDocs": "Поиск в Документации",
+    "docsFor": "Документация для",
+    "noComments": "В этом файле не найдено комментариев JSDoc, соответствующих вашим критериям.",
+    "fileOverview": "Обзор Файла",
+    "file": "Файл",
+    "function": "Функция",
+    "interface": "Интерфейс",
+    "line": "Строка",
+    "author": "Автор",
+    "since": "С",
+    "parameters": "Параметры",
+    "returns": "Возвращает",
+    "additionalTags": "Дополнительные Теги",
+    "viewRaw": "Просмотр Исходного JSDoc Комментария"
   }
 }

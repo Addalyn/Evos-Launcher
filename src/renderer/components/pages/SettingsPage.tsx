@@ -14,6 +14,7 @@ import {
   MenuItem,
   Paper,
   Select,
+  SelectChangeEvent,
   Skeleton,
   Switch,
   TextField,
@@ -33,18 +34,30 @@ import EvosStore from 'renderer/lib/EvosStore';
 import Flag from 'react-flagkit';
 import { logoSmall } from 'renderer/lib/Resources';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { trackEvent } from '@aptabase/electron/renderer';
 import { MuiColorInput } from 'mui-color-input';
+import { withElectron } from 'renderer/utils/electronUtils';
 
+/**
+ * Interface for language configuration
+ */
 interface Language {
+  /** Native name of the language */
   nativeName: string;
+  /** Country code icon for the language */
   icon: string;
 }
 
+/**
+ * Type for selected command line arguments
+ */
 type SelectedArguments = Record<string, string | null>;
 
+/**
+ * Language configuration mapping country codes to language information
+ */
 const lngs: { [key: string]: Language } = {
   en: { nativeName: 'English', icon: 'US' },
   nl: { nativeName: 'Nederlands', icon: 'NL' },
@@ -58,28 +71,52 @@ const lngs: { [key: string]: Language } = {
   tr: { nativeName: 'Türkçe', icon: 'TR' },
 };
 
-export function truncateDynamicPath(filePath: string, maxChars: number) {
-  if (filePath === '') return filePath;
-  const parts = filePath.split('\\');
-  const fileName = parts.pop() as string;
-  const driveLetter = parts.shift() as string;
+/**
+ * Truncates a file path to fit within a specified character limit while preserving
+ * the drive letter, filename, and maintaining readability with ellipsis for middle sections
+ * @param filePath - The full file path to truncate (can be null, undefined, or empty)
+ * @param maxChars - Maximum number of characters allowed
+ * @returns Truncated file path string
+ */
+export function truncateDynamicPath(
+  filePath: string | null | undefined,
+  maxChars: number,
+): string {
+  if (!filePath || filePath === '' || typeof filePath !== 'string') return '';
 
-  let truncatedPath = `${driveLetter}`;
-  let currentChars = driveLetter.length + 1 + fileName.length;
+  try {
+    const parts = filePath.split('\\');
+    const fileName = parts.pop();
+    const driveLetter = parts.shift();
 
-  parts.reduce((acc, part) => {
-    if (currentChars + part.length + 1 <= maxChars) {
-      truncatedPath = `${acc}\\${part}`;
-      currentChars += part.length + 1;
-    } else if (!truncatedPath.endsWith('\\.....')) {
-      truncatedPath += '\\.....';
-    }
-    return truncatedPath;
-  }, driveLetter);
+    // Additional safety checks
+    if (!fileName || !driveLetter) return filePath;
 
-  return `${truncatedPath}\\${fileName}`;
+    let truncatedPath = `${driveLetter}`;
+    let currentChars = driveLetter.length + 1 + fileName.length;
+
+    parts.reduce((acc, part) => {
+      if (currentChars + part.length + 1 <= maxChars) {
+        truncatedPath = `${acc}\\${part}`;
+        currentChars += part.length + 1;
+      } else if (!truncatedPath.endsWith('\\.....')) {
+        truncatedPath += '\\.....';
+      }
+      return truncatedPath;
+    }, driveLetter);
+
+    return `${truncatedPath}\\${fileName}`;
+  } catch (error) {
+    // If any error occurs during path processing, return empty string
+    return '';
+  }
 }
 
+/**
+ * SettingsPage component provides a comprehensive settings interface for the EVOS Launcher
+ * including theme customization, game configuration, server selection, and account management
+ * @returns React functional component for the settings page
+ */
 export default function SettingsPage() {
   const {
     ip,
@@ -122,17 +159,31 @@ export default function SettingsPage() {
     setColorPaper,
   } = EvosStore();
 
+  /** Password input for password change */
   const [password, setPassword] = useState('');
+  /** Password confirmation input for password change */
   const [password1, setPassword1] = useState('');
+  /** Error message state for form validation */
   const [error, setError] = useState('');
+  /** Search result message state */
+  const [searchMessage, setSearchMessage] = useState<{
+    type: 'success' | 'error' | null;
+    text: string;
+  }>({ type: null, text: '' });
+  /** React Router navigation hook */
   const navigate = useNavigate();
+  /** i18n translation hook */
   const { t, i18n } = useTranslation();
+  /** Available branches data from the API */
   const [branchesData, setBranchesData] = useState<Branches>();
 
-  // Your state and updater function
+  /** Temporary state for selected arguments before applying changes */
   const [selectedArgumentsTemp, setSelectedArgumentsTemp] =
     useState<SelectedArguments>({});
 
+  /**
+   * Effect hook to fetch branches data and set default arguments when component mounts or branch changes
+   */
   useEffect(() => {
     const getBranchesInfo = async () => {
       const response = await getBranches();
@@ -161,6 +212,9 @@ export default function SettingsPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [branch, setBranchesData, setSelectedArguments]);
 
+  /**
+   * Signs out the current user and navigates to login page
+   */
   const signOut = () => {
     logout(activeUser?.token ?? '');
     updateAuthenticatedUsers(
@@ -173,8 +227,15 @@ export default function SettingsPage() {
     navigate('/login');
   };
 
+  /**
+   * Handles file selection for game executable or config file
+   * @param config - Whether this is for config file (true) or game executable (false)
+   */
   const handleSelectFileClick = async (config: boolean) => {
-    const filePath = await window.electron.ipcRenderer.getSelectedFile(config);
+    const filePath = await withElectron(
+      (electron) => electron.ipcRenderer.getSelectedFile(config),
+      null,
+    );
     if (config) {
       updateAuthenticatedUsers(
         activeUser?.user as string,
@@ -189,48 +250,103 @@ export default function SettingsPage() {
     if (branchesData && filePath) {
       setLocked(true);
       setTimeout(() => {
-        window.electron.ipcRenderer.updateBranch(branchesData[branch]);
+        withElectron((electron) =>
+          electron.ipcRenderer.updateBranch(branchesData[branch]),
+        );
       }, 1000);
     }
   };
 
+  /**
+   * Searches for the game installation automatically (typically via Steam)
+   */
   const handleSearch = async () => {
-    const filePath = await window.electron.ipcRenderer.searchForGame();
-    if (filePath === null) {
-      return;
-    }
-    setExePath(filePath || '');
-    if (branchesData && filePath) {
-      setLocked(true);
+    // Clear previous search messages
+    setSearchMessage({ type: null, text: '' });
+
+    try {
+      const filePath = await withElectron(
+        (electron) => electron.ipcRenderer.searchForGame(),
+        null,
+      );
+
+      if (filePath === null) {
+        // Search completed but no game found
+        setSearchMessage({
+          type: 'error',
+          text: t(
+            'settings.gameNotFound',
+            'Game not found. Please select manually or ensure Atlas Reactor is installed via Steam.',
+          ),
+        });
+        return;
+      }
+
+      // Game found successfully - path validation will automatically clear any errors
+      setExePath(filePath || '');
+      setSearchMessage({
+        type: 'success',
+        text: t('settings.gameFoundSuccess', 'Game found successfully!'),
+      });
+
+      // Auto-hide success message after 3 seconds
       setTimeout(() => {
-        window.electron.ipcRenderer.updateBranch(branchesData[branch]);
-      }, 1000);
+        setSearchMessage({ type: null, text: '' });
+      }, 3000);
+
+      if (branchesData && filePath) {
+        setLocked(true);
+        setTimeout(() => {
+          withElectron((electron) =>
+            electron.ipcRenderer.updateBranch(branchesData[branch]),
+          );
+        }, 1000);
+      }
+    } catch (searchError) {
+      // Error handling for search operation
+      setSearchMessage({
+        type: 'error',
+        text: t(
+          'settings.searchError',
+          'An error occurred while searching for the game.',
+        ),
+      });
     }
   };
 
+  /**
+   * Resets the entire application by clearing all stored data and logging out all users
+   */
   const handleResetClick = () => {
     authenticatedUsers.forEach(async (user) => {
       await logout(user.token);
     });
-    window.electron.store.clear();
+    withElectron((electron) => electron.store.clear());
     setTimeout(() => {
       navigate('/login');
       window.location.reload();
     }, 500);
   };
 
+  /**
+   * Deletes all user accounts from storage
+   */
   const handleDeleteClick = () => {
     authenticatedUsers.forEach(async (user) => {
       await logout(user.token);
     });
-    window.electron.store.removeItem('authenticatedUsers');
+    withElectron((electron) => electron.store.removeItem('authenticatedUsers'));
     setTimeout(() => {
-      window.electron.store.removeItem('activeUser');
+      withElectron((electron) => electron.store.removeItem('activeUser'));
       navigate('/login');
       window.location.reload();
     }, 500);
   };
 
+  /**
+   * Handles password reset form submission with validation
+   * @param event - Form submit event
+   */
   const handlePasswordResetClick = async (event: {
     preventDefault: () => void;
   }) => {
@@ -265,13 +381,23 @@ export default function SettingsPage() {
     }
   };
 
-  const handleChange = (event: { target: { value: any } }) => {
+  /**
+   * Handles server IP selection change
+   * @param event - Select change event
+   */
+  const handleChange = (event: SelectChangeEvent<string>) => {
     const selectedValue = event.target.value;
     setIp(selectedValue);
     signOut();
   };
 
-  const handleChangeBranch = (event: { target: { value: any } }) => {
+  /**
+   * Handles branch selection change
+   * @param event - TextField change event for select variant
+   */
+  const handleChangeBranch = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const selectedValue = event.target.value;
     trackEvent('Branch', {
       branch: selectedValue,
@@ -279,28 +405,48 @@ export default function SettingsPage() {
     setBranch(selectedValue);
     setLocked(true);
     if (branchesData) {
-      window.electron.ipcRenderer.updateBranch(branchesData[selectedValue]);
+      withElectron((electron) =>
+        electron.ipcRenderer.updateBranch(branchesData[selectedValue]),
+      );
     }
   };
 
+  /**
+   * Refreshes the current branch data and updates the branch files
+   */
   const handleRefresh = () => {
     if (branchesData) {
       setLocked(true);
-      window.electron.ipcRenderer.updateBranch(branchesData[branch]);
+      withElectron((electron) =>
+        electron.ipcRenderer.updateBranch(branchesData[branch]),
+      );
     }
   };
+
+  /**
+   * Sets the show all chat option and communicates with the main process
+   * @param value - String value ('true' or 'false')
+   */
   const setShowAllChatInternal = (value: string) => {
     setShowAllChat(value);
-    window.electron.ipcRenderer.setShowAllChat(value);
+    withElectron((electron) => electron.ipcRenderer.setShowAllChat(value));
   };
 
+  /**
+   * Toggles Discord Rich Presence functionality
+   */
   const toggleDiscord = () => {
     if (enableDiscordRPC) {
-      window.electron.ipcRenderer.stopDiscord();
+      withElectron((electron) => electron.ipcRenderer.stopDiscord());
     }
     toggleDiscordRPC();
   };
 
+  /**
+   * Handles command line argument changes for the selected branch
+   * @param key - The argument key
+   * @param value - The argument value
+   */
   const handleArgumentChange = (key: string, value: string) => {
     trackEvent('Arguments', {
       [key]: `${activeUser?.handle}: ${value}`,
@@ -311,26 +457,53 @@ export default function SettingsPage() {
     }));
   };
 
+  /**
+   * Effect hook to sync temporary selected arguments with the global state
+   */
   useEffect(() => {
     setSelectedArguments(selectedArgumentsTemp);
   }, [selectedArgumentsTemp, setSelectedArguments]);
 
+  /**
+   * Handles primary color change
+   * @param sitecolor - The new primary color value
+   */
   const handleChangeColorPrimary = (sitecolor: string) => {
     setColorPrimary(sitecolor);
   };
+  /**
+   * Handles secondary color change
+   * @param sitecolor - The new secondary color value
+   */
   const handleChangeColorSecondary = (sitecolor: string) => {
     setColorSecondary(sitecolor);
   };
+  /**
+   * Handles background color change
+   * @param sitecolor - The new background color value
+   */
   const handleChangeColorBackground = (sitecolor: string) => {
     setColorBackground(sitecolor);
   };
+  /**
+   * Handles text color change
+   * @param sitecolor - The new text color value
+   */
   const handleChangeColorText = (sitecolor: string) => {
     setColorText(sitecolor);
   };
+  /**
+   * Handles scrollbar color change
+   * @param sitecolor - The new scrollbar color value
+   */
   const handleChangeColorScrollBar = (sitecolor: string) => {
     setColorScrollBar(sitecolor);
   };
 
+  /**
+   * Handles paper color change
+   * @param sitecolor - The new paper color value
+   */
   const handleChangeColorPaper = (sitecolor: string) => {
     setColorPaper(sitecolor);
   };
@@ -540,6 +713,16 @@ export default function SettingsPage() {
       )}
       <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
         <Grid container spacing={2} alignItems="center">
+          {searchMessage.type && (
+            <Grid item xs={12}>
+              <Alert
+                severity={searchMessage.type}
+                sx={{ display: 'flex', alignItems: 'center', mb: 2 }}
+              >
+                {searchMessage.text}
+              </Alert>
+            </Grid>
+          )}
           {!isValidExePath(exePath) && (
             <Grid item xs={12}>
               <Alert
@@ -720,114 +903,93 @@ export default function SettingsPage() {
             </Grid>
             <Grid item xs={12}>
               {branch &&
-                // @ts-ignore
                 branchesData &&
-                // @ts-ignore
                 branchesData[branch] !== undefined &&
-                // @ts-ignore
                 branchesData[branch]?.arguments !== undefined &&
-                // @ts-ignore
                 Array.isArray(branchesData[branch]?.arguments) &&
-                // @ts-ignore
                 branchesData[branch]?.arguments.length > 0 &&
                 branchesData[branch].text}
             </Grid>
             <Grid item xs={12}>
               {branch &&
-                // @ts-ignore
                 branchesData &&
-                // @ts-ignore
                 branchesData[branch] !== undefined &&
-                // @ts-ignore
                 branchesData[branch]?.arguments !== undefined &&
-                // @ts-ignore
                 Array.isArray(branchesData[branch]?.arguments) &&
-                // @ts-ignore
                 branchesData[branch]?.arguments.length > 0 && (
                   <div>
-                    {
-                      // @ts-ignore
-                      (branchesData[branch]?.arguments.some(
-                        (arg) => !arg.showOnlyDev,
-                      ) ||
-                        isDev) && (
-                        <>
-                          <span
-                            style={{
-                              fontSize: '0.8em',
-                              marginBottom: '0.5em',
-                              display: 'block',
-                            }}
-                          >
-                            {t('settings.arguments')}:
-                          </span>
-                          {
-                            // @ts-ignore
-                            branchesData[branch].arguments.map((arg) => {
-                              if (arg.showOnlyDev && !isDev) {
-                                return null;
-                              }
-                              return (
-                                <TextField
-                                  key={arg.key}
-                                  select
-                                  label={`${arg.key}`}
-                                  value={
-                                    selectedArguments[arg.key] ??
-                                    arg.defaultValue ??
-                                    ''
-                                  }
-                                  onChange={(e) =>
-                                    handleArgumentChange(
-                                      arg.key,
-                                      e.target.value as string,
-                                    )
-                                  }
-                                  helperText={`${arg.description}`}
-                                  fullWidth
-                                  margin="normal"
-                                >
-                                  {arg.value.map((value) => (
-                                    <MenuItem key={value} value={value}>
-                                      {value}
-                                    </MenuItem>
-                                  ))}
-                                </TextField>
-                              );
-                            })
+                    {(branchesData[branch]?.arguments.some(
+                      (arg) => !arg.showOnlyDev,
+                    ) ||
+                      isDev) && (
+                      <>
+                        <span
+                          style={{
+                            fontSize: '0.8em',
+                            marginBottom: '0.5em',
+                            display: 'block',
+                          }}
+                        >
+                          {t('settings.arguments')}:
+                        </span>
+                        {branchesData[branch].arguments.map((arg) => {
+                          if (arg.showOnlyDev && !isDev) {
+                            return null;
                           }
-                        </>
-                      )
-                    }
+                          return (
+                            <TextField
+                              key={arg.key}
+                              select
+                              label={`${arg.key}`}
+                              value={
+                                selectedArguments[arg.key] ??
+                                arg.defaultValue ??
+                                ''
+                              }
+                              onChange={(e) =>
+                                handleArgumentChange(
+                                  arg.key,
+                                  e.target.value as string,
+                                )
+                              }
+                              helperText={`${arg.description}`}
+                              fullWidth
+                              margin="normal"
+                            >
+                              {arg.value.map((value) => (
+                                <MenuItem key={value} value={value}>
+                                  {value}
+                                </MenuItem>
+                              ))}
+                            </TextField>
+                          );
+                        })}
+                      </>
+                    )}
                   </div>
                 )}
             </Grid>
             <Grid item xs={12}>
-              {branch &&
-                // @ts-ignore
-                branchesData &&
-                // @ts-ignore
-                branchesData[branch]?.files && (
-                  <Accordion>
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      aria-controls="files-content"
-                      id="files-header"
-                    >
-                      <Typography>{t('Downloaded')}</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <ul>
-                        {// @ts-ignore
-                        branchesData[branch]?.files.map((file) => (
-                          <li key={file.path}>
-                            {file.path}: {file.checksum}
-                          </li>
-                        ))}
-                      </ul>
-                    </AccordionDetails>
-                  </Accordion>
-                )}
+              {branch && branchesData && branchesData[branch]?.files && (
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="files-content"
+                    id="files-header"
+                  >
+                    <Typography>{t('Downloaded')}</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <ul>
+                      {branchesData[branch]?.files.map((file) => (
+                        <li key={file.path}>
+                          {file.path}: {file.checksum}
+                        </li>
+                      ))}
+                    </ul>
+                  </AccordionDetails>
+                </Accordion>
+              )}
             </Grid>
           </Grid>
         </Paper>

@@ -154,7 +154,8 @@
     "labelPaperColor": "纸张颜色",
     "labelBackgroundColor": "背景颜色",
     "labelTextColor": "文字颜色",
-    "labelScrollbarColor": "滚动条颜色"
+    "labelScrollbarColor": "滚动条颜色",
+    "statsVersion": "统计版本"
   },
   "titles": {
     "-1": "",
@@ -637,5 +638,30 @@
     "Draft_NoBans@GameWideData": "选秀（无禁用）",
     "RankedCustom": "选秀",
     "RankedCustom@SubTypes": "选秀"
+  },
+  "dev": {
+    "title": "开发者文档中心",
+    "subtitle": "探索整个 Evos Launcher 代码库的 JSDoc 文档",
+    "refresh": "刷新文件列表",
+    "selectFile": "选择源文件",
+    "filterType": "过滤器类型",
+    "allDocs": "所有文档",
+    "fileOverviews": "文件概览",
+    "functions": "函数和方法",
+    "interfaces": "接口和类型",
+    "searchDocs": "搜索文档",
+    "docsFor": "文档：",
+    "noComments": "在此文件中未找到符合您条件的 JSDoc 注释。",
+    "fileOverview": "文件概览",
+    "file": "文件",
+    "function": "函数",
+    "interface": "接口",
+    "line": "行",
+    "author": "作者",
+    "since": "始于",
+    "parameters": "参数",
+    "returns": "返回",
+    "additionalTags": "附加标签",
+    "viewRaw": "查看原始 JSDoc 注释"
   }
 }

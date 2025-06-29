@@ -32,7 +32,7 @@ const configuration: webpack.Configuration = {
     preload: path.join(webpackPaths.srcMainPath, 'preload.ts'),
     downloadWorker: path.join(
       webpackPaths.srcMainPath,
-      'download/downloadWorker.js'
+      'download/downloadWorker.js',
     ),
   },
 

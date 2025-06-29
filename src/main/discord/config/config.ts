@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Discord OAuth configuration management
+ * Handles Discord application credentials, guild validation settings, and OAuth configuration.
+ * Fetches secrets from remote server and manages authentication parameters.
+ * @author Evos Launcher Team
+ * @since 1.0.0
+ */
+
 /* eslint-disable import/no-mutable-exports */
 /* eslint-disable camelcase */
 import OAuthConfig from '../models/OAuthConfig';
