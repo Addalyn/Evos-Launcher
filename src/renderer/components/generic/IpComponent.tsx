@@ -1,4 +1,12 @@
-import React, { useState } from 'react'; // Import useState
+/**
+ * @fileoverview IpComponent for selecting and configuring server IP addresses.
+ * This component provides a user interface for selecting between different EVOS server
+ * endpoints including the main server and various proxy servers. It handles IP selection
+ * state management and integrates with the global EvosStore for persistence.
+ */
+
+import React, { useState } from 'react';
+import type { SelectChangeEvent } from '@mui/material';
 import {
   Box,
   Button,
@@ -10,31 +18,76 @@ import {
 import EvosStore from 'renderer/lib/EvosStore';
 import { useTranslation } from 'react-i18next';
 
-function IpComponent() {
+/**
+ * Type definition for available server IP options
+ */
+type ServerIpOption =
+  | 'evos-emu.com'
+  | 'de.evos.live'
+  | 'fr.evos.live'
+  | 'fi.evos.live'
+  | 'ru.ar.zheneq.net';
+
+/**
+ * IpComponent for selecting and configuring server IP addresses.
+ *
+ * This component provides a user interface for selecting between different EVOS server
+ * endpoints. Users can choose from the main server or various proxy servers located
+ * in different regions. The selected IP is stored in the global EvosStore.
+ *
+ * Available server options:
+ * - evos-emu.com: Main server (no proxy)
+ * - de.evos.live: German proxy server
+ * - fr.evos.live: French proxy server
+ * - fi.evos.live: Finnish proxy server
+ * - ru.ar.zheneq.net: Russian proxy server
+ *
+ * @component
+ * @returns {React.ReactElement} The IP selection component
+ *
+ * @example
+ * ```tsx
+ * <IpComponent />
+ * ```
+ */
+function IpComponent(): React.ReactElement {
+  /** EvosStore hook for accessing IP setter function */
   const { setIp } = EvosStore();
-  const [selectedIp, setSelectedIp] = useState('evos-emu.com'); // Initialize the state
+
+  /** State for tracking the currently selected IP address */
+  const [selectedIp, setSelectedIp] = useState<ServerIpOption>('evos-emu.com');
+
+  /** Translation hook for internationalization */
   const { t } = useTranslation();
 
-  const onSubmit = () => {
-    setIp(selectedIp); // Use the selectedIp state
+  /**
+   * Handles form submission and updates the global IP setting
+   * @function onSubmit
+   */
+  const onSubmit = (): void => {
+    setIp(selectedIp);
   };
 
-  const handleSelectChange = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setSelectedIp(event.target.value); // Update the selectedIp state
+  /**
+   * Handles IP selection change from the dropdown
+   * @param {SelectChangeEvent<string>} event - The select change event
+   */
+  const handleSelectChange = (event: SelectChangeEvent<string>): void => {
+    setSelectedIp(event.target.value as ServerIpOption);
   };
 
   return (
     <>
+      {/* Component title */}
       <Typography component="h1" variant="h5">
         {t('selectIp')}
       </Typography>
+
+      {/* IP selection form */}
       <Box component="form" onSubmit={onSubmit} noValidate sx={{ mt: 1 }}>
+        {/* Server IP dropdown selection */}
         <FormControl fullWidth>
           <Select value={selectedIp} onChange={handleSelectChange}>
-            {' '}
-            {/* Set value and onChange */}
             <MenuItem value="evos-emu.com">{t('ips.noProxy')}</MenuItem>
             <MenuItem value="de.evos.live">{t('ips.proxy1')}</MenuItem>
             <MenuItem value="fr.evos.live">{t('ips.proxy2')}</MenuItem>
@@ -42,6 +95,8 @@ function IpComponent() {
             <MenuItem value="ru.ar.zheneq.net">{t('ips.proxy4')}</MenuItem>
           </Select>
         </FormControl>
+
+        {/* Submit button */}
         <Button
           type="submit"
           fullWidth
