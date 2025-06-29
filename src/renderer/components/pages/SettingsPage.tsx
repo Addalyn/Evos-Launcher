@@ -908,7 +908,7 @@ export default function SettingsPage() {
                 branchesData[branch]?.arguments !== undefined &&
                 Array.isArray(branchesData[branch]?.arguments) &&
                 branchesData[branch]?.arguments.length > 0 &&
-                branchesData[branch].text}
+                branchesData[branch]?.text}
             </Grid>
             <Grid item xs={12}>
               {branch &&
@@ -918,7 +918,7 @@ export default function SettingsPage() {
                 Array.isArray(branchesData[branch]?.arguments) &&
                 branchesData[branch]?.arguments.length > 0 && (
                   <div>
-                    {(branchesData[branch]?.arguments.some(
+                    {(branchesData[branch]?.arguments?.some(
                       (arg) => !arg.showOnlyDev,
                     ) ||
                       isDev) && (
@@ -932,7 +932,7 @@ export default function SettingsPage() {
                         >
                           {t('settings.arguments')}:
                         </span>
-                        {branchesData[branch].arguments.map((arg) => {
+                        {branchesData[branch]?.arguments?.map((arg) => {
                           if (arg.showOnlyDev && !isDev) {
                             return null;
                           }
