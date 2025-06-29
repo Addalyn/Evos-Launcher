@@ -1,11 +1,3 @@
-/**
- * @fileoverview Resource management utilities for game assets and character data
- * Provides functions for loading character information, mod data, ability mappings, and asset paths.
- * Manages the conversion between internal names and display names for UI presentation.
- * @author Evos Launcher Team
- * @since 1.0.0
- */
-
 import { CharacterType, MapType } from './Evos';
 
 import mods from './Mods.json';

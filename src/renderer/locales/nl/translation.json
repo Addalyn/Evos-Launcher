@@ -304,8 +304,7 @@
     "labelPaperColor": "Papierkleur",
     "labelBackgroundColor": "Achtergrondkleur",
     "labelTextColor": "Tekstkleur",
-    "labelScrollbarColor": "Scrollbalkkleur",
-    "statsVersion": "Statistieken Versie"
+    "labelScrollbarColor": "Scrollbalkkleur"
   },
   "maps": {
     "map": "Map",
@@ -638,30 +637,5 @@
     "Draft_NoBans@GameWideData": "Draft (Geen Verbanningen)",
     "RankedCustom": "Draft",
     "RankedCustom@SubTypes": "Draft"
-  },
-  "dev": {
-    "title": "Ontwikkelaar Documentatiecentrum",
-    "subtitle": "Verken JSDoc documentatie van de hele Evos Launcher codebase",
-    "refresh": "Bestandslijst verversen",
-    "selectFile": "Selecteer Bronbestand",
-    "filterType": "Filtertype",
-    "allDocs": "Alle Documentatie",
-    "fileOverviews": "Bestandsoverzichten",
-    "functions": "Functies & Methoden",
-    "interfaces": "Interfaces & Types",
-    "searchDocs": "Zoek Documentatie",
-    "docsFor": "Documentatie voor",
-    "noComments": "Geen JSDoc opmerkingen gevonden in dit bestand die voldoen aan uw criteria.",
-    "fileOverview": "Bestandsoverzicht",
-    "file": "Bestand",
-    "function": "Functie",
-    "interface": "Interface",
-    "line": "Lijn",
-    "author": "Auteur",
-    "since": "Sinds",
-    "parameters": "Parameters",
-    "returns": "Geeft terug",
-    "additionalTags": "Aanvullende Tags",
-    "viewRaw": "Bekijk Ruwe JSDoc Opmerking"
   }
 }

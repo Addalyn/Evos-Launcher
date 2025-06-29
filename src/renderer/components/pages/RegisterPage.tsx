@@ -10,29 +10,12 @@ import { Paper, Alert, AlertTitle } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import EvosStore from 'renderer/lib/EvosStore';
+import EvosStore, { AuthUser } from 'renderer/lib/EvosStore';
 import { registerAccount } from 'renderer/lib/Evos';
 import { EvosError, processError } from 'renderer/lib/Error';
 import { useTranslation } from 'react-i18next';
-import { withElectron } from 'renderer/utils/electronUtils';
 
-/**
- * RegisterPage component provides a user registration form with validation.
- *
- * Features:
- * - Form validation using Zod schema and React Hook Form
- * - User registration with username, password, confirm password, and code fields
- * - Error handling and display
- * - Navigation between login and register pages
- * - Application reset functionality
- * - Multi-language support via i18n
- *
- * @returns The registration page component
- */
 export default function RegisterPage() {
-  /**
-   * Destructured state and actions from the Evos store
-   */
   const {
     setIp,
     setAuthenticatedUsers,
@@ -41,36 +24,17 @@ export default function RegisterPage() {
     updateAuthenticatedUsers,
   } = EvosStore();
 
-  /**
-   * React Router navigation hook
-   */
   const navigate = useNavigate();
-
-  /**
-   * Error state for displaying registration errors
-   */
   const [error, setError] = useState<EvosError>();
-
-  /**
-   * Translation hook for internationalization
-   */
   const { t } = useTranslation();
 
-  /**
-   * Zod validation schema for the registration form
-   * Validates username, password, confirmPassword, and code fields
-   */
   const validationSchema = z
     .object({
-      /** Username must be at least 2 characters long */
       username: z.string().min(2, { message: t('errors.username2Char') }),
-      /** Password must be at least 5 characters long */
       password: z.string().min(5, { message: t('errors.errorPass') }),
-      /** Confirm password must be at least 5 characters long */
       confirmPassword: z
         .string()
         .min(5, { message: t('errors.errorConfirmPass') }),
-      /** Code must be a valid UUID format */
       code: z
         .string()
         .regex(
@@ -83,14 +47,8 @@ export default function RegisterPage() {
       message: t('errors.errorPassMatch'),
     });
 
-  /**
-   * TypeScript type inferred from the Zod validation schema
-   */
   type ValidationSchema = z.infer<typeof validationSchema>;
 
-  /**
-   * React Hook Form setup with Zod resolver for validation
-   */
   const {
     register,
     handleSubmit,
@@ -99,17 +57,9 @@ export default function RegisterPage() {
     resolver: zodResolver(validationSchema),
   });
 
-  /**
-   * Form submission handler for user registration
-   *
-   * @param data - The validated form data containing username, password, and code
-   * @returns Promise<void | (() => void)> - Returns cleanup function for abort controller
-   */
-
   const onSubmit: SubmitHandler<ValidationSchema> = async (data) => {
     const { username, password, code } = data;
 
-    // Early return if any required fields are missing (shouldn't happen due to validation)
     if (!username || !password || !code) {
       return;
     }
@@ -119,17 +69,16 @@ export default function RegisterPage() {
     registerAccount(abort, username, password, code) // Send username instead of user as username can be any capitalization
       // eslint-disable-next-line promise/always-return
       .then((resp) => {
-        const existingUser = authenticatedUsers.find(
-          (u) => u.user === username,
-        );
-
-        if (existingUser) {
+        if (authenticatedUsers.find((u) => u.user === username)) {
+          const authenticatedUser = authenticatedUsers.find(
+            (u) => u.user === username,
+          ) as AuthUser;
           updateAuthenticatedUsers(
-            existingUser.user,
+            authenticatedUser.user,
             resp.data.token,
             resp.data.handle,
             resp.data.banner,
-            existingUser.configFile,
+            authenticatedUser.configFile,
           );
         } else {
           setAuthenticatedUsers(
@@ -144,9 +93,10 @@ export default function RegisterPage() {
         navigate('/');
         return null;
       })
-      .catch((registrationError: unknown) => {
+      // eslint-disable-next-line @typescript-eslint/no-shadow
+      .catch((error) => {
         processError(
-          registrationError,
+          error,
           setError,
           () => setError({ text: t('errors.invalidUserOrPass') }),
           () => {},
@@ -158,17 +108,12 @@ export default function RegisterPage() {
     return () => abort.abort();
   };
 
-  /**
-   * Handles the application reset functionality
-   * Clears IP, error state, and electron store data
-   */
   const handleResetClick = () => {
     setIp('');
     setError(undefined);
-    withElectron((electron) => electron.store.clear());
+    window.electron.store.clear();
   };
 
-  // Render the registration form with Material-UI components
   return (
     <Paper
       elevation={3}

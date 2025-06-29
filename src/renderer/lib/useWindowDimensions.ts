@@ -1,17 +1,5 @@
-/**
- * @fileoverview Custom React hook for tracking window dimensions
- * Provides real-time window width and height information with automatic updates on resize.
- * Handles SSR compatibility by checking for window availability.
- * @author Evos Launcher Team
- * @since 1.0.0
- */
-
 import { useEffect, useState } from 'react';
 
-/**
- * Custom hook that provides current window dimensions
- * @returns Object containing current window width and height, updates on resize
- */
 export default function useWindowDimensions() {
   const hasWindow = typeof window !== 'undefined';
 

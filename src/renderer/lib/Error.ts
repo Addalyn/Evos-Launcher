@@ -1,30 +1,8 @@
-/**
- * @fileoverview Error handling utilities for the Evos Launcher
- * Provides standardized error processing and user-friendly error message handling.
- * Manages authentication errors, navigation, and internationalized error messages.
- * @author Evos Launcher Team
- * @since 1.0.0
- */
-
-/**
- * Interface for standardized error objects
- * @interface EvosError
- * @property {string} text - Main error message text
- * @property {string} [description] - Optional detailed error description
- */
 export interface EvosError {
   text: string;
   description?: string;
 }
 
-/**
- * Processes and handles various types of errors with appropriate user feedback
- * @param error - The error object to process
- * @param setError - Function to set error state in the UI
- * @param navigate - Navigation function for routing
- * @param signOut - Function to sign out the user
- * @param t - Translation function for internationalized messages
- */
 export function processError(
   error: any,
   setError: (e: EvosError) => void,

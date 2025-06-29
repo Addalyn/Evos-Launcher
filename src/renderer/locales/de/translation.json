@@ -155,8 +155,7 @@
     "labelPaperColor": "Papierfarbe",
     "labelBackgroundColor": "Hintergrundfarbe",
     "labelTextColor": "Textfarbe",
-    "labelScrollbarColor": "Scrollleistenfarbe",
-    "statsVersion": "Statistik-Version"
+    "labelScrollbarColor": "Scrollleistenfarbe"
   },
   "titles": {
     "-1": "",
@@ -639,30 +638,5 @@
     "Draft_NoBans@GameWideData": "Draft (Keine Banns)",
     "RankedCustom": "Draft",
     "RankedCustom@SubTypes": "Draft"
-  },
-  "dev": {
-    "title": "Entwickler-Dokumentationszentrum",
-    "subtitle": "Erkunden Sie JSDoc-Dokumentation der gesamten Evos Launcher-Codebasis",
-    "refresh": "Dateiliste aktualisieren",
-    "selectFile": "Quelldatei auswählen",
-    "filterType": "Filtertyp",
-    "allDocs": "Alle Dokumentation",
-    "fileOverviews": "Dateiübersichten",
-    "functions": "Funktionen & Methoden",
-    "interfaces": "Schnittstellen & Typen",
-    "searchDocs": "Dokumentation durchsuchen",
-    "docsFor": "Dokumentation für",
-    "noComments": "Keine JSDoc-Kommentare in dieser Datei gefunden, die Ihren Kriterien entsprechen.",
-    "fileOverview": "Dateiübersicht",
-    "file": "Datei",
-    "function": "Funktion",
-    "interface": "Schnittstelle",
-    "line": "Zeile",
-    "author": "Autor",
-    "since": "Seit",
-    "parameters": "Parameter",
-    "returns": "Rückgabe",
-    "additionalTags": "Zusätzliche Tags",
-    "viewRaw": "Raw JSDoc-Kommentar anzeigen"
   }
 }
