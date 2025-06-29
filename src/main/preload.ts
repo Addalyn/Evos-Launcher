@@ -1,8 +1,28 @@
+/**
+ * @fileoverview Preload script that creates a secure bridge between the main process and renderer
+ * Exposes safe APIs to the renderer process while maintaining security isolation.
+ * Handles IPC communication, file operations, Discord integration, and authentication.
+ * @author Evos Launcher Team
+ * @since 1.0.0
+ */
+
 /* eslint-disable no-promise-executor-return */
 /* eslint-disable consistent-return */
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 import { AuthUser } from 'renderer/lib/EvosStore';
 
+/**
+ * Discord Rich Presence status interface
+ * @interface discordStatus
+ * @property {string} [details] - Primary status text
+ * @property {string} [state] - Secondary status text
+ * @property {Array} [buttons] - Interactive buttons with label and URL
+ * @property {Date} [startTimestamp] - Start time for elapsed time display
+ * @property {string} [largeImageKey] - Large image asset key
+ * @property {string} [largeImageText] - Large image hover text
+ * @property {string} [smallImageKey] - Small image asset key
+ * @property {string} [smallImageText] - Small image hover text
+ */
 interface discordStatus {
   details?: string;
   state?: string;
@@ -17,6 +37,15 @@ interface discordStatus {
   smallImageText?: string;
 }
 
+/**
+ * Game branch configuration interface
+ * @interface branch
+ * @property {string} path - File system path to the branch
+ * @property {string} text - Display text for the branch
+ * @property {boolean} enabled - Whether the branch is currently enabled
+ * @property {boolean} devOnly - Whether this branch is for development only
+ * @property {Array} files - Array of files with path and checksum information
+ */
 interface branch {
   path: string;
   text: string;
@@ -59,7 +88,9 @@ export type Channels =
   | 'link-account'
   | 'linkedDiscord'
   | 'start-discord-rpc'
-  | 'set-discord-rpc-status';
+  | 'set-discord-rpc-status'
+  | 'get-source-files'
+  | 'read-file-content';
 
 let storeStatus = '' as discordStatus;
 
@@ -71,6 +102,9 @@ const electronHandler = {
     },
     sendTranslate(channel: Channels, message: string) {
       ipcRenderer.invoke(channel, message);
+    },
+    invoke(channel: string, ...args: any[]) {
+      return ipcRenderer.invoke(channel, ...args);
     },
     on(channel: Channels, func: (...args: unknown[]) => void) {
       const subscription = (_event: IpcRendererEvent, ...args: unknown[]) =>
@@ -166,6 +200,12 @@ const electronHandler = {
     },
     cancelDownloadBranch() {
       ipcRenderer.invoke('cancelDownload');
+    },
+    getSourceFiles() {
+      return ipcRenderer.invoke('get-source-files');
+    },
+    readFileContent(filePath: string) {
+      return ipcRenderer.invoke('read-file-content', filePath);
     },
   },
   store: {

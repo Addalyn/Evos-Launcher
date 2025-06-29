@@ -10,20 +10,46 @@ import { Paper, Alert, AlertTitle } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import EvosStore, { AuthUser } from 'renderer/lib/EvosStore';
+import EvosStore from 'renderer/lib/EvosStore';
 import { login } from 'renderer/lib/Evos';
 import { EvosError, processError } from 'renderer/lib/Error';
 import { useTranslation } from 'react-i18next';
+import { withElectron } from 'renderer/utils/electronUtils';
 
+/**
+ * Form data structure for user authentication
+ */
+type ValidationSchemaUser = {
+  username: string;
+  password: string;
+};
+
+/**
+ * AddAccount component for handling user authentication and account management.
+ * Allows users to add new accounts, login with existing credentials, and manage
+ * authenticated users in the application.
+ *
+ * Features:
+ * - User authentication with username/password
+ * - Form validation using zod and react-hook-form
+ * - Error handling and display
+ * - Account switching after successful login
+ * - App reset functionality
+ * - Navigation to registration page
+ *
+ * @returns The AddAccount page component
+ */
 export default function AddAccount() {
   const { t } = useTranslation();
 
+  /**
+   * Validation schema for user authentication form
+   * Ensures username is at least 4 characters and password is required
+   */
   const validationSchemaUser = z.object({
     username: z.string().min(4, { message: t('errors.username2Char') }),
     password: z.string().min(1, { message: t('errors.passwordRequired') }),
   });
-
-  type ValidationSchemaUser = z.infer<typeof validationSchemaUser>;
 
   const {
     setIp,
@@ -33,9 +59,13 @@ export default function AddAccount() {
     updateAuthenticatedUsers,
   } = EvosStore();
 
+  /** Navigation hook for routing */
   const navigate = useNavigate();
+
+  /** Error state for displaying authentication and validation errors */
   const [error, setError] = useState<EvosError>();
 
+  /** Form management with validation using react-hook-form and zod */
   const {
     register,
     handleSubmit,
@@ -44,9 +74,15 @@ export default function AddAccount() {
     resolver: zodResolver(validationSchemaUser),
   });
 
-  const onSubmit: SubmitHandler<ValidationSchemaUser> = async (data) => {
+  /**
+   * Handles user authentication and account management
+   *
+   * @param data - Form data containing username and password
+   */
+  const onSubmit: SubmitHandler<ValidationSchemaUser> = (data) => {
     const { username, password } = data;
 
+    // Early return if required fields are missing
     if (!username || !password) {
       return;
     }
@@ -54,20 +90,22 @@ export default function AddAccount() {
     const abort = new AbortController();
 
     login(abort, username, password)
-      // eslint-disable-next-line promise/always-return
       .then((resp) => {
-        if (authenticatedUsers.find((u) => u.user === username)) {
-          const authenticatedUser = authenticatedUsers.find(
-            (u) => u.user === username,
-          ) as AuthUser;
+        const existingUser = authenticatedUsers.find(
+          (u) => u.user === username,
+        );
+
+        if (existingUser) {
+          // Update existing user with new authentication data
           updateAuthenticatedUsers(
-            authenticatedUser.user,
+            existingUser.user,
             resp.data.token,
             resp.data.handle,
             resp.data.banner,
-            authenticatedUser.configFile,
+            existingUser.configFile,
           );
         } else {
+          // Add new authenticated user
           setAuthenticatedUsers(
             username,
             resp.data.token,
@@ -75,43 +113,57 @@ export default function AddAccount() {
             resp.data.banner,
           );
         }
+
+        // Clear any previous errors and navigate to home
         setError(undefined);
         navigate('/');
         switchUser(username);
-        return null;
+
+        return true; // Indicate successful login
       })
-      // eslint-disable-next-line @typescript-eslint/no-shadow
-      .catch((error) => {
+      .catch((loginError) => {
         processError(
-          error,
+          loginError,
           setError,
           () => setError({ text: t('errors.invalidUserOrPass') }),
           () => {},
           t,
         );
       });
-
-    // eslint-disable-next-line consistent-return
-    return () => abort.abort();
   };
 
+  /**
+   * Handles the reset application functionality
+   * Clears IP settings, errors, and electron store data
+   */
   const handleResetClick = () => {
     setIp('');
     setError(undefined);
-    window.electron.store.clear();
+    withElectron((electron) => electron.store.clear());
+  };
+
+  /**
+   * Handles navigation to the registration page
+   */
+  const handleRegisterClick = () => {
+    navigate('/register');
   };
 
   return (
     <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
+      {/* Page Title */}
       <Typography component="h1" variant="h5">
         {t('addAccount')}
       </Typography>
+
+      {/* Authentication Form */}
       <Box
         component="form"
         onSubmit={handleSubmit(onSubmit)}
         noValidate
         sx={{ mt: 1 }}
       >
+        {/* Username Input Field */}
         <TextField
           margin="normal"
           required
@@ -125,6 +177,8 @@ export default function AddAccount() {
         {errors.username && (
           <Alert severity="warning">{errors.username?.message}</Alert>
         )}
+
+        {/* Password Input Field */}
         <TextField
           margin="normal"
           required
@@ -137,12 +191,16 @@ export default function AddAccount() {
         {errors.password && (
           <Alert severity="warning">{errors.password?.message}</Alert>
         )}
+
+        {/* Error Display */}
         {error && (
           <Alert severity="error">
             <AlertTitle>Error</AlertTitle>
             {error.text}
           </Alert>
         )}
+
+        {/* Submit Button */}
         <Button
           type="submit"
           fullWidth
@@ -155,6 +213,8 @@ export default function AddAccount() {
         >
           {t('addAccountAndSwitch')}
         </Button>
+
+        {/* Action Buttons Grid */}
         <Grid container spacing={2}>
           <Grid item xs={9}>
             <Button
@@ -169,7 +229,7 @@ export default function AddAccount() {
           </Grid>
           <Grid item xs={3}>
             <Button
-              onClick={() => navigate('/register')}
+              onClick={handleRegisterClick}
               sx={{
                 textDecoration: 'none',
                 color: 'grey',

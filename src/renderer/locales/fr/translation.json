@@ -304,7 +304,8 @@
     "labelPaperColor": "Couleur du Papier",
     "labelBackgroundColor": "Couleur de Fond",
     "labelTextColor": "Couleur du Texte",
-    "labelScrollbarColor": "Couleur de la Barre de Défilement"
+    "labelScrollbarColor": "Couleur de la Barre de Défilement",
+    "statsVersion": "Version des Statistiques"
   },
   "maps": {
     "map": "Map",
@@ -637,5 +638,30 @@
     "Draft_NoBans@GameWideData": "Draft (Sans Bannissements)",
     "RankedCustom": "Draft",
     "RankedCustom@SubTypes": "Draft"
+  },
+  "dev": {
+    "title": "Centre de Documentation Développeur",
+    "subtitle": "Explorez la documentation JSDoc de toute la base de code d'Evos Launcher",
+    "refresh": "Actualiser la liste des fichiers",
+    "selectFile": "Sélectionner le Fichier Source",
+    "filterType": "Type de Filtre",
+    "allDocs": "Toute la Documentation",
+    "fileOverviews": "Aperçus des Fichiers",
+    "functions": "Fonctions et Méthodes",
+    "interfaces": "Interfaces et Types",
+    "searchDocs": "Rechercher dans la Documentation",
+    "docsFor": "Documentation pour",
+    "noComments": "Aucun commentaire JSDoc trouvé dans ce fichier correspondant à vos critères.",
+    "fileOverview": "Aperçu du Fichier",
+    "file": "Fichier",
+    "function": "Fonction",
+    "interface": "Interface",
+    "line": "Ligne",
+    "author": "Auteur",
+    "since": "Depuis",
+    "parameters": "Paramètres",
+    "returns": "Retourne",
+    "additionalTags": "Tags Additionnels",
+    "viewRaw": "Voir le Commentaire JSDoc Brut"
   }
 }

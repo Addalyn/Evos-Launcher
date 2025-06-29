@@ -1,48 +1,97 @@
-/* eslint-disable import/order */
+/**
+ * @fileoverview Player Component for displaying detailed player information with custom styling and banners.
+ *
+ * This component renders player profiles with custom banners, special role styling (MVP, Developer, etc.),
+ * faction ribbons, mentor icons, and dynamic titles. Supports skewed transforms, interactive navigation
+ * to player statistics, and rich text formatting for player titles.
+ */
+
+import { useEffect, useState } from 'react';
+import { ButtonBase, Typography, styled, useTheme, Theme } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   BannerType,
   mentorIcon,
   playerBanner,
   trustIcon,
 } from '../../lib/Resources';
-import { ButtonBase, Typography, styled, useTheme } from '@mui/material';
 import {
   PlayerData,
   denydNames,
   getBanners,
   getSpecialNames,
 } from '../../lib/Evos';
-/* eslint-disable react/require-default-props */
-/* eslint-disable react/jsx-no-useless-fragment */
-import { useEffect, useState } from 'react';
-
 import { BgImage } from '../generic/BasicComponents';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { strapiClient } from 'renderer/lib/strapi';
 
+/**
+ * Extended theme interface with custom transform and team palette properties
+ */
+interface ExtendedTheme extends Theme {
+  transform: {
+    skewA: string;
+    skewB: string;
+  };
+  palette: Theme['palette'] & {
+    teamA: {
+      main: string;
+      dark: string;
+    };
+    teamB: {
+      main: string;
+      dark: string;
+    };
+  };
+}
+
+/**
+ * Props for the Player component
+ */
 interface Props {
-  info?: PlayerData;
-  disableSkew?: boolean;
-  characterType?: string;
-  titleOld?: string;
+  /** Player data containing handle, status, and game information */
+  info: PlayerData | undefined;
+  /** Whether to disable skew transformation */
+  disableSkew: boolean;
+  /** Character type being played */
+  characterType: string | undefined;
+  /** Legacy title parameter */
+  titleOld: string;
 }
 
+/**
+ * Interface for special player names categorized by type
+ */
 interface SpecialNames {
+  /** Tournament winners */
   TournamentWinners: string[];
+  /** Development team members */
   Developers: string[];
+  /** MVP players */
   MVP: string[];
+  /** Nitro subscribers */
   Nitro: string[];
+  /** Special recognition players */
   Special: string[];
-  Mentor: String[];
+  /** Mentor players */
+  Mentor: string[];
 }
 
+/**
+ * Interface for custom banner data from API
+ */
 interface BannersQuery {
+  /** Unique identifier */
   id: number;
+  /** Player handle/username */
   handle: string;
+  /** Banner image URL */
   banner: string;
 }
 
+/**
+ * Styled wrapper for text overlays on player banners
+ */
 const ImageTextWrapper = styled('span')(({ theme }) => ({
   position: 'absolute',
   left: '28%',
@@ -54,14 +103,29 @@ const ImageTextWrapper = styled('span')(({ theme }) => ({
     '1px 1px 2px black, -1px -1px 2px black, 1px -1px 2px black, -1px 1px 2px black',
 }));
 
+/**
+ * Interface for title data items from the API
+ */
 interface DataItem {
+  /** Unique identifier */
   id: number;
+  /** Player handle/username */
   handle: string;
+  /** Player title text */
   title: string;
 }
 
+/**
+ * Cache for storing fetched title data with expiry
+ */
 const titleCache = new Map<string, { data: DataItem[]; expiry: number }>();
 
+/**
+ * Fetches player title data from the API with caching
+ *
+ * @param playerName - The player's handle to fetch titles for
+ * @returns Promise resolving to array of title data items
+ */
 async function fetchTitle(playerName: string): Promise<DataItem[]> {
   const cacheKey = playerName.toLowerCase(); // Normalize case for consistency
   const cached = titleCache.get(cacheKey);
@@ -99,6 +163,12 @@ async function fetchTitle(playerName: string): Promise<DataItem[]> {
   }
 }
 
+/**
+ * Lightens a color for better visibility in UI elements
+ *
+ * @param color - Color name to lighten
+ * @returns RGB color string with lighter variant
+ */
 function lightenColor(color: string): string {
   const colorMap: Record<string, string> = {
     red: 'rgb(255, 150, 150)',
@@ -112,6 +182,12 @@ function lightenColor(color: string): string {
   return colorMap[color.toLowerCase()] || color; // Default to original if not in map
 }
 
+/**
+ * Converts Unity rich text markup to HTML for web display
+ *
+ * @param unityText - Unity rich text string with markup tags
+ * @returns HTML string with equivalent styling
+ */
 function convertUnityRichTextToHTML(unityText: string): string {
   return unityText
     .replace(/<size=\d+>|<\/size>|<sprite=\d+>/g, '') // Remove size and sprite tags
@@ -120,19 +196,41 @@ function convertUnityRichTextToHTML(unityText: string): string {
     });
 }
 
-function Player({ info, disableSkew, characterType, titleOld }: Props) {
+/**
+ * Player Component
+ *
+ * Displays a player's information including their handle, title, character type,
+ * special styling based on player status (MVP, Developer, etc.), and custom banners.
+ * Supports navigation to player statistics when clicked.
+ *
+ * @param props - Player component props
+ * @returns A styled player display with banner, text overlays, and interactive elements
+ */
+function Player({
+  info = undefined,
+  disableSkew = false,
+  characterType = undefined,
+  titleOld = '',
+}: Props) {
   const { t } = useTranslation();
   const [specialNames, setSpecialNames] = useState<SpecialNames>();
   const [customBanner, setCustomBanner] = useState<BannersQuery[]>();
   const [title, setTitle] = useState<string>(titleOld || '');
 
+  // Parse username and discriminator from handle
   let username = t('offline');
-  let discriminator;
+  let discriminator: string | undefined;
   if (info) {
     [username, discriminator] = info.handle.split('#', 2);
   }
+
   const navigate = useNavigate();
-  const handleClick = () => {
+
+  /**
+   * Handles click events on the player component
+   * Navigates to player statistics if valid player data exists
+   */
+  const handleClick = (): void => {
     if (!info) {
       return;
     }
@@ -141,8 +239,9 @@ function Player({ info, disableSkew, characterType, titleOld }: Props) {
     }
   };
 
-  const theme = useTheme();
+  const theme = useTheme() as ExtendedTheme;
 
+  // Load special names and custom banners on component mount
   useEffect(() => {
     getSpecialNames()
       .then((response) => {
@@ -150,7 +249,7 @@ function Player({ info, disableSkew, characterType, titleOld }: Props) {
         return response;
       })
       .catch(() => {
-        // noting
+        // Silent error handling for special names
       });
     getBanners()
       .then((response) => {
@@ -158,7 +257,7 @@ function Player({ info, disableSkew, characterType, titleOld }: Props) {
         return response;
       })
       .catch(() => {
-        // noting
+        // Silent error handling for banners
       });
     if (t('offline') !== username) {
       fetchTitle(username)
@@ -228,16 +327,14 @@ function Player({ info, disableSkew, characterType, titleOld }: Props) {
           width: 240,
           height: 52,
           fontSize: '8px',
-          // @ts-ignore
-          transform: disableSkew ?? theme.transform.skewA,
+          transform: disableSkew ? 'none' : theme.transform.skewA,
           overflow: 'hidden',
           border: '2px solid black',
         }}
       >
         <div
           style={{
-            // @ts-ignore
-            transform: disableSkew ?? theme.transform.skewB,
+            transform: disableSkew ? 'none' : theme.transform.skewB,
             width: '106%',
             height: '100%',
             flex: 'none',
@@ -292,8 +389,7 @@ function Player({ info, disableSkew, characterType, titleOld }: Props) {
                   zIndex: 1000,
                   flex: 'none',
                   margin: '-5px -3px -8px -5px',
-                  // @ts-ignore
-                  transform: disableSkew ?? theme.transform.skewA, // Fix the border property
+                  transform: disableSkew ? 'none' : theme.transform.skewA,
                 }}
                 src={mentorIcon()}
                 alt="Avatar"
@@ -340,8 +436,7 @@ function Player({ info, disableSkew, characterType, titleOld }: Props) {
                     if (mentor) {
                       return t(`titles.mentor`);
                     }
-                    // @ts-ignore
-                    return t(`titles.${info?.status}`);
+                    return t(`titles.${String(info.status)}`);
                   }
 
                   if (info?.status === '') {
@@ -351,8 +446,14 @@ function Player({ info, disableSkew, characterType, titleOld }: Props) {
                     return '';
                   }
 
-                  // eslint-disable-next-line no-nested-ternary
-                  return `${mentor && developer ? `${t('titles.mentorDev')}/` : mentor ? `${t('titles.mentor')}/` : ''}${t(`${info?.status}`)}`;
+                  let mentorPrefix = '';
+                  if (mentor && developer) {
+                    mentorPrefix = `${t('titles.mentorDev')}/`;
+                  } else if (mentor) {
+                    mentorPrefix = `${t('titles.mentor')}/`;
+                  }
+
+                  return `${mentorPrefix}${t(`${info?.status}`)}`;
                 })(),
               }}
             />
@@ -401,9 +502,8 @@ function Player({ info, disableSkew, characterType, titleOld }: Props) {
                     zIndex: 1000,
                     flex: 'none',
                     backgroundColor: bcolor,
-                    // @ts-ignore
-                    transform: disableSkew ?? theme.transform.skewA,
-                    border: `1px solid ${tcolor}`, // Fix the border property
+                    transform: disableSkew ? 'none' : theme.transform.skewA,
+                    border: `1px solid ${tcolor}`,
                   }}
                   alt="Avatar"
                   src={trustIcon(faction)}
