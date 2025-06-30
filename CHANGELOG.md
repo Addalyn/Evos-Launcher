@@ -1,5 +1,11 @@
 # Evos Launcher Changelog
 
+# [3.0.4] - 2025-06-30
+
+## Features & Improvements
+
+- Updated text colors in Queue and Server components to use MUI text color for better readability and customization through settings.
+
 # [3.0.3] - 2025-06-30
 
 ## Features & Improvements
