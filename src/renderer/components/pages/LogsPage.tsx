@@ -1,13 +1,17 @@
 /* eslint-disable consistent-return */
 /* eslint-disable react/no-array-index-key */
 import React, { useEffect, useState } from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { Paper } from '@mui/material';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Paper,
+} from '@mui/material';
+import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 import EvosStore from 'renderer/lib/EvosStore';
 import { useTranslation } from 'react-i18next';
 import { withElectron } from 'renderer/utils/electronUtils';
@@ -286,30 +290,14 @@ function LogsPage(): React.JSX.Element {
     return color;
   }
 
-  // Transform log data into rows for the DataGrid with color styling
-  const coloredRows: LogFileRow[] = logData.reduce((acc, folder) => {
-    const folderRows = folder.files.map((file): LogFileRow => {
-      const colorStyle: React.CSSProperties = {
-        backgroundColor: calculateColorIntensity(file.lastModified),
-      };
-
-      return {
-        ...file,
-        id: file.fullPath,
-        colorStyle,
-        sizeInKB: (file.size || 0) / 1024,
-      };
-    });
-
-    return acc.concat(folderRows);
-  }, [] as LogFileRow[]);
-
   // Define columns for the DataGrid
   const columns: GridColDef<LogFileRow>[] = [
     {
       field: 'name',
       headerName: t('logs.logName'),
       flex: 1,
+      maxWidth: 400,
+      minWidth: 300,
     },
     {
       field: 'lastModified',
@@ -320,7 +308,9 @@ function LogsPage(): React.JSX.Element {
         return lastModified ? new Date(lastModified).toLocaleString() : '';
       },
       renderCell: (params) => (
-        <div style={{ ...params.row.colorStyle, padding: '8px' }}>
+        <div
+          style={{ ...params.row.colorStyle, padding: '8px', minWidth: 200 }}
+        >
           {params.row.lastModified.toLocaleString()}
         </div>
       ),
@@ -354,27 +344,53 @@ function LogsPage(): React.JSX.Element {
     },
   ];
 
+  const filteredRows = logData.reduce((acc, folder) => {
+    const folderRows = folder.files.map((file): LogFileRow => {
+      const colorStyle: React.CSSProperties = {
+        backgroundColor: calculateColorIntensity(file.lastModified),
+      };
+
+      return {
+        ...file,
+        id: file.fullPath,
+        colorStyle,
+        sizeInKB: (file.size || 0) / 1024,
+      };
+    });
+
+    return acc.concat(folderRows);
+  }, [] as LogFileRow[]);
+
   // Render the logs page with DataGrid and dialog components
   return (
-    <Paper elevation={3} style={{ margin: '1em', width: '95%' }}>
-      <DataGrid
-        rows={coloredRows}
-        columns={columns}
-        initialState={{
-          pagination: { paginationModel: { pageSize: 10 } },
-        }}
-        pageSizeOptions={[5, 10, 25, 50, 100]}
-        autoHeight
-        localeText={{
-          noRowsLabel: t('logs.noLogs'),
-          MuiTablePagination: {
-            labelRowsPerPage: t('logs.rowsPerPage'),
-            labelDisplayedRows({ from, to, count }) {
-              return `${from}-${to} ${t('logs.of')} ${count}`;
+    <Box
+      sx={{
+        padding: '2em',
+      }}
+    >
+      <Paper elevation={3} sx={{ width: '100%', overflow: 'hidden' }}>
+        <DataGrid
+          rows={filteredRows}
+          columns={columns}
+          initialState={{
+            pagination: { paginationModel: { pageSize: 25 } },
+          }}
+          density="compact"
+          pageSizeOptions={[5, 10, 25, 50, 100]}
+          autoHeight
+          slots={{ toolbar: GridToolbar }}
+          localeText={{
+            noRowsLabel: t('logs.noLogs'),
+            MuiTablePagination: {
+              labelRowsPerPage: t('logs.rowsPerPage'),
+              labelDisplayedRows({ from, to, count }) {
+                return `${from}-${to} ${t('logs.of')} ${count}`;
+              },
             },
-          },
-        }}
-      />
+          }}
+        />
+      </Paper>
+
       {selectedLog && (
         <Dialog
           open={openDialog}
@@ -385,7 +401,7 @@ function LogsPage(): React.JSX.Element {
           <DialogTitle>{selectedLog.name}</DialogTitle>
           <DialogContent
             className="log-dialog-content"
-            style={{
+            sx={{
               overflowX: 'hidden',
               overflowY: 'auto',
               maxHeight: '70vh',
@@ -396,10 +412,9 @@ function LogsPage(): React.JSX.Element {
             ref={(ref: HTMLDivElement | null) => setDialogContentRef(ref)}
           >
             {loading ? (
-              <div style={{ textAlign: 'center', padding: '20px' }}>
-                {t('loading')}{' '}
-                {/* You can also use a circular loading indicator here */}
-              </div>
+              <Box sx={{ textAlign: 'center', padding: '20px' }}>
+                <CircularProgress />
+              </Box>
             ) : (
               formatLog(selectedLog.content || '')
             )}
@@ -408,11 +423,11 @@ function LogsPage(): React.JSX.Element {
             <Button onClick={handleOpenFolder} color="primary">
               {t('logs.openLogsFolder')}
             </Button>
-            <Button onClick={handleCloseDialog}>Close</Button>
+            <Button onClick={handleCloseDialog}>{t('close')}</Button>
           </DialogActions>
         </Dialog>
       )}
-    </Paper>
+    </Box>
   );
 }
 

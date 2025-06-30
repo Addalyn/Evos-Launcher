@@ -25,13 +25,15 @@ import SettingsPage from '../components/pages/SettingsPage';
 import StatsPage from '../components/pages/StatsPage';
 import StatusPage from '../components/pages/StatusPage';
 import WikiPage from '../components/pages/WikiPage';
+import FollowedPlayersPage from '../components/pages/FollowedPlayersPage';
 
 // Generic component imports
 import AdminMessage from '../components/generic/AdminMessage';
 import LinkDiscord from '../components/generic/LinkDiscord';
 import NavBar from '../components/generic/Navbar';
 import NotificationMessage from '../components/generic/NotificationMessage';
-import Updater from '../components/generic/Updater';
+import VersionUpdater from '../components/generic/VersionUpdater';
+import BranchUpdater from '../components/generic/BranchUpdater';
 
 // Electron utilities
 import { isElectronApp } from '../utils/electronUtils';
@@ -51,7 +53,8 @@ function StandardLayout({ children }: { children: React.ReactNode }) {
         <LinkDiscord />
         <NotificationMessage />
         <AdminMessage />
-        <Updater />
+        <VersionUpdater />
+        <BranchUpdater />
         {children}
       </Box>
     </>
@@ -77,7 +80,8 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
             alignItems: 'center',
           }}
         >
-          <Updater />
+          <VersionUpdater />
+          <BranchUpdater />
           {children}
         </Box>
       </Box>
@@ -206,6 +210,12 @@ const allRoutes = [
     layout: 'minimal',
     title: 'dev',
     electronOnly: true,
+  },
+  {
+    path: '/followed-players',
+    element: <FollowedPlayersPage />, // New page for managing followed players
+    layout: 'standard',
+    title: 'Followed Players',
   },
 ];
 

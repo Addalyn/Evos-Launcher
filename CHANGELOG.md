@@ -1,6 +1,33 @@
 # Evos Launcher Changelog
 
-## [3.0.0] - 2025-06-29
+# [3.0.3] - 2025-06-30
+
+## Features & Improvements
+
+- Added "Followed Players" feature with a new page, navigation entry, and state management in EvosStore.
+- Refactored update system: removed legacy Updater, added VersionUpdater and BranchUpdater components, and improved update and patch flows.
+- Enhanced WebSocket/game status logic for efficient UI updates, robust reconnection, and notifications for followed players coming online.
+- Improved UI/UX for TrustBar, Server, Queue, Logs, and Replays pages with better DataGrid usage.
+- Updated translations for all supported languages to improve clarity and add new features.
+
+## Bug Fixes
+
+- Fixed translation for updateRestarting in all supported languages.
+- Resolved issues with branch patching dialog and error handling.
+- Fixed duplicate React keys in team/player lists.
+- Addressed Updater dialog visibility issues in certain layouts.
+- Ensured getVersion IPC handler consistently returns the app version.
+
+## Code Cleanup
+
+- Removed obsolete Updater code and cleaned up version handling in the main process.
+- Added useDevStatus hook to sync developer status to the global store.
+
+## Technical Enhancements
+
+- Improved code maintainability and modularity for future development.
+
+## [3.0.1] - 2025-06-29
 
 -- **Test Release**: This is a test release for internal review and testing purposes. to see if our update system still works properly.
 

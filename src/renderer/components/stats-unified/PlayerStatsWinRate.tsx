@@ -4,6 +4,7 @@ import { Grid, Skeleton } from '@mui/material';
 import { strapiClient, strapiClientv1 } from 'renderer/lib/strapi';
 import { useTranslation } from 'react-i18next';
 import EvosStore from 'renderer/lib/EvosStore';
+import useDevStatus from 'renderer/lib/useDevStatus';
 
 interface Props {
   player: string;
@@ -82,6 +83,7 @@ export default function PlayerWinRate({
   apiVersion = 'production',
 }: Props) {
   const { t } = useTranslation();
+  useDevStatus();
   const { activeUser, isDev } = EvosStore();
   const [wins, setWins] = useState<number>(-1);
   const [losses, setLosses] = useState<number>(-1);

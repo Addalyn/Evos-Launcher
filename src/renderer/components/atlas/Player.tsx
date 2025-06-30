@@ -241,8 +241,9 @@ function Player({
 
   const theme = useTheme() as ExtendedTheme;
 
-  // Load special names and custom banners on component mount
+  // Load special names and custom banners only when info.handle changes
   useEffect(() => {
+    if (!info?.handle) return;
     getSpecialNames()
       .then((response) => {
         setSpecialNames(response || undefined);
@@ -259,6 +260,10 @@ function Player({
       .catch(() => {
         // Silent error handling for banners
       });
+  }, [info?.handle]);
+
+  // Only fetch title when username changes
+  useEffect(() => {
     if (t('offline') !== username) {
       fetchTitle(username)
         .then((response) => {
@@ -272,7 +277,7 @@ function Player({
           // noting
         });
     }
-  }, [info, t, username]);
+  }, [username, t]);
 
   let className = '';
   let mentor = false;

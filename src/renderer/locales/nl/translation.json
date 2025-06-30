@@ -16,7 +16,10 @@
     "discord": "Discord",
     "replays": "Herhalingen",
     "wiki": "Wiki",
-    "SupportUs": "Steun ons"
+    "SupportUs": "Steun ons",
+    "folowedPlayers": "Gevolgde Spelers",
+    "Follow": "Volgen",
+    "Unfollow": "Ontvolgen"
   },
   "replay": {
     "replayOpen": "Replay Openen",
@@ -575,7 +578,7 @@
   "checkUpdate": "Controleren op update...",
   "Update available.": "Update beschikbaar.",
   "updateDownloaded": "Update gedownload, Herstart Evos Launcher om de update toe te passen.",
-  "updateRestarting": "Herstarten... wacht tot het opnieuw is opgestart.",
+  "updateRestarting": "Bezig met herstarten... wacht tot het opnieuw is opgestart. Druk op OK om door te gaan.",
   "closeLauncher": "Weet u zeker dat u de launcher wilt sluiten? Het spel wordt ook gesloten.",
   "Download speed": "Downloadsnelheid",
   "Downloaded": "Gedownload",

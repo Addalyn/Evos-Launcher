@@ -16,7 +16,10 @@
     "discord": "Discord",
     "replays": "Tekrarlar",
     "wiki": "Wiki",
-    "SupportUs": "Bizi Destekleyin"
+    "SupportUs": "Bizi Destekleyin",
+    "folowedPlayers": "Takip Edilen Oyuncular",
+    "Follow": "Takip Et",
+    "Unfollow": "Takibi Bırak"
   },
   "replay": {
     "replayOpen": "Tekrarı Aç",
@@ -574,7 +577,7 @@
   "unexpectedError": "Bilinmeyen hata, lütfen Evos Launcher'ı yeniden başlatın",
   "checkUpdate": "Güncellemeler kontrol ediliyor...",
   "Update available.": "Güncelleme mevcut.",
-  "updateRestarting": "Yeniden başlıyor... lütfen bekleyin.",
+  "updateRestarting": "Yeniden başlatılıyor... yeniden başlatılana kadar bekleyin. Devam etmek için OK'ye basın.",
   "updateDownloaded": "Güncelleme yüklendi, güncellemeyi uygulamak için Evos Launcher'ı yeniden başlatın",
   "closeLauncher": "Uygulamayı kapatmak istediğinize emin misiniz? Oyun da kapanacaktır.",
   "Download speed": "İndirme hızı",

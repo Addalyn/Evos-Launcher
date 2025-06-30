@@ -16,7 +16,10 @@
     "discord": "Discord",
     "replays": "Repetición",
     "wiki": "Wiki",
-    "SupportUs": "Apóyanos"
+    "SupportUs": "Apóyanos",
+    "folowedPlayers": "Jugadores Seguidos",
+    "Follow": "Seguir",
+    "Unfollow": "Dejar de seguir"
   },
   "replay": {
     "replayOpen": "Abrir Repetición",
@@ -542,7 +545,7 @@
   "unexpectedError": "Error Inesperado, por favor reinicia Evos Launcher.",
   "checkUpdate": "Comprobando actualizaciones...",
   "Update available.": "Actualización disponible.",
-  "updateRestarting": "Reiniciar... espera hasta que se reinicie.",
+  "updateRestarting": "Reiniciando... espere hasta que se haya reiniciado. Pulse OK para continuar.",
   "updateDownloaded": "Actualización descargada, Reinicia Evos Launcher para applicar la actualización.",
   "closeLauncher": "¿Seguro que quieres cerrar el launcher? También cerrará el juego.",
   "Download speed": "Velocidad de descarga",

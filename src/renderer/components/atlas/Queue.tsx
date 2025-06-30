@@ -48,27 +48,82 @@ function Queue({
   }
 
   return (
-    <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
-      <Typography variant="h3">
+    <Paper
+      elevation={6}
+      sx={{
+        p: { xs: 3, sm: 4 },
+        m: { xs: '1em' },
+        overflow: 'hidden',
+        minWidth: 320,
+        mx: 'auto',
+      }}
+    >
+      <Typography
+        variant="h4"
+        sx={{
+          fontWeight: 800,
+          color: 'secondary.main',
+          letterSpacing: 1.5,
+          textShadow: '0 2px 12px rgba(0,0,0,0.10)',
+          mb: 2,
+          pl: 1,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1.5,
+        }}
+        noWrap
+      >
+        <span
+          style={{
+            display: 'inline-block',
+            width: 12,
+            height: 12,
+            borderRadius: '50%',
+            background: 'linear-gradient(135deg, #d32f2f 60%, #ffb74d 100%)',
+            marginRight: 10,
+          }}
+        />
         {t(queueInfo.type)}{' '}
         {queueInfo.subtype ? `- ${t(`gamesubtype.${queueInfo.subtype}`)}` : ''}
       </Typography>
-      <FlexBox style={{ flexWrap: 'wrap' }}>
+      <FlexBox
+        sx={{ flexWrap: 'wrap', gap: 2, justifyContent: 'center', mt: 1 }}
+      >
         {queueInfo.groupIds.map((groupId) => {
           const info = groupData.get(groupId);
-          const hidden =
-            info &&
-            hidePlayers &&
-            !info.accountIds.some((accId) => !hidePlayers.has(accId));
+          // Filter out players who are in a game
+          const filteredAccountIds = info
+            ? info.accountIds.filter((accId) => {
+                if (hidePlayers?.has(accId)) return false;
+                const pdata = playerData.get(accId);
+                // If PlayerData has a status or gameId property, use that to check if in game
+                // Otherwise, fallback to always show
+                if (pdata && 'inGame' in pdata) {
+                  // @ts-ignore
+                  return !pdata.inGame;
+                }
+                if (pdata && 'gameId' in pdata) {
+                  // @ts-ignore
+                  return !pdata.gameId;
+                }
+                if (pdata && 'status' in pdata) {
+                  // @ts-ignore
+                  return (
+                    pdata.status !== 'in-game' && pdata.status !== 'playing'
+                  );
+                }
+                return true;
+              })
+            : [];
+          if (!info || filteredAccountIds.length === 0) return null;
+          // Clone info with filtered accountIds
+          const filteredInfo = { ...info, accountIds: filteredAccountIds };
           return (
-            info &&
-            !hidden && (
-              <Group
-                key={`group_${groupId}`}
-                info={info}
-                playerData={playerData}
-              />
-            )
+            <Group
+              key={`group_${groupId}`}
+              info={filteredInfo}
+              playerData={playerData}
+            />
           );
         })}
       </FlexBox>

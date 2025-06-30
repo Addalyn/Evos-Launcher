@@ -138,13 +138,23 @@ interface Props {
  * @param props.factionsData - Array of numbers representing trust points for each faction
  * @returns JSX element displaying a paper-wrapped trust bar visualization
  */
+
 function TrustBar({ factionsData }: Props) {
   const omni = factionsData[0];
   const evos = factionsData[1];
   const warbotics = factionsData[2];
 
   return (
-    <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
+    <Paper
+      elevation={6}
+      sx={{
+        p: { xs: 3, sm: 4 },
+        m: { xs: '1em' },
+        overflow: 'hidden',
+        minWidth: 320,
+        mx: 'auto',
+      }}
+    >
       <CustomProgressBar omni={omni} evos={evos} warbotics={warbotics} />
     </Paper>
   );

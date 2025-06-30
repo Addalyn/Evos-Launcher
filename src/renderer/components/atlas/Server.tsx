@@ -82,35 +82,115 @@ export default function Server({
 
   return (
     <Paper
-      elevation={3}
-      style={{ padding: '1em', margin: '1em', overflow: 'hidden' }}
+      elevation={6}
+      sx={{
+        p: { xs: 3, sm: 4 },
+        m: { xs: '1em' },
+        overflow: 'hidden',
+        minWidth: 340,
+        mx: 'auto',
+      }}
     >
-      <Grid container spacing={2}>
-        <Grid item xs={4} style={{ textAlign: 'left' }}>
-          <Typography variant="h3">
+      <Grid container alignItems="center" spacing={3}>
+        <Grid item xs={12} sm={6}>
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: 800,
+              color: 'primary.main',
+              letterSpacing: 1.5,
+              textShadow: '0 2px 12px rgba(0,0,0,0.10)',
+              mb: { xs: 1, sm: 0 },
+              pl: 1,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1.5,
+            }}
+            noWrap
+          >
+            <span
+              style={{
+                display: 'inline-block',
+                width: 12,
+                height: 12,
+                borderRadius: '50%',
+                background:
+                  'linear-gradient(135deg, #1976d2 60%, #42a5f5 100%)',
+                marginRight: 10,
+              }}
+            />
             {info.name.replace(/-/, ' ') === 'Custom game'
               ? t(info.name.replace(/-/, ' '))
               : info.name.replace(/-/, ' ')}
           </Typography>
         </Grid>
-        <Grid item xs={8} style={{ textAlign: 'right' }}>
-          <Typography variant="h3">
-            {game.gameType} -{' '}
-            {game.gameSubType ? `${t(`gamesubtype.${game.gameSubType}`)}` : ''}{' '}
-            -{' '}
-            {countUniqueAccounts(game, 'teamA') === 0
-              ? 'Bots'
-              : countUniqueAccounts(game, 'teamA')}{' '}
-            vs{' '}
-            {countUniqueAccounts(game, 'teamB') === 0
-              ? 'Bots'
-              : countUniqueAccounts(game, 'teamB')}
-          </Typography>
+        <Grid item xs={12} sm={6}>
+          <Grid
+            container
+            spacing={1}
+            alignItems="center"
+            justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
+          >
+            <Grid item>
+              <Typography
+                variant="h6"
+                sx={{
+                  color: 'text.secondary',
+                  fontWeight: 600,
+                  fontSize: { xs: '1.1rem', sm: '1.25rem' },
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
+                }}
+              >
+                <span style={{ fontWeight: 700 }}>{game.gameType}</span>
+                {game.gameSubType && (
+                  <span
+                    style={{
+                      marginLeft: 10,
+                      fontStyle: 'italic',
+                      color: '#888',
+                    }}
+                  >
+                    {t(`gamesubtype.${game.gameSubType}`)}
+                  </span>
+                )}
+                <span
+                  style={{ margin: '0 10px', color: '#bbb', fontWeight: 400 }}
+                >
+                  •
+                </span>
+                <span style={{ fontWeight: 700, color: '#1976d2' }}>
+                  {countUniqueAccounts(game, 'teamA') === 0
+                    ? 'Bots'
+                    : countUniqueAccounts(game, 'teamA')}
+                </span>
+                <span
+                  style={{ color: '#bbb', margin: '0 6px', fontWeight: 400 }}
+                >
+                  vs
+                </span>
+                <span style={{ fontWeight: 700, color: '#d32f2f' }}>
+                  {countUniqueAccounts(game, 'teamB') === 0
+                    ? 'Bots'
+                    : countUniqueAccounts(game, 'teamB')}
+                </span>
+              </Typography>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
-      {game && (
-        <Game info={game} playerData={playerData} gameExpanded={gameExpanded} />
-      )}
+      <Grid container>
+        <Grid item xs={12}>
+          {game && (
+            <Game
+              info={game}
+              playerData={playerData}
+              gameExpanded={gameExpanded}
+            />
+          )}
+        </Grid>
+      </Grid>
     </Paper>
   );
 }

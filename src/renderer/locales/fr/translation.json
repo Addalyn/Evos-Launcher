@@ -16,7 +16,10 @@
     "discord": "Discord",
     "replays": "Replays",
     "wiki": "Wiki",
-    "SupportUs": "Soutenez-nous"
+    "SupportUs": "Soutenez-nous",
+    "folowedPlayers": "Joueurs Suivis",
+    "Follow": "Suivre",
+    "Unfollow": "Ne plus suivre"
   },
   "replay": {
     "replayOpen": "Ouvrir la relecture",
@@ -574,7 +577,7 @@
   "unexpectedError": "Erreur inattendue, veuillez redémarrer Evos Launcher.",
   "checkUpdate": "Vérification des mises à jour...",
   "Update available.": "Mise à jour disponible.",
-  "updateRestarting": "Redémarrer... attendez jusqu'à ce qu'il redémarre.",
+  "updateRestarting": "Redémarrage... attendez qu'il ait redémarré. Appuyez sur OK pour continuer.",
   "updateDownloaded": "Mise à jour téléchargée, redémarrez Evos Launcher pour appliquer la mise à jour.",
   "closeLauncher": "Êtes-vous sûr de vouloir fermer le lanceur ? Cela fermera également le jeu.",
   "Download speed": "Vitesse de téléchargement",

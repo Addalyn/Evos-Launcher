@@ -16,7 +16,10 @@
     "discord": "Discord",
     "replays": "Replays",
     "wiki": "Wiki",
-    "SupportUs": "Supportaci"
+    "SupportUs": "Supportaci",
+    "folowedPlayers": "Giocatori Seguiti",
+    "Follow": "Segui",
+    "Unfollow": "Smetti di seguire"
   },
   "replay": {
     "replayOpen": "Apri Replay",
@@ -546,7 +549,7 @@
   "unexpectedError": "Errore imprevisto, riavviare l'Evos Launcher.",
   "checkUpdate": "Conrollo aggiornamenti...",
   "Update available.": "Aggiornamento disponibile.",
-  "updateRestarting": "Riavvio... attendi finché non si riavvia.",
+  "updateRestarting": "Riavvio in corso... attendi che abbia completato il riavvio. Premi OK per continuare.",
   "updateDownloaded": "Aggiornamento scaricato, Riavvia l'Evos Launcher per applicare l'aggiornamento.",
   "closeLauncher": "Sei sicuro di voler chiudere il launcher? Verrà chiuso anche il gioco.",
   "Download speed": "Velocità di download",

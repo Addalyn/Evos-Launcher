@@ -169,6 +169,10 @@ export interface EvosStoreState {
   setStats: (stats: string) => void;
   apiVersion: 'v1' | 'production';
   setApiVersion: (apiVersion: 'v1' | 'production') => void;
+  followedPlayers: string[];
+  setFollowedPlayers: (players: string[]) => Promise<void>;
+  addFollowedPlayer: (player: string) => Promise<void>;
+  removeFollowedPlayer: (player: string) => Promise<void>;
 }
 
 const EvosStore = create<EvosStoreState>((set, get) => ({
@@ -202,6 +206,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   oldBranch: '',
   nobranchDownload: false,
   apiVersion: 'production',
+  followedPlayers: [],
 
   setStats: async (stats: string) => {
     set({ stats });
@@ -371,6 +376,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       colorScrollBar,
       colorPaper,
       apiVersion,
+      followedPlayers,
     ] = await Promise.all([
       get().getFromStorage('mode') as string,
       get().getFromStorage('authenticatedUsers') as AuthUser[],
@@ -395,6 +401,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       get().getFromStorage('colorScrollBar') as string,
       get().getFromStorage('colorPaper') as string,
       get().getFromStorage('apiVersion') as 'v1' | 'production',
+      get().getFromStorage('followedPlayers') as string[],
     ]);
 
     let users: AuthUser[] = [];
@@ -439,6 +446,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       colorScrollBar: colorScrollBar || '#6b6b6b',
       colorPaper: colorPaper || '#0000',
       apiVersion: apiVersion || 'production',
+      followedPlayers: followedPlayers || [],
     });
     withElectron((electron) =>
       electron.ipcRenderer.setTheme(
@@ -629,6 +637,25 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   setApiVersion: async (apiVersion: 'v1' | 'production') => {
     set({ apiVersion });
     await get().setToStorage('apiVersion', apiVersion);
+  },
+
+  setFollowedPlayers: async (players: string[]) => {
+    set({ followedPlayers: players });
+    await get().setToStorage('followedPlayers', players);
+  },
+  addFollowedPlayer: async (player: string) => {
+    const currentPlayers = get().followedPlayers;
+    if (!currentPlayers.includes(player)) {
+      const updatedPlayers = [...currentPlayers, player];
+      set({ followedPlayers: updatedPlayers });
+      await get().setToStorage('followedPlayers', updatedPlayers);
+    }
+  },
+  removeFollowedPlayer: async (player: string) => {
+    const currentPlayers = get().followedPlayers;
+    const updatedPlayers = currentPlayers.filter((p) => p !== player);
+    set({ followedPlayers: updatedPlayers });
+    await get().setToStorage('followedPlayers', updatedPlayers);
   },
 }));
 

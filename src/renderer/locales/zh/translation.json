@@ -16,7 +16,10 @@
     "discord": "Discord",
     "replays": "录像",
     "wiki": "Wiki",
-    "SupportUs": "支持我们"
+    "SupportUs": "支持我们",
+    "folowedPlayers": "关注的玩家",
+    "Follow": "关注",
+    "Unfollow": "取消关注"
   },
   "replay": {
     "replayOpen": "打开录像",
@@ -573,7 +576,7 @@
   "unexpectedError": "遇到意外错误, 请重启Evos Launcher。",
   "checkUpdate": "检查更新中...",
   "Update available.": "已有可用更新",
-  "updateRestarting": "重启中...请等待重启完成。",
+  "updateRestarting": "正在重启...请等待其重启完成。按OK继续。",
   "updateDownloaded": "更新已下载，重启Evos Launcher以应用更新。",
   "closeLauncher": "确定要关闭启动器吗？这样也会关闭游戏。",
   "Download speed": "下载速度",

@@ -28,7 +28,6 @@ import {
   setupGlobalShortcuts,
   setupAutoUpdater,
   setupWindowCloseHandler,
-  setCurrentVersion,
 } from './handlers/ipcHandlers';
 
 // Initialize analytics
@@ -101,7 +100,6 @@ const createWindow = async (): Promise<void> => {
 
         // Setup auto-updater after window is ready
         setupAutoUpdater(mainWindow);
-        setCurrentVersion(app.getVersion());
       }, 5000); // 5s delay to ensure React app is fully rendered
     }
   };
@@ -158,6 +156,7 @@ app.on('window-all-closed', () => {
 app
   .whenReady()
   .then(() => {
+    app.setAppUserModelId('Atlas Reactor - Evos Launcher');
     createWindow();
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
