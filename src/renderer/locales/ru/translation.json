@@ -16,7 +16,10 @@
     "discord": "Discord",
     "replays": "Повторы",
     "wiki": "Вики",
-    "SupportUs": "Поддержите нас"
+    "SupportUs": "Поддержите нас",
+    "folowedPlayers": "Отслеживаемые игроки",
+    "Follow": "Подписаться",
+    "Unfollow": "Отписаться"
   },
   "replay": {
     "replayOpen": "Открыть повтор",
@@ -570,7 +573,7 @@
   "unexpectedError": "Неожиданная ошибка. Пожалуйста, перезапустите Evos Launcher.",
   "checkUpdate": "Ищем обновления...",
   "Update available.": "Доступно обновление.",
-  "updateRestarting": "Перезапуск... Пожалуйста, дождитесь окончания обновления.",
+  "updateRestarting": "Перезапуск... дождитесь завершения перезапуска. Нажмите OK, чтобы продолжить.",
   "updateDownloaded": "Обновление загружено. Перезапустите Evos Launcher, чтобы установить его.",
   "closeLauncher": "Вы уверены, что хотите закрыть Evos Launcher (и игру вместе с ним)?",
   "Download speed": "Скорость",

@@ -16,7 +16,10 @@
     "discord": "Discord",
     "replays": "Replays",
     "wiki": "Wiki",
-    "SupportUs": "Support Us"
+    "SupportUs": "Support Us",
+    "folowedPlayers": "Followed Players",
+    "Follow": "Follow",
+    "Unfollow": "Unfollow"
   },
   "replay": {
     "replayOpen": "Open Replay",
@@ -119,6 +122,14 @@
     "of": "of"
   },
   "settings": {
+    "appearance": "Appearance",
+    "language": "Language",
+    "account": "Account",
+    "gamePath": "Game Path",
+    "server": "Server",
+    "advanced": "Advanced",
+    "branch": "Branch",
+    "dangerZone": "Danger Zone",
     "configFilePlaceHolder": "Atlas Reactor config file for account",
     "selectConfigFile": "Select Config File",
     "atlasPath": "Atlas Reactor Path",
@@ -574,7 +585,7 @@
   "unexpectedError": "Unexpected error, please restart Evos Launcher.",
   "checkUpdate": "Checking for update...",
   "Update available.": "Update available.",
-  "updateRestarting": "Restart... wait until it has restarted.",
+  "updateRestarting": "Going to Restart... wait until it has restarted. Press OK to continue.",
   "updateDownloaded": "Update downloaded, Restart Evos Launcher to apply the update.",
   "closeLauncher": "Are you sure you want to close the launcher? It will also close the game.",
   "Download speed": "Download speed",

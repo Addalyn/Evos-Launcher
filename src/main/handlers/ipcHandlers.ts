@@ -209,11 +209,6 @@ const checkFileAccessibility = (filePath: fs.PathLike): Promise<boolean> => {
 let authClient: AuthClient | null = null;
 
 /**
- * Current application version string.
- */
-let currentVersion: string;
-
-/**
  * Global download path for game downloads.
  */
 let globalDownloadPath = '';
@@ -463,7 +458,7 @@ export function setupIpcHandlers(mainWindow: BrowserWindow | null): void {
   });
 
   ipcMain.handle('getVersion', async () => {
-    return currentVersion;
+    return app.getVersion();
   });
 
   ipcMain.handle('checkVersion', async () => {
@@ -1073,8 +1068,7 @@ export function setupAutoUpdater(mainWindow: BrowserWindow | null): void {
   });
 
   autoUpdater.on('checking-for-update', async () => {
-    const checkingMessage = await translate('checkingForUpdate', mainWindow);
-    mainWindow?.webContents.send('message', checkingMessage);
+    mainWindow?.webContents.send('message', 'checkUpdate');
   });
 
   autoUpdater.on('update-available', async () => {
@@ -1130,13 +1124,4 @@ export function setupWindowCloseHandler(
       app.quit();
     }
   });
-}
-
-/**
- * Sets the current application version for use in IPC handlers.
- *
- * @param version - The current application version string
- */
-export function setCurrentVersion(version: string): void {
-  currentVersion = version;
 }

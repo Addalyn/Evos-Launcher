@@ -7,7 +7,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 import { Paper, TextField, Typography } from '@mui/material';
 import EvosStore from 'renderer/lib/EvosStore';
 import html2canvas from 'html2canvas';
@@ -993,17 +993,21 @@ function ReplaysPage(): React.JSX.Element {
       field: 'name',
       headerName: t('replay.replayName'),
       flex: 1,
+      minWidth: 500,
     },
     {
       field: 'lastModified',
       headerName: t('replay.replayDate'),
       flex: 1,
+
       valueGetter: (params) => {
         const { lastModified } = params.row as ReplayFile;
         return lastModified ? new Date(lastModified).toLocaleString() : '';
       },
       renderCell: (params) => (
-        <div style={{ ...params.row.colorStyle, padding: '8px' }}>
+        <div
+          style={{ ...params.row.colorStyle, padding: '8px', minWidth: 200 }}
+        >
           {params.row.lastModified.toLocaleString()}
         </div>
       ),
@@ -1043,10 +1047,12 @@ function ReplaysPage(): React.JSX.Element {
         rows={coloredRows}
         columns={columns}
         initialState={{
-          pagination: { paginationModel: { pageSize: 10 } },
+          pagination: { paginationModel: { pageSize: 25 } },
         }}
+        density="compact"
         pageSizeOptions={[5, 10, 25, 50, 100]}
         autoHeight
+        slots={{ toolbar: GridToolbar }}
         localeText={{
           noRowsLabel: t('replay.noReplays'),
           MuiTablePagination: {

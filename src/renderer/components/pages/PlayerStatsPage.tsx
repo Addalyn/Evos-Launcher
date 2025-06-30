@@ -18,6 +18,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   Box,
+  Button,
   Paper,
   Tab,
   Tabs,
@@ -129,8 +130,15 @@ export default function PlayerStatsPage() {
   const { width } = useWindowDimensions();
 
   /** Application store containing user authentication data */
-  const { activeUser, updateAuthenticatedUsers, discordId, apiVersion } =
-    EvosStore();
+  const {
+    activeUser,
+    updateAuthenticatedUsers,
+    discordId,
+    apiVersion,
+    followedPlayers,
+    addFollowedPlayer,
+    removeFollowedPlayer,
+  } = EvosStore();
 
   /** URL search parameters from the current location */
   const { search } = useLocation();
@@ -234,6 +242,18 @@ export default function PlayerStatsPage() {
     return null;
   }
 
+  /** Check if the current player is followed */
+  const isFollowed = followedPlayers.includes(playerSearch);
+
+  /** Handle follow/unfollow action */
+  const handleFollowToggle = () => {
+    if (isFollowed) {
+      removeFollowedPlayer(playerSearch);
+    } else {
+      addFollowedPlayer(playerSearch);
+    }
+  };
+
   return (
     <>
       {error && (
@@ -252,21 +272,47 @@ export default function PlayerStatsPage() {
           padding: '1em',
         }}
       >
-        {!playerData ? (
-          <Skeleton
-            variant="rectangular"
-            width={240}
-            height={52}
-            style={{ display: 'inline-block', marginLeft: '4px' }}
-          />
-        ) : (
-          <Player
-            info={playerData}
-            disableSkew
-            characterType={undefined}
-            titleOld=""
-          />
-        )}
+        {/* Player Profile and Follow Button */}
+        <Grid container alignItems="center" spacing={2}>
+          <Grid item xs={8}>
+            {!playerData ? (
+              <Skeleton
+                variant="rectangular"
+                width={240}
+                height={52}
+                style={{ display: 'inline-block', marginLeft: '4px' }}
+              />
+            ) : (
+              <Player
+                info={playerData}
+                disableSkew
+                characterType={undefined}
+                titleOld=""
+              />
+            )}
+          </Grid>
+          <Grid
+            item
+            xs={4}
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+            }}
+          >
+            {playerSearch && playerSearch !== activeUser?.handle && (
+              <Button
+                variant="contained"
+                color={isFollowed ? 'secondary' : 'primary'}
+                onClick={handleFollowToggle}
+              >
+                {isFollowed
+                  ? t('menuOptions.Unfollow')
+                  : t('menuOptions.Follow')}
+              </Button>
+            )}
+          </Grid>
+        </Grid>
 
         {/* Player Statistics Grid */}
         <Grid container spacing={2}>

@@ -19,6 +19,7 @@ import {
   GitHub,
   Article,
   PriceChange,
+  People,
   Replay,
 } from '@mui/icons-material';
 import type { NavigationPage } from './types';
@@ -56,6 +57,11 @@ const createNavigationPages = (
       title: t('menuOptions.previousGames'),
       href: '/previousgames',
       icon: React.createElement(History),
+    },
+    {
+      title: t('menuOptions.folowedPlayers'),
+      href: '/followed-players',
+      icon: React.createElement(People),
     },
     // Electron-only navigation items
     ...(electronFeatures.isAvailable

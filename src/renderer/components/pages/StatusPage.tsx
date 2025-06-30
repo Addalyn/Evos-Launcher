@@ -152,19 +152,15 @@ function StatusPage(): React.ReactElement {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ip, activeUser]);
 
-  /** Memoized map of players indexed by account ID */
+  // Use all players, groups, and games as in the old working version
   const players = useMemo(
     () => GroupBy((p) => p.accountId, status?.players),
     [status],
   );
-
-  /** Memoized map of groups indexed by group ID */
   const groups = useMemo(
     () => GroupBy((g) => g.groupId, status?.groups),
     [status],
   );
-
-  /** Memoized map of games indexed by server */
   const games = useMemo(
     () => GroupBy((g) => g.server, status?.games),
     [status],
@@ -186,7 +182,18 @@ function StatusPage(): React.ReactElement {
       } else {
         setError(undefined);
         setLoading(false);
-        setStatus(parsedMessage);
+        // Only update status if it actually changed (shallow compare top-level keys)
+        setStatus((prev) => {
+          if (!prev) return parsedMessage;
+          const prevKeys = Object.keys(prev);
+          const newKeys = Object.keys(parsedMessage);
+          if (prevKeys.length !== newKeys.length) return parsedMessage;
+          const changed = prevKeys.some(
+            (key) =>
+              prev[key as keyof Status] !== parsedMessage[key as keyof Status],
+          );
+          return changed ? parsedMessage : prev;
+        });
       }
     },
     shouldReconnect: () => true,
@@ -353,7 +360,16 @@ function StatusPage(): React.ReactElement {
               gameExpanded={gameExpanded}
             />
           ))}
-      <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
+      <Paper
+        elevation={3}
+        sx={{
+          p: { xs: 3, sm: 4 },
+          m: { xs: '1em' },
+          overflow: 'hidden',
+          minWidth: 320,
+          mx: 'auto',
+        }}
+      >
         <Accordion
           expanded={expanded}
           onChange={() => setExpanded((value) => !value)}

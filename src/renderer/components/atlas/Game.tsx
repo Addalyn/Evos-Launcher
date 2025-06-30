@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /**
  * @fileoverview Game Component for displaying complete game information with teams, scores, and interactive elements.
  *
@@ -101,9 +102,9 @@ const TeamRow = React.forwardRef<HTMLDivElement, TeamRowProps>(
   ({ info, isTeamA, playerData, status }, ref) => {
     return (
       <TeamFlexBox ref={ref} flexGrow={1} flexShrink={1} flexBasis="auto">
-        {info.map((player) => (
+        {info.map((player, idx) => (
           <CharacterIcon
-            key={`teamrow_${isTeamA ? 'A' : 'B'}_${player.accountId}`}
+            key={`teamrow_${isTeamA ? 'A' : 'B'}_${player.accountId}_${player.characterType}_${idx}`}
             characterType={
               status !== 'Assembling'
                 ? player.characterType
@@ -133,9 +134,9 @@ function Team({ caption, info, isTeamA, playerData, status }: TeamProps) {
   return (
     <Stack>
       {caption && <Typography variant="h5">{caption}</Typography>}
-      {info.map((p) => (
+      {info.map((p, idx) => (
         <Stack
-          key={`teamdetail_${isTeamA ? 'A' : 'B'}_player_${p.accountId}`}
+          key={`teamdetail_${isTeamA ? 'A' : 'B'}_player_${p.accountId}_${p.characterType}_${idx}`}
           direction={isTeamA ? 'row' : 'row-reverse'}
         >
           <Player
