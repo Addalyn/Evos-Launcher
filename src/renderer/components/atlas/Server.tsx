@@ -97,7 +97,7 @@ export default function Server({
             variant="h4"
             sx={{
               fontWeight: 800,
-              color: 'primary.main',
+              color: 'main',
               letterSpacing: 1.5,
               textShadow: '0 2px 12px rgba(0,0,0,0.10)',
               mb: { xs: 1, sm: 0 },
@@ -135,7 +135,7 @@ export default function Server({
               <Typography
                 variant="h6"
                 sx={{
-                  color: 'text.secondary',
+                  color: 'main',
                   fontWeight: 600,
                   fontSize: { xs: '1.1rem', sm: '1.25rem' },
                   display: 'flex',
@@ -147,16 +147,20 @@ export default function Server({
                 {game.gameSubType && (
                   <span
                     style={{
+                      color: 'main',
                       marginLeft: 10,
                       fontStyle: 'italic',
-                      color: '#888',
                     }}
                   >
                     {t(`gamesubtype.${game.gameSubType}`)}
                   </span>
                 )}
                 <span
-                  style={{ margin: '0 10px', color: '#bbb', fontWeight: 400 }}
+                  style={{
+                    margin: '0 10px',
+                    color: 'main.secondary',
+                    fontWeight: 400,
+                  }}
                 >
                   •
                 </span>
@@ -166,7 +170,7 @@ export default function Server({
                     : countUniqueAccounts(game, 'teamA')}
                 </span>
                 <span
-                  style={{ color: '#bbb', margin: '0 6px', fontWeight: 400 }}
+                  style={{ color: 'main', margin: '0 6px', fontWeight: 400 }}
                 >
                   vs
                 </span>

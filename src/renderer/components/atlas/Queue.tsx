@@ -62,7 +62,7 @@ function Queue({
         variant="h4"
         sx={{
           fontWeight: 800,
-          color: 'secondary.main',
+          color: 'main',
           letterSpacing: 1.5,
           textShadow: '0 2px 12px rgba(0,0,0,0.10)',
           mb: 2,
