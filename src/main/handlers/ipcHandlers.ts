@@ -1030,19 +1030,6 @@ export function setupIpcHandlers(mainWindow: BrowserWindow | null): void {
       return null;
     }
   });
-
-  // Temporary test handler to bypass validation (REMOVE IN PRODUCTION)
-  ipcMain.handle('discord:test-user', () => {
-    const testUser: AuthUser = {
-      user: 'test-user-id',
-      token: 'test-token',
-      handle: 'TestPlayer',
-      banner: 1,
-    };
-    setUser(testUser);
-    setLinkingMode(true);
-    return { success: true, message: 'Test user set for Discord linking' };
-  });
 }
 
 /**
@@ -1073,16 +1060,19 @@ export function setupGlobalShortcuts(mainWindow: BrowserWindow | null): void {
  * @param mainWindow - The main application window instance for sending update messages
  */
 export function setupAutoUpdater(mainWindow: BrowserWindow | null): void {
+  // Explicitly set the GitHub feed URL for auto-updates
+  autoUpdater.setFeedURL({
+    provider: 'github',
+    owner: 'Addalyn',
+    repo: 'Evos-Launcher',
+  });
+
   autoUpdater.on('checking-for-update', async () => {
     mainWindow?.webContents.send('message', 'checkUpdate');
   });
 
   autoUpdater.on('update-available', async () => {
-    const updateAvailableMessage = await translate(
-      'updateAvailable',
-      mainWindow,
-    );
-    mainWindow?.webContents.send('message', updateAvailableMessage);
+    mainWindow?.webContents.send('message', 'Update available.');
   });
 
   autoUpdater.on('update-not-available', () => {
@@ -1096,19 +1086,14 @@ export function setupAutoUpdater(mainWindow: BrowserWindow | null): void {
   });
 
   autoUpdater.on('download-progress', async (progressObj) => {
-    const downloadingMessage = await translate('downloading', mainWindow);
     mainWindow?.webContents.send(
       'message',
-      `${downloadingMessage} ${progressObj.percent.toFixed(2)}%`,
+      `downloading ${progressObj.percent.toFixed(2)}%`,
     );
   });
 
   autoUpdater.on('update-downloaded', async () => {
-    const updateDownloadedMessage = await translate(
-      'updateDownloaded',
-      mainWindow,
-    );
-    mainWindow?.webContents.send('message', updateDownloadedMessage);
+    mainWindow?.webContents.send('message', 'updateDownloaded');
   });
 }
 
