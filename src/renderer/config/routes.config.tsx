@@ -5,7 +5,7 @@
  * @since 1.0.0
  */
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Box } from '@mui/material';
 
 // Page imports
@@ -37,6 +37,7 @@ import BranchUpdater from '../components/generic/BranchUpdater';
 
 // Electron utilities
 import { isElectronApp } from '../utils/electronUtils';
+import EvosStore from 'renderer/lib/EvosStore';
 
 /**
  * Standard layout wrapper for most pages
@@ -46,11 +47,21 @@ import { isElectronApp } from '../utils/electronUtils';
  * @returns {React.ReactElement} The wrapped page content
  */
 function StandardLayout({ children }: { children: React.ReactNode }) {
+  const { activeUser } = EvosStore();
+
+  const isAuthenticated = useCallback(() => {
+    return (
+      activeUser !== null &&
+      Object.keys(activeUser).length !== 0 &&
+      activeUser.token !== ''
+    );
+  }, [activeUser]);
+
   return (
     <>
       <NavBar />
       <Box component="main" sx={{ flexGrow: 1, p: 0 }}>
-        <LinkDiscord />
+        {isAuthenticated() && <LinkDiscord />}
         <NotificationMessage />
         <AdminMessage />
         <VersionUpdater />
@@ -81,7 +92,6 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
           }}
         >
           <VersionUpdater />
-          <BranchUpdater />
           {children}
         </Box>
       </Box>
@@ -152,7 +162,7 @@ const allRoutes = [
   {
     path: '/add-account',
     element: <AddAccountPage />,
-    layout: 'standard',
+    layout: 'auth',
     title: 'status',
   },
   {
