@@ -38,17 +38,13 @@ const createNavigationPages = (
   isDev: boolean,
 ): NavigationPage[] => {
   const basePages: NavigationPage[] = [
-    ...(electronFeatures.isAvailable
-      ? [
-          {
-            title: t('login'),
-            href: '/login',
-            icon: React.createElement(Home),
-            authentication: false, // No authentication required for login page
-            special: true,
-          },
-        ]
-      : []),
+    {
+      title: t('login'),
+      href: '/login',
+      icon: React.createElement(Home),
+      authentication: false, // No authentication required for login page
+      special: true,
+    },
     {
       title: t('menuOptions.status'),
       href: '/',
