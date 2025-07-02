@@ -34,7 +34,7 @@ import {
 import { useTranslation } from 'react-i18next';
 
 import EvosStore, { AuthUser } from 'renderer/lib/EvosStore';
-import { login } from 'renderer/lib/Evos';
+import { login, getPlayerInfo } from 'renderer/lib/Evos';
 import { EvosError, processError } from 'renderer/lib/Error';
 import { BannerType, playerBanner } from 'renderer/lib/Resources';
 import { withElectron } from 'renderer/utils/electronUtils';
@@ -466,15 +466,27 @@ export default function LoginPage() {
 
   // Auto-navigate if already authenticated
   useEffect(() => {
-    if (
-      ip !== undefined &&
-      authenticatedUsers !== null &&
-      activeUser !== null &&
-      activeUser?.token !== '' &&
-      addUser === false
-    ) {
-      navigate('/');
-    }
+    const checkUserSession = async () => {
+      if (
+        ip !== undefined &&
+        authenticatedUsers !== null &&
+        activeUser !== null &&
+        activeUser?.token !== '' &&
+        addUser === false
+      ) {
+        try {
+          const response = await getPlayerInfo(`Bearer ${activeUser.token}`);
+
+          if (response) {
+            navigate('/');
+          }
+        } catch (sessionError) {
+          // Handle the error silently or log it using a monitoring tool
+        }
+      }
+    };
+
+    checkUserSession();
   }, [addUser, authenticatedUsers, activeUser, ip, navigate]);
 
   /**

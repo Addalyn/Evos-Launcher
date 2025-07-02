@@ -34,6 +34,8 @@ export interface NavigationPage {
   devider?: boolean;
   /** Whether this is a special highlighted item */
   special?: boolean;
+  /** Whether this page requires user authentication */
+  authentication: boolean;
 }
 
 /**

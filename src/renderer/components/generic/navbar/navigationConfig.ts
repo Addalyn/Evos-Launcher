@@ -39,29 +39,41 @@ const createNavigationPages = (
 ): NavigationPage[] => {
   const basePages: NavigationPage[] = [
     {
+      title: t('login'),
+      href: '/login',
+      icon: React.createElement(Home),
+      authentication: false, // No authentication required for login page
+      special: true,
+    },
+    {
       title: t('menuOptions.status'),
       href: '/',
       icon: React.createElement(Home),
+      authentication: false, // No authentication required for status page
     },
     {
       title: t('menuOptions.gstats'),
       href: '/stats',
       icon: React.createElement(BarChart),
+      authentication: true, // Requires authentication for game stats
     },
     {
       title: t('menuOptions.pstats'),
       href: '/playerstats',
       icon: React.createElement(BarChart),
+      authentication: true, // Requires authentication for player stats
     },
     {
       title: t('menuOptions.previousGames'),
       href: '/previousgames',
       icon: React.createElement(History),
+      authentication: true, // Requires authentication for previous games
     },
     {
       title: t('menuOptions.folowedPlayers'),
       href: '/followed-players',
       icon: React.createElement(People),
+      authentication: true, // Requires authentication for followed players
     },
     // Electron-only navigation items
     ...(electronFeatures.isAvailable
@@ -70,21 +82,25 @@ const createNavigationPages = (
             title: t('menuOptions.gameLogs'),
             href: '/logs',
             icon: React.createElement(TextSnippet),
+            authentication: true, // Requires authentication for game logs
           },
           {
             title: t('menuOptions.replays', 'Replays'),
             href: '/replays',
             icon: React.createElement(Replay),
+            authentication: true, // Requires authentication for replays
           },
           {
             title: t('menuOptions.download'),
             href: '/download',
             icon: React.createElement(Download),
+            authentication: true, // Requires authentication for downloads
           },
           {
             title: t('menuOptions.settings'),
             href: '/settings',
             icon: React.createElement(Settings),
+            authentication: true, // Requires authentication for settings
             devider: true,
           },
         ]
@@ -93,21 +109,25 @@ const createNavigationPages = (
       title: t('menuOptions.wiki'),
       href: '/wiki',
       icon: React.createElement(Article),
+      authentication: false, // No authentication required for wiki
     },
     {
       title: t('menuOptions.joinDiscord'),
       href: '/discord',
       icon: React.createElement(Forum),
+      authentication: false, // No authentication required for Discord
     },
     {
       title: t('menuOptions.changelog'),
       href: '/changelog',
       icon: React.createElement(GitHub),
+      authentication: false, // No authentication required for changelog
     },
     {
       title: t('menuOptions.about'),
       href: '/about',
       icon: React.createElement(Info),
+      authentication: false, // No authentication required for about
     },
   ];
 
@@ -121,6 +141,7 @@ const createNavigationPages = (
       title: 'Developer Tools',
       href: '/dev',
       icon: React.createElement(Article),
+      authentication: true, // Requires authentication for developer tools
       devider: true,
     });
   }
@@ -130,6 +151,7 @@ const createNavigationPages = (
     title: t('menuOptions.SupportUs'),
     href: '#support',
     icon: React.createElement(PriceChange),
+    authentication: false, // No authentication required for support
     special: true,
   });
 

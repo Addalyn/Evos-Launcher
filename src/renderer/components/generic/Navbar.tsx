@@ -356,19 +356,19 @@ export default function NavBar(): ReactElement {
       </AppBar>
 
       {/* Navigation Drawer */}
-      {isAuthenticated() && (
-        <NavigationDrawer
-          drawerWidth={drawerWidth}
-          pages={pages}
-          branchesData={branchesData}
-          branch={branch}
-          locked={locked}
-          isDev={isDev}
-          isDownloading={isDownloading}
-          onBranchChange={handleChangeBranch}
-          onNavigate={doNavigate}
-        />
-      )}
+
+      <NavigationDrawer
+        drawerWidth={drawerWidth}
+        pages={pages}
+        branchesData={branchesData}
+        branch={branch}
+        locked={locked}
+        isDev={isDev}
+        isDownloading={isDownloading}
+        onBranchChange={handleChangeBranch}
+        onNavigate={doNavigate}
+        isAuthenticated={isAuthenticated()}
+      />
     </>
   );
 }

@@ -38,7 +38,6 @@ import Player from '../atlas/Player';
 import Queue from '../atlas/Queue';
 import Server from '../atlas/Server';
 import TrustBar from '../generic/TrustBar';
-import { useNavigate } from 'react-router-dom';
 import useWebSocket from 'react-use-websocket';
 import { isElectronApp } from 'renderer/utils/electronUtils';
 
@@ -78,16 +77,13 @@ function StatusPage(): React.ReactElement {
   const [expanded, setExpanded] = useState<boolean>(false);
 
   /** Store containing user settings and authentication data */
-  const { ip, activeUser, gameExpanded } = EvosStore();
+  const { activeUser, gameExpanded } = EvosStore();
 
   /** Translation function for internationalization */
   const { t } = useTranslation();
 
   /** List of player information for the legend section */
   const [playerInfoList, setPlayerInfoList] = useState<PlayerData[]>([]);
-
-  /** Navigation function for routing */
-  const navigate = useNavigate();
 
   /**
    * Effect to fetch player information for the legend section
@@ -132,25 +128,6 @@ function StatusPage(): React.ReactElement {
     'Lucas#210': 'Tournament Champion',
     'cEEKAY#828': 'Nitro Booster',
   };
-
-  /**
-   * Effect to handle authentication and redirect to login if necessary
-   * Checks if user has valid IP and authentication token
-   */
-  useEffect(() => {
-    setTimeout(() => {
-      if (
-        ip === undefined ||
-        ip === null ||
-        ip === '' ||
-        activeUser === null ||
-        activeUser?.token === ''
-      ) {
-        navigate('/login');
-      }
-    }, 500);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ip, activeUser]);
 
   // Use all players, groups, and games as in the old working version
   const players = useMemo(

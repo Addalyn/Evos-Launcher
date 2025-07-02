@@ -37,6 +37,7 @@ import {
   getBranches,
   logout,
 } from 'renderer/lib/Evos';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * Modern, clean, and modular redesign of the Settings Page for Evos Launcher.
@@ -98,6 +99,8 @@ export function truncateDynamicPath(
 }
 
 export default function SettingsPage() {
+  const navigate = useNavigate();
+
   // Sync dev status to global store
   useDevStatus();
   const {
@@ -191,7 +194,7 @@ export default function SettingsPage() {
       activeUser?.banner as number,
       activeUser?.configFile as string,
     );
-    window.location.href = '/login';
+    navigate('/login');
   };
 
   const handleSelectFileClick = async (config: boolean) => {
@@ -270,8 +273,7 @@ export default function SettingsPage() {
     });
     withElectron((electron) => electron.store.clear());
     setTimeout(() => {
-      window.location.href = '/login';
-      window.location.reload();
+      navigate('/login');
     }, 500);
   };
 
@@ -282,8 +284,7 @@ export default function SettingsPage() {
     withElectron((electron) => electron.store.removeItem('authenticatedUsers'));
     setTimeout(() => {
       withElectron((electron) => electron.store.removeItem('activeUser'));
-      window.location.href = '/login';
-      window.location.reload();
+      navigate('/login');
     }, 500);
   };
 
@@ -319,8 +320,8 @@ export default function SettingsPage() {
 
   const handleChange = (event: any) => {
     const selectedValue = event.target.value;
-    setIp(selectedValue);
     signOut();
+    setIp(selectedValue);
   };
 
   const handleChangeBranch = (

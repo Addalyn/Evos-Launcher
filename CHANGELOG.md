@@ -1,5 +1,28 @@
 # Evos Launcher Changelog
 
+# [3.0.5] - 2025-07-03
+
+## Features & Improvements
+
+- Enhanced authentication flow with improved session validation and error handling.
+- Updated navigation drawer to dynamically display items based on user authentication status.
+- Improved route configuration to ensure proper layout rendering for authenticated and unauthenticated pages.
+- Added support for dynamic path truncation in settings for better UI readability.
+
+## Bug Fixes
+
+- Fixed navigation issues in the settings and status pages when switching users or logging out.
+- Resolved WebSocket reconnection issues in the status page.
+- Addressed layout inconsistencies in the login and settings pages.
+
+## Code Cleanup
+
+- Refactored navigation components to improve maintainability and performance.
+- Updated type definitions for better type safety across navigation-related components.
+- Removed redundant imports and unused variables in multiple files.
+
+> **Note:** The launcher now allows users to access the navigation drawer, login, status, wiki, join Discord, changelog, and about pages without logging in.
+
 # [3.0.4] - 2025-06-30
 
 ## Features & Improvements
@@ -794,7 +817,7 @@ All existing features remain fully functional while providing a significantly mo
 
 ## [1.8.2] - Release Date TBD
 
-### Bug Fixes
+### Bug Fixs
 
 - **Localization**: Fixed translation errors
 - **Game Integration**: Fixed black box ability previews in game
