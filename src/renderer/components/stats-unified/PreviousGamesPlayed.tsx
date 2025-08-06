@@ -294,7 +294,8 @@ const groupByTeam = (game: Game) => {
 };
 
 const formatDate = (locale: string, dateString: string) => {
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  // const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
   // @ts-ignore
   return new Date(dateString).toLocaleDateString(locale, options);
 };
