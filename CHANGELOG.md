@@ -1,5 +1,11 @@
 # Evos Launcher Changelog
 
+# [3.0.6] - 2025-08-07
+
+## Features & Improvements
+
+- Add hour and minute to previous games played
+
 # [3.0.5] - 2025-07-03
 
 ## Features & Improvements
