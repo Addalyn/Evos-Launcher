@@ -6,17 +6,25 @@
  */
 
 import React, { useCallback } from 'react';
-import { Box } from '@mui/material';
 
 // Page imports
 import AboutPage from '../components/pages/AboutPage';
 import AddAccountPage from '../components/pages/AddAccountPage';
+// Generic component imports
+import AdminMessage from '../components/generic/AdminMessage';
+import { Box } from '@mui/material';
+import BranchUpdater from '../components/generic/BranchUpdater';
 import ChangeLogPage from '../components/pages/ChangeLogPage';
 import DevPage from '../components/pages/DevPage';
 import DiscordPage from '../components/pages/DiscordPage';
 import DownloadPage from '../components/pages/DownloadPage';
+import EvosStore from 'renderer/lib/EvosStore';
+import FollowedPlayersPage from '../components/pages/FollowedPlayersPage';
+import LinkDiscord from '../components/generic/LinkDiscord';
 import LoginPage from '../components/pages/LoginPage';
 import LogsPage from '../components/pages/LogsPage';
+import NavBar from '../components/generic/Navbar';
+import NotificationMessage from '../components/generic/NotificationMessage';
 import PlayerStatsPage from '../components/pages/PlayerStatsPage';
 import PreviousGamesPage from '../components/pages/PreviousGamesPage';
 import RegisterPage from '../components/pages/RegisterPage';
@@ -24,20 +32,10 @@ import ReplaysPage from '../components/pages/ReplaysPage';
 import SettingsPage from '../components/pages/SettingsPage';
 import StatsPage from '../components/pages/StatsPage';
 import StatusPage from '../components/pages/StatusPage';
-import WikiPage from '../components/pages/WikiPage';
-import FollowedPlayersPage from '../components/pages/FollowedPlayersPage';
-
-// Generic component imports
-import AdminMessage from '../components/generic/AdminMessage';
-import LinkDiscord from '../components/generic/LinkDiscord';
-import NavBar from '../components/generic/Navbar';
-import NotificationMessage from '../components/generic/NotificationMessage';
 import VersionUpdater from '../components/generic/VersionUpdater';
-import BranchUpdater from '../components/generic/BranchUpdater';
-
+import WikiPage from '../components/pages/WikiPage';
 // Electron utilities
 import { isElectronApp } from '../utils/electronUtils';
-import EvosStore from 'renderer/lib/EvosStore';
 
 /**
  * Standard layout wrapper for most pages
@@ -138,7 +136,6 @@ const allRoutes = [
     element: <SettingsPage />,
     layout: 'standard',
     title: 'settings',
-    electronOnly: true,
   },
   {
     path: '/about',

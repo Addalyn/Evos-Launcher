@@ -24,12 +24,10 @@ import {
   Paper,
   Skeleton,
   Typography,
-  Chip,
 } from '@mui/material';
 import { PlayerData, Status, WS_URL, getPlayerData } from '../../lib/Evos';
-import { Trans, useTranslation } from 'react-i18next';
 import React, { useEffect, useMemo, useState } from 'react';
-import WebIcon from '@mui/icons-material/Web';
+import { Trans, useTranslation } from 'react-i18next';
 
 import { EvosError } from '../../lib/Error';
 import EvosStore from 'renderer/lib/EvosStore';
@@ -39,7 +37,6 @@ import Queue from '../atlas/Queue';
 import Server from '../atlas/Server';
 import TrustBar from '../generic/TrustBar';
 import useWebSocket from 'react-use-websocket';
-import { isElectronApp } from 'renderer/utils/electronUtils';
 
 /**
  * Groups an array of items by a specified key function
@@ -254,30 +251,6 @@ function StatusPage(): React.ReactElement {
 
   return (
     <>
-      {/* Environment indicator */}
-      <div
-        style={{
-          display: 'flex',
-          gap: '8px',
-          margin: '1em',
-          alignItems: 'center',
-        }}
-      >
-        {!isElectronApp() && (
-          <>
-            <Chip
-              label="Web Browser"
-              icon={<WebIcon />}
-              color="secondary"
-              size="small"
-            />
-            <Typography variant="caption" color="text.secondary">
-              Some features may be unavailable in web mode
-            </Typography>
-          </>
-        )}
-      </div>
-
       {error && (
         <Alert severity="error">
           <AlertTitle>{t('errors.error')}</AlertTitle>

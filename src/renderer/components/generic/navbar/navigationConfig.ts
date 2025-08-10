@@ -6,23 +6,24 @@
  * @since 2.2.6
  */
 
-import React from 'react';
 import {
+  Article,
   BarChart,
+  Download,
+  Forum,
+  GitHub,
   History,
   Home,
   Info,
-  Download,
+  People,
+  PriceChange,
+  Replay,
   Settings,
   TextSnippet,
-  Forum,
-  GitHub,
-  Article,
-  PriceChange,
-  People,
-  Replay,
 } from '@mui/icons-material';
+
 import type { NavigationPage } from './types';
+import React from 'react';
 import { electronFeatures } from 'renderer/utils/electronUtils';
 
 /**
@@ -96,15 +97,15 @@ const createNavigationPages = (
             icon: React.createElement(Download),
             authentication: true, // Requires authentication for downloads
           },
-          {
-            title: t('menuOptions.settings'),
-            href: '/settings',
-            icon: React.createElement(Settings),
-            authentication: true, // Requires authentication for settings
-            devider: true,
-          },
         ]
       : []),
+    {
+      title: t('menuOptions.settings'),
+      href: '/settings',
+      icon: React.createElement(Settings),
+      authentication: false, // Requires authentication for settings
+      devider: true,
+    },
     {
       title: t('menuOptions.wiki'),
       href: '/wiki',

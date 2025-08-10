@@ -1,10 +1,12 @@
-import { Alert, AlertColor, Grid } from '@mui/material';
-import axios from 'axios';
+import { Alert, AlertColor, Chip, Grid, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import Snowfall from 'react-snowfall';
 
+import Snowfall from 'react-snowfall';
+import WebIcon from '@mui/icons-material/Web';
+import axios from 'axios';
 import { getNotification } from 'renderer/lib/Evos';
+import { isElectronApp } from 'renderer/utils/electronUtils';
+import { useTranslation } from 'react-i18next';
 
 function NotificationMessage() {
   const [notice, setNotice] = useState<string | null>(null);
@@ -91,6 +93,30 @@ function NotificationMessage() {
           </Grid>
         )}
       </Grid>
+
+      {/* Environment indicator */}
+      {!isElectronApp() && (
+        <div
+          style={{
+            display: 'flex',
+            gap: '8px',
+            margin: '1em',
+            alignItems: 'center',
+          }}
+        >
+          <div>
+            <Chip
+              label="Web Browser"
+              icon={<WebIcon />}
+              color="secondary"
+              size="small"
+            />
+            <Typography variant="caption" color="text.secondary">
+              Some features may be unavailable in web mode
+            </Typography>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

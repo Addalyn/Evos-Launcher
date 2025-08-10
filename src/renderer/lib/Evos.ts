@@ -6,9 +6,9 @@
  * @since 1.0.0
  */
 
+import EvosStore from './EvosStore';
 import axios from 'axios';
 import { strapiClient } from './strapi';
-import EvosStore from './EvosStore';
 import { withElectron } from '../utils/electronUtils';
 
 /**
@@ -20,11 +20,11 @@ const getIp = async (): Promise<string> => {
       (electron) => electron.store.getItem('ip'),
       null,
     );
-    return electronIp || EvosStore.getState().ip || '';
+    return electronIp || EvosStore.getState().ip || 'evos-emu.com';
   } catch (error) {
     // eslint-disable-next-line no-console
     console.warn('Failed to get IP from storage, using fallback:', error);
-    return EvosStore.getState().ip || '';
+    return EvosStore.getState().ip || 'evos-emu.com';
   }
 };
 
