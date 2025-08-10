@@ -1,5 +1,11 @@
 # Evos Launcher Changelog
 
+# [3.0.7] - 2025-08-10
+
+## Features & Improvements
+
+- Add Settings to webversion and improve its functionality
+
 # [3.0.6] - 2025-08-07
 
 ## Features & Improvements

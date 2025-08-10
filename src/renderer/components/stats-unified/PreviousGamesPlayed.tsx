@@ -1,45 +1,46 @@
-/* eslint-disable react/no-danger */
-/* eslint-disable react/require-default-props */
-import React, { useEffect, useState, useCallback } from "react";
 import {
-  Typography,
+  Box,
+  Button,
+  Chip,
+  FormControl,
+  Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
+  Pagination,
+  Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
-  Box,
-  Pagination,
-  FormControl,
-  Select,
-  MenuItem,
-  Grid,
-  TextField, // Add TextField for player search
-  Chip,
+  TextField,
   Tooltip,
-  Button,
-  InputLabel,
-  InputAdornment,
-  IconButton,
-} from "@mui/material";
-import { trackEvent } from "@aptabase/electron/renderer";
-import { GiBroadsword, GiHealthNormal, GiDeathSkull } from "react-icons/gi";
-import { BsShield } from "react-icons/bs";
-import { PiSwordDuotone, PiSwordFill } from "react-icons/pi";
-import { FaRankingStar } from "react-icons/fa6";
-import { strapiClient, strapiClientv1 } from "renderer/lib/strapi";
-import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { PlayerData, denydNames } from "renderer/lib/Evos";
-import { abilityIcon, ability, catalystsIcon } from "renderer/lib/Resources";
-import Player from "../atlas/Player";
+  Typography,
+} from '@mui/material';
+import { GiBroadsword, GiDeathSkull, GiHealthNormal } from 'react-icons/gi';
+import { PiSwordDuotone, PiSwordFill } from 'react-icons/pi';
+import { PlayerData, denydNames } from 'renderer/lib/Evos';
+/* eslint-disable react/no-danger */
+/* eslint-disable react/require-default-props */
+import React, { useCallback, useEffect, useState } from 'react';
 // eslint-disable-next-line import/no-cycle
-import { ReplayDialog, ReplayFile } from "../pages/ReplaysPage";
-import AdvancedDialog from "../pages/AdvancedPage";
-import EvosStore from "renderer/lib/EvosStore";
-import { Close } from "@mui/icons-material";
+import { ReplayDialog, ReplayFile } from '../pages/ReplaysPage';
+import { ability, abilityIcon, catalystsIcon } from 'renderer/lib/Resources';
+import { strapiClient, strapiClientv1 } from 'renderer/lib/strapi';
+
+import AdvancedDialog from '../pages/AdvancedPage';
+import { BsShield } from 'react-icons/bs';
+import { Close } from '@mui/icons-material';
+import EvosStore from 'renderer/lib/EvosStore';
+import { FaRankingStar } from 'react-icons/fa6';
+import Player from '../atlas/Player';
+import { trackEvent } from '@aptabase/electron/renderer';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface CharacterSkin {
   skinIndex: number;
@@ -187,37 +188,37 @@ const fetchInfo = async (
   searchByTurns: string,
   score: string,
   curentTeam: string,
-  apiVersion: "v1" | "production"
+  apiVersion: 'v1' | 'production',
 ) => {
   try {
-    const client = apiVersion === "v1" ? strapiClientv1 : strapiClient;
-    const strapi = client.from("games").select();
+    const client = apiVersion === 'v1' ? strapiClientv1 : strapiClient;
+    const strapi = client.from('games').select();
 
-    if (gameServerProcessCode !== "") {
-      strapi.equalTo("GameServerProcessCode", gameServerProcessCode);
+    if (gameServerProcessCode !== '') {
+      strapi.equalTo('GameServerProcessCode', gameServerProcessCode);
     } else {
-      if (map !== "All Maps") {
-        strapi.filterDeep("map", "eq", map);
+      if (map !== 'All Maps') {
+        strapi.filterDeep('map', 'eq', map);
       }
-      if (playerName !== "") {
-        strapi.filterDeep("stats.user", "contains", playerName);
+      if (playerName !== '') {
+        strapi.filterDeep('stats.user', 'contains', playerName);
       }
-      strapi.equalTo("gametype", curentType);
-      if (searchByTurns !== "") {
-        strapi.equalTo("turns", searchByTurns);
+      strapi.equalTo('gametype', curentType);
+      if (searchByTurns !== '') {
+        strapi.equalTo('turns', searchByTurns);
       }
-      if (score !== "") {
-        strapi.equalTo("score", score);
+      if (score !== '') {
+        strapi.equalTo('score', score);
       }
-      if (curentTeam !== "Both") {
-        strapi.equalTo("teamwin", curentTeam);
+      if (curentTeam !== 'Both') {
+        strapi.equalTo('teamwin', curentTeam);
       }
     }
 
-    strapi.populateWith("stats", ["*"], true);
-    strapi.populateWith("stats.advancedstats", ["*"], true);
+    strapi.populateWith('stats', ['*'], true);
+    strapi.populateWith('stats.advancedstats', ['*'], true);
 
-    strapi.sortBy([{ field: "id", order: "desc" }]);
+    strapi.sortBy([{ field: 'id', order: 'desc' }]);
     strapi.paginate(page, pageSize);
 
     const { data, error } = await strapi.get();
@@ -240,30 +241,30 @@ const fetchCount = async (
   searchByTurns: string,
   score: string,
   curentTeam: string,
-  apiVersion: "v1" | "production"
+  apiVersion: 'v1' | 'production',
 ) => {
   try {
-    const client = apiVersion === "v1" ? strapiClientv1 : strapiClient;
-    const strapi = client.from("games/count").select();
+    const client = apiVersion === 'v1' ? strapiClientv1 : strapiClient;
+    const strapi = client.from('games/count').select();
 
-    if (gameServerProcessCode !== "") {
-      strapi.equalTo("GameServerProcessCode", gameServerProcessCode);
+    if (gameServerProcessCode !== '') {
+      strapi.equalTo('GameServerProcessCode', gameServerProcessCode);
     } else {
-      if (map !== "All Maps") {
-        strapi.filterDeep("map", "eq", map);
+      if (map !== 'All Maps') {
+        strapi.filterDeep('map', 'eq', map);
       }
-      if (playerName !== "") {
-        strapi.filterDeep("stats.user", "contains", playerName);
+      if (playerName !== '') {
+        strapi.filterDeep('stats.user', 'contains', playerName);
       }
-      strapi.equalTo("gametype", curentType);
-      if (searchByTurns !== "") {
-        strapi.equalTo("turns", searchByTurns);
+      strapi.equalTo('gametype', curentType);
+      if (searchByTurns !== '') {
+        strapi.equalTo('turns', searchByTurns);
       }
-      if (score !== "") {
-        strapi.equalTo("score", score);
+      if (score !== '') {
+        strapi.equalTo('score', score);
       }
-      if (curentTeam !== "Both") {
-        strapi.equalTo("teamwin", curentTeam);
+      if (curentTeam !== 'Both') {
+        strapi.equalTo('teamwin', curentTeam);
       }
     }
     const { data, error } = await strapi.get();
@@ -296,11 +297,11 @@ const groupByTeam = (game: Game) => {
 const formatDate = (locale: string, dateString: string) => {
   // const options = { year: 'numeric', month: 'long', day: 'numeric' };
   const options = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
   };
   // @ts-ignore
   return new Date(dateString).toLocaleDateString(locale, options);
@@ -419,7 +420,7 @@ export function Games({
   const [replay, setReplay] = useState<Uploads | undefined>();
   const [selectedReplay, setSelectedReplay] = useState<ReplayFile>();
   const [loading, setLoading] = useState(false);
-  const [logError, setLogError] = useState("");
+  const [logError, setLogError] = useState('');
   const [openDialog, setOpenDialog] = useState(false);
   const [openAdvancedDialog, setOpenAdvancedDialog] = useState(false);
 
@@ -427,7 +428,7 @@ export function Games({
     const fetchReplayInfo = async (GameServerProcessCode: string) => {
       try {
         const response = await fetch(
-          `${strapiClient.getApiUrl()}/upload/files?filters[name][$contains]=${GameServerProcessCode}`
+          `${strapiClient.getApiUrl()}/upload/files?filters[name][$contains]=${GameServerProcessCode}`,
         );
         const data = await response.json();
 
@@ -465,14 +466,14 @@ export function Games({
 
         // Parse m_gameInfo_Serialized
         const gameInfo: GameInfo = JSON.parse(
-          parsedContent.m_gameInfo_Serialized
+          parsedContent.m_gameInfo_Serialized,
         );
 
         const gameInfoResult = gameInfo;
 
         // Parse m_teamInfo_Serialized string to JSON
         const teamInfo: TeamPlayerInfo[] = JSON.parse(
-          parsedContent.m_teamInfo_Serialized
+          parsedContent.m_teamInfo_Serialized,
         ).TeamPlayerInfo;
 
         // lowercase Handle to handle
@@ -488,9 +489,9 @@ export function Games({
           },
         }));
         setSelectedReplay({
-          id: "",
+          id: '',
           name: replay?.name as string,
-          fullPath: "",
+          fullPath: '',
           lastModified: new Date(),
           content: data,
           gameInfo: gameInfoResult,
@@ -506,7 +507,7 @@ export function Games({
       }
     };
     fetchReplay(
-      `${strapiClient.getApiUrl().replace("/api", "")}${replay?.url}` as string
+      `${strapiClient.getApiUrl().replace('/api', '')}${replay?.url}` as string,
     );
   };
   const handleOpenAdvanced = () => {
@@ -519,49 +520,49 @@ export function Games({
       elevation={3}
       sx={{
         borderBottom: 1,
-        borderColor: "divider",
-        margin: "1em",
-        paddingBottom: "0px",
-        padding: "1em",
+        borderColor: 'divider',
+        margin: '1em',
+        paddingBottom: '0px',
+        padding: '1em',
       }}
     >
-      <Grid container spacing={2} sx={{ padding: "1em" }}>
+      <Grid container spacing={2} sx={{ padding: '1em' }}>
         <Grid item xs={4}>
           <Typography variant="subtitle1" gutterBottom>
-            {t("maps.map")}: {t(`maps.${game.map}`)}{" "}
+            {t('maps.map')}: {t(`maps.${game.map}`)}{' '}
             <a
               href={`https://ptb.discord.com/channels/600425662452465701/${game.channelid}/${game.gameid}`}
               target="_blank"
               rel="noreferrer"
-              style={{ textDecoration: "none", color: "inherit" }}
+              style={{ textDecoration: 'none', color: 'inherit' }}
             >
-              ({t("showInDiscord")})
+              ({t('showInDiscord')})
             </a>
           </Typography>
         </Grid>
         <Grid item xs={3}>
           <Typography variant="subtitle1" gutterBottom>
-            {t("stats.score")}: {game.score}
+            {t('stats.score')}: {game.score}
           </Typography>
         </Grid>
         <Grid item xs={5}>
           <Typography variant="subtitle1" gutterBottom>
-            {t("stats.turns")}: {game.turns}
+            {t('stats.turns')}: {game.turns}
           </Typography>
         </Grid>
         <Grid item xs={4}>
           <Typography variant="subtitle1" gutterBottom>
-            {t("stats.played")}: {formatDate(i18n.language, game.date)}
+            {t('stats.played')}: {formatDate(i18n.language, game.date)}
           </Typography>
         </Grid>
         <Grid item xs={3}>
           <Typography variant="subtitle1" gutterBottom>
-            {t("stats.type")}: {game.gametype}
+            {t('stats.type')}: {game.gametype}
           </Typography>
         </Grid>
         <Grid item xs={5}>
           <Typography variant="subtitle1" gutterBottom>
-            {game.GameServerProcessCode} ({t("stats.version")}: {game.version})
+            {game.GameServerProcessCode} ({t('stats.version')}: {game.version})
           </Typography>
         </Grid>
       </Grid>
@@ -571,53 +572,53 @@ export function Games({
             key={team}
             component={Paper}
             sx={{
-              marginBottom: "1em",
+              marginBottom: '1em',
             }}
           >
             <Table size="small" aria-label="player stats">
               <TableHead>
                 <TableRow>
-                  <TableCell width={300}>{t("stats.user")}</TableCell>
+                  <TableCell width={300}>{t('stats.user')}</TableCell>
                   <TableCell width={customPlayers ? 250 : 150}>
-                    {t("stats.character")}
+                    {t('stats.character')}
                   </TableCell>
                   <TableCell>
-                    <Tooltip title={t("stats.takedowns")}>
+                    <Tooltip title={t('stats.takedowns')}>
                       <div>
                         <PiSwordDuotone />
                       </div>
                     </Tooltip>
                   </TableCell>
                   <TableCell>
-                    <Tooltip title={t("stats.deaths")}>
+                    <Tooltip title={t('stats.deaths')}>
                       <div>
                         <GiDeathSkull />
                       </div>
                     </Tooltip>
                   </TableCell>
                   <TableCell>
-                    <Tooltip title={t("stats.deathblows")}>
+                    <Tooltip title={t('stats.deathblows')}>
                       <div>
                         <PiSwordFill />
                       </div>
                     </Tooltip>
                   </TableCell>
                   <TableCell>
-                    <Tooltip title={t("stats.damage")}>
+                    <Tooltip title={t('stats.damage')}>
                       <div>
                         <GiBroadsword />
                       </div>
                     </Tooltip>
                   </TableCell>
                   <TableCell>
-                    <Tooltip title={t("stats.healing")}>
+                    <Tooltip title={t('stats.healing')}>
                       <div>
                         <GiHealthNormal />
                       </div>
                     </Tooltip>
                   </TableCell>
                   <TableCell>
-                    <Tooltip title={t("stats.damageReceived")}>
+                    <Tooltip title={t('stats.damageReceived')}>
                       <div>
                         <BsShield />
                       </div>
@@ -632,33 +633,33 @@ export function Games({
                     <TableRow
                       key={player.id}
                       sx={{
-                        marginBottom: "1em",
+                        marginBottom: '1em',
                         backgroundColor:
-                          (game.teamwin === "TeamA" &&
-                            player.team === "TeamA") ||
-                          (game.teamwin === "TeamB" && player.team === "TeamB")
-                            ? "#22c9554f"
-                            : "#ff423a4f",
+                          (game.teamwin === 'TeamA' &&
+                            player.team === 'TeamA') ||
+                          (game.teamwin === 'TeamB' && player.team === 'TeamB')
+                            ? '#22c9554f'
+                            : '#ff423a4f',
                       }}
                     >
                       <TableCell
-                        sx={{ cursor: "pointer" }}
+                        sx={{ cursor: 'pointer' }}
                         onClick={() => {
                           if (!denydNames.includes(player.user)) {
                             navigate(
                               `/playerstats?player=${encodeURIComponent(
-                                player.user
-                              )}`
+                                player.user,
+                              )}`,
                             );
                           }
                         }}
                       >
-                        <div style={{ display: "flex", alignItems: "center" }}>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
                           <div>
                             {customPlayers ? (
                               <Player
                                 info={customPlayers.find(
-                                  (p) => p.Handle === player.user
+                                  (p) => p.Handle === player.user,
                                 )}
                                 disableSkew
                                 characterType={undefined}
@@ -668,17 +669,17 @@ export function Games({
                               player.user
                             )}
                           </div>
-                          <div style={{ marginLeft: "auto" }}>
+                          <div style={{ marginLeft: 'auto' }}>
                             {calculateMVPBadge(player, game.stats) &&
                               !customPlayers && (
-                                <Tooltip title={t("stats.mvp")}>
+                                <Tooltip title={t('stats.mvp')}>
                                   <Chip
                                     color="primary"
                                     label=""
                                     size="small"
                                     icon={
                                       <FaRankingStar
-                                        style={{ marginLeft: "12px" }}
+                                        style={{ marginLeft: '12px' }}
                                       />
                                     }
                                     sx={{ marginLeft: 1 }} // Add margin to badges
@@ -687,14 +688,14 @@ export function Games({
                               )}
                             {calculateHealerBadge(player, game.stats) &&
                               !customPlayers && (
-                                <Tooltip title={t("stats.bestSupport")}>
+                                <Tooltip title={t('stats.bestSupport')}>
                                   <Chip
                                     color="secondary"
                                     label=""
                                     size="small"
                                     icon={
                                       <GiHealthNormal
-                                        style={{ marginLeft: "12px" }}
+                                        style={{ marginLeft: '12px' }}
                                       />
                                     }
                                     sx={{ marginLeft: 1 }} // Add margin to badges
@@ -703,14 +704,14 @@ export function Games({
                               )}
                             {calculateDamageBadge(player, game.stats) &&
                               !customPlayers && (
-                                <Tooltip title={t("stats.bestDamage")}>
+                                <Tooltip title={t('stats.bestDamage')}>
                                   <Chip
                                     color="error"
                                     label=""
                                     size="small"
                                     icon={
                                       <GiBroadsword
-                                        style={{ marginLeft: "12px" }}
+                                        style={{ marginLeft: '12px' }}
                                       />
                                     }
                                     sx={{ marginLeft: 1 }} // Add margin to badges
@@ -719,14 +720,14 @@ export function Games({
                               )}
                             {calculateTankBadge(player, game.stats) &&
                               !customPlayers && (
-                                <Tooltip title={t("stats.bestTank")}>
+                                <Tooltip title={t('stats.bestTank')}>
                                   <Chip
                                     color="info"
                                     label=""
                                     size="small"
                                     icon={
                                       <BsShield
-                                        style={{ marginLeft: "12px" }}
+                                        style={{ marginLeft: '12px' }}
                                       />
                                     }
                                     sx={{ marginLeft: 1 }} // Add margin to badges
@@ -737,7 +738,7 @@ export function Games({
                         </div>
                       </TableCell>
                       <TableCell>
-                        {t(`charNames.${player.character.replace(/:3/g, "")}`)}
+                        {t(`charNames.${player.character.replace(/:3/g, '')}`)}
                         {customPlayers &&
                           customPlayers.map((customPlayer) => {
                             // Check if this handle has already been rendered
@@ -748,34 +749,34 @@ export function Games({
                               // If not rendered yet and matches the current player's handle, render the content
                               renderedHandles.add(customPlayer.Handle); // Mark this handle as rendered
                               const tooltip1 = ability(
-                                player.character.replace(/:3/g, ""),
+                                player.character.replace(/:3/g, ''),
                                 0,
                                 customPlayer.CharacterInfo.CharacterMods
-                                  .ModForAbility0
+                                  .ModForAbility0,
                               );
                               const tooltip2 = ability(
-                                player.character.replace(/:3/g, ""),
+                                player.character.replace(/:3/g, ''),
                                 1,
                                 customPlayer.CharacterInfo.CharacterMods
-                                  .ModForAbility1
+                                  .ModForAbility1,
                               );
                               const tooltip3 = ability(
-                                player.character.replace(/:3/g, ""),
+                                player.character.replace(/:3/g, ''),
                                 2,
                                 customPlayer.CharacterInfo.CharacterMods
-                                  .ModForAbility2
+                                  .ModForAbility2,
                               );
                               const tooltip4 = ability(
-                                player.character.replace(/:3/g, ""),
+                                player.character.replace(/:3/g, ''),
                                 3,
                                 customPlayer.CharacterInfo.CharacterMods
-                                  .ModForAbility3
+                                  .ModForAbility3,
                               );
                               const tooltip5 = ability(
-                                player.character.replace(/:3/g, ""),
+                                player.character.replace(/:3/g, ''),
                                 4,
                                 customPlayer.CharacterInfo.CharacterMods
-                                  .ModForAbility4
+                                  .ModForAbility4,
                               );
 
                               return (
@@ -811,13 +812,13 @@ export function Games({
                                     >
                                       <img
                                         src={abilityIcon(
-                                          player.character.replace(/:3/g, ""),
-                                          1
+                                          player.character.replace(/:3/g, ''),
+                                          1,
                                         )}
                                         alt="ability1"
                                         width={25}
                                         height={25}
-                                        style={{ cursor: "pointer" }}
+                                        style={{ cursor: 'pointer' }}
                                       />
                                     </Tooltip>
                                   </Typography>
@@ -852,13 +853,13 @@ export function Games({
                                     >
                                       <img
                                         src={abilityIcon(
-                                          player.character.replace(/:3/g, ""),
-                                          2
+                                          player.character.replace(/:3/g, ''),
+                                          2,
                                         )}
                                         alt="ability2"
                                         width={25}
                                         height={25}
-                                        style={{ cursor: "pointer" }}
+                                        style={{ cursor: 'pointer' }}
                                       />
                                     </Tooltip>
                                   </Typography>
@@ -893,13 +894,13 @@ export function Games({
                                     >
                                       <img
                                         src={abilityIcon(
-                                          player.character.replace(/:3/g, ""),
-                                          3
+                                          player.character.replace(/:3/g, ''),
+                                          3,
                                         )}
                                         alt="ability3"
                                         width={25}
                                         height={25}
-                                        style={{ cursor: "pointer" }}
+                                        style={{ cursor: 'pointer' }}
                                       />
                                     </Tooltip>
                                   </Typography>
@@ -934,13 +935,13 @@ export function Games({
                                     >
                                       <img
                                         src={abilityIcon(
-                                          player.character.replace(/:3/g, ""),
-                                          4
+                                          player.character.replace(/:3/g, ''),
+                                          4,
                                         )}
                                         alt="ability4"
                                         width={25}
                                         height={25}
-                                        style={{ cursor: "pointer" }}
+                                        style={{ cursor: 'pointer' }}
                                       />
                                     </Tooltip>
                                   </Typography>
@@ -975,26 +976,26 @@ export function Games({
                                     >
                                       <img
                                         src={abilityIcon(
-                                          player.character.replace(/:3/g, ""),
-                                          5
+                                          player.character.replace(/:3/g, ''),
+                                          5,
                                         )}
                                         alt="ability5"
                                         width={25}
                                         height={25}
                                         style={{
-                                          marginRight: "10px",
-                                          cursor: "pointer",
+                                          marginRight: '10px',
+                                          cursor: 'pointer',
                                         }}
                                       />
                                     </Tooltip>
-                                  </Typography>{" "}
+                                  </Typography>{' '}
                                   {customPlayer.CharacterInfo.CharacterCards
                                     .PrepCard !== 0 && (
                                     <Typography variant="caption">
                                       <img
                                         src={catalystsIcon(
                                           customPlayer.CharacterInfo
-                                            .CharacterCards.PrepCard
+                                            .CharacterCards.PrepCard,
                                         )}
                                         alt={customPlayer.CharacterInfo.CharacterCards.PrepCard.toString()}
                                         width={25}
@@ -1008,7 +1009,7 @@ export function Games({
                                       <img
                                         src={catalystsIcon(
                                           customPlayer.CharacterInfo
-                                            .CharacterCards.DashCard
+                                            .CharacterCards.DashCard,
                                         )}
                                         alt={customPlayer.CharacterInfo.CharacterCards.DashCard.toString()}
                                         width={25}
@@ -1022,7 +1023,7 @@ export function Games({
                                       <img
                                         src={catalystsIcon(
                                           customPlayer.CharacterInfo
-                                            .CharacterCards.CombatCard
+                                            .CharacterCards.CombatCard,
                                         )}
                                         alt={customPlayer.CharacterInfo.CharacterCards.CombatCard.toString()}
                                         width={25}
@@ -1057,15 +1058,15 @@ export function Games({
             color="primary"
             fullWidth
             onClick={() => {
-              trackEvent("Open Replay", {
-                user: activeUser?.handle || "",
+              trackEvent('Open Replay', {
+                user: activeUser?.handle || '',
                 game: game.GameServerProcessCode,
               });
               handleOpenReplay();
             }}
             sx={{ marginRight: 2 }} // Add margin to the right
           >
-            {t("replay.openReplay")}
+            {t('replay.openReplay')}
           </Button>
         )}
         {game.stats.find((player) => player.advancedstats?.length > 0) && (
@@ -1074,14 +1075,14 @@ export function Games({
             color="primary"
             fullWidth
             onClick={() => {
-              trackEvent("Open Advanced Stats", {
-                user: activeUser?.handle || "",
+              trackEvent('Open Advanced Stats', {
+                user: activeUser?.handle || '',
                 game: game.GameServerProcessCode,
               });
               handleOpenAdvanced();
             }}
           >
-            {t("advstats.openAdvanced")}
+            {t('advstats.openAdvanced')}
           </Button>
         )}
       </Box>
@@ -1110,11 +1111,11 @@ export function Games({
 }
 
 interface Props {
-  apiVersion?: "v1" | "production";
+  apiVersion?: 'v1' | 'production';
 }
 
 export default function PreviousGamesPlayed({
-  apiVersion = "production",
+  apiVersion = 'production',
 }: Props = {}) {
   const { t, i18n } = useTranslation();
 
@@ -1122,14 +1123,14 @@ export default function PreviousGamesPlayed({
   const [total, setTotal] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
-  const [selectedMap, setSelectedMap] = useState<string>("All Maps");
-  const [curentType, setCurrentType] = useState<string>("PvP");
+  const [selectedMap, setSelectedMap] = useState<string>('All Maps');
+  const [curentType, setCurrentType] = useState<string>('PvP');
   const [gameServerProcessCode, setGameServerProcessCode] =
-    useState<string>("");
-  const [searchByTurns, setSearchByTurns] = useState<string>("");
-  const [score, setScore] = useState<string>("");
-  const [curentTeam, setCurentTeam] = useState<string>("Both");
-  const [searchedPlayer, setSearchedPlayer] = useState<string>("");
+    useState<string>('');
+  const [searchByTurns, setSearchByTurns] = useState<string>('');
+  const [score, setScore] = useState<string>('');
+  const [curentTeam, setCurentTeam] = useState<string>('Both');
+  const [searchedPlayer, setSearchedPlayer] = useState<string>('');
   const [errorGameServerProcessCode, setErrorGameServerProcessCode] =
     useState(false);
   const [errorScore, setErrorScore] = useState(false);
@@ -1188,7 +1189,7 @@ export default function PreviousGamesPlayed({
           searchByTurns,
           score,
           curentTeam,
-          apiVersion
+          apiVersion,
         ),
         fetchCount(
           selectedMap,
@@ -1198,7 +1199,7 @@ export default function PreviousGamesPlayed({
           searchByTurns,
           score,
           curentTeam,
-          apiVersion
+          apiVersion,
         ),
       ]);
 
@@ -1224,12 +1225,12 @@ export default function PreviousGamesPlayed({
       searchGames();
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [],
   );
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
-    page: number
+    page: number,
   ) => {
     setCurrentPage(page);
     searchGames();
@@ -1242,15 +1243,15 @@ export default function PreviousGamesPlayed({
   };
 
   const maps = [
-    "All Maps",
-    "Omni Reactor Core",
-    "EvoS Labs",
-    "Oblivion",
-    "Hexcelence",
-    "Flyway Freighter",
-    "Cloudspire",
-    "Hyperforge",
-    "Christmas Cloudspire",
+    'All Maps',
+    'Omni Reactor Core',
+    'EvoS Labs',
+    'Oblivion',
+    'Hexcelence',
+    'Flyway Freighter',
+    'Cloudspire',
+    'Hyperforge',
+    'Christmas Cloudspire',
   ];
 
   return (
@@ -1259,10 +1260,10 @@ export default function PreviousGamesPlayed({
         elevation={3}
         sx={{
           borderBottom: 1,
-          borderColor: "divider",
-          margin: "1em",
-          paddingBottom: "0px",
-          padding: "1em",
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+          padding: '1em',
         }}
       >
         <Grid container spacing={2}>
@@ -1273,7 +1274,7 @@ export default function PreviousGamesPlayed({
                 id="map-filter"
                 value={selectedMap}
                 onChange={handleMapChange}
-                disabled={gameServerProcessCode !== ""}
+                disabled={gameServerProcessCode !== ''}
               >
                 {maps.map((map) => (
                   <MenuItem key={map} value={map}>
@@ -1288,24 +1289,24 @@ export default function PreviousGamesPlayed({
               <Select
                 value={curentType}
                 onChange={(event) => setCurrentType(event.target.value)}
-                disabled={gameServerProcessCode !== ""}
+                disabled={gameServerProcessCode !== ''}
               >
-                <MenuItem value="PvP">{t("stats.pvpgames")}</MenuItem>
-                <MenuItem value="Coop">{t("stats.coopgames")}</MenuItem>
+                <MenuItem value="PvP">{t('stats.pvpgames')}</MenuItem>
+                <MenuItem value="Coop">{t('stats.coopgames')}</MenuItem>
                 <MenuItem value="FourLancer">
-                  {t("stats.fourlancergames")}
+                  {t('stats.fourlancergames')}
                 </MenuItem>
-                <MenuItem value="Custom">{t("stats.customgames")}</MenuItem>
+                <MenuItem value="Custom">{t('stats.customgames')}</MenuItem>
                 <MenuItem value="Tournament">
-                  {t("stats.tournamentgames")}
+                  {t('stats.tournamentgames')}
                 </MenuItem>
               </Select>
             </FormControl>
           </Grid>
           <Grid item xs={6}>
             <TextField
-              label={t("stats.searchByPlayer")}
-              disabled={gameServerProcessCode !== ""}
+              label={t('stats.searchByPlayer')}
+              disabled={gameServerProcessCode !== ''}
               variant="outlined"
               value={searchedPlayer}
               onChange={(event) => setSearchedPlayer(event.target.value)}
@@ -1315,9 +1316,9 @@ export default function PreviousGamesPlayed({
                   <InputAdornment position="end">
                     <IconButton
                       aria-label="clear text"
-                      onClick={() => setSearchedPlayer("")}
+                      onClick={() => setSearchedPlayer('')}
                       edge="end"
-                      disabled={gameServerProcessCode !== ""}
+                      disabled={gameServerProcessCode !== ''}
                     >
                       <Close />
                     </IconButton>
@@ -1328,29 +1329,29 @@ export default function PreviousGamesPlayed({
           </Grid>
           <Grid item xs={6}>
             <FormControl fullWidth>
-              <InputLabel>{t("stats.searchByTeamWin")}</InputLabel>
+              <InputLabel>{t('stats.searchByTeamWin')}</InputLabel>
               <Select
                 value={curentTeam}
                 onChange={(event) => setCurentTeam(event.target.value)}
-                label={t("stats.searchByTeamWin")}
-                disabled={gameServerProcessCode !== ""}
+                label={t('stats.searchByTeamWin')}
+                disabled={gameServerProcessCode !== ''}
               >
-                <MenuItem value="Both">{t("stats.Both")}</MenuItem>
-                <MenuItem value="TeamA">{t("stats.TeamA")}</MenuItem>
-                <MenuItem value="TeamB">{t("stats.TeamB")}</MenuItem>
+                <MenuItem value="Both">{t('stats.Both')}</MenuItem>
+                <MenuItem value="TeamA">{t('stats.TeamA')}</MenuItem>
+                <MenuItem value="TeamB">{t('stats.TeamB')}</MenuItem>
               </Select>
             </FormControl>
           </Grid>
           <Grid item xs={6}>
             <FormControl fullWidth>
               <TextField
-                label={t("stats.searchByTurns")}
+                label={t('stats.searchByTurns')}
                 variant="outlined"
                 value={searchByTurns}
-                disabled={gameServerProcessCode !== ""}
+                disabled={gameServerProcessCode !== ''}
                 onChange={handleInputChangeTurns}
                 error={errorTurns}
-                helperText={errorTurns ? t("stats.invalidTurnsFormat") : ""}
+                helperText={errorTurns ? t('stats.invalidTurnsFormat') : ''}
                 fullWidth
                 InputProps={{
                   endAdornment: (
@@ -1358,11 +1359,11 @@ export default function PreviousGamesPlayed({
                       <IconButton
                         aria-label="clear text"
                         onClick={() => {
-                          setSearchByTurns("");
+                          setSearchByTurns('');
                           setErrorTurns(false);
                         }}
                         edge="end"
-                        disabled={gameServerProcessCode !== ""}
+                        disabled={gameServerProcessCode !== ''}
                       >
                         <Close />
                       </IconButton>
@@ -1375,25 +1376,25 @@ export default function PreviousGamesPlayed({
           <Grid item xs={6}>
             <FormControl fullWidth>
               <TextField
-                label={t("stats.searchByScore")}
+                label={t('stats.searchByScore')}
                 variant="outlined"
                 value={score}
-                disabled={gameServerProcessCode !== ""}
+                disabled={gameServerProcessCode !== ''}
                 onChange={handleInputChangeScore}
                 fullWidth
                 error={errorScore}
-                helperText={errorScore ? t("stats.invalidScoreFormat") : ""}
+                helperText={errorScore ? t('stats.invalidScoreFormat') : ''}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
                         aria-label="clear text"
                         onClick={() => {
-                          setScore("");
+                          setScore('');
                           setErrorScore(false);
                         }}
                         edge="end"
-                        disabled={gameServerProcessCode !== ""}
+                        disabled={gameServerProcessCode !== ''}
                       >
                         <Close />
                       </IconButton>
@@ -1406,15 +1407,15 @@ export default function PreviousGamesPlayed({
           <Grid item xs={6}>
             <FormControl fullWidth>
               <TextField
-                label={t("stats.searchByGameServerProcessCode")}
+                label={t('stats.searchByGameServerProcessCode')}
                 variant="outlined"
                 value={gameServerProcessCode}
                 onChange={handleInputChangeServerProcessCode}
                 error={errorGameServerProcessCode}
                 helperText={
                   errorGameServerProcessCode
-                    ? t("stats.invalidGameServerProcessCode")
-                    : ""
+                    ? t('stats.invalidGameServerProcessCode')
+                    : ''
                 }
                 fullWidth
                 InputProps={{
@@ -1423,7 +1424,7 @@ export default function PreviousGamesPlayed({
                       <IconButton
                         aria-label="clear text"
                         onClick={() => {
-                          setGameServerProcessCode("");
+                          setGameServerProcessCode('');
                           setErrorGameServerProcessCode(false);
                         }}
                         edge="end"
@@ -1446,9 +1447,9 @@ export default function PreviousGamesPlayed({
                 setCurrentPage(1);
               }}
               disabled={errorGameServerProcessCode || errorScore || errorTurns}
-              sx={{ marginRight: 2, height: "57px" }} // Add margin to the right
+              sx={{ marginRight: 2, height: '57px' }} // Add margin to the right
             >
-              {t("search")}
+              {t('search')}
             </Button>
           </Grid>
           <Grid item xs={6} />
@@ -1458,7 +1459,7 @@ export default function PreviousGamesPlayed({
               page={currentPage}
               onChange={handlePageChange}
               color="primary"
-              sx={{ float: "right", marginTop: "1em" }}
+              sx={{ float: 'right', marginTop: '1em' }}
             />
           </Grid>
         </Grid>
@@ -1477,10 +1478,10 @@ export default function PreviousGamesPlayed({
         elevation={3}
         sx={{
           borderBottom: 1,
-          borderColor: "divider",
-          margin: "1em",
-          paddingBottom: "0px",
-          padding: "1em",
+          borderColor: 'divider',
+          margin: '1em',
+          paddingBottom: '0px',
+          padding: '1em',
         }}
       >
         <Grid container spacing={2}>
