@@ -144,14 +144,6 @@ export default function SettingsPage() {
     setColorPaper,
   } = EvosStore();
 
-  const isElectron = isElectronApp();
-
-  // Debug isDev value
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('SettingsPage isDev:', isDev);
-  }, [isDev]);
-
   const [password, setPassword] = useState('');
   const [password1, setPassword1] = useState('');
   const [error, setError] = useState('');
@@ -163,6 +155,7 @@ export default function SettingsPage() {
   const [branchesData, setBranchesData] = useState<Branches>();
   const [selectedArgumentsTemp, setSelectedArgumentsTemp] =
     useState<SelectedArguments>({});
+  const [isElectron, setIsElectron] = useState(false);
 
   useEffect(() => {
     const getBranchesInfo = async () => {
@@ -186,6 +179,10 @@ export default function SettingsPage() {
     getBranchesInfo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [branch, setBranchesData, setSelectedArguments]);
+
+  useEffect(() => {
+    setIsElectron(isElectronApp());
+  }, []);
 
   const signOut = () => {
     logout(activeUser?.token ?? '');
@@ -500,7 +497,7 @@ export default function SettingsPage() {
             ))}
           </Select>
         </Paper>
-        {isElectron && (
+        {isElectron && activeUser?.token !== '' && (
           <>
             <Paper
               elevation={6}
@@ -618,56 +615,58 @@ export default function SettingsPage() {
             </Paper>
           </>
         )}
-        {ticketEnabled === 'false' && isElectron && (
-          <Paper
-            elevation={6}
-            sx={{
-              p: { xs: 3, sm: 4 },
-              m: { xs: '1em' },
-              overflow: 'hidden',
-              minWidth: 320,
-              mx: 'auto',
-            }}
-          >
-            <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-              {t('settings.configFile', 'Config File')}
-            </Typography>
-            <Divider sx={{ mb: 2 }} />
-            <TextField
-              placeholder={`${t('settings.configFilePlaceHolder')} ${activeUser?.handle}`}
-              value={truncateDynamicPath(
-                activeUser?.configFile === undefined
-                  ? ''
-                  : activeUser?.configFile,
-                45,
-              )}
-              variant="outlined"
-              disabled
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Avatar
-                      alt="logo"
-                      variant="square"
-                      src={logoSmall()}
-                      sx={{ width: 40, height: 40 }}
-                    />
-                  </InputAdornment>
-                ),
+        {ticketEnabled === 'false' &&
+          isElectron &&
+          activeUser?.token !== '' && (
+            <Paper
+              elevation={6}
+              sx={{
+                p: { xs: 3, sm: 4 },
+                m: { xs: '1em' },
+                overflow: 'hidden',
+                minWidth: 320,
+                mx: 'auto',
               }}
-              fullWidth
-              sx={{ mb: 2 }}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => handleSelectFileClick(true)}
-              fullWidth
             >
-              {t('settings.selectConfigFile')}
-            </Button>
-          </Paper>
-        )}
+              <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+                {t('settings.configFile', 'Config File')}
+              </Typography>
+              <Divider sx={{ mb: 2 }} />
+              <TextField
+                placeholder={`${t('settings.configFilePlaceHolder')} ${activeUser?.handle}`}
+                value={truncateDynamicPath(
+                  activeUser?.configFile === undefined
+                    ? ''
+                    : activeUser?.configFile,
+                  45,
+                )}
+                variant="outlined"
+                disabled
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Avatar
+                        alt="logo"
+                        variant="square"
+                        src={logoSmall()}
+                        sx={{ width: 40, height: 40 }}
+                      />
+                    </InputAdornment>
+                  ),
+                }}
+                fullWidth
+                sx={{ mb: 2 }}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => handleSelectFileClick(true)}
+                fullWidth
+              >
+                {t('settings.selectConfigFile')}
+              </Button>
+            </Paper>
+          )}
         <Paper
           elevation={6}
           sx={{
@@ -692,7 +691,7 @@ export default function SettingsPage() {
             </Select>
           </FormControl>
         </Paper>
-        {isElectron && (
+        {isElectron && activeUser?.token !== '' && (
           <>
             <Paper
               elevation={6}
