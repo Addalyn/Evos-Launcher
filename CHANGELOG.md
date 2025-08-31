@@ -1,5 +1,15 @@
 # Evos Launcher Changelog
 
+# [3.0.9] - 2025-08-15
+
+## Features & Improvements
+
+- Checking for updates on the loading screen,
+  - Change the way auto update works, no longer silent but with a window installer so you can install it yourself.
+- Changed setting page, improved layout and accessibility.
+  - Split code in multiple components for better organization and maintainability.
+  - Now uses Tabs for better navigation. No longer a very long settings page.
+
 # [3.0.8] - 2025-08-15
 
 ## Features & Improvements
@@ -8,7 +18,6 @@
   - Now checks for valid user token before showing account/game/config/advanced/branch sections.
   - Moved `isElectron` to a state variable and set it via `useEffect` for better SSR compatibility.
   - Cleaned up and improved conditional rendering for better user experience and security.
-
 
 # [3.0.7] - 2025-08-10
 

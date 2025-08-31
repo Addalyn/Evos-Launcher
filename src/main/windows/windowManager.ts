@@ -117,7 +117,7 @@ export function createSplashWindow(): BrowserWindow {
 
   const splash = new BrowserWindow({
     width: 600,
-    height: 300,
+    height: 400,
     transparent: true,
     frame: false,
     alwaysOnTop: true,
@@ -125,10 +125,13 @@ export function createSplashWindow(): BrowserWindow {
     skipTaskbar: true,
     resizable: false,
     icon: getAssetPath('logo.png'),
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
   });
 
-  splash.loadURL(getAssetPath('splash.html'));
-  splash.center();
+  splash.loadFile(getAssetPath('splash.html'));
 
   // Show splash after it's fully loaded to prevent flickering
   splash.once('ready-to-show', () => {

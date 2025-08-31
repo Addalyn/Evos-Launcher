@@ -1,5 +1,5 @@
 {
-  "version": "3.0.8",
+  "version": "3.0.9",
   "description": "A Atlas Reactor Launcer",
   "keywords": [
     "Atlas Reacor"
@@ -110,7 +110,6 @@
     "electron-dl": "^3.5.2",
     "electron-log": "^5.1.0",
     "electron-settings": "^4.0.2",
-    "electron-updater": "^6.1.7",
     "follow-redirects": "^1.15.5",
     "fs-extra": "^11.2.0",
     "html2canvas": "^1.4.1",
@@ -167,6 +166,7 @@
     "electron": "^27.3.11",
     "electron-builder": "^24.9.1",
     "electron-devtools-installer": "^3.2.1",
+    "electron-updater": "^6.6.2",
     "electronmon": "^2.0.2",
     "eslint": "^8.56.0",
     "eslint-config-airbnb-base": "^15.0.0",

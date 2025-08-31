@@ -132,7 +132,7 @@ async function calculateFileChecksum(filePath: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const hash = crypto.createHash('sha1');
     const stream = fs.createReadStream(filePath);
-
+    // @ts-ignore
     stream.on('data', (data) => hash.update(data));
     stream.on('end', () => resolve(hash.digest('hex')));
     stream.on('error', (err) => reject(err));
@@ -644,7 +644,7 @@ export function setupIpcHandlers(mainWindow: BrowserWindow | null): void {
   });
 
   ipcMain.handle('quitAndInstall', async () => {
-    autoUpdater.quitAndInstall(true, true);
+    autoUpdater.quitAndInstall();
   });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

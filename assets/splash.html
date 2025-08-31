@@ -8,51 +8,103 @@
     />
     <title>Atlas Reactor</title>
     <style>
+      :root {
+        --background-color: #1e1e1e;
+        --text-color: #ffffff;
+        --bar-height: 10px;
+        --bar-background-color: rgba(0, 0, 0, 0.6);
+        --bar-fill-color-start: #4caf50;
+        --bar-fill-color-end: #81c784;
+        --text-background-color: rgba(0, 0, 0, 0.6);
+        --border-radius: 15px;
+        --shadow-color: rgba(0, 0, 0, 0.5);
+        --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+          'Segoe UI Symbol';
+      }
+
+      * {
+        box-sizing: border-box;
+        -webkit-app-region: drag;
+      }
+
       body,
       html {
         height: 100%;
         margin: 0;
         overflow: hidden;
-      }
-      * {
-        -webkit-app-region: drag;
-      }
-      .bg {
-        /* Full height */
-        height: 100%;
-
-        /* Center and scale the image nicely */
+        background-color: var(--background-color);
+        font-family: var(--font-family);
+        color: var(--text-color);
+        border-radius: var(--border-radius);
+        animation: fadeIn 0.5s ease-in-out;
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
-        border-radius: 25px;
       }
 
-      /* Styling for the loading text */
-      .loading-text {
-        position: absolute;
-        bottom: 20px;
-        right: 20px;
-        font-size: 24px;
-        color: black;
-        opacity: 0; /* Initially hide the text */
-        animation: fadeinout 2s infinite; /* Animation for fading in and out */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
       }
-      /* Keyframes for fading in and out the loading text */
-      @keyframes fadeinout {
+
+      @keyframes pulse {
         0%,
         100% {
-          opacity: 0;
+          opacity: 0.8;
         }
         50% {
           opacity: 1;
         }
       }
+
+      .loading-text {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        font-size: 20px;
+        background-color: var(--text-background-color);
+        color: var(--text-color);
+        padding: 10px 15px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px var(--shadow-color);
+        animation: pulse 2s infinite ease-in-out;
+      }
+
+      .loading-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: var(--bar-height);
+        background-color: var(--bar-background-color);
+        border-bottom-left-radius: var(--border-radius);
+        border-bottom-right-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: 0 0 10px var(--shadow-color);
+      }
+
+      .loading-bar-fill {
+        height: 100%;
+        width: 0;
+        background: linear-gradient(
+          90deg,
+          var(--bar-fill-color-start),
+          var(--bar-fill-color-end)
+        );
+        transition: width 0.4s ease;
+      }
     </style>
   </head>
   <body>
-    <div class="bg" id="loadingImage"></div>
-    <div class="loading-text">Loading...</div>
+    <div class="loading-bar">
+      <div class="loading-bar-fill" id="loading-bar-fill"></div>
+    </div>
+    <div class="loading-text" id="update-text">Loading...</div>
 
     <script>
       // Array of image file names in the assets/loading directory
@@ -85,8 +137,45 @@
       const randomImage = images[randomIndex];
 
       // Set the background image of the loading div
-      const loadingDiv = document.getElementById('loadingImage');
-      loadingDiv.style.backgroundImage = `url('./img/loading/${randomImage}')`;
+      document.body.style.backgroundImage = `url('./img/loading/${randomImage}')`;
+
+      const { ipcRenderer } = require('electron');
+
+      ipcRenderer.on('update-checking', () => {
+        document.getElementById('update-text').innerText =
+          'Checking for updates...';
+      });
+
+      ipcRenderer.on('update-available', () => {
+        document.getElementById('update-text').innerText =
+          'Update available. Downloading...';
+      });
+
+      ipcRenderer.on('update-not-available', () => {
+        document.getElementById('update-text').innerText = 'Loading...';
+        // Fake progress bar until main window is ready
+        let progress = 0;
+        const interval = setInterval(() => {
+          progress += 1;
+          document.getElementById('loading-bar-fill').style.width =
+            `${progress}%`;
+          if (progress >= 100) {
+            clearInterval(interval);
+          }
+        }, 50); // Adjust the interval time as needed
+      });
+
+      ipcRenderer.on('update-progress', (_, progress) => {
+        document.getElementById('update-text').innerText =
+          `Downloading: ${Math.round(progress.percent)}%`;
+        document.getElementById('loading-bar-fill').style.width =
+          `${Math.round(progress.percent)}%`;
+      });
+
+      ipcRenderer.on('update-downloaded', () => {
+        document.getElementById('update-text').innerText =
+          'Update downloaded. Restarting...';
+      });
     </script>
   </body>
 </html>
