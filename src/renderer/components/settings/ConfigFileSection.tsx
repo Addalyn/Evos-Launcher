@@ -2,7 +2,7 @@ import React from 'react';
 import SectionCard from './SectionCard';
 import { Avatar, Button, InputAdornment, TextField } from '@mui/material';
 import { logoSmall } from 'renderer/lib/Resources';
-import { truncateDynamicPath } from 'renderer/utils/pathUtils';
+import truncateDynamicPath from 'renderer/utils/pathUtils';
 import { useTranslation } from 'react-i18next';
 
 type Props = {

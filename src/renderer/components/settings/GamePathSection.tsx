@@ -11,7 +11,7 @@ import {
 import { logoSmall } from 'renderer/lib/Resources';
 import { useTranslation } from 'react-i18next';
 import { isValidExePath, isWarningPath } from 'renderer/lib/Error';
-import { truncateDynamicPath } from 'renderer/utils/pathUtils';
+import truncateDynamicPath from 'renderer/utils/pathUtils';
 
 type Props = {
   exePath: string;

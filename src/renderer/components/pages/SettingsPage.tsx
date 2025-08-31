@@ -375,7 +375,7 @@ export default function SettingsPage() {
     {
       key: 'account',
       label: t('settings.account', 'Account'),
-      hidden: !(isElectron && activeUser?.token !== ''),
+      hidden: activeUser?.token === '',
       content: (
         <AccountSection
           password={password}
@@ -390,7 +390,7 @@ export default function SettingsPage() {
     {
       key: 'game',
       label: t('settings.game', 'Game'),
-      hidden: !(isElectron && activeUser?.token !== ''),
+      hidden: !isElectron || activeUser?.token === '',
       content: (
         <>
           <GamePathSection
@@ -426,32 +426,9 @@ export default function SettingsPage() {
       ),
     },
     {
-      key: 'config',
-      label: t('settings.configFile', 'Config File'),
-      hidden: !(
-        ticketEnabled === 'false' &&
-        isElectron &&
-        activeUser?.token !== ''
-      ),
-      content: (
-        <ConfigFileSection
-          activeHandle={activeUser?.handle}
-          configFile={activeUser?.configFile}
-          onSelect={() => handleSelectFileClick(true)}
-          hidden={
-            !(
-              ticketEnabled === 'false' &&
-              isElectron &&
-              activeUser?.token !== ''
-            )
-          }
-        />
-      ),
-    },
-    {
       key: 'branch',
       label: t('settings.branch', 'Branch'),
-      hidden: !(isElectron && activeUser?.token !== ''),
+      hidden: !isElectron || activeUser?.token === '',
       content: (
         <BranchSection
           exePath={exePath}
