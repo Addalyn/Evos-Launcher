@@ -11,6 +11,7 @@ import { BrowserWindow, app, shell } from 'electron';
 import path from 'path';
 import regedit from 'regedit';
 import log from 'electron-log';
+import { autoUpdater } from 'electron-updater';
 
 // Initialize modules
 import {
@@ -26,7 +27,6 @@ import { setAuthCallbacks } from './discord/services/auth';
 import {
   setupIpcHandlers,
   setupGlobalShortcuts,
-  setupAutoUpdater,
   setupWindowCloseHandler,
 } from './handlers/ipcHandlers';
 
@@ -54,15 +54,7 @@ if (process.env.NODE_ENV === 'production') {
   sourceMapSupport.install();
 }
 
-/**
- * Creates and initializes the main application window
- * Sets up splash screen, IPC handlers, and event listeners
- * @returns Promise that resolves when window creation is complete
- */
-const createWindow = async (): Promise<void> => {
-  // Create splash window first (it will show itself when ready)
-  const splash = createSplashWindow();
-
+const launchMainWindow = async (splash: BrowserWindow) => {
   // Create main window (hidden)
   mainWindow = await createMainWindow();
 
@@ -97,9 +89,6 @@ const createWindow = async (): Promise<void> => {
         if (splash && !splash.isDestroyed()) {
           splash.close();
         }
-
-        // Setup auto-updater after window is ready
-        setupAutoUpdater(mainWindow);
       }, 5000); // 5s delay to ensure React app is fully rendered
     }
   };
@@ -142,9 +131,88 @@ const createWindow = async (): Promise<void> => {
   });
 };
 
+function getAppCacheDir() {
+  const homedir = require('os').homedir(); // https://github.com/electron/electron/issues/1404#issuecomment-194391247
+
+  let result;
+
+  if (process.platform === 'win32') {
+    result = process.env.LOCALAPPDATA || path.join(homedir, 'AppData', 'Local');
+  } else if (process.platform === 'darwin') {
+    result = path.join(homedir, 'Library', 'Application Support', 'Caches');
+  } else {
+    result = process.env.XDG_CACHE_HOME || path.join(homedir, '.cache');
+  }
+
+  return result;
+}
+
 /**
- * Add event listeners...
+ * Creates and initializes the main application window
+ * Sets up splash screen, IPC handlers, and event listeners
+ * @returns Promise that resolves when window creation is complete
  */
+const createWindow = async (): Promise<void> => {
+  // Create splash window first (it will show itself when ready)
+  const splash = createSplashWindow();
+
+  // delete cache folder getAppCacheDir
+  const cacheDir = path.join(getAppCacheDir(), 'evoslauncher-updater');
+  log.info(`Clearing cache directory: ${cacheDir}`);
+  try {
+    await app.whenReady();
+    await require('fs').promises.rm(cacheDir, { recursive: true, force: true });
+    log.info('Cache directory cleared successfully');
+  } catch (error) {
+    log.error('Error clearing cache directory:', error);
+  }
+
+  // Listen for update events
+  splash.webContents.on('did-finish-load', () => {
+    splash.webContents.send('update-checking');
+
+    // Fallback: If no update events are received within 5 seconds, proceed to launch main window
+
+    const timeout = setTimeout(() => {
+      splash.webContents.send('update-not-available');
+      setTimeout(() => {
+        launchMainWindow(splash);
+      }, 5000);
+    }, 5000);
+
+    autoUpdater.on('checking-for-update', () => {
+      splash.webContents.send('update-checking');
+    });
+
+    autoUpdater.on('update-available', () => {
+      splash.webContents.send('update-available');
+      clearTimeout(timeout);
+    });
+
+    autoUpdater.on('update-not-available', () => {
+      splash.webContents.send('update-not-available');
+      clearTimeout(timeout);
+      // wait 5 seconds before launching main window
+      setTimeout(() => {
+        launchMainWindow(splash);
+      }, 5000);
+    });
+
+    autoUpdater.on('download-progress', (progress: { percent: number }) => {
+      clearTimeout(timeout);
+      splash.webContents.send('update-progress', progress);
+    });
+
+    autoUpdater.on('update-downloaded', () => {
+      clearTimeout(timeout);
+      splash.webContents.send('update-downloaded');
+      autoUpdater.quitAndInstall();
+    });
+
+    autoUpdater.checkForUpdates();
+  });
+};
+
 app.on('window-all-closed', () => {
   // Respect the OSX convention of having the application in memory even
   // after all windows have been closed

@@ -28,8 +28,8 @@ import { logoSmall } from 'renderer/lib/Resources';
 import EvosStore from 'renderer/lib/EvosStore';
 import { useTranslation } from 'react-i18next';
 import { withElectron } from 'renderer/utils/electronUtils';
-import { truncateDynamicPath } from './SettingsPage';
 import DiscordPage from './DiscordPage';
+import truncateDynamicPath from 'renderer/utils/pathUtils';
 
 /**
  * Translation function type

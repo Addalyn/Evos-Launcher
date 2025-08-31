@@ -1,25 +1,10 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Alert,
-  Avatar,
-  Box,
-  Button,
-  Divider,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  Grid,
-  InputAdornment,
-  MenuItem,
-  Paper,
-  Select,
-  Skeleton,
-  Switch,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Box, Grid, Tab, Tabs, useMediaQuery } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import PaletteIcon from '@mui/icons-material/Palette';
+import PersonIcon from '@mui/icons-material/Person';
+import DnsIcon from '@mui/icons-material/Dns';
+import CallSplitIcon from '@mui/icons-material/CallSplit';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import {
   Branches,
   changePassword,
@@ -28,17 +13,21 @@ import {
 } from 'renderer/lib/Evos';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { isElectronApp, withElectron } from 'renderer/utils/electronUtils';
-import { isValidExePath, isWarningPath } from 'renderer/lib/Error';
-
 import EvosStore from 'renderer/lib/EvosStore';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Flag from 'react-flagkit';
-import { MuiColorInput } from 'mui-color-input';
-import { logoSmall } from 'renderer/lib/Resources';
 import { trackEvent } from '@aptabase/electron/renderer';
 import useDevStatus from 'renderer/lib/useDevStatus';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import AppearanceSection from '../settings/AppearanceSection';
+import LanguageSection from '../settings/LanguageSection';
+import AccountSection from '../settings/AccountSection';
+import GamePathSection from '../settings/GamePathSection';
+import ConfigFileSection from '../settings/ConfigFileSection';
+import ServerSection from '../settings/ServerSection';
+import AdvancedSection from '../settings/AdvancedSection';
+import BranchSection from '../settings/BranchSection';
+import DangerZoneSection from '../settings/DangerZoneSection';
+import { logoSmall } from 'renderer/lib/Resources';
 
 /**
  * Modern, clean, and modular redesign of the Settings Page for Evos Launcher.
@@ -58,48 +47,12 @@ const lngs: { [key: string]: { nativeName: string; icon: string } } = {
 };
 
 type SelectedArguments = Record<string, string | null>;
-/**
- * Truncates a file path to fit within a specified character limit while preserving
- * the drive letter, filename, and maintaining readability with ellipsis for middle sections
- * @param filePath - The full file path to truncate (can be null, undefined, or empty)
- * @param maxChars - Maximum number of characters allowed
- * @returns Truncated file path string
- */
-export function truncateDynamicPath(
-  filePath: string | null | undefined,
-  maxChars: number,
-): string {
-  if (!filePath || filePath === '' || typeof filePath !== 'string') return '';
-
-  try {
-    const parts = filePath.split('\\');
-    const fileName = parts.pop();
-    const driveLetter = parts.shift();
-    // Additional safety checks
-    if (!fileName || !driveLetter) return filePath;
-
-    let truncatedPath = `${driveLetter}`;
-    let currentChars = driveLetter.length + 1 + fileName.length;
-
-    parts.reduce((acc, part) => {
-      if (currentChars + part.length + 1 <= maxChars) {
-        truncatedPath = `${acc}\\${part}`;
-        currentChars += part.length + 1;
-      } else if (!truncatedPath.endsWith('\\.....')) {
-        truncatedPath += '\\.....';
-      }
-      return truncatedPath;
-    }, driveLetter);
-
-    return `${truncatedPath}\\${fileName}`;
-  } catch (error) {
-    // If any error occurs during path processing, return empty string
-    return '';
-  }
-}
 
 export default function SettingsPage() {
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isCompact = useMediaQuery(theme.breakpoints.down('md'));
+  const isIconOnly = useMediaQuery(theme.breakpoints.down('sm'));
 
   // Sync dev status to global store
   useDevStatus();
@@ -151,17 +104,18 @@ export default function SettingsPage() {
     type: 'success' | 'error' | null;
     text: string;
   }>({ type: null, text: '' });
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [branchesData, setBranchesData] = useState<Branches>();
   const [selectedArgumentsTemp, setSelectedArgumentsTemp] =
     useState<SelectedArguments>({});
   const [isElectron, setIsElectron] = useState(false);
+  const [tabIndex, setTabIndex] = useState(0);
 
   useEffect(() => {
     const getBranchesInfo = async () => {
       const response = await getBranches();
       const { data }: { data: Branches } = response;
-      setBranchesData(data);
+      setBranchesData(data as Branches);
       const defaultArguments: Record<string, string | null> = {};
       const branchData = data[branch];
       if (branchData) {
@@ -384,588 +338,200 @@ export default function SettingsPage() {
   const handleChangeColorPaper = (sitecolor: string) =>
     setColorPaper(sitecolor);
 
+  // Build tabbed sections dynamically based on environment and auth state
+  const sections = [
+    {
+      key: 'appearance',
+      label: t('settings.appearance', 'Appearance'),
+      hidden: false,
+      content: (
+        <>
+          <LanguageSection lngs={lngs} />
+          <AppearanceSection
+            mode={mode}
+            toggleMode={toggleMode}
+            colorPrimary={colorPrimary}
+            setColorPrimary={handleChangeColorPrimary}
+            colorSecondary={colorSecondary}
+            setColorSecondary={handleChangeColorSecondary}
+            colorBackground={colorBackground}
+            setColorBackground={handleChangeColorBackground}
+            colorText={colorText}
+            setColorText={handleChangeColorText}
+            colorScrollBar={colorScrollBar}
+            setColorScrollBar={handleChangeColorScrollBar}
+            colorPaper={colorPaper}
+            setColorPaper={handleChangeColorPaper}
+          />
+        </>
+      ),
+    },
+    {
+      key: 'server',
+      label: t('settings.server', 'Server'),
+      hidden: false,
+      content: <ServerSection ip={ip} onChange={handleChange} />,
+    },
+    {
+      key: 'account',
+      label: t('settings.account', 'Account'),
+      hidden: activeUser?.token === '',
+      content: (
+        <AccountSection
+          password={password}
+          password1={password1}
+          error={error}
+          setPassword={setPassword}
+          setPassword1={setPassword1}
+          onSubmit={handlePasswordResetClick}
+        />
+      ),
+    },
+    {
+      key: 'game',
+      label: t('settings.game', 'Game'),
+      hidden: !isElectron || activeUser?.token === '',
+      content: (
+        <>
+          <GamePathSection
+            exePath={exePath}
+            searchMessage={searchMessage}
+            onSelect={() => handleSelectFileClick(false)}
+            onSearch={handleSearch}
+          />
+          {ticketEnabled === 'false' &&
+            isElectron &&
+            activeUser?.token !== '' && (
+              <ConfigFileSection
+                activeHandle={activeUser?.handle}
+                configFile={activeUser?.configFile}
+                onSelect={() => handleSelectFileClick(true)}
+                hidden={false}
+              />
+            )}
+
+          <AdvancedSection
+            enableDiscordRPC={enableDiscordRPC}
+            toggleDiscord={toggleDiscord}
+            showAllChat={showAllChat}
+            setShowAllChatInternal={setShowAllChatInternal}
+            gameExpanded={gameExpanded}
+            setGameExpanded={(v) => setGameExpanded(v)}
+            ticketEnabled={ticketEnabled}
+            setTicketEnabled={(v) => setTicketEnabled(v)}
+            noLogEnabled={noLogEnabled}
+            setNoLogEnabled={(v) => setNoLogEnabled(v)}
+          />
+        </>
+      ),
+    },
+    {
+      key: 'branch',
+      label: t('settings.branch', 'Branch'),
+      hidden: !isElectron || activeUser?.token === '',
+      content: (
+        <BranchSection
+          exePath={exePath}
+          locked={locked}
+          branch={branch}
+          isDev={isDev}
+          branchesData={branchesData as Branches}
+          selectedArguments={selectedArguments}
+          onChangeBranch={handleChangeBranch}
+          onRefresh={handleRefresh}
+          onArgumentChange={handleArgumentChange}
+        />
+      ),
+    },
+    {
+      key: 'danger',
+      label: t('settings.dangerZone', 'Danger Zone'),
+      hidden: false,
+      content: (
+        <DangerZoneSection
+          onDeleteAll={handleDeleteClick}
+          onResetApp={handleResetClick}
+        />
+      ),
+    },
+  ];
+
+  const visibleSections = sections.filter((s) => !s.hidden);
+
+  const tabIconMap: Record<string, React.ReactElement> = {
+    appearance: <PaletteIcon fontSize="small" />,
+    account: <PersonIcon fontSize="small" />,
+    game: (
+      <Box
+        component="img"
+        src={logoSmall()}
+        alt="Game"
+        sx={{ width: 18, height: 18, display: 'block' }}
+      />
+    ),
+    server: <DnsIcon fontSize="small" />,
+    branch: <CallSplitIcon fontSize="small" />,
+    danger: <WarningAmberIcon fontSize="small" />,
+  };
+
+  useEffect(() => {
+    // Clamp tab index when visibility changes
+    if (tabIndex >= visibleSections.length) {
+      setTabIndex(Math.max(0, visibleSections.length - 1));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isElectron, activeUser?.token, ticketEnabled]);
+
+  // Responsive sizing (avoid nested ternaries for lint rules)
+  const tabsMinHeight = isCompact ? 36 : 42;
+  const tabMinHeight = isCompact ? 34 : 42;
+  const tabPaddingX = isCompact ? 1 : 1.25;
+  const tabFontSize = isCompact ? '0.5rem' : '0.55rem';
+  let tabMaxWidth = 200;
+  if (isIconOnly) {
+    tabMaxWidth = 56;
+  } else if (isCompact) {
+    tabMaxWidth = 140;
+  }
+
   return (
     <Grid container spacing={3}>
       <Grid item xs={12}>
-        <Paper
-          elevation={6}
-          sx={{
-            p: { xs: 3, sm: 4 },
-            m: { xs: '1em' },
-            overflow: 'hidden',
-            minWidth: 320,
-            mx: 'auto',
-          }}
-        >
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-            {t('settings.appearance', 'Appearance')}
-          </Typography>
-          <Divider sx={{ mb: 2 }} />
-          <FormGroup>
-            <FormControlLabel
-              control={<Switch />}
-              label={t('settings.labelDarkMode')}
-              checked={mode === 'dark'}
-              onChange={toggleMode}
-            />
-          </FormGroup>
-          <Box sx={{ mt: 2 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <MuiColorInput
-                  label={t('settings.labelPrimaryColor')}
-                  value={colorPrimary}
-                  onChange={handleChangeColorPrimary}
-                  fallbackValue="#9cb8ba"
-                  format="hex"
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <MuiColorInput
-                  label={t('settings.labelSecondaryColor')}
-                  value={colorSecondary}
-                  onChange={handleChangeColorSecondary}
-                  fallbackValue="#000000"
-                  format="hex"
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <MuiColorInput
-                  label={t('settings.labelBackgroundColor')}
-                  value={colorBackground}
-                  onChange={handleChangeColorBackground}
-                  fallbackValue="#000000fc"
-                  format="hex8"
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <MuiColorInput
-                  label={t('settings.labelTextColor')}
-                  value={colorText}
-                  onChange={handleChangeColorText}
-                  fallbackValue="#fffffffc"
-                  format="hex8"
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <MuiColorInput
-                  label={t('settings.labelPaperColor')}
-                  value={colorPaper}
-                  onChange={handleChangeColorPaper}
-                  fallbackValue="#ffffff"
-                  format="hex"
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <MuiColorInput
-                  label={t('settings.labelScrollbarColor')}
-                  value={colorScrollBar}
-                  onChange={handleChangeColorScrollBar}
-                  fallbackValue="#ffffff"
-                  format="hex"
-                />
-              </Grid>
-            </Grid>
-          </Box>
-        </Paper>
-        <Paper
-          elevation={6}
-          sx={{
-            p: { xs: 3, sm: 4 },
-            m: { xs: '1em' },
-            overflow: 'hidden',
-            minWidth: 320,
-            mx: 'auto',
-          }}
-        >
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-            {t('settings.language', 'Language')}
-          </Typography>
-          <Divider sx={{ mb: 2 }} />
-          <Select
-            fullWidth
-            value={i18n.language ? i18n.language : lngs.en.nativeName}
-            onChange={(e) => i18n.changeLanguage(e.target.value)}
+        <Box sx={{ borderBottom: 1, borderColor: 'divider', px: 2 }}>
+          <Tabs
+            value={tabIndex}
+            onChange={(_, v) => setTabIndex(v)}
+            scrollButtons="auto"
+            allowScrollButtonsMobile
+            variant="fullWidth"
+            sx={{ minHeight: tabsMinHeight, width: '100%' }}
           >
-            {Object.keys(lngs).map((lng) => (
-              <MenuItem value={lng} key={lng}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Flag country={lngs[lng].icon} size={20} />
-                  <span style={{ marginLeft: 8 }}>{lngs[lng].nativeName}</span>
-                </Box>
-              </MenuItem>
+            {visibleSections.map((s) => (
+              <Tab
+                key={s.key}
+                label={isIconOnly ? '' : s.label}
+                icon={tabIconMap[s.key]}
+                title={s.label}
+                sx={{
+                  minHeight: tabMinHeight,
+                  minWidth: 0,
+                  px: tabPaddingX,
+                  maxWidth: tabMaxWidth,
+                  textTransform: 'none',
+                  '& .MuiTab-iconWrapper': { mr: isIconOnly ? 0 : 0.75 },
+                  '& .MuiTab-wrapper': {
+                    gap: isIconOnly ? 0 : 0.5,
+                    fontSize: tabFontSize,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  },
+                }}
+              />
             ))}
-          </Select>
-        </Paper>
-        {isElectron && activeUser?.token !== '' && (
-          <>
-            <Paper
-              elevation={6}
-              sx={{
-                p: { xs: 3, sm: 4 },
-                m: { xs: '1em' },
-                overflow: 'hidden',
-                minWidth: 320,
-                mx: 'auto',
-              }}
-            >
-              <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-                {t('settings.account', 'Account')}
-              </Typography>
-              <Divider sx={{ mb: 2 }} />
-              <form onSubmit={handlePasswordResetClick}>
-                <TextField
-                  label={t('changePassword')}
-                  type="password"
-                  fullWidth
-                  sx={{ mb: 2 }}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder={t('enterNewPass')}
-                />
-                <TextField
-                  label={t('confirmPassword')}
-                  type="password"
-                  fullWidth
-                  sx={{ mb: 2 }}
-                  value={password1}
-                  onChange={(e) => setPassword1(e.target.value)}
-                  placeholder={t('enterNewPass')}
-                />
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                >
-                  {t('submit')}
-                </Button>
-                {error && (
-                  <Typography color="error" sx={{ mt: 1 }}>
-                    {error}
-                  </Typography>
-                )}
-              </form>
-            </Paper>
-
-            <Paper
-              elevation={6}
-              sx={{
-                p: { xs: 3, sm: 4 },
-                m: { xs: '1em' },
-                overflow: 'hidden',
-                minWidth: 320,
-                mx: 'auto',
-              }}
-            >
-              <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-                {t('settings.gamePath', 'Game Path')}
-              </Typography>
-              <Divider sx={{ mb: 2 }} />
-              {searchMessage.type && (
-                <Alert severity={searchMessage.type} sx={{ mb: 2 }}>
-                  {searchMessage.text}
-                </Alert>
-              )}
-              {!isValidExePath(exePath) && (
-                <Alert severity="error" sx={{ mb: 2 }}>
-                  {t('errors.invalidPath')}
-                </Alert>
-              )}
-              {isWarningPath(exePath) && (
-                <Alert severity="warning" sx={{ mb: 2 }}>
-                  {t('warning')}
-                </Alert>
-              )}
-              <TextField
-                label={t('settings.atlasPath')}
-                fullWidth
-                sx={{ mb: 2 }}
-                disabled
-                value={truncateDynamicPath(exePath, 45)}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Avatar
-                        alt="logo"
-                        variant="square"
-                        src={logoSmall()}
-                        sx={{ width: 40, height: 40 }}
-                      />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <Button
-                    variant="contained"
-                    fullWidth
-                    onClick={() => handleSelectFileClick(false)}
-                  >
-                    {t('settings.selectAtllasExe')}
-                  </Button>
-                </Grid>
-                <Grid item xs={6}>
-                  <Button variant="contained" fullWidth onClick={handleSearch}>
-                    {t('search')}
-                  </Button>
-                </Grid>
-              </Grid>
-            </Paper>
-          </>
-        )}
-        {ticketEnabled === 'false' &&
-          isElectron &&
-          activeUser?.token !== '' && (
-            <Paper
-              elevation={6}
-              sx={{
-                p: { xs: 3, sm: 4 },
-                m: { xs: '1em' },
-                overflow: 'hidden',
-                minWidth: 320,
-                mx: 'auto',
-              }}
-            >
-              <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-                {t('settings.configFile', 'Config File')}
-              </Typography>
-              <Divider sx={{ mb: 2 }} />
-              <TextField
-                placeholder={`${t('settings.configFilePlaceHolder')} ${activeUser?.handle}`}
-                value={truncateDynamicPath(
-                  activeUser?.configFile === undefined
-                    ? ''
-                    : activeUser?.configFile,
-                  45,
-                )}
-                variant="outlined"
-                disabled
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Avatar
-                        alt="logo"
-                        variant="square"
-                        src={logoSmall()}
-                        sx={{ width: 40, height: 40 }}
-                      />
-                    </InputAdornment>
-                  ),
-                }}
-                fullWidth
-                sx={{ mb: 2 }}
-              />
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => handleSelectFileClick(true)}
-                fullWidth
-              >
-                {t('settings.selectConfigFile')}
-              </Button>
-            </Paper>
-          )}
-        <Paper
-          elevation={6}
-          sx={{
-            p: { xs: 3, sm: 4 },
-            m: { xs: '1em' },
-            overflow: 'hidden',
-            minWidth: 320,
-            mx: 'auto',
-          }}
-        >
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-            {t('settings.server', 'Server')}
-          </Typography>
-          <Divider sx={{ mb: 2 }} />
-          <FormControl fullWidth>
-            <Select value={ip} onChange={handleChange}>
-              <MenuItem value="evos-emu.com">{t('ips.noProxy')}</MenuItem>
-              <MenuItem value="de.evos.live">{t('ips.proxy1')}</MenuItem>
-              <MenuItem value="fr.evos.live">{t('ips.proxy2')}</MenuItem>
-              <MenuItem value="fi.evos.live">{t('ips.proxy3')}</MenuItem>
-              <MenuItem value="ru.ar.zheneq.net">{t('ips.proxy4')}</MenuItem>
-            </Select>
-          </FormControl>
-        </Paper>
-        {isElectron && activeUser?.token !== '' && (
-          <>
-            <Paper
-              elevation={6}
-              sx={{
-                p: { xs: 3, sm: 4 },
-                m: { xs: '1em' },
-                overflow: 'hidden',
-                minWidth: 320,
-                mx: 'auto',
-              }}
-            >
-              <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-                {t('settings.advanced', 'Advanced')}
-              </Typography>
-              <Divider sx={{ mb: 2 }} />
-              <FormGroup>
-                <FormControlLabel
-                  control={<Switch />}
-                  label={t('settings.labelDiscordRPC')}
-                  checked={enableDiscordRPC === 'true'}
-                  onChange={toggleDiscord}
-                />
-                <FormControlLabel
-                  control={<Switch />}
-                  label={t('settings.allChatLabel')}
-                  checked={showAllChat === 'true'}
-                  onChange={() =>
-                    setShowAllChatInternal(
-                      showAllChat === 'true' ? 'false' : 'true',
-                    )
-                  }
-                />
-                <FormControlLabel
-                  control={<Switch />}
-                  label={t('settings.labelGameExpanded')}
-                  checked={gameExpanded === 'true'}
-                  onChange={() =>
-                    setGameExpanded(gameExpanded === 'true' ? 'false' : 'true')
-                  }
-                />
-                <FormControlLabel
-                  control={<Switch />}
-                  label={t('settings.labelTicket')}
-                  checked={ticketEnabled === 'true'}
-                  onChange={() =>
-                    setTicketEnabled(
-                      ticketEnabled === 'true' ? 'false' : 'true',
-                    )
-                  }
-                />
-                <FormControlLabel
-                  control={<Switch />}
-                  label={t('settings.noLogLaunchOptionsLabel')}
-                  checked={noLogEnabled === 'true'}
-                  onChange={() =>
-                    setNoLogEnabled(noLogEnabled === 'true' ? 'false' : 'true')
-                  }
-                />
-              </FormGroup>
-            </Paper>
-            <Paper
-              elevation={6}
-              sx={{
-                p: { xs: 3, sm: 4 },
-                m: { xs: '1em' },
-                overflow: 'hidden',
-                minWidth: 320,
-                mx: 'auto',
-              }}
-            >
-              <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-                {t('settings.branch', 'Branch')}
-              </Typography>
-              <Divider sx={{ mb: 2 }} />
-              {!branchesData && isValidExePath(exePath) && (
-                <Skeleton variant="rectangular" width="100%" height={350} />
-              )}
-              {branchesData && isValidExePath(exePath) && (
-                <>
-                  <Typography variant="caption">
-                    {t('settings.selectBranchHelper')}
-                  </Typography>
-                  <Grid
-                    container
-                    spacing={2}
-                    alignItems="center"
-                    sx={{ mt: 1 }}
-                  >
-                    <Grid item xs={8}>
-                      <TextField
-                        id="branch-select"
-                        select
-                        label={t('settings.selectBranch')}
-                        value={branch}
-                        onChange={handleChangeBranch}
-                        variant="outlined"
-                        disabled={locked}
-                        fullWidth
-                      >
-                        {Object.keys(branchesData).map((key) => {
-                          const branchInfo = branchesData[key];
-                          if (
-                            branchInfo &&
-                            (branchInfo.enabled ||
-                              (isDev && branchInfo.devOnly))
-                          ) {
-                            return (
-                              <MenuItem
-                                key={key}
-                                value={key}
-                                disabled={branchInfo.disabled}
-                              >
-                                {key}
-                                {branchInfo.version !== ''
-                                  ? ` (${branchInfo.version})`
-                                  : ''}
-                                {branchInfo.recommended
-                                  ? ` (${t('settings.recommended')})`
-                                  : ''}
-                                {branchInfo.removed
-                                  ? ` (${t('settings.removed')})`
-                                  : ''}
-                                {isDev && branchInfo.devOnly
-                                  ? ' (dev branch)'
-                                  : ''}
-                              </MenuItem>
-                            );
-                          }
-                          return null;
-                        })}
-                      </TextField>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <Button
-                        onClick={handleRefresh}
-                        variant="contained"
-                        color="primary"
-                        disabled={locked}
-                        fullWidth
-                      >
-                        {t('settings.refreshBranch')}
-                      </Button>
-                    </Grid>
-                    <Grid item xs={12}>
-                      {branch &&
-                        branchesData &&
-                        branchesData[branch]?.arguments &&
-                        Array.isArray(branchesData[branch]?.arguments) &&
-                        (branchesData[branch]?.arguments?.length ?? 0) > 0 &&
-                        branchesData[branch]?.text}
-                    </Grid>
-                    <Grid item xs={12}>
-                      {branch &&
-                        branchesData &&
-                        branchesData[branch]?.arguments &&
-                        Array.isArray(branchesData[branch]?.arguments) &&
-                        (branchesData[branch]?.arguments?.length ?? 0) > 0 && (
-                          <div>
-                            {(branchesData[branch]?.arguments?.some(
-                              (arg) => !arg.showOnlyDev,
-                            ) ||
-                              isDev) && (
-                              <>
-                                <span
-                                  style={{
-                                    fontSize: '0.8em',
-                                    marginBottom: '0.5em',
-                                    display: 'block',
-                                  }}
-                                >
-                                  {t('settings.arguments')}:
-                                </span>
-                                {branchesData[branch]?.arguments?.map((arg) => {
-                                  if (arg.showOnlyDev && !isDev) return null;
-                                  return (
-                                    <TextField
-                                      key={arg.key}
-                                      select
-                                      label={`${arg.key}`}
-                                      value={
-                                        selectedArguments[arg.key] ??
-                                        arg.defaultValue ??
-                                        ''
-                                      }
-                                      onChange={(e) =>
-                                        handleArgumentChange(
-                                          arg.key,
-                                          e.target.value as string,
-                                        )
-                                      }
-                                      helperText={`${arg.description}`}
-                                      fullWidth
-                                      margin="normal"
-                                    >
-                                      {arg.value.map((value) => (
-                                        <MenuItem key={value} value={value}>
-                                          {value}
-                                        </MenuItem>
-                                      ))}
-                                    </TextField>
-                                  );
-                                })}
-                              </>
-                            )}
-                          </div>
-                        )}
-                    </Grid>
-                    <Grid item xs={12}>
-                      {branch &&
-                        branchesData &&
-                        branchesData[branch]?.files && (
-                          <Accordion>
-                            <AccordionSummary
-                              expandIcon={<ExpandMoreIcon />}
-                              aria-controls="files-content"
-                              id="files-header"
-                            >
-                              <Typography>{t('Downloaded')}</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                              <ul>
-                                {branchesData[branch]?.files.map((file) => (
-                                  <li key={file.path}>
-                                    {file.path}: {file.checksum}
-                                  </li>
-                                ))}
-                              </ul>
-                            </AccordionDetails>
-                          </Accordion>
-                        )}
-                    </Grid>
-                  </Grid>
-                </>
-              )}
-            </Paper>
-          </>
-        )}
-        <Paper
-          elevation={6}
-          sx={{
-            p: { xs: 3, sm: 4 },
-            m: { xs: '1em' },
-            overflow: 'hidden',
-            minWidth: 320,
-            mx: 'auto',
-          }}
-        >
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-            {t('settings.dangerZone', 'Danger Zone')}
-          </Typography>
-          <Divider sx={{ mb: 2 }} />
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <Button
-                variant="contained"
-                color="error"
-                fullWidth
-                onClick={handleDeleteClick}
-              >
-                {t('settings.deleteAllAccounts')}
-              </Button>
-            </Grid>
-            <Grid item xs={6}>
-              <Button
-                variant="contained"
-                color="error"
-                fullWidth
-                onClick={handleResetClick}
-              >
-                {t('settings.resetApp')}
-              </Button>
-            </Grid>
-          </Grid>
-        </Paper>
+          </Tabs>
+        </Box>
+        <Box sx={{ mt: 2 }}>{visibleSections[tabIndex]?.content}</Box>
       </Grid>
     </Grid>
   );
