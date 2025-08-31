@@ -1,4 +1,4 @@
-export function truncateDynamicPath(
+function truncateDynamicPath(
   filePath: string | null | undefined,
   maxChars: number,
 ): string {
@@ -30,3 +30,4 @@ export function truncateDynamicPath(
     return '';
   }
 }
+export default truncateDynamicPath;
