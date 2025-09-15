@@ -177,7 +177,7 @@ const createWindow = async (): Promise<void> => {
       splash.webContents.send('update-not-available');
       setTimeout(() => {
         launchMainWindow(splash);
-      }, 5000);
+      }, 1000);
     }, 5000);
 
     autoUpdater.on('checking-for-update', () => {
@@ -192,10 +192,10 @@ const createWindow = async (): Promise<void> => {
     autoUpdater.on('update-not-available', () => {
       splash.webContents.send('update-not-available');
       clearTimeout(timeout);
-      // wait 5 seconds before launching main window
+      // wait 3 seconds before launching main window
       setTimeout(() => {
         launchMainWindow(splash);
-      }, 5000);
+      }, 1000);
     });
 
     autoUpdater.on('download-progress', (progress: { percent: number }) => {
