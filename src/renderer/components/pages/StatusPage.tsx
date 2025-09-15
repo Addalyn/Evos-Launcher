@@ -37,6 +37,7 @@ import Queue from '../atlas/Queue';
 import Server from '../atlas/Server';
 import TrustBar from '../generic/TrustBar';
 import useWebSocket from 'react-use-websocket';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * Groups an array of items by a specified key function
@@ -74,13 +75,16 @@ function StatusPage(): React.ReactElement {
   const [expanded, setExpanded] = useState<boolean>(false);
 
   /** Store containing user settings and authentication data */
-  const { activeUser, gameExpanded } = EvosStore();
+  const { activeUser, gameExpanded, updateAuthenticatedUsers } = EvosStore();
 
   /** Translation function for internationalization */
   const { t } = useTranslation();
 
   /** List of player information for the legend section */
   const [playerInfoList, setPlayerInfoList] = useState<PlayerData[]>([]);
+
+  // Redirect to login if not authenticated
+  const navigate = useNavigate();
 
   /**
    * Effect to fetch player information for the legend section
@@ -109,12 +113,22 @@ function StatusPage(): React.ReactElement {
           infoList.map((info) => info.data).filter((info) => info !== null),
         );
       } catch (error1) {
+        if (activeUser !== null && activeUser!.token !== '') {
+          // log the player out if there's an error fetching data (not authenticated)
+          updateAuthenticatedUsers(
+            activeUser?.user as string,
+            '',
+            activeUser?.handle as string,
+            activeUser?.banner as number,
+            activeUser?.configFile as string,
+          );
+        }
         setPlayerInfoList([]);
       }
     };
 
     fetchPlayerInfo();
-  }, [activeUser]);
+  }, [activeUser, navigate, updateAuthenticatedUsers]);
 
   /** Mapping of player handles to their special roles/titles */
   const legend: Record<string, string> = {
@@ -310,43 +324,45 @@ function StatusPage(): React.ReactElement {
               gameExpanded={gameExpanded}
             />
           ))}
-      <Paper
-        elevation={3}
-        sx={{
-          p: { xs: 3, sm: 4 },
-          m: { xs: '1em' },
-          overflow: 'hidden',
-          minWidth: 320,
-          mx: 'auto',
-        }}
-      >
-        <Accordion
-          expanded={expanded}
-          onChange={() => setExpanded((value) => !value)}
+      {activeUser && activeUser.token !== '' && (
+        <Paper
+          elevation={3}
+          sx={{
+            p: { xs: 3, sm: 4 },
+            m: { xs: '1em' },
+            overflow: 'hidden',
+            minWidth: 320,
+            mx: 'auto',
+          }}
         >
-          <AccordionSummary expandIcon={<GridExpandMoreIcon />}>
-            <Typography>{t('effectLegendTitle')}</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography variant="caption" component="h2">
-              <Trans i18nKey="effectLegend" components={{ 1: <br /> }} />
-            </Typography>
-            <br />
-            <Grid container spacing={1}>
-              {playerInfoList.map((info) => (
-                <Grid item xs={4} key={`player-${info.handle}`}>
-                  <Player
-                    info={info}
-                    disableSkew
-                    characterType={undefined}
-                    titleOld={legend[info.handle]}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </AccordionDetails>
-        </Accordion>
-      </Paper>
+          <Accordion
+            expanded={expanded}
+            onChange={() => setExpanded((value) => !value)}
+          >
+            <AccordionSummary expandIcon={<GridExpandMoreIcon />}>
+              <Typography>{t('effectLegendTitle')}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography variant="caption" component="h2">
+                <Trans i18nKey="effectLegend" components={{ 1: <br /> }} />
+              </Typography>
+              <br />
+              <Grid container spacing={1}>
+                {playerInfoList.map((info) => (
+                  <Grid item xs={4} key={`player-${info.handle}`}>
+                    <Player
+                      info={info}
+                      disableSkew
+                      characterType={undefined}
+                      titleOld={legend[info.handle]}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+        </Paper>
+      )}
     </>
   );
 }

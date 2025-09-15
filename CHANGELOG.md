@@ -1,5 +1,11 @@
 # Evos Launcher Changelog
 
+# [3.0.10] - 2025-09-15
+
+## Bug Fixes
+
+- Fixed an issue where you would have been logged out but not tell you, requiring you to go to profile page or click logout to be able to log back in
+
 # [3.0.9] - 2025-08-15
 
 ## Features & Improvements
