@@ -17,7 +17,7 @@ import { useEffect, useRef } from 'react';
  */
 export default function useInterval(callback: () => void, ms?: number) {
   // do not trigger on callback change
-  const savedCallback = useRef<() => void>();
+  const savedCallback = useRef<() => void>(undefined);
   useEffect(() => {
     savedCallback.current = callback;
   }, [callback]);
