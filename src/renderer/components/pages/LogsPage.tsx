@@ -303,8 +303,8 @@ function LogsPage(): React.JSX.Element {
       field: 'lastModified',
       headerName: t('logs.logDate'),
       flex: 1,
-      valueGetter: (params) => {
-        const { lastModified } = params.row as LogFile;
+      valueGetter: (value, row) => {
+        const { lastModified } = row as LogFile;
         return lastModified ? new Date(lastModified).toLocaleString() : '';
       },
       renderCell: (params) => (
@@ -319,8 +319,8 @@ function LogsPage(): React.JSX.Element {
       field: 'size',
       headerName: t('logs.logSize'),
       flex: 1,
-      valueGetter: (params) => {
-        let sizeInKB = (params.row.size || 0) / 1024;
+      valueGetter: (value, row) => {
+        let sizeInKB = (row.size || 0) / 1024;
         // round up
         sizeInKB = Math.ceil(sizeInKB);
         return `${sizeInKB}KB`;
@@ -381,11 +381,9 @@ function LogsPage(): React.JSX.Element {
           slots={{ toolbar: GridToolbar }}
           localeText={{
             noRowsLabel: t('logs.noLogs'),
-            MuiTablePagination: {
-              labelRowsPerPage: t('logs.rowsPerPage'),
-              labelDisplayedRows({ from, to, count }) {
-                return `${from}-${to} ${t('logs.of')} ${count}`;
-              },
+            paginationRowsPerPage: t('logs.rowsPerPage'),
+            paginationDisplayedRows: ({ from, to, count }) => {
+              return `${from}-${to} ${t('logs.of')} ${count}`;
             },
           }}
         />

@@ -116,7 +116,7 @@ export default function NavigationDrawer({
                       display: 'block',
                       marginBottom: pages.length < 1 ? '10px' : '',
                     }}
-                    disabled={isDownloading}
+                    disableGutters={isDownloading}
                     onClick={() => {
                       if (!isDownloading) onNavigate(page.href);
                     }}
@@ -186,7 +186,7 @@ export default function NavigationDrawer({
                       key={page.title}
                       disablePadding
                       sx={{ display: 'block' }}
-                      disabled={isDownloading}
+                      disableGutters={isDownloading}
                       onClick={() => {
                         if (!isDownloading) onNavigate(page.href);
                       }}
@@ -235,7 +235,7 @@ export default function NavigationDrawer({
                       display: 'block',
                       marginBottom: pages.length < 1 ? '10px' : '',
                     }}
-                    disabled={isDownloading}
+                    disableGutters={isDownloading}
                     onClick={() => {
                       if (!isDownloading) onNavigate(page.href);
                     }}

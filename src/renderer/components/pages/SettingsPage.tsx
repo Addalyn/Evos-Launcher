@@ -496,7 +496,7 @@ export default function SettingsPage() {
 
   return (
     <Grid container spacing={3}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider', px: 2 }}>
           <Tabs
             value={tabIndex}

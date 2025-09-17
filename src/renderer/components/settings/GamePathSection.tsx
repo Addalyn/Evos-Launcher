@@ -64,12 +64,12 @@ export default function GamePathSection({
         }}
       />
       <Grid container spacing={2}>
-        <Grid item xs={6}>
+        <Grid size={6}>
           <Button variant="contained" fullWidth onClick={onSelect}>
             {t('settings.selectAtllasExe')}
           </Button>
         </Grid>
-        <Grid item xs={6}>
+        <Grid size={6}>
           <Button variant="contained" fullWidth onClick={onSearch}>
             {t('search')}
           </Button>

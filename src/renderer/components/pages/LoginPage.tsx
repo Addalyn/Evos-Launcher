@@ -62,7 +62,7 @@ const ADD_ACCOUNT_STYLES = {
 
 // Types
 interface LoginFormData {
-  username: string;
+  username: string | undefined;
   password: string;
 }
 
@@ -306,7 +306,7 @@ function LoginForm({
 }: {
   onSubmit: (e: React.FormEvent) => void;
   register: UseFormRegister<LoginFormData>;
-  errors: FieldErrors<LoginFormData>;
+  errors: FieldErrors;
   showUsernameField: boolean;
   activeUser: AuthUser | null;
   authenticatedUsers: AuthUser[];
@@ -339,8 +339,8 @@ function LoginForm({
         />
       )}
 
-      {errors.username && (
-        <Alert severity="warning">{errors.username?.message}</Alert>
+      {errors.username && typeof errors.username.message === 'string' && (
+        <Alert severity="warning">{errors.username.message}</Alert>
       )}
 
       <TextField
@@ -353,8 +353,8 @@ function LoginForm({
         {...register('password')}
       />
 
-      {errors.password && (
-        <Alert severity="warning">{errors.password?.message}</Alert>
+      {errors.password && typeof errors.password?.message === 'string' && (
+        <Alert severity="warning">{errors.password.message}</Alert>
       )}
 
       <Button
@@ -396,7 +396,7 @@ function ActionButtons({
       justifyContent="space-between"
       alignItems="center"
     >
-      <Grid item>
+      <Grid>
         <Button
           onClick={onReset}
           sx={{
@@ -407,7 +407,7 @@ function ActionButtons({
           {t('resetApp')}
         </Button>
       </Grid>
-      <Grid item>
+      <Grid>
         <Button
           onClick={onNavigateToRegister}
           sx={{
@@ -451,7 +451,7 @@ export default function LoginPage() {
     return z.object({
       username: showUsernameField
         ? z.string().min(2, { message: t('errors.username2Char') })
-        : z.string().optional(),
+        : z.string().optional().or(z.literal('')),
       password: z.string().min(1, { message: t('errors.passwordRequired') }),
     });
   }, [t, showUsernameField]);
@@ -461,9 +461,9 @@ export default function LoginPage() {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormData>({
+    // Fix: Ensure LoginFormData is passed correctly
     resolver: zodResolver(validationSchema),
   });
-
   // Auto-navigate if already authenticated
   useEffect(() => {
     const checkUserSession = async () => {
@@ -493,7 +493,9 @@ export default function LoginPage() {
    * Handles form submission for login
    * @param {LoginFormData} data - Form data containing username and password
    */
-  const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
+  const onSubmit: SubmitHandler<LoginFormData> = async (
+    data: LoginFormData,
+  ) => {
     // For user selector mode, get username from activeUser instead of form data
     const username = showUsernameField ? data.username : activeUser?.user;
 

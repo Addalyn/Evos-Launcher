@@ -527,7 +527,7 @@ export function Games({
       }}
     >
       <Grid container spacing={2} sx={{ padding: '1em' }}>
-        <Grid item xs={4}>
+        <Grid size={4}>
           <Typography variant="subtitle1" gutterBottom>
             {t('maps.map')}: {t(`maps.${game.map}`)}{' '}
             <a
@@ -540,27 +540,27 @@ export function Games({
             </a>
           </Typography>
         </Grid>
-        <Grid item xs={3}>
+        <Grid size={3}>
           <Typography variant="subtitle1" gutterBottom>
             {t('stats.score')}: {game.score}
           </Typography>
         </Grid>
-        <Grid item xs={5}>
+        <Grid size={5}>
           <Typography variant="subtitle1" gutterBottom>
             {t('stats.turns')}: {game.turns}
           </Typography>
         </Grid>
-        <Grid item xs={4}>
+        <Grid size={4}>
           <Typography variant="subtitle1" gutterBottom>
             {t('stats.played')}: {formatDate(i18n.language, game.date)}
           </Typography>
         </Grid>
-        <Grid item xs={3}>
+        <Grid size={3}>
           <Typography variant="subtitle1" gutterBottom>
             {t('stats.type')}: {game.gametype}
           </Typography>
         </Grid>
-        <Grid item xs={5}>
+        <Grid size={5}>
           <Typography variant="subtitle1" gutterBottom>
             {game.GameServerProcessCode} ({t('stats.version')}: {game.version})
           </Typography>
@@ -1267,7 +1267,7 @@ export default function PreviousGamesPlayed({
         }}
       >
         <Grid container spacing={2}>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <FormControl fullWidth>
               <Select
                 labelId="map-filter-label"
@@ -1284,7 +1284,7 @@ export default function PreviousGamesPlayed({
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <FormControl fullWidth>
               <Select
                 value={curentType}
@@ -1303,7 +1303,7 @@ export default function PreviousGamesPlayed({
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <TextField
               label={t('stats.searchByPlayer')}
               disabled={gameServerProcessCode !== ''}
@@ -1327,7 +1327,7 @@ export default function PreviousGamesPlayed({
               }}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <FormControl fullWidth>
               <InputLabel>{t('stats.searchByTeamWin')}</InputLabel>
               <Select
@@ -1342,7 +1342,7 @@ export default function PreviousGamesPlayed({
               </Select>
             </FormControl>
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <FormControl fullWidth>
               <TextField
                 label={t('stats.searchByTurns')}
@@ -1373,7 +1373,7 @@ export default function PreviousGamesPlayed({
               />
             </FormControl>
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <FormControl fullWidth>
               <TextField
                 label={t('stats.searchByScore')}
@@ -1404,7 +1404,7 @@ export default function PreviousGamesPlayed({
               />
             </FormControl>
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <FormControl fullWidth>
               <TextField
                 label={t('stats.searchByGameServerProcessCode')}
@@ -1437,7 +1437,7 @@ export default function PreviousGamesPlayed({
               />
             </FormControl>
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <Button
               variant="contained"
               color="primary"
@@ -1452,8 +1452,8 @@ export default function PreviousGamesPlayed({
               {t('search')}
             </Button>
           </Grid>
-          <Grid item xs={6} />
-          <Grid item xs={6}>
+          <Grid size={6} />
+          <Grid size={6}>
             <Pagination
               count={Math.ceil(total / pageSize)}
               page={currentPage}
@@ -1485,8 +1485,8 @@ export default function PreviousGamesPlayed({
         }}
       >
         <Grid container spacing={2}>
-          <Grid item xs={6} />
-          <Grid item xs={6}>
+          <Grid size={6} />
+          <Grid size={6}>
             <Pagination
               count={Math.ceil(total / pageSize)}
               page={currentPage}

@@ -274,7 +274,7 @@ export default function PlayerStatsPage() {
       >
         {/* Player Profile and Follow Button */}
         <Grid container alignItems="center" spacing={2}>
-          <Grid item xs={8}>
+          <Grid size={8}>
             {!playerData ? (
               <Skeleton
                 variant="rectangular"
@@ -292,8 +292,7 @@ export default function PlayerStatsPage() {
             )}
           </Grid>
           <Grid
-            item
-            xs={4}
+            size={4}
             sx={{
               display: 'flex',
               justifyContent: 'flex-end',
@@ -316,42 +315,42 @@ export default function PlayerStatsPage() {
 
         {/* Player Statistics Grid */}
         <Grid container spacing={2}>
-          <Grid item xs={4}>
+          <Grid size={4}>
             <PlayerStats
               action="totaltakedowns"
               player={playerSearch}
               apiVersion={apiVersion}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid size={4}>
             <PlayerStats
               action="totaldeaths"
               player={playerSearch}
               apiVersion={apiVersion}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid size={4}>
             <PlayerStats
               action="totaldeathblows"
               player={playerSearch}
               apiVersion={apiVersion}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid size={4}>
             <PlayerStats
               action="totaldamage"
               player={playerSearch}
               apiVersion={apiVersion}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid size={4}>
             <PlayerStats
               action="totalhealing"
               player={playerSearch}
               apiVersion={apiVersion}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid size={4}>
             <PlayerStats
               action="totaldamagereceived"
               player={playerSearch}
@@ -361,7 +360,7 @@ export default function PlayerStatsPage() {
           <PlayerWinRate player={playerSearch} apiVersion={apiVersion} />
 
           {/* Faction Data */}
-          <Grid item xs={4}>
+          <Grid size={4}>
             Omni:{' '}
             {!playerData ? (
               <Skeleton
@@ -373,7 +372,7 @@ export default function PlayerStatsPage() {
               playerData?.factionData?.factions[0]
             )}
           </Grid>
-          <Grid item xs={4}>
+          <Grid size={4}>
             Evos:{' '}
             {!playerData ? (
               <Skeleton
@@ -385,7 +384,7 @@ export default function PlayerStatsPage() {
               playerData?.factionData?.factions[1]
             )}
           </Grid>
-          <Grid item xs={4}>
+          <Grid size={4}>
             Warbotics:{' '}
             {!playerData ? (
               <Skeleton

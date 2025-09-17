@@ -52,7 +52,7 @@ export default function BranchSection({
             {t('settings.selectBranchHelper')}
           </Typography>
           <Grid container spacing={2} alignItems="center" sx={{ mt: 1 }}>
-            <Grid item xs={8}>
+            <Grid size={8}>
               <TextField
                 id="branch-select"
                 select
@@ -93,7 +93,7 @@ export default function BranchSection({
                 })}
               </TextField>
             </Grid>
-            <Grid item xs={4}>
+            <Grid size={4}>
               <Button
                 onClick={onRefresh}
                 variant="contained"
@@ -104,7 +104,7 @@ export default function BranchSection({
                 {t('settings.refreshBranch')}
               </Button>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               {branch &&
                 branchesData &&
                 branchesData[branch]?.arguments &&
@@ -112,7 +112,7 @@ export default function BranchSection({
                 (branchesData[branch]?.arguments?.length ?? 0) > 0 &&
                 branchesData[branch]?.text}
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               {branch &&
                 branchesData &&
                 branchesData[branch]?.arguments &&
@@ -168,7 +168,7 @@ export default function BranchSection({
                   </div>
                 )}
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               {branch && branchesData && branchesData[branch]?.files && (
                 <Accordion>
                   <AccordionSummary

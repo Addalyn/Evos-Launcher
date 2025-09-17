@@ -1000,8 +1000,8 @@ function ReplaysPage(): React.JSX.Element {
       headerName: t('replay.replayDate'),
       flex: 1,
 
-      valueGetter: (params) => {
-        const { lastModified } = params.row as ReplayFile;
+      valueGetter: (value, row) => {
+        const { lastModified } = row as ReplayFile;
         return lastModified ? new Date(lastModified).toLocaleString() : '';
       },
       renderCell: (params) => (
@@ -1016,8 +1016,8 @@ function ReplaysPage(): React.JSX.Element {
       field: 'size',
       headerName: t('replay.replaySize'),
       flex: 1,
-      valueGetter: (params) => {
-        let sizeInKB = params.row.size / 1024 || 0;
+      valueGetter: (value, row) => {
+        let sizeInKB = row.size / 1024 || 0;
         // round up
         sizeInKB = Math.ceil(sizeInKB);
         return `${sizeInKB}KB`;
@@ -1055,11 +1055,9 @@ function ReplaysPage(): React.JSX.Element {
         slots={{ toolbar: GridToolbar }}
         localeText={{
           noRowsLabel: t('replay.noReplays'),
-          MuiTablePagination: {
-            labelRowsPerPage: t('replay.rowsPerPage'),
-            labelDisplayedRows({ from, to, count }) {
-              return `${from}-${to} ${t('replay.of')} ${count}`;
-            },
+          paginationRowsPerPage: t('replay.rowsPerPage'),
+          paginationDisplayedRows: ({ from, to, count }) => {
+            return `${from}-${to} ${t('replay.of')} ${count}`;
           },
         }}
       />

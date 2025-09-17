@@ -52,7 +52,7 @@ export default function AppearanceSection(props: Props) {
       </FormGroup>
       <Box sx={{ mt: 2 }}>
         <Grid container spacing={2}>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <MuiColorInput
               label={t('settings.labelPrimaryColor')}
               value={colorPrimary}
@@ -61,7 +61,7 @@ export default function AppearanceSection(props: Props) {
               format="hex"
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <MuiColorInput
               label={t('settings.labelSecondaryColor')}
               value={colorSecondary}
@@ -70,7 +70,7 @@ export default function AppearanceSection(props: Props) {
               format="hex"
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <MuiColorInput
               label={t('settings.labelBackgroundColor')}
               value={colorBackground}
@@ -79,7 +79,7 @@ export default function AppearanceSection(props: Props) {
               format="hex8"
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <MuiColorInput
               label={t('settings.labelTextColor')}
               value={colorText}
@@ -88,7 +88,7 @@ export default function AppearanceSection(props: Props) {
               format="hex8"
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <MuiColorInput
               label={t('settings.labelPaperColor')}
               value={colorPaper}
@@ -97,7 +97,7 @@ export default function AppearanceSection(props: Props) {
               format="hex"
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <MuiColorInput
               label={t('settings.labelScrollbarColor')}
               value={colorScrollBar}

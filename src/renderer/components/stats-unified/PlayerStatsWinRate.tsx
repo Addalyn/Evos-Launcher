@@ -132,7 +132,7 @@ export default function PlayerWinRate({
   if (player === activeUser?.handle || isDev) {
     return (
       <>
-        <Grid item xs={4}>
+        <Grid size={4}>
           {t('stats.wins')}:
           {wins === -1 ? (
             <Skeleton
@@ -144,7 +144,7 @@ export default function PlayerWinRate({
             wins
           )}
         </Grid>
-        <Grid item xs={4}>
+        <Grid size={4}>
           {t('stats.losses')}:
           {losses === -1 ? (
             <Skeleton
@@ -156,7 +156,7 @@ export default function PlayerWinRate({
             losses
           )}
         </Grid>
-        <Grid item xs={4}>
+        <Grid size={4}>
           {t('stats.winrate')}:
           {winRate === -1 ? (
             <Skeleton

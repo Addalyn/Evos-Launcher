@@ -58,7 +58,7 @@ function FollowedPlayersPage(): JSX.Element {
         ) : (
           <Grid container spacing={2}>
             {playerInfoList.map((info) => (
-              <Grid item xs={12} sm={6} md={6} key={info.handle}>
+              <Grid size={{ xs: 12, sm: 6, md: 6 }} key={info.handle}>
                 <Card
                   sx={{
                     height: '100%',

@@ -13,7 +13,7 @@ export default function DangerZoneSection({ onDeleteAll, onResetApp }: Props) {
   return (
     <SectionCard title={t('settings.dangerZone', 'Danger Zone')}>
       <Grid container spacing={2}>
-        <Grid item xs={6}>
+        <Grid size={6}>
           <Button
             variant="contained"
             color="error"
@@ -23,7 +23,7 @@ export default function DangerZoneSection({ onDeleteAll, onResetApp }: Props) {
             {t('settings.deleteAllAccounts')}
           </Button>
         </Grid>
-        <Grid item xs={6}>
+        <Grid size={6}>
           <Button
             variant="contained"
             color="error"

@@ -1,5 +1,11 @@
 # Evos Launcher Changelog
 
+# [3.1.0] - 2025-09-17
+
+## Features & Improvements
+
+- **Updated Dependencies**: Several dependencies have been updated to their latest versions to improve performance and security.
+
 # [3.0.10] - 2025-09-15
 
 ## Bug Fixes
