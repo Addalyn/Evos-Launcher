@@ -349,7 +349,7 @@ function StatusPage(): React.ReactElement {
               <br />
               <Grid container spacing={1}>
                 {playerInfoList.map((info) => (
-                  <Grid item xs={4} key={`player-${info.handle}`}>
+                  <Grid size={4} key={`player-${info.handle}`}>
                     <Player
                       info={info}
                       disableSkew

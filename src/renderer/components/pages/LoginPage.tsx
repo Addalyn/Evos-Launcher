@@ -396,7 +396,7 @@ function ActionButtons({
       justifyContent="space-between"
       alignItems="center"
     >
-      <Grid item>
+      <Grid>
         <Button
           onClick={onReset}
           sx={{
@@ -407,7 +407,7 @@ function ActionButtons({
           {t('resetApp')}
         </Button>
       </Grid>
-      <Grid item>
+      <Grid>
         <Button
           onClick={onNavigateToRegister}
           sx={{

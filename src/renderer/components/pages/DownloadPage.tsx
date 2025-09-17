@@ -275,7 +275,7 @@ function DownloadPage() {
       {/* Folder selection section */}
       <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={7}>
+          <Grid size={7}>
             <TextField
               placeholder={t('download.placeholder')}
               value={truncateDynamicPath(folderPath, 45)}
@@ -301,7 +301,7 @@ function DownloadPage() {
               fullWidth
             />
           </Grid>
-          <Grid item xs={5}>
+          <Grid size={5}>
             <Button
               variant="contained"
               color="primary"
@@ -322,7 +322,7 @@ function DownloadPage() {
       {/* Download/Cancel button section */}
       <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Button
               variant="contained"
               color="primary"
@@ -347,7 +347,7 @@ function DownloadPage() {
       {(progressFile || completed) && (
         <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
           <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12}>
+            <Grid size={12}>
               {!completed && progressFile ? (
                 <LinearProgressWithLabel
                   value={progress}

@@ -254,7 +254,7 @@ export default function RegisterPage() {
           {t('registerAccount')}
         </Button>
         <Grid container spacing={2}>
-          <Grid item xs={9}>
+          <Grid size={9}>
             <Button
               onClick={handleResetClick}
               sx={{
@@ -265,7 +265,7 @@ export default function RegisterPage() {
               {t('resetApp')}
             </Button>
           </Grid>
-          <Grid item xs={3}>
+          <Grid size={3}>
             <Button
               onClick={() => navigate('/login')}
               sx={{

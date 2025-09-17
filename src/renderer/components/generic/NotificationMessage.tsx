@@ -77,9 +77,9 @@ function NotificationMessage() {
           }}
         />
       )}
-      <Grid container>
+      <Grid container spacing={2}>
         {notice !== null ? (
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Alert
               severity={severity as AlertColor} // The 'severity' prop is cast to AlertColor type
               sx={{ display: 'flex', alignItems: 'center' }} // Styling for flex display and center alignment
@@ -88,7 +88,7 @@ function NotificationMessage() {
             </Alert>
           </Grid>
         ) : (
-          <Grid item xs={12} style={{ height: '48px' }}>
+          <Grid size={12} style={{ height: '48px' }}>
             {' '}
           </Grid>
         )}

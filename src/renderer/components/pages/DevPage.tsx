@@ -329,7 +329,7 @@ export default function DevPage(): React.JSX.Element {
       {/* Controls */}
       <Paper elevation={2} sx={{ p: 2, mb: 3 }}>
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <FormControl fullWidth>
               <InputLabel>{t('dev.selectFile')}</InputLabel>
               <Select
@@ -346,7 +346,7 @@ export default function DevPage(): React.JSX.Element {
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} md={3}>
+          <Grid size={{ xs: 12, md: 3 }}>
             <FormControl fullWidth>
               <InputLabel>{t('dev.filterType')}</InputLabel>
               <Select
@@ -364,7 +364,7 @@ export default function DevPage(): React.JSX.Element {
             </FormControl>
           </Grid>
 
-          <Grid item xs={12} md={5}>
+          <Grid size={{ xs: 12, md: 5 }}>
             <TextField
               fullWidth
               label={t('dev.searchDocs')}
@@ -437,7 +437,7 @@ export default function DevPage(): React.JSX.Element {
                     <Grid container spacing={2}>
                       {/* Description */}
                       {(comment.description || comment.fileoverview) && (
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <Typography variant="body1" paragraph>
                             {comment.fileoverview || comment.description}
                           </Typography>
@@ -446,7 +446,7 @@ export default function DevPage(): React.JSX.Element {
 
                       {/* Metadata */}
                       {(comment.author || comment.since) && (
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <Box display="flex" gap={2} flexWrap="wrap">
                             {comment.author && (
                               <Chip
@@ -468,7 +468,7 @@ export default function DevPage(): React.JSX.Element {
 
                       {/* Parameters */}
                       {comment.params && comment.params.length > 0 && (
-                        <Grid item xs={12} md={6}>
+                        <Grid size={{ xs: 12, md: 6 }}>
                           <Typography variant="subtitle2" gutterBottom>
                             {t('dev.parameters')}:
                           </Typography>
@@ -506,7 +506,7 @@ export default function DevPage(): React.JSX.Element {
 
                       {/* Returns */}
                       {comment.returns && (
-                        <Grid item xs={12} md={6}>
+                        <Grid size={{ xs: 12, md: 6 }}>
                           <Typography variant="subtitle2" gutterBottom>
                             {t('dev.returns')}:
                           </Typography>
@@ -528,7 +528,7 @@ export default function DevPage(): React.JSX.Element {
 
                       {/* Additional Tags */}
                       {comment.tags && comment.tags.length > 0 && (
-                        <Grid item xs={12}>
+                        <Grid size={12}>
                           <Typography variant="subtitle2" gutterBottom>
                             {t('dev.additionalTags')}:
                           </Typography>
@@ -546,7 +546,7 @@ export default function DevPage(): React.JSX.Element {
                       )}
 
                       {/* Raw Comment */}
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <Accordion>
                           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                             <Typography variant="subtitle2">

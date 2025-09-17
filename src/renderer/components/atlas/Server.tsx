@@ -92,7 +92,7 @@ export default function Server({
       }}
     >
       <Grid container alignItems="center" spacing={3}>
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Typography
             variant="h4"
             sx={{
@@ -124,14 +124,14 @@ export default function Server({
               : info.name.replace(/-/, ' ')}
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid size={{ xs: 12, md: 6 }}>
           <Grid
             container
             spacing={1}
             alignItems="center"
             justifyContent={{ xs: 'flex-start', sm: 'flex-end' }}
           >
-            <Grid item>
+            <Grid>
               <Typography
                 variant="h6"
                 sx={{
@@ -185,7 +185,7 @@ export default function Server({
         </Grid>
       </Grid>
       <Grid container>
-        <Grid item xs={12}>
+        <Grid size={12}>
           {game && (
             <Game
               info={game}
