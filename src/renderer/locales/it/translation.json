@@ -85,7 +85,7 @@
     "play": "Gioca ad Atlas Reactor come"
   },
   "ips": {
-    "noProxy": "evos-emu.com (Nessun Proxy)",
+    "noProxy": "ar.zheneq.net (Nessun Proxy)",
     "proxy1": "de.evos.live (Proxy in Germania)",
     "proxy2": "fr.evos.live (Proxy in Francia)",
     "proxy3": "fi.evos.live (Proxy in Finlandia)",

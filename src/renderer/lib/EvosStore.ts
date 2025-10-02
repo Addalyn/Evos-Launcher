@@ -185,7 +185,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   colorScrollBar: '#6b6b6b',
   colorPaper: '#000000',
   mode: 'dark', // Default value while fetching from storage.
-  ip: 'evos-emu.com',
+  ip: 'ar.zheneq.net',
   authenticatedUsers: [],
   activeUser: null,
   age: 0,

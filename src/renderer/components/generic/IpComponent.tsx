@@ -22,7 +22,7 @@ import { useTranslation } from 'react-i18next';
  * Type definition for available server IP options
  */
 type ServerIpOption =
-  | 'evos-emu.com'
+  | 'ar.zheneq.net'
   | 'de.evos.live'
   | 'fr.evos.live'
   | 'fi.evos.live'
@@ -36,7 +36,7 @@ type ServerIpOption =
  * in different regions. The selected IP is stored in the global EvosStore.
  *
  * Available server options:
- * - evos-emu.com: Main server (no proxy)
+ * - ar.zheneq.net: Main server (no proxy)
  * - de.evos.live: German proxy server
  * - fr.evos.live: French proxy server
  * - fi.evos.live: Finnish proxy server
@@ -55,7 +55,7 @@ function IpComponent(): React.ReactElement {
   const { setIp } = EvosStore();
 
   /** State for tracking the currently selected IP address */
-  const [selectedIp, setSelectedIp] = useState<ServerIpOption>('evos-emu.com');
+  const [selectedIp, setSelectedIp] = useState<ServerIpOption>('ar.zheneq.net');
 
   /** Translation hook for internationalization */
   const { t } = useTranslation();
@@ -88,7 +88,7 @@ function IpComponent(): React.ReactElement {
         {/* Server IP dropdown selection */}
         <FormControl fullWidth>
           <Select value={selectedIp} onChange={handleSelectChange}>
-            <MenuItem value="evos-emu.com">{t('ips.noProxy')}</MenuItem>
+            <MenuItem value="ar.zheneq.net">{t('ips.noProxy')}</MenuItem>
             <MenuItem value="de.evos.live">{t('ips.proxy1')}</MenuItem>
             <MenuItem value="fr.evos.live">{t('ips.proxy2')}</MenuItem>
             <MenuItem value="fi.evos.live">{t('ips.proxy3')}</MenuItem>

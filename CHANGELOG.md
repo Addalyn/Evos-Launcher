@@ -1,6 +1,6 @@
 # Evos Launcher Changelog
 
-# [3.1.0] - 2025-09-17
+# [3.1.1] - 2025-09-17
 
 ## Features & Improvements
 

@@ -85,10 +85,10 @@
     "play": "开始游玩Atlas Reactor! 玩家:"
   },
   "ips": {
-    "noProxy": "evos-emu.com (无代理)",
-    "proxy1": "evos-emu.com (德国代理)",
-    "proxy2": "evos-emu.com (法国代理)",
-    "proxy3": "evos-emu.com (芬兰代理)",
+    "noProxy": "ar.zheneq.net (无代理)",
+    "proxy1": "ar.zheneq.net (德国代理)",
+    "proxy2": "ar.zheneq.net (法国代理)",
+    "proxy3": "ar.zheneq.net (芬兰代理)",
     "proxy4": "ru.ar.zheneq.net (俄罗斯代理)"
   },
   "download": {

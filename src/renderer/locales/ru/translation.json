@@ -85,7 +85,7 @@
     "play": "Запустить Atlas Reactor для"
   },
   "ips": {
-    "noProxy": "evos-emu.com (напрямую)",
+    "noProxy": "ar.zheneq.net (напрямую)",
     "proxy1": "de.evos.live (прокси в Германии)",
     "proxy2": "fr.evos.live (прокси во Франции)",
     "proxy3": "fi.evos.live (прокси в Финляндии)",

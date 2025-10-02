@@ -20,11 +20,11 @@ const getIp = async (): Promise<string> => {
       (electron) => electron.store.getItem('ip'),
       null,
     );
-    return electronIp || EvosStore.getState().ip || 'evos-emu.com';
+    return electronIp || EvosStore.getState().ip || 'ar.zheneq.net';
   } catch (error) {
     // eslint-disable-next-line no-console
     console.warn('Failed to get IP from storage, using fallback:', error);
-    return EvosStore.getState().ip || 'evos-emu.com';
+    return EvosStore.getState().ip || 'ar.zheneq.net';
   }
 };
 
