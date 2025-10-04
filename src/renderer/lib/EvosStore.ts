@@ -423,6 +423,11 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       ip = 'fi.evos.live';
       get().setIp(ip);
     }
+    // Expired domain
+    if (ip === 'evos-emu.com') {
+      ip = 'ar.zheneq.net';
+      get().setIp(ip);
+    }
 
     set({
       mode: mode !== 'dark' && mode !== 'light' ? 'dark' : mode,
