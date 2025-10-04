@@ -1,6 +1,18 @@
 # Evos Launcher Changelog
 
-# [3.1.1] - 2025-09-17
+# [3.1.2] - 2025-10-04
+
+## Bug Fixes
+
+- if user is still on evos-emu.com, update config to ar.zheneq.net. so no need to switch proxy manually.
+
+# [3.1.1] - 2025-10-04
+
+## Bug Fixes
+
+- Changed evos-emu.com to ar.zheneq.net, as evos-emu.com is no longer available.
+
+# [3.1.0] - 2025-09-17
 
 ## Features & Improvements
 
@@ -108,7 +120,6 @@
 ### Major Refactoring & Code Organization
 
 - **Main Process Architecture Restructure**
-
   - Split main process code into organized modules for better maintainability
   - **New Structure:**
     - `src/main/config/` - Configuration management
@@ -123,7 +134,6 @@
     - `src/main/windows/` - Window management (`windowManager.ts`)
 
 - **Renderer Process Architecture Restructure**
-
   - Reorganized frontend code for better scalability and maintainability
   - **New Structure:**
     - `src/renderer/config/` - Application configuration (`routes.config.tsx`)
@@ -148,7 +158,6 @@
 ### Documentation & Code Quality
 
 - **Comprehensive JSDoc Documentation**
-
   - Added detailed JSDoc comments throughout the codebase
   - Enhanced function and component documentation with:
     - Parameter descriptions and types
@@ -169,7 +178,6 @@
 ### New Features & Enhancements
 
 - **Navbar Component Modularization**
-
   - Complete restructuring of navbar system with dedicated components:
     - `BranchSelector.tsx` - Dedicated branch selection interface
     - `GameLaunchButton.tsx` - Game launch/termination controls
@@ -181,14 +189,12 @@
   - Improved maintainability through modular architecture
 
 - **Route Configuration System**
-
   - New centralized route configuration in `routes.config.tsx`
   - Support for different layout types (standard, auth, minimal)
   - Electron-specific route filtering for cross-platform compatibility
   - Improved page title management
 
 - **Hook-Based Architecture**
-
   - **Discord RPC Integration (`useDiscordRPC.ts`)**
     - Real-time Discord status updates based on game state
     - Automatic activity tracking with game timers
@@ -199,7 +205,6 @@
     - Live player status and game information
 
 - **Enhanced Utility Functions**
-
   - **File Utilities (`fileUtils.ts`)**
     - SHA1 checksum calculation for file integrity
     - File accessibility and permission checking
@@ -222,13 +227,11 @@
 ### Code Architecture Improvements
 
 - **Separation of Concerns**
-
   - Clear separation between business logic and presentation layers
   - Service-oriented architecture in main process
   - Hook-based state management in renderer process
 
 - **Maintainability Enhancements**
-
   - Reduced code duplication through unified components
   - Improved file organization and naming conventions
   - Better dependency management and imports
@@ -318,7 +321,6 @@ All existing features remain fully functional while providing a significantly mo
 ### Improvements
 
 - **Advanced Game Search**: Enhanced functionality for searching previous games
-
   - **Team Win**: Select which team that won, or Any to ignore
   - **Turns**: Must be entered as a valid number (e.g., `15`)
   - **Score**: Must be formatted correctly (e.g., `4-3`)
@@ -341,7 +343,6 @@ All existing features remain fully functional while providing a significantly mo
 ### Improvements
 
 - **File Handling for Branches**
-
   - Improved file handling process by downloading files to a temporary `.download` file first
   - Added a backup step by creating a `.bak` copy of the original file
   - After successful download, the `.download` file is renamed to replace the original file
@@ -440,7 +441,6 @@ All existing features remain fully functional while providing a significantly mo
 ### Improvements
 
 - **Skeleton Loading**: Added skeleton loading (to improve the user experience while waiting for the data to load)
-
   - Global Stats
     - Games Played Per Month
     - Games Played Per Character
@@ -488,7 +488,6 @@ All existing features remain fully functional while providing a significantly mo
 ### New Features
 
 - **Advanced Game Statistics**
-
   - Total Healing Received
   - Total Player Absorb
   - Powerups Collected
@@ -1319,7 +1318,6 @@ When adding new entries:
 
 1. **Add entries at the top** under a new version section
 2. **Use consistent formatting**:
-
    - `### New Features` for new functionality
    - `### Improvements` for enhancements to existing features
    - `### Bug Fixes` for bug fixes
