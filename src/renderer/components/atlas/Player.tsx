@@ -138,7 +138,7 @@ async function fetchTitle(playerName: string): Promise<DataItem[]> {
     const strapi = strapiClient
       .from<DataItem>(`titles`)
       .select(['title'])
-      .contains('handle', playerName);
+      .startsWith('handle', `${playerName}#`);
 
     strapi.paginate(1, 100000);
 
