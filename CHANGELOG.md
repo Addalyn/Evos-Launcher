@@ -1,11 +1,16 @@
 # Evos Launcher Changelog
 
+# [3.1.4] - 2025-11-30
+
+## Bug Fixes
+
+- Fixed so automatic check for branches works correctly again.
+
 # [3.1.3] - 2025-10-12
 
 ## Bug Fixes
 
 - Fixed player card displaying another player's title in some circumstances.
-
 
 # [3.1.2] - 2025-10-04
 

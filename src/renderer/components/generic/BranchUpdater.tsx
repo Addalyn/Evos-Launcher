@@ -5,6 +5,7 @@ import { withElectron } from 'renderer/utils/electronUtils';
 import { useTranslation } from 'react-i18next';
 import EvosStore from 'renderer/lib/EvosStore';
 import { Branches, getBranches } from 'renderer/lib/Evos';
+import useNavbar from './navbar/useNavbar';
 
 function BranchUpdater() {
   const {
@@ -16,7 +17,10 @@ function BranchUpdater() {
     branch,
     nobranchDownload,
     setNoBranchDownload,
+    activeUser,
   } = EvosStore();
+
+  const { activeGames } = useNavbar();
   const [message, setMessage] = useState('');
   const [branchesData, setBranchesData] = useState<Branches>();
   const [branchReady, setBranchReady] = useState(false);
@@ -43,6 +47,34 @@ function BranchUpdater() {
       // Optionally remove listener if needed
     };
   }, []);
+
+  useEffect(() => {
+    // eslint-disable-next-line no-undef
+    let intervalId: string | number | NodeJS.Timeout | undefined;
+
+    if (branch !== '') {
+      const getBranchesInfo = async () => {
+        const response = await getBranches();
+        const { data }: { data: Branches } = response;
+        if (data && !locked) {
+          // time out 3seconds
+          setTimeout(() => {
+            window.electron.ipcRenderer.checkBranch(data[branch]);
+          }, 5000);
+        }
+      };
+
+      getBranchesInfo();
+
+      // check it every 5minutes when not in game
+      if (!activeGames[activeUser?.user as string]) {
+        intervalId = setInterval(getBranchesInfo, 5 * 60 * 1000);
+      } else {
+        clearInterval(intervalId);
+      }
+    }
+    return () => clearInterval(intervalId);
+  }, [activeGames, activeUser?.user, branch, locked, needPatching, t]);
 
   useEffect(() => {
     if (message === 'completed') {
