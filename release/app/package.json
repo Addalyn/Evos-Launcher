@@ -1,7 +1,7 @@
 {
   "name": "evoslauncher",
-  "version": "3.1.4",
-  "description": "A Atlas Reactor Launcher built with Electron, React",
+  "version": "3.1.5",
+  "description": "An Atlas Reactor Launcher built with Electron, React",
   "license": "MIT",
   "author": {
     "name": "BabyAddalyn",
