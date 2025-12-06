@@ -615,10 +615,11 @@ export function setupIpcHandlers(mainWindow: BrowserWindow | null): void {
       }
     }
 
-    // Steam Deck fallback search
+    // Linux fallback search
     if (!foundGamePath) {
       try {
-        const vdfPath = `Z:\\home\\deck\\.local\\share\\Steam\\steamapps\\libraryfolders.vdf`;
+        const userName = process.env.USER;
+        const vdfPath = `Z:\\home\\${userName}\\.local\\share\\Steam\\steamapps\\libraryfolders.vdf`;
         const pathOfGame = await readAndParseVDF(vdfPath, targetAppId);
         if (pathOfGame) {
           console.log(
