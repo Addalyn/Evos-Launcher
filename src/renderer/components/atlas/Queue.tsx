@@ -51,7 +51,6 @@ function Queue({
   const validGroups = queueInfo.groupIds.filter((groupId) => {
     const info = groupData.get(groupId);
     if (!info) return false;
-    
     const filteredAccountIds = info.accountIds.filter((accId) => {
       if (hidePlayers?.has(accId)) return false;
       const pdata = playerData.get(accId);
@@ -67,13 +66,10 @@ function Queue({
       }
       if (pdata && 'status' in pdata) {
         // @ts-ignore
-        return (
-          pdata.status !== 'in-game' && pdata.status !== 'playing'
-        );
+        return pdata.status !== 'in-game' && pdata.status !== 'playing';
       }
       return true;
     });
-    
     return filteredAccountIds.length > 0;
   });
 
