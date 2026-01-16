@@ -94,7 +94,7 @@ export default function Server({
       <Grid container alignItems="center" spacing={3}>
         <Grid size={{ xs: 12, md: 6 }}>
           <Typography
-            variant="h4"
+            variant="h5"
             sx={{
               fontWeight: 800,
               color: 'main',
@@ -108,17 +108,6 @@ export default function Server({
             }}
             noWrap
           >
-            <span
-              style={{
-                display: 'inline-block',
-                width: 12,
-                height: 12,
-                borderRadius: '50%',
-                background:
-                  'linear-gradient(135deg, #1976d2 60%, #42a5f5 100%)',
-                marginRight: 10,
-              }}
-            />
             {info.name.replace(/-/, ' ') === 'Custom game'
               ? t(info.name.replace(/-/, ' '))
               : info.name.replace(/-/, ' ')}

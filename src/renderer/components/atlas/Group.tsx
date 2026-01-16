@@ -30,7 +30,7 @@ interface Props {
  */
 function Group({ info, playerData }: Props) {
   return (
-    <List style={{ padding: 4 }}>
+    <List style={{ padding: 0 }}>
       {info.accountIds.map((accountId) => {
         if (playerData.get(accountId)?.status !== 'In Game') {
           return (
