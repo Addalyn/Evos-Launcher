@@ -1,5 +1,11 @@
 # Evos Launcher Changelog
 
+# [3.1.5] - 2025-12-XX
+
+## Improvements
+
+- Steam installation detection on Linux is no longer limited to Steam Deck and should now work on other systems as well.
+
 # [3.1.4] - 2025-11-30
 
 ## Bug Fixes
