@@ -1,6 +1,21 @@
 # Evos Launcher Changelog
 
-# [3.1.5] - 2025-12-XX
+# [3.1.5] - 2026-01-16
+
+## Features & Improvements
+
+- **Compact UI Layout**: Made the status page more compact for better space utilization
+  - Reduced padding and margins in Queue components
+  - Changed queue titles from `h4` to `h5` for a more compact appearance
+  - Reduced spacing between player groups and queue sections
+  - Removed decorative indicator dots from queue and server titles for cleaner look
+  - Reduced List padding in Group components
+
+## Bug Fixes
+
+- **Empty Queue Display**: Fixed issue where "Not Queued" section would display empty when all players were in-game
+  - Queue component now pre-filters groups and only renders when there are visible players
+  - Prevents rendering empty queue sections, improving UI clarity
 
 ## Improvements
 
