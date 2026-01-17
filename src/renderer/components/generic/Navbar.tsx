@@ -209,13 +209,26 @@ export default function NavBar(): ReactElement {
       {/* Main App Bar */}
       <AppBar
         position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        elevation={0}
+        sx={{
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          background: 'rgba(18, 18, 18, 0.85)',
+          backdropFilter: 'blur(20px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          '&:hover': {
+            background: 'rgba(18, 18, 18, 0.9)',
+            borderBottom: '1px solid rgba(255, 255, 255, 0.12)',
+          },
+        }}
       >
         <Container
           maxWidth="xl"
           sx={{ '-webkit-app-region': 'drag', minWidth: '100%' }}
         >
-          <Toolbar disableGutters sx={{ minHeight: '64px' }}>
+          <Toolbar disableGutters sx={{ minHeight: '72px', px: 2 }}>
             {/* Logo - Desktop */}
             <Avatar
               alt="logo"
@@ -226,6 +239,12 @@ export default function NavBar(): ReactElement {
                 width: 255,
                 height: 40,
                 display: { xs: 'none', md: 'flex' },
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3))',
+                '&:hover': {
+                  transform: 'scale(1.02)',
+                  filter: 'drop-shadow(0 4px 12px rgba(25, 118, 210, 0.4))',
+                },
               }}
             />
 
@@ -245,6 +264,12 @@ export default function NavBar(): ReactElement {
                   width: 40,
                   height: 40,
                   display: { xs: 'flex', md: 'none' },
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3))',
+                  '&:hover': {
+                    transform: 'scale(1.05) rotate(5deg)',
+                    filter: 'drop-shadow(0 4px 12px rgba(25, 118, 210, 0.4))',
+                  },
                 }}
               />
             </Box>
@@ -329,15 +354,24 @@ export default function NavBar(): ReactElement {
               }}
             >
               {isAuthenticated() && (
-                <UserAccountSelector
-                  activeUser={activeUser}
-                  authenticatedUsers={authenticatedUsers}
-                  playerInfoMap={playerInfoMap}
-                  isDownloading={isDownloading}
-                  onSwitchUser={handleSwitchUser}
-                  onAddUser={handleAddUser}
-                  onLogout={handleLogOut}
-                />
+                <Box
+                  sx={{
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    '&:hover': {
+                      transform: 'translateY(-2px)',
+                    },
+                  }}
+                >
+                  <UserAccountSelector
+                    activeUser={activeUser}
+                    authenticatedUsers={authenticatedUsers}
+                    playerInfoMap={playerInfoMap}
+                    isDownloading={isDownloading}
+                    onSwitchUser={handleSwitchUser}
+                    onAddUser={handleAddUser}
+                    onLogout={handleLogOut}
+                  />
+                </Box>
               )}
 
               {!isAuthenticated() && (
@@ -345,7 +379,38 @@ export default function NavBar(): ReactElement {
                   to="/login"
                   style={(active) => active && { display: 'none' }}
                 >
-                  <Typography>{t('login')}</Typography>
+                  <Box
+                    sx={{
+                      px: 3,
+                      py: 1.5,
+                      borderRadius: '12px',
+                      background: 'rgba(25, 118, 210, 0.1)',
+                      border: '1px solid rgba(25, 118, 210, 0.3)',
+                      backdropFilter: 'blur(10px)',
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                      cursor: 'pointer',
+                      '&:hover': {
+                        background: 'rgba(25, 118, 210, 0.2)',
+                        border: '1px solid rgba(25, 118, 210, 0.5)',
+                        transform: 'translateY(-2px) scale(1.02)',
+                        boxShadow: '0 8px 16px rgba(25, 118, 210, 0.3)',
+                      },
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        fontWeight: 600,
+                        fontSize: '0.95rem',
+                        letterSpacing: '0.5px',
+                        background: 'linear-gradient(135deg, #1976d2 0%, #42a5f5 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                      }}
+                    >
+                      {t('login')}
+                    </Typography>
+                  </Box>
                 </NavLink>
               )}
             </Box>
@@ -368,6 +433,7 @@ export default function NavBar(): ReactElement {
         onBranchChange={handleChangeBranch}
         onNavigate={doNavigate}
         isAuthenticated={isAuthenticated()}
+        currentPath={location.pathname}
       />
     </>
   );

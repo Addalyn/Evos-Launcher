@@ -148,7 +148,7 @@ function TrustBar({ factionsData }: Props) {
     <Paper
       elevation={6}
       sx={{
-        p: { xs: 3, sm: 4 },
+        p: { xs: 1, sm: 1 },
         m: { xs: '1em' },
         overflow: 'hidden',
         minWidth: 320,

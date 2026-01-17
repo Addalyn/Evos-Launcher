@@ -37,16 +37,39 @@ p {
   height: calc(100% - 63px) !important;
 }
 
+/* Modern Glassmorphism Utilities */
+.glass-effect {
+  background: rgba(18, 18, 18, 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-effect-light {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px) saturate(150%);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Enhanced Glow on Hover Effect */
 .glow-on-hover {
   height: 50px;
   border: none;
   outline: none;
   color: #fff;
-  background: #111111ad;
+  background: rgba(17, 17, 17, 0.7);
+  backdrop-filter: blur(10px);
   cursor: pointer;
   position: relative;
   z-index: 0;
-  border-radius: 1px;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glow-on-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
 .glow-on-hover:before {
@@ -71,9 +94,13 @@ p {
   width: calc(100% + 4px);
   height: calc(100% + 4px);
   animation: glowing 60s linear infinite;
-  opacity: 0.5;
-  transition: opacity 0.3s;
-  border-radius: 1px;
+  opacity: 0.4;
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 8px;
+}
+
+.glow-on-hover:hover:before {
+  opacity: 0.8;
 }
 
 .MuiSelect-select {
@@ -86,11 +113,17 @@ p {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: #111111ad;
+  background: rgba(17, 17, 17, 0.9);
   left: 0;
   top: 0;
-  border-radius: 1px;
+  border-radius: 8px;
+  transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+.glow-on-hover:hover:after {
+  background: rgba(17, 17, 17, 0.95);
+}
+
 
 .championSkew:before {
   transform: skewX(-15deg);
