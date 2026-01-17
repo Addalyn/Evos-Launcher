@@ -281,7 +281,7 @@ function StatusPage(): React.ReactElement {
           </Paper>
         </>
       )}
-            {status?.factionsEnabled && (
+      {status?.factionsEnabled && (
         <TrustBar factionsData={status?.factionsData} />
       )}
       {players?.size === 0 && (

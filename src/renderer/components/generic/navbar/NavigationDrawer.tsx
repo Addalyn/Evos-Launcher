@@ -15,7 +15,6 @@ import {
   ListItemIcon,
   ListItemText,
   Divider,
-  Paper,
   Box,
   Toolbar,
 } from '@mui/material';
@@ -144,13 +143,15 @@ export default function NavigationDrawer({
                     <ListItemButton
                       sx={{
                         borderRadius: '12px',
-                        background: 'linear-gradient(135deg, rgba(25, 118, 210, 0.15) 0%, rgba(66, 165, 245, 0.15) 100%)',
+                        background:
+                          'linear-gradient(135deg, rgba(25, 118, 210, 0.15) 0%, rgba(66, 165, 245, 0.15) 100%)',
                         border: '1px solid rgba(25, 118, 210, 0.3)',
                         backdropFilter: 'blur(10px)',
                         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                         py: 1,
                         '&:hover': {
-                          background: 'linear-gradient(135deg, rgba(25, 118, 210, 0.25) 0%, rgba(66, 165, 245, 0.25) 100%)',
+                          background:
+                            'linear-gradient(135deg, rgba(25, 118, 210, 0.25) 0%, rgba(66, 165, 245, 0.25) 100%)',
                           border: '1px solid rgba(25, 118, 210, 0.5)',
                           transform: 'translateY(-2px) scale(1.02)',
                           boxShadow: '0 8px 16px rgba(25, 118, 210, 0.3)',
@@ -210,102 +211,105 @@ export default function NavigationDrawer({
         }}
       >
         <List sx={{ p: 0, '& .MuiListItem-root': { pr: 1.5 } }}>
-            {pages.map((page) => {
-              // Hide specific items when isAuthenticated is false
+          {pages.map((page) => {
+            // Hide specific items when isAuthenticated is false
 
-              if (
-                (page.authentication && !isAuthenticated) ||
-                (page.href === '/login' && isAuthenticated)
-              ) {
-                return null;
-              }
+            if (
+              (page.authentication && !isAuthenticated) ||
+              (page.href === '/login' && isAuthenticated)
+            ) {
+              return null;
+            }
 
-              if (!page.special) {
-                return (
-                  <React.Fragment key={`page-${page.href}`}>
-                    {page.devider && (
-                      <Divider
-                        key={`${page.title}-divider`}
-                        sx={{
-                          my: 1,
-                          borderColor: (theme) =>
-                            theme.palette.mode === 'dark'
-                              ? 'rgba(255, 255, 255, 0.08)'
-                              : 'rgba(0, 0, 0, 0.08)',
-                        }}
-                      />
-                    )}
-                    <ListItem
-                      key={page.title}
-                      disablePadding
-                      sx={{ display: 'block', mb: 0.25 }}
-                      disableGutters={isDownloading}
-                      onClick={() => {
-                        if (!isDownloading) onNavigate(page.href);
+            if (!page.special) {
+              return (
+                <React.Fragment key={`page-${page.href}`}>
+                  {page.devider && (
+                    <Divider
+                      key={`${page.title}-divider`}
+                      sx={{
+                        my: 1,
+                        borderColor: (theme) =>
+                          theme.palette.mode === 'dark'
+                            ? 'rgba(255, 255, 255, 0.08)'
+                            : 'rgba(0, 0, 0, 0.08)',
                       }}
-                    >
-                      <ListItemButton
-                        sx={{
-                          borderRadius: '10px',
-                          transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-                           py: 0.9,
-                          // Active state when current path matches
-                          ...(currentPath === page.href && {
-                            background: 'linear-gradient(135deg, rgba(25, 118, 210, 0.2) 0%, rgba(66, 165, 245, 0.2) 100%)',
-                            border: '1px solid rgba(25, 118, 210, 0.4)',
-                            '& .MuiListItemIcon-root': {
-                              color: 'primary.main',
-                            },
-                            '& .MuiListItemText-primary': {
-                              color: 'primary.light',
-                              fontWeight: 600,
-                            },
-                          }),
-                          '&:hover': {
-                            background: currentPath === page.href
+                    />
+                  )}
+                  <ListItem
+                    key={page.title}
+                    disablePadding
+                    sx={{ display: 'block', mb: 0.25 }}
+                    disableGutters={isDownloading}
+                    onClick={() => {
+                      if (!isDownloading) onNavigate(page.href);
+                    }}
+                  >
+                    <ListItemButton
+                      sx={{
+                        borderRadius: '10px',
+                        transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                        py: 0.9,
+                        // Active state when current path matches
+                        ...(currentPath === page.href && {
+                          background:
+                            'linear-gradient(135deg, rgba(25, 118, 210, 0.2) 0%, rgba(66, 165, 245, 0.2) 100%)',
+                          border: '1px solid rgba(25, 118, 210, 0.4)',
+                          '& .MuiListItemIcon-root': {
+                            color: 'primary.main',
+                          },
+                          '& .MuiListItemText-primary': {
+                            color: 'primary.light',
+                            fontWeight: 600,
+                          },
+                        }),
+                        '&:hover': {
+                          background:
+                            currentPath === page.href
                               ? 'linear-gradient(135deg, rgba(25, 118, 210, 0.25) 0%, rgba(66, 165, 245, 0.25) 100%)'
                               : 'rgba(255, 255, 255, 0.05)',
-                            transform: 'translateX(4px)',
-                            '& .MuiListItemIcon-root': {
-                              color: 'primary.main',
-                              transform: 'scale(1.1)',
-                            },
-                            '& .MuiListItemText-primary': {
-                              color: 'primary.light',
-                            },
+                          transform: 'translateX(4px)',
+                          '& .MuiListItemIcon-root': {
+                            color: 'primary.main',
+                            transform: 'scale(1.1)',
                           },
+                          '& .MuiListItemText-primary': {
+                            color: 'primary.light',
+                          },
+                        },
+                      }}
+                    >
+                      <ListItemIcon
+                        sx={{
+                          minWidth: '36px',
+                          transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
                         }}
                       >
-                        <ListItemIcon
-                          sx={{
-                            minWidth: '36px',
-                            transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-                          }}
-                        >
-                          {page.icon}
-                        </ListItemIcon>
-                        <ListItemText
-                          primaryTypographyProps={{
-                             fontSize: '14px',
-                             fontWeight: currentPath === page.href ? 700 : 500,
-                             letterSpacing: '0.2px',
-                           }}
-                          primary={page.title}
-                          sx={{
-                            display: { xs: 'none', md: 'flex' },
-                            '& .MuiListItemText-primary': {
-                              transition: 'color 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-                            },
-                          }}
-                        />
-                      </ListItemButton>
-                    </ListItem>
-                  </React.Fragment>
-                );
-              }
-              return null;
-            })}
-          </List>
+                        {page.icon}
+                      </ListItemIcon>
+                      <ListItemText
+                        primaryTypographyProps={{
+                          fontSize: '14px',
+                          fontWeight: currentPath === page.href ? 700 : 500,
+                          letterSpacing: '0.2px',
+                        }}
+                        primary={page.title}
+                        sx={{
+                          display: { xs: 'none', md: 'flex' },
+                          '& .MuiListItemText-primary': {
+                            transition:
+                              'color 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                          },
+                        }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                </React.Fragment>
+              );
+            }
+            return null;
+          })}
+        </List>
       </Box>
 
       {/* Fixed bottom section for special items */}
@@ -342,13 +346,15 @@ export default function NavigationDrawer({
                       className="glow-on-hover"
                       sx={{
                         borderRadius: '12px',
-                        background: 'linear-gradient(135deg, rgba(156, 39, 176, 0.15) 0%, rgba(186, 104, 200, 0.15) 100%)',
+                        background:
+                          'linear-gradient(135deg, rgba(156, 39, 176, 0.15) 0%, rgba(186, 104, 200, 0.15) 100%)',
                         border: '1px solid rgba(156, 39, 176, 0.3)',
                         backdropFilter: 'blur(10px)',
                         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                         py: 1,
                         '&:hover': {
-                          background: 'linear-gradient(135deg, rgba(156, 39, 176, 0.25) 0%, rgba(186, 104, 200, 0.25) 100%)',
+                          background:
+                            'linear-gradient(135deg, rgba(156, 39, 176, 0.25) 0%, rgba(186, 104, 200, 0.25) 100%)',
                           border: '1px solid rgba(156, 39, 176, 0.5)',
                           transform: 'translateY(-2px) scale(1.02)',
                           boxShadow: '0 8px 16px rgba(156, 39, 176, 0.3)',

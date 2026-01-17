@@ -58,10 +58,10 @@ export default function GameLaunchButton({
   onLaunchClick,
 }: GameLaunchButtonProps): React.ReactElement | null {
   const { t } = useTranslation();
-  
+
   // Check if there's an active game
   const hasActiveGame = activeGames[activeUser?.user as string];
-  
+
   // Only show if user is authenticated and conditions are met
   if (
     !isAuthenticated ||
@@ -127,7 +127,8 @@ export default function GameLaunchButton({
                 left: '-100%',
                 width: '100%',
                 height: '100%',
-                background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)',
+                background:
+                  'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)',
                 transition: 'left 0.5s',
               },
               '&:hover': {
