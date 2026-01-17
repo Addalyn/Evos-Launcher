@@ -213,12 +213,6 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   },
 
   setColorPrimary: async (colorPrimary: string) => {
-    withElectron((electron) => {
-      electron.ipcRenderer.setTheme(
-        get().mode !== 'dark' ? get().colorPrimary : get().colorPaper,
-        get().colorText,
-      );
-    });
     set({ colorPrimary });
     try {
       await withElectron((electron) =>
@@ -230,12 +224,6 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   },
 
   setColorSecondary: async (colorSecondary: string) => {
-    withElectron((electron) =>
-      electron.ipcRenderer.setTheme(
-        get().mode !== 'dark' ? get().colorPrimary : get().colorPaper,
-        get().colorText,
-      ),
-    );
     set({ colorSecondary });
     try {
       await withElectron(
@@ -252,34 +240,17 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   },
 
   setColorText: async (colorText: string) => {
-    withElectron((electron) =>
-      electron.ipcRenderer.setTheme(
-        get().mode !== 'dark' ? get().colorPrimary : get().colorPaper,
-        get().colorText,
-      ),
-    );
+    set({ colorText });
     set({ colorText });
     await get().setToStorage('colorText', colorText);
   },
 
   setColorPaper: async (colorPaper: string) => {
-    withElectron((electron) =>
-      electron.ipcRenderer.setTheme(
-        get().mode !== 'dark' ? get().colorPrimary : colorPaper,
-        get().colorText,
-      ),
-    );
     set({ colorPaper });
     await get().setToStorage('colorPaper', colorPaper);
   },
 
   setColorScrollBar: async (colorScrollBar: string) => {
-    withElectron((electron) =>
-      electron.ipcRenderer.setTheme(
-        get().mode !== 'dark' ? get().colorPrimary : get().colorPaper,
-        get().colorText,
-      ),
-    );
     set({ colorScrollBar });
     await get().setToStorage('colorScrollBar', colorScrollBar);
   },
@@ -429,6 +400,13 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       get().setIp(ip);
     }
 
+    withElectron((electron) =>
+      electron.ipcRenderer.setTheme(
+        mode === 'dark' ? '#0000' : '#353535',
+        '#ffffff',
+      ),
+    );
+
     set({
       mode: mode !== 'dark' && mode !== 'light' ? 'dark' : mode,
       ip: ip || '',
@@ -453,12 +431,6 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       apiVersion: apiVersion || 'production',
       followedPlayers: followedPlayers || [],
     });
-    withElectron((electron) =>
-      electron.ipcRenderer.setTheme(
-        get().mode !== 'dark' ? get().colorPrimary : get().colorPaper,
-        get().colorText,
-      ),
-    );
     get().switchUser(activeUser?.user || users[0]?.user || '');
   },
 
@@ -493,8 +465,8 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     try {
       withElectron((electron) =>
         electron.ipcRenderer.setTheme(
-          newMode === 'dark' ? '#0000' : '#0029ff',
-          newMode !== 'dark' ? '#000000fc' : '#ffffff',
+          newMode === 'dark' ? '#0000' : '#353535',
+          '#ffffff',
         ),
       );
       await get().setToStorage('mode', newMode);

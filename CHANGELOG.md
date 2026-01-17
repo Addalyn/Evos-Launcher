@@ -1,5 +1,20 @@
 # Evos Launcher Changelog
 
+# [3.1.6] - 2026-01-17
+
+## Features & Improvements
+
+- **Navigation Drawer Redesign**: 
+  - Implemented a wider, more modern layout for the navigation drawer
+  - Added smooth transitions and improved typography for menu items
+  - Enhanced "special" items (like Support Us) with glassmorphism effects and radiant gradients
+  - Improved spacing and borders across the entire drawer for a cleaner look
+- **Theme Logic Refactor**:
+  - Simplified theme application logic in `EvosStore` for better performance
+  - Updated default theme colors for both dark and light modes to improve UI contrast
+- **UI Compactness**:
+  - Further optimized the Status Page layout by reducing padding in main components
+
 # [3.1.5] - 2026-01-16
 
 ## Features & Improvements
