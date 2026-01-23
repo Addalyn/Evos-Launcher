@@ -67,7 +67,7 @@ export async function createMainWindow(): Promise<BrowserWindow> {
   const mainWindow = new BrowserWindow({
     show: false,
     width: 1250,
-    height: 800,
+    height: 820,
     minWidth: 800,
     minHeight: 400,
     autoHideMenuBar: true,
@@ -117,13 +117,14 @@ export function createSplashWindow(): BrowserWindow {
 
   const splash = new BrowserWindow({
     width: 600,
-    height: 400,
+    height: 450,
     transparent: true,
     frame: false,
     alwaysOnTop: true,
     show: false, // Don't show immediately, we'll control this manually
     skipTaskbar: true,
     resizable: false,
+    roundedCorners: true,
     icon: getAssetPath('logo.png'),
     webPreferences: {
       nodeIntegration: true,

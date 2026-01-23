@@ -21,7 +21,14 @@
     "Follow": "Volgen",
     "Unfollow": "Ontvolgen"
   },
+  "followedPlayers": {
+    "title": "Gevolgde Spelers",
+    "subtitle": "Beheer en bekijk spelers die je volgt",
+    "noPlayers": "Je volgt geen spelers."
+  },
   "replay": {
+    "title": "Spelherhalingen",
+    "subtitle": "Bekijk en beheer je opgeslagen spelherhalingen",
     "replayOpen": "Replay Openen",
     "of": "van",
     "replayName": "Replay Naam",
@@ -111,6 +118,8 @@
     "megaBytes": "MB"
   },
   "logs": {
+    "title": "Spellogboeken",
+    "subtitle": "Bekijk en beheer je spellogboekbestanden",
     "logName": "Log Naam",
     "logDate": "Datum",
     "logSize": "Grootte (KB)",

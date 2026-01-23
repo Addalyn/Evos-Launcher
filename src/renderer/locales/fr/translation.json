@@ -21,7 +21,14 @@
     "Follow": "Suivre",
     "Unfollow": "Ne plus suivre"
   },
+  "followedPlayers": {
+    "title": "Joueurs Suivis",
+    "subtitle": "Gérez et visualisez les joueurs que vous suivez",
+    "noPlayers": "Vous ne suivez aucun joueur."
+  },
   "replay": {
+    "title": "Relectures de Jeu",
+    "subtitle": "Voir et gérer vos relectures de jeu sauvegardées",
     "replayOpen": "Ouvrir la relecture",
     "of": "de",
     "replayName": "Nom de la relecture",
@@ -111,6 +118,8 @@
     "megaBytes": "Mo"
   },
   "logs": {
+    "title": "Journaux de Jeu",
+    "subtitle": "Voir et gérer vos fichiers journaux de jeu",
     "logName": "Nom du journal",
     "logDate": "Date",
     "logSize": "Taille (Ko)",

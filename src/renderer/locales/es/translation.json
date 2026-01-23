@@ -21,7 +21,14 @@
     "Follow": "Seguir",
     "Unfollow": "Dejar de seguir"
   },
+  "followedPlayers": {
+    "title": "Jugadores Seguidos",
+    "subtitle": "Gestiona y visualiza los jugadores que sigues",
+    "noPlayers": "No estás siguiendo a ningún jugador."
+  },
   "replay": {
+    "title": "Repeticiones de Juego",
+    "subtitle": "Ver y gestionar tus repeticiones de juego guardadas",
     "replayOpen": "Abrir Repetición",
     "of": "de",
     "replayName": "Nombre de la Repetición",
@@ -111,6 +118,8 @@
     "megaBytes": "MB"
   },
   "logs": {
+    "title": "Registros de Juego",
+    "subtitle": "Ver y gestionar tus archivos de registro de juego",
     "logName": "Nombre de registro",
     "logDate": "Fecha",
     "logSize": "Tamaño (KB)",

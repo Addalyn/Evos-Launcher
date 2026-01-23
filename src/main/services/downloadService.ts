@@ -58,6 +58,10 @@ export async function startDownload(
       case 'progress':
         mainWindow?.webContents.send('download-progress', message.data);
         break;
+      case 'heartbeat':
+        // Send heartbeat to renderer to show download is still active
+        mainWindow?.webContents.send('download-heartbeat', message.data);
+        break;
       case 'result':
         if (message.data) {
           trackEvent('Game Downloaded');

@@ -1,5 +1,20 @@
 # Evos Launcher Changelog
 
+# [3.1.7] - 2026-01-22
+
+## Features & Improvements
+
+- **Splash Screen Redesign**: Complete visual overhaul with modern, premium aesthetics
+- **Download Page**: Improved the way the download works.
+- **UI Modernization - Pages Redesign**: Complete visual overhaul of three key pages with contemporary design patterns
+  - **ReplaysPage Modernization**:  
+  - **LogsPage Modernization**:
+  - **FollowedPlayersPage Modernization**:
+
+- **Translation Support**:
+  - Added 21 new translation keys across 10 languages (English, German, Spanish, French, Italian, Dutch, Russian, Turkish, Chinese, Brazilian Portuguese)
+  - All new UI elements fully internationalized for global user base
+
 # [3.1.6] - 2026-01-17
 
 ## Features & Improvements
