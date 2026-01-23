@@ -5,6 +5,7 @@
 ## Features & Improvements
 
 - **Splash Screen Redesign**: Complete visual overhaul with modern, premium aesthetics
+- **Download Page**: Improved the way the download works.
 - **UI Modernization - Pages Redesign**: Complete visual overhaul of three key pages with contemporary design patterns
   - **ReplaysPage Modernization**:  
   - **LogsPage Modernization**:

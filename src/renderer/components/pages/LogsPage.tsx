@@ -308,9 +308,7 @@ function LogsPage(): React.JSX.Element {
         return lastModified ? new Date(lastModified).toLocaleString() : '';
       },
       renderCell: (params) => (
-        <div
-          style={{  padding: '8px', minWidth: 200 }}
-        >
+        <div style={{ padding: '8px', minWidth: 200 }}>
           {params.row.lastModified.toLocaleString()}
         </div>
       ),
@@ -451,7 +449,8 @@ function LogsPage(): React.JSX.Element {
               borderColor: 'rgba(255, 255, 255, 0.1)',
             },
             '& .MuiDataGrid-columnHeaders': {
-              background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)',
+              background:
+                'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)',
               borderColor: 'rgba(255, 255, 255, 0.1)',
               fontSize: '0.95rem',
               fontWeight: 600,
@@ -518,7 +517,8 @@ function LogsPage(): React.JSX.Element {
                 background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                 borderRadius: '4px',
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #764ba2 0%, #667eea 100%)',
+                  background:
+                    'linear-gradient(135deg, #764ba2 0%, #667eea 100%)',
                 },
               },
             }}
@@ -551,7 +551,8 @@ function LogsPage(): React.JSX.Element {
                 boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)',
                 transition: 'all 0.3s ease',
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #764ba2 0%, #667eea 100%)',
+                  background:
+                    'linear-gradient(135deg, #764ba2 0%, #667eea 100%)',
                   transform: 'translateY(-2px)',
                   boxShadow: '0 6px 16px rgba(102, 126, 234, 0.4)',
                 },

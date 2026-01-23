@@ -197,32 +197,36 @@ async function doDownloadFile(downloadPath, file, totalBytes, retryCount = 0) {
  */
 async function processBatch(downloadPath, lines, startIndex, batchSize) {
   const endIndex = Math.min(startIndex + batchSize, lines.length);
-  let successCount = 0;
 
-  for (let i = startIndex; i < endIndex; i++) {
+  // Create array of download promises for parallel processing
+  const downloadPromises = [];
+  for (let i = startIndex; i < endIndex; i += 1) {
     const [file, , totalBytesStr] = lines[i].split(':');
     const totalBytes = Number(totalBytesStr);
 
     if (file === 'f') {
-      successCount++;
-      continue;
-    }
-
-    try {
-      const result = await doDownloadFile(downloadPath, file, totalBytes);
-      if (result) {
-        successCount++;
-      }
-    } catch (error) {
-      parentPort.postMessage({
-        type: 'error',
-        data: `Error downloading file ${file}: ${error.message}`,
-      });
+      downloadPromises.push(Promise.resolve(true));
+    } else {
+      downloadPromises.push(
+        doDownloadFile(downloadPath, file, totalBytes).catch((error) => {
+          parentPort.postMessage({
+            type: 'error',
+            data: `Error downloading file ${file}: ${error.message}`,
+          });
+          return false;
+        }),
+      );
     }
   }
 
+  // Wait for all downloads in this batch to complete
+  const results = await Promise.all(downloadPromises);
+
+  // Count successful downloads
+  const successCount = results.filter((result) => result === true).length;
+
   return {
-    success: successCount === (endIndex - startIndex),
+    success: successCount === endIndex - startIndex,
     processedCount: endIndex - startIndex,
   };
 }
@@ -249,6 +253,7 @@ async function downloadFilesInBatches(downloadPath, lines) {
         },
       });
 
+      // eslint-disable-next-line no-await-in-loop
       const result = await processBatch(
         downloadPath,
         lines,
@@ -259,7 +264,10 @@ async function downloadFilesInBatches(downloadPath, lines) {
       currentIndex += result.processedCount;
 
       // Yield control to prevent blocking
-      await new Promise((resolve) => setImmediate(resolve));
+      // eslint-disable-next-line no-await-in-loop
+      await new Promise((resolve) => {
+        setImmediate(resolve);
+      });
     } catch (error) {
       parentPort.postMessage({
         type: 'error',
@@ -302,7 +310,6 @@ async function getGlobalFileUrls(globalDownloadFile) {
 async function runWorker() {
   try {
     const { downloadPath, globalDownloadFile, skipNewPath } = workerData;
-    
     // Start heartbeat to show worker is alive
     heartbeatTimer = setInterval(() => {
       parentPort.postMessage({
@@ -354,12 +361,9 @@ async function runWorker() {
 
       const lines = manifest.split('\n');
       lines.shift(); // Remove header line
-      
+
       // Use batch processing instead of sequential
-      const success = await downloadFilesInBatches(
-        newDownloadPath,
-        lines,
-      );
+      const success = await downloadFilesInBatches(newDownloadPath, lines);
 
       // Clear heartbeat timer
       if (heartbeatTimer) {

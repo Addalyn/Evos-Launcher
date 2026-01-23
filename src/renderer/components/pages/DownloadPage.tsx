@@ -152,9 +152,6 @@ function DownloadPage() {
   const [bytes, setBytes] = useState(0);
   const [totalBytes, setTotalBytes] = useState(0);
   const [completed, setCompleted] = useState('');
-  const [currentFileIndex, setCurrentFileIndex] = useState(0);
-  const [totalFiles, setTotalFiles] = useState(0);
-  const [lastHeartbeat, setLastHeartbeat] = useState(Date.now());
   const { t } = useTranslation();
 
   /**
@@ -219,44 +216,34 @@ function DownloadPage() {
     setExePath(`${folderPath}\\AtlasReactor\\Win64\\AtlasReactor.exe`);
   };
 
-  /**
-   * Wrapper function for IPC progress events
-   * @param args - IPC event arguments
-   */
-  const handleProgressWrapper = (...args: unknown[]): void => {
-    const event = args[0] as DownloadProgressEvent;
-    handleProgressBar(event);
-  };
-
-  /**
-   * Wrapper function for IPC completion events
-   * @param args - IPC event arguments
-   */
-  const handleCompleteWrapper = (...args: unknown[]): void => {
-    const event = args[0] as DownloadCompleteEvent;
-    handleComplete(event);
-  };
-
-  /**
-   * Handles heartbeat messages from the download worker
-   * @param args - IPC event arguments
-   */
-  const handleHeartbeatWrapper = (...args: unknown[]): void => {
-    const event = args[0] as {
-      currentFile?: number;
-      totalFiles?: number;
-      percent?: number;
-      status?: string;
-    };
-    setLastHeartbeat(Date.now());
-    if (event.currentFile && event.totalFiles) {
-      setCurrentFileIndex(event.currentFile);
-      setTotalFiles(event.totalFiles);
-    }
-  };
-
   // Setup and cleanup IPC listeners
   useEffect(() => {
+    /**
+     * Wrapper function for IPC progress events
+     * @param args - IPC event arguments
+     */
+    const handleProgressWrapper = (...args: unknown[]): void => {
+      const event = args[0] as DownloadProgressEvent;
+      handleProgressBar(event);
+    };
+
+    /**
+     * Wrapper function for IPC completion events
+     * @param args - IPC event arguments
+     */
+    const handleCompleteWrapper = (...args: unknown[]): void => {
+      const event = args[0] as DownloadCompleteEvent;
+      handleComplete(event);
+    };
+
+    /**
+     * Handles heartbeat messages from the download worker
+     */
+    const handleHeartbeatWrapper = (): void => {
+      // Heartbeat received - worker is still active
+      // Currently not displaying heartbeat data in UI
+    };
+
     let cleanupProgress: (() => void) | undefined;
     let cleanupComplete: (() => void) | undefined;
     let cleanupHeartbeat: (() => void) | undefined;
@@ -282,7 +269,8 @@ function DownloadPage() {
       if (cleanupComplete) cleanupComplete();
       if (cleanupHeartbeat) cleanupHeartbeat();
     };
-  }, []); // Empty dependency array - only run once on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty dependency array - handlers are defined inside effect
 
   // Redirect to Discord page if user is not authenticated
   if (discordId === 0) {

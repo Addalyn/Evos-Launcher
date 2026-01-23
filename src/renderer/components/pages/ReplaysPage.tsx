@@ -611,7 +611,8 @@ export function ReplayDialog({
       >
         <DialogTitle
           sx={{
-            background: 'linear-gradient(135deg, rgba(255, 115, 0, 0.15) 0%, rgba(255, 0, 115, 0.1) 100%)',
+            background:
+              'linear-gradient(135deg, rgba(255, 115, 0, 0.15) 0%, rgba(255, 0, 115, 0.1) 100%)',
             borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
             fontWeight: 600,
             fontSize: '1.25rem',
@@ -645,7 +646,9 @@ export function ReplayDialog({
                   />
                 </div>
               ) : (
-                <Box sx={{ color: 'rgba(255, 100, 100, 0.9)', padding: '20px' }}>
+                <Box
+                  sx={{ color: 'rgba(255, 100, 100, 0.9)', padding: '20px' }}
+                >
                   {logError}
                 </Box>
               )}
@@ -669,7 +672,8 @@ export function ReplayDialog({
                 borderRadius: '8px',
                 textTransform: 'none',
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #1affdd 0%, #1a3fff 100%)',
+                  background:
+                    'linear-gradient(135deg, #1affdd 0%, #1a3fff 100%)',
                   transform: 'translateY(-2px)',
                   boxShadow: '0 4px 12px rgba(0, 255, 213, 0.3)',
                 },
@@ -694,7 +698,9 @@ export function ReplayDialog({
                     ? 'rgba(100, 100, 100, 0.3)'
                     : 'linear-gradient(135deg, #5fff1a 0%, #1affdd 100%)',
                   transform: disabled ? 'none' : 'translateY(-2px)',
-                  boxShadow: disabled ? 'none' : '0 4px 12px rgba(72, 255, 0, 0.3)',
+                  boxShadow: disabled
+                    ? 'none'
+                    : '0 4px 12px rgba(72, 255, 0, 0.3)',
                 },
               }}
             >
@@ -711,7 +717,8 @@ export function ReplayDialog({
                 borderRadius: '8px',
                 textTransform: 'none',
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #8f1aff 0%, #ff1ad4 100%)',
+                  background:
+                    'linear-gradient(135deg, #8f1aff 0%, #ff1ad4 100%)',
                   transform: 'translateY(-2px)',
                   boxShadow: '0 4px 12px rgba(122, 0, 255, 0.3)',
                 },
@@ -773,7 +780,8 @@ export function ReplayDialog({
       >
         <DialogTitle
           sx={{
-            background: 'linear-gradient(135deg, rgba(0, 255, 213, 0.15) 0%, rgba(0, 43, 255, 0.1) 100%)',
+            background:
+              'linear-gradient(135deg, rgba(0, 255, 213, 0.15) 0%, rgba(0, 43, 255, 0.1) 100%)',
             borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
             fontWeight: 600,
           }}
@@ -886,7 +894,8 @@ export function ReplayDialog({
       >
         <DialogTitle
           sx={{
-            background: 'linear-gradient(135deg, rgba(255, 115, 0, 0.15) 0%, rgba(255, 0, 115, 0.1) 100%)',
+            background:
+              'linear-gradient(135deg, rgba(255, 115, 0, 0.15) 0%, rgba(255, 0, 115, 0.1) 100%)',
             borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
             fontWeight: 600,
           }}
@@ -1267,7 +1276,8 @@ function ReplaysPage(): React.JSX.Element {
         <Box
           sx={{
             padding: '1.5em',
-            background: 'linear-gradient(135deg, rgba(255, 115, 0, 0.1) 0%, rgba(255, 0, 115, 0.05) 100%)',
+            background:
+              'linear-gradient(135deg, rgba(255, 115, 0, 0.1) 0%, rgba(255, 0, 115, 0.05) 100%)',
             borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
           }}
         >
