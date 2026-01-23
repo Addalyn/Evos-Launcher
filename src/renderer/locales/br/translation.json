@@ -19,7 +19,14 @@
     "SupportUs": "Apoie-nos",
     "folowedPlayers": "Jogadores Seguidos"
   },
+  "followedPlayers": {
+    "title": "Jogadores Seguidos",
+    "subtitle": "Gerencie e visualize jogadores que você está seguindo",
+    "noPlayers": "Você não está seguindo nenhum jogador."
+  },
   "replay": {
+    "title": "Replays de Jogo",
+    "subtitle": "Visualize e gerencie seus replays de jogo salvos",
     "replayOpen": "Abrir Replay",
     "of": "de",
     "replayName": "Nome do Replay",
@@ -109,6 +116,8 @@
     "megaBytes": "MB"
   },
   "logs": {
+    "title": "Registros de Jogo",
+    "subtitle": "Visualize e gerencie seus arquivos de registro de jogo",
     "logName": "Nome de registro",
     "logDate": "Data",
     "logSize": "Tamanho (KB)",

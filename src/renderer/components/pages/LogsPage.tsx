@@ -309,7 +309,7 @@ function LogsPage(): React.JSX.Element {
       },
       renderCell: (params) => (
         <div
-          style={{ ...params.row.colorStyle, padding: '8px', minWidth: 200 }}
+          style={{  padding: '8px', minWidth: 200 }}
         >
           {params.row.lastModified.toLocaleString()}
         </div>
@@ -333,10 +333,24 @@ function LogsPage(): React.JSX.Element {
       maxWidth: 170,
       renderCell: (params) => (
         <Button
-          variant="outlined"
-          color="primary"
+          variant="contained"
           size="small"
           onClick={() => handleAccordionClick(params.row as LogFile)}
+          sx={{
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            color: '#ffffff',
+            fontWeight: 600,
+            textTransform: 'none',
+            borderRadius: '8px',
+            padding: '6px 16px',
+            boxShadow: '0 2px 8px rgba(102, 126, 234, 0.3)',
+            transition: 'all 0.3s ease',
+            '&:hover': {
+              background: 'linear-gradient(135deg, #764ba2 0%, #667eea 100%)',
+              transform: 'translateY(-2px)',
+              boxShadow: '0 4px 12px rgba(102, 126, 234, 0.4)',
+            },
+          }}
         >
           {t('logs.logOpen')}
         </Button>
@@ -361,14 +375,59 @@ function LogsPage(): React.JSX.Element {
     return acc.concat(folderRows);
   }, [] as LogFileRow[]);
 
-  // Render the logs page with DataGrid and dialog components
+  // Render the logs page with modern glassmorphism design and gradient header
   return (
     <Box
       sx={{
         padding: '2em',
+        minHeight: '100vh',
       }}
     >
-      <Paper elevation={3} sx={{ width: '100%', overflow: 'hidden' }}>
+      {/* Gradient Header Section */}
+      <Box
+        sx={{
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          borderRadius: '16px 16px 0 0',
+          padding: '2rem',
+          marginBottom: '-1px',
+          boxShadow: '0 4px 20px rgba(102, 126, 234, 0.3)',
+        }}
+      >
+        <Box
+          sx={{
+            fontSize: '2rem',
+            fontWeight: 700,
+            color: '#ffffff',
+            marginBottom: '0.5rem',
+            textShadow: '0 2px 10px rgba(0,0,0,0.2)',
+          }}
+        >
+          {t('logs.title')}
+        </Box>
+        <Box
+          sx={{
+            fontSize: '1rem',
+            color: 'rgba(255, 255, 255, 0.9)',
+            fontWeight: 400,
+          }}
+        >
+          {t('logs.subtitle')}
+        </Box>
+      </Box>
+
+      {/* Glassmorphism Container */}
+      <Paper
+        elevation={0}
+        sx={{
+          width: '100%',
+          overflow: 'hidden',
+          borderRadius: '0 0 16px 16px',
+          background: 'rgba(255, 255, 255, 0.05)',
+          backdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+        }}
+      >
         <DataGrid
           rows={filteredRows}
           columns={columns}
@@ -386,17 +445,59 @@ function LogsPage(): React.JSX.Element {
               return `${from}-${to} ${t('logs.of')} ${count}`;
             },
           }}
+          sx={{
+            border: 'none',
+            '& .MuiDataGrid-cell': {
+              borderColor: 'rgba(255, 255, 255, 0.1)',
+            },
+            '& .MuiDataGrid-columnHeaders': {
+              background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)',
+              borderColor: 'rgba(255, 255, 255, 0.1)',
+              fontSize: '0.95rem',
+              fontWeight: 600,
+            },
+            '& .MuiDataGrid-row': {
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                background: 'rgba(102, 126, 234, 0.08)',
+                transform: 'translateX(4px)',
+              },
+            },
+            '& .MuiDataGrid-footerContainer': {
+              borderColor: 'rgba(255, 255, 255, 0.1)',
+              background: 'rgba(0, 0, 0, 0.02)',
+            },
+          }}
         />
       </Paper>
 
+      {/* Modern Dialog with Glassmorphism */}
       {selectedLog && (
         <Dialog
           open={openDialog}
           onClose={handleCloseDialog}
           fullWidth
           maxWidth="xl"
+          PaperProps={{
+            sx: {
+              borderRadius: '16px',
+              background: 'rgba(255, 255, 255, 0.95)',
+              backdropFilter: 'blur(20px)',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
+            },
+          }}
         >
-          <DialogTitle>{selectedLog.name}</DialogTitle>
+          <DialogTitle
+            sx={{
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              color: '#ffffff',
+              fontWeight: 600,
+              fontSize: '1.25rem',
+              padding: '1.5rem',
+            }}
+          >
+            {selectedLog.name}
+          </DialogTitle>
           <DialogContent
             className="log-dialog-content"
             sx={{
@@ -405,23 +506,77 @@ function LogsPage(): React.JSX.Element {
               maxHeight: '70vh',
               padding: '16px',
               scrollbarWidth: 'thin',
-              scrollbarColor: '#888 #f1f1f1',
+              scrollbarColor: '#667eea rgba(0, 0, 0, 0.1)',
+              '&::-webkit-scrollbar': {
+                width: '8px',
+              },
+              '&::-webkit-scrollbar-track': {
+                background: 'rgba(0, 0, 0, 0.05)',
+                borderRadius: '4px',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                borderRadius: '4px',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #764ba2 0%, #667eea 100%)',
+                },
+              },
             }}
             ref={(ref: HTMLDivElement | null) => setDialogContentRef(ref)}
           >
             {loading ? (
               <Box sx={{ textAlign: 'center', padding: '20px' }}>
-                <CircularProgress />
+                <CircularProgress sx={{ color: '#667eea' }} />
               </Box>
             ) : (
               formatLog(selectedLog.content || '')
             )}
           </DialogContent>
-          <DialogActions>
-            <Button onClick={handleOpenFolder} color="primary">
+          <DialogActions
+            sx={{
+              padding: '1rem 1.5rem',
+              background: 'rgba(0, 0, 0, 0.02)',
+              borderTop: '1px solid rgba(0, 0, 0, 0.05)',
+            }}
+          >
+            <Button
+              onClick={handleOpenFolder}
+              sx={{
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                color: '#ffffff',
+                fontWeight: 600,
+                padding: '8px 24px',
+                borderRadius: '8px',
+                textTransform: 'none',
+                boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)',
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #764ba2 0%, #667eea 100%)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 6px 16px rgba(102, 126, 234, 0.4)',
+                },
+              }}
+            >
               {t('logs.openLogsFolder')}
             </Button>
-            <Button onClick={handleCloseDialog}>{t('close')}</Button>
+            <Button
+              onClick={handleCloseDialog}
+              sx={{
+                color: '#667eea',
+                fontWeight: 600,
+                padding: '8px 24px',
+                borderRadius: '8px',
+                textTransform: 'none',
+                border: '2px solid #667eea',
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  background: 'rgba(102, 126, 234, 0.1)',
+                  transform: 'translateY(-2px)',
+                },
+              }}
+            >
+              {t('replay.close')}
+            </Button>
           </DialogActions>
         </Dialog>
       )}

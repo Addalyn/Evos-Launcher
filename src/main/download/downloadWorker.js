@@ -15,8 +15,23 @@ const util = require('util');
 /** @constant {number} Delay between file checks in milliseconds */
 const delayCheckFiles = 100;
 
+/** @constant {number} Number of files to process in each batch */
+const BATCH_SIZE = 5;
+
+/** @constant {number} Minimum time between progress updates in milliseconds */
+const PROGRESS_THROTTLE_MS = 100;
+
+/** @constant {number} Heartbeat interval in milliseconds */
+const HEARTBEAT_INTERVAL_MS = 2000;
+
 /** @type {{manifest: string, filedirectory: string}} Download configuration options */
 const downloadOptions = { manifest: '', filedirectory: '' };
+
+/** @type {number} Timestamp of last progress update */
+let lastProgressUpdate = 0;
+
+/** @type {NodeJS.Timeout|null} Heartbeat timer */
+let heartbeatTimer = null;
 
 /**
  * Downloads a file from a URL to a local location with progress tracking
@@ -106,12 +121,17 @@ async function doDownloadFile(downloadPath, file, totalBytes, retryCount = 0) {
       const stats = await util.promisify(fs.stat)(filePath);
       const fileSizeInBytes = stats.size;
       if (totalBytes !== fileSizeInBytes) {
-        fs.unlinkSync(filePath);
+        await fs.promises.unlink(filePath);
       } else {
-        parentPort.postMessage({
-          type: 'progress',
-          data: { filePath, bytes: 0, totalBytes: 0, percent: 100 },
-        });
+        // File already exists with correct size
+        const now = Date.now();
+        if (now - lastProgressUpdate >= PROGRESS_THROTTLE_MS) {
+          parentPort.postMessage({
+            type: 'progress',
+            data: { filePath, bytes: 0, totalBytes: 0, percent: 100 },
+          });
+          lastProgressUpdate = now;
+        }
         return true;
       }
     }
@@ -123,17 +143,22 @@ async function doDownloadFile(downloadPath, file, totalBytes, retryCount = 0) {
             fileUrl,
             filePath,
             false,
-            (bytes, percent) =>
-              parentPort.postMessage({
-                type: 'progress',
-                data: { fileUrl, filePath, bytes, percent, totalBytes },
-              }),
+            (bytes, percent) => {
+              const now = Date.now();
+              if (now - lastProgressUpdate >= PROGRESS_THROTTLE_MS) {
+                parentPort.postMessage({
+                  type: 'progress',
+                  data: { fileUrl, filePath, bytes, percent, totalBytes },
+                });
+                lastProgressUpdate = now;
+              }
+            },
           );
 
           const stats = await util.promisify(fs.stat)(filePath);
           const fileSizeInBytes = stats.size;
           if (totalBytes !== fileSizeInBytes) {
-            fs.unlinkSync(filePath);
+            await fs.promises.unlink(filePath);
             if (retryCount < 3) {
               const result = await doDownloadFile(
                 downloadPath,
@@ -163,30 +188,88 @@ async function doDownloadFile(downloadPath, file, totalBytes, retryCount = 0) {
 }
 
 /**
- * Downloads files sequentially from a manifest
+ * Processes a batch of files from the manifest
  * @param {string} downloadPath - Base directory path for downloads
  * @param {string[]} lines - Array of manifest lines containing file info
- * @param {number} index - Current line index being processed
+ * @param {number} startIndex - Starting index for this batch
+ * @param {number} batchSize - Number of files to process in this batch
+ * @returns {Promise<{success: boolean, processedCount: number}>} Result of batch processing
+ */
+async function processBatch(downloadPath, lines, startIndex, batchSize) {
+  const endIndex = Math.min(startIndex + batchSize, lines.length);
+  let successCount = 0;
+
+  for (let i = startIndex; i < endIndex; i++) {
+    const [file, , totalBytesStr] = lines[i].split(':');
+    const totalBytes = Number(totalBytesStr);
+
+    if (file === 'f') {
+      successCount++;
+      continue;
+    }
+
+    try {
+      const result = await doDownloadFile(downloadPath, file, totalBytes);
+      if (result) {
+        successCount++;
+      }
+    } catch (error) {
+      parentPort.postMessage({
+        type: 'error',
+        data: `Error downloading file ${file}: ${error.message}`,
+      });
+    }
+  }
+
+  return {
+    success: successCount === (endIndex - startIndex),
+    processedCount: endIndex - startIndex,
+  };
+}
+
+/**
+ * Downloads files in batches from a manifest to prevent blocking
+ * @param {string} downloadPath - Base directory path for downloads
+ * @param {string[]} lines - Array of manifest lines containing file info
  * @returns {Promise<boolean>} Promise that resolves to true when all files are downloaded
  */
-async function downloadFilesSequentially(downloadPath, lines, index) {
-  if (index >= lines.length) return true;
+async function downloadFilesInBatches(downloadPath, lines) {
+  let currentIndex = 0;
+  const totalFiles = lines.length;
 
-  const [file, , totalBytesStr] = lines[index].split(':');
-  const totalBytes = Number(totalBytesStr);
+  while (currentIndex < totalFiles) {
+    try {
+      // Send heartbeat to show download is active
+      parentPort.postMessage({
+        type: 'heartbeat',
+        data: {
+          currentFile: currentIndex + 1,
+          totalFiles,
+          percent: Math.floor((currentIndex / totalFiles) * 100),
+        },
+      });
 
-  if (file === 'f') return true;
+      const result = await processBatch(
+        downloadPath,
+        lines,
+        currentIndex,
+        BATCH_SIZE,
+      );
 
-  try {
-    await doDownloadFile(downloadPath, file, totalBytes);
-    return downloadFilesSequentially(downloadPath, lines, index + 1);
-  } catch (error) {
-    parentPort.postMessage({
-      type: 'error',
-      data: `Error while downloading files sequentially ${error} (report this to the developers)`,
-    });
-    return false;
+      currentIndex += result.processedCount;
+
+      // Yield control to prevent blocking
+      await new Promise((resolve) => setImmediate(resolve));
+    } catch (error) {
+      parentPort.postMessage({
+        type: 'error',
+        data: `Error while downloading files in batch: ${error.message}`,
+      });
+      return false;
+    }
   }
+
+  return true;
 }
 
 /**
@@ -219,6 +302,15 @@ async function getGlobalFileUrls(globalDownloadFile) {
 async function runWorker() {
   try {
     const { downloadPath, globalDownloadFile, skipNewPath } = workerData;
+    
+    // Start heartbeat to show worker is alive
+    heartbeatTimer = setInterval(() => {
+      parentPort.postMessage({
+        type: 'heartbeat',
+        data: { status: 'active' },
+      });
+    }, HEARTBEAT_INTERVAL_MS);
+
     await getGlobalFileUrls(globalDownloadFile);
 
     const urlParts = downloadOptions.manifest.split('/');
@@ -239,14 +331,18 @@ async function runWorker() {
       `${newDownloadPath}/${fileName}`,
       false,
       (bytes, percent) => {
-        parentPort.postMessage({
-          type: 'progress',
-          data: {
-            filePath: fileName,
-            bytes,
-            percent,
-          },
-        });
+        const now = Date.now();
+        if (now - lastProgressUpdate >= PROGRESS_THROTTLE_MS) {
+          parentPort.postMessage({
+            type: 'progress',
+            data: {
+              filePath: fileName,
+              bytes,
+              percent,
+            },
+          });
+          lastProgressUpdate = now;
+        }
       },
     );
 
@@ -257,18 +353,38 @@ async function runWorker() {
       );
 
       const lines = manifest.split('\n');
-      lines.shift();
-      const success = await downloadFilesSequentially(
+      lines.shift(); // Remove header line
+      
+      // Use batch processing instead of sequential
+      const success = await downloadFilesInBatches(
         newDownloadPath,
         lines,
-        0,
       );
+
+      // Clear heartbeat timer
+      if (heartbeatTimer) {
+        clearInterval(heartbeatTimer);
+        heartbeatTimer = null;
+      }
 
       parentPort.postMessage({ type: 'result', data: success });
     }
   } catch (error) {
+    // Clear heartbeat timer on error
+    if (heartbeatTimer) {
+      clearInterval(heartbeatTimer);
+      heartbeatTimer = null;
+    }
     parentPort.postMessage({ type: 'error', data: error.message });
   }
 }
+
+// Handle worker termination
+parentPort.on('close', () => {
+  if (heartbeatTimer) {
+    clearInterval(heartbeatTimer);
+    heartbeatTimer = null;
+  }
+});
 
 runWorker();

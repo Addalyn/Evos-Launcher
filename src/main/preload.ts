@@ -70,6 +70,7 @@ export type Channels =
   | 'close-game'
   | 'download-progress'
   | 'download-progress-completed'
+  | 'download-heartbeat'
   | 'cancel-download-game'
   | 'quitAndInstall'
   | 'set-show-all-chat'

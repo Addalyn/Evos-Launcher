@@ -21,7 +21,14 @@
     "Follow": "Takip Et",
     "Unfollow": "Takibi Bırak"
   },
+  "followedPlayers": {
+    "title": "Takip Edilen Oyuncular",
+    "subtitle": "Takip ettiğiniz oyuncuları yönetin ve görüntüleyin",
+    "noPlayers": "Hiçbir oyuncuyu takip etmiyorsunuz."
+  },
   "replay": {
+    "title": "Oyun Tekrarları",
+    "subtitle": "Kayıtlı oyun tekrarlarınızı görüntüleyin ve yönetin",
     "replayOpen": "Tekrarı Aç",
     "of": "of",
     "replayName": "Tekrar Adı",
@@ -111,6 +118,8 @@
     "megaBytes": "MB"
   },
   "logs": {
+    "title": "Oyun Kayıtları",
+    "subtitle": "Oyun kayıt dosyalarınızı görüntüleyin ve yönetin",
     "logName": "Kayıt İsmi",
     "logDate": "Tarih",
     "logSize": "Boyut (KB)",

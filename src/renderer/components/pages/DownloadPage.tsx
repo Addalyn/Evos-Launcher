@@ -8,7 +8,7 @@
 
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/jsx-props-no-spreading */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import {
   Avatar,
@@ -152,6 +152,9 @@ function DownloadPage() {
   const [bytes, setBytes] = useState(0);
   const [totalBytes, setTotalBytes] = useState(0);
   const [completed, setCompleted] = useState('');
+  const [currentFileIndex, setCurrentFileIndex] = useState(0);
+  const [totalFiles, setTotalFiles] = useState(0);
+  const [lastHeartbeat, setLastHeartbeat] = useState(Date.now());
   const { t } = useTranslation();
 
   /**
@@ -234,19 +237,57 @@ function DownloadPage() {
     handleComplete(event);
   };
 
+  /**
+   * Handles heartbeat messages from the download worker
+   * @param args - IPC event arguments
+   */
+  const handleHeartbeatWrapper = (...args: unknown[]): void => {
+    const event = args[0] as {
+      currentFile?: number;
+      totalFiles?: number;
+      percent?: number;
+      status?: string;
+    };
+    setLastHeartbeat(Date.now());
+    if (event.currentFile && event.totalFiles) {
+      setCurrentFileIndex(event.currentFile);
+      setTotalFiles(event.totalFiles);
+    }
+  };
+
+  // Setup and cleanup IPC listeners
+  useEffect(() => {
+    let cleanupProgress: (() => void) | undefined;
+    let cleanupComplete: (() => void) | undefined;
+    let cleanupHeartbeat: (() => void) | undefined;
+
+    withElectron((electron) => {
+      cleanupProgress = electron.ipcRenderer.on(
+        'download-progress',
+        handleProgressWrapper,
+      );
+      cleanupComplete = electron.ipcRenderer.on(
+        'download-progress-completed',
+        handleCompleteWrapper,
+      );
+      cleanupHeartbeat = electron.ipcRenderer.on(
+        'download-heartbeat',
+        handleHeartbeatWrapper,
+      );
+    });
+
+    // Cleanup on unmount
+    return () => {
+      if (cleanupProgress) cleanupProgress();
+      if (cleanupComplete) cleanupComplete();
+      if (cleanupHeartbeat) cleanupHeartbeat();
+    };
+  }, []); // Empty dependency array - only run once on mount
+
   // Redirect to Discord page if user is not authenticated
   if (discordId === 0) {
     return <DiscordPage />;
   }
-
-  // Set up IPC listeners for download events
-  withElectron((electron) => {
-    electron.ipcRenderer.on('download-progress', handleProgressWrapper);
-    electron.ipcRenderer.on(
-      'download-progress-completed',
-      handleCompleteWrapper,
-    );
-  });
 
   /**
    * Renders the download page UI with alerts, folder selection, and progress display
@@ -257,7 +298,6 @@ function DownloadPage() {
       <Alert severity="info">
         {t('download.infoLine1')} <br />
         {t('download.infoLine2')} <br />
-        {t('download.infoLine3')} <br />
         {t('download.infoLine4')} <br />
         {t('download.infoLine5')} <br />
         {t('download.infoLine6')}

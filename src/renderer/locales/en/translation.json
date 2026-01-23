@@ -21,7 +21,14 @@
     "Follow": "Follow",
     "Unfollow": "Unfollow"
   },
+  "followedPlayers": {
+    "title": "Followed Players",
+    "subtitle": "Manage and view players you're following",
+    "noPlayers": "You are not following any players."
+  },
   "replay": {
+    "title": "Game Replays",
+    "subtitle": "View and manage your saved game replays",
     "replayOpen": "Open Replay",
     "of": "of",
     "replayName": "Replay Name",
@@ -97,7 +104,7 @@
     "infoLine3": "To access, you must authenticate with Discord, be in our server, and have the correct role.",
     "infoLine4": "This will also make a new folder called 'AtlasReactor' and download the files there",
     "infoLine5": "so if you want to repair your existing installation, please make sure your root folder is called",
-    "infoLine6": "'AtlasReactor' and your Win64 folder is inside it. aka 'AtlasReactorWin64'",
+    "infoLine6": "'AtlasReactor' and your Win64 folder is inside it. aka 'AtlasReactor\\Win64'",
     "warningLine1": "Please wait until all files are checked and downloaded before proceeding. ",
     "warningLine2": "It may appear frozen, but it's not.",
     "warningLine3": "You can restart Evos Launcher, and it will simply verify existing files before continuing.",
@@ -111,6 +118,8 @@
     "megaBytes": "MB"
   },
   "logs": {
+    "title": "Game Logs",
+    "subtitle": "View and manage your game log files",
     "logName": "Log Name",
     "logDate": "Date",
     "logSize": "Size (KB)",

@@ -21,7 +21,14 @@
     "Follow": "Folgen",
     "Unfollow": "Entfolgen"
   },
+  "followedPlayers": {
+    "title": "Gefolgte Spieler",
+    "subtitle": "Verwalten und anzeigen von Spielern, denen Sie folgen",
+    "noPlayers": "Sie folgen keinen Spielern."
+  },
   "replay": {
+    "title": "Spielwiederholungen",
+    "subtitle": "Gespeicherte Spielwiederholungen ansehen und verwalten",
     "replayOpen": "Wiedergabe öffnen",
     "of": "von",
     "replayName": "Wiedergabename",
@@ -111,6 +118,8 @@
     "megaBytes": "MB"
   },
   "logs": {
+    "title": "Spielprotokolle",
+    "subtitle": "Spielprotokolldateien ansehen und verwalten",
     "logName": "Protokoll Name",
     "logDate": "Datum",
     "logSize": "Größe (KB)",

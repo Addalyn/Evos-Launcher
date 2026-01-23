@@ -21,7 +21,14 @@
     "Follow": "关注",
     "Unfollow": "取消关注"
   },
+  "followedPlayers": {
+    "title": "关注的玩家",
+    "subtitle": "管理和查看您关注的玩家",
+    "noPlayers": "您没有关注任何玩家。"
+  },
   "replay": {
+    "title": "游戏录像",
+    "subtitle": "查看和管理您保存的游戏录像",
     "replayOpen": "打开录像",
     "of": "共",
     "replayName": "录像名",
@@ -110,6 +117,8 @@
     "to": "至"
   },
   "logs": {
+    "title": "游戏日志",
+    "subtitle": "查看和管理您的游戏日志文件",
     "logName": "日志名",
     "logDate": "日期",
     "logSize": "大小 (KB)",

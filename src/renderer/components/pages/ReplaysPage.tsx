@@ -8,7 +8,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
-import { Paper, TextField, Typography } from '@mui/material';
+import { Paper, TextField, Typography, Box } from '@mui/material';
 import EvosStore from 'renderer/lib/EvosStore';
 import html2canvas from 'html2canvas';
 import { useTranslation, Trans } from 'react-i18next';
@@ -599,13 +599,37 @@ export function ReplayDialog({
         onClose={handleCloseDialog}
         fullWidth
         maxWidth="xl"
+        PaperProps={{
+          sx: {
+            background: 'rgba(18, 18, 18, 0.95)',
+            backdropFilter: 'blur(20px) saturate(180%)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '16px',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6)',
+          },
+        }}
       >
-        <DialogTitle>{selectedReplay.name}</DialogTitle>
-        <DialogContent style={{ overflowX: 'hidden' }}>
+        <DialogTitle
+          sx={{
+            background: 'linear-gradient(135deg, rgba(255, 115, 0, 0.15) 0%, rgba(255, 0, 115, 0.1) 100%)',
+            borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+            fontWeight: 600,
+            fontSize: '1.25rem',
+          }}
+        >
+          {selectedReplay.name}
+        </DialogTitle>
+        <DialogContent style={{ overflowX: 'hidden', padding: '1.5em' }}>
           {loading ? (
-            <div style={{ textAlign: 'center', padding: '20px' }}>
+            <Box
+              sx={{
+                textAlign: 'center',
+                padding: '40px',
+                color: 'rgba(255, 255, 255, 0.7)',
+              }}
+            >
               {t('loading')}
-            </div>
+            </Box>
           ) : (
             <>
               {/* Display game info */}
@@ -621,34 +645,114 @@ export function ReplayDialog({
                   />
                 </div>
               ) : (
-                <div>{logError}</div>
+                <Box sx={{ color: 'rgba(255, 100, 100, 0.9)', padding: '20px' }}>
+                  {logError}
+                </Box>
               )}
             </>
           )}
         </DialogContent>
-        <DialogActions>
+        <DialogActions
+          sx={{
+            padding: '1em 1.5em',
+            borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+            gap: '0.5em',
+          }}
+        >
           {replayExists ? (
-            <Button onClick={handleCopyToClipBoardDialog}>
+            <Button
+              onClick={handleCopyToClipBoardDialog}
+              sx={{
+                background: 'linear-gradient(135deg, #00ffd5 0%, #002bff 100%)',
+                color: '#fff',
+                fontWeight: 600,
+                borderRadius: '8px',
+                textTransform: 'none',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #1affdd 0%, #1a3fff 100%)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 4px 12px rgba(0, 255, 213, 0.3)',
+                },
+              }}
+            >
               {t('replay.openCopyDialog')}
             </Button>
           ) : (
             <Button
               onClick={handleSaveReplay}
-              color="primary"
               disabled={disabled}
+              sx={{
+                background: disabled
+                  ? 'rgba(100, 100, 100, 0.3)'
+                  : 'linear-gradient(135deg, #48ff00 0%, #00ffd5 100%)',
+                color: '#fff',
+                fontWeight: 600,
+                borderRadius: '8px',
+                textTransform: 'none',
+                '&:hover': {
+                  background: disabled
+                    ? 'rgba(100, 100, 100, 0.3)'
+                    : 'linear-gradient(135deg, #5fff1a 0%, #1affdd 100%)',
+                  transform: disabled ? 'none' : 'translateY(-2px)',
+                  boxShadow: disabled ? 'none' : '0 4px 12px rgba(72, 255, 0, 0.3)',
+                },
+              }}
             >
               {t('replay.downloadReplay')}
             </Button>
           )}
           {!fromLogPage && (
-            <Button onClick={handleOpenFolder} color="primary">
+            <Button
+              onClick={handleOpenFolder}
+              sx={{
+                background: 'linear-gradient(135deg, #7a00ff 0%, #ff00c8 100%)',
+                color: '#fff',
+                fontWeight: 600,
+                borderRadius: '8px',
+                textTransform: 'none',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #8f1aff 0%, #ff1ad4 100%)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 4px 12px rgba(122, 0, 255, 0.3)',
+                },
+              }}
+            >
               {t('replay.openReplayFolder')}
             </Button>
           )}
-          <Button onClick={handleOpenReasonDialog} color="primary">
+          <Button
+            onClick={handleOpenReasonDialog}
+            sx={{
+              background: 'linear-gradient(135deg, #ff7300 0%, #ff0073 100%)',
+              color: '#fff',
+              fontWeight: 600,
+              borderRadius: '8px',
+              textTransform: 'none',
+              '&:hover': {
+                background: 'linear-gradient(135deg, #ff8520 0%, #ff1a8a 100%)',
+                transform: 'translateY(-2px)',
+                boxShadow: '0 4px 12px rgba(255, 115, 0, 0.3)',
+              },
+            }}
+          >
             {t('replay.discord')}
           </Button>
-          <Button onClick={handleCloseDialog}>{t('replay.close')}</Button>
+          <Button
+            onClick={handleCloseDialog}
+            sx={{
+              color: 'rgba(255, 255, 255, 0.7)',
+              fontWeight: 600,
+              borderRadius: '8px',
+              textTransform: 'none',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              '&:hover': {
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+              },
+            }}
+          >
+            {t('replay.close')}
+          </Button>
         </DialogActions>
       </Dialog>
       {/* Copy To ClipBoard Dialog */}
@@ -657,9 +761,31 @@ export function ReplayDialog({
         onClose={handleCopyToClipBoardDialog}
         fullWidth
         maxWidth="sm"
+        PaperProps={{
+          sx: {
+            background: 'rgba(18, 18, 18, 0.95)',
+            backdropFilter: 'blur(20px) saturate(180%)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '16px',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6)',
+          },
+        }}
       >
-        <DialogTitle>{t('replay.copyTextAndOrLaunch')}</DialogTitle>
-        <Typography style={{ padding: '20px' }}>
+        <DialogTitle
+          sx={{
+            background: 'linear-gradient(135deg, rgba(0, 255, 213, 0.15) 0%, rgba(0, 43, 255, 0.1) 100%)',
+            borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+            fontWeight: 600,
+          }}
+        >
+          {t('replay.copyTextAndOrLaunch')}
+        </DialogTitle>
+        <Typography
+          sx={{
+            padding: '20px',
+            color: 'rgba(255, 255, 255, 0.8)',
+          }}
+        >
           <Trans i18nKey="replay.pasteInGameChat" components={{ 1: <br /> }} />
         </Typography>
         <DialogContent>
@@ -671,14 +797,37 @@ export function ReplayDialog({
             rows={4}
             value={`/playreplay ${selectedReplay.name}`}
             disabled
+            sx={{
+              '& .MuiInputBase-root': {
+                background: 'rgba(255, 255, 255, 0.05)',
+                borderRadius: '8px',
+              },
+            }}
           />
         </DialogContent>
-        <DialogActions>
+        <DialogActions
+          sx={{
+            padding: '1em 1.5em',
+            borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+            gap: '0.5em',
+          }}
+        >
           <Button
             onClick={() =>
               handleCopyToClibBoard(`/playreplay ${selectedReplay.name}`)
             }
-            color="primary"
+            sx={{
+              background: 'linear-gradient(135deg, #00ffd5 0%, #002bff 100%)',
+              color: '#fff',
+              fontWeight: 600,
+              borderRadius: '8px',
+              textTransform: 'none',
+              '&:hover': {
+                background: 'linear-gradient(135deg, #1affdd 0%, #1a3fff 100%)',
+                transform: 'translateY(-2px)',
+                boxShadow: '0 4px 12px rgba(0, 255, 213, 0.3)',
+              },
+            }}
           >
             {t('replay.copyText')}
           </Button>
@@ -686,11 +835,35 @@ export function ReplayDialog({
             onClick={() =>
               handleLaunchGameAndCopyText(`/playreplay ${selectedReplay.name}`)
             }
-            color="primary"
+            sx={{
+              background: 'linear-gradient(135deg, #48ff00 0%, #00ffd5 100%)',
+              color: '#fff',
+              fontWeight: 600,
+              borderRadius: '8px',
+              textTransform: 'none',
+              '&:hover': {
+                background: 'linear-gradient(135deg, #5fff1a 0%, #1affdd 100%)',
+                transform: 'translateY(-2px)',
+                boxShadow: '0 4px 12px rgba(72, 255, 0, 0.3)',
+              },
+            }}
           >
             {t('replay.launchGame')}
           </Button>
-          <Button onClick={handleCloseCopyToClipBoardDialog} color="primary">
+          <Button
+            onClick={handleCloseCopyToClipBoardDialog}
+            sx={{
+              color: 'rgba(255, 255, 255, 0.7)',
+              fontWeight: 600,
+              borderRadius: '8px',
+              textTransform: 'none',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              '&:hover': {
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+              },
+            }}
+          >
             {t('replay.cancel')}
           </Button>
         </DialogActions>
@@ -701,9 +874,26 @@ export function ReplayDialog({
         onClose={handleCloseReasonDialog}
         fullWidth
         maxWidth="sm"
+        PaperProps={{
+          sx: {
+            background: 'rgba(18, 18, 18, 0.95)',
+            backdropFilter: 'blur(20px) saturate(180%)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '16px',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6)',
+          },
+        }}
       >
-        <DialogTitle>{t('replay.specifyReason')}</DialogTitle>
-        <DialogContent>
+        <DialogTitle
+          sx={{
+            background: 'linear-gradient(135deg, rgba(255, 115, 0, 0.15) 0%, rgba(255, 0, 115, 0.1) 100%)',
+            borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+            fontWeight: 600,
+          }}
+        >
+          {t('replay.specifyReason')}
+        </DialogTitle>
+        <DialogContent sx={{ padding: '1.5em' }}>
           <TextField
             autoFocus
             margin="dense"
@@ -711,16 +901,59 @@ export function ReplayDialog({
             label="Reason"
             type="text"
             fullWidth
+            multiline
             rows={4}
             value={reason}
             onChange={handleReasonChange}
+            sx={{
+              '& .MuiInputBase-root': {
+                background: 'rgba(255, 255, 255, 0.05)',
+                borderRadius: '8px',
+              },
+              '& .MuiInputLabel-root': {
+                color: 'rgba(255, 255, 255, 0.6)',
+              },
+            }}
           />
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseReasonDialog} color="primary">
+        <DialogActions
+          sx={{
+            padding: '1em 1.5em',
+            borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+            gap: '0.5em',
+          }}
+        >
+          <Button
+            onClick={handleCloseReasonDialog}
+            sx={{
+              color: 'rgba(255, 255, 255, 0.7)',
+              fontWeight: 600,
+              borderRadius: '8px',
+              textTransform: 'none',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              '&:hover': {
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+              },
+            }}
+          >
             {t('replay.cancel')}
           </Button>
-          <Button onClick={handleSendToDiscord} color="primary">
+          <Button
+            onClick={handleSendToDiscord}
+            sx={{
+              background: 'linear-gradient(135deg, #ff7300 0%, #ff0073 100%)',
+              color: '#fff',
+              fontWeight: 600,
+              borderRadius: '8px',
+              textTransform: 'none',
+              '&:hover': {
+                background: 'linear-gradient(135deg, #ff8520 0%, #ff1a8a 100%)',
+                transform: 'translateY(-2px)',
+                boxShadow: '0 4px 12px rgba(255, 115, 0, 0.3)',
+              },
+            }}
+          >
             {t('replay.confirm')}
           </Button>
         </DialogActions>
@@ -942,47 +1175,16 @@ function ReplaysPage(): React.JSX.Element {
   }, [exePath]);
 
   /**
-   * Calculates color intensity based on how recently a file was modified
-   * @param lastModified - The date when the file was last modified
-   * @returns RGBA color string representing the age of the file
-   */
-  function calculateColorIntensity(lastModified: Date): string {
-    const now = new Date();
-    const timeDifference = now.getTime() - lastModified.getTime();
-    const minutesDifference = timeDifference / (1000 * 60);
-
-    const maxIntensity = 60;
-    const intensity = Math.min(
-      (minutesDifference / 20) * maxIntensity,
-      maxIntensity,
-    );
-
-    const redValue = Math.floor(255 * (1 - intensity / 100));
-    const greenValue = Math.floor(255 * (intensity / 100));
-    const color = `rgba(${redValue}, ${greenValue}, 0, 1)`;
-
-    return color;
-  }
-
-  /**
    * Enhanced replay file data with additional UI properties
    */
   interface ColoredReplayFile extends ReplayFile {
-    /** CSS style for background color based on file age */
-    colorStyle: {
-      backgroundColor: string;
-    };
-    /** File size in kilobytes */
-    sizeInKB: number;
+    /** Unique identifier for DataGrid */
+    id: string;
   }
 
   const coloredRows: ColoredReplayFile[] = replayData.map((file) => ({
     ...file,
     id: file.fullPath,
-    colorStyle: {
-      backgroundColor: calculateColorIntensity(file.lastModified),
-    },
-    sizeInKB: (file.content?.length || 0) / 1024,
   }));
 
   /**
@@ -999,28 +1201,10 @@ function ReplaysPage(): React.JSX.Element {
       field: 'lastModified',
       headerName: t('replay.replayDate'),
       flex: 1,
-
+      minWidth: 200,
       valueGetter: (value, row) => {
         const { lastModified } = row as ReplayFile;
         return lastModified ? new Date(lastModified).toLocaleString() : '';
-      },
-      renderCell: (params) => (
-        <div
-          style={{ ...params.row.colorStyle, padding: '8px', minWidth: 200 }}
-        >
-          {params.row.lastModified.toLocaleString()}
-        </div>
-      ),
-    },
-    {
-      field: 'size',
-      headerName: t('replay.replaySize'),
-      flex: 1,
-      valueGetter: (value, row) => {
-        let sizeInKB = row.size / 1024 || 0;
-        // round up
-        sizeInKB = Math.ceil(sizeInKB);
-        return `${sizeInKB}KB`;
       },
     },
     {
@@ -1030,10 +1214,26 @@ function ReplaysPage(): React.JSX.Element {
       maxWidth: 170,
       renderCell: (params) => (
         <Button
-          variant="outlined"
-          color="primary"
+          variant="contained"
           size="small"
           onClick={() => handleAccordionClick(params.row as ReplayFile)}
+          sx={{
+            background: 'linear-gradient(135deg, #ff7300 0%, #ff0073 100%)',
+            color: '#fff',
+            fontWeight: 600,
+            borderRadius: '8px',
+            textTransform: 'none',
+            padding: '6px 16px',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            '&:hover': {
+              background: 'linear-gradient(135deg, #ff8520 0%, #ff1a8a 100%)',
+              transform: 'translateY(-2px)',
+              boxShadow: '0 4px 12px rgba(255, 115, 0, 0.4)',
+            },
+            '&:active': {
+              transform: 'translateY(0)',
+            },
+          }}
         >
           {t('replay.replayOpen')}
         </Button>
@@ -1042,25 +1242,110 @@ function ReplaysPage(): React.JSX.Element {
   ];
 
   return (
-    <Paper elevation={3} style={{ margin: '1em', width: '95%' }}>
-      <DataGrid
-        rows={coloredRows}
-        columns={columns}
-        initialState={{
-          pagination: { paginationModel: { pageSize: 25 } },
-        }}
-        density="compact"
-        pageSizeOptions={[5, 10, 25, 50, 100]}
-        autoHeight
-        slots={{ toolbar: GridToolbar }}
-        localeText={{
-          noRowsLabel: t('replay.noReplays'),
-          paginationRowsPerPage: t('replay.rowsPerPage'),
-          paginationDisplayedRows: ({ from, to, count }) => {
-            return `${from}-${to} ${t('replay.of')} ${count}`;
+    <Box
+      sx={{
+        margin: '1.5em',
+        width: 'calc(100% - 3em)',
+        minHeight: '400px',
+      }}
+    >
+      <Paper
+        elevation={0}
+        sx={{
+          background: 'rgba(18, 18, 18, 0.7)',
+          backdropFilter: 'blur(20px) saturate(180%)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderRadius: '12px',
+          overflow: 'hidden',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          '&:hover': {
+            border: '1px solid rgba(255, 255, 255, 0.12)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
           },
         }}
-      />
+      >
+        <Box
+          sx={{
+            padding: '1.5em',
+            background: 'linear-gradient(135deg, rgba(255, 115, 0, 0.1) 0%, rgba(255, 0, 115, 0.05) 100%)',
+            borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          }}
+        >
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 600,
+              background: 'linear-gradient(135deg, #ff7300 0%, #ff0073 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              marginBottom: '0.5em',
+            }}
+          >
+            {t('replay.title') || 'Game Replays'}
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              color: 'rgba(255, 255, 255, 0.7)',
+            }}
+          >
+            {t('replay.subtitle') || 'View and manage your saved game replays'}
+          </Typography>
+        </Box>
+        <DataGrid
+          rows={coloredRows}
+          columns={columns}
+          initialState={{
+            pagination: { paginationModel: { pageSize: 25 } },
+          }}
+          density="comfortable"
+          pageSizeOptions={[5, 10, 25, 50, 100]}
+          autoHeight
+          slots={{ toolbar: GridToolbar }}
+          localeText={{
+            noRowsLabel: t('replay.noReplays'),
+            paginationRowsPerPage: t('replay.rowsPerPage'),
+            paginationDisplayedRows: ({ from, to, count }) => {
+              return `${from}-${to} ${t('replay.of')} ${count}`;
+            },
+          }}
+          sx={{
+            border: 'none',
+            '& .MuiDataGrid-main': {
+              borderRadius: '0 0 12px 12px',
+            },
+            '& .MuiDataGrid-cell': {
+              borderColor: 'rgba(255, 255, 255, 0.05)',
+              transition: 'background-color 0.2s ease',
+            },
+            '& .MuiDataGrid-row': {
+              transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+              '&:hover': {
+                backgroundColor: 'rgba(255, 115, 0, 0.08)',
+                transform: 'translateX(4px)',
+              },
+            },
+            '& .MuiDataGrid-columnHeaders': {
+              backgroundColor: 'rgba(255, 255, 255, 0.02)',
+              borderColor: 'rgba(255, 255, 255, 0.08)',
+              fontWeight: 600,
+            },
+            '& .MuiDataGrid-footerContainer': {
+              borderColor: 'rgba(255, 255, 255, 0.08)',
+              backgroundColor: 'rgba(255, 255, 255, 0.02)',
+            },
+            '& .MuiTablePagination-root': {
+              color: 'rgba(255, 255, 255, 0.7)',
+            },
+            '& .MuiDataGrid-toolbarContainer': {
+              padding: '1em',
+              gap: '0.5em',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+            },
+          }}
+        />
+      </Paper>
       {selectedReplay && (
         <ReplayDialog
           selectedReplay={selectedReplay}
@@ -1072,7 +1357,7 @@ function ReplaysPage(): React.JSX.Element {
           fromLogPage={false}
         />
       )}
-    </Paper>
+    </Box>
   );
 }
 
