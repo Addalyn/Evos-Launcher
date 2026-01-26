@@ -643,7 +643,12 @@ export default function QuestsPage(): React.ReactElement {
                       </Typography>
                     </Box>
                     <Box textAlign="right" ml={2}>
-                      <Box display="flex" alignItems="center" gap={0.5} mb={0.5}>
+                      <Box
+                        display="flex"
+                        alignItems="center"
+                        gap={0.5}
+                        mb={0.5}
+                      >
                         <Star sx={{ color: 'warning.main', fontSize: 20 }} />
                         <Typography variant="h6" fontWeight="bold">
                           {quest.rewardXp.toLocaleString()}
