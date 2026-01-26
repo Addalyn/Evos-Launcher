@@ -304,7 +304,9 @@ export default function PlayerStatsPage() {
               <Button
                 variant="outlined"
                 color="primary"
-                onClick={() => navigate(`/quests?player=${encodeURIComponent(playerSearch)}`)}
+                onClick={() =>
+                  navigate(`/quests?player=${encodeURIComponent(playerSearch)}`)
+                }
               >
                 {t('menuOptions.viewQuests')}
               </Button>

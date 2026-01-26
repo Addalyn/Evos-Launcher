@@ -20,7 +20,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import EvosStore from 'renderer/lib/EvosStore';
 import DiscordPage from './DiscordPage';
 import { strapiClient } from 'renderer/lib/strapi';
-import { EmojiEvents, Star, CheckCircle, Search, Close } from '@mui/icons-material';
+import {
+  EmojiEvents,
+  Star,
+  CheckCircle,
+  Search,
+  Close,
+} from '@mui/icons-material';
 
 /**
  * Interface for quest progress data from the database
@@ -123,13 +129,15 @@ const BLACKLISTED_KEYWORDS = [
   'developers',
   'Dev Killers',
   'daily',
-  'badge points'
+  'badge points',
 ];
 
 /**
  * Fetch quest progress for a user
  */
-const fetchQuestProgress = async (username: string): Promise<QuestProgress[]> => {
+const fetchQuestProgress = async (
+  username: string,
+): Promise<QuestProgress[]> => {
   try {
     const strapi = strapiClient
       .from('quest-progresses')
@@ -154,7 +162,9 @@ const fetchQuestProgress = async (username: string): Promise<QuestProgress[]> =>
 /**
  * Fetch quest completions for a user
  */
-const fetchQuestCompletions = async (username: string): Promise<QuestCompletion[]> => {
+const fetchQuestCompletions = async (
+  username: string,
+): Promise<QuestCompletion[]> => {
   try {
     const strapi = strapiClient
       .from('quest-completions')
@@ -176,10 +186,6 @@ const fetchQuestCompletions = async (username: string): Promise<QuestCompletion[
   }
 };
 
-
-
-
-
 /**
  * QuestsPage component - displays user quests with progress tracking
  */
@@ -188,18 +194,25 @@ export default function QuestsPage(): React.ReactElement {
   const { activeUser, discordId } = EvosStore();
   const [activeTab, setActiveTab] = useState(0);
   const [questProgress, setQuestProgress] = useState<QuestProgress[]>([]);
-  const [questCompletions, setQuestCompletions] = useState<QuestCompletion[]>([]);
-  const [questsDefinitions, setQuestsDefinitions] = useState<QuestDefinition[]>([]);
+  const [questCompletions, setQuestCompletions] = useState<QuestCompletion[]>(
+    [],
+  );
+  const [questsDefinitions, setQuestsDefinitions] = useState<QuestDefinition[]>(
+    [],
+  );
   const [loading, setLoading] = useState(true);
   const [combinedQuests, setCombinedQuests] = useState<CombinedQuest[]>([]);
   const [xpStats, setXpStats] = useState({ earned: 0, possible: 0 });
   const [playerSearch, setPlayerSearch] = useState('');
   const [searchInput, setSearchInput] = useState('');
-  
+
   const { search } = useLocation();
   const navigate = useNavigate();
-  
-  const searchParams = React.useMemo(() => new URLSearchParams(search), [search]);
+
+  const searchParams = React.useMemo(
+    () => new URLSearchParams(search),
+    [search],
+  );
 
   // Initialize playerSearch from URL or active user
   useEffect(() => {
@@ -226,7 +239,7 @@ export default function QuestsPage(): React.ReactElement {
       }
 
       setLoading(true);
-      
+
       try {
         const [progress, completions, questsRes] = await Promise.all([
           fetchQuestProgress(playerSearch),
@@ -299,81 +312,81 @@ export default function QuestsPage(): React.ReactElement {
         const isCompleted = completions.length > 0;
         const hasProgress = !!progress;
 
-      // Handle completions (one card for each completion if repeatable)
-      // for "All Quests" and "Completed" tabs
-      completions.forEach((completion) => {
-        combined.push({
-          questId: questDef.id,
-          name: questDef.name,
-          description: questDef.description,
-          category: questDef.category,
-          difficulty: questDef.difficulty,
-          currentProgress: questDef.requirements.count || 1,
-          targetProgress: questDef.requirements.count || 1,
-          rewardXp: completion.reward_xp,
-          rewardTitle: completion.reward_title,
-          isCompleted: true,
-          completedAt: completion.completed_at,
-          icon: questDef.icon,
+        // Handle completions (one card for each completion if repeatable)
+        // for "All Quests" and "Completed" tabs
+        completions.forEach((completion) => {
+          combined.push({
+            questId: questDef.id,
+            name: questDef.name,
+            description: questDef.description,
+            category: questDef.category,
+            difficulty: questDef.difficulty,
+            currentProgress: questDef.requirements.count || 1,
+            targetProgress: questDef.requirements.count || 1,
+            rewardXp: completion.reward_xp,
+            rewardTitle: completion.reward_title,
+            isCompleted: true,
+            completedAt: completion.completed_at,
+            icon: questDef.icon,
+          });
         });
-      });
 
-      // Special case: for one-time quests that are completed, we don't show active progress
-      if (questDef.one_time_only && isCompleted) {
-        return;
-      }
-
-      // Check for active progress that isn't just an old record of a finished quest
-      let isActive = false;
-      let currentProgress = 0;
-      let lastUpdated = '';
-
-      if (hasProgress) {
-        const latestComp =
-          completions.length > 0
-            ? [...completions].sort(
-                (a, b) =>
-                  new Date(b.completed_at).getTime() -
-                  new Date(a.completed_at).getTime(),
-              )[0]
-            : null;
-
-        const progressTime = new Date(progress.last_updated).getTime();
-        const completionTime = latestComp
-          ? new Date(latestComp.completed_at).getTime()
-          : 0;
-
-        // If progress is newer than completion OR it's not finished, it's active
-        if (
-          progressTime > completionTime ||
-          progress.current_progress < progress.target_progress
-        ) {
-          isActive = true;
-          currentProgress = progress.current_progress;
-          lastUpdated = progress.last_updated;
+        // Special case: for one-time quests that are completed, we don't show active progress
+        if (questDef.one_time_only && isCompleted) {
+          return;
         }
-      }
 
-      // Add as an active quest if it has progress, or as 0% if it's never been touched (for "All Quests" tab)
-      // If it's not already handled by a completion card OR it's repeatable and can be started again
-      if (isActive || !isCompleted) {
-        possibleXp += questDef.reward.xp;
-        combined.push({
-          questId: questDef.id,
-          name: questDef.name,
-          description: questDef.description,
-          category: questDef.category,
-          difficulty: questDef.difficulty,
-          currentProgress: currentProgress,
-          targetProgress: questDef.requirements.count || 1,
-          rewardXp: questDef.reward.xp,
-          rewardTitle: questDef.reward.title,
-          isCompleted: false,
-          lastUpdated: lastUpdated,
-          icon: questDef.icon,
-        });
-      }
-    });
+        // Check for active progress that isn't just an old record of a finished quest
+        let isActive = false;
+        let currentProgress = 0;
+        let lastUpdated = '';
+
+        if (hasProgress) {
+          const latestComp =
+            completions.length > 0
+              ? [...completions].sort(
+                  (a, b) =>
+                    new Date(b.completed_at).getTime() -
+                    new Date(a.completed_at).getTime(),
+                )[0]
+              : null;
+
+          const progressTime = new Date(progress.last_updated).getTime();
+          const completionTime = latestComp
+            ? new Date(latestComp.completed_at).getTime()
+            : 0;
+
+          // If progress is newer than completion OR it's not finished, it's active
+          if (
+            progressTime > completionTime ||
+            progress.current_progress < progress.target_progress
+          ) {
+            isActive = true;
+            currentProgress = progress.current_progress;
+            lastUpdated = progress.last_updated;
+          }
+        }
+
+        // Add as an active quest if it has progress, or as 0% if it's never been touched (for "All Quests" tab)
+        // If it's not already handled by a completion card OR it's repeatable and can be started again
+        if (isActive || !isCompleted) {
+          possibleXp += questDef.reward.xp;
+          combined.push({
+            questId: questDef.id,
+            name: questDef.name,
+            description: questDef.description,
+            category: questDef.category,
+            difficulty: questDef.difficulty,
+            currentProgress: currentProgress,
+            targetProgress: questDef.requirements.count || 1,
+            rewardXp: questDef.reward.xp,
+            rewardTitle: questDef.reward.title,
+            isCompleted: false,
+            lastUpdated: lastUpdated,
+            icon: questDef.icon,
+          });
+        }
+      });
 
     setCombinedQuests(combined);
     setXpStats({ earned: earnedXp, possible: possibleXp });
@@ -386,7 +399,9 @@ export default function QuestsPage(): React.ReactElement {
         return combinedQuests;
       case 1: // In Progress
         // Show quests that are not completed and have some progress OR are repeatable and not completed in current attempt
-        return combinedQuests.filter((q) => !q.isCompleted && q.currentProgress > 0);
+        return combinedQuests.filter(
+          (q) => !q.isCompleted && q.currentProgress > 0,
+        );
       case 2: // Completed
         return combinedQuests.filter((q) => q.isCompleted);
       default:
@@ -419,9 +434,13 @@ export default function QuestsPage(): React.ReactElement {
         <Typography variant="subtitle1" color="text.secondary">
           {t('quests.subtitle')}
         </Typography>
-        
+
         {/* Player Search Input */}
-        <Box component="form" onSubmit={handleSearchSubmit} sx={{ mt: 3, maxWidth: 400 }}>
+        <Box
+          component="form"
+          onSubmit={handleSearchSubmit}
+          sx={{ mt: 3, maxWidth: 400 }}
+        >
           <TextField
             fullWidth
             size="small"
@@ -437,22 +456,28 @@ export default function QuestsPage(): React.ReactElement {
                 ),
                 endAdornment: searchInput !== activeUser?.handle && (
                   <InputAdornment position="end">
-                    <IconButton size="small" onClick={handleClearSearch} edge="end">
+                    <IconButton
+                      size="small"
+                      onClick={handleClearSearch}
+                      edge="end"
+                    >
                       <Close sx={{ fontSize: 18 }} />
                     </IconButton>
                   </InputAdornment>
                 ),
-              }
+              },
             }}
             sx={{
               '& .MuiOutlinedInput-root': {
-                backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.5),
+                backgroundColor: (theme) =>
+                  alpha(theme.palette.background.paper, 0.5),
                 borderRadius: 2,
                 '& fieldset': {
                   borderColor: (theme) => alpha(theme.palette.divider, 0.2),
                 },
                 '&:hover fieldset': {
-                  borderColor: (theme) => alpha(theme.palette.primary.main, 0.5),
+                  borderColor: (theme) =>
+                    alpha(theme.palette.primary.main, 0.5),
                 },
               },
             }}
@@ -472,7 +497,12 @@ export default function QuestsPage(): React.ReactElement {
             border: (theme) => `1px solid ${alpha(theme.palette.divider, 0.1)}`,
           }}
         >
-          <Box display="flex" justifyContent="space-between" alignItems="center" mb={1.5}>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            mb={1.5}
+          >
             <Box display="flex" alignItems="center" gap={1}>
               <Star sx={{ color: 'warning.main', fontSize: 24 }} />
               <Typography variant="h6" fontWeight="bold">
@@ -480,21 +510,35 @@ export default function QuestsPage(): React.ReactElement {
               </Typography>
             </Box>
             <Typography variant="h6" fontWeight="bold">
-              {xpStats.earned.toLocaleString()} / {xpStats.possible.toLocaleString()} <Typography component="span" variant="caption" color="text.secondary">XP</Typography>
+              {xpStats.earned.toLocaleString()} /{' '}
+              {xpStats.possible.toLocaleString()}{' '}
+              <Typography
+                component="span"
+                variant="caption"
+                color="text.secondary"
+              >
+                XP
+              </Typography>
             </Typography>
           </Box>
           <LinearProgress
             variant="determinate"
-            value={xpStats.possible > 0 ? (xpStats.earned / xpStats.possible) * 100 : 0}
+            value={
+              xpStats.possible > 0
+                ? (xpStats.earned / xpStats.possible) * 100
+                : 0
+            }
             sx={{
               height: 12,
               borderRadius: 6,
-              backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.05),
+              backgroundColor: (theme) =>
+                alpha(theme.palette.primary.main, 0.05),
               '& .MuiLinearProgress-bar': {
                 borderRadius: 6,
                 background: (theme) =>
                   `linear-gradient(90deg, ${theme.palette.warning.main} 0%, ${theme.palette.warning.light} 100%)`,
-                boxShadow: (theme) => `0 0 10px ${alpha(theme.palette.warning.main, 0.5)}`,
+                boxShadow: (theme) =>
+                  `0 0 10px ${alpha(theme.palette.warning.main, 0.5)}`,
               },
             }}
           />
@@ -523,7 +567,12 @@ export default function QuestsPage(): React.ReactElement {
       {loading ? (
         <Box display="flex" flexDirection="column" gap={2}>
           {[1, 2, 3].map((i) => (
-            <Skeleton key={i} variant="rectangular" height={150} sx={{ borderRadius: 2 }} />
+            <Skeleton
+              key={i}
+              variant="rectangular"
+              height={150}
+              sx={{ borderRadius: 2 }}
+            />
           ))}
         </Box>
       ) : filteredQuests.length === 0 ? (
@@ -561,25 +610,32 @@ export default function QuestsPage(): React.ReactElement {
                 transition: 'all 0.3s ease',
                 '&:hover': {
                   transform: 'translateY(-4px)',
-                  boxShadow: (theme) => `0 8px 24px ${alpha(theme.palette.common.black, 0.2)}`,
+                  boxShadow: (theme) =>
+                    `0 8px 24px ${alpha(theme.palette.common.black, 0.2)}`,
                 },
               }}
             >
               <CardContent>
-                <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={2}>
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="flex-start"
+                  mb={2}
+                >
                   <Box flex={1}>
                     <Box display="flex" alignItems="center" gap={1} mb={1}>
                       <Typography variant="h6" fontWeight="bold">
                         {quest.name}
                       </Typography>
                       {quest.isCompleted && (
-                        <CheckCircle sx={{ color: 'success.main', fontSize: 24 }} />
+                        <CheckCircle
+                          sx={{ color: 'success.main', fontSize: 24 }}
+                        />
                       )}
                     </Box>
                     <Typography variant="body2" color="text.secondary" mb={1}>
                       {quest.description}
                     </Typography>
-
                   </Box>
                   <Box textAlign="right" ml={2}>
                     <Box display="flex" alignItems="center" gap={0.5} mb={0.5}>
@@ -612,11 +668,14 @@ export default function QuestsPage(): React.ReactElement {
                     </Box>
                     <LinearProgress
                       variant="determinate"
-                      value={(quest.currentProgress / quest.targetProgress) * 100}
+                      value={
+                        (quest.currentProgress / quest.targetProgress) * 100
+                      }
                       sx={{
                         height: 8,
                         borderRadius: 4,
-                        backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.1),
+                        backgroundColor: (theme) =>
+                          alpha(theme.palette.primary.main, 0.1),
                         '& .MuiLinearProgress-bar': {
                           borderRadius: 4,
                           background: (theme) =>
@@ -630,13 +689,20 @@ export default function QuestsPage(): React.ReactElement {
                 {/* Completion Info */}
                 {quest.isCompleted && quest.completedAt && (
                   <Box mt={1}>
-                    <Typography variant="caption" color="success.main" fontWeight="bold">
+                    <Typography
+                      variant="caption"
+                      color="success.main"
+                      fontWeight="bold"
+                    >
                       {t('quests.completed')} •{' '}
-                      {new Date(quest.completedAt).toLocaleDateString(undefined, {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
+                      {new Date(quest.completedAt).toLocaleDateString(
+                        undefined,
+                        {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        },
+                      )}
                     </Typography>
                   </Box>
                 )}
