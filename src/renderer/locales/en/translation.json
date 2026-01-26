@@ -19,7 +19,9 @@
     "SupportUs": "Support Us",
     "folowedPlayers": "Followed Players",
     "Follow": "Follow",
-    "Unfollow": "Unfollow"
+    "Unfollow": "Unfollow",
+    "quests": "Quests",
+    "viewQuests": "View Quests"
   },
   "followedPlayers": {
     "title": "Followed Players",
@@ -51,6 +53,22 @@
     "downloadReplay": "Download Replay",
     "pasteInGameChat": "After launching the game,<1/>please paste the code into the chat using the shortcut (Ctrl+V).<1/>The code will be automatically copied to your clipboard.",
     "screenshotError": "Error while taking screenshot please try again."
+  },
+  "quests": {
+    "title": "Quests & Achievements (beta)",
+    "subtitle": "Complete quests to earn rewards and track your progress",
+    "loginRequired": "Please log in to view your quests",
+    "noQuests": "No quests available in this category",
+    "progress": "Progress",
+    "totalProgress": "Total XP Progress",
+    "reward": "Reward",
+    "completed": "Completed",
+    "trackQuest": "Track Quest",
+    "tabs": {
+      "all": "All Quests",
+      "inProgress": "In Progress",
+      "completed": "Completed"
+    }
   },
   "formatAge": {
     "justNow": "Just now",

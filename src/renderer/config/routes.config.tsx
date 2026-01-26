@@ -27,6 +27,7 @@ import NavBar from '../components/generic/Navbar';
 import NotificationMessage from '../components/generic/NotificationMessage';
 import PlayerStatsPage from '../components/pages/PlayerStatsPage';
 import PreviousGamesPage from '../components/pages/PreviousGamesPage';
+
 import RegisterPage from '../components/pages/RegisterPage';
 import ReplaysPage from '../components/pages/ReplaysPage';
 import SettingsPage from '../components/pages/SettingsPage';
@@ -36,6 +37,7 @@ import VersionUpdater from '../components/generic/VersionUpdater';
 import WikiPage from '../components/pages/WikiPage';
 // Electron utilities
 import { isElectronApp } from '../utils/electronUtils';
+import QuestsPage from 'renderer/components/pages/QuestsPage';
 
 /**
  * Standard layout wrapper for most pages
@@ -223,6 +225,12 @@ const allRoutes = [
     element: <FollowedPlayersPage />, // New page for managing followed players
     layout: 'standard',
     title: 'Followed Players',
+  },
+  {
+    path: '/quests',
+    element: <QuestsPage />,
+    layout: 'standard',
+    title: 'quests',
   },
 ];
 

@@ -50,6 +50,22 @@
     "pasteInGameChat": "Depois de abrir o jogo,<1/>por favor copie o código dentro do chat usando o atalho (CTR+V).<1/>O código vai ser automaticamente copiado para a área de transferência.",
     "screenshotError": "Erro tirando screenshot, por favor tente novamente."
   },
+  "quests": {
+    "title": "Missões e Conquistas (beta)",
+    "subtitle": "Complete missões para ganhar recompensas e acompanhar seu progresso",
+    "loginRequired": "Por favor, faça login para ver suas missões",
+    "noQuests": "Nenhuma missão disponível nesta categoria",
+    "progress": "Progresso",
+    "totalProgress": "Progresso Total de XP",
+    "reward": "Recompensa",
+    "completed": "Concluído",
+    "trackQuest": "Rastrear Missão",
+    "tabs": {
+      "all": "Todas as Missões",
+      "inProgress": "Em Andamento",
+      "completed": "Concluído"
+    }
+  },
   "formatAge": {
     "justNow": "Agora",
     "secondsAgo": "segundos atrás",

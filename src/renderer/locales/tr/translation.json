@@ -52,6 +52,22 @@
     "pasteInGameChat": "Oyun başladıktan sonra,<1/>lütfen kodu sohbete (Ctrl+V) kısayolu ile yapıştırın.<1/>Kod otomatik olarak panoya kopyalanacaktır.",
     "screenshotError": "Ekran alıntısı sırasında hata oluştu. Lütfen tekrar deneyin"
   },
+  "quests": {
+    "title": "Görevler ve Başarımlar (beta)",
+    "subtitle": "Ödüller kazanmak ve ilerlemenizi takip etmek için görevleri tamamlayın",
+    "loginRequired": "Görevlerinizi görmek için lütfen giriş yapın",
+    "noQuests": "Bu kategoride kullanılabilir görev yok",
+    "progress": "İlerleme",
+    "totalProgress": "Toplam XP İlerlemesi",
+    "reward": "Ödül",
+    "completed": "Tamamlandı",
+    "trackQuest": "Görevi Takip Et",
+    "tabs": {
+      "all": "Tüm Görevler",
+      "inProgress": "Devam Eden",
+      "completed": "Tamamlandı"
+    }
+  },
   "formatAge": {
     "justNow": "Az önce",
     "secondsAgo": "saniye önce",

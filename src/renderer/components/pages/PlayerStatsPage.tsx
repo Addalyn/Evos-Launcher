@@ -297,8 +297,20 @@ export default function PlayerStatsPage() {
               display: 'flex',
               justifyContent: 'flex-end',
               alignItems: 'center',
+              gap: 1,
             }}
           >
+            {playerSearch && (
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() =>
+                  navigate(`/quests?player=${encodeURIComponent(playerSearch)}`)
+                }
+              >
+                {t('menuOptions.viewQuests')}
+              </Button>
+            )}
             {playerSearch && playerSearch !== activeUser?.handle && (
               <Button
                 variant="contained"

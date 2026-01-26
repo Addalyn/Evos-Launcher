@@ -52,6 +52,22 @@
     "pasteInGameChat": "Dopo aver avviato il gioco,<1/>incolla il codice nella chat usando la scorciatoia (Ctrl+V).<1/>Il codice verrà copiato automaticamente negli appunti.",
     "screenshotError": "Errore in fase di cattura immagine, riprovare per favore."
   },
+  "quests": {
+    "title": "Missioni e Obiettivi (beta)",
+    "subtitle": "Completa le missioni per ottenere ricompense e tracciare i tuoi progressi",
+    "loginRequired": "Effettua l'accesso per visualizzare le tue missioni",
+    "noQuests": "Nessuna missione disponibile in questa categoria",
+    "progress": "Progresso",
+    "totalProgress": "Progresso XP Totale",
+    "reward": "Ricompensa",
+    "completed": "Completato",
+    "trackQuest": "Traccia Missione",
+    "tabs": {
+      "all": "Tutte le Missioni",
+      "inProgress": "In Corso",
+      "completed": "Completato"
+    }
+  },
   "formatAge": {
     "justNow": "adesso",
     "secondsAgo": "secondi fa",
