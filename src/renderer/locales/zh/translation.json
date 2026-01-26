@@ -52,6 +52,22 @@
     "pasteInGameChat": "启动游戏后，请使用快捷键（Ctrl+V）将代码粘贴到聊天中。<1/>代码将自动复制到您的剪贴板。",
     "screenshotError": "截图时出错，请重试。"
   },
+  "quests": {
+    "title": "任务与成就 (测试版)",
+    "subtitle": "完成任务以获得奖励并跟踪您的进度",
+    "loginRequired": "请登录以查看您的任务",
+    "noQuests": "此类别中没有可用任务",
+    "progress": "进度",
+    "totalProgress": "总经验进度",
+    "reward": "奖励",
+    "completed": "已完成",
+    "trackQuest": "跟踪任务",
+    "tabs": {
+      "all": "所有任务",
+      "inProgress": "进行中",
+      "completed": "已完成"
+    }
+  },
   "formatAge": {
     "justNow": "刚刚)",
     "secondsAgo": "秒前)",

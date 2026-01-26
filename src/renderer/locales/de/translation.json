@@ -19,7 +19,8 @@
     "SupportUs": "Unterstützen Sie uns",
     "folowedPlayers": "Verfolgte Spieler",
     "Follow": "Folgen",
-    "Unfollow": "Entfolgen"
+    "Unfollow": "Entfolgen",
+    "viewQuests": "Quests ansehen"
   },
   "followedPlayers": {
     "title": "Gefolgte Spieler",
@@ -51,6 +52,22 @@
     "downloadReplay": "Wiederholung herunterladen",
     "pasteInGameChat": "Nach dem Spielstart,<1/> bitte diesen Code mit STRG + V in den Chat kopieren.<1/> Der Code wird automatisch in die Zwischenablage kopiert.",
     "screenshotError": "Fehler beim Erstellen der Bildschirmaufnahme. Bitte erneut versuchen."
+  },
+  "quests": {
+    "title": "Quests & Erfolge (Beta)",
+    "subtitle": "Schließen Sie Quests ab, um Belohnungen zu verdienen und Ihren Fortschritt zu verfolgen",
+    "loginRequired": "Bitte melden Sie sich an, um Ihre Quests zu sehen",
+    "noQuests": "In dieser Kategorie sind keine Quests verfügbar",
+    "progress": "Fortschritt",
+    "totalProgress": "Gesamt-XP-Fortschritt",
+    "reward": "Belohnung",
+    "completed": "Abgeschlossen",
+    "trackQuest": "Quest verfolgen",
+    "tabs": {
+      "all": "Alle Quests",
+      "inProgress": "In Arbeit",
+      "completed": "Abgeschlossen"
+    }
   },
   "formatAge": {
     "justNow": "gerade geschehen",

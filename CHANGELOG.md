@@ -1,5 +1,23 @@
 # Evos Launcher Changelog
 
+# [3.1.8] - 2026-01-26
+
+## Features & Improvements
+
+- **Quests & Achievements Page (Beta)**:
+  - Introduced a new dedicated page for tracking game missions and achievements.
+  - Features real-time progress tracking and reward visualization.
+  - Implemented smart filtering to hide non-rewarding or legacy quests.
+  - Added category tabs: "All Quests", "In Progress", and "Completed".
+- **Enhanced Global Localization**:
+  - Full translation support for the Quests page across all 10 supported languages: English, German, Russian, Brazilian Portuguese, Spanish, French, Italian, Dutch, Turkish, and Chinese.
+  - Refined existing translations for improved clarity and consistency.
+- **Visual Overhaul**:
+  - New premium UI styles for quest items with glassmorphism and animated progress bars.
+  - Added status badges and improved typography.
+- **Navigation Update**:
+  - Integrated "Quests" into the main sidebar with a "beta" indicator.
+
 # [3.1.7] - 2026-01-22
 
 ## Features & Improvements

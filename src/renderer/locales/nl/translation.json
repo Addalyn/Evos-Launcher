@@ -52,6 +52,22 @@
     "pasteInGameChat": "Na het starten van het spel,<1/>plak de code alstublieft in de chat met behulp van de sneltoets (Ctrl+V).<1/>De code wordt automatisch gekopieerd naar uw klembord.",
     "screenshotError": "Fout bij maken van schermafbeelding. Probeer het opnieuw."
   },
+  "quests": {
+    "title": "Quests & Achievements (bèta)",
+    "subtitle": "Voltooi quests om beloningen te verdienen en je voortgang bij te houden",
+    "loginRequired": "Log in om je quests te bekijken",
+    "noQuests": "Geen quests beschikbaar in deze categorie",
+    "progress": "Voortgang",
+    "totalProgress": "Totale XP-voortgang",
+    "reward": "Beloning",
+    "completed": "Voltooid",
+    "trackQuest": "Quest Volgen",
+    "tabs": {
+      "all": "Alle Quests",
+      "inProgress": "In Behandeling",
+      "completed": "Voltooid"
+    }
+  },
   "formatAge": {
     "justNow": "Zojuist",
     "secondsAgo": "seconden geleden",

@@ -10,6 +10,7 @@ import {
   Article,
   BarChart,
   Download,
+  EmojiEvents,
   Forum,
   GitHub,
   History,
@@ -75,6 +76,12 @@ const createNavigationPages = (
       href: '/followed-players',
       icon: React.createElement(People),
       authentication: true, // Requires authentication for followed players
+    },
+    {
+      title: t('menuOptions.quests'),
+      href: '/quests',
+      icon: React.createElement(EmojiEvents),
+      authentication: true, // Requires authentication for quests players
     },
     // Electron-only navigation items
     ...(electronFeatures.isAvailable
