@@ -3,7 +3,6 @@ import {
   Box,
   Card,
   CardContent,
-  Chip,
   Container,
   LinearProgress,
   Skeleton,
@@ -148,13 +147,11 @@ const fetchQuestProgress = async (
     const { data, error } = await strapi.get();
 
     if (error) {
-      console.error('Error fetching quest progress:', error);
       return [];
     }
 
     return (data as QuestProgress[]) || [];
   } catch (error) {
-    console.error('Error fetching quest progress:', error);
     return [];
   }
 };
@@ -175,13 +172,11 @@ const fetchQuestCompletions = async (
     const { data, error } = await strapi.get();
 
     if (error) {
-      console.error('Error fetching quest completions:', error);
       return [];
     }
 
     return (data as QuestCompletion[]) || [];
   } catch (error) {
-    console.error('Error fetching quest completions:', error);
     return [];
   }
 };
@@ -226,11 +221,6 @@ export default function QuestsPage(): React.ReactElement {
     }
   }, [searchParams, activeUser?.handle]);
 
-  // Check if user is authenticated
-  if (discordId === 0) {
-    return <DiscordPage />;
-  }
-
   // Fetch quest data
   useEffect(() => {
     const fetchData = async () => {
@@ -251,7 +241,7 @@ export default function QuestsPage(): React.ReactElement {
         setQuestCompletions(completions);
         setQuestsDefinitions(questsRes.quests || []);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        // Error handling
       } finally {
         setLoading(false);
       }
@@ -377,12 +367,12 @@ export default function QuestsPage(): React.ReactElement {
             description: questDef.description,
             category: questDef.category,
             difficulty: questDef.difficulty,
-            currentProgress: currentProgress,
+            currentProgress,
             targetProgress: questDef.requirements.count || 1,
             rewardXp: questDef.reward.xp,
             rewardTitle: questDef.reward.title,
             isCompleted: false,
-            lastUpdated: lastUpdated,
+            lastUpdated,
             icon: questDef.icon,
           });
         }
@@ -391,6 +381,11 @@ export default function QuestsPage(): React.ReactElement {
     setCombinedQuests(combined);
     setXpStats({ earned: earnedXp, possible: possibleXp });
   }, [questProgress, questCompletions, questsDefinitions]);
+
+  // Check if user is authenticated
+  if (discordId === 0) {
+    return <DiscordPage />;
+  }
 
   // Filter quests based on active tab
   const getFilteredQuests = (): CombinedQuest[] => {
@@ -564,153 +559,168 @@ export default function QuestsPage(): React.ReactElement {
       </Box>
 
       {/* Quest Cards */}
-      {loading ? (
-        <Box display="flex" flexDirection="column" gap={2}>
-          {[1, 2, 3].map((i) => (
-            <Skeleton
-              key={i}
-              variant="rectangular"
-              height={150}
-              sx={{ borderRadius: 2 }}
-            />
-          ))}
-        </Box>
-      ) : filteredQuests.length === 0 ? (
-        <Box
-          sx={{
-            textAlign: 'center',
-            py: 8,
-            px: 2,
-            borderRadius: 2,
-            background: (theme) => alpha(theme.palette.background.paper, 0.5),
-            backdropFilter: 'blur(10px)',
-          }}
-        >
-          <Typography variant="h6" color="text.secondary">
-            {t('quests.noQuests')}
-          </Typography>
-        </Box>
-      ) : (
-        <Box display="flex" flexDirection="column" gap={2}>
-          {filteredQuests.map((quest) => (
-            <Card
-              key={quest.questId}
+      {(() => {
+        if (loading) {
+          return (
+            <Box display="flex" flexDirection="column" gap={2}>
+              {[1, 2, 3].map((i) => (
+                <Skeleton
+                  key={i}
+                  variant="rectangular"
+                  height={150}
+                  sx={{ borderRadius: 2 }}
+                />
+              ))}
+            </Box>
+          );
+        }
+
+        if (filteredQuests.length === 0) {
+          return (
+            <Box
               sx={{
-                position: 'relative',
-                overflow: 'visible',
+                textAlign: 'center',
+                py: 8,
+                px: 2,
+                borderRadius: 2,
                 background: (theme) =>
-                  quest.isCompleted
-                    ? `linear-gradient(135deg, ${alpha(theme.palette.success.main, 0.1)} 0%, ${alpha(theme.palette.background.paper, 0.9)} 100%)`
-                    : `linear-gradient(135deg, ${alpha(theme.palette.background.paper, 0.9)} 0%, ${alpha(theme.palette.background.paper, 0.7)} 100%)`,
+                  alpha(theme.palette.background.paper, 0.5),
                 backdropFilter: 'blur(10px)',
-                border: (theme) =>
-                  quest.isCompleted
-                    ? `1px solid ${alpha(theme.palette.success.main, 0.3)}`
-                    : `1px solid ${alpha(theme.palette.divider, 0.1)}`,
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  transform: 'translateY(-4px)',
-                  boxShadow: (theme) =>
-                    `0 8px 24px ${alpha(theme.palette.common.black, 0.2)}`,
-                },
               }}
             >
-              <CardContent>
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="flex-start"
-                  mb={2}
-                >
-                  <Box flex={1}>
-                    <Box display="flex" alignItems="center" gap={1} mb={1}>
-                      <Typography variant="h6" fontWeight="bold">
-                        {quest.name}
+              <Typography variant="h6" color="text.secondary">
+                {t('quests.noQuests')}
+              </Typography>
+            </Box>
+          );
+        }
+
+        return (
+          <Box display="flex" flexDirection="column" gap={2}>
+            {filteredQuests.map((quest) => (
+              <Card
+                key={quest.questId}
+                sx={{
+                  position: 'relative',
+                  overflow: 'visible',
+                  background: (theme) =>
+                    quest.isCompleted
+                      ? `linear-gradient(135deg, ${alpha(theme.palette.success.main, 0.1)} 0%, ${alpha(theme.palette.background.paper, 0.9)} 100%)`
+                      : `linear-gradient(135deg, ${alpha(theme.palette.background.paper, 0.9)} 0%, ${alpha(theme.palette.background.paper, 0.7)} 100%)`,
+                  backdropFilter: 'blur(10px)',
+                  border: (theme) =>
+                    quest.isCompleted
+                      ? `1px solid ${alpha(theme.palette.success.main, 0.3)}`
+                      : `1px solid ${alpha(theme.palette.divider, 0.1)}`,
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    transform: 'translateY(-4px)',
+                    boxShadow: (theme) =>
+                      `0 8px 24px ${alpha(theme.palette.common.black, 0.2)}`,
+                  },
+                }}
+              >
+                <CardContent>
+                  <Box
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="flex-start"
+                    mb={2}
+                  >
+                    <Box flex={1}>
+                      <Box display="flex" alignItems="center" gap={1} mb={1}>
+                        <Typography variant="h6" fontWeight="bold">
+                          {quest.name}
+                        </Typography>
+                        {quest.isCompleted && (
+                          <CheckCircle
+                            sx={{ color: 'success.main', fontSize: 24 }}
+                          />
+                        )}
+                      </Box>
+                      <Typography variant="body2" color="text.secondary" mb={1}>
+                        {quest.description}
                       </Typography>
-                      {quest.isCompleted && (
-                        <CheckCircle
-                          sx={{ color: 'success.main', fontSize: 24 }}
-                        />
+                    </Box>
+                    <Box textAlign="right" ml={2}>
+                      <Box display="flex" alignItems="center" gap={0.5} mb={0.5}>
+                        <Star sx={{ color: 'warning.main', fontSize: 20 }} />
+                        <Typography variant="h6" fontWeight="bold">
+                          {quest.rewardXp.toLocaleString()}
+                        </Typography>
+                        <Typography variant="caption" color="text.secondary">
+                          XP
+                        </Typography>
+                      </Box>
+                      {quest.rewardTitle && (
+                        <Typography variant="caption" color="text.secondary">
+                          {quest.rewardTitle}
+                        </Typography>
                       )}
                     </Box>
-                    <Typography variant="body2" color="text.secondary" mb={1}>
-                      {quest.description}
-                    </Typography>
                   </Box>
-                  <Box textAlign="right" ml={2}>
-                    <Box display="flex" alignItems="center" gap={0.5} mb={0.5}>
-                      <Star sx={{ color: 'warning.main', fontSize: 20 }} />
-                      <Typography variant="h6" fontWeight="bold">
-                        {quest.rewardXp.toLocaleString()}
-                      </Typography>
-                      <Typography variant="caption" color="text.secondary">
-                        XP
-                      </Typography>
-                    </Box>
-                    {quest.rewardTitle && (
-                      <Typography variant="caption" color="text.secondary">
-                        {quest.rewardTitle}
-                      </Typography>
-                    )}
-                  </Box>
-                </Box>
 
-                {/* Progress Bar */}
-                {!quest.isCompleted && (
-                  <Box>
-                    <Box display="flex" justifyContent="space-between" mb={0.5}>
-                      <Typography variant="caption" color="text.secondary">
-                        {t('quests.progress')}
-                      </Typography>
-                      <Typography variant="caption" fontWeight="bold">
-                        {quest.currentProgress} / {quest.targetProgress}
-                      </Typography>
-                    </Box>
-                    <LinearProgress
-                      variant="determinate"
-                      value={
-                        (quest.currentProgress / quest.targetProgress) * 100
-                      }
-                      sx={{
-                        height: 8,
-                        borderRadius: 4,
-                        backgroundColor: (theme) =>
-                          alpha(theme.palette.primary.main, 0.1),
-                        '& .MuiLinearProgress-bar': {
+                  {/* Progress Bar */}
+                  {!quest.isCompleted && (
+                    <Box>
+                      <Box
+                        display="flex"
+                        justifyContent="space-between"
+                        mb={0.5}
+                      >
+                        <Typography variant="caption" color="text.secondary">
+                          {t('quests.progress')}
+                        </Typography>
+                        <Typography variant="caption" fontWeight="bold">
+                          {quest.currentProgress} / {quest.targetProgress}
+                        </Typography>
+                      </Box>
+                      <LinearProgress
+                        variant="determinate"
+                        value={
+                          (quest.currentProgress / quest.targetProgress) * 100
+                        }
+                        sx={{
+                          height: 8,
                           borderRadius: 4,
-                          background: (theme) =>
-                            `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
-                        },
-                      }}
-                    />
-                  </Box>
-                )}
+                          backgroundColor: (theme) =>
+                            alpha(theme.palette.primary.main, 0.1),
+                          '& .MuiLinearProgress-bar': {
+                            borderRadius: 4,
+                            background: (theme) =>
+                              `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+                          },
+                        }}
+                      />
+                    </Box>
+                  )}
 
-                {/* Completion Info */}
-                {quest.isCompleted && quest.completedAt && (
-                  <Box mt={1}>
-                    <Typography
-                      variant="caption"
-                      color="success.main"
-                      fontWeight="bold"
-                    >
-                      {t('quests.completed')} •{' '}
-                      {new Date(quest.completedAt).toLocaleDateString(
-                        undefined,
-                        {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                        },
-                      )}
-                    </Typography>
-                  </Box>
-                )}
-              </CardContent>
-            </Card>
-          ))}
-        </Box>
-      )}
+                  {/* Completion Info */}
+                  {quest.isCompleted && quest.completedAt && (
+                    <Box mt={1}>
+                      <Typography
+                        variant="caption"
+                        color="success.main"
+                        fontWeight="bold"
+                      >
+                        {t('quests.completed')} •{' '}
+                        {new Date(quest.completedAt).toLocaleDateString(
+                          undefined,
+                          {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                          },
+                        )}
+                      </Typography>
+                    </Box>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+          </Box>
+        );
+      })()}
     </Container>
   );
 }
