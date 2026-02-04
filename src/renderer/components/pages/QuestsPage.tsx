@@ -5,7 +5,6 @@ import {
   CardContent,
   Container,
   LinearProgress,
-  linearProgressClasses,
   Skeleton,
   Tab,
   Tabs,
@@ -18,7 +17,7 @@ import {
   keyframes,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import EvosStore from 'renderer/lib/EvosStore';
 import DiscordPage from './DiscordPage';
 import { strapiClient } from 'renderer/lib/strapi';
@@ -220,11 +219,9 @@ export default function QuestsPage(): React.ReactElement {
   const [combinedQuests, setCombinedQuests] = useState<CombinedQuest[]>([]);
   const [xpStats, setXpStats] = useState({ earned: 0, possible: 0 });
   const [playerSearch, setPlayerSearch] = useState('');
-  const [searchInput, setSearchInput] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   const { search } = useLocation();
-  const navigate = useNavigate();
 
   // Extract unique categories from quests
   const categories = React.useMemo(() => {
@@ -243,10 +240,8 @@ export default function QuestsPage(): React.ReactElement {
     const playerParam = searchParams.get('player');
     if (playerParam) {
       setPlayerSearch(playerParam);
-      setSearchInput(playerParam);
     } else if (activeUser?.handle) {
       setPlayerSearch(activeUser.handle);
-      setSearchInput(activeUser.handle);
     }
   }, [searchParams, activeUser?.handle]);
 
@@ -407,7 +402,7 @@ export default function QuestsPage(): React.ReactElement {
   // Filter quests based on active tab and category
   const getFilteredQuests = (): CombinedQuest[] => {
     let filtered: CombinedQuest[] = [];
-    
+
     switch (activeTab) {
       case 0: // All Quests
         filtered = combinedQuests;
@@ -450,7 +445,8 @@ export default function QuestsPage(): React.ReactElement {
           backgroundSize: '200% 200%',
           animation: `${gradientAnimation} 8s ease infinite`,
           backdropFilter: 'blur(20px)',
-          border: (theme: Theme) => `1px solid ${alpha(theme.palette.divider, 0.2)}`,
+          border: (theme: Theme) =>
+            `1px solid ${alpha(theme.palette.divider, 0.2)}`,
           boxShadow: (theme: Theme) =>
             `0 8px 32px ${alpha(theme.palette.common.black, 0.1)}`,
           '&::before': {
@@ -466,7 +462,13 @@ export default function QuestsPage(): React.ReactElement {
           },
         }}
       >
-        <Box display="flex" alignItems="center" gap={2} mb={1} position="relative">
+        <Box
+          display="flex"
+          alignItems="center"
+          gap={2}
+          mb={1}
+          position="relative"
+        >
           <Box
             sx={{
               animation: `${floatAnimation} 3s ease-in-out infinite`,
@@ -616,7 +618,11 @@ export default function QuestsPage(): React.ReactElement {
                 >
                   {xpStats.earned.toLocaleString()}
                 </Typography>
-                <Typography variant="caption" color="text.secondary" fontWeight="600">
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  fontWeight="600"
+                >
                   / {xpStats.possible.toLocaleString()} XP
                 </Typography>
               </Box>
@@ -713,7 +719,11 @@ export default function QuestsPage(): React.ReactElement {
           >
             <Box display="flex" alignItems="center" gap={1} mb={1.5}>
               <FilterList sx={{ fontSize: 20, color: 'text.secondary' }} />
-              <Typography variant="subtitle2" fontWeight="600" color="text.secondary">
+              <Typography
+                variant="subtitle2"
+                fontWeight="600"
+                color="text.secondary"
+              >
                 Filter by Category
               </Typography>
             </Box>
@@ -731,11 +741,10 @@ export default function QuestsPage(): React.ReactElement {
                       selectedCategory === category
                         ? (theme: Theme) =>
                             `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`
-                        : (theme: Theme) => alpha(theme.palette.background.paper, 0.6),
+                        : (theme: Theme) =>
+                            alpha(theme.palette.background.paper, 0.6),
                     color:
-                      selectedCategory === category
-                        ? 'white'
-                        : 'text.primary',
+                      selectedCategory === category ? 'white' : 'text.primary',
                     border:
                       selectedCategory === category
                         ? 'none'
@@ -804,7 +813,8 @@ export default function QuestsPage(): React.ReactElement {
             {filteredQuests.map((quest, index) => {
               const progressPercent =
                 (quest.currentProgress / quest.targetProgress) * 100;
-              const isNearCompletion = progressPercent >= 80 && !quest.isCompleted;
+              const isNearCompletion =
+                progressPercent >= 80 && !quest.isCompleted;
 
               return (
                 <Grow
@@ -863,7 +873,12 @@ export default function QuestsPage(): React.ReactElement {
                         mb={2}
                       >
                         <Box flex={1}>
-                          <Box display="flex" alignItems="center" gap={1.5} mb={1}>
+                          <Box
+                            display="flex"
+                            alignItems="center"
+                            gap={1.5}
+                            mb={1}
+                          >
                             {/* Quest Icon */}
                             {quest.icon ? (
                               <Box
@@ -874,7 +889,8 @@ export default function QuestsPage(): React.ReactElement {
                                   width: 40,
                                   height: 40,
                                   objectFit: 'contain',
-                                  filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))',
+                                  filter:
+                                    'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))',
                                 }}
                               />
                             ) : (
@@ -882,7 +898,8 @@ export default function QuestsPage(): React.ReactElement {
                                 sx={{
                                   fontSize: 40,
                                   color: 'warning.main',
-                                  filter: 'drop-shadow(0 2px 4px rgba(255, 215, 0, 0.3))',
+                                  filter:
+                                    'drop-shadow(0 2px 4px rgba(255, 215, 0, 0.3))',
                                 }}
                               />
                             )}
@@ -906,7 +923,8 @@ export default function QuestsPage(): React.ReactElement {
                                   sx={{
                                     color: 'success.main',
                                     fontSize: 26,
-                                    filter: 'drop-shadow(0 2px 4px rgba(76, 175, 80, 0.3))',
+                                    filter:
+                                      'drop-shadow(0 2px 4px rgba(76, 175, 80, 0.3))',
                                   }}
                                 />
                               </Box>
@@ -949,7 +967,8 @@ export default function QuestsPage(): React.ReactElement {
                               sx={{
                                 color: 'warning.main',
                                 fontSize: 24,
-                                filter: 'drop-shadow(0 2px 4px rgba(255, 193, 7, 0.3))',
+                                filter:
+                                  'drop-shadow(0 2px 4px rgba(255, 193, 7, 0.3))',
                               }}
                             />
                             <Typography
@@ -1064,7 +1083,11 @@ export default function QuestsPage(): React.ReactElement {
                             variant="caption"
                             color="success.main"
                             fontWeight="700"
-                            sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: 0.5,
+                            }}
                           >
                             <CheckCircle sx={{ fontSize: 16 }} />
                             {t('quests.completed')} •{' '}
