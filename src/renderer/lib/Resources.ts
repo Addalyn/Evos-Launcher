@@ -257,6 +257,12 @@ export function abilityIcon(character: string, abilityNr: number) {
   return imagePath;
 }
 
+export function achievementIcon(achievementIcon: string) {
+  const imagePath = `${path}/img/${achievementIcon}.png`;
+
+  return imagePath;
+}
+
 interface AbilityTooltip {
   tooltip: string;
   title: string;

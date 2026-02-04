@@ -66,6 +66,12 @@ const createNavigationPages = (
       authentication: true, // Requires authentication for player stats
     },
     {
+      title: t('menuOptions.quests'),
+      href: '/quests',
+      icon: React.createElement(EmojiEvents),
+      authentication: true, // Requires authentication for quests players
+    },
+    {
       title: t('menuOptions.previousGames'),
       href: '/previousgames',
       icon: React.createElement(History),
@@ -76,12 +82,6 @@ const createNavigationPages = (
       href: '/followed-players',
       icon: React.createElement(People),
       authentication: true, // Requires authentication for followed players
-    },
-    {
-      title: t('menuOptions.quests'),
-      href: '/quests',
-      icon: React.createElement(EmojiEvents),
-      authentication: true, // Requires authentication for quests players
     },
     // Electron-only navigation items
     ...(electronFeatures.isAvailable

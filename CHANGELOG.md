@@ -1,5 +1,20 @@
 # Evos Launcher Changelog
 
+# [3.1.9] - 2026-02-04
+
+## Features & Improvements
+
+- **Quests Page Visual Overhaul**:
+  - Complete redesign with modern glassmorphism and premium aesthetics.
+  - Added animated gradient header with floating trophy icon.
+  - Implemented staggered entrance animations for quest cards.
+  - Enhanced XP progress section with animated gradient fills and percentage displays.
+  - Added pulsing "Near Completion" status for quests at 80% or more progress.
+- **Dynamic Filtering**:
+  - Introduced category-based filtering chips with smooth transitions.
+- **Top 20 Leaderboard**:
+  - Added a new top 20 for total xp from quests.
+
 # [3.1.8] - 2026-01-26
 
 ## Features & Improvements
