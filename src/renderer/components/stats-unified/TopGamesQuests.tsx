@@ -43,7 +43,6 @@ const fetchGameInfoUnified = async (
       ? 'https://stats-v1.evos.live/'
       : 'https://stats-production.evos.live/';
   const url = `${baseUrl}api/stats/${action}`;
-console.log(url);
   try {
     const response = await axios.get(url, { signal });
     return response.data.data as DataItem[];
@@ -93,7 +92,6 @@ export default function TopGamesQuests({ apiVersion = 'production' }: Props) {
         // @ts-ignore
         setGameData((prev) => [...prev, item.total]);
       });
-      console.log(gameData);
       setLoading(false);
     }
 
@@ -102,7 +100,7 @@ export default function TopGamesQuests({ apiVersion = 'production' }: Props) {
     return () => {
       controller.abort();
     };
-  }, [apiVersion]);
+  }, [apiVersion, t]);
 
   const data = {
     labels: names,

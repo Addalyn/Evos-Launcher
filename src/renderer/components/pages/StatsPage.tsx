@@ -255,9 +255,7 @@ export default function StatsPage(): React.ReactElement {
       {renderPaperContainer(
         <TopGamesPerfectAccolades apiVersion={apiVersion} />,
       )}
-      {renderPaperContainer(
-        <TopGamesQuests apiVersion={apiVersion} />,
-      )}
+      {renderPaperContainer(<TopGamesQuests apiVersion={apiVersion} />)}
     </>
   );
 }

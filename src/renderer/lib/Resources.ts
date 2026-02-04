@@ -257,8 +257,8 @@ export function abilityIcon(character: string, abilityNr: number) {
   return imagePath;
 }
 
-export function achievementIcon(achievementIcon: string) {
-  const imagePath = `${path}/img/${achievementIcon}.png`;
+export function achievementIcon(iconName: string) {
+  const imagePath = `${path}/img/${iconName}.png`;
 
   return imagePath;
 }

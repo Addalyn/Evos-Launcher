@@ -5,14 +5,13 @@ import {
   CardContent,
   Container,
   LinearProgress,
+  linearProgressClasses,
   Skeleton,
   Tab,
   Tabs,
+  Theme,
   Typography,
   alpha,
-  TextField,
-  InputAdornment,
-  IconButton,
   Chip,
   Fade,
   Grow,
@@ -28,8 +27,6 @@ import {
   EmojiEvents,
   Star,
   CheckCircle,
-  Search,
-  Close,
   FilterList,
   Category as CategoryIcon,
 } from '@mui/icons-material';
@@ -282,18 +279,6 @@ export default function QuestsPage(): React.ReactElement {
     fetchData();
   }, [playerSearch]);
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchInput.trim()) {
-      navigate(`?player=${encodeURIComponent(searchInput.trim())}`);
-    }
-  };
-
-  const handleClearSearch = () => {
-    setSearchInput(activeUser?.handle || '');
-    navigate('');
-  };
-
   // Combine quest data from database and quests.json
   useEffect(() => {
     if (questsDefinitions.length === 0) return;
@@ -460,13 +445,13 @@ export default function QuestsPage(): React.ReactElement {
           borderRadius: 3,
           position: 'relative',
           overflow: 'hidden',
-          background: (theme) =>
+          background: (theme: Theme) =>
             `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.15)} 0%, ${alpha(theme.palette.secondary.main, 0.15)} 50%, ${alpha(theme.palette.warning.main, 0.1)} 100%)`,
           backgroundSize: '200% 200%',
           animation: `${gradientAnimation} 8s ease infinite`,
           backdropFilter: 'blur(20px)',
-          border: (theme) => `1px solid ${alpha(theme.palette.divider, 0.2)}`,
-          boxShadow: (theme) =>
+          border: (theme: Theme) => `1px solid ${alpha(theme.palette.divider, 0.2)}`,
+          boxShadow: (theme: Theme) =>
             `0 8px 32px ${alpha(theme.palette.common.black, 0.1)}`,
           '&::before': {
             content: '""',
@@ -475,7 +460,7 @@ export default function QuestsPage(): React.ReactElement {
             left: 0,
             right: 0,
             bottom: 0,
-            background: (theme) =>
+            background: (theme: Theme) =>
               `radial-gradient(circle at 20% 50%, ${alpha(theme.palette.primary.main, 0.1)} 0%, transparent 50%)`,
             pointerEvents: 'none',
           },
@@ -700,7 +685,7 @@ export default function QuestsPage(): React.ReactElement {
             '& .MuiTabs-indicator': {
               height: 3,
               borderRadius: '3px 3px 0 0',
-              background: (theme) =>
+              background: (theme: Theme) =>
                 `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
             },
           }}
@@ -719,10 +704,10 @@ export default function QuestsPage(): React.ReactElement {
               mb: 3,
               p: 2,
               borderRadius: 2,
-              background: (theme) =>
+              background: (theme: Theme) =>
                 alpha(theme.palette.background.paper, 0.4),
               backdropFilter: 'blur(10px)',
-              border: (theme) =>
+              border: (theme: Theme) =>
                 `1px solid ${alpha(theme.palette.divider, 0.1)}`,
             }}
           >
@@ -744,9 +729,9 @@ export default function QuestsPage(): React.ReactElement {
                     transition: 'all 0.3s ease',
                     background:
                       selectedCategory === category
-                        ? (theme) =>
+                        ? (theme: Theme) =>
                             `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`
-                        : (theme) => alpha(theme.palette.background.paper, 0.6),
+                        : (theme: Theme) => alpha(theme.palette.background.paper, 0.6),
                     color:
                       selectedCategory === category
                         ? 'white'
@@ -754,11 +739,11 @@ export default function QuestsPage(): React.ReactElement {
                     border:
                       selectedCategory === category
                         ? 'none'
-                        : (theme) =>
+                        : (theme: Theme) =>
                             `1px solid ${alpha(theme.palette.divider, 0.2)}`,
                     '&:hover': {
                       transform: 'translateY(-2px)',
-                      boxShadow: (theme) =>
+                      boxShadow: (theme: Theme) =>
                         selectedCategory === category
                           ? `0 4px 12px ${alpha(theme.palette.primary.main, 0.4)}`
                           : `0 4px 12px ${alpha(theme.palette.common.black, 0.1)}`,
@@ -802,7 +787,7 @@ export default function QuestsPage(): React.ReactElement {
                 py: 8,
                 px: 2,
                 borderRadius: 2,
-                background: (theme) =>
+                background: (theme: Theme) =>
                   alpha(theme.palette.background.paper, 0.5),
                 backdropFilter: 'blur(10px)',
               }}
@@ -832,24 +817,24 @@ export default function QuestsPage(): React.ReactElement {
                     sx={{
                       position: 'relative',
                       overflow: 'hidden',
-                      background: (theme) =>
+                      background: (theme: Theme) =>
                         quest.isCompleted
                           ? `linear-gradient(135deg, ${alpha(theme.palette.success.main, 0.15)} 0%, ${alpha(theme.palette.background.paper, 0.95)} 100%)`
                           : `linear-gradient(135deg, ${alpha(theme.palette.background.paper, 0.95)} 0%, ${alpha(theme.palette.background.paper, 0.8)} 100%)`,
                       backdropFilter: 'blur(20px)',
                       borderRadius: 3,
-                      border: (theme) =>
+                      border: (theme: Theme) =>
                         quest.isCompleted
                           ? `2px solid ${alpha(theme.palette.success.main, 0.4)}`
                           : `1px solid ${alpha(theme.palette.divider, 0.15)}`,
                       transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                       '&:hover': {
                         transform: 'translateY(-6px) scale(1.01)',
-                        boxShadow: (theme) =>
+                        boxShadow: (theme: Theme) =>
                           quest.isCompleted
                             ? `0 12px 40px ${alpha(theme.palette.success.main, 0.25)}`
                             : `0 12px 40px ${alpha(theme.palette.primary.main, 0.15)}`,
-                        border: (theme) =>
+                        border: (theme: Theme) =>
                           quest.isCompleted
                             ? `2px solid ${alpha(theme.palette.success.main, 0.6)}`
                             : `1px solid ${alpha(theme.palette.primary.main, 0.3)}`,
@@ -862,7 +847,7 @@ export default function QuestsPage(): React.ReactElement {
                             left: 0,
                             right: 0,
                             height: '4px',
-                            background: (theme) =>
+                            background: (theme: Theme) =>
                               `linear-gradient(90deg, ${theme.palette.success.main} 0%, ${theme.palette.success.light} 100%)`,
                             backgroundSize: '200% 100%',
                             animation: `${gradientAnimation} 3s ease infinite`,
@@ -940,10 +925,10 @@ export default function QuestsPage(): React.ReactElement {
                             sx={{
                               fontWeight: 600,
                               fontSize: '0.7rem',
-                              background: (theme) =>
+                              background: (theme: Theme) =>
                                 alpha(theme.palette.primary.main, 0.1),
                               color: 'primary.main',
-                              border: (theme) =>
+                              border: (theme: Theme) =>
                                 `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
                             }}
                           />
@@ -971,7 +956,7 @@ export default function QuestsPage(): React.ReactElement {
                               variant="h5"
                               fontWeight="800"
                               sx={{
-                                background: (theme) =>
+                                background: (theme: Theme) =>
                                   `linear-gradient(135deg, ${theme.palette.warning.main} 0%, ${theme.palette.warning.light} 100%)`,
                                 backgroundClip: 'text',
                                 WebkitBackgroundClip: 'text',
@@ -998,7 +983,7 @@ export default function QuestsPage(): React.ReactElement {
                                 fontStyle: 'italic',
                               }}
                             >
-                              "{quest.rewardTitle}"
+                              &quot;{quest.rewardTitle}&quot;
                             </Typography>
                           )}
                         </Box>
@@ -1038,11 +1023,11 @@ export default function QuestsPage(): React.ReactElement {
                               sx={{
                                 height: 12,
                                 borderRadius: 6,
-                                backgroundColor: (theme) =>
+                                backgroundColor: (theme: Theme) =>
                                   alpha(theme.palette.primary.main, 0.1),
                                 '& .MuiLinearProgress-bar': {
                                   borderRadius: 6,
-                                  background: (theme) =>
+                                  background: (theme: Theme) =>
                                     isNearCompletion
                                       ? `linear-gradient(90deg, ${theme.palette.warning.dark} 0%, ${theme.palette.warning.main} 50%, ${theme.palette.warning.light} 100%)`
                                       : `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
@@ -1050,7 +1035,7 @@ export default function QuestsPage(): React.ReactElement {
                                   animation: isNearCompletion
                                     ? `${gradientAnimation} 2s ease infinite`
                                     : 'none',
-                                  boxShadow: (theme) =>
+                                  boxShadow: (theme: Theme) =>
                                     isNearCompletion
                                       ? `0 0 12px ${alpha(theme.palette.warning.main, 0.5)}`
                                       : 'none',
@@ -1069,9 +1054,9 @@ export default function QuestsPage(): React.ReactElement {
                           p={1.5}
                           borderRadius={2}
                           sx={{
-                            background: (theme) =>
+                            background: (theme: Theme) =>
                               alpha(theme.palette.success.main, 0.1),
-                            border: (theme) =>
+                            border: (theme: Theme) =>
                               `1px solid ${alpha(theme.palette.success.main, 0.2)}`,
                           }}
                         >
