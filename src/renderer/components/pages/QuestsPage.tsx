@@ -519,7 +519,7 @@ export default function QuestsPage(): React.ReactElement {
               color="text.secondary"
               sx={{ mt: 0.5, fontWeight: 500 }}
             >
-              {t('quests.subtitle')}
+              {t('quests.subtitle')} {playerSearch ? `${playerSearch}` : ''}
             </Typography>
           </Box>
         </Box>
