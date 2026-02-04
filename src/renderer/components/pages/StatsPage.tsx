@@ -35,6 +35,7 @@ import TopGamesEnemiesSighted from '../stats-unified/TopGamesEnemiesSighted';
 import TopGamesAccoladesCollector from '../stats-unified/TopGamesAccoladesCollector';
 import TopGamesPerfectAccolades from '../stats-unified/TopGamesPerfectAccolades';
 import ApiVersionToggle from '../generic/ApiVersionToggle';
+import TopGamesQuests from '../stats-unified/TopGamesQuests';
 
 /**
  * Props for the CustomTabPanel component
@@ -254,6 +255,7 @@ export default function StatsPage(): React.ReactElement {
       {renderPaperContainer(
         <TopGamesPerfectAccolades apiVersion={apiVersion} />,
       )}
+      {renderPaperContainer(<TopGamesQuests apiVersion={apiVersion} />)}
     </>
   );
 }

@@ -438,6 +438,8 @@
     "top20GamesPlayed": "En fazla oyun oynayan 20 oyuncu",
     "top20Takedowns": "En fazla elemeye sahip olan 20 oyuncu",
     "top20Damage": "En fazla hasar sahip olan 20 oyuncu",
+    "top20Quests": "Toplam görev XP'sine göre ilk 20 oyuncu",
+    "TotalQuestsXp": "Toplam Görev XP'si",
     "mvp": "MVP",
     "bestSupport": "En İyi Destek",
     "bestTank": "En İyi Tank",
