@@ -93,7 +93,7 @@ export default function ApiVersionToggle(): React.ReactElement {
             {/* Production API Option (Current) */}
             <MenuItem value="production">
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Typography>2025</Typography>
+                <Typography>2025-2026</Typography>
                 <Typography
                   variant="caption"
                   color="primary"
