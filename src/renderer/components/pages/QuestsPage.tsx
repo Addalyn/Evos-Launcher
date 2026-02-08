@@ -298,97 +298,100 @@ export default function QuestsPage(): React.ReactElement {
       earnedXp += completion.reward_xp;
     });
 
+    // Calculate possible XP from all enabled quests that are not blacklisted
+    // This is done before the main loop to ensure we count everything, regardless of completion status
+    const validQuests = questsDefinitions.filter((q) => {
+      if (!q.enabled || q.reward.xp === 0) return false;
+      const nameLower = q.name.toLowerCase();
+      return !BLACKLISTED_KEYWORDS.some((keyword) =>
+        nameLower.includes(keyword.toLowerCase()),
+      );
+    });
+
+    possibleXp = validQuests.reduce((sum, q) => sum + q.reward.xp, 0);
+
     // Strategy: Build the list from all enabled quests in the definition
-    questsDefinitions
-      .filter((q) => {
-        if (!q.enabled || q.reward.xp === 0) return false;
-        const nameLower = q.name.toLowerCase();
-        return !BLACKLISTED_KEYWORDS.some((keyword) =>
-          nameLower.includes(keyword.toLowerCase()),
-        );
-      })
-      .forEach((questDef) => {
-        const progress = progressByQuest.get(questDef.id);
-        const completions = completionsByQuest.get(questDef.id) || [];
+    validQuests.forEach((questDef) => {
+      const progress = progressByQuest.get(questDef.id);
+      const completions = completionsByQuest.get(questDef.id) || [];
 
-        const isCompleted = completions.length > 0;
-        const hasProgress = !!progress;
+      const isCompleted = completions.length > 0;
+      const hasProgress = !!progress;
 
-        // Handle completions (one card for each completion if repeatable)
-        // for "All Quests" and "Completed" tabs
-        completions.forEach((completion) => {
-          combined.push({
-            questId: questDef.id,
-            name: questDef.name,
-            description: questDef.description,
-            category: questDef.category,
-            difficulty: questDef.difficulty,
-            currentProgress: questDef.requirements.count || 1,
-            targetProgress: questDef.requirements.count || 1,
-            rewardXp: completion.reward_xp,
-            rewardTitle: completion.reward_title,
-            isCompleted: true,
-            completedAt: completion.completed_at,
-            icon: questDef.icon,
-          });
+      // Handle completions (one card for each completion if repeatable)
+      // for "All Quests" and "Completed" tabs
+      completions.forEach((completion) => {
+        combined.push({
+          questId: questDef.id,
+          name: questDef.name,
+          description: questDef.description,
+          category: questDef.category,
+          difficulty: questDef.difficulty,
+          currentProgress: questDef.requirements.count || 1,
+          targetProgress: questDef.requirements.count || 1,
+          rewardXp: completion.reward_xp,
+          rewardTitle: completion.reward_title,
+          isCompleted: true,
+          completedAt: completion.completed_at,
+          icon: questDef.icon,
         });
-
-        // Special case: for one-time quests that are completed, we don't show active progress
-        if (questDef.one_time_only && isCompleted) {
-          return;
-        }
-
-        // Check for active progress that isn't just an old record of a finished quest
-        let isActive = false;
-        let currentProgress = 0;
-        let lastUpdated = '';
-
-        if (hasProgress) {
-          const latestComp =
-            completions.length > 0
-              ? [...completions].sort(
-                  (a, b) =>
-                    new Date(b.completed_at).getTime() -
-                    new Date(a.completed_at).getTime(),
-                )[0]
-              : null;
-
-          const progressTime = new Date(progress.last_updated).getTime();
-          const completionTime = latestComp
-            ? new Date(latestComp.completed_at).getTime()
-            : 0;
-
-          // If progress is newer than completion OR it's not finished, it's active
-          if (
-            progressTime > completionTime ||
-            progress.current_progress < progress.target_progress
-          ) {
-            isActive = true;
-            currentProgress = progress.current_progress;
-            lastUpdated = progress.last_updated;
-          }
-        }
-
-        // Add as an active quest if it has progress, or as 0% if it's never been touched (for "All Quests" tab)
-        // If it's not already handled by a completion card OR it's repeatable and can be started again
-        if (isActive || !isCompleted) {
-          possibleXp += questDef.reward.xp;
-          combined.push({
-            questId: questDef.id,
-            name: questDef.name,
-            description: questDef.description,
-            category: questDef.category,
-            difficulty: questDef.difficulty,
-            currentProgress,
-            targetProgress: questDef.requirements.count || 1,
-            rewardXp: questDef.reward.xp,
-            rewardTitle: questDef.reward.title,
-            isCompleted: false,
-            lastUpdated,
-            icon: questDef.icon,
-          });
-        }
       });
+
+      // Special case: for one-time quests that are completed, we don't show active progress
+      if (questDef.one_time_only && isCompleted) {
+        return;
+      }
+
+      // Check for active progress that isn't just an old record of a finished quest
+      let isActive = false;
+      let currentProgress = 0;
+      let lastUpdated = '';
+
+      if (hasProgress) {
+        const latestComp =
+          completions.length > 0
+            ? [...completions].sort(
+                (a, b) =>
+                  new Date(b.completed_at).getTime() -
+                  new Date(a.completed_at).getTime(),
+              )[0]
+            : null;
+
+        const progressTime = new Date(progress.last_updated).getTime();
+        const completionTime = latestComp
+          ? new Date(latestComp.completed_at).getTime()
+          : 0;
+
+        // If progress is newer than completion OR it's not finished, it's active
+        if (
+          progressTime > completionTime ||
+          progress.current_progress < progress.target_progress
+        ) {
+          isActive = true;
+          currentProgress = progress.current_progress;
+          lastUpdated = progress.last_updated;
+        }
+      }
+
+      // Add as an active quest if it has progress, or as 0% if it's never been touched (for "All Quests" tab)
+      // If it's not already handled by a completion card OR it's repeatable and can be started again
+      if (isActive || !isCompleted) {
+        combined.push({
+          questId: questDef.id,
+          name: questDef.name,
+          description: questDef.description,
+          category: questDef.category,
+          difficulty: questDef.difficulty,
+          currentProgress,
+          targetProgress: questDef.requirements.count || 1,
+          rewardXp: questDef.reward.xp,
+          rewardTitle: questDef.reward.title,
+          isCompleted: false,
+          lastUpdated,
+          icon: questDef.icon,
+        });
+      }
+    });
 
     setCombinedQuests(combined);
     setXpStats({ earned: earnedXp, possible: possibleXp });

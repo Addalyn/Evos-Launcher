@@ -1,481 +1,484 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="script-src 'self' 'unsafe-inline'"
-    />
-    <title>Atlas Reactor - Evos Launcher</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      :root {
-        --gradient-1: #667eea;
-        --gradient-2: #764ba2;
-        --gradient-3: #f093fb;
-        --gradient-4: #4facfe;
-        --accent-cyan: #00f5ff;
-        --accent-purple: #a855f7;
-        --accent-pink: #ec4899;
-        --glass-bg: rgba(255, 255, 255, 0.08);
-        --glass-border: rgba(255, 255, 255, 0.18);
-        --text-primary: #ffffff;
-        --text-secondary: rgba(255, 255, 255, 0.8);
-        --shadow-glow: rgba(168, 85, 247, 0.4);
-        --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-          Roboto, sans-serif;
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline'" />
+  <title>Atlas Reactor - Evos Launcher</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gradient-1: #667eea;
+      --gradient-2: #764ba2;
+      --gradient-3: #f093fb;
+      --gradient-4: #4facfe;
+      --accent-cyan: #00f5ff;
+      --accent-purple: #a855f7;
+      --accent-pink: #ec4899;
+      --glass-bg: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 255, 255, 0.18);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.8);
+      --shadow-glow: rgba(168, 85, 247, 0.4);
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+        Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-app-region: drag;
+    }
+
+    body,
+    html {
+      height: 100%;
+      overflow: hidden;
+      font-family: var(--font-family);
+      color: var(--text-primary);
+      position: relative;
+      border-radius: 15px;
+    }
+
+    /* Animated Gradient Background - Hidden to show character */
+    .background {
+      display: none;
+      border-radius: 15px;
+    }
+
+    /* Dark Overlay - Hidden to show character */
+    .dark-overlay {
+      display: none;
+      border-radius: 15px;
+    }
+
+    /* Character Background Overlay */
+    .character-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      opacity: 1.0;
+      z-index: 0;
+      border-radius: 15px;
+    }
+
+    /* Floating Particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 3;
+      pointer-events: none;
+      border-radius: 15px;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--accent-cyan);
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: float 8s infinite ease-in-out;
+      box-shadow: 0 0 10px var(--accent-cyan);
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
       }
 
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        -webkit-app-region: drag;
-      }
-
-      body,
-      html {
-        height: 100%;
-        overflow: hidden;
-        font-family: var(--font-family);
-        color: var(--text-primary);
-        position: relative;
-        border-radius: 15px;
-      }
-
-      /* Animated Gradient Background - Hidden to show character */
-      .background {
-        display: none;
-        border-radius: 15px;
-      }
-
-      /* Dark Overlay - Hidden to show character */
-      .dark-overlay {
-        display: none;
-        border-radius: 15px;
-      }
-
-      /* Character Background Overlay */
-      .character-bg {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        opacity: 1.0;
-        z-index: 0;
-        border-radius: 15px;
-      }
-
-      /* Floating Particles */
-      .particles {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        z-index: 3;
-        pointer-events: none;
-        border-radius: 15px;
-      }
-
-      .particle {
-        position: absolute;
-        width: 4px;
-        height: 4px;
-        background: var(--accent-cyan);
-        border-radius: 50%;
+      10% {
         opacity: 0.6;
-        animation: float 8s infinite ease-in-out;
-        box-shadow: 0 0 10px var(--accent-cyan);
       }
 
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0) translateX(0);
-          opacity: 0;
-        }
-        10% {
-          opacity: 0.6;
-        }
-        90% {
-          opacity: 0.6;
-        }
-        100% {
-          transform: translateY(-100vh) translateX(50px);
-          opacity: 0;
-        }
+      90% {
+        opacity: 0.6;
       }
 
-      /* Main Container */
-      .container {
-        position: relative;
-        z-index: 4;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        width: 100%;
-        padding: 0;
+      100% {
+        transform: translateY(-100vh) translateX(50px);
+        opacity: 0;
+      }
+    }
+
+    /* Main Container */
+    .container {
+      position: relative;
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      padding: 0;
+    }
+
+    /* Glassmorphic Card */
+    .glass-card {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 0;
+      padding: 48px 60px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
+        0 0 60px rgba(168, 85, 247, 0.4);
+      animation: cardFadeIn 0.8s ease-out;
+      text-align: center;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes cardFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
       }
 
-      /* Glassmorphic Card */
-      .glass-card {
-        background: rgba(0, 0, 0, 0.6);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 0;
-        padding: 48px 60px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
-          0 0 60px rgba(168, 85, 247, 0.4);
-        animation: cardFadeIn 0.8s ease-out;
-        text-align: center;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Logo */
+    .logo {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 32px;
+      animation: logoFloat 3s ease-in-out infinite;
+      filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.6));
+    }
+
+    @keyframes logoFloat {
+
+      0%,
+      100% {
+        transform: translateY(0);
       }
 
-      @keyframes cardFadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px) scale(0.95);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-        }
+      50% {
+        transform: translateY(-10px);
       }
+    }
 
-      /* Logo */
-      .logo {
-        width: 120px;
-        height: 120px;
-        margin-bottom: 32px;
-        animation: logoFloat 3s ease-in-out infinite;
-        filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.6));
-      }
-
-      @keyframes logoFloat {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-10px);
-        }
-      }
-
-      /* Title */
-      .title {
-        font-size: 32px;
-        font-weight: 700;
-        margin-bottom: 12px;
-        background: linear-gradient(
-          135deg,
+    /* Title */
+    .title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg,
           var(--accent-cyan),
           var(--accent-purple),
-          var(--accent-pink)
-        );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        animation: titleGlow 2s ease-in-out infinite;
+          var(--accent-pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: titleGlow 2s ease-in-out infinite;
+    }
+
+    @keyframes titleGlow {
+
+      0%,
+      100% {
+        filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.5));
       }
 
-      @keyframes titleGlow {
-        0%,
-        100% {
-          filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.5));
-        }
-        50% {
-          filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.8));
-        }
+      50% {
+        filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.8));
+      }
+    }
+
+    /* Status Text */
+    .status-text {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      animation: pulse 2s ease-in-out infinite;
+      min-height: 24px;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 0.7;
       }
 
-      /* Status Text */
-      .status-text {
-        font-size: 16px;
-        font-weight: 500;
-        color: var(--text-secondary);
-        margin-bottom: 32px;
-        animation: pulse 2s ease-in-out infinite;
-        min-height: 24px;
+      50% {
+        opacity: 1;
       }
+    }
 
-      @keyframes pulse {
-        0%,
-        100% {
-          opacity: 0.7;
-        }
-        50% {
-          opacity: 1;
-        }
-      }
+    /* Progress Container */
+    .progress-container {
+      width: 100%;
+      margin-top: 8px;
+    }
 
-      /* Progress Container */
-      .progress-container {
-        width: 100%;
-        margin-top: 8px;
-      }
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
 
-      .progress-label {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 12px;
-        font-size: 14px;
-        font-weight: 500;
-        color: var(--text-secondary);
-      }
+    .percentage {
+      font-weight: 600;
+      color: var(--accent-cyan);
+      font-size: 16px;
+    }
 
-      .percentage {
-        font-weight: 600;
-        color: var(--accent-cyan);
-        font-size: 16px;
-      }
+    /* Progress Bar */
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
 
-      /* Progress Bar */
-      .progress-bar {
-        width: 100%;
-        height: 8px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 999px;
-        overflow: hidden;
-        position: relative;
-        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
-      }
-
-      .progress-fill {
-        height: 100%;
-        width: 0%;
-        background: linear-gradient(
-          90deg,
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg,
           var(--accent-cyan),
           var(--accent-purple),
-          var(--accent-pink)
-        );
-        border-radius: 999px;
-        transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 0 20px var(--shadow-glow);
-        position: relative;
-        overflow: hidden;
-      }
+          var(--accent-pink));
+      border-radius: 999px;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 20px var(--shadow-glow);
+      position: relative;
+      overflow: hidden;
+    }
 
-      .progress-fill::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(
-          90deg,
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg,
           transparent,
           rgba(255, 255, 255, 0.3),
-          transparent
-        );
-        animation: shimmer 2s infinite;
+          transparent);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% {
+        transform: translateX(-100%);
       }
 
-      @keyframes shimmer {
-        0% {
-          transform: translateX(-100%);
-        }
-        100% {
-          transform: translateX(100%);
-        }
+      100% {
+        transform: translateX(100%);
       }
+    }
 
-      /* Loading Spinner */
-      .spinner-container {
-        height: 64px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 24px;
+    /* Loading Spinner */
+    .spinner-container {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-top-color: var(--accent-cyan);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
       }
+    }
 
-      .spinner {
-        width: 40px;
-        height: 40px;
-        border: 3px solid rgba(255, 255, 255, 0.1);
-        border-top-color: var(--accent-cyan);
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-      }
+    /* Version Text */
+    .version {
+      position: fixed;
+      bottom: 16px;
+      left: 16px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.4);
+      z-index: 10;
+      font-weight: 500;
+    }
+  </style>
+</head>
 
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
+<body>
+  <!-- Animated Background -->
+  <div class="background"></div>
 
-      /* Version Text */
-      .version {
-        position: fixed;
-        bottom: 16px;
-        left: 16px;
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.4);
-        z-index: 10;
-        font-weight: 500;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Animated Background -->
-    <div class="background"></div>
+  <!-- Dark Overlay -->
+  <div class="dark-overlay"></div>
 
-    <!-- Dark Overlay -->
-    <div class="dark-overlay"></div>
+  <!-- Character Background -->
+  <div class="character-bg" id="character-bg"></div>
 
-    <!-- Character Background -->
-    <div class="character-bg" id="character-bg"></div>
+  <!-- Floating Particles -->
+  <div class="particles" id="particles"></div>
 
-    <!-- Floating Particles -->
-    <div class="particles" id="particles"></div>
-
-    <!-- Main Container -->
-    <div class="container">
-      <div class="glass-card">
-        <img src="logo.png" alt="Atlas Reactor Logo" class="logo" />
-        <h1 class="title">EVOS LAUNCHER</h1>
-        <div class="spinner-container">
-          <div class="spinner" id="spinner"></div>
+  <!-- Main Container -->
+  <div class="container">
+    <div class="glass-card">
+      <img src="logo.png" alt="Atlas Reactor Logo" class="logo" />
+      <h1 class="title">EVOS LAUNCHER</h1>
+      <div class="spinner-container">
+        <div class="spinner" id="spinner"></div>
+      </div>
+      <div class="status-text" id="status-text">Initializing...</div>
+      <div class="progress-container">
+        <div class="progress-label">
+          <span id="progress-label">Loading</span>
+          <span class="percentage" id="percentage">0%</span>
         </div>
-        <div class="status-text" id="status-text">Initializing...</div>
-        <div class="progress-container">
-          <div class="progress-label">
-            <span id="progress-label">Loading</span>
-            <span class="percentage" id="percentage">0%</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" id="progress-fill"></div>
-          </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Version -->
-    <div class="version">v3.1.9</div>
+  <!-- Version -->
+  <div class="version">v3.2.0</div>
 
-    <script>
-      // Create floating particles
-      const particlesContainer = document.getElementById('particles');
-      for (let i = 0; i < 20; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.animationDelay = Math.random() * 8 + 's';
-        particle.style.animationDuration = 8 + Math.random() * 4 + 's';
-        particlesContainer.appendChild(particle);
-      }
+  <script>
+    // Create floating particles
+    const particlesContainer = document.getElementById('particles');
+    for (let i = 0; i < 20; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDelay = Math.random() * 8 + 's';
+      particle.style.animationDuration = 8 + Math.random() * 4 + 's';
+      particlesContainer.appendChild(particle);
+    }
 
-      // Array of character background images
-      const images = [
-        'asana01.png',
-        'asana02.png',
-        'aurora01.png',
-        'cityscape01.png',
-        'garrison01.png',
-        'garrison02.png',
-        'gremolitions01.png',
-        'grey01.png',
-        'kaigin01.png',
-        'lockwood01.png',
-        'lockwood02.png',
-        'lockwood_rask_01.png',
-        'nix01.png',
-        'orion01.png',
-        'oz01.png',
-        'pup01.png',
-        'quark01.png',
-        'rampartTitus01.png',
-        'titus01.png',
-        'zuki01.png',
-        'zukipup01.png',
-      ];
+    // Array of character background images
+    const images = [
+      'asana01.png',
+      'asana02.png',
+      'aurora01.png',
+      'cityscape01.png',
+      'garrison01.png',
+      'garrison02.png',
+      'gremolitions01.png',
+      'grey01.png',
+      'kaigin01.png',
+      'lockwood01.png',
+      'lockwood02.png',
+      'lockwood_rask_01.png',
+      'nix01.png',
+      'orion01.png',
+      'oz01.png',
+      'pup01.png',
+      'quark01.png',
+      'rampartTitus01.png',
+      'titus01.png',
+      'zuki01.png',
+      'zukipup01.png',
+    ];
 
-      // Set random character background
-      const randomIndex = Math.floor(Math.random() * images.length);
-      const randomImage = images[randomIndex];
-      document.getElementById('character-bg').style.backgroundImage =
-        `url('./img/loading/${randomImage}')`;
+    // Set random character background
+    const randomIndex = Math.floor(Math.random() * images.length);
+    const randomImage = images[randomIndex];
+    document.getElementById('character-bg').style.backgroundImage =
+      `url('./img/loading/${randomImage}')`;
 
-      // Get DOM elements
-      const statusText = document.getElementById('status-text');
-      const progressFill = document.getElementById('progress-fill');
-      const percentage = document.getElementById('percentage');
-      const progressLabel = document.getElementById('progress-label');
-      const spinner = document.getElementById('spinner');
+    // Get DOM elements
+    const statusText = document.getElementById('status-text');
+    const progressFill = document.getElementById('progress-fill');
+    const percentage = document.getElementById('percentage');
+    const progressLabel = document.getElementById('progress-label');
+    const spinner = document.getElementById('spinner');
 
-      // Helper function to update progress
-      function updateProgress(percent) {
-        progressFill.style.width = percent + '%';
-        percentage.textContent = Math.round(percent) + '%';
-      }
+    // Helper function to update progress
+    function updateProgress(percent) {
+      progressFill.style.width = percent + '%';
+      percentage.textContent = Math.round(percent) + '%';
+    }
 
-      // IPC Communication
-      const { ipcRenderer } = require('electron');
+    // IPC Communication
+    const { ipcRenderer } = require('electron');
 
-      ipcRenderer.on('update-checking', () => {
-        statusText.textContent = 'Checking for updates...';
-        progressLabel.textContent = 'Checking';
-        spinner.style.display = 'block';
-        updateProgress(0);
-      });
+    ipcRenderer.on('update-checking', () => {
+      statusText.textContent = 'Checking for updates...';
+      progressLabel.textContent = 'Checking';
+      spinner.style.display = 'block';
+      updateProgress(0);
+    });
 
-      ipcRenderer.on('update-available', () => {
-        statusText.textContent = 'Update available! Downloading...';
-        progressLabel.textContent = 'Downloading';
-        spinner.style.display = 'block';
-        updateProgress(0);
-      });
+    ipcRenderer.on('update-available', () => {
+      statusText.textContent = 'Update available! Downloading...';
+      progressLabel.textContent = 'Downloading';
+      spinner.style.display = 'block';
+      updateProgress(0);
+    });
 
-      ipcRenderer.on('update-not-available', () => {
-        statusText.textContent = 'Loading launcher...';
-        progressLabel.textContent = 'Loading';
-        spinner.style.display = 'block';
+    ipcRenderer.on('update-not-available', () => {
+      statusText.textContent = 'Loading launcher...';
+      progressLabel.textContent = 'Loading';
+      spinner.style.display = 'block';
 
-        // Smooth progress animation
-        let progress = 0;
-        const interval = setInterval(() => {
-          progress += 2;
-          updateProgress(progress);
-          if (progress >= 100) {
-            clearInterval(interval);
-            spinner.style.display = 'none';
-          }
-        }, 50);
-      });
+      // Smooth progress animation
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += 2;
+        updateProgress(progress);
+        if (progress >= 100) {
+          clearInterval(interval);
+          spinner.style.display = 'none';
+        }
+      }, 50);
+    });
 
-      ipcRenderer.on('update-progress', (_, progressInfo) => {
-        const percent = progressInfo.percent;
-        statusText.textContent = `Downloading update...`;
-        progressLabel.textContent = 'Downloading';
-        spinner.style.display = 'none';
-        updateProgress(percent);
-      });
+    ipcRenderer.on('update-progress', (_, progressInfo) => {
+      const percent = progressInfo.percent;
+      statusText.textContent = `Downloading update...`;
+      progressLabel.textContent = 'Downloading';
+      spinner.style.display = 'none';
+      updateProgress(percent);
+    });
 
-      ipcRenderer.on('update-downloaded', () => {
-        statusText.textContent = 'Update downloaded! Restarting...';
-        progressLabel.textContent = 'Complete';
-        spinner.style.display = 'none';
-        updateProgress(100);
-      });
-    </script>
-  </body>
+    ipcRenderer.on('update-downloaded', () => {
+      statusText.textContent = 'Update downloaded! Restarting...';
+      progressLabel.textContent = 'Complete';
+      spinner.style.display = 'none';
+      updateProgress(100);
+    });
+  </script>
+</body>
+
 </html>

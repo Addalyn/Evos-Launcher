@@ -1,5 +1,13 @@
 # Evos Launcher Changelog
 
+# [3.2.0] - 2026-02-08
+
+## Bug Fixes
+
+- **Total quest xp**
+  - Fixed an issue where the total quest xp was not being displayed correctly.
+
+
 # [3.1.9] - 2026-02-04
 
 ## Features & Improvements
