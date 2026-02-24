@@ -174,7 +174,31 @@ export default function RegisterPage() {
       elevation={3}
       style={{ padding: '1em', margin: '1em', width: '578px' }}
     >
-      <Typography component="h1" variant="h5">
+      <Box sx={{ display: 'flex', mb: 3, borderBottom: 1, borderColor: 'divider' }}>
+        <Button
+          onClick={() => navigate('/login')}
+          sx={{
+            flex: 1,
+            borderRadius: 0,
+            color: 'text.secondary',
+          }}
+        >
+          {t('login')}
+        </Button>
+        <Button
+          onClick={() => navigate('/register')}
+          sx={{
+            flex: 1,
+            borderRadius: 0,
+            borderBottom: '2px solid',
+            borderColor: 'primary.main',
+            color: 'primary.main',
+          }}
+        >
+          {t('register')}
+        </Button>
+      </Box>
+      <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
         {t('registerAccount')}
       </Typography>
       <Box
@@ -253,30 +277,6 @@ export default function RegisterPage() {
         >
           {t('registerAccount')}
         </Button>
-        <Grid container spacing={2}>
-          <Grid size={9}>
-            <Button
-              onClick={handleResetClick}
-              sx={{
-                textDecoration: 'none',
-                color: 'grey',
-              }}
-            >
-              {t('resetApp')}
-            </Button>
-          </Grid>
-          <Grid size={3}>
-            <Button
-              onClick={() => navigate('/login')}
-              sx={{
-                textDecoration: 'none',
-                color: 'grey',
-              }}
-            >
-              {t('login')}
-            </Button>
-          </Grid>
-        </Grid>
       </Box>
     </Paper>
   );

@@ -34,10 +34,10 @@ export default function useGameWebSocket({
       url: WS_URL,
       options: {
         share: true,
-        queryParams: { username: encodeURIComponent(activeUser.handle) },
+        queryParams: activeUser.handle ? { username: encodeURIComponent(activeUser.handle) } : { username: '' },
         onMessage: (event: MessageEvent) => {
           const parsedMessage = JSON.parse(event.data);
-          if (parsedMessage.error === undefined) {
+          if (parsedMessage.error === undefined && parsedMessage.players) {
             setGlobalStatus(parsedMessage);
           }
         },
@@ -55,10 +55,10 @@ export default function useGameWebSocket({
         url: WS_URL,
         options: {
           share: true,
-          queryParams: { username: encodeURIComponent(activeUser.handle) },
+          queryParams: activeUser.handle ? { username: encodeURIComponent(activeUser.handle) } : { username: '' },
           onMessage: (event: MessageEvent) => {
             const parsedMessage = JSON.parse(event.data);
-            if (parsedMessage.error === undefined) {
+            if (parsedMessage.error === undefined && parsedMessage.players) {
               setGlobalStatus(parsedMessage);
             }
           },
@@ -102,12 +102,7 @@ export default function useGameWebSocket({
       if (retryTimeout) {
         clearTimeout(retryTimeout);
       }
-      if (shouldConnect && readyState === WebSocket.OPEN) {
-        sendJsonMessage({
-          type: 'DISCONNECT',
-          username: encodeURIComponent(activeUser.handle),
-        });
-      }
+      // No longer sending manual DISCONNECT to avoid closing shared sockets prematurely
     };
   }, [activeUser, readyState, sendJsonMessage, setGlobalStatus, shouldConnect]);
 

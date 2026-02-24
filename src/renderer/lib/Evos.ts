@@ -264,6 +264,7 @@ export function cap(txt: string): string {
 }
 
 export const WS_URL = `wss://launcher.evos.live/websocket`;
+export const CHAT_WS_URL = `wss://launcher.evos.live/chat`;//`wss://chat.evos.live/chat`;
 
 export async function login(
   abort: AbortController,

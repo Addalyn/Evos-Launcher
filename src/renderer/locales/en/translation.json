@@ -21,7 +21,8 @@
     "Follow": "Follow",
     "Unfollow": "Unfollow",
     "quests": "Quests",
-    "viewQuests": "View Quests"
+    "viewQuests": "View Quests",
+    "chat": "Chat"
   },
   "followedPlayers": {
     "title": "Followed Players",
@@ -75,6 +76,18 @@
     "secondsAgo": "seconds ago",
     "aMinuteAgo": "A minute ago",
     "minutesAgo": "minutes ago"
+  },
+  "chat": {
+    "communityTitle": "Community Chat",
+    "subtitle": "Chat with other players online",
+    "notsaved": "Chats are not saved between sessions",
+    "placeholder": "Type a message...",
+    "send": "Send",
+    "online": "online",
+    "noMessages": "No messages yet. Be the first to say hello!",
+    "connecting": "Connecting...",
+    "connected": "Connected",
+    "disconnected": "Disconnected"
   },
   "errors": {
     "error": "Error",

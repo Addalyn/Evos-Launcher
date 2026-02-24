@@ -9,6 +9,7 @@
 import {
   Article,
   BarChart,
+  Chat,
   Download,
   EmojiEvents,
   Forum,
@@ -82,6 +83,12 @@ const createNavigationPages = (
       href: '/followed-players',
       icon: React.createElement(People),
       authentication: true, // Requires authentication for followed players
+    },
+    {
+      title: t('menuOptions.chat', 'Chat'),
+      href: '/chat',
+      icon: React.createElement(Chat),
+      authentication: true,
     },
     // Electron-only navigation items
     ...(electronFeatures.isAvailable

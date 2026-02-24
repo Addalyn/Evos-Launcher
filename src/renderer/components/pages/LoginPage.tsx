@@ -398,17 +398,6 @@ function ActionButtons({
     >
       <Grid>
         <Button
-          onClick={onReset}
-          sx={{
-            textDecoration: 'none',
-            color: 'grey',
-          }}
-        >
-          {t('resetApp')}
-        </Button>
-      </Grid>
-      <Grid>
-        <Button
           onClick={onNavigateToRegister}
           sx={{
             textDecoration: 'none',
@@ -525,7 +514,32 @@ export default function LoginPage() {
     <Paper elevation={3} style={CONTAINER_STYLES}>
       {ip ? (
         <>
-          <Typography component="h1" variant="h5">
+          <Box sx={{ display: 'flex', mb: 3, borderBottom: 1, borderColor: 'divider' }}>
+            <Button
+              onClick={() => navigate('/login')}
+              sx={{
+                flex: 1,
+                borderRadius: 0,
+                borderBottom: '2px solid',
+                borderColor: 'primary.main',
+                color: 'primary.main',
+              }}
+            >
+              {t('login')}
+            </Button>
+            <Button
+              onClick={() => navigate('/register')}
+              sx={{
+                flex: 1,
+                borderRadius: 0,
+                color: 'text.secondary',
+              }}
+            >
+              {t('register')}
+            </Button>
+          </Box>
+
+          <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
             {t('login')}
           </Typography>
 
@@ -547,11 +561,6 @@ export default function LoginPage() {
               {error.text}
             </Alert>
           )}
-
-          <ActionButtons
-            onReset={handleReset}
-            onNavigateToRegister={handleNavigateToRegister}
-          />
         </>
       ) : (
         <IpComponent />

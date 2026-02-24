@@ -17,7 +17,8 @@
     "replays": "Replays",
     "wiki": "Wiki",
     "SupportUs": "Apoie-nos",
-    "folowedPlayers": "Jogadores Seguidos"
+    "folowedPlayers": "Jogadores Seguidos",
+    "chat": "Chat"
   },
   "followedPlayers": {
     "title": "Jogadores Seguidos",
@@ -71,6 +72,18 @@
     "secondsAgo": "segundos atrás",
     "aMinuteAgo": "Um minuto atrás",
     "minutesAgo": "minutos atrás"
+  },
+  "chat": {
+    "communityTitle": "Chat da Comunidade",
+    "subtitle": "Converse com outros jogadores online",
+    "notsaved": "As conversas não são salvas entre as sessões",
+    "placeholder": "Digite uma mensagem...",
+    "send": "Enviar",
+    "online": "online",
+    "noMessages": "Ainda não há mensagens. Seja o primeiro a dizer oi!",
+    "connecting": "Conectando...",
+    "connected": "Conectado",
+    "disconnected": "Desconectado"
   },
   "errors": {
     "error": "Erro",
