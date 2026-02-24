@@ -28,6 +28,7 @@ import { withElectron } from './utils/electronUtils';
 // Import hooks
 import useGameWebSocket from './hooks/useGameWebSocket';
 import useDiscordRPC from './hooks/useDiscordRPC';
+import { ChatProvider } from './components/generic/ChatContext';
 
 // Import route configuration
 import { routeConfig, getLayout } from './config/routes.config';
@@ -169,23 +170,25 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <HashRouter>
-        <Box sx={{ display: 'flex' }}>
-          <Routes>
-            {routeConfig.map((route) => {
-              const Layout = getLayout(route.layout);
-              return (
-                <Route
-                  key={route.path}
-                  path={route.path}
-                  element={createPage(
-                    route.title,
-                    <Layout>{route.element}</Layout>,
-                  )}
-                />
-              );
-            })}
-          </Routes>
-        </Box>
+        <ChatProvider>
+          <Box sx={{ display: 'flex' }}>
+            <Routes>
+              {routeConfig.map((route) => {
+                const Layout = getLayout(route.layout);
+                return (
+                  <Route
+                    key={route.path}
+                    path={route.path}
+                    element={createPage(
+                      route.title,
+                      <Layout>{route.element}</Layout>,
+                    )}
+                  />
+                );
+              })}
+            </Routes>
+          </Box>
+        </ChatProvider>
       </HashRouter>
     </ThemeProvider>
   );

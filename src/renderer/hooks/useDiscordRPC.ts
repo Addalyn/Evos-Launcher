@@ -44,7 +44,7 @@ export default function useDiscordRPC({
       return;
     }
 
-    const myUser = status.players.find(
+    const myUser = status.players?.find(
       (player) => player.handle === evosStore.activeUser?.handle,
     );
 
@@ -69,11 +69,11 @@ export default function useDiscordRPC({
     }
 
     // Find current game and team information
-    status.games.forEach((game) => {
-      const teamA = game.teamA.find(
+    status.games?.forEach((game) => {
+      const teamA = game.teamA?.find(
         (player) => player.accountId === myUser.accountId,
       );
-      const teamB = game.teamB.find(
+      const teamB = game.teamB?.find(
         (player) => player.accountId === myUser.accountId,
       );
 

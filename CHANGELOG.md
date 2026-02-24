@@ -1,5 +1,21 @@
 # Evos Launcher Changelog
 
+# [3.2.1] - 2026-02-24
+
+## Features & Improvements
+
+- **Community Chat & Private Messaging**:
+  - Introduced a new real-time chat system for the community.
+  - Support for private messaging between online players.
+  - Full multi-language support for all chat UI elements across 10 languages (English, German, Spanish, French, Italian, Dutch, Russian, Turkish, Chinese, and Brazilian Portuguese).
+- **WebSocket Infrastructure**:
+  - Implemented a persistent WebSocket connection for real-time message delivery.
+  - Added path-based routing (`/chat`) for better proxy and server compatibility.
+- **UI & UX Enhancements**:
+  - Integrated a new Chat Page with a unified interface for community and private messages.
+  - Added a floating Chat Widget accessible from any page with real-time unread message badges.
+  - Real-time online status indicators for chat participants.
+
 # [3.2.0] - 2026-02-08
 
 ## Bug Fixes

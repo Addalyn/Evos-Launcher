@@ -19,7 +19,8 @@
     "SupportUs": "Apóyanos",
     "folowedPlayers": "Jugadores Seguidos",
     "Follow": "Seguir",
-    "Unfollow": "Dejar de seguir"
+    "Unfollow": "Dejar de seguir",
+    "chat": "Chat"
   },
   "followedPlayers": {
     "title": "Jugadores Seguidos",
@@ -73,6 +74,18 @@
     "secondsAgo": "Segundos antes",
     "aMinuteAgo": "Hace un Minuto",
     "minutesAgo": "Minutos antes"
+  },
+  "chat": {
+    "communityTitle": "Chat de la Comunidad",
+    "subtitle": "Chatea con otros jugadores en línea",
+    "notsaved": "Los chats no se guardan entre sesiones",
+    "placeholder": "Escribe un mensaje...",
+    "send": "Enviar",
+    "online": "en línea",
+    "noMessages": "Aún no hay mensajes. ¡Sé el primero en saludar!",
+    "connecting": "Conectando...",
+    "connected": "Conectado",
+    "disconnected": "Desconectado"
   },
   "errors": {
     "error": "Error",

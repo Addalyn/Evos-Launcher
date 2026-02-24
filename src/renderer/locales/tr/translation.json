@@ -19,7 +19,8 @@
     "SupportUs": "Bizi Destekleyin",
     "folowedPlayers": "Takip Edilen Oyuncular",
     "Follow": "Takip Et",
-    "Unfollow": "Takibi Bırak"
+    "Unfollow": "Takibi Bırak",
+    "chat": "Sohbet"
   },
   "followedPlayers": {
     "title": "Takip Edilen Oyuncular",
@@ -73,6 +74,18 @@
     "secondsAgo": "saniye önce",
     "aMinuteAgo": "Bir dakika önce",
     "minutesAgo": "dakika önce"
+  },
+  "chat": {
+    "communityTitle": "Topluluk Sohbeti",
+    "subtitle": "Diğer çevrimiçi oyuncularla sohbet edin",
+    "notsaved": "Sohbetler oturumlar arasında kaydedilmez",
+    "placeholder": "Bir mesaj yazın...",
+    "send": "Gönder",
+    "online": "çevrimiçi",
+    "noMessages": "Henüz mesaj yok. Merhaba diyen ilk kişi siz olun!",
+    "connecting": "Bağlanıyor...",
+    "connected": "Bağlandı",
+    "disconnected": "Bağlantı kesildi"
   },
   "errors": {
     "error": "Hata",

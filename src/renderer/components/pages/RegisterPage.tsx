@@ -7,14 +7,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { Paper, Alert, AlertTitle } from '@mui/material';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import EvosStore from 'renderer/lib/EvosStore';
 import { registerAccount } from 'renderer/lib/Evos';
 import { EvosError, processError } from 'renderer/lib/Error';
 import { useTranslation } from 'react-i18next';
-import { withElectron } from 'renderer/utils/electronUtils';
 
 /**
  * RegisterPage component provides a user registration form with validation.
@@ -34,7 +32,6 @@ export default function RegisterPage() {
    * Destructured state and actions from the Evos store
    */
   const {
-    setIp,
     setAuthenticatedUsers,
     authenticatedUsers,
     switchUser,
@@ -158,23 +155,39 @@ export default function RegisterPage() {
     return () => abort.abort();
   };
 
-  /**
-   * Handles the application reset functionality
-   * Clears IP, error state, and electron store data
-   */
-  const handleResetClick = () => {
-    setIp('');
-    setError(undefined);
-    withElectron((electron) => electron.store.clear());
-  };
-
   // Render the registration form with Material-UI components
   return (
     <Paper
       elevation={3}
       style={{ padding: '1em', margin: '1em', width: '578px' }}
     >
-      <Typography component="h1" variant="h5">
+      <Box
+        sx={{ display: 'flex', mb: 3, borderBottom: 1, borderColor: 'divider' }}
+      >
+        <Button
+          onClick={() => navigate('/login')}
+          sx={{
+            flex: 1,
+            borderRadius: 0,
+            color: 'text.secondary',
+          }}
+        >
+          {t('login')}
+        </Button>
+        <Button
+          onClick={() => navigate('/register')}
+          sx={{
+            flex: 1,
+            borderRadius: 0,
+            borderBottom: '2px solid',
+            borderColor: 'primary.main',
+            color: 'primary.main',
+          }}
+        >
+          {t('register')}
+        </Button>
+      </Box>
+      <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
         {t('registerAccount')}
       </Typography>
       <Box
@@ -253,30 +266,6 @@ export default function RegisterPage() {
         >
           {t('registerAccount')}
         </Button>
-        <Grid container spacing={2}>
-          <Grid size={9}>
-            <Button
-              onClick={handleResetClick}
-              sx={{
-                textDecoration: 'none',
-                color: 'grey',
-              }}
-            >
-              {t('resetApp')}
-            </Button>
-          </Grid>
-          <Grid size={3}>
-            <Button
-              onClick={() => navigate('/login')}
-              sx={{
-                textDecoration: 'none',
-                color: 'grey',
-              }}
-            >
-              {t('login')}
-            </Button>
-          </Grid>
-        </Grid>
       </Box>
     </Paper>
   );

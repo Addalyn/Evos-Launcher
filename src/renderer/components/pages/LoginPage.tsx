@@ -27,7 +27,6 @@ import {
   Avatar,
   Alert,
   AlertTitle,
-  Grid,
   Box,
   Typography,
 } from '@mui/material';
@@ -37,7 +36,7 @@ import EvosStore, { AuthUser } from 'renderer/lib/EvosStore';
 import { login, getPlayerInfo } from 'renderer/lib/Evos';
 import { EvosError, processError } from 'renderer/lib/Error';
 import { BannerType, playerBanner } from 'renderer/lib/Resources';
-import { withElectron } from 'renderer/utils/electronUtils';
+
 import IpComponent from '../generic/IpComponent';
 
 // Constants
@@ -76,7 +75,6 @@ interface LoginFormData {
 const useAuthenticationLogic = () => {
   const {
     ip,
-    setIp,
     setAuthenticatedUsers,
     authenticatedUsers,
     switchUser,
@@ -156,16 +154,6 @@ const useAuthenticationLogic = () => {
   );
 
   /**
-   * Resets the application to initial state
-   * Clears IP, errors, and electron store data
-   */
-  const handleReset = useCallback(() => {
-    setIp('');
-    setError(undefined);
-    withElectron((electron) => electron.store.clear());
-  }, [setIp]);
-
-  /**
    * Switches to a different authenticated user and navigates to home
    * @param {string} username - Username to switch to
    */
@@ -189,7 +177,6 @@ const useAuthenticationLogic = () => {
     error,
     isAuthenticated,
     handleLogin,
-    handleReset,
     handleUserSwitch,
   };
 };
@@ -300,8 +287,8 @@ function LoginForm({
   showUsernameField,
   activeUser,
   authenticatedUsers,
-  onUserSwitch,
   onAddUser,
+  onUserSwitch,
   isAuthenticated,
 }: {
   onSubmit: (e: React.FormEvent) => void;
@@ -374,55 +361,6 @@ function LoginForm({
 }
 
 /**
- * Action buttons component for reset and registration navigation
- * @param {Object} props - Component props
- * @param {Function} props.onReset - Callback for resetting the application
- * @param {Function} props.onNavigateToRegister - Callback for navigating to register page
- * @returns {JSX.Element} Grid layout with action buttons
- */
-function ActionButtons({
-  onReset,
-  onNavigateToRegister,
-}: {
-  onReset: () => void;
-  onNavigateToRegister: () => void;
-}) {
-  const { t } = useTranslation();
-
-  return (
-    <Grid
-      container
-      spacing={2}
-      justifyContent="space-between"
-      alignItems="center"
-    >
-      <Grid>
-        <Button
-          onClick={onReset}
-          sx={{
-            textDecoration: 'none',
-            color: 'grey',
-          }}
-        >
-          {t('resetApp')}
-        </Button>
-      </Grid>
-      <Grid>
-        <Button
-          onClick={onNavigateToRegister}
-          sx={{
-            textDecoration: 'none',
-            color: 'grey',
-          }}
-        >
-          {t('register')}
-        </Button>
-      </Grid>
-    </Grid>
-  );
-}
-
-/**
  * Main LoginPage component
  * Handles user authentication, login form display, and navigation
  * Supports both new user registration and existing user selection
@@ -440,7 +378,6 @@ export default function LoginPage() {
     error,
     isAuthenticated,
     handleLogin,
-    handleReset,
     handleUserSwitch,
   } = useAuthenticationLogic();
 
@@ -514,18 +451,43 @@ export default function LoginPage() {
     setAddUser(true);
   };
 
-  /**
-   * Navigates to the registration page
-   */
-  const handleNavigateToRegister = () => {
-    navigate('/register');
-  };
-
   return (
     <Paper elevation={3} style={CONTAINER_STYLES}>
       {ip ? (
         <>
-          <Typography component="h1" variant="h5">
+          <Box
+            sx={{
+              display: 'flex',
+              mb: 3,
+              borderBottom: 1,
+              borderColor: 'divider',
+            }}
+          >
+            <Button
+              onClick={() => navigate('/login')}
+              sx={{
+                flex: 1,
+                borderRadius: 0,
+                borderBottom: '2px solid',
+                borderColor: 'primary.main',
+                color: 'primary.main',
+              }}
+            >
+              {t('login')}
+            </Button>
+            <Button
+              onClick={() => navigate('/register')}
+              sx={{
+                flex: 1,
+                borderRadius: 0,
+                color: 'text.secondary',
+              }}
+            >
+              {t('register')}
+            </Button>
+          </Box>
+
+          <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
             {t('login')}
           </Typography>
 
@@ -547,11 +509,6 @@ export default function LoginPage() {
               {error.text}
             </Alert>
           )}
-
-          <ActionButtons
-            onReset={handleReset}
-            onNavigateToRegister={handleNavigateToRegister}
-          />
         </>
       ) : (
         <IpComponent />

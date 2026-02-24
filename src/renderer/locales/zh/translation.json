@@ -19,7 +19,8 @@
     "SupportUs": "支持我们",
     "folowedPlayers": "关注的玩家",
     "Follow": "关注",
-    "Unfollow": "取消关注"
+    "Unfollow": "取消关注",
+    "chat": "聊天"
   },
   "followedPlayers": {
     "title": "关注的玩家",
@@ -73,6 +74,18 @@
     "secondsAgo": "秒前)",
     "aMinuteAgo": "1分钟前)",
     "minutesAgo": "分钟前)"
+  },
+  "chat": {
+    "communityTitle": "社区聊天",
+    "subtitle": "与其他在线玩家聊天",
+    "notsaved": "会话之间不会保存聊天记录",
+    "placeholder": "输入消息...",
+    "send": "发送",
+    "online": "在线",
+    "noMessages": "暂无消息。成为第一个打招呼的人吧！",
+    "connecting": "正在连接...",
+    "connected": "已连接",
+    "disconnected": "已断开连接"
   },
   "errors": {
     "error": "错误",

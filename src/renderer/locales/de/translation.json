@@ -20,7 +20,8 @@
     "folowedPlayers": "Verfolgte Spieler",
     "Follow": "Folgen",
     "Unfollow": "Entfolgen",
-    "viewQuests": "Quests ansehen"
+    "viewQuests": "Quests ansehen",
+    "chat": "Chat"
   },
   "followedPlayers": {
     "title": "Gefolgte Spieler",
@@ -74,6 +75,18 @@
     "secondsAgo": "Sekunden her",
     "aMinuteAgo": "vor einer Minute",
     "minutesAgo": "Minuten her"
+  },
+  "chat": {
+    "communityTitle": "Community-Chat",
+    "subtitle": "Chatte mit anderen Spielern online",
+    "notsaved": "Chats werden nicht zwischen den Sitzungen gespeichert",
+    "placeholder": "Schreibe eine Nachricht...",
+    "send": "Senden",
+    "online": "online",
+    "noMessages": "Noch keine Nachrichten. Sei der Erste, der Hallo sagt!",
+    "connecting": "Verbinden...",
+    "connected": "Verbunden",
+    "disconnected": "Getrennt"
   },
   "errors": {
     "error": "Fehler",

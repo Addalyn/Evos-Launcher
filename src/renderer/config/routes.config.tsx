@@ -10,6 +10,8 @@ import React, { useCallback } from 'react';
 // Page imports
 import AboutPage from '../components/pages/AboutPage';
 import AddAccountPage from '../components/pages/AddAccountPage';
+import ChatPage from '../components/pages/ChatPage';
+import ChatWidget from '../components/generic/ChatWidget';
 // Generic component imports
 import AdminMessage from '../components/generic/AdminMessage';
 import { Box } from '@mui/material';
@@ -66,6 +68,7 @@ function StandardLayout({ children }: { children: React.ReactNode }) {
         <AdminMessage />
         <VersionUpdater />
         <BranchUpdater />
+        <ChatWidget />
         {children}
       </Box>
     </>
@@ -231,6 +234,12 @@ const allRoutes = [
     element: <QuestsPage />,
     layout: 'standard',
     title: 'quests',
+  },
+  {
+    path: '/chat',
+    element: <ChatPage />,
+    layout: 'standard',
+    title: 'chat',
   },
 ];
 

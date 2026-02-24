@@ -20,7 +20,6 @@ import {
   Box,
   Button,
   Typography,
-  Tooltip,
 } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -84,7 +83,6 @@ export default function NavBar(): ReactElement {
     isAuthenticated,
     handleSwitchUser,
     handleLaunchGameClick,
-    handleCancelDownloadBranch,
     // Computed
     isValidExe,
   } = useNavbar();
@@ -290,60 +288,44 @@ export default function NavBar(): ReactElement {
             />
 
             {/* Cancel Download Button */}
-            {locked && needPatching && (
+            {/* {locked && needPatching && (
               <Box
                 sx={{
                   flexGrow: 1,
                   justifyContent: 'center',
                 }}
               >
-                <Tooltip
-                  title={tooltipTitle}
-                  slotProps={{
-                    popper: {
-                      modifiers: [
-                        {
-                          name: 'offset',
-                          options: {
-                            offset: [0, 14],
-                          },
-                        },
-                      ],
-                    },
-                  }}
-                >
-                  <span>
-                    <Button
-                      variant="outlined"
-                      className="glow-on-hover"
+                <span>
+                  <Button
+                    variant="outlined"
+                    className="glow-on-hover"
+                    sx={{
+                      color: 'white',
+                      '-webkit-app-region': 'no-drag',
+                      height: '49.5px',
+                      borderRadius: '0px',
+                    }}
+                    onClick={handleCancelDownloadBranchLocal}
+                  >
+                    <SportsEsportsIcon
                       sx={{
-                        color: 'white',
-                        '-webkit-app-region': 'no-drag',
-                        height: '49.5px',
-                        borderRadius: '0px',
+                        height: '25px',
+                        width: '25px',
+                        display: { xs: 'flex', md: 'none' },
                       }}
-                      onClick={handleCancelDownloadBranch}
+                    />
+                    <Typography
+                      variant="button"
+                      display="block"
+                      gutterBottom
+                      sx={{ display: { xs: 'none', md: 'flex' } }}
                     >
-                      <SportsEsportsIcon
-                        sx={{
-                          height: '25px',
-                          width: '25px',
-                          display: { xs: 'flex', md: 'none' },
-                        }}
-                      />
-                      <Typography
-                        variant="button"
-                        display="block"
-                        gutterBottom
-                        sx={{ display: { xs: 'none', md: 'flex' } }}
-                      >
-                        {t('download.cancel')}
-                      </Typography>
-                    </Button>
-                  </span>
-                </Tooltip>
+                      {t('download.cancel')}
+                    </Typography>
+                  </Button>
+                </span>
               </Box>
-            )}
+            )} */}
 
             {/* User Account Section */}
             <Box

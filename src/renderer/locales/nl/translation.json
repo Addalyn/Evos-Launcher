@@ -19,7 +19,8 @@
     "SupportUs": "Steun ons",
     "folowedPlayers": "Gevolgde Spelers",
     "Follow": "Volgen",
-    "Unfollow": "Ontvolgen"
+    "Unfollow": "Ontvolgen",
+    "chat": "Chat"
   },
   "followedPlayers": {
     "title": "Gevolgde Spelers",
@@ -73,6 +74,18 @@
     "secondsAgo": "seconden geleden",
     "aMinuteAgo": "Een minuut geleden",
     "minutesAgo": "minuten geleden"
+  },
+  "chat": {
+    "communityTitle": "Community Chat",
+    "subtitle": "Chat met andere online spelers",
+    "notsaved": "Gesprekken worden niet opgeslagen tussen sessies",
+    "placeholder": "Type een bericht...",
+    "send": "Versturen",
+    "online": "online",
+    "noMessages": "Nog geen berichten. Wees de eerste om hallo te zeggen!",
+    "connecting": "Verbinden...",
+    "connected": "Verbonden",
+    "disconnected": "Verbinding verbroken"
   },
   "errors": {
     "error": "Fout",
