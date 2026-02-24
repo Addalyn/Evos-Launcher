@@ -5,7 +5,7 @@
  * @since 3.2.1
  */
 
-import React, { type ReactElement } from 'react';
+import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Badge, Fab, Tooltip, Zoom } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
@@ -20,7 +20,7 @@ import EvosStore from '../../lib/EvosStore';
  *
  * @returns {ReactElement | null}
  */
-const ChatWidget: React.FC = () => {
+export default function ChatWidget() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -41,11 +41,7 @@ const ChatWidget: React.FC = () => {
 
   return (
     <Zoom in>
-      <Tooltip
-        title={t('chat.title', 'Community Chat')}
-        placement="left"
-        arrow
-      >
+      <Tooltip title={t('chat.title', 'Community Chat')} placement="left" arrow>
         <Fab
           size="medium"
           onClick={() => navigate('/chat')}
@@ -111,6 +107,4 @@ const ChatWidget: React.FC = () => {
       </Tooltip>
     </Zoom>
   );
-};
-
-export default ChatWidget;
+}

@@ -34,7 +34,9 @@ export default function useGameWebSocket({
       url: WS_URL,
       options: {
         share: true,
-        queryParams: activeUser.handle ? { username: encodeURIComponent(activeUser.handle) } : { username: '' },
+        queryParams: activeUser.handle
+          ? { username: encodeURIComponent(activeUser.handle) }
+          : { username: '' },
         onMessage: (event: MessageEvent) => {
           const parsedMessage = JSON.parse(event.data);
           if (parsedMessage.error === undefined && parsedMessage.players) {
@@ -55,7 +57,9 @@ export default function useGameWebSocket({
         url: WS_URL,
         options: {
           share: true,
-          queryParams: activeUser.handle ? { username: encodeURIComponent(activeUser.handle) } : { username: '' },
+          queryParams: activeUser.handle
+            ? { username: encodeURIComponent(activeUser.handle) }
+            : { username: '' },
           onMessage: (event: MessageEvent) => {
             const parsedMessage = JSON.parse(event.data);
             if (parsedMessage.error === undefined && parsedMessage.players) {

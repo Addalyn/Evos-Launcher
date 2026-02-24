@@ -5,7 +5,15 @@
  * @since 3.2.1
  */
 
-import React, { createContext, useContext, useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useRef,
+} from 'react';
 import { ReadyState } from 'react-use-websocket';
 import EvosStore from '../../lib/EvosStore';
 import useChatWebSocket, { ChatMessage } from '../../hooks/useChatWebSocket';
@@ -25,11 +33,11 @@ interface ChatContextType {
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
 
-export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export function ChatProvider({ children }: { children: React.ReactNode }) {
   const activeUser = EvosStore((state: any) => state.activeUser);
-  const [activeConversation, setActiveConversation] = useState<string | null>(null);
+  const [activeConversation, setActiveConversation] = useState<string | null>(
+    null,
+  );
 
   const { messages, sendMessage, readyState, onlineUsers } = useChatWebSocket({
     handle: activeUser?.handle,
@@ -43,14 +51,14 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     if (messages.length > 0) {
       const lastMessage = messages[messages.length - 1];
-      
+
       // Prevent re-processing the same message when activeConversation changes
       if (lastMessage.id === lastProcessedIdRef.current) return;
       lastProcessedIdRef.current = lastMessage.id;
 
       // Only count if it's not from us, not system, and not the active conversation
       if (
-        lastMessage.from !== activeUser?.handle && 
+        lastMessage.from !== activeUser?.handle &&
         lastMessage.from !== 'System' &&
         lastMessage.from !== activeConversation
       ) {
@@ -90,20 +98,32 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
     return Object.values(unreadCounts).reduce((sum, count) => sum + count, 0);
   }, [unreadCounts]);
 
-  const value = {
-    messages,
-    sendMessage,
-    readyState,
-    onlineUsers,
-    unreadCounts,
-    clearUnread,
-    totalUnreadCount,
-    setActiveConversation,
-    activeConversation,
-  };
+  const value = useMemo(
+    () => ({
+      messages,
+      sendMessage,
+      readyState,
+      onlineUsers,
+      unreadCounts,
+      clearUnread,
+      totalUnreadCount,
+      setActiveConversation,
+      activeConversation,
+    }),
+    [
+      messages,
+      sendMessage,
+      readyState,
+      onlineUsers,
+      unreadCounts,
+      clearUnread,
+      totalUnreadCount,
+      activeConversation,
+    ],
+  );
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
-};
+}
 
 export const useChat = () => {
   const context = useContext(ChatContext);

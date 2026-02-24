@@ -6,7 +6,7 @@
  * @since 3.2.1
  */
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import { CHAT_WS_URL } from '../lib/Evos';
 
@@ -64,7 +64,9 @@ export default function useChatWebSocket({
     shouldReconnect: () => true,
     reconnectAttempts: 99,
     reconnectInterval: 3000,
-    queryParams: handle ? { username: encodeURIComponent(handle) } : { username: '' },
+    queryParams: handle
+      ? { username: encodeURIComponent(handle) }
+      : { username: '' },
     onOpen: () => {
       if (handle) {
         sendJsonMessage({
@@ -127,7 +129,7 @@ export default function useChatWebSocket({
       sendJsonMessage({
         type: 'CHAT',
         from: encodeURIComponent(handle),
-        to: to,
+        to,
         text: text.trim(),
       });
     },

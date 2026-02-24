@@ -20,7 +20,6 @@ import {
   Box,
   Button,
   Typography,
-  Tooltip,
 } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -37,7 +36,6 @@ import { isElectronApp } from '../../utils/electronUtils';
 
 // Import resources
 import { logo, logoSmall } from '../../lib/Resources';
-import EvosStore from 'renderer/lib/EvosStore';
 
 /**
  * Main navigation bar component - simplified and composed of smaller components.
@@ -85,7 +83,6 @@ export default function NavBar(): ReactElement {
     isAuthenticated,
     handleSwitchUser,
     handleLaunchGameClick,
-    handleCancelDownloadBranch,
     // Computed
     isValidExe,
   } = useNavbar();

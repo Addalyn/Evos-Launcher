@@ -12,13 +12,10 @@ import {
   TextField,
   IconButton,
   Paper,
-  Avatar,
   List,
   ListItem,
-  ListItemAvatar,
   ListItemText,
   ListItemButton,
-  Badge,
   InputAdornment,
   Fade,
   Tooltip,
@@ -35,14 +32,21 @@ import { ReadyState } from 'react-use-websocket';
 import { useChat } from '../generic/ChatContext';
 import EvosStore from '../../lib/EvosStore';
 import Player from '../atlas/Player';
-import { processError } from 'renderer/lib/Error';
-import { getPlayerData, logout, PlayerData } from 'renderer/lib/Evos';
+import { getPlayerData, PlayerData } from 'renderer/lib/Evos';
 
-const ChatPage: React.FC = () => {
+export default function ChatPage() {
   const { t } = useTranslation();
   const activeUser = EvosStore((state: any) => state.activeUser);
-  const { messages, sendMessage, readyState, onlineUsers, unreadCounts, clearUnread, setActiveConversation } = useChat();
- 
+  const {
+    messages,
+    sendMessage,
+    readyState,
+    onlineUsers,
+    unreadCounts,
+    clearUnread,
+    setActiveConversation,
+  } = useChat();
+
   const [selectedUser, setSelectedUser] = useState<string>('');
   const [inputText, setInputText] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
@@ -61,25 +65,28 @@ const ChatPage: React.FC = () => {
     if (selectedUser) {
       clearUnread(selectedUser);
     }
-    
+
     // Cleanup on unmount
     return () => setActiveConversation(null);
   }, [selectedUser, clearUnread, setActiveConversation]);
 
-    useEffect(() => {
-      if (selectedUser === '') {
-        return;
-      }
-  
-      // Fetch player data and handle response/errors
-      getPlayerData(activeUser?.token ?? '', selectedUser)
-        // eslint-disable-next-line promise/always-return
-        .then((resp) => {
-          resp.data.status = resp.data.titleId as unknown as string;
-          setPlayerData(resp.data);
-        })
-        .catch((e) => console.log(e));
-    }, [selectedUser, activeUser]);
+  useEffect(() => {
+    if (selectedUser === '') {
+      return;
+    }
+
+    // Fetch player data and handle response/errors
+    getPlayerData(activeUser?.token ?? '', selectedUser)
+      // eslint-disable-next-line promise/always-return
+      .then((resp) => {
+        resp.data.status = resp.data.titleId as unknown as string;
+        setPlayerData(resp.data);
+      })
+      .catch((e) => {
+        // eslint-disable-next-line no-console
+        console.log(e);
+      });
+  }, [selectedUser, activeUser]);
 
   const handleSend = () => {
     if (inputText.trim() && selectedUser) {
@@ -89,34 +96,41 @@ const ChatPage: React.FC = () => {
   };
 
   const filteredUsers = onlineUsers.filter(
-    (u) => u !== activeUser?.handle && u.toLowerCase().includes(searchTerm.toLowerCase())
+    (u) =>
+      u !== activeUser?.handle &&
+      u.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const conversationMessages = messages.filter(
     (m) =>
       m.isSystem ||
       (m.from === selectedUser && m.to === activeUser?.handle) ||
-      (m.from === activeUser?.handle && m.to === selectedUser)
+      (m.from === activeUser?.handle && m.to === selectedUser),
   );
 
   const getConnectionStatusColor = () => {
     switch (readyState) {
-      case ReadyState.OPEN: return '#4caf50';
-      case ReadyState.CONNECTING: return '#ffeb3b';
-      default: return '#f44336';
+      case ReadyState.OPEN:
+        return '#4caf50';
+      case ReadyState.CONNECTING:
+        return '#ffeb3b';
+      default:
+        return '#f44336';
     }
   };
 
   return (
-    <Box sx={{ 
-      display: 'flex', 
-      height: 'calc(100vh - 80px)', // Adjust based on Navbar height
-      maxHeight: 'calc(100vh - 80px)',
-      width: '100%', 
-      overflow: 'hidden', 
-      p: 2, 
-      gap: 2 
-    }}>
+    <Box
+      sx={{
+        display: 'flex',
+        height: 'calc(100vh - 80px)', // Adjust based on Navbar height
+        maxHeight: 'calc(100vh - 80px)',
+        width: '100%',
+        overflow: 'hidden',
+        p: 2,
+        gap: 2,
+      }}
+    >
       {/* Users Sidebar */}
       <Paper
         sx={{
@@ -131,10 +145,30 @@ const ChatPage: React.FC = () => {
         }}
       >
         <Box sx={{ p: 2, borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
-          <Typography variant="h6" sx={{ color: 'white', mb: 2, fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: 1 }}>
-            <ChatIcon sx={{ color: '#ff7b00' }} /> {t('chat.communityTitle', 'Community Chat')}
+          <Typography
+            variant="h6"
+            sx={{
+              color: 'white',
+              mb: 2,
+              fontWeight: 'bold',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1,
+            }}
+          >
+            <ChatIcon sx={{ color: '#ff7b00' }} />{' '}
+            {t('chat.communityTitle', 'Community Chat')}
           </Typography>
-          <Typography variant="subtitle1" sx={{ color: 'white', mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Typography
+            variant="subtitle1"
+            sx={{
+              color: 'white',
+              mb: 2,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1,
+            }}
+          >
             {t('chat.subtitle')}
           </Typography>
           <TextField
@@ -146,7 +180,10 @@ const ChatPage: React.FC = () => {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <SearchIcon fontSize="small" sx={{ color: 'rgba(255,255,255,0.5)' }} />
+                  <SearchIcon
+                    fontSize="small"
+                    sx={{ color: 'rgba(255,255,255,0.5)' }}
+                  />
                 </InputAdornment>
               ),
             }}
@@ -155,15 +192,19 @@ const ChatPage: React.FC = () => {
                 color: 'white',
                 background: 'rgba(0,0,0,0.2)',
                 borderRadius: 2,
-              }
+              },
             }}
           />
         </Box>
 
         <List sx={{ flex: 1, overflowY: 'auto', py: 0 }}>
           {filteredUsers.length === 0 ? (
-            <Box sx={{ p: 3, textAlign: 'center', color: 'rgba(255,255,255,0.3)' }}>
-              <Typography variant="body2">{t('chat.noUsersOnline', 'No others online')}</Typography>
+            <Box
+              sx={{ p: 3, textAlign: 'center', color: 'rgba(255,255,255,0.3)' }}
+            >
+              <Typography variant="body2">
+                {t('chat.noUsersOnline', 'No others online')}
+              </Typography>
             </Box>
           ) : (
             filteredUsers.map((user) => (
@@ -173,7 +214,10 @@ const ChatPage: React.FC = () => {
                   onClick={() => setSelectedUser(user)}
                   sx={{
                     py: 1.5,
-                    borderLeft: selectedUser === user ? '4px solid #ff7b00' : '4px solid transparent',
+                    borderLeft:
+                      selectedUser === user
+                        ? '4px solid #ff7b00'
+                        : '4px solid transparent',
                     '&.Mui-selected': {
                       backgroundColor: 'rgba(255, 123, 0, 0.1)',
                       '&:hover': { backgroundColor: 'rgba(255, 123, 0, 0.2)' },
@@ -183,9 +227,20 @@ const ChatPage: React.FC = () => {
                 >
                   <ListItemText
                     primary={user}
-                    primaryTypographyProps={{ sx: { color: 'white', fontWeight: unreadCounts[user] ? 'bold' : 'normal' } }}
-                    secondary={unreadCounts[user] ? t('chat.newMessages', 'New messages') : ''}
-                    secondaryTypographyProps={{ sx: { color: '#ff7b00', fontSize: '0.75rem' } }}
+                    primaryTypographyProps={{
+                      sx: {
+                        color: 'white',
+                        fontWeight: unreadCounts[user] ? 'bold' : 'normal',
+                      },
+                    }}
+                    secondary={
+                      unreadCounts[user]
+                        ? t('chat.newMessages', 'New messages')
+                        : ''
+                    }
+                    secondaryTypographyProps={{
+                      sx: { color: '#ff7b00', fontSize: '0.75rem' },
+                    }}
                   />
                   <CircleIcon sx={{ fontSize: 10, color: '#4caf50', ml: 1 }} />
                 </ListItemButton>
@@ -194,12 +249,28 @@ const ChatPage: React.FC = () => {
           )}
         </List>
 
-        <Box sx={{ p: 2, borderTop: '1px solid rgba(255, 255, 255, 0.1)', background: 'rgba(0,0,0,0.1)' }}>
+        <Box
+          sx={{
+            p: 2,
+            borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+            background: 'rgba(0,0,0,0.1)',
+          }}
+        >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Tooltip title={t(`chat.status.${ReadyState[readyState]}`, ReadyState[readyState])}>
-              <CircleIcon sx={{ fontSize: 12, color: getConnectionStatusColor() }} />
+            <Tooltip
+              title={t(
+                `chat.status.${ReadyState[readyState]}`,
+                ReadyState[readyState],
+              )}
+            >
+              <CircleIcon
+                sx={{ fontSize: 12, color: getConnectionStatusColor() }}
+              />
             </Tooltip>
-            <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)' }}>
+            <Typography
+              variant="caption"
+              sx={{ color: 'rgba(255,255,255,0.5)' }}
+            >
               {t('chat.onlineStatus', 'Status System Connected')}
             </Typography>
           </Box>
@@ -220,35 +291,68 @@ const ChatPage: React.FC = () => {
         }}
       >
         {!selectedUser ? (
-          <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', opacity: 0.5 }}>
+          <Box
+            sx={{
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              opacity: 0.5,
+            }}
+          >
             <ChatIcon sx={{ fontSize: 64, mb: 2, color: '#ff7b00' }} />
-            <Typography variant="h6" sx={{ color: 'white' }}>{t('chat.selectUser', 'Select a user to start chatting')}</Typography>
+            <Typography variant="h6" sx={{ color: 'white' }}>
+              {t('chat.selectUser', 'Select a user to start chatting')}
+            </Typography>
           </Box>
         ) : (
           <>
             {/* Chat Header */}
-            <Box sx={{ p: 2, borderBottom: '1px solid rgba(255, 255, 255, 0.1)', display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Box
+              sx={{
+                p: 2,
+                borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 2,
+              }}
+            >
               {!playerData ? (
-              <Skeleton
-                variant="rectangular"
-                width={240}
-                height={52}
-                style={{ display: 'inline-block', marginLeft: '4px' }}
-              />
-            ) : (
-              <Player
-                info={playerData}
-                disableSkew
-                characterType={undefined}
-                titleOld=""
-              />
-            )}
+                <Skeleton
+                  variant="rectangular"
+                  width={240}
+                  height={52}
+                  style={{ display: 'inline-block', marginLeft: '4px' }}
+                />
+              ) : (
+                <Player
+                  info={playerData}
+                  disableSkew
+                  characterType={undefined}
+                  titleOld=""
+                />
+              )}
               <br />
-              <Typography variant="subtitle2" sx={{ color: 'white', fontWeight: 'bold' }}>{t('chat.notsaved')}</Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ color: 'white', fontWeight: 'bold' }}
+              >
+                {t('chat.notsaved')}
+              </Typography>
             </Box>
 
             {/* Chat Messages */}
-            <Box sx={{ flex: 1, overflowY: 'auto', p: 3, display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Box
+              sx={{
+                flex: 1,
+                overflowY: 'auto',
+                p: 3,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 2,
+              }}
+            >
               {conversationMessages.map((msg) => {
                 const isMe = msg.from === activeUser?.handle;
                 return (
@@ -265,16 +369,38 @@ const ChatPage: React.FC = () => {
                         sx={{
                           p: 1.5,
                           maxWidth: '70%',
-                          borderRadius: isMe ? '20px 20px 4px 20px' : '20px 20px 20px 4px',
-                          background: isMe ? 'linear-gradient(135deg, #ff7b00, #ff4a00)' : 'rgba(255,255,255,0.1)',
+                          borderRadius: isMe
+                            ? '20px 20px 4px 20px'
+                            : '20px 20px 20px 4px',
+                          background: isMe
+                            ? 'linear-gradient(135deg, #ff7b00, #ff4a00)'
+                            : 'rgba(255,255,255,0.1)',
                           color: 'white',
-                          boxShadow: isMe ? '0 4px 15px rgba(255,123,0,0.3)' : 'none',
+                          boxShadow: isMe
+                            ? '0 4px 15px rgba(255,123,0,0.3)'
+                            : 'none',
                         }}
                       >
-                        <Typography variant="body1" sx={{ wordBreak: 'break-word' }}>{msg.text}</Typography>
+                        <Typography
+                          variant="body1"
+                          sx={{ wordBreak: 'break-word' }}
+                        >
+                          {msg.text}
+                        </Typography>
                       </Paper>
-                      <Typography variant="caption" sx={{ mt: 0.5, px: 1, color: 'rgba(255,255,255,0.4)', fontSize: '0.7rem' }}>
-                        {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          mt: 0.5,
+                          px: 1,
+                          color: 'rgba(255,255,255,0.4)',
+                          fontSize: '0.7rem',
+                        }}
+                      >
+                        {new Date(msg.timestamp).toLocaleTimeString([], {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
                       </Typography>
                     </Box>
                   </Fade>
@@ -284,7 +410,13 @@ const ChatPage: React.FC = () => {
             </Box>
 
             {/* Chat Input */}
-            <Box sx={{ p: 2, borderTop: '1px solid rgba(255, 255, 255, 0.1)', background: 'rgba(0,0,0,0.2)' }}>
+            <Box
+              sx={{
+                p: 2,
+                borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+                background: 'rgba(0,0,0,0.2)',
+              }}
+            >
               <Box sx={{ display: 'flex', gap: 1 }}>
                 <TextField
                   fullWidth
@@ -304,7 +436,7 @@ const ChatPage: React.FC = () => {
                       color: 'white',
                       backgroundColor: 'rgba(255,255,255,0.05)',
                       borderRadius: 3,
-                    }
+                    },
                   }}
                 />
                 <IconButton
@@ -314,7 +446,10 @@ const ChatPage: React.FC = () => {
                     bgcolor: '#ff7b00',
                     color: 'white',
                     '&:hover': { bgcolor: '#ff4a00' },
-                    '&.Mui-disabled': { bgcolor: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.2)' },
+                    '&.Mui-disabled': {
+                      bgcolor: 'rgba(255,255,255,0.05)',
+                      color: 'rgba(255,255,255,0.2)',
+                    },
                     width: 56,
                     height: 56,
                   }}
@@ -328,6 +463,4 @@ const ChatPage: React.FC = () => {
       </Paper>
     </Box>
   );
-};
-
-export default ChatPage;
+}
