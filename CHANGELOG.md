@@ -1,5 +1,21 @@
 # Evos Launcher Changelog
 
+# [3.2.2] - 2026-02-25
+
+## Features & Improvements
+
+- **Block User Feature**:
+  - Ability to block/unblock players directly from the Chat page or Player Stats page.
+  - Messages from blocked users are automatically filtered from the chat history.
+  - Notifications and unread message counts are suppressed for blocked users.
+  - Outgoing messages to blocked users are disabled with a status indicator in the chat input.
+- **UI & UX Enhancements**:
+  - Added a chat warning message to report abuse via Discord.
+  - Fixed "VIEW QUESTS" button rendering on the profile page to prevent text wrapping.
+  - Improved layout and spacing in the Chat page header.
+- **Enhanced Global Localization**:
+  - Full translation support for blocking features and chat warnings across all 10 supported languages.
+
 # [3.2.1] - 2026-02-24
 
 ## Features & Improvements

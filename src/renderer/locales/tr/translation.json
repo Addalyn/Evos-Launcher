@@ -20,7 +20,9 @@
     "folowedPlayers": "Takip Edilen Oyuncular",
     "Follow": "Takip Et",
     "Unfollow": "Takibi Bırak",
-    "chat": "Sohbet"
+    "chat": "Sohbet",
+    "Block": "Engelle",
+    "Unblock": "Engeli Kaldır"
   },
   "followedPlayers": {
     "title": "Takip Edilen Oyuncular",
@@ -79,7 +81,9 @@
     "communityTitle": "Topluluk Sohbeti",
     "subtitle": "Diğer çevrimiçi oyuncularla sohbet edin",
     "notsaved": "Sohbetler oturumlar arasında kaydedilmez",
+    "warning": "Herhangi bir kötüye kullanımı Discord üzerinden yetkililere bildirin.",
     "placeholder": "Bir mesaj yazın...",
+    "blockedUser": "Bu kullanıcıyı engellediniz",
     "send": "Gönder",
     "online": "çevrimiçi",
     "noMessages": "Henüz mesaj yok. Merhaba diyen ilk kişi siz olun!",
@@ -197,7 +201,8 @@
     "labelBackgroundColor": "Arka Plan Rengi",
     "labelTextColor": "Metin Rengi",
     "labelScrollbarColor": "Kaydırma Çubuğu Rengi",
-    "statsVersion": "İstatistik Sürümü"
+    "statsVersion": "İstatistik Sürümü",
+    "hideChatLabel": "Sohbetten Gizle (sohbet bağlantısını devre dışı bırakır)"
   },
   "titles": {
     "-1": "",

@@ -138,6 +138,9 @@ export default function PlayerStatsPage() {
     followedPlayers,
     addFollowedPlayer,
     removeFollowedPlayer,
+    blockedPlayers,
+    addBlockedPlayer,
+    removeBlockedPlayer,
   } = EvosStore();
 
   /** URL search parameters from the current location */
@@ -254,6 +257,18 @@ export default function PlayerStatsPage() {
     }
   };
 
+  /** Check if the current player is blocked */
+  const isBlocked = blockedPlayers.includes(playerSearch);
+
+  /** Handle block/unblock action */
+  const handleBlockToggle = () => {
+    if (isBlocked) {
+      removeBlockedPlayer(playerSearch);
+    } else {
+      addBlockedPlayer(playerSearch);
+    }
+  };
+
   return (
     <>
       {error && (
@@ -274,7 +289,7 @@ export default function PlayerStatsPage() {
       >
         {/* Player Profile and Follow Button */}
         <Grid container alignItems="center" spacing={2}>
-          <Grid size={8}>
+          <Grid size={7}>
             {!playerData ? (
               <Skeleton
                 variant="rectangular"
@@ -292,7 +307,7 @@ export default function PlayerStatsPage() {
             )}
           </Grid>
           <Grid
-            size={4}
+            size={5}
             sx={{
               display: 'flex',
               justifyContent: 'flex-end',
@@ -302,8 +317,8 @@ export default function PlayerStatsPage() {
           >
             {playerSearch && (
               <Button
-                variant="outlined"
-                color="primary"
+                variant="contained"
+                sx={{ whiteSpace: 'nowrap' }}
                 onClick={() =>
                   navigate(`/quests?player=${encodeURIComponent(playerSearch)}`)
                 }
@@ -320,6 +335,15 @@ export default function PlayerStatsPage() {
                 {isFollowed
                   ? t('menuOptions.Unfollow')
                   : t('menuOptions.Follow')}
+              </Button>
+            )}
+            {playerSearch && playerSearch !== activeUser?.handle && (
+              <Button
+                variant="contained"
+                color={isBlocked ? 'error' : 'warning'}
+                onClick={handleBlockToggle}
+              >
+                {isBlocked ? t('menuOptions.Unblock') : t('menuOptions.Block')}
               </Button>
             )}
           </Grid>

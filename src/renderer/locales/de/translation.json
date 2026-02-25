@@ -21,7 +21,9 @@
     "Follow": "Folgen",
     "Unfollow": "Entfolgen",
     "viewQuests": "Quests ansehen",
-    "chat": "Chat"
+    "chat": "Chat",
+    "Block": "Blockieren",
+    "Unblock": "Entsperren"
   },
   "followedPlayers": {
     "title": "Gefolgte Spieler",
@@ -80,7 +82,9 @@
     "communityTitle": "Community-Chat",
     "subtitle": "Chatte mit anderen Spielern online",
     "notsaved": "Chats werden nicht zwischen den Sitzungen gespeichert",
-    "placeholder": "Schreibe eine Nachricht...",
+    "warning": "Melden Sie Missbrauch über Discord an die Mitarbeiter.",
+    "placeholder": "Nachricht eingeben...",
+    "blockedUser": "Du hast diesen Benutzer blockiert",
     "send": "Senden",
     "online": "online",
     "noMessages": "Noch keine Nachrichten. Sei der Erste, der Hallo sagt!",
@@ -198,7 +202,8 @@
     "labelBackgroundColor": "Hintergrundfarbe",
     "labelTextColor": "Textfarbe",
     "labelScrollbarColor": "Scrollleistenfarbe",
-    "statsVersion": "Statistik-Version"
+    "statsVersion": "Statistik-Version",
+    "hideChatLabel": "Vom Chat verstecken (deaktiviert Chat-Verbindung)"
   },
   "titles": {
     "-1": "",
