@@ -8,6 +8,7 @@
 
 import { useState, useRef, useCallback } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
+import EvosStore from '../lib/EvosStore';
 import { CHAT_WS_URL } from '../lib/Evos';
 
 export interface ChatMessage {
@@ -125,6 +126,12 @@ export default function useChatWebSocket({
 
   const sendMessage = useCallback(
     (text: string, to: string) => {
+      const { blockedPlayers } = EvosStore.getState();
+      if (blockedPlayers.includes(to)) {
+        // eslint-disable-next-line no-console
+        console.warn('Cannot send message to blocked player:', to);
+        return;
+      }
       if (!text.trim() || !handle || !to) return;
       sendJsonMessage({
         type: 'CHAT',

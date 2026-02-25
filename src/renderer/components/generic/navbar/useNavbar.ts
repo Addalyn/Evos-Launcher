@@ -82,6 +82,7 @@ export default function useNavbar() {
     setOldBranch,
     oldBranch,
     setNoBranchDownload,
+    hideChat,
   } = evosStore;
 
   // Check developer status when active user changes
@@ -175,7 +176,7 @@ export default function useNavbar() {
   }, []);
 
   // Memoized values
-  const pages = createNavigationPages(t, isDev);
+  const pages = createNavigationPages(t, isDev, hideChat);
   const drawerWidth = width !== null && width < 916 ? 60 : 240;
 
   // Handlers

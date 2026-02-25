@@ -20,7 +20,9 @@
     "folowedPlayers": "Jugadores Seguidos",
     "Follow": "Seguir",
     "Unfollow": "Dejar de seguir",
-    "chat": "Chat"
+    "chat": "Chat",
+    "Block": "Bloquear",
+    "Unblock": "Desbloquear"
   },
   "followedPlayers": {
     "title": "Jugadores Seguidos",
@@ -79,7 +81,9 @@
     "communityTitle": "Chat de la Comunidad",
     "subtitle": "Chatea con otros jugadores en línea",
     "notsaved": "Los chats no se guardan entre sesiones",
+    "warning": "Informe cualquier abuso al personal a través de Discord.",
     "placeholder": "Escribe un mensaje...",
+    "blockedUser": "Has bloqueado a este usuario",
     "send": "Enviar",
     "online": "en línea",
     "noMessages": "Aún no hay mensajes. ¡Sé el primero en saludar!",
@@ -314,7 +318,8 @@
     "labelBackgroundColor": "Color de Fondo",
     "labelTextColor": "Color del Texto",
     "labelScrollbarColor": "Color de la Barra de Desplazamiento",
-    "statsVersion": "Versión de Estadísticas"
+    "statsVersion": "Versión de Estadísticas",
+    "hideChatLabel": "Ocultarse del chat (desactiva la conexión al chat)"
   },
   "maps": {
     "map": "Mapa",

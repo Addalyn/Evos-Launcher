@@ -22,7 +22,9 @@
     "Unfollow": "Unfollow",
     "quests": "Quests",
     "viewQuests": "View Quests",
-    "chat": "Chat"
+    "chat": "Chat",
+    "Block": "Block",
+    "Unblock": "Unblock"
   },
   "followedPlayers": {
     "title": "Followed Players",
@@ -81,10 +83,12 @@
     "communityTitle": "Community Chat",
     "subtitle": "Chat with other players online",
     "notsaved": "Chats are not saved between sessions",
+    "warning": "Report any abuse to staff via Discord.",
     "placeholder": "Type a message...",
     "send": "Send",
     "online": "online",
     "noMessages": "No messages yet. Be the first to say hello!",
+    "blockedUser": "You have blocked this user",
     "connecting": "Connecting...",
     "connected": "Connected",
     "disconnected": "Disconnected"
@@ -207,7 +211,8 @@
     "labelBackgroundColor": "Background Color",
     "labelTextColor": "Text Color",
     "labelScrollbarColor": "Scrollbar Color",
-    "statsVersion": "Stats Version"
+    "statsVersion": "Stats Version",
+    "hideChatLabel": "Hide from Chat (disables chat connection)"
   },
   "titles": {
     "-1": "",

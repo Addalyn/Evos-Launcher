@@ -35,15 +35,17 @@ const ChatContext = createContext<ChatContextType | undefined>(undefined);
 
 export function ChatProvider({ children }: { children: React.ReactNode }) {
   const activeUser = EvosStore((state: any) => state.activeUser);
+  const hideChat = EvosStore((state: any) => state.hideChat);
   const [activeConversation, setActiveConversation] = useState<string | null>(
     null,
   );
 
   const { messages, sendMessage, readyState, onlineUsers } = useChatWebSocket({
     handle: activeUser?.handle,
-    enabled: !!activeUser,
+    enabled: !!activeUser && hideChat !== 'true',
   });
 
+  const blockedPlayers = EvosStore((state: any) => state.blockedPlayers);
   const [unreadCounts, setUnreadCounts] = useState<Record<string, number>>({});
   const lastProcessedIdRef = useRef<string | null>(null);
 
@@ -56,10 +58,11 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
       if (lastMessage.id === lastProcessedIdRef.current) return;
       lastProcessedIdRef.current = lastMessage.id;
 
-      // Only count if it's not from us, not system, and not the active conversation
+      // Only count if it's not from us, not system, not from a blocked player, and not the active conversation
       if (
         lastMessage.from !== activeUser?.handle &&
         lastMessage.from !== 'System' &&
+        !blockedPlayers.includes(lastMessage.from) &&
         lastMessage.from !== activeConversation
       ) {
         setUnreadCounts((prev) => ({
@@ -83,7 +86,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
         }
       }
     }
-  }, [messages, activeUser?.handle, activeConversation]);
+  }, [messages, activeUser?.handle, activeConversation, blockedPlayers]);
 
   const clearUnread = useCallback((handle: string) => {
     setUnreadCounts((prev) => {
