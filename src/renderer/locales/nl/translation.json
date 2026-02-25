@@ -20,9 +20,7 @@
     "folowedPlayers": "Gevolgde Spelers",
     "Follow": "Volgen",
     "Unfollow": "Ontvolgen",
-    "chat": "Chat",
-    "Block": "Blokkeren",
-    "Unblock": "Deblokkeren"
+    "chat": "Chat"
   },
   "followedPlayers": {
     "title": "Gevolgde Spelers",
@@ -81,9 +79,7 @@
     "communityTitle": "Community Chat",
     "subtitle": "Chat met andere online spelers",
     "notsaved": "Gesprekken worden niet opgeslagen tussen sessies",
-    "warning": "Meld misbruik aan het personeel via Discord.",
     "placeholder": "Type een bericht...",
-    "blockedUser": "Je hebt deze gebruiker geblokkeerd",
     "send": "Versturen",
     "online": "online",
     "noMessages": "Nog geen berichten. Wees de eerste om hallo te zeggen!",
@@ -350,8 +346,7 @@
     "labelBackgroundColor": "Achtergrondkleur",
     "labelTextColor": "Tekstkleur",
     "labelScrollbarColor": "Scrollbalkkleur",
-    "statsVersion": "Statistieken Versie",
-    "hideChatLabel": "Zich verbergen voor de chat (chat-verbinding uitschakelen)"
+    "statsVersion": "Statistieken Versie"
   },
   "maps": {
     "map": "Map",

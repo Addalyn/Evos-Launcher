@@ -72,8 +72,6 @@ export default function SettingsPage() {
     setIp,
     showAllChat,
     setShowAllChat,
-    hideChat,
-    setHideChat,
     enableDiscordRPC,
     toggleDiscordRPC,
     setGameExpanded,
@@ -352,8 +350,6 @@ export default function SettingsPage() {
           <AppearanceSection
             mode={mode}
             toggleMode={toggleMode}
-            hideChat={hideChat}
-            setHideChat={(v: string) => setHideChat(v)}
             colorPrimary={colorPrimary}
             setColorPrimary={handleChangeColorPrimary}
             colorSecondary={colorSecondary}

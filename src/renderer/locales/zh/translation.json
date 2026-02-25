@@ -20,9 +20,7 @@
     "folowedPlayers": "关注的玩家",
     "Follow": "关注",
     "Unfollow": "取消关注",
-    "chat": "聊天",
-    "Block": "屏蔽",
-    "Unblock": "取消屏蔽"
+    "chat": "聊天"
   },
   "followedPlayers": {
     "title": "关注的玩家",
@@ -81,9 +79,7 @@
     "communityTitle": "社区聊天",
     "subtitle": "与其他在线玩家聊天",
     "notsaved": "会话之间不会保存聊天记录",
-    "warning": "请通过 Discord 向工作人员报告任何滥用行为。",
     "placeholder": "输入消息...",
-    "blockedUser": "您已屏蔽此用户",
     "send": "发送",
     "online": "在线",
     "noMessages": "暂无消息。成为第一个打招呼的人吧！",
@@ -200,8 +196,7 @@
     "labelBackgroundColor": "背景颜色",
     "labelTextColor": "文字颜色",
     "labelScrollbarColor": "滚动条颜色",
-    "statsVersion": "统计版本",
-    "hideChatLabel": "从聊天中隐藏（禁用聊天连接）"
+    "statsVersion": "统计版本"
   },
   "titles": {
     "-1": "",

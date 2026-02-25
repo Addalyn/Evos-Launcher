@@ -5,7 +5,7 @@
  * @since 3.2.1
  */
 
-import React, { useState, useEffect, useRef, memo } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Box,
   Typography,
@@ -20,9 +20,7 @@ import {
   Fade,
   Tooltip,
   Skeleton,
-  Button,
 } from '@mui/material';
-import { useLocation, useNavigate } from 'react-router-dom';
 import {
   Send as SendIcon,
   Circle as CircleIcon,
@@ -36,114 +34,8 @@ import EvosStore from '../../lib/EvosStore';
 import Player from '../atlas/Player';
 import { getPlayerData, PlayerData } from 'renderer/lib/Evos';
 
-/**
- * Optimized component for individual chat user list items
- */
-const ChatUserItem = memo(
-  ({
-    user,
-    isSelected,
-    onClick,
-    token,
-    unreadCount,
-  }: {
-    user: string;
-    isSelected: boolean;
-    onClick: (u: string) => void;
-    token: string;
-    unreadCount: number;
-  }) => {
-    const [userData, setUserData] = useState<PlayerData>();
-
-    useEffect(() => {
-      let isMounted = true;
-      getPlayerData(token, user)
-        // eslint-disable-next-line promise/always-return
-        .then((resp) => {
-          if (isMounted) {
-            resp.data.status = resp.data.titleId as unknown as string;
-            setUserData(resp.data);
-          }
-        })
-        .catch((e) => {
-          // eslint-disable-next-line no-console
-          console.log(e);
-        });
-      return () => {
-        isMounted = false;
-      };
-    }, [user, token]);
-
-    return (
-      <ListItem key={user} disablePadding>
-        <ListItemButton
-          selected={isSelected}
-          onClick={() => onClick(user)}
-          sx={{
-            py: 0.1,
-            px: 0.1,
-            borderLeft: isSelected
-              ? '4px solid #ff7b00'
-              : '4px solid transparent',
-            '&.Mui-selected': {
-              backgroundColor: 'rgba(255, 123, 0, 0.1)',
-              '&:hover': { backgroundColor: 'rgba(255, 123, 0, 0.2)' },
-            },
-            '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.05)' },
-          }}
-        >
-          <Box sx={{ flex: 1, position: 'relative' }}>
-            {!userData ? (
-              <Skeleton
-                variant="rectangular"
-                width="100%"
-                height={52}
-                sx={{ borderRadius: 1, opacity: 0.1 }}
-              />
-            ) : (
-              <Player
-                info={userData}
-                disableSkew
-                characterType={undefined}
-                titleOld=""
-                onClick={() => onClick(user)}
-              />
-            )}
-            {unreadCount > 0 && (
-              <Box
-                sx={{
-                  position: 'absolute',
-                  top: -6,
-                  right: -6,
-                  minWidth: 18,
-                  height: 18,
-                  bgcolor: '#ff7b00',
-                  color: 'white',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '0.65rem',
-                  fontWeight: 'bold',
-                  boxShadow: '0 2px 5px rgba(0,0,0,0.5)',
-                  zIndex: 2,
-                  px: 0.5,
-                }}
-              >
-                {unreadCount}
-              </Box>
-            )}
-          </Box>
-        </ListItemButton>
-      </ListItem>
-    );
-  },
-);
-
 export default function ChatPage() {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const hideChat = EvosStore((state: any) => state.hideChat);
   const activeUser = EvosStore((state: any) => state.activeUser);
   const {
     messages,
@@ -155,23 +47,10 @@ export default function ChatPage() {
     setActiveConversation,
   } = useChat();
 
-  const blockedPlayers = EvosStore((state: any) => state.blockedPlayers);
-  const addBlockedPlayer = EvosStore((state: any) => state.addBlockedPlayer);
-  const removeBlockedPlayer = EvosStore(
-    (state: any) => state.removeBlockedPlayer,
-  );
-
   const [selectedUser, setSelectedUser] = useState<string>('');
   const [inputText, setInputText] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  // Redirect if chat is hidden
-  useEffect(() => {
-    if (hideChat === 'true') {
-      navigate('/');
-    }
-  }, [hideChat, navigate]);
-
   /** Player data retrieved from the API */
   const [playerData, setPlayerData] = useState<PlayerData>();
 
@@ -193,7 +72,6 @@ export default function ChatPage() {
 
   useEffect(() => {
     if (selectedUser === '') {
-      setPlayerData(undefined);
       return;
     }
 
@@ -225,10 +103,9 @@ export default function ChatPage() {
 
   const conversationMessages = messages.filter(
     (m) =>
-      !blockedPlayers.includes(m.from) &&
-      (m.isSystem ||
-        (m.from === selectedUser && m.to === activeUser?.handle) ||
-        (m.from === activeUser?.handle && m.to === selectedUser)),
+      m.isSystem ||
+      (m.from === selectedUser && m.to === activeUser?.handle) ||
+      (m.from === activeUser?.handle && m.to === selectedUser),
   );
 
   const getConnectionStatusColor = () => {
@@ -257,7 +134,7 @@ export default function ChatPage() {
       {/* Users Sidebar */}
       <Paper
         sx={{
-          width: 265,
+          width: 300,
           display: 'flex',
           flexDirection: 'column',
           background: 'rgba(20, 20, 30, 0.6)',
@@ -286,10 +163,10 @@ export default function ChatPage() {
             variant="subtitle1"
             sx={{
               color: 'white',
-              mb: 1,
+              mb: 2,
               display: 'flex',
               alignItems: 'center',
-              gap: 0,
+              gap: 1,
             }}
           >
             {t('chat.subtitle')}
@@ -331,14 +208,43 @@ export default function ChatPage() {
             </Box>
           ) : (
             filteredUsers.map((user) => (
-              <ChatUserItem
-                key={user}
-                user={user}
-                isSelected={selectedUser === user}
-                onClick={setSelectedUser}
-                token={activeUser?.token ?? ''}
-                unreadCount={unreadCounts[user] || 0}
-              />
+              <ListItem key={user} disablePadding>
+                <ListItemButton
+                  selected={selectedUser === user}
+                  onClick={() => setSelectedUser(user)}
+                  sx={{
+                    py: 1.5,
+                    borderLeft:
+                      selectedUser === user
+                        ? '4px solid #ff7b00'
+                        : '4px solid transparent',
+                    '&.Mui-selected': {
+                      backgroundColor: 'rgba(255, 123, 0, 0.1)',
+                      '&:hover': { backgroundColor: 'rgba(255, 123, 0, 0.2)' },
+                    },
+                    '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.05)' },
+                  }}
+                >
+                  <ListItemText
+                    primary={user}
+                    primaryTypographyProps={{
+                      sx: {
+                        color: 'white',
+                        fontWeight: unreadCounts[user] ? 'bold' : 'normal',
+                      },
+                    }}
+                    secondary={
+                      unreadCounts[user]
+                        ? t('chat.newMessages', 'New messages')
+                        : ''
+                    }
+                    secondaryTypographyProps={{
+                      sx: { color: '#ff7b00', fontSize: '0.75rem' },
+                    }}
+                  />
+                  <CircleIcon sx={{ fontSize: 10, color: '#4caf50', ml: 1 }} />
+                </ListItemButton>
+              </ListItem>
             ))
           )}
         </List>
@@ -430,32 +336,11 @@ export default function ChatPage() {
               <br />
               <Typography
                 variant="subtitle2"
-                sx={{ color: 'white', fontWeight: 'bold', flex: 1, fontSize: 12 }}
+                sx={{ color: 'white', fontWeight: 'bold' }}
               >
-                {t('chat.notsaved')}<br />
-                {t('chat.warning')}
+                {t('chat.notsaved')}
               </Typography>
-            {selectedUser && selectedUser !== activeUser?.handle && (
-              <Button
-                variant="outlined"
-                color={
-                  blockedPlayers.includes(selectedUser) ? 'error' : 'warning'
-                }
-                onClick={() => {
-                  if (blockedPlayers.includes(selectedUser)) {
-                    removeBlockedPlayer(selectedUser);
-                  } else {
-                    addBlockedPlayer(selectedUser);
-                  }
-                }}
-                sx={{ ml: 'auto' }}
-              >
-                {blockedPlayers.includes(selectedUser)
-                  ? t('menuOptions.Unblock')
-                  : t('menuOptions.Block')}
-              </Button>
-            )}
-          </Box>
+            </Box>
 
             {/* Chat Messages */}
             <Box
@@ -537,12 +422,7 @@ export default function ChatPage() {
                   fullWidth
                   multiline
                   maxRows={4}
-                  disabled={blockedPlayers.includes(selectedUser)}
-                  placeholder={
-                    blockedPlayers.includes(selectedUser)
-                      ? t('chat.blockedUser', 'You have blocked this user')
-                      : t('chat.placeholder', 'Type a message...')
-                  }
+                  placeholder={t('chat.placeholder', 'Type a message...')}
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                   onKeyPress={(e) => {
@@ -561,9 +441,7 @@ export default function ChatPage() {
                 />
                 <IconButton
                   onClick={handleSend}
-                  disabled={
-                    !inputText.trim() || blockedPlayers.includes(selectedUser)
-                  }
+                  disabled={!inputText.trim()}
                   sx={{
                     bgcolor: '#ff7b00',
                     color: 'white',

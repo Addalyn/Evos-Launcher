@@ -7,8 +7,6 @@ import { useTranslation } from 'react-i18next';
 type Props = {
   mode: string;
   toggleMode: () => void;
-  hideChat: string;
-  setHideChat: (v: string) => void;
   colorPrimary: string;
   setColorPrimary: (v: string) => void;
   colorSecondary: string;
@@ -28,8 +26,6 @@ export default function AppearanceSection(props: Props) {
   const {
     mode,
     toggleMode,
-    hideChat,
-    setHideChat,
     colorPrimary,
     setColorPrimary,
     colorSecondary,
@@ -112,14 +108,6 @@ export default function AppearanceSection(props: Props) {
           </Grid>
         </Grid>
       </Box>
-      <FormGroup>
-        <FormControlLabel
-          control={<Switch />}
-          label={t('settings.hideChatLabel')}
-          checked={hideChat === 'true'}
-          onChange={() => setHideChat(hideChat === 'true' ? 'false' : 'true')}
-        />
-      </FormGroup>
     </SectionCard>
   );
 }

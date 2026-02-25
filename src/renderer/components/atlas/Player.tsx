@@ -57,8 +57,6 @@ interface Props {
   characterType: string | undefined;
   /** Legacy title parameter */
   titleOld: string;
-  /** Custom click handler */
-  onClick?: () => void;
 }
 
 /**
@@ -213,7 +211,6 @@ function Player({
   disableSkew = false,
   characterType = undefined,
   titleOld = '',
-  onClick = undefined,
 }: Props) {
   const { t } = useTranslation();
   const [specialNames, setSpecialNames] = useState<SpecialNames>();
@@ -234,10 +231,6 @@ function Player({
    * Navigates to player statistics if valid player data exists
    */
   const handleClick = (): void => {
-    if (onClick) {
-      onClick();
-      return;
-    }
     if (!info) {
       return;
     }

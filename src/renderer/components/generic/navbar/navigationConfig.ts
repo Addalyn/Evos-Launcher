@@ -39,7 +39,6 @@ import { electronFeatures } from 'renderer/utils/electronUtils';
 const createNavigationPages = (
   t: (key: string, options?: any) => string,
   isDev: boolean,
-  hideChat: string,
 ): NavigationPage[] => {
   const basePages: NavigationPage[] = [
     {
@@ -55,16 +54,6 @@ const createNavigationPages = (
       icon: React.createElement(Home),
       authentication: false, // No authentication required for status page
     },
-    ...(hideChat !== 'true'
-      ? [
-          {
-            title: t('menuOptions.chat', 'Chat'),
-            href: '/chat',
-            icon: React.createElement(Chat),
-            authentication: true,
-          },
-        ]
-      : []),
     {
       title: t('menuOptions.gstats'),
       href: '/stats',
@@ -94,6 +83,12 @@ const createNavigationPages = (
       href: '/followed-players',
       icon: React.createElement(People),
       authentication: true, // Requires authentication for followed players
+    },
+    {
+      title: t('menuOptions.chat', 'Chat'),
+      href: '/chat',
+      icon: React.createElement(Chat),
+      authentication: true,
     },
     // Electron-only navigation items
     ...(electronFeatures.isAvailable
