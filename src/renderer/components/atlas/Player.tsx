@@ -58,6 +58,7 @@ interface Props {
   /** Legacy title parameter */
   titleOld: string;
   /** Custom click handler */
+  // eslint-disable-next-line react/require-default-props
   onClick?: () => void;
 }
 

@@ -86,7 +86,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
         }
       }
     }
-  }, [messages, activeUser?.handle, activeConversation]);
+  }, [messages, activeUser?.handle, activeConversation, blockedPlayers]);
 
   const clearUnread = useCallback((handle: string) => {
     setUnreadCounts((prev) => {

@@ -14,7 +14,6 @@ import {
   Paper,
   List,
   ListItem,
-  ListItemText,
   ListItemButton,
   InputAdornment,
   Fade,
@@ -22,7 +21,7 @@ import {
   Skeleton,
   Button,
 } from '@mui/material';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   Send as SendIcon,
   Circle as CircleIcon,
@@ -64,6 +63,7 @@ const ChatUserItem = memo(
             resp.data.status = resp.data.titleId as unknown as string;
             setUserData(resp.data);
           }
+          return resp;
         })
         .catch((e) => {
           // eslint-disable-next-line no-console
@@ -203,6 +203,7 @@ export default function ChatPage() {
       .then((resp) => {
         resp.data.status = resp.data.titleId as unknown as string;
         setPlayerData(resp.data);
+        return resp;
       })
       .catch((e) => {
         // eslint-disable-next-line no-console
@@ -430,32 +431,38 @@ export default function ChatPage() {
               <br />
               <Typography
                 variant="subtitle2"
-                sx={{ color: 'white', fontWeight: 'bold', flex: 1, fontSize: 12 }}
+                sx={{
+                  color: 'white',
+                  fontWeight: 'bold',
+                  flex: 1,
+                  fontSize: 12,
+                }}
               >
-                {t('chat.notsaved')}<br />
+                {t('chat.notsaved')}
+                <br />
                 {t('chat.warning')}
               </Typography>
-            {selectedUser && selectedUser !== activeUser?.handle && (
-              <Button
-                variant="outlined"
-                color={
-                  blockedPlayers.includes(selectedUser) ? 'error' : 'warning'
-                }
-                onClick={() => {
-                  if (blockedPlayers.includes(selectedUser)) {
-                    removeBlockedPlayer(selectedUser);
-                  } else {
-                    addBlockedPlayer(selectedUser);
+              {selectedUser && selectedUser !== activeUser?.handle && (
+                <Button
+                  variant="outlined"
+                  color={
+                    blockedPlayers.includes(selectedUser) ? 'error' : 'warning'
                   }
-                }}
-                sx={{ ml: 'auto' }}
-              >
-                {blockedPlayers.includes(selectedUser)
-                  ? t('menuOptions.Unblock')
-                  : t('menuOptions.Block')}
-              </Button>
-            )}
-          </Box>
+                  onClick={() => {
+                    if (blockedPlayers.includes(selectedUser)) {
+                      removeBlockedPlayer(selectedUser);
+                    } else {
+                      addBlockedPlayer(selectedUser);
+                    }
+                  }}
+                  sx={{ ml: 'auto' }}
+                >
+                  {blockedPlayers.includes(selectedUser)
+                    ? t('menuOptions.Unblock')
+                    : t('menuOptions.Block')}
+                </Button>
+              )}
+            </Box>
 
             {/* Chat Messages */}
             <Box

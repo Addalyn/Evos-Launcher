@@ -126,7 +126,7 @@ export default function useChatWebSocket({
 
   const sendMessage = useCallback(
     (text: string, to: string) => {
-      const blockedPlayers = EvosStore.getState().blockedPlayers;
+      const { blockedPlayers } = EvosStore.getState();
       if (blockedPlayers.includes(to)) {
         // eslint-disable-next-line no-console
         console.warn('Cannot send message to blocked player:', to);
