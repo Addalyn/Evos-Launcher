@@ -120,6 +120,8 @@ export interface EvosStoreState {
   noLogEnabled: string;
   showAllChat: string;
   setShowAllChat: (showAllChat: string) => Promise<void>;
+  hideChat: string;
+  setHideChat: (hideChat: string) => Promise<void>;
   setIsDownloading: (isDownloading: boolean) => void;
   init: () => void;
   toggleMode: () => void;
@@ -173,6 +175,10 @@ export interface EvosStoreState {
   setFollowedPlayers: (players: string[]) => Promise<void>;
   addFollowedPlayer: (player: string) => Promise<void>;
   removeFollowedPlayer: (player: string) => Promise<void>;
+  blockedPlayers: string[];
+  setBlockedPlayers: (players: string[]) => Promise<void>;
+  addBlockedPlayer: (player: string) => Promise<void>;
+  removeBlockedPlayer: (player: string) => Promise<void>;
 }
 
 const EvosStore = create<EvosStoreState>((set, get) => ({
@@ -196,6 +202,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   isDownloading: false,
   noLogEnabled: 'false',
   showAllChat: 'true',
+  hideChat: 'false',
   discordId: 0,
   enableDiscordRPC: 'true',
   gameExpanded: 'true',
@@ -207,6 +214,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   nobranchDownload: false,
   apiVersion: 'production',
   followedPlayers: [],
+  blockedPlayers: [],
 
   setStats: async (stats: string) => {
     set({ stats });
@@ -336,6 +344,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       ticketEnabled,
       noLogEnabled,
       showAllChat,
+      hideChat,
       enableDiscordRPC,
       gameExpanded,
       branch,
@@ -348,6 +357,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       colorPaper,
       apiVersion,
       followedPlayers,
+      blockedPlayers,
     ] = await Promise.all([
       get().getFromStorage('mode') as string,
       get().getFromStorage('authenticatedUsers') as AuthUser[],
@@ -358,6 +368,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       get().getFromStorage('ticketEnabled') as string,
       get().getFromStorage('noLogEnabled') as string,
       get().getFromStorage('showAllChat') as string,
+      get().getFromStorage('hideChat') as string,
       get().getFromStorage('enableDiscordRPC') as string,
       get().getFromStorage('gameExpanded') as string,
       get().getFromStorage('branch') as string,
@@ -373,6 +384,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       get().getFromStorage('colorPaper') as string,
       get().getFromStorage('apiVersion') as 'v1' | 'production',
       get().getFromStorage('followedPlayers') as string[],
+      get().getFromStorage('blockedPlayers') as string[],
     ]);
 
     let users: AuthUser[] = [];
@@ -418,6 +430,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       ticketEnabled: ticketEnabled || 'true',
       noLogEnabled: noLogEnabled || 'false',
       showAllChat: showAllChat || 'true',
+      hideChat: hideChat || 'false',
       enableDiscordRPC: enableDiscordRPC || 'true',
       gameExpanded: gameExpanded || 'true',
       branch: branch || 'Original',
@@ -430,6 +443,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       colorPaper: colorPaper || '#0000',
       apiVersion: apiVersion || 'production',
       followedPlayers: followedPlayers || [],
+      blockedPlayers: blockedPlayers || [],
     });
     get().switchUser(activeUser?.user || users[0]?.user || '');
   },
@@ -441,6 +455,11 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   setShowAllChat: async (showAllChat: string) => {
     set({ showAllChat });
     await get().setToStorage('showAllChat', showAllChat);
+  },
+
+  setHideChat: async (hideChat: string) => {
+    set({ hideChat });
+    await get().setToStorage('hideChat', hideChat);
   },
 
   toggleMode: async () => {
@@ -633,6 +652,24 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     const updatedPlayers = currentPlayers.filter((p) => p !== player);
     set({ followedPlayers: updatedPlayers });
     await get().setToStorage('followedPlayers', updatedPlayers);
+  },
+  setBlockedPlayers: async (players: string[]) => {
+    set({ blockedPlayers: players });
+    await get().setToStorage('blockedPlayers', players);
+  },
+  addBlockedPlayer: async (player: string) => {
+    const currentPlayers = get().blockedPlayers;
+    if (!currentPlayers.includes(player)) {
+      const updatedPlayers = [...currentPlayers, player];
+      set({ blockedPlayers: updatedPlayers });
+      await get().setToStorage('blockedPlayers', updatedPlayers);
+    }
+  },
+  removeBlockedPlayer: async (player: string) => {
+    const currentPlayers = get().blockedPlayers;
+    const updatedPlayers = currentPlayers.filter((p) => p !== player);
+    set({ blockedPlayers: updatedPlayers });
+    await get().setToStorage('blockedPlayers', updatedPlayers);
   },
 }));
 
