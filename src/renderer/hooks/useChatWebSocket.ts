@@ -143,15 +143,15 @@ export default function useChatWebSocket({
 
       // Persist our own message to Strapi immediately (since server might not eco back to us depending on implementation)
       // Note: If server does eco back, the messageIdSet will prevent duplicates.
-      const pseudoId = `local-${Date.now()}-${Math.random()}`;
-      const msg: ChatMessage = {
-        id: pseudoId,
-        from: handle,
-        to,
-        text: text.trim(),
-        timestamp: Date.now(),
-      };
-      saveChatMessage(msg, isChannel);
+      // const pseudoId = `local-${Date.now()}-${Math.random()}`;
+      // const msg: ChatMessage = {
+      //   id: pseudoId,
+      //   from: handle,
+      //   to,
+      //   text: text.trim(),
+      //   timestamp: Date.now(),
+      // };
+      // saveChatMessage(msg, isChannel);
     },
     [handle, channels, sendJsonMessage],
   );
