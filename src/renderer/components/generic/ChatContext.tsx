@@ -16,19 +16,22 @@ import React, {
 } from 'react';
 import { ReadyState } from 'react-use-websocket';
 import EvosStore from '../../lib/EvosStore';
-import useChatWebSocket, { ChatMessage } from '../../hooks/useChatWebSocket';
+import useChatWebSocket from '../../hooks/useChatWebSocket';
 import { logoSmall } from '../../lib/Resources';
+import { ChatMessage } from 'renderer/types/chat.types';
 
 interface ChatContextType {
   messages: ChatMessage[];
   sendMessage: (text: string, to: string) => void;
   readyState: ReadyState;
   onlineUsers: string[];
+  channels: string[];
   unreadCounts: Record<string, number>;
   clearUnread: (handle: string) => void;
   totalUnreadCount: number;
   setActiveConversation: (handle: string | null) => void;
   activeConversation: string | null;
+  loadMoreMessages: (conversation: string, page: number) => Promise<number>;
 }
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
@@ -40,7 +43,14 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     null,
   );
 
-  const { messages, sendMessage, readyState, onlineUsers } = useChatWebSocket({
+  const {
+    messages,
+    sendMessage,
+    readyState,
+    onlineUsers,
+    channels,
+    loadMoreMessages,
+  } = useChatWebSocket({
     handle: activeUser?.handle,
     enabled: !!activeUser && hideChat !== 'true',
   });
@@ -48,6 +58,25 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
   const blockedPlayers = EvosStore((state: any) => state.blockedPlayers);
   const [unreadCounts, setUnreadCounts] = useState<Record<string, number>>({});
   const lastProcessedIdRef = useRef<string | null>(null);
+  const historyLoadedForRef = useRef<Set<string>>(new Set());
+
+  // Initial history fetch when activeConversation changes
+  useEffect(() => {
+    if (
+      activeConversation &&
+      !historyLoadedForRef.current.has(activeConversation)
+    ) {
+      loadMoreMessages(activeConversation, 1);
+      historyLoadedForRef.current.add(activeConversation);
+    }
+  }, [activeConversation, loadMoreMessages]);
+
+  /** Reset history tracker on logout/reconnect if needed */
+  useEffect(() => {
+    if (readyState !== ReadyState.OPEN) {
+      historyLoadedForRef.current.clear();
+    }
+  }, [readyState]);
 
   // Track unread messages per user
   useEffect(() => {
@@ -58,16 +87,21 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
       if (lastMessage.id === lastProcessedIdRef.current) return;
       lastProcessedIdRef.current = lastMessage.id;
 
+      // For channel messages, key unread by channel name (msg.to); for DMs key by sender
+      const isChannelMsg =
+        !!lastMessage.to && channels.includes(lastMessage.to);
+      const unreadKey = isChannelMsg ? lastMessage.to! : lastMessage.from;
+
       // Only count if it's not from us, not system, not from a blocked player, and not the active conversation
       if (
         lastMessage.from !== activeUser?.handle &&
         lastMessage.from !== 'System' &&
         !blockedPlayers.includes(lastMessage.from) &&
-        lastMessage.from !== activeConversation
+        unreadKey !== activeConversation
       ) {
         setUnreadCounts((prev) => ({
           ...prev,
-          [lastMessage.from]: (prev[lastMessage.from] || 0) + 1,
+          [unreadKey]: (prev[unreadKey] || 0) + 1,
         }));
 
         // Trigger system notification
@@ -86,7 +120,13 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
         }
       }
     }
-  }, [messages, activeUser?.handle, activeConversation, blockedPlayers]);
+  }, [
+    messages,
+    activeUser?.handle,
+    activeConversation,
+    blockedPlayers,
+    channels,
+  ]);
 
   const clearUnread = useCallback((handle: string) => {
     setUnreadCounts((prev) => {
@@ -107,21 +147,25 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
       sendMessage,
       readyState,
       onlineUsers,
+      channels,
       unreadCounts,
       clearUnread,
       totalUnreadCount,
       setActiveConversation,
       activeConversation,
+      loadMoreMessages,
     }),
     [
       messages,
       sendMessage,
       readyState,
       onlineUsers,
+      channels,
       unreadCounts,
       clearUnread,
       totalUnreadCount,
       activeConversation,
+      loadMoreMessages,
     ],
   );
 

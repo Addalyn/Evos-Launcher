@@ -1,5 +1,14 @@
 # Evos Launcher Changelog
 
+# [3.2.3] - 2026-03-11
+
+## Features & Improvements
+
+- **General Chat**:
+  - added a new general chat for the community.
+  - chat is now persistent, so it will remember your messages even if you close and reopen the launcher.
+  - added a counter for connected users.
+
 # [3.2.2] - 2026-02-25
 
 ## Features & Improvements

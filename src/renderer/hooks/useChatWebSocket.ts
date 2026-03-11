@@ -10,29 +10,13 @@ import { useState, useRef, useCallback } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import EvosStore from '../lib/EvosStore';
 import { CHAT_WS_URL } from '../lib/Evos';
-
-export interface ChatMessage {
-  id: string;
-  from: string;
-  to?: string;
-  text: string;
-  timestamp: number;
-  isSystem?: boolean;
-}
-
-interface ChatServerMessage {
-  type: 'CHAT' | 'SYSTEM' | 'USER_LIST' | 'ERROR';
-  from?: string;
-  to?: string;
-  text?: string;
-  timestamp?: number;
-  users?: string[];
-  id?: string;
-}
+import { saveChatMessage, fetchChatHistory } from '../lib/chatApi';
+import { ChatMessage, ChatServerMessage } from '../types/chat.types';
 
 interface UseChatWebSocketOptions {
   handle: string | undefined;
   enabled: boolean;
+  onNewMessage?: (msg: ChatMessage) => void;
 }
 
 interface UseChatWebSocketResult {
@@ -40,7 +24,9 @@ interface UseChatWebSocketResult {
   sendMessage: (text: string, to: string) => void;
   readyState: ReadyState;
   onlineUsers: string[];
+  channels: string[];
   clearMessages: () => void;
+  loadMoreMessages: (conversation: string, page: number) => Promise<number>;
 }
 
 /**
@@ -53,9 +39,11 @@ interface UseChatWebSocketResult {
 export default function useChatWebSocket({
   handle,
   enabled,
+  onNewMessage,
 }: UseChatWebSocketOptions): UseChatWebSocketResult {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
+  const [channels, setChannels] = useState<string[]>([]);
   const messageIdSet = useRef<Set<string>>(new Set());
 
   const wsUrl = enabled && handle ? CHAT_WS_URL : null;
@@ -94,6 +82,11 @@ export default function useChatWebSocket({
               timestamp: data.timestamp ?? Date.now(),
             };
             setMessages((prev) => [...prev.slice(-499), msg]);
+
+            // Persist to Strapi
+            const isChannel = !!data.to && channels.includes(data.to);
+            saveChatMessage(msg, isChannel);
+            onNewMessage?.(msg);
             break;
           }
           case 'SYSTEM': {
@@ -115,6 +108,12 @@ export default function useChatWebSocket({
             }
             break;
           }
+          case 'CHANNEL_JOIN': {
+            if (data.channels !== undefined) {
+              setChannels(data.channels);
+            }
+            break;
+          }
           default:
             break;
         }
@@ -127,7 +126,9 @@ export default function useChatWebSocket({
   const sendMessage = useCallback(
     (text: string, to: string) => {
       const { blockedPlayers } = EvosStore.getState();
-      if (blockedPlayers.includes(to)) {
+      // Channels (e.g. 'general') are never in the blocked list — only block DM targets
+      const isChannel = channels.includes(to);
+      if (!isChannel && blockedPlayers.includes(to)) {
         // eslint-disable-next-line no-console
         console.warn('Cannot send message to blocked player:', to);
         return;
@@ -139,8 +140,20 @@ export default function useChatWebSocket({
         to,
         text: text.trim(),
       });
+
+      // Persist our own message to Strapi immediately (since server might not eco back to us depending on implementation)
+      // Note: If server does eco back, the messageIdSet will prevent duplicates.
+      const pseudoId = `local-${Date.now()}-${Math.random()}`;
+      const msg: ChatMessage = {
+        id: pseudoId,
+        from: handle,
+        to,
+        text: text.trim(),
+        timestamp: Date.now(),
+      };
+      saveChatMessage(msg, isChannel);
     },
-    [handle, sendJsonMessage],
+    [handle, channels, sendJsonMessage],
   );
 
   const clearMessages = useCallback(() => {
@@ -148,5 +161,37 @@ export default function useChatWebSocket({
     messageIdSet.current.clear();
   }, []);
 
-  return { messages, sendMessage, readyState, onlineUsers, clearMessages };
+  const loadMoreMessages = useCallback(
+    async (conversation: string, page: number) => {
+      if (!conversation) return 0;
+
+      const history = await fetchChatHistory(conversation, page);
+      if (history.length === 0) return 0;
+
+      setMessages((prev) => {
+        // Filter out existing messages from the history to avoid duplicates
+        const newHistory = history.filter(
+          (m) => !messageIdSet.current.has(m.id),
+        );
+
+        // Add new history IDs to the set
+        newHistory.forEach((m) => messageIdSet.current.add(m.id));
+
+        // Prepend history messages
+        return [...newHistory, ...prev];
+      });
+      return history.length;
+    },
+    [],
+  );
+
+  return {
+    messages,
+    sendMessage,
+    readyState,
+    onlineUsers,
+    channels,
+    clearMessages,
+    loadMoreMessages,
+  };
 }

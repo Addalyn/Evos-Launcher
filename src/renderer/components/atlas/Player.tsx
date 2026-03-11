@@ -503,7 +503,7 @@ function Player({
                   bottom: '2%',
                   fontSize: '1.7em',
                   zIndex: 1000,
-                  marginLeft: '146px',
+                  marginLeft: '-62px',
                   marginBottom: '-5px',
                 }}
               >

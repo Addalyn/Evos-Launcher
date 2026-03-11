@@ -1,6 +1,8 @@
 /**
- * @fileoverview Page for private messaging between users.
- * Features a sidebar of online users and a chat area for the selected conversation.
+ * @fileoverview Page for community chat, supporting a #general channel and
+ * private messaging between users.
+ * Features a sidebar with channels + online users, and a chat area for the
+ * selected conversation.
  * @author Evos Launcher Team
  * @since 3.2.1
  */
@@ -20,6 +22,9 @@ import {
   Tooltip,
   Skeleton,
   Button,
+  Chip,
+  CircularProgress,
+  Popover,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -27,6 +32,9 @@ import {
   Circle as CircleIcon,
   Search as SearchIcon,
   Forum as ChatIcon,
+  Tag as TagIcon,
+  Person as PersonIcon,
+  SentimentSatisfiedAlt as EmojiIcon,
 } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { ReadyState } from 'react-use-websocket';
@@ -34,6 +42,10 @@ import { useChat } from '../generic/ChatContext';
 import EvosStore from '../../lib/EvosStore';
 import Player from '../atlas/Player';
 import { getPlayerData, PlayerData } from 'renderer/lib/Evos';
+import EmojiPicker, { EmojiStyle, Theme } from 'emoji-picker-react';
+
+/** Channel names that map to server channels rather than user handles */
+const CHANNEL_PREFIX = '#';
 
 /**
  * Optimized component for individual chat user list items
@@ -80,7 +92,8 @@ const ChatUserItem = memo(
           selected={isSelected}
           onClick={() => onClick(user)}
           sx={{
-            py: 0.1,
+            pt: 1,
+            pb: 0.5,
             px: 0.1,
             borderLeft: isSelected
               ? '4px solid #ff7b00'
@@ -140,6 +153,72 @@ const ChatUserItem = memo(
   },
 );
 
+/**
+ * Sidebar entry for a channel (e.g. #general)
+ */
+const ChannelItem = memo(
+  ({
+    channel,
+    isSelected,
+    onClick,
+    unreadCount,
+  }: {
+    channel: string;
+    isSelected: boolean;
+    onClick: (c: string) => void;
+    unreadCount: number;
+  }) => (
+    <ListItem disablePadding>
+      <ListItemButton
+        selected={isSelected}
+        onClick={() => onClick(channel)}
+        sx={{
+          py: 1,
+          px: 1.5,
+          borderLeft: isSelected
+            ? '4px solid #ff7b00'
+            : '4px solid transparent',
+          '&.Mui-selected': {
+            backgroundColor: 'rgba(255, 123, 0, 0.1)',
+            '&:hover': { backgroundColor: 'rgba(255, 123, 0, 0.2)' },
+          },
+          '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.05)' },
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1,
+        }}
+      >
+        <TagIcon sx={{ fontSize: 16, color: '#ff7b00', flexShrink: 0 }} />
+        <Typography
+          variant="body2"
+          sx={{ color: 'white', fontWeight: isSelected ? 700 : 400, flex: 1 }}
+        >
+          {channel}
+        </Typography>
+        {unreadCount > 0 && (
+          <Box
+            sx={{
+              minWidth: 18,
+              height: 18,
+              bgcolor: '#ff7b00',
+              color: 'white',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '0.65rem',
+              fontWeight: 'bold',
+              px: 0.5,
+            }}
+          >
+            {unreadCount}
+          </Box>
+        )}
+      </ListItemButton>
+    </ListItem>
+  ),
+);
+
 export default function ChatPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -150,9 +229,11 @@ export default function ChatPage() {
     sendMessage,
     readyState,
     onlineUsers,
+    channels,
     unreadCounts,
     clearUnread,
     setActiveConversation,
+    loadMoreMessages,
   } = useChat();
 
   const blockedPlayers = EvosStore((state: any) => state.blockedPlayers);
@@ -161,10 +242,37 @@ export default function ChatPage() {
     (state: any) => state.removeBlockedPlayer,
   );
 
+  // selectedUser can be a channel name (e.g. 'general') or a user handle
   const [selectedUser, setSelectedUser] = useState<string>('');
   const [inputText, setInputText] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+  const handleEmojiClick = (emojiData: any) => {
+    setInputText((prev) => prev + emojiData.emoji);
+  };
+
+  const handleEmojiToggle = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleEmojiClose = () => {
+    setAnchorEl(null);
+  };
+
+  const openEmoji = Boolean(anchorEl);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const sentinelRef = useRef<HTMLDivElement>(null);
+
+  // Pagination state
+  const [isLoadingHistory, setIsLoadingHistory] = useState(false);
+  const [hasMoreHistory, setHasMoreHistory] = useState<Record<string, boolean>>(
+    {},
+  );
+  const nextPageRef = useRef<Record<string, number>>({});
+  const isLoadingHistoryRef = useRef(false);
+
   // Redirect if chat is hidden
   useEffect(() => {
     if (hideChat === 'true') {
@@ -172,13 +280,43 @@ export default function ChatPage() {
     }
   }, [hideChat, navigate]);
 
-  /** Player data retrieved from the API */
+  // Auto-select the first channel (general) when channels arrive
+  useEffect(() => {
+    if (channels.length > 0 && selectedUser === '') {
+      setSelectedUser(channels[0]);
+    }
+  }, [channels, selectedUser]);
+
+  /** Player data retrieved from the API (only for DM conversations) */
   const [playerData, setPlayerData] = useState<PlayerData>();
 
-  // Auto-scroll to bottom of chat
+  // Auto-scroll to bottom of chat only for NEW messages, not when loading history
+  const [prevMsgCount, setPrevMsgCount] = useState(0);
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, selectedUser]);
+    // If messages increased but only by a few (new msg), or the last one is from US, scroll down
+    if (messages.length > prevMsgCount) {
+      const lastMsg = messages[messages.length - 1];
+      const isMe = lastMsg?.from === activeUser?.handle;
+
+      // If we added many messages at once (history load), don't auto-scroll to bottom
+      if (messages.length - prevMsgCount === 1 || isMe) {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+    setPrevMsgCount(messages.length);
+  }, [messages, selectedUser, activeUser?.handle, prevMsgCount]);
+
+  // Scroll to bottom when conversation changes
+  useEffect(() => {
+    if (selectedUser) {
+      // Small timeout to ensure messages are rendered before scrolling
+      const timeoutId = setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 50);
+      return () => clearTimeout(timeoutId);
+    }
+    return () => {}; // Always return a cleanup function (even if empty) to satisfy consistent-return
+  }, [selectedUser]);
 
   // Handle active conversation and clear unreads
   useEffect(() => {
@@ -191,13 +329,66 @@ export default function ChatPage() {
     return () => setActiveConversation(null);
   }, [selectedUser, clearUnread, setActiveConversation]);
 
+  // Infinite scroll observer
   useEffect(() => {
-    if (selectedUser === '') {
+    if (!sentinelRef.current || !selectedUser) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (
+          entries[0].isIntersecting &&
+          !isLoadingHistoryRef.current &&
+          hasMoreHistory[selectedUser] !== false
+        ) {
+          (async () => {
+            const currentPage = nextPageRef.current[selectedUser] || 1;
+            const nextP = currentPage + 1;
+
+            isLoadingHistoryRef.current = true;
+            setIsLoadingHistory(true);
+            const oldScrollHeight = scrollRef.current?.scrollHeight || 0;
+
+            const fetchedCount = await loadMoreMessages(selectedUser, nextP);
+
+            if (fetchedCount === 0) {
+              setHasMoreHistory((prev) => ({ ...prev, [selectedUser]: false }));
+            } else {
+              nextPageRef.current[selectedUser] = nextP;
+            }
+
+            setIsLoadingHistory(false);
+            isLoadingHistoryRef.current = false;
+
+            if (scrollRef.current) {
+              scrollRef.current.scrollTop =
+                scrollRef.current.scrollHeight - oldScrollHeight;
+            }
+          })();
+        }
+      },
+      { threshold: 0.1 },
+    );
+
+    observer.observe(sentinelRef.current);
+  }, [selectedUser, isLoadingHistory, hasMoreHistory, loadMoreMessages]);
+
+  useEffect(() => {
+    // Initialize hasMore for new users
+    if (selectedUser && hasMoreHistory[selectedUser] === undefined) {
+      setHasMoreHistory((prev) => ({ ...prev, [selectedUser]: true }));
+      nextPageRef.current[selectedUser] = 1;
+    }
+  }, [selectedUser, hasMoreHistory]);
+
+  // Fetch player data only for DM conversations, not channels
+  const isChannel = channels.includes(selectedUser);
+
+  useEffect(() => {
+    if (selectedUser === '' || isChannel) {
       setPlayerData(undefined);
       return;
     }
 
-    // Fetch player data and handle response/errors
     getPlayerData(activeUser?.token ?? '', selectedUser)
       // eslint-disable-next-line promise/always-return
       .then((resp) => {
@@ -209,7 +400,7 @@ export default function ChatPage() {
         // eslint-disable-next-line no-console
         console.log(e);
       });
-  }, [selectedUser, activeUser]);
+  }, [selectedUser, activeUser, isChannel]);
 
   const handleSend = () => {
     if (inputText.trim() && selectedUser) {
@@ -224,13 +415,37 @@ export default function ChatPage() {
       u.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
-  const conversationMessages = messages.filter(
-    (m) =>
-      !blockedPlayers.includes(m.from) &&
-      (m.isSystem ||
-        (m.from === selectedUser && m.to === activeUser?.handle) ||
-        (m.from === activeUser?.handle && m.to === selectedUser)),
-  );
+  /**
+   * Messages for the current conversation:
+   * - Channel: all messages where msg.to === channelName
+   * - DM: messages between me and the selected user (existing logic)
+   */
+  const conversationMessages = messages.filter((m) => {
+    if (m.isSystem) return false;
+    if (blockedPlayers.includes(m.from)) return false;
+
+    if (isChannel) {
+      return m.to === selectedUser;
+    }
+
+    // DM: between me and selectedUser
+    return (
+      (m.from === selectedUser && m.to === activeUser?.handle) ||
+      (m.from === activeUser?.handle && m.to === selectedUser)
+    );
+  });
+
+  // Compute input placeholder without nested ternaries
+  let inputPlaceholder: string;
+  if (!isChannel && blockedPlayers.includes(selectedUser)) {
+    inputPlaceholder = t('chat.blockedUser', 'You have blocked this user');
+  } else if (isChannel) {
+    inputPlaceholder = t('chat.channelPlaceholder', 'Message #{{channel}}', {
+      channel: selectedUser,
+    });
+  } else {
+    inputPlaceholder = t('chat.placeholder', 'Type a message...');
+  }
 
   const getConnectionStatusColor = () => {
     switch (readyState) {
@@ -247,7 +462,7 @@ export default function ChatPage() {
     <Box
       sx={{
         display: 'flex',
-        height: 'calc(100vh - 80px)', // Adjust based on Navbar height
+        height: 'calc(100vh - 80px)',
         maxHeight: 'calc(100vh - 80px)',
         width: '100%',
         overflow: 'hidden',
@@ -270,7 +485,7 @@ export default function ChatPage() {
       >
         <Box sx={{ p: 2, borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
           <Typography
-            variant="h6"
+            variant="subtitle1"
             sx={{
               color: 'white',
               mb: 2,
@@ -281,7 +496,8 @@ export default function ChatPage() {
             }}
           >
             <ChatIcon sx={{ color: '#ff7b00' }} />{' '}
-            {t('chat.communityTitle', 'Community Chat')}
+            {t('chat.communityTitle', 'Community Chat')} <br />(
+            {onlineUsers.length} {t('chat.online', 'Online')})
           </Typography>
           <Typography
             variant="subtitle1"
@@ -322,6 +538,73 @@ export default function ChatPage() {
         </Box>
 
         <List sx={{ flex: 1, overflowY: 'auto', py: 0 }}>
+          {/* Channels section */}
+          {channels.length > 0 && (
+            <>
+              <Box
+                sx={{
+                  px: 1.5,
+                  pt: 1.5,
+                  pb: 0.5,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 0.5,
+                }}
+              >
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: 'rgba(255,255,255,0.4)',
+                    fontSize: '0.65rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  {t('chat.channels', 'Channels')}
+                </Typography>
+              </Box>
+              {channels.map((ch) => (
+                <ChannelItem
+                  key={ch}
+                  channel={ch}
+                  isSelected={selectedUser === ch}
+                  onClick={setSelectedUser}
+                  unreadCount={unreadCounts[ch] || 0}
+                />
+              ))}
+              <Box
+                sx={{
+                  px: 1.5,
+                  pt: 1.5,
+                  pb: 0.5,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 0.5,
+                  borderTop: '1px solid rgba(255,255,255,0.07)',
+                  mt: 0.5,
+                }}
+              >
+                <PersonIcon
+                  sx={{ fontSize: 12, color: 'rgba(255,255,255,0.4)' }}
+                />
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: 'rgba(255,255,255,0.4)',
+                    fontSize: '0.65rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  {t('chat.directMessages', 'Direct Messages')}
+                </Typography>
+              </Box>
+            </>
+          )}
+
+          {/* Online users (DMs) */}
           {filteredUsers.length === 0 ? (
             <Box
               sx={{ p: 3, textAlign: 'center', color: 'rgba(255,255,255,0.3)' }}
@@ -413,59 +696,113 @@ export default function ChatPage() {
                 gap: 2,
               }}
             >
-              {!playerData ? (
-                <Skeleton
-                  variant="rectangular"
-                  width={240}
-                  height={52}
-                  style={{ display: 'inline-block', marginLeft: '4px' }}
-                />
+              {isChannel ? (
+                /* Channel header */
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                  <Box
+                    sx={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: 2,
+                      background: 'linear-gradient(135deg, #ff7b00, #ff4a00)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <TagIcon sx={{ color: 'white', fontSize: 22 }} />
+                  </Box>
+                  <Box>
+                    <Typography
+                      variant="subtitle1"
+                      sx={{ color: 'white', fontWeight: 700, lineHeight: 1.2 }}
+                    >
+                      {CHANNEL_PREFIX}
+                      {selectedUser}
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      sx={{ color: 'rgba(255,255,255,0.45)' }}
+                    >
+                      {t(
+                        'chat.generalDescription',
+                        'Public channel — visible to everyone online',
+                      )}
+                    </Typography>
+                  </Box>
+                  <Chip
+                    size="small"
+                    label={t('chat.channelLabel', 'Channel')}
+                    sx={{
+                      ml: 1,
+                      bgcolor: 'rgba(255,123,0,0.15)',
+                      color: '#ff7b00',
+                      border: '1px solid rgba(255,123,0,0.3)',
+                      height: 20,
+                      fontSize: '0.65rem',
+                    }}
+                  />
+                </Box>
               ) : (
-                <Player
-                  info={playerData}
-                  disableSkew
-                  characterType={undefined}
-                  titleOld=""
-                />
-              )}
-              <br />
-              <Typography
-                variant="subtitle2"
-                sx={{
-                  color: 'white',
-                  fontWeight: 'bold',
-                  flex: 1,
-                  fontSize: 12,
-                }}
-              >
-                {t('chat.notsaved')}
-                <br />
-                {t('chat.warning')}
-              </Typography>
-              {selectedUser && selectedUser !== activeUser?.handle && (
-                <Button
-                  variant="outlined"
-                  color={
-                    blockedPlayers.includes(selectedUser) ? 'error' : 'warning'
-                  }
-                  onClick={() => {
-                    if (blockedPlayers.includes(selectedUser)) {
-                      removeBlockedPlayer(selectedUser);
-                    } else {
-                      addBlockedPlayer(selectedUser);
-                    }
-                  }}
-                  sx={{ ml: 'auto' }}
-                >
-                  {blockedPlayers.includes(selectedUser)
-                    ? t('menuOptions.Unblock')
-                    : t('menuOptions.Block')}
-                </Button>
+                /* DM header — same as before */
+                <>
+                  {!playerData ? (
+                    <Skeleton
+                      variant="rectangular"
+                      width={240}
+                      height={52}
+                      style={{ display: 'inline-block', marginLeft: '4px' }}
+                    />
+                  ) : (
+                    <Player
+                      info={playerData}
+                      disableSkew
+                      characterType={undefined}
+                      titleOld=""
+                    />
+                  )}
+                  <br />
+                  <Typography
+                    variant="subtitle2"
+                    sx={{
+                      color: 'white',
+                      fontWeight: 'bold',
+                      flex: 1,
+                      fontSize: 12,
+                    }}
+                  >
+                    {t('chat.warning')}
+                  </Typography>
+                  {selectedUser && selectedUser !== activeUser?.handle && (
+                    <Button
+                      variant="outlined"
+                      color={
+                        blockedPlayers.includes(selectedUser)
+                          ? 'error'
+                          : 'warning'
+                      }
+                      onClick={() => {
+                        if (blockedPlayers.includes(selectedUser)) {
+                          removeBlockedPlayer(selectedUser);
+                        } else {
+                          addBlockedPlayer(selectedUser);
+                        }
+                      }}
+                      sx={{ ml: 'auto' }}
+                    >
+                      {blockedPlayers.includes(selectedUser)
+                        ? t('menuOptions.Unblock')
+                        : t('menuOptions.Block')}
+                    </Button>
+                  )}
+                </>
               )}
             </Box>
 
             {/* Chat Messages */}
             <Box
+              ref={scrollRef}
               sx={{
                 flex: 1,
                 overflowY: 'auto',
@@ -475,6 +812,12 @@ export default function ChatPage() {
                 gap: 2,
               }}
             >
+              <div ref={sentinelRef} style={{ height: 1, width: '100%' }} />
+              {isLoadingHistory && (
+                <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
+                  <CircularProgress size={24} sx={{ color: '#ff7b00' }} />
+                </Box>
+              )}
               {conversationMessages.map((msg) => {
                 const isMe = msg.from === activeUser?.handle;
                 return (
@@ -487,6 +830,20 @@ export default function ChatPage() {
                         width: '100%',
                       }}
                     >
+                      {/* Show sender name in channel view */}
+                      {isChannel && !isMe && (
+                        <Typography
+                          variant="caption"
+                          sx={{
+                            color: 'rgba(255,255,255,0.5)',
+                            px: 1,
+                            mb: 0.25,
+                            fontSize: '0.7rem',
+                          }}
+                        >
+                          {msg.from}
+                        </Typography>
+                      )}
                       <Paper
                         sx={{
                           p: 1.5,
@@ -539,17 +896,53 @@ export default function ChatPage() {
                 background: 'rgba(0,0,0,0.2)',
               }}
             >
-              <Box sx={{ display: 'flex', gap: 1 }}>
+              <Box sx={{ display: 'flex', gap: 1, alignItems: 'flex-end' }}>
+                <IconButton
+                  onClick={handleEmojiToggle}
+                  disabled={!isChannel && blockedPlayers.includes(selectedUser)}
+                  sx={{
+                    color: '#ff7b00',
+                    '&:hover': { bgcolor: 'rgba(255,123,0,0.1)' },
+                    width: 56,
+                    height: 56,
+                  }}
+                >
+                  <EmojiIcon />
+                </IconButton>
+                <Popover
+                  open={openEmoji}
+                  anchorEl={anchorEl}
+                  onClose={handleEmojiClose}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                  }}
+                  transformOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  PaperProps={{
+                    sx: {
+                      bgcolor: 'transparent',
+                      boxShadow: 'none',
+                      border: 'none',
+                    },
+                  }}
+                >
+                  <EmojiPicker
+                    onEmojiClick={handleEmojiClick}
+                    autoFocusSearch={false}
+                    theme={Theme.DARK}
+                    emojiStyle={EmojiStyle.NATIVE}
+                    lazyLoadEmojis
+                  />
+                </Popover>
                 <TextField
                   fullWidth
                   multiline
                   maxRows={4}
-                  disabled={blockedPlayers.includes(selectedUser)}
-                  placeholder={
-                    blockedPlayers.includes(selectedUser)
-                      ? t('chat.blockedUser', 'You have blocked this user')
-                      : t('chat.placeholder', 'Type a message...')
-                  }
+                  disabled={!isChannel && blockedPlayers.includes(selectedUser)}
+                  placeholder={inputPlaceholder}
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                   onKeyPress={(e) => {
@@ -569,7 +962,8 @@ export default function ChatPage() {
                 <IconButton
                   onClick={handleSend}
                   disabled={
-                    !inputText.trim() || blockedPlayers.includes(selectedUser)
+                    !inputText.trim() ||
+                    (!isChannel && blockedPlayers.includes(selectedUser))
                   }
                   sx={{
                     bgcolor: '#ff7b00',
