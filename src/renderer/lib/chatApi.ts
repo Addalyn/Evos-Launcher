@@ -14,7 +14,10 @@ export interface StrapiChatMessage {
 /**
  * Saves a chat message to Strapi.
  */
-export async function saveChatMessage(msg: ChatMessage, isChannel: boolean): Promise<void> {
+export async function saveChatMessage(
+  msg: ChatMessage,
+  isChannel: boolean,
+): Promise<void> {
   try {
     await strapiClient.from('chat-messages').create({
       messageId: msg.id,
@@ -25,7 +28,7 @@ export async function saveChatMessage(msg: ChatMessage, isChannel: boolean): Pro
       isChannel: isChannel,
     });
   } catch (error) {
-    console.error('Failed to save chat message to Strapi:', error);
+    // console.error('Failed to save chat message to Strapi:', error);
   }
 }
 
@@ -38,7 +41,7 @@ export async function saveChatMessage(msg: ChatMessage, isChannel: boolean): Pro
 export async function fetchChatHistory(
   conversation: string,
   page: number = 1,
-  pageSize: number = 50
+  pageSize: number = 50,
 ): Promise<ChatMessage[]> {
   try {
     const { data, error } = await strapiClient
@@ -50,20 +53,22 @@ export async function fetchChatHistory(
       .get();
 
     if (error || !data) {
-      console.warn('Error fetching chat history:', error);
+      // console.warn('Error fetching chat history:', error);
       return [];
     }
 
     // Convert Strapi format back to ChatMessage format
-    return data.map((item: StrapiChatMessage) => ({
-      id: item.messageId,
-      from: item.fromHandle,
-      to: item.toHandle,
-      text: item.text,
-      timestamp: new Date(item.sentAt).getTime(),
-    })).reverse(); // Reverse so they are in chronological order for the UI
+    return data
+      .map((item: StrapiChatMessage) => ({
+        id: item.messageId,
+        from: item.fromHandle,
+        to: item.toHandle,
+        text: item.text,
+        timestamp: new Date(item.sentAt).getTime(),
+      }))
+      .reverse(); // Reverse so they are in chronological order for the UI
   } catch (error) {
-    console.error('Failed to fetch chat history from Strapi:', error);
+    // console.error('Failed to fetch chat history from Strapi:', error);
     return [];
   }
 }

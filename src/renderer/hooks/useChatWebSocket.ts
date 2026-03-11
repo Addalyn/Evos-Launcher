@@ -101,7 +101,7 @@ export default function useChatWebSocket({
               timestamp: data.timestamp ?? Date.now(),
             };
             setMessages((prev) => [...prev.slice(-499), msg]);
-            
+
             // Persist to Strapi
             const isChannel = !!data.to && channels.includes(data.to);
             saveChatMessage(msg, isChannel);
@@ -189,7 +189,9 @@ export default function useChatWebSocket({
 
       setMessages((prev) => {
         // Filter out existing messages from the history to avoid duplicates
-        const newHistory = history.filter((m) => !messageIdSet.current.has(m.id));
+        const newHistory = history.filter(
+          (m) => !messageIdSet.current.has(m.id),
+        );
 
         // Add new history IDs to the set
         newHistory.forEach((m) => messageIdSet.current.add(m.id));
@@ -202,5 +204,13 @@ export default function useChatWebSocket({
     [],
   );
 
-  return { messages, sendMessage, readyState, onlineUsers, channels, clearMessages, loadMoreMessages };
+  return {
+    messages,
+    sendMessage,
+    readyState,
+    onlineUsers,
+    channels,
+    clearMessages,
+    loadMoreMessages,
+  };
 }
