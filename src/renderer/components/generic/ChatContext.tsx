@@ -16,8 +16,9 @@ import React, {
 } from 'react';
 import { ReadyState } from 'react-use-websocket';
 import EvosStore from '../../lib/EvosStore';
-import useChatWebSocket, { ChatMessage } from '../../hooks/useChatWebSocket';
+import useChatWebSocket from '../../hooks/useChatWebSocket';
 import { logoSmall } from '../../lib/Resources';
+import { ChatMessage } from 'renderer/types/chat.types';
 
 interface ChatContextType {
   messages: ChatMessage[];

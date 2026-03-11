@@ -11,26 +11,9 @@ import useWebSocket, { ReadyState } from 'react-use-websocket';
 import EvosStore from '../lib/EvosStore';
 import { CHAT_WS_URL } from '../lib/Evos';
 import { saveChatMessage, fetchChatHistory } from '../lib/chatApi';
+import { ChatMessage, ChatServerMessage } from '../types/chat.types';
 
-export interface ChatMessage {
-  id: string;
-  from: string;
-  to?: string;
-  text: string;
-  timestamp: number;
-  isSystem?: boolean;
-}
 
-interface ChatServerMessage {
-  type: 'CHAT' | 'SYSTEM' | 'USER_LIST' | 'ERROR' | 'CHANNEL_JOIN';
-  from?: string;
-  to?: string;
-  text?: string;
-  timestamp?: number;
-  users?: string[];
-  channels?: string[];
-  id?: string;
-}
 
 interface UseChatWebSocketOptions {
   handle: string | undefined;

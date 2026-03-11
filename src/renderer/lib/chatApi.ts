@@ -1,5 +1,5 @@
 import { strapiClient } from './strapi';
-import { ChatMessage } from '../hooks/useChatWebSocket';
+import { ChatMessage } from '../types/chat.types';
 
 export interface StrapiChatMessage {
   id: number;
@@ -25,7 +25,7 @@ export async function saveChatMessage(
       toHandle: msg.to || '',
       text: msg.text,
       sentAt: new Date(msg.timestamp).toISOString(),
-      isChannel: isChannel,
+      isChannel,
     });
   } catch (error) {
     // console.error('Failed to save chat message to Strapi:', error);
