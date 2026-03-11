@@ -13,8 +13,6 @@ import { CHAT_WS_URL } from '../lib/Evos';
 import { saveChatMessage, fetchChatHistory } from '../lib/chatApi';
 import { ChatMessage, ChatServerMessage } from '../types/chat.types';
 
-
-
 interface UseChatWebSocketOptions {
   handle: string | undefined;
   enabled: boolean;
