@@ -51,9 +51,7 @@ export async function fetchChatHistory(
     let query = strapiClient.from<StrapiChatMessage>('chat-messages').select();
 
     if (isChannel) {
-      query = query
-        .equalTo('toHandle', conversation)
-        .equalTo('isChannel', 1);
+      query = query.equalTo('toHandle', conversation).equalTo('isChannel', 1);
     } else {
       // For DMs, we fetch by recipient = myHandle
       query = query.equalTo('toHandle', conversation).equalTo('isChannel', 0);
