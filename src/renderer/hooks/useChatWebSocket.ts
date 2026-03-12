@@ -140,18 +140,6 @@ export default function useChatWebSocket({
         to,
         text: text.trim(),
       });
-
-      // Persist our own message to Strapi immediately (since server might not eco back to us depending on implementation)
-      // Note: If server does eco back, the messageIdSet will prevent duplicates.
-      // const pseudoId = `local-${Date.now()}-${Math.random()}`;
-      // const msg: ChatMessage = {
-      //   id: pseudoId,
-      //   from: handle,
-      //   to,
-      //   text: text.trim(),
-      //   timestamp: Date.now(),
-      // };
-      // saveChatMessage(msg, isChannel);
     },
     [handle, channels, sendJsonMessage],
   );
@@ -163,9 +151,24 @@ export default function useChatWebSocket({
 
   const loadMoreMessages = useCallback(
     async (conversation: string, page: number) => {
-      if (!conversation) return 0;
+      if (!conversation || !handle) return 0;
 
-      const history = await fetchChatHistory(conversation, page);
+      const isChannel = channels.includes(conversation);
+      let history: ChatMessage[] = [];
+
+      if (isChannel) {
+        history = await fetchChatHistory(conversation, handle, true, page);
+      } else {
+        // Fetch both sides of DM
+        const [sent, received] = await Promise.all([
+          fetchChatHistory(conversation, handle, false, page), // messages to conversation
+          fetchChatHistory(handle, conversation, false, page), // messages to me
+        ]);
+        history = [...sent, ...received].sort(
+          (a, b) => a.timestamp - b.timestamp,
+        );
+      }
+
       if (history.length === 0) return 0;
 
       setMessages((prev) => {
@@ -182,7 +185,7 @@ export default function useChatWebSocket({
       });
       return history.length;
     },
-    [],
+    [handle, channels],
   );
 
   return {

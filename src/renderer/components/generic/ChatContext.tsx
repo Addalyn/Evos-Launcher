@@ -105,7 +105,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
         }));
 
         // Trigger system notification
-        if (Notification.permission === 'granted') {
+        if (Notification.permission === 'granted' && unreadKey !== 'general') {
           const notification = new Notification('New Chat Message', {
             body: `${lastMessage.from}: ${lastMessage.text}`,
             silent: false,

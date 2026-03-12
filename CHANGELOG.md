@@ -1,5 +1,14 @@
 # Evos Launcher Changelog
 
+# [3.2.4] - 2026-03-12
+
+## Bug Fixes
+
+- **General Chat**:
+  - Fixed an issue where the chat was not loading previous messages.
+  - Hopefully fixed not auto scrolling down on new messages.
+  - Changed the way notifications are send, no longer getting notification from general chat only private messages.
+
 # [3.2.3] - 2026-03-11
 
 ## Features & Improvements

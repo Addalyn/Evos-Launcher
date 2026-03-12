@@ -35,25 +35,34 @@ export async function saveChatMessage(
 /**
  * Fetches chat history from Strapi.
  * @param conversation Handle or channel name
+ * @param myHandle Current user's handle (required for DMs)
+ * @param isChannel Whether this is a channel or DM
  * @param page Page number (starting at 1)
  * @param pageSize Number of messages per page
  */
 export async function fetchChatHistory(
   conversation: string,
+  myHandle: string,
+  isChannel: boolean,
   page: number = 1,
   pageSize: number = 50,
 ): Promise<ChatMessage[]> {
   try {
-    const { data, error } = await strapiClient
-      .from<StrapiChatMessage>('chat-messages')
-      .select()
-      .equalTo('toHandle', conversation)
+    let query = strapiClient.from<StrapiChatMessage>('chat-messages').select();
+
+    if (isChannel) {
+      query = query.equalTo('toHandle', conversation).equalTo('isChannel', 1);
+    } else {
+      // For DMs, we fetch by recipient = myHandle
+      query = query.equalTo('toHandle', conversation).equalTo('isChannel', 0);
+    }
+
+    const { data, error } = await query
       .sortBy([{ field: 'sentAt', order: 'desc' }])
       .paginate(page, pageSize)
       .get();
 
     if (error || !data) {
-      // console.warn('Error fetching chat history:', error);
       return [];
     }
 
