@@ -292,19 +292,35 @@ export default function ChatPage() {
 
   // Auto-scroll to bottom of chat only for NEW messages, not when loading history
   const [prevMsgCount, setPrevMsgCount] = useState(0);
+  const initialScrollDoneRef = useRef<Record<string, boolean>>({});
+
   useEffect(() => {
-    // If messages increased but only by a few (new msg), or the last one is from US, scroll down
     if (messages.length > prevMsgCount) {
       const lastMsg = messages[messages.length - 1];
       const isMe = lastMsg?.from === activeUser?.handle;
 
-      // If we added many messages at once (history load), don't auto-scroll to bottom
-      if (messages.length - prevMsgCount === 1 || isMe) {
+      // Handle initial load scroll: if messages increased from 0 to something
+      // and we haven't done the initial scroll for this user yet
+      if (
+        prevMsgCount === 0 &&
+        messages.length > 0 &&
+        !initialScrollDoneRef.current[selectedUser]
+      ) {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'auto' });
+        initialScrollDoneRef.current[selectedUser] = true;
+      }
+      // Normal message scroll: if we added only 1 message or it's from us
+      else if (messages.length - prevMsgCount === 1 || isMe) {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
       }
     }
     setPrevMsgCount(messages.length);
   }, [messages, selectedUser, activeUser?.handle, prevMsgCount]);
+
+  // Reset scroll tracker when conversation changes
+  useEffect(() => {
+    setPrevMsgCount(0);
+  }, [selectedUser]);
 
   // Scroll to bottom when conversation changes
   useEffect(() => {
@@ -331,7 +347,7 @@ export default function ChatPage() {
 
   // Infinite scroll observer
   useEffect(() => {
-    if (!sentinelRef.current || !selectedUser) return;
+    if (!sentinelRef.current || !selectedUser) return undefined;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -360,17 +376,19 @@ export default function ChatPage() {
             isLoadingHistoryRef.current = false;
 
             if (scrollRef.current) {
+              // Maintain scroll position after history load
               scrollRef.current.scrollTop =
                 scrollRef.current.scrollHeight - oldScrollHeight;
             }
           })();
         }
       },
-      { threshold: 0.1 },
+      { threshold: 0, rootMargin: '150px 0px 0px 0px' },
     );
 
     observer.observe(sentinelRef.current);
-  }, [selectedUser, isLoadingHistory, hasMoreHistory, loadMoreMessages]);
+    return () => observer.disconnect();
+  }, [selectedUser, hasMoreHistory, loadMoreMessages]);
 
   useEffect(() => {
     // Initialize hasMore for new users
@@ -810,9 +828,29 @@ export default function ChatPage() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 2,
+                /* Custom scrollbar styling to ensure visibility */
+                '&::-webkit-scrollbar': {
+                  width: '8px',
+                },
+                '&::-webkit-scrollbar-track': {
+                  background: 'rgba(0,0,0,0.1)',
+                  borderRadius: '10px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  background: 'rgba(255, 123, 0, 0.3)',
+                  borderRadius: '10px',
+                  '&:hover': {
+                    background: 'rgba(255, 123, 0, 0.5)',
+                  },
+                },
+                scrollbarWidth: 'thin',
+                scrollbarColor: 'rgba(255, 123, 0, 0.3) rgba(0,0,0,0.1)',
               }}
             >
-              <div ref={sentinelRef} style={{ height: 1, width: '100%' }} />
+              <div
+                ref={sentinelRef}
+                style={{ height: '20px', width: '100%', flexShrink: 0 }}
+              />
               {isLoadingHistory && (
                 <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
                   <CircularProgress size={24} sx={{ color: '#ff7b00' }} />
