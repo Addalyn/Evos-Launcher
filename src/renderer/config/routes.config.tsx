@@ -238,7 +238,7 @@ const allRoutes = [
   {
     path: '/chat',
     element: <ChatPage />,
-    layout: 'standard',
+    layout: 'minimal',
     title: 'chat',
   },
 ];

@@ -9,6 +9,76 @@ export interface StrapiChatMessage {
   text: string;
   sentAt: string;
   isChannel: boolean;
+  reactions?: any;
+  replied_to?: StrapiChatMessage;
+}
+
+/**
+ * Encodes an emoji string to a safe hex format for Strapi keys.
+ */
+function encodeEmoji(emoji: string): string {
+  return (
+    '__enc_' +
+    Array.from(emoji)
+      .map((c) => c.codePointAt(0)?.toString(16))
+      .join('_')
+  );
+}
+
+/**
+ * Decodes a hex format back to an emoji string.
+ */
+function decodeEmoji(encoded: string): string {
+  if (!encoded || !encoded.startsWith('__enc_')) return encoded;
+  return encoded
+    .slice(6)
+    .split('_')
+    .map((hex) => String.fromCodePoint(parseInt(hex, 16)))
+    .join('');
+}
+
+/**
+ * Encodes all emojis in a text string to a safe hex format.
+ */
+function encodeText(text: string): string {
+  // Matches characters outside the BMP (Surrogate pairs / 4-byte characters like emojis)
+  return text.replace(/[^\u0000-\uFFFF]/gu, (match) => encodeEmoji(match));
+}
+
+/**
+ * Decodes all hex-encoded blocks in a string back to emojis.
+ */
+function decodeText(text: string): string {
+  // Matches the encoded pattern __enc_... (non-greedy specific termination)
+  return text.replace(/__enc_[0-9a-f]+(?:_[0-9a-f]+)*/g, (match) =>
+    decodeEmoji(match),
+  );
+}
+
+/**
+ * Encodes all keys in a reactions object.
+ */
+function encodeReactions(
+  reactions: Record<string, string[]>,
+): Record<string, string[]> {
+  const encoded: Record<string, string[]> = {};
+  for (const [key, value] of Object.entries(reactions)) {
+    encoded[encodeEmoji(key)] = value;
+  }
+  return encoded;
+}
+
+/**
+ * Decodes all keys in a reactions object.
+ */
+function decodeReactions(
+  reactions: Record<string, string[]>,
+): Record<string, string[]> {
+  const decoded: Record<string, string[]> = {};
+  for (const [key, value] of Object.entries(reactions)) {
+    decoded[decodeEmoji(key)] = value;
+  }
+  return decoded;
 }
 
 /**
@@ -19,14 +89,33 @@ export async function saveChatMessage(
   isChannel: boolean,
 ): Promise<void> {
   try {
-    await strapiClient.from('chat-messages').create({
+    const payload: any = {
       messageId: msg.id,
       fromHandle: msg.from,
       toHandle: msg.to || '',
-      text: msg.text,
+      text: encodeText(msg.text),
       sentAt: new Date(msg.timestamp).toISOString(),
       isChannel,
-    });
+      reactions: encodeReactions(msg.reactions || {}),
+    };
+
+    if (msg.repliedTo) {
+      const repliedToId =
+        typeof msg.repliedTo === 'string' ? msg.repliedTo : msg.repliedTo.id;
+
+      // Resolve numeric ID for the original message
+      const { data: originalMsg } = await strapiClient
+        .from<StrapiChatMessage>('chat-messages')
+        .select()
+        .equalTo('messageId', repliedToId)
+        .get();
+
+      if (originalMsg && originalMsg.length > 0) {
+        payload.replied_to = originalMsg[0].id;
+      }
+    }
+
+    await strapiClient.from('chat-messages').create(payload);
   } catch (error) {
     // console.error('Failed to save chat message to Strapi:', error);
   }
@@ -45,7 +134,7 @@ export async function fetchChatHistory(
   myHandle: string,
   isChannel: boolean,
   page: number = 1,
-  pageSize: number = 50,
+  pageSize: number = 10,
 ): Promise<ChatMessage[]> {
   try {
     let query = strapiClient.from<StrapiChatMessage>('chat-messages').select();
@@ -60,6 +149,7 @@ export async function fetchChatHistory(
     const { data, error } = await query
       .sortBy([{ field: 'sentAt', order: 'desc' }])
       .paginate(page, pageSize)
+      .populateWith('replied_to', ['*'], true)
       .get();
 
     if (error || !data) {
@@ -72,12 +162,47 @@ export async function fetchChatHistory(
         id: item.messageId,
         from: item.fromHandle,
         to: item.toHandle,
-        text: item.text,
+        text: decodeText(item.text),
         timestamp: new Date(item.sentAt).getTime(),
+        reactions: decodeReactions(item.reactions || {}),
+        repliedTo: item.replied_to
+          ? {
+              id: item.replied_to.messageId,
+              from: item.replied_to.fromHandle,
+              to: item.replied_to.toHandle,
+              text: decodeText(item.replied_to.text),
+              timestamp: new Date(item.replied_to.sentAt).getTime(),
+            }
+          : undefined,
       }))
       .reverse(); // Reverse so they are in chronological order for the UI
   } catch (error) {
     // console.error('Failed to fetch chat history from Strapi:', error);
     return [];
+  }
+}
+
+/**
+ * Updates reactions for a message in Strapi.
+ */
+export async function updateMessageReactions(
+  messageId: string,
+  reactions: Record<string, string[]>,
+): Promise<void> {
+  try {
+    // Find the message in Strapi by its messageId
+    const { data } = await strapiClient
+      .from<StrapiChatMessage>('chat-messages')
+      .select()
+      .equalTo('messageId', messageId)
+      .get();
+
+    if (data && data.length > 0) {
+      await strapiClient.from('chat-messages').update(data[0].id, {
+        reactions: encodeReactions(reactions),
+      });
+    }
+  } catch (error) {
+    // console.error('Failed to update reactions in Strapi:', error);
   }
 }

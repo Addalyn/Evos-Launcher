@@ -1,5 +1,32 @@
 # Evos Launcher Changelog
 
+# [3.2.5] - 2026-03-13
+
+## Features & Improvements
+
+- **Chat**:
+  - Added reply's to messages so you can reply to a specific message.
+  - Added reactions icons to messages.
+- **Global Notification Control**:
+  - Introduced a global setting to disable all chat and system notifications.
+  - Added a new toggle for "Disable all chat notifications" in the Chat settings.
+- **Improved Chat Settings**:
+  - Unified chat-related setting labels across the application.
+- **Enhanced Global Localization**:
+  - Comprehensive update for all 10 supported languages (English, Dutch, French, Russian, German, Italian, Spanish, Turkish, Chinese, and Brazilian Portuguese).
+  - Ensured all setting labels and tab names are accurately translated.
+- **Chat Performance & Stability**:
+  - Optimized chat message rendering with memoization to reduce unnecessary re-renders.
+  - Improved chat scrolling behavior and history loading reliability.
+  - Integrated improved emoji picker support with lazy loading.
+
+## Bug Fixes
+
+- **Chat Page**:
+  - Resolved Promise chain issues in message handling and fixed "Each then() should return a value" errors.
+  - Fixed infinite scroll behavior and prevented redundant message loading.
+  - Corrected scrolling logic to ensure chat properly stays at the bottom.
+
 # [3.2.4] - 2026-03-12
 
 ## Bug Fixes

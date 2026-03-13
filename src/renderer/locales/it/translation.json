@@ -323,7 +323,10 @@
     "labelTextColor": "Colore del Testo",
     "labelScrollbarColor": "Colore della Barra di Scorrimento",
     "statsVersion": "Versione Statistiche",
-    "hideChatLabel": "Nasconditi dalla chat (disabilita connessione chat)"
+    "hideChatLabel": "Nasconditi dalla chat (disabilita connessione chat)",
+    "chatTab": "Chat",
+    "generalNotificationsLabel": "Ricevi notifiche per la chat generale",
+    "disableAllNotificationsLabel": "Disabilita tutte le notifiche della chat"
   },
   "maps": {
     "map": "Mappa",

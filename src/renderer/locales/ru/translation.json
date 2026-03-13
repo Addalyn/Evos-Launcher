@@ -338,7 +338,10 @@
     "labelTextColor": "Цвет Текста",
     "labelScrollbarColor": "Цвет Полосы Прокрутки",
     "statsVersion": "Версия Статистики",
-    "hideChatLabel": "Скрыться из чата (отключает подключение к чату)"
+    "hideChatLabel": "Скрыться из чата (отключает подключение к чату)",
+    "chatTab": "Чат",
+    "generalNotificationsLabel": "Получать уведомления для общего чата",
+    "disableAllNotificationsLabel": "Отключить все уведомления чата"
   },
   "maps": {
     "map": "Карта",
