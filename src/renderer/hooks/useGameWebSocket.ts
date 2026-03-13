@@ -149,7 +149,7 @@ export default function useGameWebSocket({
         });
       }
     }
-  }, [lastJsonMessage, followedPlayers]);
+  }, [lastJsonMessage, followedPlayers, disableAllNotifications]);
 
   return { sendJsonMessage, readyState };
 }

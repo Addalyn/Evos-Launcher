@@ -488,7 +488,10 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   },
   setDisableAllNotifications: async (disableAllNotifications: string) => {
     set({ disableAllNotifications });
-    await get().setToStorage('disableAllNotifications', disableAllNotifications);
+    await get().setToStorage(
+      'disableAllNotifications',
+      disableAllNotifications,
+    );
   },
 
   toggleMode: async () => {

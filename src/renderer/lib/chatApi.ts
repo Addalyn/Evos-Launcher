@@ -17,12 +17,9 @@ export interface StrapiChatMessage {
  * Encodes an emoji string to a safe hex format for Strapi keys.
  */
 function encodeEmoji(emoji: string): string {
-  return (
-    '__enc_' +
-    Array.from(emoji)
-      .map((c) => c.codePointAt(0)?.toString(16))
-      .join('_')
-  );
+  return `__enc_${Array.from(emoji)
+    .map((c) => c.codePointAt(0)?.toString(16))
+    .join('_')}`;
 }
 
 /**
@@ -42,7 +39,9 @@ function decodeEmoji(encoded: string): string {
  */
 function encodeText(text: string): string {
   // Matches characters outside the BMP (Surrogate pairs / 4-byte characters like emojis)
-  return text.replace(/[^\u0000-\uFFFF]/gu, (match) => encodeEmoji(match));
+  return text.replace(/[\u{10000}-\u{10FFFF}]/gu, (match) =>
+    encodeEmoji(match),
+  );
 }
 
 /**
@@ -62,9 +61,9 @@ function encodeReactions(
   reactions: Record<string, string[]>,
 ): Record<string, string[]> {
   const encoded: Record<string, string[]> = {};
-  for (const [key, value] of Object.entries(reactions)) {
+  Object.entries(reactions).forEach(([key, value]) => {
     encoded[encodeEmoji(key)] = value;
-  }
+  });
   return encoded;
 }
 
@@ -75,9 +74,9 @@ function decodeReactions(
   reactions: Record<string, string[]>,
 ): Record<string, string[]> {
   const decoded: Record<string, string[]> = {};
-  for (const [key, value] of Object.entries(reactions)) {
+  Object.entries(reactions).forEach(([key, value]) => {
     decoded[decodeEmoji(key)] = value;
-  }
+  });
   return decoded;
 }
 
