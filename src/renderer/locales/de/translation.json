@@ -203,7 +203,10 @@
     "labelTextColor": "Textfarbe",
     "labelScrollbarColor": "Scrollleistenfarbe",
     "statsVersion": "Statistik-Version",
-    "hideChatLabel": "Vom Chat verstecken (deaktiviert Chat-Verbindung)"
+    "hideChatLabel": "Vom Chat verstecken (deaktiviert Chat-Verbindung)",
+    "chatTab": "Chat",
+    "generalNotificationsLabel": "Benachrichtigungen für den allgemeinen Chat erhalten",
+    "disableAllNotificationsLabel": "Alle Chat-Benachrichtigungen deaktivieren"
   },
   "titles": {
     "-1": "",

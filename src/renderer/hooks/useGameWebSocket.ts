@@ -110,7 +110,7 @@ export default function useGameWebSocket({
     };
   }, [activeUser, readyState, sendJsonMessage, setGlobalStatus, shouldConnect]);
 
-  const { followedPlayers } = EvosStore();
+  const { followedPlayers, disableAllNotifications } = EvosStore();
   const shownNotifications = React.useRef<Set<string>>(new Set());
 
   useEffect(() => {
@@ -131,6 +131,7 @@ export default function useGameWebSocket({
         // Trigger notifications for followed players who are online and not already shown
         players.forEach((player) => {
           if (
+            disableAllNotifications === 'false' &&
             followedPlayers.includes(player.handle) &&
             player.status !== 'Offline' &&
             !shownNotifications.current.has(player.handle)
@@ -148,7 +149,7 @@ export default function useGameWebSocket({
         });
       }
     }
-  }, [lastJsonMessage, followedPlayers]);
+  }, [lastJsonMessage, followedPlayers, disableAllNotifications]);
 
   return { sendJsonMessage, readyState };
 }

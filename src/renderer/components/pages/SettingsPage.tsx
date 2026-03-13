@@ -5,6 +5,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import DnsIcon from '@mui/icons-material/Dns';
 import CallSplitIcon from '@mui/icons-material/CallSplit';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import ChatIcon from '@mui/icons-material/Chat';
 import {
   Branches,
   changePassword,
@@ -27,6 +28,7 @@ import ServerSection from '../settings/ServerSection';
 import AdvancedSection from '../settings/AdvancedSection';
 import BranchSection from '../settings/BranchSection';
 import DangerZoneSection from '../settings/DangerZoneSection';
+import ChatSection from '../settings/ChatSection';
 import { logoSmall } from 'renderer/lib/Resources';
 
 /**
@@ -72,8 +74,6 @@ export default function SettingsPage() {
     setIp,
     showAllChat,
     setShowAllChat,
-    hideChat,
-    setHideChat,
     enableDiscordRPC,
     toggleDiscordRPC,
     setGameExpanded,
@@ -97,6 +97,10 @@ export default function SettingsPage() {
     setColorScrollBar,
     colorPaper,
     setColorPaper,
+    showGeneralChatNotifications,
+    setShowGeneralChatNotifications,
+    disableAllNotifications,
+    setDisableAllNotifications,
   } = EvosStore();
 
   const [password, setPassword] = useState('');
@@ -352,8 +356,6 @@ export default function SettingsPage() {
           <AppearanceSection
             mode={mode}
             toggleMode={toggleMode}
-            hideChat={hideChat}
-            setHideChat={(v: string) => setHideChat(v)}
             colorPrimary={colorPrimary}
             setColorPrimary={handleChangeColorPrimary}
             colorSecondary={colorSecondary}
@@ -375,6 +377,23 @@ export default function SettingsPage() {
       label: t('settings.server', 'Server'),
       hidden: false,
       content: <ServerSection ip={ip} onChange={handleChange} />,
+    },
+    {
+      key: 'chat',
+      label: t('settings.chatTab', 'Chat'),
+      hidden: false,
+      content: (
+        <ChatSection
+          showGeneralChatNotifications={showGeneralChatNotifications}
+          setShowGeneralChatNotifications={(v: string) =>
+            setShowGeneralChatNotifications(v)
+          }
+          disableAllNotifications={disableAllNotifications}
+          setDisableAllNotifications={(v: string) =>
+            setDisableAllNotifications(v)
+          }
+        />
+      ),
     },
     {
       key: 'account',
@@ -475,6 +494,7 @@ export default function SettingsPage() {
     ),
     server: <DnsIcon fontSize="small" />,
     branch: <CallSplitIcon fontSize="small" />,
+    chat: <ChatIcon fontSize="small" />,
     danger: <WarningAmberIcon fontSize="small" />,
   };
 

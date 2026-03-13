@@ -23,8 +23,8 @@ import {
   Skeleton,
   Button,
   Chip,
-  CircularProgress,
   Popover,
+  CircularProgress,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -35,10 +35,14 @@ import {
   Tag as TagIcon,
   Person as PersonIcon,
   SentimentSatisfiedAlt as EmojiIcon,
+  AddReaction as AddReactionIcon,
+  Reply as ReplyIcon,
+  Close as CloseIcon,
 } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { ReadyState } from 'react-use-websocket';
 import { useChat } from '../generic/ChatContext';
+import { ChatMessage } from '../../types/chat.types';
 import EvosStore from '../../lib/EvosStore';
 import Player from '../atlas/Player';
 import { getPlayerData, PlayerData } from 'renderer/lib/Evos';
@@ -77,9 +81,8 @@ const ChatUserItem = memo(
           }
           return resp;
         })
-        .catch((e) => {
-          // eslint-disable-next-line no-console
-          console.log(e);
+        .catch(() => {
+          // Silent catch for player data
         });
       return () => {
         isMounted = false;
@@ -219,6 +222,266 @@ const ChannelItem = memo(
   ),
 );
 
+/**
+ * Optimized component for individual chat messages
+ */
+const ChatMessageItem = memo(
+  ({
+    msg,
+    isMe,
+    isChannel,
+    activeUserHandle,
+    onReply,
+    onReactionClick,
+    sendReaction,
+    selectedUser,
+    t,
+    conversationMessages,
+  }: {
+    msg: ChatMessage;
+    isMe: boolean;
+    isChannel: boolean;
+    activeUserHandle: string;
+    onReply: (msg: ChatMessage) => void;
+    onReactionClick: (
+      event: React.MouseEvent<HTMLButtonElement>,
+      msgId: string,
+    ) => void;
+    sendReaction: (msgId: string, emoji: string, to: string) => void;
+    selectedUser: string;
+    t: any;
+    conversationMessages: ChatMessage[];
+  }) => {
+    // Resolve replied message if it's currently a string ID
+    let resolvedReply = msg.repliedTo;
+    if (typeof msg.repliedTo === 'string') {
+      const found = conversationMessages.find((m) => m.id === msg.repliedTo);
+      if (found) {
+        resolvedReply = found;
+      }
+    }
+
+    return (
+      <Fade in>
+        <Box
+          id={`msg-${msg.id}`}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: isMe ? 'flex-end' : 'flex-start',
+            width: '100%',
+          }}
+        >
+          {/* Show sender name in channel view */}
+          {isChannel && !isMe && (
+            <Typography
+              variant="caption"
+              sx={{
+                color: 'rgba(255,255,255,0.5)',
+                px: 1,
+                mb: 0.25,
+                fontSize: '0.7rem',
+              }}
+            >
+              {msg.from}
+            </Typography>
+          )}
+
+          <Box
+            sx={{
+              position: 'relative',
+              maxWidth: '70%',
+              '&:hover .message-actions': { opacity: 1 },
+            }}
+          >
+            <Paper
+              sx={{
+                p: 1.5,
+                borderRadius: isMe
+                  ? '20px 20px 4px 20px'
+                  : '20px 20px 20px 4px',
+                background: isMe
+                  ? 'linear-gradient(135deg, #ff7b00, #ff4a00)'
+                  : 'rgba(255,255,255,0.1)',
+                color: 'white',
+                boxShadow: isMe ? '0 4px 15px rgba(255,123,0,0.3)' : 'none',
+              }}
+            >
+              {resolvedReply && (
+                <Box
+                  sx={{
+                    mb: 1,
+                    pb: 1,
+                    borderBottom: '1px solid rgba(255,255,255,0.1)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    opacity: 0.7,
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => {
+                    const original = document.getElementById(
+                      `msg-${typeof resolvedReply === 'string' ? resolvedReply : resolvedReply?.id}`,
+                    );
+                    original?.scrollIntoView({
+                      behavior: 'smooth',
+                    });
+                  }}
+                >
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      fontWeight: 'bold',
+                      color: isMe ? 'rgba(255,255,255,0.9)' : '#ff7b00',
+                      fontSize: '0.65rem',
+                      mb: 0.5,
+                    }}
+                  >
+                    <ReplyIcon
+                      sx={{
+                        fontSize: 12,
+                        verticalAlign: 'middle',
+                        mr: 0.5,
+                        transform: 'scaleX(-1)',
+                      }}
+                    />
+                    {typeof resolvedReply === 'string'
+                      ? 'Message'
+                      : resolvedReply.from}
+                  </Typography>
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      fontStyle: 'italic',
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      fontSize: '0.75rem',
+                    }}
+                  >
+                    {typeof resolvedReply === 'string'
+                      ? '...'
+                      : resolvedReply.text}
+                  </Typography>
+                </Box>
+              )}
+              <Typography variant="body1" sx={{ wordBreak: 'break-word' }}>
+                {msg.text}
+              </Typography>
+            </Paper>
+
+            {/* Hover Actions */}
+            {!isMe && (
+              <Box
+                className="message-actions"
+                sx={{
+                  position: 'absolute',
+                  top: -20,
+                  right: isMe ? 'unset' : -40,
+                  left: isMe ? -40 : 'unset',
+                  display: 'flex',
+                  gap: 0.5,
+                  opacity: 0,
+                  transition: 'opacity 0.2s',
+                  zIndex: 10,
+                  bgcolor: 'rgba(20, 20, 30, 0.8)',
+                  borderRadius: 2,
+                  p: 0.25,
+                  backdropFilter: 'blur(5px)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                }}
+              >
+                <Tooltip title={t('chat.reply', 'Reply')}>
+                  <IconButton
+                    size="small"
+                    onClick={() => onReply(msg)}
+                    sx={{ color: 'white', p: 0.5 }}
+                  >
+                    <ReplyIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title={t('chat.addReaction', 'Add Reaction')}>
+                  <IconButton
+                    size="small"
+                    onClick={(e) => onReactionClick(e, msg.id)}
+                    sx={{ color: 'white', p: 0.5 }}
+                  >
+                    <AddReactionIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            )}
+          </Box>
+
+          {/* Reactions Display */}
+          {msg.reactions && Object.entries(msg.reactions).length > 0 && (
+            <Box
+              sx={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: 0.5,
+                mt: 0.5,
+                px: 1,
+              }}
+            >
+              {Object.entries(msg.reactions).map(([emoji, users]) => {
+                const hasReacted = users.includes(activeUserHandle || '');
+                return (
+                  <Tooltip
+                    key={emoji}
+                    title={users.join(', ')}
+                    arrow
+                    placement="top"
+                  >
+                    <Chip
+                      label={`${emoji} ${users.length}`}
+                      size="small"
+                      onClick={() => sendReaction(msg.id, emoji, selectedUser)}
+                      sx={{
+                        height: '24px',
+                        fontSize: '0.75rem',
+                        bgcolor: hasReacted
+                          ? 'rgba(255,123,0,0.2)'
+                          : 'rgba(255,255,255,0.05)',
+                        color: 'white',
+                        border: hasReacted
+                          ? '1px solid #ff7b00'
+                          : '1px solid rgba(255,255,255,0.1)',
+                        '&:hover': {
+                          bgcolor: hasReacted
+                            ? 'rgba(255,123,0,0.3)'
+                            : 'rgba(255,255,255,0.1)',
+                        },
+                      }}
+                    />
+                  </Tooltip>
+                );
+              })}
+            </Box>
+          )}
+
+          <Typography
+            variant="caption"
+            sx={{
+              mt: 0.5,
+              px: 1,
+              color: 'rgba(255,255,255,0.4)',
+              fontSize: '0.7rem',
+            }}
+          >
+            {new Date(msg.timestamp).toLocaleString([], {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
+          </Typography>
+        </Box>
+      </Fade>
+    );
+  },
+);
+
 export default function ChatPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -227,6 +490,7 @@ export default function ChatPage() {
   const {
     messages,
     sendMessage,
+    sendReaction,
     readyState,
     onlineUsers,
     channels,
@@ -235,6 +499,11 @@ export default function ChatPage() {
     setActiveConversation,
     loadMoreMessages,
   } = useChat();
+
+  const [isLoadingHistory, setIsLoadingHistory] = useState(false);
+  const [hasMoreHistory, setHasMoreHistory] = useState(true);
+  const nextPageRef = useRef(1);
+  const sentinelRef = useRef<HTMLDivElement>(null);
 
   const blockedPlayers = EvosStore((state: any) => state.blockedPlayers);
   const addBlockedPlayer = EvosStore((state: any) => state.addBlockedPlayer);
@@ -247,6 +516,29 @@ export default function ChatPage() {
   const [inputText, setInputText] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const [reactionAnchor, setReactionAnchor] = useState<{
+    el: HTMLButtonElement;
+    msgId: string;
+  } | null>(null);
+  const [replyingTo, setReplyingTo] = useState<ChatMessage | null>(null);
+
+  const handleReply = (msg: ChatMessage) => {
+    setReplyingTo(msg);
+  };
+
+  const handleReactionClick = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    msgId: string,
+  ) => {
+    setReactionAnchor({ el: event.currentTarget, msgId });
+  };
+
+  const handleReactionEmojiClick = (emojiData: any) => {
+    if (reactionAnchor) {
+      sendReaction(reactionAnchor.msgId, emojiData.emoji, selectedUser);
+      setReactionAnchor(null);
+    }
+  };
 
   const handleEmojiClick = (emojiData: any) => {
     setInputText((prev) => prev + emojiData.emoji);
@@ -263,15 +555,6 @@ export default function ChatPage() {
   const openEmoji = Boolean(anchorEl);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const sentinelRef = useRef<HTMLDivElement>(null);
-
-  // Pagination state
-  const [isLoadingHistory, setIsLoadingHistory] = useState(false);
-  const [hasMoreHistory, setHasMoreHistory] = useState<Record<string, boolean>>(
-    {},
-  );
-  const nextPageRef = useRef<Record<string, number>>({});
-  const isLoadingHistoryRef = useRef(false);
 
   // Redirect if chat is hidden
   useEffect(() => {
@@ -286,6 +569,76 @@ export default function ChatPage() {
       setSelectedUser(channels[0]);
     }
   }, [channels, selectedUser]);
+
+  // Track which conversations have already had their history fetched
+  const historyLoadedRef = useRef<Set<string>>(new Set());
+
+  // Load history when a conversation is first opened
+  useEffect(() => {
+    if (!selectedUser || !activeUser?.handle) return;
+    if (historyLoadedRef.current.has(selectedUser)) return;
+
+    const fetchHistory = async () => {
+      try {
+        const count = await loadMoreMessages(selectedUser, 1);
+        if (count > 0) {
+          historyLoadedRef.current.add(selectedUser);
+        }
+      } catch {
+        // silent fail to allow retries if loadMoreMessages changes
+      }
+    };
+
+    fetchHistory();
+  }, [selectedUser, loadMoreMessages, activeUser?.handle]);
+
+  // Reset pagination when conversation changes
+  useEffect(() => {
+    nextPageRef.current = 1;
+    setHasMoreHistory(true);
+    setIsLoadingHistory(false);
+  }, [selectedUser]);
+
+  // Infinite scroll observer
+  useEffect(() => {
+    if (!selectedUser || !hasMoreHistory || isLoadingHistory) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          const loadMore = async () => {
+            setIsLoadingHistory(true);
+            try {
+              const count = await loadMoreMessages(
+                selectedUser,
+                nextPageRef.current + 1,
+              );
+              if (count > 0) {
+                nextPageRef.current += 1;
+              } else {
+                setHasMoreHistory(false);
+              }
+            } catch (err) {
+              // console.error('Failed to load more messages:', err);
+            } finally {
+              setIsLoadingHistory(false);
+            }
+          };
+          loadMore();
+        }
+      },
+      { threshold: 1.0 },
+    );
+
+    if (sentinelRef.current) {
+      observer.observe(sentinelRef.current);
+    }
+
+    // eslint-disable-next-line consistent-return
+    return () => {
+      observer.disconnect();
+    };
+  }, [selectedUser, hasMoreHistory, isLoadingHistory, loadMoreMessages]);
 
   /** Player data retrieved from the API (only for DM conversations) */
   const [playerData, setPlayerData] = useState<PlayerData>();
@@ -345,59 +698,6 @@ export default function ChatPage() {
     return () => setActiveConversation(null);
   }, [selectedUser, clearUnread, setActiveConversation]);
 
-  // Infinite scroll observer
-  useEffect(() => {
-    if (!sentinelRef.current || !selectedUser) return undefined;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (
-          entries[0].isIntersecting &&
-          !isLoadingHistoryRef.current &&
-          hasMoreHistory[selectedUser] !== false
-        ) {
-          (async () => {
-            const currentPage = nextPageRef.current[selectedUser] || 1;
-            const nextP = currentPage + 1;
-
-            isLoadingHistoryRef.current = true;
-            setIsLoadingHistory(true);
-            const oldScrollHeight = scrollRef.current?.scrollHeight || 0;
-
-            const fetchedCount = await loadMoreMessages(selectedUser, nextP);
-
-            if (fetchedCount === 0) {
-              setHasMoreHistory((prev) => ({ ...prev, [selectedUser]: false }));
-            } else {
-              nextPageRef.current[selectedUser] = nextP;
-            }
-
-            setIsLoadingHistory(false);
-            isLoadingHistoryRef.current = false;
-
-            if (scrollRef.current) {
-              // Maintain scroll position after history load
-              scrollRef.current.scrollTop =
-                scrollRef.current.scrollHeight - oldScrollHeight;
-            }
-          })();
-        }
-      },
-      { threshold: 0, rootMargin: '150px 0px 0px 0px' },
-    );
-
-    observer.observe(sentinelRef.current);
-    return () => observer.disconnect();
-  }, [selectedUser, hasMoreHistory, loadMoreMessages]);
-
-  useEffect(() => {
-    // Initialize hasMore for new users
-    if (selectedUser && hasMoreHistory[selectedUser] === undefined) {
-      setHasMoreHistory((prev) => ({ ...prev, [selectedUser]: true }));
-      nextPageRef.current[selectedUser] = 1;
-    }
-  }, [selectedUser, hasMoreHistory]);
-
   // Fetch player data only for DM conversations, not channels
   const isChannel = channels.includes(selectedUser);
 
@@ -407,23 +707,24 @@ export default function ChatPage() {
       return;
     }
 
-    getPlayerData(activeUser?.token ?? '', selectedUser)
-      // eslint-disable-next-line promise/always-return
-      .then((resp) => {
+    const fetchPlayerData = async () => {
+      try {
+        const resp = await getPlayerData(activeUser?.token ?? '', selectedUser);
         resp.data.status = resp.data.titleId as unknown as string;
         setPlayerData(resp.data);
-        return resp;
-      })
-      .catch((e) => {
-        // eslint-disable-next-line no-console
-        console.log(e);
-      });
+      } catch {
+        // Silent catch for player data
+      }
+    };
+
+    fetchPlayerData();
   }, [selectedUser, activeUser, isChannel]);
 
   const handleSend = () => {
     if (inputText.trim() && selectedUser) {
-      sendMessage(inputText.trim(), selectedUser);
+      sendMessage(inputText.trim(), selectedUser, replyingTo?.id);
       setInputText('');
+      setReplyingTo(null);
     }
   };
 
@@ -847,93 +1148,87 @@ export default function ChatPage() {
                 scrollbarColor: 'rgba(255, 123, 0, 0.3) rgba(0,0,0,0.1)',
               }}
             >
-              <div
-                ref={sentinelRef}
-                style={{ height: '20px', width: '100%', flexShrink: 0 }}
-              />
+              {/* Infinite scroll sentinel */}
+              <div ref={sentinelRef} style={{ height: '1px' }} />
+
               {isLoadingHistory && (
                 <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
                   <CircularProgress size={24} sx={{ color: '#ff7b00' }} />
                 </Box>
               )}
-              {conversationMessages.map((msg) => {
-                const isMe = msg.from === activeUser?.handle;
-                return (
-                  <Fade in key={msg.id}>
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: isMe ? 'flex-end' : 'flex-start',
-                        width: '100%',
-                      }}
-                    >
-                      {/* Show sender name in channel view */}
-                      {isChannel && !isMe && (
-                        <Typography
-                          variant="caption"
-                          sx={{
-                            color: 'rgba(255,255,255,0.5)',
-                            px: 1,
-                            mb: 0.25,
-                            fontSize: '0.7rem',
-                          }}
-                        >
-                          {msg.from}
-                        </Typography>
-                      )}
-                      <Paper
-                        sx={{
-                          p: 1.5,
-                          maxWidth: '70%',
-                          borderRadius: isMe
-                            ? '20px 20px 4px 20px'
-                            : '20px 20px 20px 4px',
-                          background: isMe
-                            ? 'linear-gradient(135deg, #ff7b00, #ff4a00)'
-                            : 'rgba(255,255,255,0.1)',
-                          color: 'white',
-                          boxShadow: isMe
-                            ? '0 4px 15px rgba(255,123,0,0.3)'
-                            : 'none',
-                        }}
-                      >
-                        <Typography
-                          variant="body1"
-                          sx={{ wordBreak: 'break-word' }}
-                        >
-                          {msg.text}
-                        </Typography>
-                      </Paper>
-                      <Typography
-                        variant="caption"
-                        sx={{
-                          mt: 0.5,
-                          px: 1,
-                          color: 'rgba(255,255,255,0.4)',
-                          fontSize: '0.7rem',
-                        }}
-                      >
-                        {new Date(msg.timestamp).toLocaleTimeString([], {
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        })}
-                      </Typography>
-                    </Box>
-                  </Fade>
-                );
-              })}
+
+              {conversationMessages.map((msg) => (
+                <ChatMessageItem
+                  key={msg.id}
+                  msg={msg}
+                  isMe={msg.from === activeUser?.handle}
+                  isChannel={isChannel}
+                  activeUserHandle={activeUser?.handle || ''}
+                  onReply={handleReply}
+                  onReactionClick={handleReactionClick}
+                  sendReaction={sendReaction}
+                  selectedUser={selectedUser}
+                  t={t}
+                  conversationMessages={conversationMessages}
+                />
+              ))}
               <div ref={messagesEndRef} />
             </Box>
 
-            {/* Chat Input */}
+            {/* Chat Input Area */}
             <Box
               sx={{
                 p: 2,
                 borderTop: '1px solid rgba(255, 255, 255, 0.1)',
                 background: 'rgba(0,0,0,0.2)',
+                position: 'relative',
               }}
             >
+              {replyingTo && (
+                <Fade in>
+                  <Box
+                    sx={{
+                      p: 1.5,
+                      px: 2,
+                      bgcolor: 'rgba(255, 123, 0, 0.1)',
+                      borderLeft: '4px solid #ff7b00',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      mb: 1,
+                      borderRadius: 1,
+                    }}
+                  >
+                    <Box sx={{ overflow: 'hidden' }}>
+                      <Typography
+                        variant="caption"
+                        sx={{ color: '#ff7b00', fontWeight: 'bold' }}
+                      >
+                        Replying to {replyingTo.from}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: 'rgba(255,255,255,0.6)',
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          fontSize: '0.75rem',
+                        }}
+                      >
+                        {replyingTo.text}
+                      </Typography>
+                    </Box>
+                    <IconButton
+                      size="small"
+                      onClick={() => setReplyingTo(null)}
+                      sx={{ color: 'rgba(255,255,255,0.5)' }}
+                    >
+                      <CloseIcon fontSize="small" />
+                    </IconButton>
+                  </Box>
+                </Fade>
+              )}
               <Box sx={{ display: 'flex', gap: 1, alignItems: 'flex-end' }}>
                 <IconButton
                   onClick={handleEmojiToggle}
@@ -975,6 +1270,38 @@ export default function ChatPage() {
                     lazyLoadEmojis
                   />
                 </Popover>
+
+                <Popover
+                  open={Boolean(reactionAnchor)}
+                  anchorEl={reactionAnchor?.el}
+                  onClose={() => setReactionAnchor(null)}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                  }}
+                  transformOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                  }}
+                  PaperProps={{
+                    sx: {
+                      bgcolor: 'transparent',
+                      boxShadow: 'none',
+                      border: 'none',
+                    },
+                  }}
+                >
+                  <EmojiPicker
+                    onEmojiClick={handleReactionEmojiClick}
+                    autoFocusSearch={false}
+                    theme={Theme.DARK}
+                    emojiStyle={EmojiStyle.NATIVE}
+                    reactionsDefaultOpen
+                    allowExpandReactions
+                    lazyLoadEmojis
+                  />
+                </Popover>
+
                 <TextField
                   fullWidth
                   multiline
