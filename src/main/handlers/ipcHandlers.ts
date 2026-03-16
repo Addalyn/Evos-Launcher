@@ -39,7 +39,7 @@ import {
   hasRunningGames,
 } from '../services/gameService';
 import { startDownload, terminateDownload } from '../services/downloadService';
-import { readAndParseVDF, convertLinuxPathToWindows } from '../utils/fileUtils';
+import { readAndParseVDF } from '../utils/fileUtils';
 import regedit from 'regedit';
 import { AuthUser, LaunchOptions } from '../types';
 import {
@@ -262,7 +262,7 @@ export function setupIpcHandlers(mainWindow: BrowserWindow | null): void {
 
   ipcMain.handle('getLogData', async (event, args) => {
     try {
-      const logFolder = args;
+      const logFolder = path.normalize(args);
       const folders = fs.readdirSync(logFolder);
 
       const sortedData = folders
@@ -298,16 +298,18 @@ export function setupIpcHandlers(mainWindow: BrowserWindow | null): void {
   });
 
   ipcMain.handle('setTitleBarOverlay', async (event, settings) => {
-    mainWindow?.setTitleBarOverlay({
-      color: settings[0],
-      symbolColor: settings[1],
-      height: 63,
-    });
+    if (process.platform === 'win32' && mainWindow) {
+      mainWindow.setTitleBarOverlay({
+        color: settings[0],
+        symbolColor: settings[1],
+        height: 63,
+      });
+    }
   });
 
   ipcMain.handle('getLogContent', async (event, args) => {
     try {
-      const logPath = args;
+      const logPath = path.normalize(args);
       const content = fs.readFileSync(logPath, 'utf-8');
       return content;
     } catch (error) {
@@ -473,24 +475,26 @@ export function setupIpcHandlers(mainWindow: BrowserWindow | null): void {
     let foundGamePath = null;
 
     // Windows Steam registry search
-    try {
-      const regKey = [
-        'HKLM\\SOFTWARE\\WOW6432Node\\Valve\\Steam',
-        'HKLM\\SOFTWARE\\Valve\\Steam',
-      ];
+    if (process.platform === 'win32') {
+      try {
+        const regKey = [
+          'HKLM\\SOFTWARE\\WOW6432Node\\Valve\\Steam',
+          'HKLM\\SOFTWARE\\Valve\\Steam',
+        ];
 
-      const registryList = await regedit.promisified.list(regKey);
-      console.log('Steam registry search results:', registryList);
+        const registryList = await regedit.promisified.list(regKey);
+        console.log('Steam registry search results:', registryList);
 
-      if (registryList[regKey[0]]?.values?.InstallPath?.value) {
-        searchGamePath = registryList[regKey[0]]?.values?.InstallPath?.value;
+        if (registryList[regKey[0]]?.values?.InstallPath?.value) {
+          searchGamePath = registryList[regKey[0]]?.values?.InstallPath?.value;
+        }
+
+        if (registryList[regKey[1]]?.values?.InstallPath?.value) {
+          searchGamePath = registryList[regKey[1]]?.values?.InstallPath?.value;
+        }
+      } catch (err) {
+        console.log('Error reading Steam registry:', err);
       }
-
-      if (registryList[regKey[1]]?.values?.InstallPath?.value) {
-        searchGamePath = registryList[regKey[1]]?.values?.InstallPath?.value;
-      }
-    } catch (err) {
-      console.log('Error reading Steam registry:', err);
     }
 
     // Search in Steam libraries
@@ -616,27 +620,41 @@ export function setupIpcHandlers(mainWindow: BrowserWindow | null): void {
     }
 
     // Linux fallback search
-    if (!foundGamePath) {
+    if (!foundGamePath && process.platform === 'linux') {
       try {
-        const userName = process.env.USER;
-        const vdfPath = `Z:\\home\\${userName}\\.local\\share\\Steam\\steamapps\\libraryfolders.vdf`;
+        const homedir = require('os').homedir();
+        const vdfPath = path.join(
+          homedir,
+          '.local/share/Steam/steamapps/libraryfolders.vdf',
+        );
         const pathOfGame = await readAndParseVDF(vdfPath, targetAppId);
         if (pathOfGame) {
-          console.log(
-            `Path for appid ${targetAppId} on Steam Deck: ${pathOfGame}`,
-          );
-          foundGamePath = convertLinuxPathToWindows(
-            `${pathOfGame}`,
-            'steamapps/common/Atlas Reactor/Games/Atlas Reactor/Live/Win64/AtlasReactor.exe',
-          );
-          if (foundGamePath && fs.existsSync(foundGamePath)) {
-            return foundGamePath;
+          console.log(`Path for appid ${targetAppId} on Linux: ${pathOfGame}`);
+
+          // Try standard native Steam paths on Linux
+          const nativePaths = [
+            path.join(
+              pathOfGame,
+              'steamapps/common/Atlas Reactor/Games/Atlas Reactor/Live/Win64/AtlasReactor.exe',
+            ),
+            path.join(
+              pathOfGame,
+              'steamapps/common/AtlasReactor/AtlasReactor.exe',
+            ),
+          ];
+
+          for (const nativePath of nativePaths) {
+            if (fs.existsSync(nativePath)) {
+              return nativePath;
+            }
           }
         } else {
-          console.log(`Appid ${targetAppId} not found on Steam Deck.`);
+          console.log(
+            `Appid ${targetAppId} not found in Linux Steam libraries.`,
+          );
         }
       } catch (error) {
-        console.error('Error reading Steam Deck VDF file:', error);
+        console.error('Error reading Linux Steam VDF file:', error);
       }
     }
 
@@ -669,20 +687,26 @@ export function setupIpcHandlers(mainWindow: BrowserWindow | null): void {
       return null;
     }
 
+    const isLinux = process.platform === 'linux';
     const files = await dialog.showOpenDialog({
       properties: ['openFile'],
       filters: [
         {
           name: await translate('Atlas Reactor Executable', mainWindow),
-          extensions: ['exe'],
+          extensions: isLinux ? ['*'] : ['exe'],
         },
       ],
     });
 
     const selectedFilePath = files.filePaths[0];
 
-    if (selectedFilePath && selectedFilePath.endsWith('AtlasReactor.exe')) {
-      return selectedFilePath;
+    if (selectedFilePath) {
+      if (isLinux) {
+        return selectedFilePath;
+      }
+      if (selectedFilePath.endsWith('AtlasReactor.exe')) {
+        return selectedFilePath;
+      }
     }
 
     return null;
@@ -749,7 +773,9 @@ export function setupIpcHandlers(mainWindow: BrowserWindow | null): void {
   });
 
   ipcMain.handle('stop-discord-rpc', async () => {
-    client.clearActivity();
+    if (isDiscordRPCConnected) {
+      client.clearActivity();
+    }
   });
 
   ipcMain.handle('start-discord-rpc', async () => {

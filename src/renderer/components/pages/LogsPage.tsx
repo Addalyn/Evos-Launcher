@@ -14,7 +14,7 @@ import {
 import { DataGrid, GridColDef, GridToolbar } from '@mui/x-data-grid';
 import EvosStore from 'renderer/lib/EvosStore';
 import { useTranslation } from 'react-i18next';
-import { withElectron } from 'renderer/utils/electronUtils';
+import { withElectron, getPathSeparator } from 'renderer/utils/electronUtils';
 
 /**
  * Represents a log file with metadata and content
@@ -177,9 +177,10 @@ function LogsPage(): React.JSX.Element {
    */
   const handleOpenFolder = (): void => {
     if (selectedLog) {
+      const sep = getPathSeparator();
       const folderPath = selectedLog.fullPath.substring(
         0,
-        selectedLog.fullPath.lastIndexOf('\\'),
+        selectedLog.fullPath.lastIndexOf(sep),
       );
       withElectron((electron) => electron.ipcRenderer.openFolder(folderPath));
     }
@@ -199,11 +200,21 @@ function LogsPage(): React.JSX.Element {
   useEffect(() => {
     const fetchLogData = async (): Promise<void> => {
       try {
-        const forwardSlashPath = exePath.replace(/\\/g, '/');
-        const pathArray = forwardSlashPath.split('/');
-        pathArray.splice(-2);
+        const sep = getPathSeparator();
+        // Handle both forward and backward slashes for normalization
+        const normalizedPath = exePath.replace(/\\/g, '/');
+        const pathArray = normalizedPath.split('/');
+
+        // The game executable is usually in a subfolder like Binaries/Win64/Atlas Reactor.exe
+        // We want to go up to the root folder that contains Logs
+        // Looking at the error: \media\baby\Data 2\Atlas Reactor\Logs
+        // It seems the Logs folder is parallel to Binaries or similar.
+        // Let's pop until we find a parent that might contain Logs, or just go up 2 levels as before if that was working.
+        pathArray.pop(); // Remove executable name
+        pathArray.pop(); // Remove platform folder (e.g., Win64)
         pathArray.push('Logs');
-        const logFolderPath = pathArray.join('\\');
+
+        const logFolderPath = pathArray.join(sep);
         const data = await withElectron(
           (electron) => electron.ipcRenderer.getLogData(logFolderPath),
           null,

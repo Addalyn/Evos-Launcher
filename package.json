@@ -1,5 +1,5 @@
 {
-  "version": "3.2.5",
+  "version": "3.2.6",
   "description": "An Atlas Reactor Launcher",
   "keywords": [
     "Atlas Reacor"
@@ -40,7 +40,7 @@
     "postinstall": "ts-node .erb/scripts/check-native-dep.js && electron-builder install-app-deps && cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.ts",
     "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir release/app",
     "start": "ts-node ./.erb/scripts/check-port-in-use.js && npm run start:renderer",
-    "start:main": "cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only .",
+    "start:main": "cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only . $ELECTRON_ARGS",
     "start:preload": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.preload.dev.ts",
     "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
     "test": "jest"
@@ -215,13 +215,14 @@
     "productName": "Evos-Launcher",
     "appId": "baby.addalyn.evoslauncher",
     "asar": true,
-    "asarUnpack": "**\\*.{node,dll}",
+    "asarUnpack": "**/*.{node,dll}",
     "files": [
       "dist",
       "node_modules",
       "package.json"
     ],
     "afterSign": ".erb/scripts/notarize.js",
+    "afterPack": ".erb/scripts/afterPack.js",
     "mac": {
       "target": {
         "target": "default",
@@ -265,7 +266,9 @@
       "target": [
         "AppImage"
       ],
-      "category": "Development"
+      "category": "Game",
+      "executableName": "evoslauncher",
+      "icon": "assets/atlas-reactor.png"
     },
     "directories": {
       "app": "release/app",

@@ -67,6 +67,13 @@ export function applyAllChat(enabled: string | undefined): void {
   const enableAllChat = enabled === 'true' ? 1 : 0;
 
   // Try Enabling All Chat based on config, will not work for the first time they launch the game, but works for any other times, and only on windows
+  if (process.platform !== 'win32') {
+    log.info(
+      'Skipping registry modification: All Chat is only supported on Windows',
+    );
+    return;
+  }
+
   try {
     const valuesToPut = {
       'HKCU\\Software\\Trion Worlds\\Atlas Reactor': {
@@ -206,13 +213,46 @@ export function launchGame(
   );
   createFolderIfNotExists(logFolderPath);
 
-  const gameProcess = spawn(launchOptions.exePath, args, {
+  const isLinux = process.platform === 'linux';
+  let runAs = launchOptions.runAs;
+
+  // On Linux, default to wine if runAs is not set or if it's an .exe
+  if (isLinux && (!runAs || runAs === '')) {
+    runAs = 'wine';
+  }
+
+  // On Windows, if runAs is 'wine', we should ignore it and run the exe directly
+  if (process.platform === 'win32') {
+    runAs = launchOptions.exePath;
+  }
+
+  const spawnCommand = runAs && runAs !== '' ? runAs : launchOptions.exePath;
+  const isWine = isLinux && spawnCommand === 'wine';
+  const spawnArgs =
+    spawnCommand !== launchOptions.exePath
+      ? [
+          isWine ? path.basename(launchOptions.exePath) : launchOptions.exePath,
+          ...args,
+        ]
+      : args;
+
+  const gameProcess = spawn(spawnCommand, spawnArgs, {
     cwd: path.dirname(launchOptions.exePath),
+    shell: isLinux,
   });
 
   // Log process start
   // eslint-disable-next-line no-console
   console.log(`Game process started with PID: ${gameProcess.pid}`);
+
+  // Capture stdout and stderr for logging
+  gameProcess.stdout?.on('data', (data) => {
+    log.info(`[Game STDOUT] ${data.toString().trim()}`);
+  });
+
+  gameProcess.stderr?.on('data', (data) => {
+    log.error(`[Game STDERR] ${data.toString().trim()}`);
+  });
 
   games[launchOptions.name] = gameProcess;
 

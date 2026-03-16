@@ -6,6 +6,8 @@
  * @since 1.0.0
  */
 
+import { getPlatform } from '../utils/electronUtils';
+
 /**
  * Interface for standardized error objects
  * @interface EvosError
@@ -55,8 +57,13 @@ export function processError(
     setError({ text: t('errors.unknownError') });
   }
 }
-
 export function isValidExePath(path: string) {
+  const isLinux = getPlatform() === 'linux';
+
+  if (isLinux && (path.startsWith('/') || path.startsWith('~'))) {
+    return path.endsWith('AtlasReactor.exe');
+  }
+
   const invalidPathRegex =
     /[A-Za-z]:\\(?:.*\\)*OneDrive(?:.*\\)*Win64\\AtlasReactor.exe/;
   const validPathRegex =
@@ -66,6 +73,9 @@ export function isValidExePath(path: string) {
 }
 
 export function isWarningPath(path: string) {
+  const isLinux = getPlatform() === 'linux';
+  if (isLinux) return false;
+
   const regexProgramFiles = /[A-Za-z]:\\Program Files( \(x86\))?\\.*$/i;
   const regexSteamCommon = /[A-Za-z]:\\.*\\steam\\steamapps\\common\\.*$/i;
 

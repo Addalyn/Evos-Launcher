@@ -65,6 +65,7 @@ export interface Config {
   showAllChat: string;
   enableDiscordRPC: string;
   branch: string;
+  runAs: string;
   selectedArguments?: Record<string, string | null>;
 }
 
@@ -87,6 +88,7 @@ export interface LaunchOptions {
   config?: string;
   ticket?: string;
   exePath: string;
+  runAs?: string;
   noLogEnabled: string;
 }
 

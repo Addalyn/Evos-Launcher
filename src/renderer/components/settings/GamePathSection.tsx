@@ -12,19 +12,24 @@ import { logoSmall } from 'renderer/lib/Resources';
 import { useTranslation } from 'react-i18next';
 import { isValidExePath, isWarningPath } from 'renderer/lib/Error';
 import truncateDynamicPath from 'renderer/utils/pathUtils';
+import { getPlatform } from 'renderer/utils/electronUtils';
 
 type Props = {
   exePath: string;
+  runAs: string;
   searchMessage: { type: 'success' | 'error' | null; text: string };
   onSelect: () => void;
   onSearch: () => void;
+  onRunAsChange: (value: string) => void;
 };
 
 export default function GamePathSection({
   exePath,
+  runAs,
   searchMessage,
   onSelect,
   onSearch,
+  onRunAsChange,
 }: Props) {
   const { t } = useTranslation();
   return (
@@ -43,6 +48,16 @@ export default function GamePathSection({
         <Alert severity="warning" sx={{ mb: 2 }}>
           {t('warning')}
         </Alert>
+      )}
+      {getPlatform() === 'linux' && (
+        <TextField
+          label={t('settings.runAs')}
+          placeholder={t('settings.runAsPlaceholder')}
+          fullWidth
+          sx={{ mb: 2 }}
+          value={runAs}
+          onChange={(e) => onRunAsChange(e.target.value)}
+        />
       )}
       <TextField
         label={t('settings.atlasPath')}

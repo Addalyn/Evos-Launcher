@@ -81,6 +81,7 @@ export default function useNavbar() {
     setBranch,
     setOldBranch,
     oldBranch,
+    runAs,
     setNoBranchDownload,
     hideChat,
   } = evosStore;
@@ -303,6 +304,7 @@ export default function useNavbar() {
                   port: evosStore.gamePort,
                   ticket: resp.data,
                   name: userName,
+                  runAs,
                   noLogEnabled,
                 },
               });
@@ -324,6 +326,7 @@ export default function useNavbar() {
               port: evosStore.gamePort,
               config: activeUser.configFile,
               name: userName,
+              runAs,
               noLogEnabled,
             },
           });
