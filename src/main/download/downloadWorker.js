@@ -201,7 +201,8 @@ async function processBatch(downloadPath, lines, startIndex, batchSize) {
   // Create array of download promises for parallel processing
   const downloadPromises = [];
   for (let i = startIndex; i < endIndex; i += 1) {
-    const [file, , totalBytesStr] = lines[i].split(':');
+    const [rawFile, , totalBytesStr] = lines[i].split(':');
+    const file = rawFile.replace(/\\/g, '/');
     const totalBytes = Number(totalBytesStr);
 
     if (file === 'f') {
@@ -325,7 +326,7 @@ async function runWorker() {
 
     const newDownloadPath = skipNewPath
       ? downloadPath
-      : `${downloadPath}\\AtlasReactor`;
+      : path.join(downloadPath, 'AtlasReactor');
 
     if (!(await fs.pathExists(newDownloadPath)) && !skipNewPath) {
       await fs.promises.mkdir(newDownloadPath, {
@@ -335,7 +336,7 @@ async function runWorker() {
 
     const finish = await download(
       downloadOptions.manifest,
-      `${newDownloadPath}/${fileName}`,
+      path.join(newDownloadPath, fileName),
       false,
       (bytes, percent) => {
         const now = Date.now();
@@ -355,7 +356,7 @@ async function runWorker() {
 
     if (finish) {
       const manifest = await fs.promises.readFile(
-        `${newDownloadPath}/${fileName}`,
+        path.join(newDownloadPath, fileName),
         'utf-8',
       );
 

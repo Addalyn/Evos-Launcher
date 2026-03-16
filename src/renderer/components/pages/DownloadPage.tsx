@@ -27,7 +27,7 @@ import LinearProgress, {
 import { logoSmall } from 'renderer/lib/Resources';
 import EvosStore from 'renderer/lib/EvosStore';
 import { useTranslation } from 'react-i18next';
-import { withElectron } from 'renderer/utils/electronUtils';
+import { withElectron, getPathSeparator } from 'renderer/utils/electronUtils';
 import DiscordPage from './DiscordPage';
 import truncateDynamicPath from 'renderer/utils/pathUtils';
 
@@ -93,7 +93,7 @@ function LinearProgressWithLabel(props: LinearProgressWithLabelProps) {
   }
 
   // Extract filename from full path
-  const pathArray = text ? text.split('\\') : [];
+  const pathArray = text ? text.split(/[\\/]/) : [];
   const filenameWithExtension =
     pathArray.length > 0 ? pathArray[pathArray.length - 1] : '';
 
@@ -213,7 +213,11 @@ function DownloadPage() {
   const handleComplete = (event: DownloadCompleteEvent): void => {
     setIsDownloading(false);
     setCompleted(event.text);
-    setExePath(`${folderPath}\\AtlasReactor\\Win64\\AtlasReactor.exe`);
+    const sep = getPathSeparator();
+    const relativeExePath = ['AtlasReactor', 'Win64', 'AtlasReactor.exe'].join(
+      sep,
+    );
+    setExePath(`${folderPath}${sep}${relativeExePath}`);
   };
 
   // Setup and cleanup IPC listeners

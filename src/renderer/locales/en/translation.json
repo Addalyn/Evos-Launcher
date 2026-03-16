@@ -215,7 +215,9 @@
     "hideChatLabel": "Hide from Chat (disables chat connection)",
     "chatTab": "Chat",
     "generalNotificationsLabel": "Recieve notifications for general chat",
-    "disableAllNotificationsLabel": "Disable all chat notifications"
+    "disableAllNotificationsLabel": "Disable all chat notifications",
+    "runAs": "Run As",
+    "runAsPlaceholder": "Command to launch game (e.g. wine)"
   },
   "titles": {
     "-1": "",

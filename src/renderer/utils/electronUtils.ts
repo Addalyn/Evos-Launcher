@@ -16,6 +16,23 @@ export function isElectronApp(): boolean {
 }
 
 /**
+ * Gets the current platform from Electron, fallbacks to 'web' if not in Electron
+ * @returns {string} The platform name (e.g., 'win32', 'linux', 'darwin') or 'web'
+ */
+export function getPlatform(): string {
+  return window.electron?.platform || 'web';
+}
+
+/**
+ * Gets the path separator for the current platform
+ * @returns {string} '\\' for Windows, '/' for Linux and macOS, defaults to '/' for web
+ */
+export function getPathSeparator(): string {
+  const platform = getPlatform();
+  return platform === 'win32' ? '\\' : '/';
+}
+
+/**
  * Gets the Electron handler if available, returns null if not in Electron environment
  * @returns {ElectronHandler | null} The Electron handler or null
  */
