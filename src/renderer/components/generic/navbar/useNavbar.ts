@@ -19,7 +19,6 @@ import {
 } from 'renderer/lib/Evos';
 import type { Branches, PlayerData } from 'renderer/lib/Evos';
 import { isValidExePath } from 'renderer/lib/Error';
-import { trackEvent } from '@aptabase/electron/renderer';
 import EvosStore from 'renderer/lib/EvosStore';
 import useWindowDimensions from 'renderer/lib/useWindowDimensions';
 import createNavigationPages from './navigationConfig';
@@ -185,7 +184,6 @@ export default function useNavbar() {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setNoBranchDownload(false);
       const selectedValue = event.target.value;
-      trackEvent('Branch', { branch: selectedValue });
       setOldBranch(branch);
       setBranch(selectedValue);
       setLocked(true);
@@ -208,7 +206,6 @@ export default function useNavbar() {
   const handleDirectBranchChange = useCallback(
     (branchName: string) => {
       setNoBranchDownload(false);
-      trackEvent('Branch', { branch: branchName });
       setOldBranch(branch);
       setBranch(branchName);
       setLocked(true);
@@ -242,14 +239,13 @@ export default function useNavbar() {
 
   const doNavigate = useCallback(
     (href: string) => {
-      trackEvent('Page', { page: `${activeUser?.user}: ${href}` });
       if (href === '#support') {
         setSupportUs(true);
         return;
       }
       navigate(href);
     },
-    [activeUser, navigate],
+    [navigate],
   );
 
   const handleAddUser = useCallback(() => {

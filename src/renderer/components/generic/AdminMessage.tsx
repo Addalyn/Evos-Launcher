@@ -6,7 +6,6 @@
 
 /* eslint-disable consistent-return */
 /* eslint-disable promise/always-return */
-import { trackEvent } from '@aptabase/electron/renderer';
 import { Alert, Paper, Typography } from '@mui/material';
 import { AxiosResponse } from 'axios';
 import { useCallback, useEffect, useState } from 'react';
@@ -84,11 +83,6 @@ function AdminMessage(): ReactElement | null {
           });
 
           if (filteredDodges.length > 0) {
-            trackEvent('dodges', {
-              user: activeUser.user,
-              amount: filteredDodges.length,
-            });
-
             setAccount({
               ...resp.data,
               adminMessage: t('admin.DodgeMessage', {

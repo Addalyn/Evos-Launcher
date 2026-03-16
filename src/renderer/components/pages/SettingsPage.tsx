@@ -15,7 +15,6 @@ import {
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { isElectronApp, withElectron } from 'renderer/utils/electronUtils';
 import EvosStore from 'renderer/lib/EvosStore';
-import { trackEvent } from '@aptabase/electron/renderer';
 import useDevStatus from 'renderer/lib/useDevStatus';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -289,7 +288,6 @@ export default function SettingsPage() {
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const selectedValue = event.target.value;
-    trackEvent('Branch', { branch: selectedValue });
     setBranch(selectedValue);
     setLocked(true);
     if (branchesData) {
@@ -321,9 +319,6 @@ export default function SettingsPage() {
   };
 
   const handleArgumentChange = (key: string, value: string) => {
-    trackEvent('Arguments', {
-      [key]: `${activeUser?.handle}: ${value}`,
-    });
     setSelectedArgumentsTemp((prevSelected) => ({
       ...prevSelected,
       [key]: value,

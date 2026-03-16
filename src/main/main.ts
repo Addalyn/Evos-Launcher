@@ -20,7 +20,6 @@ import {
   authResultLinked,
   setMainWindow,
 } from './services/discordService';
-import { initializeAnalytics } from './services/downloadService';
 import { createConfigFile } from './config';
 import { createMainWindow, createSplashWindow } from './windows/windowManager';
 import { setAuthCallbacks } from './discord/services/auth';
@@ -29,9 +28,6 @@ import {
   setupGlobalShortcuts,
   setupWindowCloseHandler,
 } from './handlers/ipcHandlers';
-
-// Initialize analytics
-initializeAnalytics();
 
 // Initialize Discord RPC
 initializeDiscordRPC();

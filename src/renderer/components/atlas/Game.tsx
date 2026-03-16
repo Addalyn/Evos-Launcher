@@ -20,7 +20,6 @@ import {
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
-import { trackEvent } from '@aptabase/electron/renderer';
 import {
   CharacterType,
   GameData,
@@ -241,7 +240,6 @@ export default function Game({
           <Box
             flexBasis={120}
             onClick={() => {
-              trackEvent('Game Details');
               setCollapsed((x) => !x);
             }}
             style={{

@@ -14,7 +14,6 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { Status } from './lib/Evos';
 
 import EvosStore from './lib/EvosStore';
-import { trackEvent } from '@aptabase/electron/renderer';
 import { useTranslation } from 'react-i18next';
 import { Chart } from 'chart.js';
 
@@ -94,17 +93,6 @@ export default function App() {
 
   // Analytics and initialization effects
   useEffect(() => {
-    trackEvent('Language', {
-      language: i18n.language,
-    });
-    trackEvent('Proxy', {
-      proxy: evosStore.ip,
-    });
-    trackEvent('User', {
-      userName: evosStore.activeUser?.user || 'No User',
-      theme: mode,
-      exePath: evosStore.exePath,
-    });
     withElectron((electron) => {
       electron.ipcRenderer.startDiscord();
     });

@@ -9,20 +9,9 @@
 import { Worker as NativeWorker } from 'worker_threads';
 import path from 'path';
 import { app, BrowserWindow } from 'electron';
-import { initialize, trackEvent } from '@aptabase/electron/main';
 import { translate } from './translationService';
 
 let worker: NativeWorker | null = null;
-
-/**
- * Initializes analytics tracking with Aptabase
- * Sets up the analytics client with the specified app ID and host
- */
-export function initializeAnalytics(): void {
-  initialize('A-SH-9629286137', {
-    host: 'https://launcher.evos.live',
-  });
-}
 
 /**
  * Starts the download process using a worker thread
@@ -64,7 +53,6 @@ export async function startDownload(
         break;
       case 'result':
         if (message.data) {
-          trackEvent('Game Downloaded');
           const completeMessage = await translate(
             'downloadComplete',
             mainWindow,
@@ -112,5 +100,3 @@ export async function startDownload(
 export function terminateDownload(): void {
   worker?.terminate();
 }
-
-export { trackEvent };

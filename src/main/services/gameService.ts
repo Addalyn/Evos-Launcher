@@ -12,7 +12,6 @@ import path from 'path';
 import { app, BrowserWindow } from 'electron';
 import regedit from 'regedit';
 import { Games, LaunchOptions } from '../types';
-import { trackEvent } from '@aptabase/electron/main';
 import log from 'electron-log';
 
 /**
@@ -128,7 +127,6 @@ export function launchGame(
   onGameStart?: (playerName: string) => void,
 ): ChildProcess {
   applyAllChat(enableAllChat);
-  trackEvent('Game Launched');
 
   // Validate executable exists
   if (!fs.existsSync(launchOptions.exePath)) {

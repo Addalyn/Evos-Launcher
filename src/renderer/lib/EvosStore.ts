@@ -8,7 +8,6 @@
 
 import { create } from 'zustand';
 /* eslint-disable no-console */
-import { trackEvent } from '@aptabase/electron/renderer';
 
 /**
  * Helper function to safely execute Electron operations
@@ -546,10 +545,6 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
 
   setIp: async (ip: string) => {
     set({ ip });
-
-    trackEvent('Game Ip Changed', {
-      ip,
-    });
 
     await get().setToStorage('ip', ip);
   },

@@ -35,10 +35,8 @@ import { strapiClient, strapiClientv1 } from 'renderer/lib/strapi';
 import AdvancedDialog from '../pages/AdvancedPage';
 import { BsShield } from 'react-icons/bs';
 import { Close } from '@mui/icons-material';
-import EvosStore from 'renderer/lib/EvosStore';
 import { FaRankingStar } from 'react-icons/fa6';
 import Player from '../atlas/Player';
-import { trackEvent } from '@aptabase/electron/renderer';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -416,7 +414,6 @@ export function Games({
   navigate: any;
   customPlayers?: TeamPlayerInfo[];
 }) {
-  const { activeUser } = EvosStore();
   const [replay, setReplay] = useState<Uploads | undefined>();
   const [selectedReplay, setSelectedReplay] = useState<ReplayFile>();
   const [loading, setLoading] = useState(false);
@@ -1058,10 +1055,6 @@ export function Games({
             color="primary"
             fullWidth
             onClick={() => {
-              trackEvent('Open Replay', {
-                user: activeUser?.handle || '',
-                game: game.GameServerProcessCode,
-              });
               handleOpenReplay();
             }}
             sx={{ marginRight: 2 }} // Add margin to the right
@@ -1075,10 +1068,6 @@ export function Games({
             color="primary"
             fullWidth
             onClick={() => {
-              trackEvent('Open Advanced Stats', {
-                user: activeUser?.handle || '',
-                game: game.GameServerProcessCode,
-              });
               handleOpenAdvanced();
             }}
           >
