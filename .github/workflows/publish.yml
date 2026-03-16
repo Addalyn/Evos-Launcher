@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [windows-latest, ubuntu-latest]
 
     steps:
       - name: Checkout git repo
@@ -20,7 +20,7 @@ jobs:
       - name: Install Node and NPM
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
           cache: npm
 
       - name: Install and build
@@ -34,4 +34,9 @@ jobs:
           # This is used for uploading release assets to github
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npm exec electron-builder -- --publish always --win
+          if [ "${{ matrix.os }}" = "windows-latest" ]; then
+            npm exec electron-builder -- --publish always --win
+          else
+            npm exec electron-builder -- --publish always --linux
+          fi
+        shell: bash

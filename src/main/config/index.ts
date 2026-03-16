@@ -29,6 +29,7 @@ export const defaultConfig: Config = {
   showAllChat: 'true',
   enableDiscordRPC: 'true',
   branch: 'Stable',
+  runAs: process.platform === 'linux' ? 'wine' : '',
   selectedArguments: {},
 };
 

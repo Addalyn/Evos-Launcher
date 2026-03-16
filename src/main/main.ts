@@ -39,12 +39,14 @@ initializeDiscordRPC();
 // Setup auth callbacks
 setAuthCallbacks(authResult, authResultLinked);
 
-// Setup VBS directory for registry operations
-const vbsDirectory = path.join(
-  path.dirname(app.getPath('exe')),
-  './resources/assets/vbs',
-);
-regedit.setExternalVBSLocation(vbsDirectory);
+// Setup VBS directory for registry operations (Windows only)
+if (process.platform === 'win32') {
+  const vbsDirectory = path.join(
+    path.dirname(app.getPath('exe')),
+    './resources/assets/vbs',
+  );
+  regedit.setExternalVBSLocation(vbsDirectory);
+}
 
 let mainWindow: BrowserWindow | null = null;
 log.transports.file.level = 'info';

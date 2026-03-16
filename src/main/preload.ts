@@ -97,6 +97,7 @@ let storeStatus = '' as discordStatus;
 
 const electronHandler = {
   isPackaged: process.env.NODE_ENV === 'production',
+  platform: process.platform,
   ipcRenderer: {
     sendMessage(channel: Channels, ...args: unknown[]) {
       ipcRenderer.send(channel, ...args);

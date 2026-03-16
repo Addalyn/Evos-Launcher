@@ -1,5 +1,13 @@
 # Evos Launcher Changelog
 
+# [3.2.6] - 2026-03-16
+
+## Features & Improvements
+
+- **Linux Support**:
+  - Added support for Linux.
+
+
 # [3.2.5] - 2026-03-13
 
 ## Features & Improvements

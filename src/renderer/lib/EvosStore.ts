@@ -144,6 +144,7 @@ export interface EvosStoreState {
   setExePath: (exePath: string) => void;
   setFolderPath: (folderPath: string) => void;
   setTicketEnabled: (ticketEnabled: string) => void;
+  setRunAs: (runAs: string) => void;
   setNoLogEnabled: (noLogEnabled: string) => void;
   updateAuthenticatedUsers: (
     user: string,
@@ -162,6 +163,7 @@ export interface EvosStoreState {
   gameExpanded: string;
   setGameExpanded: (gameExpanded: string) => void;
   branch: string;
+  runAs: string;
   setBranch: (branch: string) => void;
   selectedArguments: Record<string, string | null>;
   setSelectedArguments: (
@@ -208,6 +210,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   gamePort: '6050',
   ticketEnabled: 'false',
   isDownloading: false,
+  runAs: 'wine',
   noLogEnabled: 'false',
   showAllChat: 'true',
   hideChat: 'false',
@@ -370,6 +373,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       followedPlayers,
       blockedPlayers,
       disableAllNotifications,
+      runAs,
     ] = await Promise.all([
       get().getFromStorage('mode') as string,
       get().getFromStorage('authenticatedUsers') as AuthUser[],
@@ -399,6 +403,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       get().getFromStorage('followedPlayers') as string[],
       get().getFromStorage('blockedPlayers') as string[],
       get().getFromStorage('disableAllNotifications') as string,
+      get().getFromStorage('runAs') as string,
     ]);
 
     let users: AuthUser[] = [];
@@ -460,6 +465,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       followedPlayers: followedPlayers || [],
       blockedPlayers: blockedPlayers || [],
       disableAllNotifications: disableAllNotifications || 'false',
+      runAs: runAs || 'wine',
     });
     get().switchUser(activeUser?.user || users[0]?.user || '');
   },
@@ -555,6 +561,11 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   setExePath: async (exePath: string) => {
     set({ exePath });
     await get().setToStorage('exePath', exePath);
+  },
+
+  setRunAs: async (runAs: string) => {
+    set({ runAs });
+    await get().setToStorage('runAs', runAs);
   },
 
   setFolderPath: async (folderPath: string) => {

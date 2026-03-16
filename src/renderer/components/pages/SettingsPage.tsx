@@ -80,6 +80,8 @@ export default function SettingsPage() {
     gameExpanded,
     branch,
     setBranch,
+    runAs,
+    setRunAs,
     isDev,
     selectedArguments,
     setSelectedArguments,
@@ -418,9 +420,11 @@ export default function SettingsPage() {
         <>
           <GamePathSection
             exePath={exePath}
+            runAs={runAs}
             searchMessage={searchMessage}
             onSelect={() => handleSelectFileClick(false)}
             onSearch={handleSearch}
+            onRunAsChange={(v) => setRunAs(v)}
           />
           {ticketEnabled === 'false' &&
             isElectron &&
