@@ -212,7 +212,10 @@
     "labelTextColor": "Text Color",
     "labelScrollbarColor": "Scrollbar Color",
     "statsVersion": "Stats Version",
-    "hideChatLabel": "Hide from Chat (disables chat connection)"
+    "hideChatLabel": "Hide from Chat (disables chat connection)",
+    "chatTab": "Chat",
+    "generalNotificationsLabel": "Recieve notifications for general chat",
+    "disableAllNotificationsLabel": "Disable all chat notifications"
   },
   "titles": {
     "-1": "",

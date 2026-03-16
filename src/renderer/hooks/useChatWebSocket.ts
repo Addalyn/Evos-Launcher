@@ -10,7 +10,11 @@ import { useState, useRef, useCallback } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import EvosStore from '../lib/EvosStore';
 import { CHAT_WS_URL } from '../lib/Evos';
-import { saveChatMessage, fetchChatHistory } from '../lib/chatApi';
+import {
+  saveChatMessage,
+  fetchChatHistory,
+  updateMessageReactions,
+} from '../lib/chatApi';
 import { ChatMessage, ChatServerMessage } from '../types/chat.types';
 
 interface UseChatWebSocketOptions {
@@ -21,7 +25,8 @@ interface UseChatWebSocketOptions {
 
 interface UseChatWebSocketResult {
   messages: ChatMessage[];
-  sendMessage: (text: string, to: string) => void;
+  sendMessage: (text: string, to: string, repliedToId?: string) => void;
+  sendReaction: (messageId: string, emoji: string, to: string) => void;
   readyState: ReadyState;
   onlineUsers: string[];
   channels: string[];
@@ -69,6 +74,17 @@ export default function useChatWebSocket({
         const data: ChatServerMessage = JSON.parse(event.data);
 
         switch (data.type) {
+          case 'REACTION': {
+            if (!data.messageId || !data.reactions) break;
+            setMessages((prev) =>
+              prev.map((msg) =>
+                msg.id === data.messageId
+                  ? { ...msg, reactions: data.reactions }
+                  : msg,
+              ),
+            );
+            break;
+          }
           case 'CHAT': {
             if (!data.id || !data.from || data.text === undefined) break;
             // Deduplicate by message id
@@ -80,12 +96,12 @@ export default function useChatWebSocket({
               to: data.to,
               text: data.text,
               timestamp: data.timestamp ?? Date.now(),
+              repliedTo: data.repliedTo,
             };
+
             setMessages((prev) => [...prev.slice(-499), msg]);
 
-            // Persist to Strapi
-            const isChannel = !!data.to && channels.includes(data.to);
-            saveChatMessage(msg, isChannel);
+            // Persist to Strapi is now handled in sendMessage to prevent duplicate saves by recipients
             onNewMessage?.(msg);
             break;
           }
@@ -124,7 +140,7 @@ export default function useChatWebSocket({
   });
 
   const sendMessage = useCallback(
-    (text: string, to: string) => {
+    (text: string, to: string, repliedToId?: string) => {
       const { blockedPlayers } = EvosStore.getState();
       // Channels (e.g. 'general') are never in the blocked list — only block DM targets
       const isChannel = channels.includes(to);
@@ -134,14 +150,76 @@ export default function useChatWebSocket({
         return;
       }
       if (!text.trim() || !handle || !to) return;
+
+      const msgId = `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      const msg: ChatMessage = {
+        id: msgId,
+        from: handle,
+        to,
+        text: text.trim(),
+        timestamp: Date.now(),
+        repliedTo: repliedToId,
+      };
+
+      // Persist to Strapi immediately from the sender side
+      saveChatMessage(msg, isChannel);
+
       sendJsonMessage({
         type: 'CHAT',
+        id: msgId,
         from: encodeURIComponent(handle),
         to,
         text: text.trim(),
+        repliedTo: repliedToId,
       });
     },
     [handle, channels, sendJsonMessage],
+  );
+
+  const sendReaction = useCallback(
+    (messageId: string, emoji: string, to: string) => {
+      if (!handle || !messageId) return;
+
+      // Find the message to get current reactions
+      const message = messages.find((m) => m.id === messageId);
+      if (!message) return;
+
+      const currentReactions = { ...(message.reactions || {}) };
+      const users = [...(currentReactions[emoji] || [])];
+      const userIndex = users.indexOf(handle);
+
+      if (userIndex > -1) {
+        users.splice(userIndex, 1);
+      } else {
+        users.push(handle);
+      }
+
+      if (users.length === 0) {
+        delete currentReactions[emoji];
+      } else {
+        currentReactions[emoji] = users;
+      }
+
+      // Optimistically update local state
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === messageId ? { ...msg, reactions: currentReactions } : msg,
+        ),
+      );
+
+      // Broadcast reaction
+      sendJsonMessage({
+        type: 'REACTION',
+        messageId,
+        reactions: currentReactions,
+        to, // Target handle or channel
+        from: handle,
+      });
+
+      // Update Strapi
+      updateMessageReactions(messageId, currentReactions);
+    },
+    [handle, messages, sendJsonMessage],
   );
 
   const clearMessages = useCallback(() => {
@@ -191,6 +269,7 @@ export default function useChatWebSocket({
   return {
     messages,
     sendMessage,
+    sendReaction,
     readyState,
     onlineUsers,
     channels,

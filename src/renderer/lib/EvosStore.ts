@@ -122,6 +122,14 @@ export interface EvosStoreState {
   setShowAllChat: (showAllChat: string) => Promise<void>;
   hideChat: string;
   setHideChat: (hideChat: string) => Promise<void>;
+  showGeneralChatNotifications: string;
+  setShowGeneralChatNotifications: (
+    showGeneralChatNotifications: string,
+  ) => Promise<void>;
+  disableAllNotifications: string;
+  setDisableAllNotifications: (
+    disableAllNotifications: string,
+  ) => Promise<void>;
   setIsDownloading: (isDownloading: boolean) => void;
   init: () => void;
   toggleMode: () => void;
@@ -203,6 +211,8 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   noLogEnabled: 'false',
   showAllChat: 'true',
   hideChat: 'false',
+  showGeneralChatNotifications: 'false',
+  disableAllNotifications: 'false',
   discordId: 0,
   enableDiscordRPC: 'true',
   gameExpanded: 'true',
@@ -348,6 +358,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       enableDiscordRPC,
       gameExpanded,
       branch,
+      showGeneralChatNotifications,
       selectedArguments,
       colorPrimary,
       colorSecondary,
@@ -358,6 +369,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       apiVersion,
       followedPlayers,
       blockedPlayers,
+      disableAllNotifications,
     ] = await Promise.all([
       get().getFromStorage('mode') as string,
       get().getFromStorage('authenticatedUsers') as AuthUser[],
@@ -372,6 +384,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       get().getFromStorage('enableDiscordRPC') as string,
       get().getFromStorage('gameExpanded') as string,
       get().getFromStorage('branch') as string,
+      get().getFromStorage('showGeneralChatNotifications') as string,
       get().getFromStorage('selectedArguments') as Record<
         string,
         string | null
@@ -385,6 +398,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       get().getFromStorage('apiVersion') as 'v1' | 'production',
       get().getFromStorage('followedPlayers') as string[],
       get().getFromStorage('blockedPlayers') as string[],
+      get().getFromStorage('disableAllNotifications') as string,
     ]);
 
     let users: AuthUser[] = [];
@@ -434,6 +448,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       enableDiscordRPC: enableDiscordRPC || 'true',
       gameExpanded: gameExpanded || 'true',
       branch: branch || 'Original',
+      showGeneralChatNotifications: showGeneralChatNotifications || 'false',
       selectedArguments: selectedArguments || {},
       colorPrimary: colorPrimary || '#9cb8ba',
       colorSecondary: colorSecondary || '#0000',
@@ -444,6 +459,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       apiVersion: apiVersion || 'production',
       followedPlayers: followedPlayers || [],
       blockedPlayers: blockedPlayers || [],
+      disableAllNotifications: disableAllNotifications || 'false',
     });
     get().switchUser(activeUser?.user || users[0]?.user || '');
   },
@@ -460,6 +476,22 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   setHideChat: async (hideChat: string) => {
     set({ hideChat });
     await get().setToStorage('hideChat', hideChat);
+  },
+  setShowGeneralChatNotifications: async (
+    showGeneralChatNotifications: string,
+  ) => {
+    set({ showGeneralChatNotifications });
+    await get().setToStorage(
+      'showGeneralChatNotifications',
+      showGeneralChatNotifications,
+    );
+  },
+  setDisableAllNotifications: async (disableAllNotifications: string) => {
+    set({ disableAllNotifications });
+    await get().setToStorage(
+      'disableAllNotifications',
+      disableAllNotifications,
+    );
   },
 
   toggleMode: async () => {

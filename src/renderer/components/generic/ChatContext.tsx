@@ -22,7 +22,8 @@ import { ChatMessage } from 'renderer/types/chat.types';
 
 interface ChatContextType {
   messages: ChatMessage[];
-  sendMessage: (text: string, to: string) => void;
+  sendMessage: (text: string, to: string, repliedToId?: string) => void;
+  sendReaction: (messageId: string, emoji: string, to: string) => void;
   readyState: ReadyState;
   onlineUsers: string[];
   channels: string[];
@@ -39,6 +40,12 @@ const ChatContext = createContext<ChatContextType | undefined>(undefined);
 export function ChatProvider({ children }: { children: React.ReactNode }) {
   const activeUser = EvosStore((state: any) => state.activeUser);
   const hideChat = EvosStore((state: any) => state.hideChat);
+  const showGeneralChatNotifications = EvosStore(
+    (state: any) => state.showGeneralChatNotifications,
+  );
+  const disableAllNotifications = EvosStore(
+    (state: any) => state.disableAllNotifications,
+  );
   const [activeConversation, setActiveConversation] = useState<string | null>(
     null,
   );
@@ -46,6 +53,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
   const {
     messages,
     sendMessage,
+    sendReaction,
     readyState,
     onlineUsers,
     channels,
@@ -58,25 +66,6 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
   const blockedPlayers = EvosStore((state: any) => state.blockedPlayers);
   const [unreadCounts, setUnreadCounts] = useState<Record<string, number>>({});
   const lastProcessedIdRef = useRef<string | null>(null);
-  const historyLoadedForRef = useRef<Set<string>>(new Set());
-
-  // Initial history fetch when activeConversation changes
-  useEffect(() => {
-    if (
-      activeConversation &&
-      !historyLoadedForRef.current.has(activeConversation)
-    ) {
-      loadMoreMessages(activeConversation, 1);
-      historyLoadedForRef.current.add(activeConversation);
-    }
-  }, [activeConversation, loadMoreMessages]);
-
-  /** Reset history tracker on logout/reconnect if needed */
-  useEffect(() => {
-    if (readyState !== ReadyState.OPEN) {
-      historyLoadedForRef.current.clear();
-    }
-  }, [readyState]);
 
   // Track unread messages per user
   useEffect(() => {
@@ -105,7 +94,11 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
         }));
 
         // Trigger system notification
-        if (Notification.permission === 'granted' && unreadKey !== 'general') {
+        if (
+          Notification.permission === 'granted' &&
+          disableAllNotifications === 'false' &&
+          (unreadKey !== 'general' || showGeneralChatNotifications === 'true')
+        ) {
           const notification = new Notification('New Chat Message', {
             body: `${lastMessage.from}: ${lastMessage.text}`,
             silent: false,
@@ -126,6 +119,8 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     activeConversation,
     blockedPlayers,
     channels,
+    showGeneralChatNotifications,
+    disableAllNotifications,
   ]);
 
   const clearUnread = useCallback((handle: string) => {
@@ -145,6 +140,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     () => ({
       messages,
       sendMessage,
+      sendReaction,
       readyState,
       onlineUsers,
       channels,
@@ -158,6 +154,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     [
       messages,
       sendMessage,
+      sendReaction,
       readyState,
       onlineUsers,
       channels,
