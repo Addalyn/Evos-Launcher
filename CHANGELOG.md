@@ -4,7 +4,7 @@
 
 ## Features & Improvements
 
-- **Linxu Support**:
+- **Linux Support**:
   - Added support for Linux.
 
 
