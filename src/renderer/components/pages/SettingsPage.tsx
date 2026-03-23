@@ -59,6 +59,7 @@ export default function SettingsPage() {
   useDevStatus();
   const {
     ip,
+    gamePort,
     exePath,
     mode,
     toggleMode,
@@ -373,7 +374,9 @@ export default function SettingsPage() {
       key: 'server',
       label: t('settings.server', 'Server'),
       hidden: false,
-      content: <ServerSection ip={ip} onChange={handleChange} />,
+      content: (
+        <ServerSection ip={`${ip}:${gamePort}`} onChange={handleChange} />
+      ),
     },
     {
       key: 'chat',

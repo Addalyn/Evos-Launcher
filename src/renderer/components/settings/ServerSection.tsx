@@ -14,11 +14,12 @@ export default function ServerSection({ ip, onChange }: Props) {
     <SectionCard title={t('settings.server', 'Server')}>
       <FormControl fullWidth>
         <Select value={ip} onChange={onChange}>
-          <MenuItem value="ar.zheneq.net">{t('ips.noProxy')}</MenuItem>
-          <MenuItem value="de.evos.live">{t('ips.proxy1')}</MenuItem>
-          <MenuItem value="fr.evos.live">{t('ips.proxy2')}</MenuItem>
-          <MenuItem value="fi.evos.live">{t('ips.proxy3')}</MenuItem>
-          <MenuItem value="ru.ar.zheneq.net">{t('ips.proxy4')}</MenuItem>
+          <MenuItem value="ar.zheneq.net:6050">{t('ips.noProxy')}</MenuItem>
+          <MenuItem value="de.evos.live:6050">{t('ips.proxy1')}</MenuItem>
+          <MenuItem value="fr.evos.live:6050">{t('ips.proxy2')}</MenuItem>
+          <MenuItem value="fi.evos.live:6050">{t('ips.proxy3')}</MenuItem>
+          <MenuItem value="ru.ar.zheneq.net:6050">{t('ips.proxy4')}</MenuItem>
+          <MenuItem value="nl.ar.zheneq.net:6051">{t('ips.proxy5')}</MenuItem>
         </Select>
       </FormControl>
     </SectionCard>
