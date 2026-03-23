@@ -57,7 +57,8 @@ function IpComponent(): React.ReactElement {
   const { setIp } = EvosStore();
 
   /** State for tracking the currently selected IP address */
-  const [selectedIp, setSelectedIp] = useState<ServerIpOption>('ar.zheneq.net:6050');
+  const [selectedIp, setSelectedIp] =
+    useState<ServerIpOption>('ar.zheneq.net:6050');
 
   /** Translation hook for internationalization */
   const { t } = useTranslation();
