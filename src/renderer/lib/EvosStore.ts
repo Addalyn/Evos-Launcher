@@ -139,7 +139,6 @@ export interface EvosStoreState {
     handle: string,
     banner: number,
   ) => void;
-  setGamePort: (gamePort: string) => void;
   setExePath: (exePath: string) => void;
   setFolderPath: (folderPath: string) => void;
   setTicketEnabled: (ticketEnabled: string) => void;
@@ -413,20 +412,20 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
 
     // Compatibility with old config files change ip to new values
     if (ip === 'arproxy.addalyn.baby') {
-      ip = 'de.evos.live';
+      ip = 'de.evos.live:6050';
       get().setIp(ip);
     }
     if (ip === 'arproxy2.addalyn.baby') {
-      ip = 'fr.evos.live';
+      ip = 'fr.evos.live:6050';
       get().setIp(ip);
     }
     if (ip === 'arproxy3.addalyn.baby') {
-      ip = 'fi.evos.live';
+      ip = 'fi.evos.live:6050';
       get().setIp(ip);
     }
     // Expired domain
     if (ip === 'evos-emu.com') {
-      ip = 'ar.zheneq.net';
+      ip = 'ar.zheneq.net:6050';
       get().setIp(ip);
     }
 
@@ -543,10 +542,12 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
     await get().setToStorage('enableDiscordRPC', newMode);
   },
 
-  setIp: async (ip: string) => {
-    set({ ip });
+  setIp: async (address: string) => {
+    const [ip, gamePort = '6050'] = address.split(':');
+    set({ ip, gamePort });
 
     await get().setToStorage('ip', ip);
+    await get().setToStorage('gamePort', gamePort);
   },
 
   setIsDownloading: async (isDownloading: boolean) => {
@@ -576,11 +577,6 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   setNoLogEnabled: async (noLogEnabled: string) => {
     set({ noLogEnabled });
     await get().setToStorage('noLogEnabled', noLogEnabled);
-  },
-
-  setGamePort: async (gamePort: string) => {
-    set({ gamePort });
-    await get().setToStorage('gamePort', gamePort);
   },
 
   setAuthenticatedUsers: async (

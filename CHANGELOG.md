@@ -1,5 +1,11 @@
 # Evos Launcher Changelog
 
+## [3.2.7] - 2026-03-24
+
+### Improvements
+
+- **Proxy**: Added a proxy server in the Netherlands.
+
 # [3.2.6] - 2026-03-16
 
 ## Features & Improvements

@@ -22,11 +22,12 @@ import { useTranslation } from 'react-i18next';
  * Type definition for available server IP options
  */
 type ServerIpOption =
-  | 'ar.zheneq.net'
-  | 'de.evos.live'
-  | 'fr.evos.live'
-  | 'fi.evos.live'
-  | 'ru.ar.zheneq.net';
+  | 'ar.zheneq.net:6050'
+  | 'de.evos.live:6050'
+  | 'fr.evos.live:6050'
+  | 'fi.evos.live:6050'
+  | 'ru.ar.zheneq.net:6050'
+  | 'nl.ar.zheneq.net:6051';
 
 /**
  * IpComponent for selecting and configuring server IP addresses.
@@ -41,6 +42,7 @@ type ServerIpOption =
  * - fr.evos.live: French proxy server
  * - fi.evos.live: Finnish proxy server
  * - ru.ar.zheneq.net: Russian proxy server
+ * - nl.ar.zheneq.net: Dutch proxy server
  *
  * @component
  * @returns {React.ReactElement} The IP selection component
@@ -55,7 +57,7 @@ function IpComponent(): React.ReactElement {
   const { setIp } = EvosStore();
 
   /** State for tracking the currently selected IP address */
-  const [selectedIp, setSelectedIp] = useState<ServerIpOption>('ar.zheneq.net');
+  const [selectedIp, setSelectedIp] = useState<ServerIpOption>('ar.zheneq.net:6050');
 
   /** Translation hook for internationalization */
   const { t } = useTranslation();
@@ -88,11 +90,12 @@ function IpComponent(): React.ReactElement {
         {/* Server IP dropdown selection */}
         <FormControl fullWidth>
           <Select value={selectedIp} onChange={handleSelectChange}>
-            <MenuItem value="ar.zheneq.net">{t('ips.noProxy')}</MenuItem>
-            <MenuItem value="de.evos.live">{t('ips.proxy1')}</MenuItem>
-            <MenuItem value="fr.evos.live">{t('ips.proxy2')}</MenuItem>
-            <MenuItem value="fi.evos.live">{t('ips.proxy3')}</MenuItem>
-            <MenuItem value="ru.ar.zheneq.net">{t('ips.proxy4')}</MenuItem>
+            <MenuItem value="ar.zheneq.net:6050">{t('ips.noProxy')}</MenuItem>
+            <MenuItem value="de.evos.live:6050">{t('ips.proxy1')}</MenuItem>
+            <MenuItem value="fr.evos.live:6050">{t('ips.proxy2')}</MenuItem>
+            <MenuItem value="fi.evos.live:6050">{t('ips.proxy3')}</MenuItem>
+            <MenuItem value="ru.ar.zheneq.net:6050">{t('ips.proxy4')}</MenuItem>
+            <MenuItem value="nl.ar.zheneq.net:6051">{t('ips.proxy5')}</MenuItem>
           </Select>
         </FormControl>
 

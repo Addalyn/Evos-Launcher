@@ -129,7 +129,8 @@
     "proxy1": "de.evos.live (Almanya Vekil Sunucusu)",
     "proxy2": "fr.evos.live (Fransa Vekil Sunucusu)",
     "proxy3": "fi.evos.live (Finlandiya Vekil Sunucusu)",
-    "proxy4": "ru.ar.zheneq.net (Rusya Vekil Sunucusu)"
+    "proxy4": "ru.ar.zheneq.net (Rusya Vekil Sunucusu)",
+    "proxy5": "nl.ar.zheneq.net (Hollanda Vekil Sunucusu)"
   },
   "download": {
     "infoLine1": "Oyunu Steam ya da diğer resmi kaynaklardan indirmenizi tavsiye ederiz.",
