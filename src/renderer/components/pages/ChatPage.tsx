@@ -498,11 +498,11 @@ export default function ChatPage() {
     clearUnread,
     setActiveConversation,
     loadMoreMessages,
+    hasLoadedHistory,
   } = useChat();
 
   const [isLoadingHistory, setIsLoadingHistory] = useState(false);
   const [hasMoreHistory, setHasMoreHistory] = useState(true);
-  const nextPageRef = useRef(1);
   const sentinelRef = useRef<HTMLDivElement>(null);
 
   const blockedPlayers = EvosStore((state: any) => state.blockedPlayers);
@@ -570,31 +570,25 @@ export default function ChatPage() {
     }
   }, [channels, selectedUser]);
 
-  // Track which conversations have already had their history fetched
-  const historyLoadedRef = useRef<Set<string>>(new Set());
-
   // Load history when a conversation is first opened
   useEffect(() => {
     if (!selectedUser || !activeUser?.handle) return;
-    if (historyLoadedRef.current.has(selectedUser)) return;
+    if (hasLoadedHistory(selectedUser)) return;
 
     const fetchHistory = async () => {
       try {
-        const count = await loadMoreMessages(selectedUser, 1);
-        if (count > 0) {
-          historyLoadedRef.current.add(selectedUser);
-        }
+        const { hasMore } = await loadMoreMessages(selectedUser);
+        setHasMoreHistory(hasMore);
       } catch {
         // silent fail to allow retries if loadMoreMessages changes
       }
     };
 
     fetchHistory();
-  }, [selectedUser, loadMoreMessages, activeUser?.handle]);
+  }, [selectedUser, loadMoreMessages, hasLoadedHistory, activeUser?.handle]);
 
   // Reset pagination when conversation changes
   useEffect(() => {
-    nextPageRef.current = 1;
     setHasMoreHistory(true);
     setIsLoadingHistory(false);
   }, [selectedUser]);
@@ -609,15 +603,8 @@ export default function ChatPage() {
           const loadMore = async () => {
             setIsLoadingHistory(true);
             try {
-              const count = await loadMoreMessages(
-                selectedUser,
-                nextPageRef.current + 1,
-              );
-              if (count > 0) {
-                nextPageRef.current += 1;
-              } else {
-                setHasMoreHistory(false);
-              }
+              const { hasMore } = await loadMoreMessages(selectedUser);
+              setHasMoreHistory(hasMore);
             } catch (err) {
               // console.error('Failed to load more messages:', err);
             } finally {

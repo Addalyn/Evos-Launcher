@@ -234,8 +234,8 @@ export default function SettingsPage() {
     });
     withElectron((electron) => electron.store.clear());
     setTimeout(() => {
-      navigate('/login');
-    }, 500);
+      withElectron((electron) => electron.ipcRenderer.restartApp());
+    }, 1000);
   };
 
   const handleDeleteClick = () => {

@@ -32,7 +32,10 @@ interface ChatContextType {
   totalUnreadCount: number;
   setActiveConversation: (handle: string | null) => void;
   activeConversation: string | null;
-  loadMoreMessages: (conversation: string, page: number) => Promise<number>;
+  loadMoreMessages: (
+    conversation: string,
+  ) => Promise<{ count: number; hasMore: boolean }>;
+  hasLoadedHistory: (conversation: string) => boolean;
 }
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
@@ -58,6 +61,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     onlineUsers,
     channels,
     loadMoreMessages,
+    hasLoadedHistory,
   } = useChatWebSocket({
     handle: activeUser?.handle,
     enabled: !!activeUser && hideChat !== 'true',
@@ -150,6 +154,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
       setActiveConversation,
       activeConversation,
       loadMoreMessages,
+      hasLoadedHistory,
     }),
     [
       messages,
@@ -163,6 +168,7 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
       totalUnreadCount,
       activeConversation,
       loadMoreMessages,
+      hasLoadedHistory,
     ],
   );
 

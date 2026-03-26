@@ -664,7 +664,9 @@ export function setupIpcHandlers(mainWindow: BrowserWindow | null): void {
   });
 
   ipcMain.handle('quitAndInstall', async () => {
-    autoUpdater.quitAndInstall();
+    // autoUpdater.quitAndInstall();
+    app.relaunch();
+    app.exit(0);
   });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
