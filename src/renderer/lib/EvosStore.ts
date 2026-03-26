@@ -129,6 +129,8 @@ export interface EvosStoreState {
   setDisableAllNotifications: (
     disableAllNotifications: string,
   ) => Promise<void>;
+  minimizeToTray: string;
+  setMinimizeToTray: (minimizeToTray: string) => Promise<void>;
   setIsDownloading: (isDownloading: boolean) => void;
   init: () => void;
   toggleMode: () => void;
@@ -226,6 +228,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   apiVersion: 'production',
   followedPlayers: [],
   blockedPlayers: [],
+  minimizeToTray: 'false',
 
   setStats: async (stats: string) => {
     set({ stats });
@@ -372,6 +375,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       blockedPlayers,
       disableAllNotifications,
       runAs,
+      minimizeToTray,
     ] = await Promise.all([
       get().getFromStorage('mode') as string,
       get().getFromStorage('authenticatedUsers') as AuthUser[],
@@ -402,6 +406,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       get().getFromStorage('blockedPlayers') as string[],
       get().getFromStorage('disableAllNotifications') as string,
       get().getFromStorage('runAs') as string,
+      get().getFromStorage('minimizeToTray') as string,
     ]);
 
     let users: AuthUser[] = [];
@@ -464,6 +469,7 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       blockedPlayers: blockedPlayers || [],
       disableAllNotifications: disableAllNotifications || 'false',
       runAs: runAs || 'wine',
+      minimizeToTray: minimizeToTray || 'false',
     });
     get().switchUser(activeUser?.user || users[0]?.user || '');
   },
@@ -577,6 +583,11 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   setNoLogEnabled: async (noLogEnabled: string) => {
     set({ noLogEnabled });
     await get().setToStorage('noLogEnabled', noLogEnabled);
+  },
+
+  setMinimizeToTray: async (minimizeToTray: string) => {
+    set({ minimizeToTray });
+    await get().setToStorage('minimizeToTray', minimizeToTray);
   },
 
   setAuthenticatedUsers: async (

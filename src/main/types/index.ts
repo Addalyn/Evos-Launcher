@@ -66,6 +66,7 @@ export interface Config {
   enableDiscordRPC: string;
   branch: string;
   runAs: string;
+  minimizeToTray: string;
   selectedArguments?: Record<string, string | null>;
 }
 

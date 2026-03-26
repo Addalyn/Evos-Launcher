@@ -55,46 +55,50 @@ const createNavigationPages = (
       icon: React.createElement(Home),
       authentication: false, // No authentication required for status page
     },
-    ...(hideChat !== 'true'
+    ...(process.env.APP_EDITION !== 'lite'
       ? [
+          ...(hideChat !== 'true'
+            ? [
+                {
+                  title: t('menuOptions.chat', 'Chat'),
+                  href: '/chat',
+                  icon: React.createElement(Chat),
+                  authentication: true,
+                },
+              ]
+            : []),
           {
-            title: t('menuOptions.chat', 'Chat'),
-            href: '/chat',
-            icon: React.createElement(Chat),
-            authentication: true,
+            title: t('menuOptions.gstats'),
+            href: '/stats',
+            icon: React.createElement(BarChart),
+            authentication: true, // Requires authentication for game stats
+          },
+          {
+            title: t('menuOptions.pstats'),
+            href: '/playerstats',
+            icon: React.createElement(BarChart),
+            authentication: true, // Requires authentication for player stats
+          },
+          {
+            title: t('menuOptions.quests'),
+            href: '/quests',
+            icon: React.createElement(EmojiEvents),
+            authentication: true, // Requires authentication for quests players
+          },
+          {
+            title: t('menuOptions.previousGames'),
+            href: '/previousgames',
+            icon: React.createElement(History),
+            authentication: true, // Requires authentication for previous games
+          },
+          {
+            title: t('menuOptions.folowedPlayers'),
+            href: '/followed-players',
+            icon: React.createElement(People),
+            authentication: true, // Requires authentication for followed players
           },
         ]
       : []),
-    {
-      title: t('menuOptions.gstats'),
-      href: '/stats',
-      icon: React.createElement(BarChart),
-      authentication: true, // Requires authentication for game stats
-    },
-    {
-      title: t('menuOptions.pstats'),
-      href: '/playerstats',
-      icon: React.createElement(BarChart),
-      authentication: true, // Requires authentication for player stats
-    },
-    {
-      title: t('menuOptions.quests'),
-      href: '/quests',
-      icon: React.createElement(EmojiEvents),
-      authentication: true, // Requires authentication for quests players
-    },
-    {
-      title: t('menuOptions.previousGames'),
-      href: '/previousgames',
-      icon: React.createElement(History),
-      authentication: true, // Requires authentication for previous games
-    },
-    {
-      title: t('menuOptions.folowedPlayers'),
-      href: '/followed-players',
-      icon: React.createElement(People),
-      authentication: true, // Requires authentication for followed players
-    },
     // Electron-only navigation items
     ...(electronFeatures.isAvailable
       ? [

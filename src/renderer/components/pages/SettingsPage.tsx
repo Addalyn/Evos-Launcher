@@ -103,6 +103,8 @@ export default function SettingsPage() {
     setShowGeneralChatNotifications,
     disableAllNotifications,
     setDisableAllNotifications,
+    minimizeToTray,
+    setMinimizeToTray,
   } = EvosStore();
 
   const [password, setPassword] = useState('');
@@ -381,7 +383,7 @@ export default function SettingsPage() {
     {
       key: 'chat',
       label: t('settings.chatTab', 'Chat'),
-      hidden: false,
+      hidden: process.env.APP_EDITION === 'lite',
       content: (
         <ChatSection
           showGeneralChatNotifications={showGeneralChatNotifications}
@@ -446,6 +448,8 @@ export default function SettingsPage() {
             setTicketEnabled={(v) => setTicketEnabled(v)}
             noLogEnabled={noLogEnabled}
             setNoLogEnabled={(v) => setNoLogEnabled(v)}
+            minimizeToTray={minimizeToTray}
+            setMinimizeToTray={(v) => setMinimizeToTray(v)}
           />
         </>
       ),

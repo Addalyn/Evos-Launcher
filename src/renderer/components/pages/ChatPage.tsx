@@ -556,9 +556,9 @@ export default function ChatPage() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Redirect if chat is hidden
+  // Redirect if chat is hidden or if it's lite edition
   useEffect(() => {
-    if (hideChat === 'true') {
+    if (hideChat === 'true' || process.env.APP_EDITION === 'lite') {
       navigate('/');
     }
   }, [hideChat, navigate]);

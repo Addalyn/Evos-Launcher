@@ -14,6 +14,8 @@ type Props = {
   setTicketEnabled: (v: string) => void;
   noLogEnabled: string;
   setNoLogEnabled: (v: string) => void;
+  minimizeToTray: string;
+  setMinimizeToTray: (v: string) => void;
 };
 
 export default function AdvancedSection({
@@ -27,6 +29,8 @@ export default function AdvancedSection({
   setTicketEnabled,
   noLogEnabled,
   setNoLogEnabled,
+  minimizeToTray,
+  setMinimizeToTray,
 }: Props) {
   const { t } = useTranslation();
   return (
@@ -68,6 +72,14 @@ export default function AdvancedSection({
           checked={noLogEnabled === 'true'}
           onChange={() =>
             setNoLogEnabled(noLogEnabled === 'true' ? 'false' : 'true')
+          }
+        />
+        <FormControlLabel
+          control={<Switch />}
+          label={t('settings.minimizeToTray', 'Minimize to tray on game start')}
+          checked={minimizeToTray === 'true'}
+          onChange={() =>
+            setMinimizeToTray(minimizeToTray === 'true' ? 'false' : 'true')
           }
         />
       </FormGroup>
