@@ -253,7 +253,7 @@ const createWindow = async (): Promise<void> => {
       autoUpdater.quitAndInstall();
     });
 
-    if (app.getName() === 'Evos-Launcher-Lite') {
+    if (process.env.APP_EDITION === 'lite') {
       autoUpdater.channel = 'lite';
     } else {
       autoUpdater.channel = 'latest';
