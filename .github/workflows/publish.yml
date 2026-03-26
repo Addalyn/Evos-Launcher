@@ -45,9 +45,9 @@ jobs:
         run: |
           if [ "${{ matrix.edition }}" = "lite" ]; then
             if [ "${{ matrix.os }}" = "windows-latest" ]; then
-              npm exec electron-builder -- --publish always --win -c.productName="Evos-Launcher-Lite" -c.appId="baby.addalyn.evoslauncher.lite"
+              npm exec electron-builder -- --publish always --win -c.productName="Evos-Launcher-Lite" -c.appId="baby.addalyn.evoslauncher.lite" -c.publish.channel="lite"
             else
-              npm exec electron-builder -- --publish always --linux -c.productName="Evos-Launcher-Lite" -c.appId="baby.addalyn.evoslauncher.lite"
+              npm exec electron-builder -- --publish always --linux -c.productName="Evos-Launcher-Lite" -c.appId="baby.addalyn.evoslauncher.lite" -c.publish.channel="lite"
             fi
           else
             if [ "${{ matrix.os }}" = "windows-latest" ]; then
