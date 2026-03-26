@@ -1,6 +1,27 @@
 # Evos Launcher Changelog
 
-## [3.2.7] - 2026-03-24
+# [3.2.8] - 2026-03-26
+
+## Features & Improvements
+
+- **Server IP Proxies**:
+  - Transitioned from hardcoded server IP options to a dynamic, localized configuration fetched from our remote servers.
+  - The proxy list now dynamically adapts without requiring a launcher update.
+- **Update System**:
+  - Updated the update notification text for clarity across all supported languages ("New version found, Click to restart...").
+  - Improved the `VersionUpdater` dialog logic for better reliability.
+- **Settings**:
+  - Clearing application data will now properly restart the launcher instead of redirecting to the login screen.
+
+## Bug Fixes
+
+- **Chat**:
+  - Optimized chat message loading to prevent redundant database fetches when scrolling or switching conversations.
+  - Messages are properly cached using a `hasLoadedHistory` check.
+- **App Update**:
+  - Fixed an issue where the launcher wouldn't reliably restart when `quitAndInstall` was invoked, by explicitly relaunching the app.
+
+# [3.2.7] - 2026-03-24
 
 ### Improvements
 

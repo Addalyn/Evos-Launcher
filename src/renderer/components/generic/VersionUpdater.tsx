@@ -33,13 +33,11 @@ interface GetVersion {
  * @returns {JSX.Element}
  */
 function VersionUpdater() {
-  const [message, setMessage] = useState<string>('');
   const [latestVersion, setLatestVersion] = useState<GetVersion | undefined>();
   const [version, setVersion] = useState<number | string | undefined>();
-  const [ready, setReady] = useState<boolean>(false);
-  const [needUpdate, setNeedUpdate] = useState<boolean>(false);
   const { t } = useTranslation();
   const [showRestartDialog, setShowRestartDialog] = useState<boolean>(false);
+  const [needUpdate, setNeedUpdate] = useState<boolean>(false);
 
   // Fetch local version once on mount
   useEffect(() => {
@@ -82,7 +80,7 @@ function VersionUpdater() {
 
   // Handle version checking and message processing
   useEffect(() => {
-    if (latestVersion && typeof version !== 'undefined' && message === '') {
+    if (latestVersion && typeof version !== 'undefined') {
       // Always compare as string for semver
       const latest =
         typeof latestVersion.version === 'string'
@@ -92,48 +90,9 @@ function VersionUpdater() {
       if (semverGt(latest, local)) {
         withElectron((electron) => electron.ipcRenderer.checkVersion());
         setNeedUpdate(true);
-      } else {
-        setNeedUpdate(false);
       }
     }
-  }, [latestVersion, version, message]);
-
-  // Handle update-related messages
-  useEffect(() => {
-    if (message === 'Update available.') {
-      setNeedUpdate(true);
-    }
-    if (message === 'updateDownloaded') {
-      setReady(true);
-    }
-    if (message === 'completed') {
-      setMessage('');
-    }
-  }, [message]);
-
-  // Listen for update messages from Electron
-  useEffect(() => {
-    /**
-     * Handles incoming messages from the electron main process
-     * @param args - Arguments passed from the IPC renderer, first argument is the message
-     */
-    function handleMessage(...args: unknown[]): void {
-      const event = args[0] as string;
-      setMessage(event);
-    }
-    withElectron((electron) =>
-      electron.ipcRenderer.on('message', handleMessage),
-    );
-  }, []);
-
-  /**
-   * Notifies the user about restart and triggers application restart
-   * Shows alert dialog and restarts the app after a delay
-   */
-  // Handler for update button click (no inline function in JSX)
-  const handleUpdateClick = () => {
-    setShowRestartDialog(true);
-  };
+  }, [latestVersion, version]);
 
   // Handler for confirming restart in dialog
   const handleRestartConfirm = () => {
@@ -147,42 +106,20 @@ function VersionUpdater() {
 
   if (!showUpdateDialog && !showRestartDialog) return null;
   return (
-    <>
-      <Dialog maxWidth="xl" open={showUpdateDialog}>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {ready ? (
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={handleUpdateClick}
-                sx={{ cursor: 'pointer' }}
-              >
-                {t('update')}
-              </Button>
-            ) : (
-              t(message) || ''
-            )}
-          </DialogContentText>
-        </DialogContent>
-      </Dialog>
-      <Dialog
-        open={showRestartDialog}
-        onClose={() => setShowRestartDialog(false)}
-      >
-        <DialogContent>
-          <DialogContentText>{t('updateRestarting')}</DialogContentText>
+    <Dialog maxWidth="xl" open={showUpdateDialog}>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
           <Button
-            variant="contained"
+            variant="outlined"
             color="primary"
             onClick={handleRestartConfirm}
-            sx={{ mt: 2 }}
+            sx={{ cursor: 'pointer' }}
           >
-            {t('ok')}
+            {t('update')}
           </Button>
-        </DialogContent>
-      </Dialog>
-    </>
+        </DialogContentText>
+      </DialogContent>
+    </Dialog>
   );
 }
 

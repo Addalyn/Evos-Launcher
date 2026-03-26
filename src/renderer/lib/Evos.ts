@@ -599,3 +599,14 @@ export async function getBranches() {
   const baseUrl = `https://builds.evos.live/builds.json`;
   return axios.get<Branches>(baseUrl);
 }
+
+export interface Proxy {
+  ip: string;
+  [key: string]: string | undefined;
+}
+
+export async function getProxys() {
+  return axios.get<Proxy[]>(
+    `https://misc.evos.live/proxys.json?rand=${Math.random()}`,
+  );
+}

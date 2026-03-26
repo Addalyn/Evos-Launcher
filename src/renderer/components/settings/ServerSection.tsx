@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SectionCard from './SectionCard';
 import { FormControl, MenuItem, Select } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { getProxys, type Proxy } from 'renderer/lib/Evos';
 
 type Props = {
   ip: string;
@@ -9,17 +10,29 @@ type Props = {
 };
 
 export default function ServerSection({ ip, onChange }: Props) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [proxies, setProxies] = useState<Proxy[]>([]);
+
+  useEffect(() => {
+    getProxys()
+      .then((response) => {
+        setProxies(response.data);
+        return response.data;
+      })
+      .catch(() => {
+        // silently ignore fetch errors
+      });
+  }, []);
+
   return (
     <SectionCard title={t('settings.server', 'Server')}>
       <FormControl fullWidth>
         <Select value={ip} onChange={onChange}>
-          <MenuItem value="ar.zheneq.net:6050">{t('ips.noProxy')}</MenuItem>
-          <MenuItem value="de.evos.live:6050">{t('ips.proxy1')}</MenuItem>
-          <MenuItem value="fr.evos.live:6050">{t('ips.proxy2')}</MenuItem>
-          <MenuItem value="fi.evos.live:6050">{t('ips.proxy3')}</MenuItem>
-          <MenuItem value="ru.ar.zheneq.net:6050">{t('ips.proxy4')}</MenuItem>
-          <MenuItem value="nl.ar.zheneq.net:6051">{t('ips.proxy5')}</MenuItem>
+          {proxies.map((proxy) => (
+            <MenuItem key={proxy.ip} value={proxy.ip}>
+              {proxy[i18n.language] || proxy.en || proxy.name || proxy.ip}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </SectionCard>

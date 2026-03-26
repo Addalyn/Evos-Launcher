@@ -5,7 +5,7 @@
  * state management and integrates with the global EvosStore for persistence.
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { SelectChangeEvent } from '@mui/material';
 import {
   Box,
@@ -17,17 +17,7 @@ import {
 } from '@mui/material';
 import EvosStore from 'renderer/lib/EvosStore';
 import { useTranslation } from 'react-i18next';
-
-/**
- * Type definition for available server IP options
- */
-type ServerIpOption =
-  | 'ar.zheneq.net:6050'
-  | 'de.evos.live:6050'
-  | 'fr.evos.live:6050'
-  | 'fi.evos.live:6050'
-  | 'ru.ar.zheneq.net:6050'
-  | 'nl.ar.zheneq.net:6051';
+import { getProxys, type Proxy } from 'renderer/lib/Evos';
 
 /**
  * IpComponent for selecting and configuring server IP addresses.
@@ -35,14 +25,7 @@ type ServerIpOption =
  * This component provides a user interface for selecting between different EVOS server
  * endpoints. Users can choose from the main server or various proxy servers located
  * in different regions. The selected IP is stored in the global EvosStore.
- *
- * Available server options:
- * - ar.zheneq.net: Main server (no proxy)
- * - de.evos.live: German proxy server
- * - fr.evos.live: French proxy server
- * - fi.evos.live: Finnish proxy server
- * - ru.ar.zheneq.net: Russian proxy server
- * - nl.ar.zheneq.net: Dutch proxy server
+ * The list of available proxies is fetched dynamically from the remote proxy list.
  *
  * @component
  * @returns {React.ReactElement} The IP selection component
@@ -56,12 +39,31 @@ function IpComponent(): React.ReactElement {
   /** EvosStore hook for accessing IP setter function */
   const { setIp } = EvosStore();
 
+  /** Dynamically fetched proxy list */
+  const [proxies, setProxies] = useState<Proxy[]>([]);
+
   /** State for tracking the currently selected IP address */
-  const [selectedIp, setSelectedIp] =
-    useState<ServerIpOption>('ar.zheneq.net:6050');
+  const [selectedIp, setSelectedIp] = useState<string>('');
 
   /** Translation hook for internationalization */
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  /** Fetch the proxy list on mount */
+  useEffect(() => {
+    getProxys()
+      .then((response) => {
+        const list: Proxy[] = response.data;
+        setProxies(list);
+        if (list.length > 0 && selectedIp === '') {
+          setSelectedIp(list[0].ip);
+        }
+        return list;
+      })
+      .catch(() => {
+        // silently ignore fetch errors
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   /**
    * Handles form submission and updates the global IP setting
@@ -76,7 +78,7 @@ function IpComponent(): React.ReactElement {
    * @param {SelectChangeEvent<string>} event - The select change event
    */
   const handleSelectChange = (event: SelectChangeEvent<string>): void => {
-    setSelectedIp(event.target.value as ServerIpOption);
+    setSelectedIp(event.target.value);
   };
 
   return (
@@ -91,12 +93,11 @@ function IpComponent(): React.ReactElement {
         {/* Server IP dropdown selection */}
         <FormControl fullWidth>
           <Select value={selectedIp} onChange={handleSelectChange}>
-            <MenuItem value="ar.zheneq.net:6050">{t('ips.noProxy')}</MenuItem>
-            <MenuItem value="de.evos.live:6050">{t('ips.proxy1')}</MenuItem>
-            <MenuItem value="fr.evos.live:6050">{t('ips.proxy2')}</MenuItem>
-            <MenuItem value="fi.evos.live:6050">{t('ips.proxy3')}</MenuItem>
-            <MenuItem value="ru.ar.zheneq.net:6050">{t('ips.proxy4')}</MenuItem>
-            <MenuItem value="nl.ar.zheneq.net:6051">{t('ips.proxy5')}</MenuItem>
+            {proxies.map((proxy) => (
+              <MenuItem key={proxy.ip} value={proxy.ip}>
+                {proxy[i18n.language] || proxy.en || proxy.name || proxy.ip}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
 

@@ -31,7 +31,10 @@ interface UseChatWebSocketResult {
   onlineUsers: string[];
   channels: string[];
   clearMessages: () => void;
-  loadMoreMessages: (conversation: string, page: number) => Promise<number>;
+  loadMoreMessages: (
+    conversation: string,
+  ) => Promise<{ count: number; hasMore: boolean }>;
+  hasLoadedHistory: (conversation: string) => boolean;
 }
 
 /**
@@ -50,6 +53,9 @@ export default function useChatWebSocket({
   const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
   const [channels, setChannels] = useState<string[]>([]);
   const messageIdSet = useRef<Set<string>>(new Set());
+  const conversationPagination = useRef<
+    Record<string, { page: number; hasMore: boolean; loaded: boolean }>
+  >({});
 
   const wsUrl = enabled && handle ? CHAT_WS_URL : null;
 
@@ -228,26 +234,46 @@ export default function useChatWebSocket({
   }, []);
 
   const loadMoreMessages = useCallback(
-    async (conversation: string, page: number) => {
-      if (!conversation || !handle) return 0;
+    async (conversation: string) => {
+      if (!conversation || !handle) return { count: 0, hasMore: false };
+
+      const state = conversationPagination.current[conversation] || {
+        page: 1,
+        hasMore: true,
+        loaded: false,
+      };
+
+      if (!state.hasMore) return { count: 0, hasMore: false };
 
       const isChannel = channels.includes(conversation);
       let history: ChatMessage[] = [];
 
       if (isChannel) {
-        history = await fetchChatHistory(conversation, handle, true, page);
+        history = await fetchChatHistory(
+          conversation,
+          handle,
+          true,
+          state.page,
+        );
       } else {
         // Fetch both sides of DM
         const [sent, received] = await Promise.all([
-          fetchChatHistory(conversation, handle, false, page), // messages to conversation
-          fetchChatHistory(handle, conversation, false, page), // messages to me
+          fetchChatHistory(conversation, handle, false, state.page), // messages to conversation
+          fetchChatHistory(handle, conversation, false, state.page), // messages to me
         ]);
         history = [...sent, ...received].sort(
           (a, b) => a.timestamp - b.timestamp,
         );
       }
 
-      if (history.length === 0) return 0;
+      if (history.length === 0) {
+        conversationPagination.current[conversation] = {
+          ...state,
+          hasMore: false,
+          loaded: true,
+        };
+        return { count: 0, hasMore: false };
+      }
 
       setMessages((prev) => {
         // Filter out existing messages from the history to avoid duplicates
@@ -261,10 +287,22 @@ export default function useChatWebSocket({
         // Prepend history messages
         return [...newHistory, ...prev];
       });
-      return history.length;
+
+      const newHasMore = history.length > 0;
+      conversationPagination.current[conversation] = {
+        page: state.page + 1,
+        hasMore: newHasMore,
+        loaded: true,
+      };
+
+      return { count: history.length, hasMore: newHasMore };
     },
     [handle, channels],
   );
+
+  const hasLoadedHistory = useCallback((conversation: string) => {
+    return conversationPagination.current[conversation]?.loaded || false;
+  }, []);
 
   return {
     messages,
@@ -275,5 +313,6 @@ export default function useChatWebSocket({
     channels,
     clearMessages,
     loadMoreMessages,
+    hasLoadedHistory,
   };
 }
