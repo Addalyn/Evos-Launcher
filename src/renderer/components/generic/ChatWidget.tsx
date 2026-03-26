@@ -39,6 +39,8 @@ export default function ChatWidget() {
 
   const isConnected = readyState === ReadyState.OPEN;
 
+  if (process.env.APP_EDITION === 'lite') return null;
+
   return (
     <Zoom in>
       <Tooltip title={t('chat.title', 'Community Chat')} placement="left" arrow>

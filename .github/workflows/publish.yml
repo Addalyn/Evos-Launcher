@@ -12,6 +12,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest]
+        edition: [full, lite]
 
     steps:
       - name: Checkout git repo
@@ -24,19 +25,35 @@ jobs:
           cache: npm
 
       - name: Install and build
+        env:
+          APP_EDITION: ${{ matrix.edition }}
         run: |
           npm install
           npm run postinstall
-          npm run build
+          if [ "${{ matrix.edition }}" = "lite" ]; then
+            npm run build:lite
+          else
+            npm run build
+          fi
+        shell: bash
 
       - name: Publish releases
         env:
           # This is used for uploading release assets to github
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          APP_EDITION: ${{ matrix.edition }}
         run: |
-          if [ "${{ matrix.os }}" = "windows-latest" ]; then
-            npm exec electron-builder -- --publish always --win
+          if [ "${{ matrix.edition }}" = "lite" ]; then
+            if [ "${{ matrix.os }}" = "windows-latest" ]; then
+              npm exec electron-builder -- --publish always --win -c.productName="Evos-Launcher-Lite" -c.appId="baby.addalyn.evoslauncher.lite"
+            else
+              npm exec electron-builder -- --publish always --linux -c.productName="Evos-Launcher-Lite" -c.appId="baby.addalyn.evoslauncher.lite"
+            fi
           else
-            npm exec electron-builder -- --publish always --linux
+            if [ "${{ matrix.os }}" = "windows-latest" ]; then
+              npm exec electron-builder -- --publish always --win
+            else
+              npm exec electron-builder -- --publish always --linux
+            fi
           fi
         shell: bash

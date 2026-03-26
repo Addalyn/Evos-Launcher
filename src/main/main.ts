@@ -7,7 +7,7 @@
  */
 
 /* eslint global-require: off, no-console: off, promise/always-return: off */
-import { BrowserWindow, app, shell } from 'electron';
+import { BrowserWindow, app, shell, Tray, Menu, nativeImage } from 'electron';
 import path from 'path';
 import regedit from 'regedit';
 import log from 'electron-log';
@@ -45,6 +45,7 @@ if (process.platform === 'win32') {
 }
 
 let mainWindow: BrowserWindow | null = null;
+let tray: Tray | null = null;
 log.transports.file.level = 'info';
 
 if (process.env.NODE_ENV === 'production') {
@@ -58,6 +59,51 @@ const launchMainWindow = async (splash: BrowserWindow) => {
 
   // Set main window reference in Discord service
   setMainWindow(mainWindow);
+
+  // Setup Tray
+  const getAssetPath = (...paths: string[]): string => {
+    const RESOURCES_PATH = app.isPackaged
+      ? path.join(process.resourcesPath, 'assets')
+      : path.join(__dirname, '../../assets');
+    return path.join(RESOURCES_PATH, ...paths);
+  };
+
+  const iconPath = getAssetPath('logo.png');
+  const trayIcon = nativeImage.createFromPath(iconPath);
+  tray = new Tray(trayIcon);
+  tray.setToolTip('Evos Launcher');
+
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'Restore',
+      click: () => {
+        if (mainWindow) {
+          mainWindow.show();
+          mainWindow.restore();
+        }
+      },
+    },
+    { type: 'separator' },
+    {
+      label: 'Quit',
+      click: () => {
+        app.quit();
+      },
+    },
+  ]);
+
+  tray.setContextMenu(contextMenu);
+
+  tray.on('click', () => {
+    if (mainWindow) {
+      if (mainWindow.isVisible()) {
+        mainWindow.hide();
+      } else {
+        mainWindow.show();
+        mainWindow.restore();
+      }
+    }
+  });
 
   // Setup all handlers and listeners
   setupGlobalShortcuts(mainWindow);
@@ -206,6 +252,12 @@ const createWindow = async (): Promise<void> => {
       splash.webContents.send('update-downloaded');
       autoUpdater.quitAndInstall();
     });
+
+    if (app.getName() === 'Evos-Launcher-Lite') {
+      autoUpdater.channel = 'lite';
+    } else {
+      autoUpdater.channel = 'latest';
+    }
 
     autoUpdater.checkForUpdates();
   });

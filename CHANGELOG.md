@@ -1,5 +1,19 @@
 # Evos Launcher Changelog
 
+# [3.2.9] - 2026-03-26
+
+## Features & Improvements
+
+- **Minimize to Tray**:
+  - Added a new setting in Advanced Settings to minimize the launcher to the system tray when a game is launched.
+  - The launcher now automatically restores when the game is closed.
+  - Implemented a system tray icon for quick access.
+- **Build System**:
+  - Updated CI/CD tokens and workflows to support dual-edition builds (Full and Lite).
+  - Improved automated publishing for Linux and Windows.
+- **Lite Edition**:
+  - There is now a lite edition of the launcher.
+
 # [3.2.8] - 2026-03-26
 
 ## Features & Improvements

@@ -117,6 +117,21 @@ function NotificationMessage() {
           </div>
         </div>
       )}
+      {/* Lite indicator */}
+      {process.env.APP_EDITION === 'lite' && (
+        <div
+          style={{
+            display: 'flex',
+            gap: '8px',
+            margin: '1em',
+            alignItems: 'center',
+          }}
+        >
+          <div>
+            <Chip label="Lite Edition" color="primary" size="small" />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

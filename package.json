@@ -1,5 +1,5 @@
 {
-  "version": "3.2.8",
+  "version": "3.2.9",
   "description": "An Atlas Reactor Launcher",
   "keywords": [
     "Atlas Reacor"
@@ -33,13 +33,16 @@
   "main": "./src/main/main.ts",
   "scripts": {
     "build": "concurrently \"npm run build:main\" \"npm run build:renderer\"",
+    "build:lite": "cross-env APP_EDITION=lite npm run build",
     "build:main": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.main.prod.ts",
     "build:renderer": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.prod.ts",
     "lint": "cross-env NODE_ENV=development eslint . --ext .js,.jsx,.ts,.tsx",
     "package": "ts-node ./.erb/scripts/clean.js dist && npm run build && electron-builder build --publish never",
+    "package:lite": "cross-env APP_EDITION=lite ts-node ./.erb/scripts/clean.js dist && npm run build && electron-builder build --publish never -c.productName=\"Evos-Launcher-Lite\" -c.appId=\"baby.addalyn.evoslauncher.lite\" -c.publish.channel=\"lite\"",
     "postinstall": "ts-node .erb/scripts/check-native-dep.js && electron-builder install-app-deps && cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.ts",
     "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir release/app",
     "start": "ts-node ./.erb/scripts/check-port-in-use.js && npm run start:renderer",
+    "start:lite": "cross-env APP_EDITION=lite npm start",
     "start:main": "cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only . $ELECTRON_ARGS",
     "start:preload": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.preload.dev.ts",
     "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",

@@ -409,12 +409,14 @@ export function setupIpcHandlers(mainWindow: BrowserWindow | null): void {
     async (event: any, args: { launchOptions: LaunchOptions }) => {
       const { launchOptions } = args;
       let enableAllChat = 'true';
+      let minimizeToTray = 'false';
       let selectedArguments = {};
 
       try {
         const config = await readConfig();
         if (config) {
           enableAllChat = config.showAllChat;
+          minimizeToTray = config.minimizeToTray || 'false';
           selectedArguments = config.selectedArguments || {};
         }
       } catch (error) {
@@ -424,10 +426,17 @@ export function setupIpcHandlers(mainWindow: BrowserWindow | null): void {
       // Create callback to notify renderer when game exits
       const onGameExit = (playerName: string) => {
         event.reply('setActiveGame', playerName, false);
+        if (minimizeToTray === 'true' && mainWindow) {
+          mainWindow.show();
+          mainWindow.restore();
+        }
       };
 
       const onGameStart = (playerName: string) => {
         event.reply('setActiveGame', playerName, true);
+        if (minimizeToTray === 'true' && mainWindow) {
+          mainWindow.hide();
+        }
       };
 
       try {

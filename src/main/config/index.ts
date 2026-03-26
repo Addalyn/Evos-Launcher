@@ -30,6 +30,7 @@ export const defaultConfig: Config = {
   enableDiscordRPC: 'true',
   branch: 'Stable',
   runAs: process.platform === 'linux' ? 'wine' : '',
+  minimizeToTray: 'false',
   selectedArguments: {},
 };
 

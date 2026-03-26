@@ -64,7 +64,8 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     hasLoadedHistory,
   } = useChatWebSocket({
     handle: activeUser?.handle,
-    enabled: !!activeUser && hideChat !== 'true',
+    enabled:
+      !!activeUser && hideChat !== 'true' && process.env.APP_EDITION !== 'lite',
   });
 
   const blockedPlayers = EvosStore((state: any) => state.blockedPlayers);
