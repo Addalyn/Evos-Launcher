@@ -105,6 +105,12 @@ export default function SettingsPage() {
     setDisableAllNotifications,
     minimizeToTray,
     setMinimizeToTray,
+    closeToTray,
+    setCloseToTray,
+    minimizeToTrayGeneral,
+    setMinimizeToTrayGeneral,
+    hideReadyCheckBar,
+    setHideReadyCheckBar,
   } = EvosStore();
 
   const [password, setPassword] = useState('');
@@ -368,6 +374,12 @@ export default function SettingsPage() {
             setColorScrollBar={handleChangeColorScrollBar}
             colorPaper={colorPaper}
             setColorPaper={handleChangeColorPaper}
+            closeToTray={closeToTray}
+            setCloseToTray={(v) => setCloseToTray(v)}
+            minimizeToTrayGeneral={minimizeToTrayGeneral}
+            setMinimizeToTrayGeneral={(v) => setMinimizeToTrayGeneral(v)}
+            hideReadyCheckBar={hideReadyCheckBar}
+            setHideReadyCheckBar={(v) => setHideReadyCheckBar(v)}
           />
         </>
       ),

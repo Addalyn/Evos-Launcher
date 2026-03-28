@@ -14,7 +14,14 @@ export interface ChatMessage {
 }
 
 export interface ChatServerMessage {
-  type: 'CHAT' | 'SYSTEM' | 'USER_LIST' | 'ERROR' | 'CHANNEL_JOIN' | 'REACTION';
+  type:
+    | 'CHAT'
+    | 'SYSTEM'
+    | 'USER_LIST'
+    | 'ERROR'
+    | 'CHANNEL_JOIN'
+    | 'REACTION'
+    | 'READY_STATUS';
   from?: string;
   to?: string;
   text?: string;
@@ -24,6 +31,7 @@ export interface ChatServerMessage {
   id?: string;
   messageId?: string; // For reactions
   reactions?: Record<string, string[]>; // For reactions
+  isReady?: boolean; // For READY_STATUS
   repliedTo?: string; // ID of the message being replied to
   replied_to?: string; // ID of the message being replied to (snake_case)
 }

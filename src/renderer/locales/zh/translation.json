@@ -201,11 +201,14 @@
     "labelBackgroundColor": "背景颜色",
     "labelTextColor": "文字颜色",
     "labelScrollbarColor": "滚动条颜色",
+    "closeToTray": "Close to tray",
+    "minimizeToTrayGeneral": "Minimize to tray",
     "statsVersion": "统计版本",
     "hideChatLabel": "从聊天中隐藏（禁用聊天连接）",
     "chatTab": "聊天",
     "generalNotificationsLabel": "接收普通聊天通知",
-    "disableAllNotificationsLabel": "禁用所有聊天通知"
+    "disableAllNotificationsLabel": "禁用所有聊天通知",
+    "hideReadyCheckBarLabel": "隐藏比赛意向栏"
   },
   "titles": {
     "-1": "",
@@ -715,5 +718,16 @@
     "returns": "返回",
     "additionalTags": "附加标签",
     "viewRaw": "查看原始 JSDoc 注释"
+  },
+  "readyCheck": {
+    "title": "Matchmaking Interest",
+    "full": "FULL!",
+    "ready": "Ready",
+    "interested": "Interested?",
+    "leaveInterest": "Leave interest list",
+    "joinInterest": "Join interest list",
+    "emptyState": "No players currently interested. Use the toggle above to start!",
+    "notificationTitle": "Matchmaking Ready!",
+    "notificationBody": "{{count}} players are now interested in playing!"
   }
 }

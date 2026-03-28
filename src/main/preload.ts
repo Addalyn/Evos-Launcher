@@ -91,7 +91,9 @@ export type Channels =
   | 'start-discord-rpc'
   | 'set-discord-rpc-status'
   | 'get-source-files'
-  | 'read-file-content';
+  | 'read-file-content'
+  | 'flash-frame'
+  | 'focus-window';
 
 let storeStatus = '' as discordStatus;
 

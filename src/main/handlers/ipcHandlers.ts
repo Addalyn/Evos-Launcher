@@ -214,6 +214,10 @@ let authClient: AuthClient | null = null;
  */
 let globalDownloadPath = '';
 
+// Cache for tray settings to allow synchronous event handling
+let closeToTrayCached = 'false';
+let minimizeToTrayGeneralCached = 'false';
+
 /**
  * Sets up all IPC (Inter-Process Communication) handlers for communication between
  * the main process and renderer process. Handles file operations, game management,
@@ -222,11 +226,27 @@ let globalDownloadPath = '';
  * @param mainWindow - The main application window instance, used for dialogs and communication
  */
 export function setupIpcHandlers(mainWindow: BrowserWindow | null): void {
+  // Initialize cached settings
+  readConfig()
+    .then((config) => {
+      if (config) {
+        closeToTrayCached = config.closeToTray || 'false';
+        minimizeToTrayGeneralCached = config.minimizeToTrayGeneral || 'false';
+      }
+      return null;
+    })
+    .catch((error) => {
+      console.error('Failed to read config for tray cache:', error);
+    });
+
   // Setup Discord service IPC handlers
   setupDiscordServiceIPC(ipcMain);
 
   ipcMain.handle('write-file', (event, args) => {
     writeConfigSync(args.data);
+    // Update cache
+    closeToTrayCached = args.data.closeToTray || 'false';
+    minimizeToTrayGeneralCached = args.data.minimizeToTrayGeneral || 'false';
   });
 
   ipcMain.handle('read-file', async () => {
@@ -1069,6 +1089,17 @@ export function setupIpcHandlers(mainWindow: BrowserWindow | null): void {
       return null;
     }
   });
+
+  ipcMain.on('flash-frame', (event, flag) => {
+    mainWindow?.flashFrame(flag);
+  });
+
+  ipcMain.on('focus-window', () => {
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore();
+      mainWindow.focus();
+    }
+  });
 }
 
 /**
@@ -1137,8 +1168,8 @@ export function setupAutoUpdater(mainWindow: BrowserWindow | null): void {
 }
 
 /**
- * Sets up the window close handler to prevent accidental closure when games are running.
- * Shows a confirmation dialog if games are currently active.
+ * Sets up the window close handler to prevent accidental closure when games are running,
+ * or to hide the window to the tray if configured.
  *
  * @param mainWindow - The main application window instance
  */
@@ -1158,9 +1189,29 @@ export function setupWindowCloseHandler(
       if (response === 0) {
         app.quit();
       }
+    } else if (closeToTrayCached === 'true') {
+      // If closeToTray is enabled, hide the window instead of quitting
+      e.preventDefault();
+      mainWindow?.hide();
     } else {
       // Allow normal window close behavior when no games are running
       app.quit();
+    }
+  });
+}
+
+/**
+ * Sets up the window minimize handler to hide the window to the tray if configured.
+ *
+ * @param mainWindow - The main application window instance
+ */
+export function setupWindowMinimizeHandler(
+  mainWindow: BrowserWindow | null,
+): void {
+  mainWindow?.on('minimize', async function handleWindowMinimize(e: any) {
+    if (minimizeToTrayGeneralCached === 'true') {
+      e.preventDefault();
+      mainWindow?.hide();
     }
   });
 }

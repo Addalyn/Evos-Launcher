@@ -202,11 +202,14 @@
     "labelBackgroundColor": "Arka Plan Rengi",
     "labelTextColor": "Metin Rengi",
     "labelScrollbarColor": "Kaydırma Çubuğu Rengi",
+    "closeToTray": "Close to tray",
+    "minimizeToTrayGeneral": "Minimize to tray",
     "statsVersion": "İstatistik Sürümü",
     "hideChatLabel": "Sohbetten Gizle (sohbet bağlantısını devre dışı bırakır)",
     "chatTab": "Sohbet",
     "generalNotificationsLabel": "Genel sohbet için bildirim al",
-    "disableAllNotificationsLabel": "Tüm sohbet bildirimlerini devre dışı bırak"
+    "disableAllNotificationsLabel": "Tüm sohbet bildirimlerini devre dışı bırak",
+    "hideReadyCheckBarLabel": "Eşleştirme İlgi çubuğunu gizle"
   },
   "titles": {
     "-1": "",
@@ -716,5 +719,16 @@
     "returns": "Döndürür",
     "additionalTags": "Ek Etiketler",
     "viewRaw": "Ham JSDoc Yorumunu Görüntüle"
+  },
+  "readyCheck": {
+    "title": "Matchmaking Interest",
+    "full": "FULL!",
+    "ready": "Ready",
+    "interested": "Interested?",
+    "leaveInterest": "Leave interest list",
+    "joinInterest": "Join interest list",
+    "emptyState": "No players currently interested. Use the toggle above to start!",
+    "notificationTitle": "Matchmaking Ready!",
+    "notificationBody": "{{count}} players are now interested in playing!"
   }
 }

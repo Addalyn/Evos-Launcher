@@ -338,11 +338,14 @@
     "labelBackgroundColor": "Цвет Фона",
     "labelTextColor": "Цвет Текста",
     "labelScrollbarColor": "Цвет Полосы Прокрутки",
+    "closeToTray": "Close to tray",
+    "minimizeToTrayGeneral": "Minimize to tray",
     "statsVersion": "Версия Статистики",
     "hideChatLabel": "Скрыться из чата (отключает подключение к чату)",
     "chatTab": "Чат",
     "generalNotificationsLabel": "Получать уведомления для общего чата",
-    "disableAllNotificationsLabel": "Отключить все уведомления чата"
+    "disableAllNotificationsLabel": "Отключить все уведомления чата",
+    "hideReadyCheckBarLabel": "Скрыть панель интереса к матчмейкингу"
   },
   "maps": {
     "map": "Карта",
@@ -702,6 +705,17 @@
     "parameters": "Параметры",
     "returns": "Возвращает",
     "additionalTags": "Дополнительные Теги",
-    "viewRaw": "Просмотр Исходного JSDoc Комментария"
+    "viewRaw": "Просмотр необработанного комментария JSDoc"
+  },
+  "readyCheck": {
+    "title": "Matchmaking Interest",
+    "full": "FULL!",
+    "ready": "Ready",
+    "interested": "Interested?",
+    "leaveInterest": "Leave interest list",
+    "joinInterest": "Join interest list",
+    "emptyState": "No players currently interested. Use the toggle above to start!",
+    "notificationTitle": "Matchmaking Ready!",
+    "notificationBody": "{{count}} players are now interested in playing!"
   }
 }

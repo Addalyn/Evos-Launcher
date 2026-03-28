@@ -19,6 +19,12 @@ type Props = {
   setColorScrollBar: (v: string) => void;
   colorPaper: string;
   setColorPaper: (v: string) => void;
+  closeToTray: string;
+  setCloseToTray: (v: string) => void;
+  minimizeToTrayGeneral: string;
+  setMinimizeToTrayGeneral: (v: string) => void;
+  hideReadyCheckBar: string;
+  setHideReadyCheckBar: (v: string) => void;
 };
 
 export default function AppearanceSection(props: Props) {
@@ -38,6 +44,12 @@ export default function AppearanceSection(props: Props) {
     setColorScrollBar,
     colorPaper,
     setColorPaper,
+    closeToTray,
+    setCloseToTray,
+    minimizeToTrayGeneral,
+    setMinimizeToTrayGeneral,
+    hideReadyCheckBar,
+    setHideReadyCheckBar,
   } = props;
 
   return (
@@ -49,6 +61,39 @@ export default function AppearanceSection(props: Props) {
           checked={mode === 'dark'}
           onChange={toggleMode}
         />
+        <FormControlLabel
+          control={<Switch />}
+          label={t('settings.closeToTray', 'Close to tray')}
+          checked={closeToTray === 'true'}
+          onChange={() =>
+            setCloseToTray(closeToTray === 'true' ? 'false' : 'true')
+          }
+        />
+        <FormControlLabel
+          control={<Switch />}
+          label={t('settings.minimizeToTrayGeneral', 'Minimize to tray')}
+          checked={minimizeToTrayGeneral === 'true'}
+          onChange={() =>
+            setMinimizeToTrayGeneral(
+              minimizeToTrayGeneral === 'true' ? 'false' : 'true',
+            )
+          }
+        />
+        {process.env.APP_EDITION === 'full' && (
+          <FormControlLabel
+            control={<Switch />}
+            label={t(
+              'settings.hideReadyCheckBarLabel',
+              'Hide Matchmaking Interest',
+            )}
+            checked={hideReadyCheckBar === 'true'}
+            onChange={() =>
+              setHideReadyCheckBar(
+                hideReadyCheckBar === 'true' ? 'false' : 'true',
+              )
+            }
+          />
+        )}
       </FormGroup>
       <Box sx={{ mt: 2 }}>
         <Grid container spacing={2}>

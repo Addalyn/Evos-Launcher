@@ -203,11 +203,14 @@
     "labelBackgroundColor": "Hintergrundfarbe",
     "labelTextColor": "Textfarbe",
     "labelScrollbarColor": "Scrollleistenfarbe",
+    "closeToTray": "In die Symbolleiste schließen",
+    "minimizeToTrayGeneral": "In die Symbolleiste minimieren",
     "statsVersion": "Statistik-Version",
     "hideChatLabel": "Vom Chat verstecken (deaktiviert Chat-Verbindung)",
     "chatTab": "Chat",
     "generalNotificationsLabel": "Benachrichtigungen für den allgemeinen Chat erhalten",
-    "disableAllNotificationsLabel": "Alle Chat-Benachrichtigungen deaktivieren"
+    "disableAllNotificationsLabel": "Alle Chat-Benachrichtigungen deaktivieren",
+    "hideReadyCheckBarLabel": "Matchmaking-Interessensleiste ausblenden"
   },
   "titles": {
     "-1": "",
@@ -717,5 +720,16 @@
     "returns": "Rückgabe",
     "additionalTags": "Zusätzliche Tags",
     "viewRaw": "Raw JSDoc-Kommentar anzeigen"
+  },
+  "readyCheck": {
+    "title": "Matchmaking-Interesse",
+    "full": "VOLL!",
+    "ready": "Bereit",
+    "interested": "Interessiert?",
+    "leaveInterest": "Interessenliste verlassen",
+    "joinInterest": "Interessenliste beitreten",
+    "emptyState": "Derzeit sind keine Spieler interessiert. Benutze den Schalter oben, um zu starten!",
+    "notificationTitle": "Matchmaking bereit!",
+    "notificationBody": "{{count}} Spieler sind jetzt am Spielen interessiert!"
   }
 }

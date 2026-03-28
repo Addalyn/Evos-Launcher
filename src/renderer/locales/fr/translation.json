@@ -351,11 +351,14 @@
     "labelBackgroundColor": "Couleur de Fond",
     "labelTextColor": "Couleur du Texte",
     "labelScrollbarColor": "Couleur de la Barre de Défilement",
+    "closeToTray": "Close to tray",
+    "minimizeToTrayGeneral": "Minimize to tray",
     "statsVersion": "Version des Statistiques",
     "hideChatLabel": "Se cacher du chat (désactive la connexion au chat)",
     "chatTab": "Chat",
     "generalNotificationsLabel": "Recevoir des notifications pour le chat général",
-    "disableAllNotificationsLabel": "Désactiver toutes les notifications de chat"
+    "disableAllNotificationsLabel": "Désactiver toutes les notifications de chat",
+    "hideReadyCheckBarLabel": "Masquer la barre d'intérêt du matchmaking"
   },
   "maps": {
     "map": "Map",
@@ -715,5 +718,16 @@
     "returns": "Retourne",
     "additionalTags": "Tags Additionnels",
     "viewRaw": "Voir le Commentaire JSDoc Brut"
+  },
+  "readyCheck": {
+    "title": "Matchmaking Interest",
+    "full": "FULL!",
+    "ready": "Ready",
+    "interested": "Interested?",
+    "leaveInterest": "Leave interest list",
+    "joinInterest": "Join interest list",
+    "emptyState": "No players currently interested. Use the toggle above to start!",
+    "notificationTitle": "Matchmaking Ready!",
+    "notificationBody": "{{count}} players are now interested in playing!"
   }
 }

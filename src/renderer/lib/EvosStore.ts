@@ -131,6 +131,12 @@ export interface EvosStoreState {
   ) => Promise<void>;
   minimizeToTray: string;
   setMinimizeToTray: (minimizeToTray: string) => Promise<void>;
+  closeToTray: string;
+  setCloseToTray: (closeToTray: string) => Promise<void>;
+  minimizeToTrayGeneral: string;
+  setMinimizeToTrayGeneral: (minimizeToTrayGeneral: string) => Promise<void>;
+  hideReadyCheckBar: string;
+  setHideReadyCheckBar: (hideReadyCheckBar: string) => Promise<void>;
   setIsDownloading: (isDownloading: boolean) => void;
   init: () => void;
   toggleMode: () => void;
@@ -229,6 +235,9 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   followedPlayers: [],
   blockedPlayers: [],
   minimizeToTray: 'false',
+  closeToTray: 'false',
+  minimizeToTrayGeneral: 'false',
+  hideReadyCheckBar: 'false',
 
   setStats: async (stats: string) => {
     set({ stats });
@@ -376,6 +385,9 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       disableAllNotifications,
       runAs,
       minimizeToTray,
+      closeToTray,
+      minimizeToTrayGeneral,
+      hideReadyCheckBar,
     ] = await Promise.all([
       get().getFromStorage('mode') as string,
       get().getFromStorage('authenticatedUsers') as AuthUser[],
@@ -407,6 +419,9 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       get().getFromStorage('disableAllNotifications') as string,
       get().getFromStorage('runAs') as string,
       get().getFromStorage('minimizeToTray') as string,
+      get().getFromStorage('closeToTray') as string,
+      get().getFromStorage('minimizeToTrayGeneral') as string,
+      get().getFromStorage('hideReadyCheckBar') as string,
     ]);
 
     let users: AuthUser[] = [];
@@ -470,6 +485,9 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
       disableAllNotifications: disableAllNotifications || 'false',
       runAs: runAs || 'wine',
       minimizeToTray: minimizeToTray || 'false',
+      closeToTray: closeToTray || 'false',
+      minimizeToTrayGeneral: minimizeToTrayGeneral || 'false',
+      hideReadyCheckBar: hideReadyCheckBar || 'false',
     });
     get().switchUser(activeUser?.user || users[0]?.user || '');
   },
@@ -588,6 +606,18 @@ const EvosStore = create<EvosStoreState>((set, get) => ({
   setMinimizeToTray: async (minimizeToTray: string) => {
     set({ minimizeToTray });
     await get().setToStorage('minimizeToTray', minimizeToTray);
+  },
+  setCloseToTray: async (closeToTray: string) => {
+    set({ closeToTray });
+    await get().setToStorage('closeToTray', closeToTray);
+  },
+  setMinimizeToTrayGeneral: async (minimizeToTrayGeneral: string) => {
+    set({ minimizeToTrayGeneral });
+    await get().setToStorage('minimizeToTrayGeneral', minimizeToTrayGeneral);
+  },
+  setHideReadyCheckBar: async (hideReadyCheckBar: string) => {
+    set({ hideReadyCheckBar });
+    await get().setToStorage('hideReadyCheckBar', hideReadyCheckBar);
   },
 
   setAuthenticatedUsers: async (
