@@ -23,6 +23,7 @@ import DownloadPage from '../components/pages/DownloadPage';
 import EvosStore from 'renderer/lib/EvosStore';
 import FollowedPlayersPage from '../components/pages/FollowedPlayersPage';
 import LinkDiscord from '../components/generic/LinkDiscord';
+import ReadyCheckBar from '../components/generic/ReadyCheckBar';
 import LoginPage from '../components/pages/LoginPage';
 import LogsPage from '../components/pages/LogsPage';
 import NavBar from '../components/generic/Navbar';
@@ -68,6 +69,7 @@ function StandardLayout({ children }: { children: React.ReactNode }) {
         <AdminMessage />
         <VersionUpdater />
         <BranchUpdater />
+        <ReadyCheckBar />
         <ChatWidget />
         {children}
       </Box>

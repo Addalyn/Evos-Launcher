@@ -1,4 +1,29 @@
 # Evos Launcher Changelog
+ 
+# [3.3.0] - 2026-03-28
+
+## Features & Improvements
+
+- **Matchmaking Interest (ReadyCheckBar)**:
+  - Introduced a real-time matchmaking interest system that syncs across all users via WebSockets.
+  - Automatically readies users when they join a game queue and manages status transitions.
+  - Added a visual progress bar indicating how close the current interest is to the play threshold.
+  - Integrated stylized player cards with skew effects and custom banners for all interested players.
+  - Implemented proactive notification permission requests triggered during user opt-in.
+- **System Tray Integration**:
+  - **Close to Tray**: New option to hide the launcher to the system tray instead of closing it completely.
+  - **Minimize to Tray**: New option to hide the launcher to the system tray when minimized, keeping the taskbar clean.
+  - Implemented a persistent tray icon with a "Restore" and "Quit" context menu.
+  - Optimized window event handling for seamless transitions to and from the tray.
+- **Settings UI Redesign**:
+  - Relocated tray-related configurations to the **Appearance** tab for more intuitive access.
+  - Updated toggle controls with improved labels and integrated tooltips.
+- **Localization & Internationalization**:
+  - Full translation of all new features across all 10 supported languages.
+  - Comprehensive localization of the ReadyCheckBar component, including notifications, tooltips, and status labels.
+- **User Notifications**:
+  - Improved matchmaking readiness notifications with dynamic player counts.
+  - Added proactive notification permission requests when users opt-in to matchmaking interest, ensuring they never miss a game.
 
 # [3.2.9] - 2026-03-26
 

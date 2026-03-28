@@ -27,6 +27,7 @@ import {
   setupIpcHandlers,
   setupGlobalShortcuts,
   setupWindowCloseHandler,
+  setupWindowMinimizeHandler,
 } from './handlers/ipcHandlers';
 
 // Initialize Discord RPC
@@ -153,6 +154,7 @@ const launchMainWindow = async (splash: BrowserWindow) => {
   });
 
   setupWindowCloseHandler(mainWindow);
+  setupWindowMinimizeHandler(mainWindow);
 
   mainWindow.on('closed', () => {
     mainWindow = null;

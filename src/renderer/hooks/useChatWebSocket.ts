@@ -35,6 +35,8 @@ interface UseChatWebSocketResult {
     conversation: string,
   ) => Promise<{ count: number; hasMore: boolean }>;
   hasLoadedHistory: (conversation: string) => boolean;
+  readyUsers: string[];
+  sendReadyStatus: (isReady: boolean) => void;
 }
 
 /**
@@ -51,6 +53,7 @@ export default function useChatWebSocket({
 }: UseChatWebSocketOptions): UseChatWebSocketResult {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
+  const [readyUsers, setReadyUsers] = useState<string[]>([]);
   const [channels, setChannels] = useState<string[]>([]);
   const messageIdSet = useRef<Set<string>>(new Set());
   const conversationPagination = useRef<
@@ -133,6 +136,12 @@ export default function useChatWebSocket({
           case 'CHANNEL_JOIN': {
             if (data.channels !== undefined) {
               setChannels(data.channels);
+            }
+            break;
+          }
+          case 'READY_STATUS': {
+            if (data.users !== undefined) {
+              setReadyUsers(data.users);
             }
             break;
           }
@@ -314,5 +323,14 @@ export default function useChatWebSocket({
     clearMessages,
     loadMoreMessages,
     hasLoadedHistory,
+    readyUsers,
+    sendReadyStatus: (isReady: boolean) => {
+      if (!handle) return;
+      sendJsonMessage({
+        type: 'READY_STATUS',
+        handle: encodeURIComponent(handle),
+        isReady,
+      });
+    },
   };
 }

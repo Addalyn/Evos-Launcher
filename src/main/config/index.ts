@@ -31,6 +31,8 @@ export const defaultConfig: Config = {
   branch: 'Stable',
   runAs: process.platform === 'linux' ? 'wine' : '',
   minimizeToTray: 'false',
+  closeToTray: 'false',
+  minimizeToTrayGeneral: 'false',
   selectedArguments: {},
 };
 

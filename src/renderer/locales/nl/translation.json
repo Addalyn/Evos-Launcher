@@ -351,6 +351,8 @@
     "labelBackgroundColor": "Achtergrondkleur",
     "labelTextColor": "Tekstkleur",
     "labelScrollbarColor": "Scrollbalkkleur",
+    "closeToTray": "Sluiten naar systeemvak",
+    "minimizeToTrayGeneral": "Minimaliseren naar systeemvak",
     "statsVersion": "Statistieken Versie",
     "hideChatLabel": "Verbergen voor chat (schakelt chatverbinding uit)",
     "chatTab": "Chat",
@@ -715,5 +717,16 @@
     "returns": "Geeft terug",
     "additionalTags": "Aanvullende Tags",
     "viewRaw": "Bekijk Ruwe JSDoc Opmerking"
+  },
+  "readyCheck": {
+    "title": "Matchmaking Interesse",
+    "full": "VOL!",
+    "ready": "Gereed",
+    "interested": "Geïnteresseerd?",
+    "leaveInterest": "Interesselijst verlaten",
+    "joinInterest": "Deelnemen aan interesselijst",
+    "emptyState": "Geen spelers momenteel geïnteresseerd. Gebruik de schakelaar hierboven om te beginnen!",
+    "notificationTitle": "Matchmaking Gereed!",
+    "notificationBody": "{{count}} spelers zijn nu geïnteresseerd in spelen!"
   }
 }

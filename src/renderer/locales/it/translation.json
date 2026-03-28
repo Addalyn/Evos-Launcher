@@ -323,6 +323,8 @@
     "labelBackgroundColor": "Colore di Sfondo",
     "labelTextColor": "Colore del Testo",
     "labelScrollbarColor": "Colore della Barra di Scorrimento",
+    "closeToTray": "Close to tray",
+    "minimizeToTrayGeneral": "Minimize to tray",
     "statsVersion": "Versione Statistiche",
     "hideChatLabel": "Nasconditi dalla chat (disabilita connessione chat)",
     "chatTab": "Chat",
@@ -688,5 +690,16 @@
     "returns": "Restituisce",
     "additionalTags": "Tag Aggiuntivi",
     "viewRaw": "Visualizza Commento JSDoc Grezzo"
+  },
+  "readyCheck": {
+    "title": "Matchmaking Interest",
+    "full": "FULL!",
+    "ready": "Ready",
+    "interested": "Interested?",
+    "leaveInterest": "Leave interest list",
+    "joinInterest": "Join interest list",
+    "emptyState": "No players currently interested. Use the toggle above to start!",
+    "notificationTitle": "Matchmaking Ready!",
+    "notificationBody": "{{count}} players are now interested in playing!"
   }
 }

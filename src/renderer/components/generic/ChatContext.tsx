@@ -19,6 +19,7 @@ import EvosStore from '../../lib/EvosStore';
 import useChatWebSocket from '../../hooks/useChatWebSocket';
 import { logoSmall } from '../../lib/Resources';
 import { ChatMessage } from 'renderer/types/chat.types';
+import { withElectron } from 'renderer/utils/electronUtils';
 
 interface ChatContextType {
   messages: ChatMessage[];
@@ -36,6 +37,8 @@ interface ChatContextType {
     conversation: string,
   ) => Promise<{ count: number; hasMore: boolean }>;
   hasLoadedHistory: (conversation: string) => boolean;
+  readyUsers: string[];
+  sendReadyStatus: (isReady: boolean) => void;
 }
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
@@ -62,6 +65,8 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     channels,
     loadMoreMessages,
     hasLoadedHistory,
+    readyUsers,
+    sendReadyStatus,
   } = useChatWebSocket({
     handle: activeUser?.handle,
     enabled:
@@ -111,7 +116,9 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
           });
           notification.onclick = () => {
             window.focus();
-            // Optional: navigate to chat or set active conversation
+            withElectron((electron) => {
+              electron.ipcRenderer.sendMessage('focus-window');
+            });
           };
         } else if (Notification.permission !== 'denied') {
           Notification.requestPermission();
@@ -156,6 +163,8 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
       activeConversation,
       loadMoreMessages,
       hasLoadedHistory,
+      readyUsers,
+      sendReadyStatus,
     }),
     [
       messages,
@@ -170,6 +179,8 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
       activeConversation,
       loadMoreMessages,
       hasLoadedHistory,
+      readyUsers,
+      sendReadyStatus,
     ],
   );
 

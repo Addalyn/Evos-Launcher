@@ -67,6 +67,8 @@ export interface Config {
   branch: string;
   runAs: string;
   minimizeToTray: string;
+  closeToTray: string;
+  minimizeToTrayGeneral: string;
   selectedArguments?: Record<string, string | null>;
 }
 
