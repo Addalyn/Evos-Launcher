@@ -33,6 +33,7 @@ export const defaultConfig: Config = {
   minimizeToTray: 'false',
   closeToTray: 'false',
   minimizeToTrayGeneral: 'false',
+  hideReadyCheckBar: 'false',
   selectedArguments: {},
 };
 

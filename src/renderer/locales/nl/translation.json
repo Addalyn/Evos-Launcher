@@ -357,7 +357,8 @@
     "hideChatLabel": "Verbergen voor chat (schakelt chatverbinding uit)",
     "chatTab": "Chat",
     "generalNotificationsLabel": "Ontvang meldingen voor algemene chat",
-    "disableAllNotificationsLabel": "Alle chatmeldingen uitschakelen"
+    "disableAllNotificationsLabel": "Alle chatmeldingen uitschakelen",
+    "hideReadyCheckBarLabel": "Matchmaking-interesselijst verbergen"
   },
   "maps": {
     "map": "Map",

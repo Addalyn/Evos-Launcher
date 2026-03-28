@@ -329,7 +329,8 @@
     "hideChatLabel": "Nasconditi dalla chat (disabilita connessione chat)",
     "chatTab": "Chat",
     "generalNotificationsLabel": "Ricevi notifiche per la chat generale",
-    "disableAllNotificationsLabel": "Disabilita tutte le notifiche della chat"
+    "disableAllNotificationsLabel": "Disattiva tutte le notifiche di chat",
+    "hideReadyCheckBarLabel": "Hide Matchmaking Interest bar"
   },
   "maps": {
     "map": "Mappa",

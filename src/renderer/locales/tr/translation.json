@@ -208,7 +208,8 @@
     "hideChatLabel": "Sohbetten Gizle (sohbet bağlantısını devre dışı bırakır)",
     "chatTab": "Sohbet",
     "generalNotificationsLabel": "Genel sohbet için bildirim al",
-    "disableAllNotificationsLabel": "Tüm sohbet bildirimlerini devre dışı bırak"
+    "disableAllNotificationsLabel": "Tüm sohbet bildirimlerini devre dışı bırak",
+    "hideReadyCheckBarLabel": "Hide Matchmaking Interest bar"
   },
   "titles": {
     "-1": "",

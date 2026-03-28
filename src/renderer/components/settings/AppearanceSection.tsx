@@ -23,6 +23,8 @@ type Props = {
   setCloseToTray: (v: string) => void;
   minimizeToTrayGeneral: string;
   setMinimizeToTrayGeneral: (v: string) => void;
+  hideReadyCheckBar: string;
+  setHideReadyCheckBar: (v: string) => void;
 };
 
 export default function AppearanceSection(props: Props) {
@@ -46,6 +48,8 @@ export default function AppearanceSection(props: Props) {
     setCloseToTray,
     minimizeToTrayGeneral,
     setMinimizeToTrayGeneral,
+    hideReadyCheckBar,
+    setHideReadyCheckBar,
   } = props;
 
   return (
@@ -75,6 +79,21 @@ export default function AppearanceSection(props: Props) {
             )
           }
         />
+        {process.env.APP_EDITION === 'full' && (
+          <FormControlLabel
+            control={<Switch />}
+            label={t(
+              'settings.hideReadyCheckBarLabel',
+              'Hide Matchmaking Interest',
+            )}
+            checked={hideReadyCheckBar === 'true'}
+            onChange={() =>
+              setHideReadyCheckBar(
+                hideReadyCheckBar === 'true' ? 'false' : 'true',
+              )
+            }
+          />
+        )}
       </FormGroup>
       <Box sx={{ mt: 2 }}>
         <Grid container spacing={2}>

@@ -33,7 +33,8 @@ import { FlexBox } from './BasicComponents';
 export default function ReadyCheckBar() {
   const { t } = useTranslation();
   const { readyUsers, sendReadyStatus } = useChat();
-  const { activeUser, disableAllNotifications } = EvosStore();
+  const { activeUser, disableAllNotifications, hideReadyCheckBar } =
+    EvosStore();
   const [isReady, setIsReady] = useState(false);
   const wasAutoReadiedRef = useRef(false);
   const hasNotifiedRef = useRef(false);
@@ -113,7 +114,7 @@ export default function ReadyCheckBar() {
   useEffect(() => {
     if (count >= threshold) {
       // Only notify if we haven't already notified for this "full" state
-      if (!hasNotifiedRef.current && isReady) {
+      if (!hasNotifiedRef.current && isReady && hideReadyCheckBar === 'false') {
         withElectron((electron) => {
           electron.ipcRenderer.sendMessage('flash-frame', true);
           electron.ipcRenderer.sendMessage('focus-window');
@@ -146,7 +147,14 @@ export default function ReadyCheckBar() {
       // Reset the notification flag when count falls below threshold
       hasNotifiedRef.current = false;
     }
-  }, [count, isReady, threshold, disableAllNotifications, t]);
+  }, [
+    count,
+    isReady,
+    threshold,
+    disableAllNotifications,
+    hideReadyCheckBar,
+    t,
+  ]);
 
   const handleToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newVal = event.target.checked;

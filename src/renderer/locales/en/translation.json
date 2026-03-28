@@ -219,6 +219,7 @@
     "chatTab": "Chat",
     "generalNotificationsLabel": "Recieve notifications for general chat",
     "disableAllNotificationsLabel": "Disable all chat notifications",
+    "hideReadyCheckBarLabel": "Hide Matchmaking Interest bar",
     "runAs": "Run As",
     "runAsPlaceholder": "Command to launch game (e.g. wine)"
   },

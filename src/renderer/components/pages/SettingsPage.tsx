@@ -109,6 +109,8 @@ export default function SettingsPage() {
     setCloseToTray,
     minimizeToTrayGeneral,
     setMinimizeToTrayGeneral,
+    hideReadyCheckBar,
+    setHideReadyCheckBar,
   } = EvosStore();
 
   const [password, setPassword] = useState('');
@@ -376,6 +378,8 @@ export default function SettingsPage() {
             setCloseToTray={(v) => setCloseToTray(v)}
             minimizeToTrayGeneral={minimizeToTrayGeneral}
             setMinimizeToTrayGeneral={(v) => setMinimizeToTrayGeneral(v)}
+            hideReadyCheckBar={hideReadyCheckBar}
+            setHideReadyCheckBar={(v) => setHideReadyCheckBar(v)}
           />
         </>
       ),

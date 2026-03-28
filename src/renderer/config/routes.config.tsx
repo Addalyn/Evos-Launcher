@@ -50,7 +50,7 @@ import QuestsPage from 'renderer/components/pages/QuestsPage';
  * @returns {React.ReactElement} The wrapped page content
  */
 function StandardLayout({ children }: { children: React.ReactNode }) {
-  const { activeUser } = EvosStore();
+  const { activeUser, hideReadyCheckBar } = EvosStore();
 
   const isAuthenticated = useCallback(() => {
     return (
@@ -69,7 +69,8 @@ function StandardLayout({ children }: { children: React.ReactNode }) {
         <AdminMessage />
         <VersionUpdater />
         <BranchUpdater />
-        <ReadyCheckBar />
+        {hideReadyCheckBar === 'false' &&
+          process.env.APP_EDITION === 'full' && <ReadyCheckBar />}
         <ChatWidget />
         {children}
       </Box>

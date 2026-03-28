@@ -227,12 +227,17 @@ let minimizeToTrayGeneralCached = 'false';
  */
 export function setupIpcHandlers(mainWindow: BrowserWindow | null): void {
   // Initialize cached settings
-  readConfig().then((config) => {
-    if (config) {
-      closeToTrayCached = config.closeToTray || 'false';
-      minimizeToTrayGeneralCached = config.minimizeToTrayGeneral || 'false';
-    }
-  });
+  readConfig()
+    .then((config) => {
+      if (config) {
+        closeToTrayCached = config.closeToTray || 'false';
+        minimizeToTrayGeneralCached = config.minimizeToTrayGeneral || 'false';
+      }
+      return null;
+    })
+    .catch((error) => {
+      console.error('Failed to read config for tray cache:', error);
+    });
 
   // Setup Discord service IPC handlers
   setupDiscordServiceIPC(ipcMain);

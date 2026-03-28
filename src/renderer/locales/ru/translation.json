@@ -344,7 +344,8 @@
     "hideChatLabel": "Скрыться из чата (отключает подключение к чату)",
     "chatTab": "Чат",
     "generalNotificationsLabel": "Получать уведомления для общего чата",
-    "disableAllNotificationsLabel": "Отключить все уведомления чата"
+    "disableAllNotificationsLabel": "Отключить все уведомления чата",
+    "hideReadyCheckBarLabel": "Hide Matchmaking Interest bar"
   },
   "maps": {
     "map": "Карта",

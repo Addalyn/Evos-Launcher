@@ -209,7 +209,8 @@
     "hideChatLabel": "Vom Chat verstecken (deaktiviert Chat-Verbindung)",
     "chatTab": "Chat",
     "generalNotificationsLabel": "Benachrichtigungen für den allgemeinen Chat erhalten",
-    "disableAllNotificationsLabel": "Alle Chat-Benachrichtigungen deaktivieren"
+    "disableAllNotificationsLabel": "Alle Chat-Benachrichtigungen deaktivieren",
+    "hideReadyCheckBarLabel": "Matchmaking-Interessensleiste ausblenden"
   },
   "titles": {
     "-1": "",

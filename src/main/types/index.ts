@@ -44,10 +44,6 @@ export interface AuthUser {
  * Application configuration settings
  * @interface Config
  */
-/**
- * Application configuration settings
- * @interface Config
- */
 export interface Config {
   mode: string;
   colorPrimary: string;
@@ -69,6 +65,7 @@ export interface Config {
   minimizeToTray: string;
   closeToTray: string;
   minimizeToTrayGeneral: string;
+  hideReadyCheckBar: string;
   selectedArguments?: Record<string, string | null>;
 }
 
