@@ -358,7 +358,7 @@
     "chatTab": "Chat",
     "generalNotificationsLabel": "Recevoir des notifications pour le chat général",
     "disableAllNotificationsLabel": "Désactiver toutes les notifications de chat",
-    "hideReadyCheckBarLabel": "Hide Matchmaking Interest bar"
+    "hideReadyCheckBarLabel": "Masquer la barre d'intérêt du matchmaking"
   },
   "maps": {
     "map": "Map",

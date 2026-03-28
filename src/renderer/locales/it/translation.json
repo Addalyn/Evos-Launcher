@@ -330,7 +330,7 @@
     "chatTab": "Chat",
     "generalNotificationsLabel": "Ricevi notifiche per la chat generale",
     "disableAllNotificationsLabel": "Disattiva tutte le notifiche di chat",
-    "hideReadyCheckBarLabel": "Hide Matchmaking Interest bar"
+    "hideReadyCheckBarLabel": "Nascondi la barra di interesse del matchmaking"
   },
   "maps": {
     "map": "Mappa",

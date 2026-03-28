@@ -345,7 +345,7 @@
     "chatTab": "Чат",
     "generalNotificationsLabel": "Получать уведомления для общего чата",
     "disableAllNotificationsLabel": "Отключить все уведомления чата",
-    "hideReadyCheckBarLabel": "Hide Matchmaking Interest bar"
+    "hideReadyCheckBarLabel": "Скрыть панель интереса к матчмейкингу"
   },
   "maps": {
     "map": "Карта",
