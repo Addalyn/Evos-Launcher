@@ -23,7 +23,6 @@ import DownloadPage from '../components/pages/DownloadPage';
 import EvosStore from 'renderer/lib/EvosStore';
 import FollowedPlayersPage from '../components/pages/FollowedPlayersPage';
 import LinkDiscord from '../components/generic/LinkDiscord';
-import ReadyCheckBar from '../components/generic/ReadyCheckBar';
 import LoginPage from '../components/pages/LoginPage';
 import LogsPage from '../components/pages/LogsPage';
 import NavBar from '../components/generic/Navbar';
@@ -50,7 +49,7 @@ import QuestsPage from 'renderer/components/pages/QuestsPage';
  * @returns {React.ReactElement} The wrapped page content
  */
 function StandardLayout({ children }: { children: React.ReactNode }) {
-  const { activeUser, hideReadyCheckBar } = EvosStore();
+  const { activeUser } = EvosStore();
 
   const isAuthenticated = useCallback(() => {
     return (
@@ -69,8 +68,6 @@ function StandardLayout({ children }: { children: React.ReactNode }) {
         <AdminMessage />
         <VersionUpdater />
         <BranchUpdater />
-        {hideReadyCheckBar === 'false' &&
-          process.env.APP_EDITION === 'full' && <ReadyCheckBar />}
         <ChatWidget />
         {children}
       </Box>

@@ -708,14 +708,14 @@
     "viewRaw": "Просмотр необработанного комментария JSDoc"
   },
   "readyCheck": {
-    "title": "Matchmaking Interest",
-    "full": "FULL!",
-    "ready": "Ready",
-    "interested": "Interested?",
-    "leaveInterest": "Leave interest list",
-    "joinInterest": "Join interest list",
-    "emptyState": "No players currently interested. Use the toggle above to start!",
-    "notificationTitle": "Matchmaking Ready!",
-    "notificationBody": "{{count}} players are now interested in playing!"
+    "title": "Интерес к подбору игроков",
+    "full": "ПОЛНО!",
+    "ready": "Готов",
+    "interested": "Интересует?",
+    "leaveInterest": "Покинуть список интереса",
+    "joinInterest": "Присоединиться к списку интереса",
+    "emptyState": "На данный момент нет заинтересованных игроков. Используйте переключатель выше, чтобы начать!",
+    "notificationTitle": "Подбор игроков готов!",
+    "notificationBody": "{{count}} игроков теперь заинтересованы в игре!"
   }
 }

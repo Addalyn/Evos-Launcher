@@ -720,14 +720,14 @@
     "viewRaw": "查看原始 JSDoc 注释"
   },
   "readyCheck": {
-    "title": "Matchmaking Interest",
-    "full": "FULL!",
-    "ready": "Ready",
-    "interested": "Interested?",
-    "leaveInterest": "Leave interest list",
-    "joinInterest": "Join interest list",
-    "emptyState": "No players currently interested. Use the toggle above to start!",
-    "notificationTitle": "Matchmaking Ready!",
-    "notificationBody": "{{count}} players are now interested in playing!"
+    "title": "对局兴趣",
+    "full": "人已满!",
+    "ready": "就绪",
+    "interested": "有兴趣吗？",
+    "leaveInterest": "退出兴趣列表",
+    "joinInterest": "加入兴趣列表",
+    "emptyState": "目前没有感兴趣的玩家。使用上方的开关开始！",
+    "notificationTitle": "对局就绪！",
+    "notificationBody": "{{count}} 名玩家现在有兴趣参加对局！"
   }
 }

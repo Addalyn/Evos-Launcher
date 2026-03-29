@@ -719,15 +719,15 @@
     "viewRaw": "Ver Comentário JSDoc Bruto"
   },
   "readyCheck": {
-    "title": "Matchmaking Interest",
-    "full": "FULL!",
-    "ready": "Ready",
-    "interested": "Interested?",
-    "leaveInterest": "Leave interest list",
-    "joinInterest": "Join interest list",
-    "emptyState": "No players currently interested. Use the toggle above to start!",
-    "notificationTitle": "Matchmaking Ready!",
-    "notificationBody": "{{count}} players are now interested in playing!"
+    "title": "Interesse em Partida",
+    "full": "LOTADO!",
+    "ready": "Pronto",
+    "interested": "Interessado?",
+    "leaveInterest": "Sair da lista de interesse",
+    "joinInterest": "Entrar na lista de interesse",
+    "emptyState": "Nenhum jogador interessado no momento. Use o botão acima para começar!",
+    "notificationTitle": "Partida Pronta!",
+    "notificationBody": "{{count}} jogadores estão interessados em jogar agora!"
   },
   "Follow": "Seguir",
   "Unfollow": "Deixar de seguir"

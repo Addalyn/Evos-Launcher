@@ -720,14 +720,14 @@
     "viewRaw": "Voir le Commentaire JSDoc Brut"
   },
   "readyCheck": {
-    "title": "Matchmaking Interest",
-    "full": "FULL!",
-    "ready": "Ready",
-    "interested": "Interested?",
-    "leaveInterest": "Leave interest list",
-    "joinInterest": "Join interest list",
-    "emptyState": "No players currently interested. Use the toggle above to start!",
-    "notificationTitle": "Matchmaking Ready!",
-    "notificationBody": "{{count}} players are now interested in playing!"
+    "title": "Intérêt pour le Matchmaking",
+    "full": "COMPLET !",
+    "ready": "Prêt",
+    "interested": "Intéressé ?",
+    "leaveInterest": "Quitter la liste d'intérêt",
+    "joinInterest": "Rejoindre la liste d'intérêt",
+    "emptyState": "Aucun joueur intéressé pour le moment. Utilisez le bouton ci-dessus pour commencer !",
+    "notificationTitle": "Matchmaking Prêt !",
+    "notificationBody": "{{count}} joueurs sont maintenant intéressés pour jouer !"
   }
 }

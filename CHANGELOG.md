@@ -1,4 +1,16 @@
 # Evos Launcher Changelog
+
+# [3.3.1] - 2026-03-29
+
+## Features & Improvements
+
+- **Matchmaking Interest (ReadyCheckBar)**:
+  - **Dynamic Player Data**: Implemented asynchronous fetching via `getPlayerData` for players not currently appearing in the live WebSocket status, ensuring full banners and status are always displayed.
+  - **UI Polish**: Updated the player grid to center cards across all screen sizes for a more balanced and aesthetically pleasing layout.
+  - **Contextual Placement**: Relocated the matchmaking interest bar from the global layout to the **Status** page, where it is most relevant to active users.
+- **Localization**:
+  - Comprehensive localization of all matchmaking interest strings across all 9 supported non-English languages (Brazilian Portuguese, German, Spanish, French, Italian, Dutch, Russian, Turkish, and Chinese).
+
  
 # [3.3.0] - 2026-03-28
 

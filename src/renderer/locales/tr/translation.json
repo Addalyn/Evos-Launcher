@@ -721,14 +721,14 @@
     "viewRaw": "Ham JSDoc Yorumunu Görüntüle"
   },
   "readyCheck": {
-    "title": "Matchmaking Interest",
-    "full": "FULL!",
-    "ready": "Ready",
-    "interested": "Interested?",
-    "leaveInterest": "Leave interest list",
-    "joinInterest": "Join interest list",
-    "emptyState": "No players currently interested. Use the toggle above to start!",
-    "notificationTitle": "Matchmaking Ready!",
-    "notificationBody": "{{count}} players are now interested in playing!"
+    "title": "Eşleştirme İlgisi",
+    "full": "DOLU!",
+    "ready": "Hazır",
+    "interested": "İlgileniyor musun?",
+    "leaveInterest": "İlgi listesinden ayrıl",
+    "joinInterest": "İlgi listesine katıl",
+    "emptyState": "Şu anda ilgilenen oyuncu yok. Başlamak için yukarıdaki düğmeyi kullanın!",
+    "notificationTitle": "Eşleştirme Hazır!",
+    "notificationBody": "{{count}} oyuncu şu anda oynamakla ilgileniyor!"
   }
 }
