@@ -728,8 +728,8 @@
     "interested": "Interessiert?",
     "leaveInterest": "Interessenliste verlassen",
     "joinInterest": "Interessenliste beitreten",
-    "emptyState": "Derzeit sind keine Spieler interessiert. Benutze den Schalter oben, um zu starten!",
-    "notificationTitle": "Matchmaking bereit!",
+    "emptyState": "Derzeit sind keine Spieler interessiert. Nutze den Schalter oben, um zu starten!",
+    "notificationTitle": "Matchmaking Bereit!",
     "notificationBody": "{{count}} Spieler sind jetzt am Spielen interessiert!"
   }
 }

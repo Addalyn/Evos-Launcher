@@ -22,7 +22,7 @@ import EvosStore from '../../lib/EvosStore';
 import { logoSmall } from '../../lib/Resources';
 import { withElectron } from '../../utils/electronUtils';
 import useGameWebSocket from '../../hooks/useGameWebSocket';
-import { PlayerData, Status } from '../../lib/Evos';
+import { PlayerData, Status, getPlayerData } from '../../lib/Evos';
 import Player from '../atlas/Player';
 import { FlexBox } from './BasicComponents';
 
@@ -36,6 +36,9 @@ export default function ReadyCheckBar() {
   const { activeUser, disableAllNotifications, hideReadyCheckBar } =
     EvosStore();
   const [isReady, setIsReady] = useState(false);
+  const [fetchedPlayers, setFetchedPlayers] = useState<
+    Record<string, PlayerData>
+  >({});
   const wasAutoReadiedRef = useRef(false);
   const hasNotifiedRef = useRef(false);
 
@@ -173,14 +176,43 @@ export default function ReadyCheckBar() {
     return isFull ? '#4caf50' : '#2196f3';
   }, [isReady, isFull]);
 
-  // 4. Map handles to full PlayerData objects
+  // 4. Fetch data for players not in the live status list
+  useEffect(() => {
+    const missingHandles = allInterested.filter(
+      (handle) =>
+        !gameStatus?.players.find((p) => p.handle === handle) &&
+        !fetchedPlayers[handle],
+    );
+
+    if (missingHandles.length > 0 && activeUser?.token) {
+      missingHandles.forEach(async (handle) => {
+        try {
+          const response = await getPlayerData(activeUser.token, handle);
+          if (response.data) {
+            setFetchedPlayers((prev) => ({
+              ...prev,
+              [handle]: response.data,
+            }));
+          }
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.error(`Failed to fetch player data for ${handle}:`, err);
+        }
+      });
+    }
+  }, [allInterested, gameStatus?.players, fetchedPlayers, activeUser?.token]);
+
+  // 5. Map handles to full PlayerData objects
   const interestedPlayers = useMemo(() => {
     return allInterested.map((handle) => {
-      // Try to find the full player data in the game status
-      const found = gameStatus?.players.find((p) => p.handle === handle);
-      if (found) return found;
+      // 1. Try to find the full player data in the live game status (most accurate)
+      const foundInLive = gameStatus?.players.find((p) => p.handle === handle);
+      if (foundInLive) return foundInLive;
 
-      // Fallback minimal player data
+      // 2. Try to find the data in our local "fetched" cache (API fallback)
+      if (fetchedPlayers[handle]) return fetchedPlayers[handle];
+
+      // 3. Fallback minimal player data while loading/error
       return {
         handle,
         accountId: 0,
@@ -191,7 +223,7 @@ export default function ReadyCheckBar() {
         isDev: false,
       } as PlayerData;
     });
-  }, [allInterested, gameStatus?.players]);
+  }, [allInterested, gameStatus?.players, fetchedPlayers]);
 
   // Don't show if not authenticated or if the user is a guest
   if (!activeUser || !activeUser.handle) return null;
@@ -330,7 +362,7 @@ export default function ReadyCheckBar() {
         sx={{
           flexWrap: 'wrap',
           gap: 1.5,
-          justifyContent: { xs: 'center', sm: 'flex-start' },
+          justifyContent: 'center',
           px: { xs: 0, sm: 1 },
           py: 0.5,
           minHeight: interestedPlayers.length > 0 ? 'auto' : 0,

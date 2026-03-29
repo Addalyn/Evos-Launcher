@@ -723,11 +723,11 @@
     "title": "Matchmaking Interesse",
     "full": "VOL!",
     "ready": "Gereed",
-    "interested": "Geïnteresseerd?",
+    "interested": "Interesse?",
     "leaveInterest": "Interesselijst verlaten",
-    "joinInterest": "Deelnemen aan interesselijst",
-    "emptyState": "Geen spelers momenteel geïnteresseerd. Gebruik de schakelaar hierboven om te beginnen!",
+    "joinInterest": "Lid worden van interesselijst",
+    "emptyState": "Er zijn momenteel geen spelers geïnteresseerd. Gebruik de schakelaar hierboven om te beginnen!",
     "notificationTitle": "Matchmaking Gereed!",
-    "notificationBody": "{{count}} spelers zijn nu geïnteresseerd in spelen!"
+    "notificationBody": "{{count}} spelers hebben nu interesse om te spelen!"
   }
 }

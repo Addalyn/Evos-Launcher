@@ -38,6 +38,7 @@ import Server from '../atlas/Server';
 import TrustBar from '../generic/TrustBar';
 import useWebSocket from 'react-use-websocket';
 import { useNavigate } from 'react-router-dom';
+import ReadyCheckBar from '../generic/ReadyCheckBar';
 
 /**
  * Groups an array of items by a specified key function
@@ -75,7 +76,12 @@ function StatusPage(): React.ReactElement {
   const [expanded, setExpanded] = useState<boolean>(false);
 
   /** Store containing user settings and authentication data */
-  const { activeUser, gameExpanded, updateAuthenticatedUsers } = EvosStore();
+  const {
+    activeUser,
+    gameExpanded,
+    updateAuthenticatedUsers,
+    hideReadyCheckBar,
+  } = EvosStore();
 
   /** Translation function for internationalization */
   const { t } = useTranslation();
@@ -283,6 +289,9 @@ function StatusPage(): React.ReactElement {
       )}
       {status?.factionsEnabled && (
         <TrustBar factionsData={status?.factionsData} />
+      )}
+      {hideReadyCheckBar === 'false' && process.env.APP_EDITION === 'full' && (
+        <ReadyCheckBar />
       )}
       {players?.size === 0 && (
         <Paper elevation={3} style={{ padding: '1em', margin: '1em' }}>
