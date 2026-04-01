@@ -51,9 +51,12 @@ export default function ReadyCheckBar() {
     if (!gameStatus?.queues || !gameStatus?.groups || !gameStatus?.players) {
       return [];
     }
-    const queuedGroupIds = new Set(
-      gameStatus.queues.flatMap((q) => q.groupIds),
+    const filteredQueues = gameStatus.queues.filter(
+      (q) =>
+        q.type === 'PvP' &&
+        (q.subtype === 'Deathmatch' || q.subtype === 'RankedCustom'),
     );
+    const queuedGroupIds = new Set(filteredQueues.flatMap((q) => q.groupIds));
     const queuedAccountIds = new Set(
       gameStatus.groups
         .filter((g) => queuedGroupIds.has(g.groupId))

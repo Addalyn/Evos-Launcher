@@ -1,5 +1,17 @@
 # Evos Launcher Changelog
 
+# [3.3.2] - 2026-04-01
+
+## Features & Improvements
+
+- **Matchmaking Interest (ReadyCheckBar)**:
+  - **Competitive Focus**: Restricted the automatic "Interested" status to only trigger for **PvP - Deathmatch** and **PvP - Draft** (RankedCustom) modes. This prevents non-competitive queues (Coop, Custom, etc.) from automatically appearing in the interest list, keeping the focus on active matchmaking.
+
+## Bug Fixes
+
+- **Autoupdater**:
+  - Fixed an issue where the autoupdater was not working and crashed the client.
+
 # [3.3.1] - 2026-03-29
 
 ## Features & Improvements
