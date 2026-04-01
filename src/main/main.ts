@@ -217,6 +217,16 @@ const createWindow = async (): Promise<void> => {
   splash.webContents.on('did-finish-load', () => {
     splash.webContents.send('update-checking');
 
+    const cleanupUpdaterListeners = () => {
+      autoUpdater.removeAllListeners('checking-for-update');
+      autoUpdater.on('checking-for-update', () => {}); // noop to prevent default behavior if any
+      autoUpdater.removeAllListeners('update-available');
+      autoUpdater.removeAllListeners('update-not-available');
+      autoUpdater.removeAllListeners('download-progress');
+      autoUpdater.removeAllListeners('update-downloaded');
+      autoUpdater.removeAllListeners('error');
+    };
+
     // Fallback: If no update events are received within 5 seconds, proceed to launch main window
 
     const timeout = setTimeout(() => {
@@ -228,16 +238,6 @@ const createWindow = async (): Promise<void> => {
         launchMainWindow(splash);
       }, 1000);
     }, 5000);
-
-    const cleanupUpdaterListeners = () => {
-      autoUpdater.removeAllListeners('checking-for-update');
-      autoUpdater.on('checking-for-update', () => {}); //noop to prevent default behavior if any
-      autoUpdater.removeAllListeners('update-available');
-      autoUpdater.removeAllListeners('update-not-available');
-      autoUpdater.removeAllListeners('download-progress');
-      autoUpdater.removeAllListeners('update-downloaded');
-      autoUpdater.removeAllListeners('error');
-    };
 
     autoUpdater.on('checking-for-update', () => {
       if (!splash.isDestroyed()) {
