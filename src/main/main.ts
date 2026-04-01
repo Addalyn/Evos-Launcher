@@ -217,42 +217,83 @@ const createWindow = async (): Promise<void> => {
   splash.webContents.on('did-finish-load', () => {
     splash.webContents.send('update-checking');
 
+    const cleanupUpdaterListeners = () => {
+      autoUpdater.removeAllListeners('checking-for-update');
+      autoUpdater.on('checking-for-update', () => {}); // noop to prevent default behavior if any
+      autoUpdater.removeAllListeners('update-available');
+      autoUpdater.removeAllListeners('update-not-available');
+      autoUpdater.removeAllListeners('download-progress');
+      autoUpdater.removeAllListeners('update-downloaded');
+      autoUpdater.removeAllListeners('error');
+    };
+
     // Fallback: If no update events are received within 5 seconds, proceed to launch main window
 
     const timeout = setTimeout(() => {
-      splash.webContents.send('update-not-available');
+      if (!splash.isDestroyed()) {
+        splash.webContents.send('update-not-available');
+      }
       setTimeout(() => {
+        cleanupUpdaterListeners();
         launchMainWindow(splash);
       }, 1000);
     }, 5000);
 
     autoUpdater.on('checking-for-update', () => {
-      splash.webContents.send('update-checking');
+      if (!splash.isDestroyed()) {
+        splash.webContents.send('update-checking');
+      }
     });
 
     autoUpdater.on('update-available', () => {
-      splash.webContents.send('update-available');
       clearTimeout(timeout);
+      if (!splash.isDestroyed()) {
+        splash.webContents.send('update-available');
+      }
     });
 
     autoUpdater.on('update-not-available', () => {
-      splash.webContents.send('update-not-available');
       clearTimeout(timeout);
-      // wait 3 seconds before launching main window
+      if (!splash.isDestroyed()) {
+        splash.webContents.send('update-not-available');
+      }
+      // cleanup listeners as we are about to transition
+      cleanupUpdaterListeners();
+      // wait 1 second before launching main window
       setTimeout(() => {
         launchMainWindow(splash);
       }, 1000);
     });
 
     autoUpdater.on('download-progress', (progress: { percent: number }) => {
-      clearTimeout(timeout);
-      splash.webContents.send('update-progress', progress);
+      try {
+        clearTimeout(timeout);
+        if (!splash.isDestroyed()) {
+          splash.webContents.send('update-progress', progress);
+        }
+      } catch (error) {
+        log.error('Error sending update progress:', error);
+      }
     });
 
     autoUpdater.on('update-downloaded', () => {
+      try {
+        clearTimeout(timeout);
+        if (!splash.isDestroyed()) {
+          splash.webContents.send('update-downloaded');
+        }
+        cleanupUpdaterListeners();
+        autoUpdater.quitAndInstall();
+      } catch (error) {
+        log.error('Error sending update downloaded:', error);
+      }
+    });
+
+    autoUpdater.on('error', (err) => {
+      log.error('Auto-updater error:', err);
       clearTimeout(timeout);
-      splash.webContents.send('update-downloaded');
-      autoUpdater.quitAndInstall();
+      cleanupUpdaterListeners();
+      launchMainWindow(splash);
     });
 
     if (process.env.APP_EDITION === 'lite') {
