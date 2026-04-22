@@ -1,5 +1,12 @@
 # Evos Launcher Changelog
 
+# [3.3.3] - 2026-04-22
+
+## Bug Fixes
+
+- **ReadyCheckBar**:
+  - Fixed an issue where the ReadyCheckBar was to good and showing players who were in a match already.
+
 # [3.3.2] - 2026-04-01
 
 ## Features & Improvements
