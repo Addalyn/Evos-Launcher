@@ -70,8 +70,19 @@ export default function ReadyCheckBar() {
   // 2. Total interested is the union of manually ready users and queued users
   const allInterested = useMemo(() => {
     const union = new Set([...readyUsers, ...queuedUserHandles]);
-    return Array.from(union);
-  }, [readyUsers, queuedUserHandles]);
+    return Array.from(union).filter((handle) => {
+      // 1. If the user is in an active queue, they remain in the list
+      if (queuedUserHandles.includes(handle)) return true;
+
+      // 2. Otherwise, check if their status indicates they are already in a match
+      const player = gameStatus?.players.find((p) => p.handle === handle);
+      if (!player) return true; // Keep if we don't know their status (offline/not in live list)
+
+      // Exclude players in game or character selection
+      const inGameStatuses = ['In Game', 'Character Select'];
+      return !inGameStatuses.includes(player.status);
+    });
+  }, [readyUsers, queuedUserHandles, gameStatus?.players]);
 
   const count = allInterested.length;
   const threshold = 8;
