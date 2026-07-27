@@ -437,7 +437,10 @@ function Player({
                     title &&
                     info?.status !== 'Queued' &&
                     info?.status !== 'Character Select' &&
-                    info?.status !== 'In Game'
+                    info?.status !== 'In Game' &&
+                    info?.status !== 'Asymmetric2Deathmatch' &&
+                    info?.status !== 'Asymmetric3Deathmatch' &&
+                    info?.status !== 'Asymmetric4Deathmatch'
                   ) {
                     return title;
                   }
@@ -464,6 +467,14 @@ function Player({
                     mentorPrefix = `${t('titles.mentorDev')}/`;
                   } else if (mentor) {
                     mentorPrefix = `${t('titles.mentor')}/`;
+                  }
+
+                  if (
+                    info?.status === 'Asymmetric2Deathmatch' ||
+                    info?.status === 'Asymmetric3Deathmatch' ||
+                    info?.status === 'Asymmetric4Deathmatch'
+                  ) {
+                    return `${mentorPrefix}${t('Queued')} - ${t(`gamesubtype.${info.status}`)}`;
                   }
 
                   return `${mentorPrefix}${t(`${info?.status}`)}`;

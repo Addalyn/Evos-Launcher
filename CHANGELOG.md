@@ -1,5 +1,12 @@
 # Evos Launcher Changelog
 
+# [3.3.4] - 2026-04-22
+
+## Features & Improvements
+
+- **Status Page**:
+  - Added the Asymmetric game modes as "Queued - Asymmetric 2P", "Queued - Asymmetric 3P", "Queued - Asymmetric 4P".
+
 # [3.3.3] - 2026-04-22
 
 ## Bug Fixes

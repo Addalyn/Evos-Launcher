@@ -680,7 +680,10 @@
     "Draft_Bans@GameWideData": "Драфт (баны)",
     "Draft_NoBans@GameWideData": "Драфт (без банов)",
     "RankedCustom": "Драфт",
-    "RankedCustom@SubTypes": "Драфт"
+    "RankedCustom@SubTypes": "Драфт",
+    "Asymmetric2Deathmatch": "Асимметричный 2P",
+    "Asymmetric3Deathmatch": "Асимметричный 3P",
+    "Asymmetric4Deathmatch": "Асимметричный 4P"
   },
   "dev": {
     "title": "Центр Документации Разработчика",

@@ -7,7 +7,11 @@
 
 import React, { useEffect } from 'react';
 import useWebSocket from 'react-use-websocket';
-import { Status, WS_URL } from '../lib/Evos';
+import {
+  Status,
+  WS_URL,
+  transformStatusForAsymmetricQueues,
+} from '../lib/Evos';
 import EvosStore from '../lib/EvosStore';
 import { logoSmall } from '../lib/Resources';
 
@@ -40,7 +44,7 @@ export default function useGameWebSocket({
         onMessage: (event: MessageEvent) => {
           const parsedMessage = JSON.parse(event.data);
           if (parsedMessage.error === undefined && parsedMessage.players) {
-            setGlobalStatus(parsedMessage);
+            setGlobalStatus(transformStatusForAsymmetricQueues(parsedMessage));
           }
         },
         shouldReconnect: () => true,
@@ -63,7 +67,9 @@ export default function useGameWebSocket({
           onMessage: (event: MessageEvent) => {
             const parsedMessage = JSON.parse(event.data);
             if (parsedMessage.error === undefined && parsedMessage.players) {
-              setGlobalStatus(parsedMessage);
+              setGlobalStatus(
+                transformStatusForAsymmetricQueues(parsedMessage),
+              );
             }
           },
           shouldReconnect: () => true,

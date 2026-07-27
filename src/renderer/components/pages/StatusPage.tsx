@@ -25,7 +25,13 @@ import {
   Skeleton,
   Typography,
 } from '@mui/material';
-import { PlayerData, Status, WS_URL, getPlayerData } from '../../lib/Evos';
+import {
+  PlayerData,
+  Status,
+  WS_URL,
+  getPlayerData,
+  transformStatusForAsymmetricQueues,
+} from '../../lib/Evos';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
@@ -176,17 +182,20 @@ function StatusPage(): React.ReactElement {
       } else {
         setError(undefined);
         setLoading(false);
+        const transformedMessage =
+          transformStatusForAsymmetricQueues(parsedMessage);
         // Only update status if it actually changed (shallow compare top-level keys)
         setStatus((prev) => {
-          if (!prev) return parsedMessage;
+          if (!prev) return transformedMessage;
           const prevKeys = Object.keys(prev);
-          const newKeys = Object.keys(parsedMessage);
-          if (prevKeys.length !== newKeys.length) return parsedMessage;
+          const newKeys = Object.keys(transformedMessage);
+          if (prevKeys.length !== newKeys.length) return transformedMessage;
           const changed = prevKeys.some(
             (key) =>
-              prev[key as keyof Status] !== parsedMessage[key as keyof Status],
+              prev[key as keyof Status] !==
+              transformedMessage[key as keyof Status],
           );
-          return changed ? parsedMessage : prev;
+          return changed ? transformedMessage : prev;
         });
       }
     },
