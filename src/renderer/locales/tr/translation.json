@@ -693,7 +693,10 @@
     "Draft_Bans@GameWideData": "Taslak (Yasaklamalar)",
     "Draft_NoBans@GameWideData": "Taslak (Yasaklama Yok)",
     "RankedCustom": "Taslak",
-    "RankedCustom@SubTypes": "Taslak"
+    "RankedCustom@SubTypes": "Taslak",
+    "Asymmetric2Deathmatch": "Asimetrik 2P",
+    "Asymmetric3Deathmatch": "Asimetrik 3P",
+    "Asymmetric4Deathmatch": "Asimetrik 4P"
   },
   "dev": {
     "title": "Geliştirici Dokümantasyon Merkezi",

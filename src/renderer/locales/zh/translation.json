@@ -692,7 +692,10 @@
     "Draft_Bans@GameWideData": "选秀（禁用）",
     "Draft_NoBans@GameWideData": "选秀（无禁用）",
     "RankedCustom": "选秀",
-    "RankedCustom@SubTypes": "选秀"
+    "RankedCustom@SubTypes": "选秀",
+    "Asymmetric2Deathmatch": "非对称 2P",
+    "Asymmetric3Deathmatch": "非对称 3P",
+    "Asymmetric4Deathmatch": "非对称 4P"
   },
   "dev": {
     "title": "开发者文档中心",

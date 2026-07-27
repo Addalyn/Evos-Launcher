@@ -694,7 +694,10 @@
     "Draft_Bans@GameWideData": "Draft (Banns)",
     "Draft_NoBans@GameWideData": "Draft (Keine Banns)",
     "RankedCustom": "Draft",
-    "RankedCustom@SubTypes": "Draft"
+    "RankedCustom@SubTypes": "Draft",
+    "Asymmetric2Deathmatch": "Asymmetrisch 2P",
+    "Asymmetric3Deathmatch": "Asymmetrisch 3P",
+    "Asymmetric4Deathmatch": "Asymmetrisch 4P"
   },
   "dev": {
     "title": "Entwickler-Dokumentationszentrum",

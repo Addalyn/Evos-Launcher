@@ -692,7 +692,10 @@
     "Draft_Bans@GameWideData": "Draft (Verbanningen)",
     "Draft_NoBans@GameWideData": "Draft (Geen Verbanningen)",
     "RankedCustom": "Draft",
-    "RankedCustom@SubTypes": "Draft"
+    "RankedCustom@SubTypes": "Draft",
+    "Asymmetric2Deathmatch": "Asymmetrisch 2P",
+    "Asymmetric3Deathmatch": "Asymmetrisch 3P",
+    "Asymmetric4Deathmatch": "Asymmetrisch 4P"
   },
   "dev": {
     "title": "Ontwikkelaar Documentatiecentrum",

@@ -610,3 +610,65 @@ export async function getProxys() {
     `https://misc.evos.live/proxys.json?rand=${Math.random()}`,
   );
 }
+
+/**
+ * Helper to process status and hide Asymmetric queues from the main queues,
+ * and instead update the status of players in those queues to indicate their queue state.
+ */
+export function transformStatusForAsymmetricQueues(status: Status): Status {
+  if (!status || !status.players || !status.queues || !status.groups) {
+    return status;
+  }
+
+  const asymmetricSubtypes = [
+    'Asymmetric2Deathmatch',
+    'Asymmetric3Deathmatch',
+    'Asymmetric4Deathmatch',
+  ];
+  const asymmetricQueues = status.queues.filter(
+    (q) => q.subtype && asymmetricSubtypes.includes(q.subtype),
+  );
+
+  if (asymmetricQueues.length === 0) {
+    return status;
+  }
+
+  // Map of accountId to their queue's subtype
+  const playerToQueueSubtype = new Map<number, string>();
+
+  asymmetricQueues.forEach((q) => {
+    q.groupIds.forEach((groupId) => {
+      const group = status.groups.find((g) => g.groupId === groupId);
+      if (group) {
+        group.accountIds.forEach((accId) => {
+          if (q.subtype) {
+            playerToQueueSubtype.set(accId, q.subtype);
+          }
+        });
+      }
+    });
+  });
+
+  // Update players status if they are in an asymmetric queue
+  const updatedPlayers = status.players.map((player) => {
+    const queueSubtype = playerToQueueSubtype.get(player.accountId);
+    if (queueSubtype) {
+      return {
+        ...player,
+        status: queueSubtype,
+      };
+    }
+    return player;
+  });
+
+  // Filter out asymmetric queues so they don't show up in status.queues
+  const filteredQueues = status.queues.filter(
+    (q) => !q.subtype || !asymmetricSubtypes.includes(q.subtype),
+  );
+
+  return {
+    ...status,
+    players: updatedPlayers,
+    queues: filteredQueues,
+  };
+}
