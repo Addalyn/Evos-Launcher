@@ -1,5 +1,21 @@
 # Evos Launcher Changelog
 
+# [3.3.5] - 2026-09-04
+
+## Features & Improvements
+
+- **Tournament Page & Live Bracket System**:
+  - Added dedicated Tournament page accessible directly under Status in the navigation bar.
+  - Implemented live tournament bracket tree with dynamic `maxPlayers` support (4, 8, 16, 32 players) syncing in real-time with Strapi database.
+  - Interactive head-to-head match cards displaying Player 1 vs Player 2, seeds, scores, winner highlights, and LIVE status.
+  - Integrated Champion podium showcase highlighting tournament winners.
+  - Added dynamic SVG connector lines between matches with status-driven highlights and animations.
+  - Implemented Google-style tournament bracket viewer as the default view with horizontal round navigation carousel, chevron controls, active round indicators, and responsive match cards matching round selector width.
+  - Added View Mode toggle switcher allowing users to toggle between Google-style rounds view (default) and full horizontal SVG tree view at any time.
+  - Included Tournament Champions & Hall of Fame section dynamically loading champion players with custom banners and titles.
+  - Integrated tournament match history with map, turn, and player filtering.
+  - Complete internationalization across all 10 supported languages.
+
 # [3.3.4] - 2026-04-22
 
 ## Features & Improvements

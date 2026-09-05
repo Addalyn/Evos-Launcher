@@ -35,6 +35,8 @@ import ReplaysPage from '../components/pages/ReplaysPage';
 import SettingsPage from '../components/pages/SettingsPage';
 import StatsPage from '../components/pages/StatsPage';
 import StatusPage from '../components/pages/StatusPage';
+import TournamentPage from '../components/pages/TournamentPage';
+import TournamentAdminPage from '../components/pages/TournamentAdminPage';
 import VersionUpdater from '../components/generic/VersionUpdater';
 import WikiPage from '../components/pages/WikiPage';
 // Electron utilities
@@ -153,6 +155,18 @@ const allRoutes = [
     element: <ChangeLogPage />,
     layout: 'standard',
     title: 'changelog',
+  },
+  {
+    path: '/tournament',
+    element: <TournamentPage />,
+    layout: 'standard',
+    title: 'tournament',
+  },
+  {
+    path: '/tournament-admin',
+    element: <TournamentAdminPage />,
+    layout: 'standard',
+    title: 'tournamentAdmin',
   },
   {
     path: '/download',
