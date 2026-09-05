@@ -7,6 +7,7 @@
  */
 
 import {
+  AdminPanelSettings,
   Article,
   BarChart,
   Chat,
@@ -99,6 +100,12 @@ const createNavigationPages = (
           },
         ]
       : []),
+    {
+      title: t('menuOptions.tournament', 'Tournament'),
+      href: '/tournament',
+      icon: React.createElement(EmojiEvents),
+      authentication: false, // No authentication required for tournament page
+    },
     // Electron-only navigation items
     ...(electronFeatures.isAvailable
       ? [
@@ -166,6 +173,17 @@ const createNavigationPages = (
       href: '/dev',
       icon: React.createElement(Article),
       authentication: true, // Requires authentication for developer tools
+      devider: true,
+    });
+  }
+
+  // Add Tournament Admin console if user has developer permissions
+  if (isDev) {
+    basePages.push({
+      title: t('menuOptions.tournamentAdmin', 'Tournament Admin'),
+      href: '/tournament-admin',
+      icon: React.createElement(AdminPanelSettings),
+      authentication: true,
       devider: true,
     });
   }

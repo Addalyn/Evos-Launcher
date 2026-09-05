@@ -1101,10 +1101,12 @@ export function Games({
 
 interface Props {
   apiVersion?: 'v1' | 'production';
+  initialType?: string;
 }
 
 export default function PreviousGamesPlayed({
   apiVersion = 'production',
+  initialType = 'PvP',
 }: Props = {}) {
   const { t, i18n } = useTranslation();
 
@@ -1113,7 +1115,7 @@ export default function PreviousGamesPlayed({
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
   const [selectedMap, setSelectedMap] = useState<string>('All Maps');
-  const [curentType, setCurrentType] = useState<string>('PvP');
+  const [curentType, setCurrentType] = useState<string>(initialType);
   const [gameServerProcessCode, setGameServerProcessCode] =
     useState<string>('');
   const [searchByTurns, setSearchByTurns] = useState<string>('');
