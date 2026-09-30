@@ -56,6 +56,9 @@ export default function useChatWebSocket({
   const [readyUsers, setReadyUsers] = useState<string[]>([]);
   const [channels, setChannels] = useState<string[]>([]);
   const messageIdSet = useRef<Set<string>>(new Set());
+  const pendingSentMessages = useRef<
+    Array<{ text: string; to: string; repliedToId?: string; sentAt: number }>
+  >([]);
   const conversationPagination = useRef<
     Record<string, { page: number; hasMore: boolean; loaded: boolean }>
   >({});
@@ -96,9 +99,34 @@ export default function useChatWebSocket({
           }
           case 'CHAT': {
             if (!data.id || !data.from || data.text === undefined) break;
+
+            const isChannel =
+              data.to === 'general' ||
+              (!!data.to && channels.includes(data.to));
+
+            // Check if this message was sent by this client instance
+            const decodedFrom = decodeURIComponent(data.from || '');
+            const isFromMe = data.from === handle || decodedFrom === handle;
+            let wasSentByMe = false;
+            if (isFromMe) {
+              const pendingIndex = pendingSentMessages.current.findIndex(
+                (p) =>
+                  p.to === data.to &&
+                  p.text === data.text &&
+                  Date.now() - p.sentAt < 30000,
+              );
+              if (pendingIndex !== -1) {
+                wasSentByMe = true;
+                pendingSentMessages.current.splice(pendingIndex, 1);
+              } else if (pendingSentMessages.current.length > 0) {
+                wasSentByMe = true;
+                pendingSentMessages.current.shift();
+              }
+            }
+
             // Deduplicate by message id
             if (messageIdSet.current.has(data.id)) break;
-            messageIdSet.current.add(data.id);
+
             const msg: ChatMessage = {
               id: data.id,
               from: data.from,
@@ -108,9 +136,48 @@ export default function useChatWebSocket({
               repliedTo: data.repliedTo,
             };
 
-            setMessages((prev) => [...prev.slice(-499), msg]);
+            // Deduplicate against existing messages (e.g. if already in history with legacy msg- / local- id)
+            setMessages((prev) => {
+              const duplicateIndex = prev.findIndex((p) => {
+                if (p.id === msg.id) return true;
+                const isLegacyId =
+                  p.id.startsWith('msg-') || p.id.startsWith('local-');
+                if (
+                  isLegacyId &&
+                  p.from === data.from &&
+                  p.to === data.to &&
+                  p.text === data.text &&
+                  Math.abs(p.timestamp - (data.timestamp ?? Date.now())) < 15000
+                ) {
+                  return true;
+                }
+                return false;
+              });
 
-            // Persist to Strapi is now handled in sendMessage to prevent duplicate saves by recipients
+              if (duplicateIndex !== -1) {
+                // If it already exists with a legacy ID, update it with the official server UUID
+                messageIdSet.current.add(msg.id);
+                messageIdSet.current.add(prev[duplicateIndex].id);
+                const updated = [...prev];
+                updated[duplicateIndex] = {
+                  ...updated[duplicateIndex],
+                  id: msg.id,
+                  repliedTo:
+                    data.repliedTo || updated[duplicateIndex].repliedTo,
+                };
+                return updated;
+              }
+
+              messageIdSet.current.add(msg.id);
+              return [...prev.slice(-499), msg];
+            });
+
+            // Persist to Strapi using the official server-assigned UUID.
+            // Only the sender client that initiated the message saves it to Strapi.
+            if (wasSentByMe) {
+              saveChatMessage(msg, isChannel);
+            }
+
             onNewMessage?.(msg);
             break;
           }
@@ -158,7 +225,7 @@ export default function useChatWebSocket({
     (text: string, to: string, repliedToId?: string) => {
       const { blockedPlayers } = EvosStore.getState();
       // Channels (e.g. 'general') are never in the blocked list — only block DM targets
-      const isChannel = channels.includes(to);
+      const isChannel = to === 'general' || channels.includes(to);
       if (!isChannel && blockedPlayers.includes(to)) {
         // eslint-disable-next-line no-console
         console.warn('Cannot send message to blocked player:', to);
@@ -166,25 +233,28 @@ export default function useChatWebSocket({
       }
       if (!text.trim() || !handle || !to) return;
 
-      const msgId = `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-      const msg: ChatMessage = {
-        id: msgId,
-        from: handle,
-        to,
-        text: text.trim(),
-        timestamp: Date.now(),
-        repliedTo: repliedToId,
-      };
+      const trimmedText = text.trim();
 
-      // Persist to Strapi immediately from the sender side
-      saveChatMessage(msg, isChannel);
+      // Clean up any stale pending messages older than 30s
+      const now = Date.now();
+      pendingSentMessages.current = pendingSentMessages.current.filter(
+        (p) => now - p.sentAt < 30000,
+      );
+
+      // Track that this client sent this message so we can persist to Strapi
+      // using the official server-assigned UUID once the server echoes it back.
+      pendingSentMessages.current.push({
+        text: trimmedText,
+        to,
+        repliedToId,
+        sentAt: now,
+      });
 
       sendJsonMessage({
         type: 'CHAT',
-        id: msgId,
         from: encodeURIComponent(handle),
         to,
-        text: text.trim(),
+        text: trimmedText,
         repliedTo: repliedToId,
       });
     },
@@ -254,7 +324,8 @@ export default function useChatWebSocket({
 
       if (!state.hasMore) return { count: 0, hasMore: false };
 
-      const isChannel = channels.includes(conversation);
+      const isChannel =
+        conversation === 'general' || channels.includes(conversation);
       let history: ChatMessage[] = [];
 
       if (isChannel) {
@@ -286,12 +357,54 @@ export default function useChatWebSocket({
 
       setMessages((prev) => {
         // Filter out existing messages from the history to avoid duplicates
-        const newHistory = history.filter(
-          (m) => !messageIdSet.current.has(m.id),
-        );
+        const newHistory: ChatMessage[] = [];
 
-        // Add new history IDs to the set
-        newHistory.forEach((m) => messageIdSet.current.add(m.id));
+        history.forEach((historyMsg) => {
+          // If ID already seen, skip
+          if (messageIdSet.current.has(historyMsg.id)) {
+            return;
+          }
+
+          // Check if this history message matches an existing message in prev
+          // (e.g. History has legacy msg- / local- id, but prev has server UUID, or vice-versa)
+          const existingMatch = prev.find((p) => {
+            if (p.id === historyMsg.id) return true;
+            const hasLegacyId =
+              historyMsg.id.startsWith('msg-') ||
+              historyMsg.id.startsWith('local-') ||
+              p.id.startsWith('msg-') ||
+              p.id.startsWith('local-');
+            return (
+              hasLegacyId &&
+              p.from === historyMsg.from &&
+              p.to === historyMsg.to &&
+              p.text === historyMsg.text &&
+              Math.abs(p.timestamp - historyMsg.timestamp) < 15000
+            );
+          });
+
+          if (existingMatch) {
+            // Already present in state! Record both IDs so future checks skip it immediately
+            messageIdSet.current.add(historyMsg.id);
+            messageIdSet.current.add(existingMatch.id);
+            return;
+          }
+
+          // Also check within newHistory itself to prevent duplicates within the page
+          const duplicateInNew = newHistory.find(
+            (n) =>
+              n.id === historyMsg.id ||
+              (n.from === historyMsg.from &&
+                n.to === historyMsg.to &&
+                n.text === historyMsg.text &&
+                Math.abs(n.timestamp - historyMsg.timestamp) < 5000),
+          );
+
+          if (!duplicateInNew) {
+            messageIdSet.current.add(historyMsg.id);
+            newHistory.push(historyMsg);
+          }
+        });
 
         // Prepend history messages
         return [...newHistory, ...prev];

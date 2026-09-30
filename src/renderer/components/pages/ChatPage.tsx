@@ -7,7 +7,7 @@
  * @since 3.2.1
  */
 
-import React, { useState, useEffect, useRef, memo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, memo } from 'react';
 import {
   Box,
   Typography,
@@ -726,20 +726,51 @@ export default function ChatPage() {
    * - Channel: all messages where msg.to === channelName
    * - DM: messages between me and the selected user (existing logic)
    */
-  const conversationMessages = messages.filter((m) => {
-    if (m.isSystem) return false;
-    if (blockedPlayers.includes(m.from)) return false;
+  const conversationMessages = useMemo(() => {
+    const filtered = messages.filter((m) => {
+      if (m.isSystem) return false;
+      if (blockedPlayers.includes(m.from)) return false;
 
-    if (isChannel) {
-      return m.to === selectedUser;
-    }
+      if (isChannel) {
+        return m.to === selectedUser;
+      }
 
-    // DM: between me and selectedUser
-    return (
-      (m.from === selectedUser && m.to === activeUser?.handle) ||
-      (m.from === activeUser?.handle && m.to === selectedUser)
-    );
-  });
+      // DM: between me and selectedUser
+      return (
+        (m.from === selectedUser && m.to === activeUser?.handle) ||
+        (m.from === activeUser?.handle && m.to === selectedUser)
+      );
+    });
+
+    // Safeguard deduplication for rendering
+    const unique: ChatMessage[] = [];
+    const seenIds = new Set<string>();
+
+    filtered.forEach((msg) => {
+      if (seenIds.has(msg.id)) return;
+
+      const isLegacyId =
+        msg.id.startsWith('msg-') || msg.id.startsWith('local-');
+      const hasDuplicate = unique.some((u) => {
+        if (u.id === msg.id) return true;
+        const uIsLegacy = u.id.startsWith('msg-') || u.id.startsWith('local-');
+        return (
+          (isLegacyId || uIsLegacy) &&
+          u.from === msg.from &&
+          u.to === msg.to &&
+          u.text === msg.text &&
+          Math.abs(u.timestamp - msg.timestamp) < 15000
+        );
+      });
+
+      if (!hasDuplicate) {
+        seenIds.add(msg.id);
+        unique.push(msg);
+      }
+    });
+
+    return unique;
+  }, [messages, blockedPlayers, isChannel, selectedUser, activeUser?.handle]);
 
   // Compute input placeholder without nested ternaries
   let inputPlaceholder: string;
