@@ -1,5 +1,5 @@
 {
-  "version": "3.3.5",
+  "version": "4.0.0",
   "description": "An Atlas Reactor Launcher",
   "keywords": [
     "Atlas Reacor"
@@ -43,7 +43,7 @@
     "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir release/app",
     "start": "ts-node ./.erb/scripts/check-port-in-use.js && npm run start:renderer",
     "start:lite": "cross-env APP_EDITION=lite npm start",
-    "start:main": "cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only . $ELECTRON_ARGS",
+    "start:main": "cross-env NODE_ENV=development electronmon -r tsx . $ELECTRON_ARGS",
     "start:preload": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.preload.dev.ts",
     "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
     "test": "jest"
@@ -78,7 +78,11 @@
     ],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/.erb/mocks/fileMock.js",
-      "\\.(css|less|sass|scss)$": "identity-obj-proxy"
+      "\\.(css|less|sass|scss)$": "identity-obj-proxy",
+      "^react-markdown$": "<rootDir>/.erb/mocks/reactMarkdownMock.js",
+      "^cheerio$": "<rootDir>/.erb/mocks/cheerioMock.js",
+      "^react-snowfall$": "<rootDir>/.erb/mocks/reactMarkdownMock.js",
+      "^mui-color-input$": "<rootDir>/.erb/mocks/muiColorInputMock.js"
     },
     "setupFiles": [
       "./.erb/scripts/check-build-exists.ts"
@@ -92,7 +96,12 @@
       ".erb/dll"
     ],
     "transform": {
-      "\\.(ts|tsx|js|jsx)$": "ts-jest"
+      "\\.(ts|tsx|js|jsx)$": [
+        "ts-jest",
+        {
+          "isolatedModules": true
+        }
+      ]
     }
   },
   "dependencies": {
@@ -141,8 +150,8 @@
     "zustand": "^5.0.8"
   },
   "devDependencies": {
-    "@electron/notarize": "^2.2.1",
-    "@electron/rebuild": "^3.6.0",
+    "@electron/notarize": "^3.1.1",
+    "@electron/rebuild": "^4.2.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.6.1",
     "@svgr/webpack": "^8.1.0",
     "@teamsupercell/typings-for-css-modules-loader": "^2.5.2",
@@ -168,11 +177,11 @@
     "css-loader": "^7.1.2",
     "css-minimizer-webpack-plugin": "^7.0.2",
     "detect-port": "^1.5.1",
-    "electron": "^27.3.11",
-    "electron-builder": "^24.9.1",
+    "electron": "^44.5.1",
+    "electron-builder": "^26.15.3",
     "electron-devtools-installer": "^3.2.1",
-    "electron-updater": "^6.6.2",
-    "electronmon": "^2.0.2",
+    "electron-updater": "^6.8.9",
+    "electronmon": "^2.0.4",
     "eslint": "^8.56.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-erb": "4.1.0",
@@ -204,6 +213,7 @@
     "ts-loader": "^9.5.4",
     "ts-node": "^10.9.2",
     "tsconfig-paths-webpack-plugin": "^4.2.0",
+    "tsx": "^4.23.15",
     "typescript": "^5.9.2",
     "url-loader": "^4.1.1",
     "webpack": "^5.101.3",
@@ -254,7 +264,12 @@
     },
     "win": {
       "target": [
-        "nsis"
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
       ]
     },
     "nsis": {

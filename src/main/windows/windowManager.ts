@@ -129,6 +129,7 @@ export function createSplashWindow(): BrowserWindow {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
+      sandbox: false,
     },
   });
 

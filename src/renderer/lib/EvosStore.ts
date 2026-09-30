@@ -30,10 +30,21 @@ const withElectron = <T>(
 /**
  * Browser storage fallback functions for web mode
  */
+const getStorage = () => {
+  if (typeof window !== 'undefined' && window.localStorage) {
+    return window.localStorage;
+  }
+  if (typeof localStorage !== 'undefined') {
+    return localStorage;
+  }
+  return null;
+};
+
 const browserStorage = {
   async getItem(key: string): Promise<any> {
     try {
-      const item = localStorage.getItem(`evos_${key}`);
+      const storage = getStorage();
+      const item = storage ? storage.getItem(`evos_${key}`) : null;
       return item ? JSON.parse(item) : null;
     } catch (error) {
       console.error(`Error reading from localStorage for key ${key}:`, error);
@@ -43,7 +54,10 @@ const browserStorage = {
 
   async setItem(key: string, value: any): Promise<void> {
     try {
-      localStorage.setItem(`evos_${key}`, JSON.stringify(value));
+      const storage = getStorage();
+      if (storage) {
+        storage.setItem(`evos_${key}`, JSON.stringify(value));
+      }
     } catch (error) {
       console.error(`Error writing to localStorage for key ${key}:`, error);
     }
@@ -51,7 +65,10 @@ const browserStorage = {
 
   async removeItem(key: string): Promise<void> {
     try {
-      localStorage.removeItem(`evos_${key}`);
+      const storage = getStorage();
+      if (storage) {
+        storage.removeItem(`evos_${key}`);
+      }
     } catch (error) {
       console.error(`Error removing from localStorage for key ${key}:`, error);
     }
@@ -59,13 +76,16 @@ const browserStorage = {
 
   clear(): void {
     try {
-      // Only clear evos-related items
-      const keys = Object.keys(localStorage);
-      keys.forEach((key) => {
-        if (key.startsWith('evos_')) {
-          localStorage.removeItem(key);
-        }
-      });
+      const storage = getStorage();
+      if (storage) {
+        // Only clear evos-related items
+        const keys = Object.keys(storage);
+        keys.forEach((key) => {
+          if (key.startsWith('evos_')) {
+            storage.removeItem(key);
+          }
+        });
+      }
     } catch (error) {
       console.error('Error clearing localStorage:', error);
     }

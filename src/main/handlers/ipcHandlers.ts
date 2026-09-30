@@ -1208,9 +1208,8 @@ export function setupWindowCloseHandler(
 export function setupWindowMinimizeHandler(
   mainWindow: BrowserWindow | null,
 ): void {
-  mainWindow?.on('minimize', async function handleWindowMinimize(e: any) {
+  mainWindow?.on('minimize', () => {
     if (minimizeToTrayGeneralCached === 'true') {
-      e.preventDefault();
       mainWindow?.hide();
     }
   });

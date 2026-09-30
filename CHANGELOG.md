@@ -1,5 +1,34 @@
 # Evos Launcher Changelog
 
+# [4.0.0] - 2026-09-30
+
+## Bug Fixes
+
+- **Chat Duplicate Messages & Synchronization**:
+  - Resolved an issue causing duplicate chat messages to appear in both direct messages and channels.
+
+## Features & Improvements
+
+- **Storage Resilience**:
+  - Added a safe `getStorage` helper in `EvosStore` to reliably detect and access `localStorage` across browser, Electron, SSR, and test environments.
+
+## Technical & Build Improvements
+
+- **Core Dependency & Electron Upgrades**:
+  - Upgraded **Electron** to `^44.5.1`.
+  - Upgraded **electron-builder** to `^26.15.3` and **electron-updater** to `^6.8.9`.
+  - Upgraded **@electron/rebuild** to `^4.2.0` and **@electron/notarize** to `^3.1.1`.
+  - Upgraded **electronmon** to `^2.0.4`.
+  - Switched `start:main` development runner from `ts-node/register/transpile-only` to `tsx` for faster transpilations.
+  - Configured Windows NSIS build target explicitly for `x64` architecture.
+- **Testing & Jest Setup**:
+  - Configured `ts-jest` with `isolatedModules: true` for faster test execution.
+  - Added Jest module mocks for `react-markdown`, `cheerio`, `react-snowfall`, and `mui-color-input`.
+  - Added `TextEncoder`/`TextDecoder` and `localStorage` polyfills in test runner initialization.
+  - Updated `App.test.tsx` with comprehensive Axios mocking and isolated `localStorage` simulation.
+- **Documentation**:
+  - Added `AGENTS.md` operational guide and architectural reference for AI agents and contributors.
+
 # [3.3.5] - 2026-09-04
 
 ## Features & Improvements
