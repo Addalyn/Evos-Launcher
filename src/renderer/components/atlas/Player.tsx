@@ -21,6 +21,7 @@ import {
   denydNames,
   getBanners,
   getSpecialNames,
+  isAsymmetricSubtype,
 } from '../../lib/Evos';
 import { BgImage } from '../generic/BasicComponents';
 import { strapiClient } from 'renderer/lib/strapi';
@@ -438,9 +439,7 @@ function Player({
                     info?.status !== 'Queued' &&
                     info?.status !== 'Character Select' &&
                     info?.status !== 'In Game' &&
-                    info?.status !== 'Asymmetric2Deathmatch' &&
-                    info?.status !== 'Asymmetric3Deathmatch' &&
-                    info?.status !== 'Asymmetric4Deathmatch'
+                    !isAsymmetricSubtype(info.status)
                   ) {
                     return title;
                   }
@@ -469,11 +468,7 @@ function Player({
                     mentorPrefix = `${t('titles.mentor')}/`;
                   }
 
-                  if (
-                    info?.status === 'Asymmetric2Deathmatch' ||
-                    info?.status === 'Asymmetric3Deathmatch' ||
-                    info?.status === 'Asymmetric4Deathmatch'
-                  ) {
+                  if (isAsymmetricSubtype(info.status)) {
                     return `${mentorPrefix}${t('Queued')} - ${t(`gamesubtype.${info.status}`)}`;
                   }
 

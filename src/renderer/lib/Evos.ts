@@ -628,6 +628,10 @@ const asymmetricSubtypes = new Map<string, number>([
   ['Asymmetric4Draft', 4],
 ]);
 
+export function isAsymmetricSubtype(subtype: string | undefined) {
+  return subtype !== undefined && asymmetricSubtypes.has(subtype);
+}
+
 /** transformStatusForAsymmetricQueues removes asymmetric queues from Status.queues, so check the status instead */
 export function isQueuedForAsymmetricSubtype(
   status: Status,
@@ -645,8 +649,8 @@ export function transformStatusForAsymmetricQueues(status: RawStatus): Status {
     return { ...status, numControlledCharacters: new Map() };
   }
 
-  const asymmetricQueues = status.queues.filter(
-    (q) => q.subtype && asymmetricSubtypes.has(q.subtype),
+  const asymmetricQueues = status.queues.filter((q) =>
+    isAsymmetricSubtype(q.subtype),
   );
 
   if (asymmetricQueues.length === 0) {
@@ -699,7 +703,7 @@ export function transformStatusForAsymmetricQueues(status: RawStatus): Status {
 
   // Filter out asymmetric queues so they don't show up in status.queues
   const filteredQueues = status.queues.filter(
-    (q) => !q.subtype || !asymmetricSubtypes.has(q.subtype),
+    (q) => !isAsymmetricSubtype(q.subtype),
   );
 
   return {

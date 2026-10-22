@@ -735,7 +735,10 @@
     "RankedCustom@SubTypes": "选秀",
     "Asymmetric2Deathmatch": "非对称 2P",
     "Asymmetric3Deathmatch": "非对称 3P",
-    "Asymmetric4Deathmatch": "非对称 4P"
+    "Asymmetric4Deathmatch": "非对称 4P",
+    "Asymmetric2Draft": "非对称选秀 2P",
+    "Asymmetric3Draft": "非对称选秀 3P",
+    "Asymmetric4Draft": "非对称选秀 4P"
   },
   "dev": {
     "title": "开发者文档中心",

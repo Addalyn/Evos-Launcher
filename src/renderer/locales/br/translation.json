@@ -734,7 +734,10 @@
     "RankedCustom@SubTypes": "Draft",
     "Asymmetric2Deathmatch": "Assimétrico 2P",
     "Asymmetric3Deathmatch": "Assimétrico 3P",
-    "Asymmetric4Deathmatch": "Assimétrico 4P"
+    "Asymmetric4Deathmatch": "Assimétrico 4P",
+    "Asymmetric2Draft": "Draft Assimétrico 2P",
+    "Asymmetric3Draft": "Draft Assimétrico 3P",
+    "Asymmetric4Draft": "Draft Assimétrico 4P"
   },
   "dev": {
     "title": "Centro de Documentação do Desenvolvedor",
