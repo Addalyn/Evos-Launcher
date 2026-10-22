@@ -201,7 +201,8 @@ export interface DataItem {
   user: string;
 }
 
-export interface Status {
+/** Lobby status as sent by the server */
+export interface RawStatus {
   players: PlayerData[];
   groups: GroupData[];
   queues: QueueData[];
@@ -210,6 +211,12 @@ export interface Status {
   factionsData: number[];
   factionsEnabled: boolean;
   error?: string;
+}
+
+/** Lobby status as returned by transformStatusForAsymmetricQueues */
+export interface Status extends RawStatus {
+  /** accountId -> number of controlled characters, only for players queued for asymmetric subtypes */
+  numControlledCharacters: Map<number, number>;
 }
 
 export interface TextNotification {
@@ -322,7 +329,7 @@ export async function changePassword(authHeader: string, password: string) {
 export async function getStatus() {
   const ip = await getIp();
   const baseUrl = `https://${ip}`;
-  return axios.get<Status>(`${baseUrl}/api/lobby/status`);
+  return axios.get<RawStatus>(`${baseUrl}/api/lobby/status`);
 }
 
 export async function getMotd(language: string) {
@@ -611,26 +618,39 @@ export async function getProxys() {
   );
 }
 
+/** Asymmetric subtypes and the number of characters a player queued for them controls */
+const asymmetricSubtypes = new Map<string, number>([
+  ['Asymmetric2Deathmatch', 2],
+  ['Asymmetric3Deathmatch', 3],
+  ['Asymmetric4Deathmatch', 4],
+  ['Asymmetric2Draft', 2],
+  ['Asymmetric3Draft', 3],
+  ['Asymmetric4Draft', 4],
+]);
+
+/** transformStatusForAsymmetricQueues removes asymmetric queues from Status.queues, so check the status instead */
+export function isQueuedForAsymmetricSubtype(
+  status: Status,
+  player: PlayerData,
+) {
+  return status.numControlledCharacters.has(player.accountId);
+}
+
 /**
  * Helper to process status and hide Asymmetric queues from the main queues,
  * and instead update the status of players in those queues to indicate their queue state.
  */
-export function transformStatusForAsymmetricQueues(status: Status): Status {
+export function transformStatusForAsymmetricQueues(status: RawStatus): Status {
   if (!status || !status.players || !status.queues || !status.groups) {
-    return status;
+    return { ...status, numControlledCharacters: new Map() };
   }
 
-  const asymmetricSubtypes = [
-    'Asymmetric2Deathmatch',
-    'Asymmetric3Deathmatch',
-    'Asymmetric4Deathmatch',
-  ];
   const asymmetricQueues = status.queues.filter(
-    (q) => q.subtype && asymmetricSubtypes.includes(q.subtype),
+    (q) => q.subtype && asymmetricSubtypes.has(q.subtype),
   );
 
   if (asymmetricQueues.length === 0) {
-    return status;
+    return { ...status, numControlledCharacters: new Map() };
   }
 
   // Map of accountId to their queue's subtype
@@ -641,13 +661,29 @@ export function transformStatusForAsymmetricQueues(status: Status): Status {
       const group = status.groups.find((g) => g.groupId === groupId);
       if (group) {
         group.accountIds.forEach((accId) => {
-          if (q.subtype) {
+          if (!q.subtype) {
+            return;
+          }
+          // Keep the largest one if a player is queued for several
+          const current = playerToQueueSubtype.get(accId);
+          if (
+            !current ||
+            (asymmetricSubtypes.get(q.subtype) ?? 0) >
+              (asymmetricSubtypes.get(current) ?? 0)
+          ) {
             playerToQueueSubtype.set(accId, q.subtype);
           }
         });
       }
     });
   });
+
+  const numControlledCharacters = new Map(
+    Array.from(playerToQueueSubtype, ([accId, subtype]) => [
+      accId,
+      asymmetricSubtypes.get(subtype) ?? 1,
+    ]),
+  );
 
   // Update players status if they are in an asymmetric queue
   const updatedPlayers = status.players.map((player) => {
@@ -663,12 +699,13 @@ export function transformStatusForAsymmetricQueues(status: Status): Status {
 
   // Filter out asymmetric queues so they don't show up in status.queues
   const filteredQueues = status.queues.filter(
-    (q) => !q.subtype || !asymmetricSubtypes.includes(q.subtype),
+    (q) => !q.subtype || !asymmetricSubtypes.has(q.subtype),
   );
 
   return {
     ...status,
     players: updatedPlayers,
     queues: filteredQueues,
+    numControlledCharacters,
   };
 }

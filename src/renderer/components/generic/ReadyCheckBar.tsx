@@ -22,7 +22,12 @@ import EvosStore from '../../lib/EvosStore';
 import { logoSmall } from '../../lib/Resources';
 import { withElectron } from '../../utils/electronUtils';
 import useGameWebSocket from '../../hooks/useGameWebSocket';
-import { PlayerData, Status, getPlayerData } from '../../lib/Evos';
+import {
+  PlayerData,
+  Status,
+  getPlayerData,
+  isQueuedForAsymmetricSubtype,
+} from '../../lib/Evos';
 import Player from '../atlas/Player';
 import { FlexBox } from './BasicComponents';
 
@@ -63,7 +68,11 @@ export default function ReadyCheckBar() {
         .flatMap((g) => g.accountIds),
     );
     return gameStatus.players
-      .filter((p) => queuedAccountIds.has(p.accountId))
+      .filter(
+        (p) =>
+          queuedAccountIds.has(p.accountId) ||
+          isQueuedForAsymmetricSubtype(gameStatus, p),
+      )
       .map((p) => p.handle);
   }, [gameStatus]);
 
@@ -84,7 +93,17 @@ export default function ReadyCheckBar() {
     });
   }, [readyUsers, queuedUserHandles, gameStatus?.players]);
 
-  const count = allInterested.length;
+  // Players queued for asymmetric subtypes count once per character they can control
+  const count = useMemo(
+    () =>
+      allInterested.reduce((sum, handle) => {
+        const player = gameStatus?.players.find((p) => p.handle === handle);
+        const numControlledCharacters =
+          player && gameStatus?.numControlledCharacters.get(player.accountId);
+        return sum + (numControlledCharacters ?? 1);
+      }, 0),
+    [allInterested, gameStatus],
+  );
   const threshold = 8;
   const progress = (count / threshold) * 100;
   const isFull = count >= threshold;
