@@ -399,6 +399,9 @@ export default function ReadyCheckBar() {
             disableSkew={false}
             characterType={undefined}
             titleOld=""
+            numControlledCharacters={gameStatus?.numControlledCharacters.get(
+              player.accountId,
+            )}
           />
         ))}
         {interestedPlayers.length === 0 && (
