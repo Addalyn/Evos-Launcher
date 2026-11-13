@@ -318,6 +318,7 @@ function StatusPage(): React.ReactElement {
             groupData={groups}
             playerData={players}
             hidePlayers={undefined}
+            playerAsymmetricSubtypes={q.playerAsymmetricSubtypes}
           />
         ))}
       {notQueuedGroups && groups && players && inGame && (
@@ -327,6 +328,7 @@ function StatusPage(): React.ReactElement {
           groupData={groups}
           playerData={players}
           hidePlayers={inGame}
+          playerAsymmetricSubtypes={undefined}
         />
       )}
       {status &&

@@ -22,12 +22,7 @@ import EvosStore from '../../lib/EvosStore';
 import { logoSmall } from '../../lib/Resources';
 import { withElectron } from '../../utils/electronUtils';
 import useGameWebSocket from '../../hooks/useGameWebSocket';
-import {
-  PlayerData,
-  Status,
-  getPlayerData,
-  isQueuedForAsymmetricSubtype,
-} from '../../lib/Evos';
+import { PlayerData, Status, getPlayerData } from '../../lib/Evos';
 import Player from '../atlas/Player';
 import { FlexBox } from './BasicComponents';
 
@@ -68,11 +63,7 @@ export default function ReadyCheckBar() {
         .flatMap((g) => g.accountIds),
     );
     return gameStatus.players
-      .filter(
-        (p) =>
-          queuedAccountIds.has(p.accountId) ||
-          isQueuedForAsymmetricSubtype(gameStatus, p),
-      )
+      .filter((p) => queuedAccountIds.has(p.accountId))
       .map((p) => p.handle);
   }, [gameStatus]);
 
