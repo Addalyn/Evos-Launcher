@@ -724,6 +724,7 @@
     "Deathmatch": "Ölüm Maçı",
     "Deathmatch@SubTypes": "Ölüm Maçı",
     "AllFourCharacters@SubTypes": "Dörtlans",
+    "AllFourCharactersDraft@SubTypes": "Dörtlans Taslağı",
     "SingleGroupVsBots@SubTypes": "Tekli vs Botlar",
     "CoopWithHumans@SubTypes": "Ölüm Maçı vs Botlar",
     "UnlimitedTimer@HUDScene": "Sınırsız Zamanlayıcı",

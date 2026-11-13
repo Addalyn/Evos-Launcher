@@ -725,6 +725,7 @@
     "Deathmatch": "Deathmatch",
     "Deathmatch@SubTypes": "Deathmatch",
     "AllFourCharacters@SubTypes": "Vierlanzer",
+    "AllFourCharactersDraft@SubTypes": "Vierlanzer Draft",
     "SingleGroupVsBots@SubTypes": "Einzelspieler vs Bots",
     "CoopWithHumans@SubTypes": "Deathmatch vs Bots",
     "UnlimitedTimer@HUDScene": "Unbegrenzter Timer",

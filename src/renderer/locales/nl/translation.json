@@ -723,6 +723,7 @@
     "Deathmatch": "Deathmatch",
     "Deathmatch@SubTypes": "Deathmatch",
     "AllFourCharacters@SubTypes": "Vierlanser",
+    "AllFourCharactersDraft@SubTypes": "Vierlanser Draft",
     "SingleGroupVsBots@SubTypes": "Individu vs Bots",
     "CoopWithHumans@SubTypes": "Deathmatch vs Bots",
     "UnlimitedTimer@HUDScene": "Onbeperkte Timer",

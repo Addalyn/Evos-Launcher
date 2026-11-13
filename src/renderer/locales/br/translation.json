@@ -722,6 +722,7 @@
     "Deathmatch": "Combate Mortal",
     "Deathmatch@SubTypes": "Combate Mortal",
     "AllFourCharacters@SubTypes": "Quatrolancer",
+    "AllFourCharactersDraft@SubTypes": "Draft Quatrolancer",
     "SingleGroupVsBots@SubTypes": "Individual vs Bots",
     "CoopWithHumans@SubTypes": "Combate Mortal vs Bots",
     "UnlimitedTimer@HUDScene": "Cronômetro Ilimitado",

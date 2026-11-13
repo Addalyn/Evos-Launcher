@@ -723,6 +723,7 @@
     "Deathmatch": "死亡竞赛",
     "Deathmatch@SubTypes": "死亡竞赛",
     "AllFourCharacters@SubTypes": "四骑士",
+    "AllFourCharactersDraft@SubTypes": "四骑士选秀",
     "SingleGroupVsBots@SubTypes": "单人对战机器人",
     "CoopWithHumans@SubTypes": "死亡竞赛对战机器人",
     "UnlimitedTimer@HUDScene": "无限计时器",

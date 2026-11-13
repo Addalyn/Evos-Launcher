@@ -723,6 +723,7 @@
     "Deathmatch": "Match à Mort",
     "Deathmatch@SubTypes": "Match à Mort",
     "AllFourCharacters@SubTypes": "Quatrelancier",
+    "AllFourCharactersDraft@SubTypes": "Draft Quatrelancier",
     "SingleGroupVsBots@SubTypes": "Solo vs Bots",
     "CoopWithHumans@SubTypes": "Match à Mort vs Bots",
     "UnlimitedTimer@HUDScene": "Minuteur Illimité",

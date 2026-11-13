@@ -696,6 +696,7 @@
     "Deathmatch": "Deathmatch",
     "Deathmatch@SubTypes": "Deathmatch",
     "AllFourCharacters@SubTypes": "Quattrolanciere",
+    "AllFourCharactersDraft@SubTypes": "Draft Quattrolanciere",
     "SingleGroupVsBots@SubTypes": "Singolo vs Bot",
     "CoopWithHumans@SubTypes": "Deathmatch vs Bot",
     "UnlimitedTimer@HUDScene": "Timer Illimitato",

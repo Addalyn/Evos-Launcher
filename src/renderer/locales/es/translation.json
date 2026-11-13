@@ -692,6 +692,7 @@
     "Deathmatch": "Combate a Muerte",
     "Deathmatch@SubTypes": "Combate a Muerte",
     "AllFourCharacters@SubTypes": "Cuatrolanza",
+    "AllFourCharactersDraft@SubTypes": "Draft Cuatrolanza",
     "SingleGroupVsBots@SubTypes": "Individual vs Bots",
     "CoopWithHumans@SubTypes": "Combate a Muerte vs Bots",
     "UnlimitedTimer@HUDScene": "Temporizador Ilimitado",

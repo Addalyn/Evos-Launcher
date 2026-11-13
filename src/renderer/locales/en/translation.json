@@ -736,6 +736,7 @@
     "Deathmatch": "Deathmatch",
     "Deathmatch@SubTypes": "Deathmatch",
     "AllFourCharacters@SubTypes": "Fourlancer",
+    "AllFourCharactersDraft@SubTypes": "Fourlancer Draft",
     "SingleGroupVsBots@SubTypes": "Single vs Bots",
     "CoopWithHumans@SubTypes": "Deathmatch vs Bots",
     "UnlimitedTimer@HUDScene": "Unlimited Timer",
