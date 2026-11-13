@@ -1,5 +1,16 @@
 # Evos Launcher Changelog
 
+# [4.0.1] - 2026-11-13
+
+## Features & Improvements
+
+- **Asymmetric Queues**:
+  - Added support for the Asymmetric Draft 2P/3P/4P game modes.
+  - Asymmetric queues are now merged into their base queues (Deathmatch and Draft) on the Status page, and each player shows the largest asymmetric mode they are queued for.
+- **ReadyCheckBar**:
+  - Players queued for asymmetric modes now count once per character they control towards the matchmaking interest total.
+  - Interested players queued for asymmetric modes show how many characters they control, e.g. "Queued (3)".
+
 # [4.0.0] - 2026-09-30
 
 ## Bug Fixes

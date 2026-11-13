@@ -27,6 +27,7 @@ import {
 } from '@mui/material';
 import {
   PlayerData,
+  RawStatus,
   Status,
   WS_URL,
   getPlayerData,
@@ -171,7 +172,7 @@ function StatusPage(): React.ReactElement {
     share: true,
     queryParams: { username: encodeURIComponent(activeUser?.handle as string) },
     onMessage: (event) => {
-      const parsedMessage: Status = JSON.parse(event.data);
+      const parsedMessage: RawStatus = JSON.parse(event.data);
       if (parsedMessage.error !== undefined) {
         setError({
           text: t('errors.serverOffline'),
@@ -317,6 +318,7 @@ function StatusPage(): React.ReactElement {
             groupData={groups}
             playerData={players}
             hidePlayers={undefined}
+            playerAsymmetricSubtypes={q.playerAsymmetricSubtypes}
           />
         ))}
       {notQueuedGroups && groups && players && inGame && (
@@ -326,6 +328,7 @@ function StatusPage(): React.ReactElement {
           groupData={groups}
           playerData={players}
           hidePlayers={inGame}
+          playerAsymmetricSubtypes={undefined}
         />
       )}
       {status &&

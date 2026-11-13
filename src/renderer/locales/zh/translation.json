@@ -723,6 +723,7 @@
     "Deathmatch": "死亡竞赛",
     "Deathmatch@SubTypes": "死亡竞赛",
     "AllFourCharacters@SubTypes": "四骑士",
+    "AllFourCharactersDraft@SubTypes": "四骑士选秀",
     "SingleGroupVsBots@SubTypes": "单人对战机器人",
     "CoopWithHumans@SubTypes": "死亡竞赛对战机器人",
     "UnlimitedTimer@HUDScene": "无限计时器",
@@ -735,7 +736,10 @@
     "RankedCustom@SubTypes": "选秀",
     "Asymmetric2Deathmatch": "非对称 2P",
     "Asymmetric3Deathmatch": "非对称 3P",
-    "Asymmetric4Deathmatch": "非对称 4P"
+    "Asymmetric4Deathmatch": "非对称 4P",
+    "Asymmetric2Draft": "非对称选秀 2P",
+    "Asymmetric3Draft": "非对称选秀 3P",
+    "Asymmetric4Draft": "非对称选秀 4P"
   },
   "dev": {
     "title": "开发者文档中心",

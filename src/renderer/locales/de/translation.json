@@ -725,6 +725,7 @@
     "Deathmatch": "Deathmatch",
     "Deathmatch@SubTypes": "Deathmatch",
     "AllFourCharacters@SubTypes": "Vierlanzer",
+    "AllFourCharactersDraft@SubTypes": "Vierlanzer Draft",
     "SingleGroupVsBots@SubTypes": "Einzelspieler vs Bots",
     "CoopWithHumans@SubTypes": "Deathmatch vs Bots",
     "UnlimitedTimer@HUDScene": "Unbegrenzter Timer",
@@ -737,7 +738,10 @@
     "RankedCustom@SubTypes": "Draft",
     "Asymmetric2Deathmatch": "Asymmetrisch 2P",
     "Asymmetric3Deathmatch": "Asymmetrisch 3P",
-    "Asymmetric4Deathmatch": "Asymmetrisch 4P"
+    "Asymmetric4Deathmatch": "Asymmetrisch 4P",
+    "Asymmetric2Draft": "Asymmetrischer Draft 2P",
+    "Asymmetric3Draft": "Asymmetrischer Draft 3P",
+    "Asymmetric4Draft": "Asymmetrischer Draft 4P"
   },
   "dev": {
     "title": "Entwickler-Dokumentationszentrum",
