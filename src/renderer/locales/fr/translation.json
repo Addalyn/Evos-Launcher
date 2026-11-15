@@ -723,6 +723,7 @@
     "Deathmatch": "Match à Mort",
     "Deathmatch@SubTypes": "Match à Mort",
     "AllFourCharacters@SubTypes": "Quatrelancier",
+    "AllFourCharactersDraft@SubTypes": "Draft Quatrelancier",
     "SingleGroupVsBots@SubTypes": "Solo vs Bots",
     "CoopWithHumans@SubTypes": "Match à Mort vs Bots",
     "UnlimitedTimer@HUDScene": "Minuteur Illimité",
@@ -735,7 +736,10 @@
     "RankedCustom@SubTypes": "Draft",
     "Asymmetric2Deathmatch": "Asymétrique 2P",
     "Asymmetric3Deathmatch": "Asymétrique 3P",
-    "Asymmetric4Deathmatch": "Asymétrique 4P"
+    "Asymmetric4Deathmatch": "Asymétrique 4P",
+    "Asymmetric2Draft": "Draft Asymétrique 2P",
+    "Asymmetric3Draft": "Draft Asymétrique 3P",
+    "Asymmetric4Draft": "Draft Asymétrique 4P"
   },
   "dev": {
     "title": "Centre de Documentation Développeur",

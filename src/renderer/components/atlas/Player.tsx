@@ -21,6 +21,7 @@ import {
   denydNames,
   getBanners,
   getSpecialNames,
+  isAsymmetricSubtype,
 } from '../../lib/Evos';
 import { BgImage } from '../generic/BasicComponents';
 import { strapiClient } from 'renderer/lib/strapi';
@@ -60,6 +61,9 @@ interface Props {
   /** Custom click handler */
   // eslint-disable-next-line react/require-default-props
   onClick?: () => void;
+  /** Number of characters the player controls if queued for an asymmetric subtype, shown in the status */
+  // eslint-disable-next-line react/require-default-props
+  numControlledCharacters?: number;
 }
 
 /**
@@ -215,6 +219,7 @@ function Player({
   characterType = undefined,
   titleOld = '',
   onClick = undefined,
+  numControlledCharacters = undefined,
 }: Props) {
   const { t } = useTranslation();
   const [specialNames, setSpecialNames] = useState<SpecialNames>();
@@ -438,9 +443,8 @@ function Player({
                     info?.status !== 'Queued' &&
                     info?.status !== 'Character Select' &&
                     info?.status !== 'In Game' &&
-                    info?.status !== 'Asymmetric2Deathmatch' &&
-                    info?.status !== 'Asymmetric3Deathmatch' &&
-                    info?.status !== 'Asymmetric4Deathmatch'
+                    !isAsymmetricSubtype(info.status) &&
+                    numControlledCharacters === undefined
                   ) {
                     return title;
                   }
@@ -469,11 +473,11 @@ function Player({
                     mentorPrefix = `${t('titles.mentor')}/`;
                   }
 
-                  if (
-                    info?.status === 'Asymmetric2Deathmatch' ||
-                    info?.status === 'Asymmetric3Deathmatch' ||
-                    info?.status === 'Asymmetric4Deathmatch'
-                  ) {
+                  if (numControlledCharacters !== undefined) {
+                    return `${mentorPrefix}${t('Queued')} (${numControlledCharacters})`;
+                  }
+
+                  if (isAsymmetricSubtype(info.status)) {
                     return `${mentorPrefix}${t('Queued')} - ${t(`gamesubtype.${info.status}`)}`;
                   }
 

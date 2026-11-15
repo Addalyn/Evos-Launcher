@@ -171,6 +171,12 @@ export interface QueueData {
   subtype?: string;
 }
 
+/** Queue from the lobby status, as returned by transformStatusForAsymmetricQueues */
+export interface LobbyQueueData extends QueueData {
+  /** accountId -> asymmetric subtype with the most characters, for players queued for asymmetric variants of this queue */
+  playerAsymmetricSubtypes: Map<number, string>;
+}
+
 export interface ServerData {
   id: string;
   name: string;
@@ -201,7 +207,8 @@ export interface DataItem {
   user: string;
 }
 
-export interface Status {
+/** Lobby status as sent by the server */
+export interface RawStatus {
   players: PlayerData[];
   groups: GroupData[];
   queues: QueueData[];
@@ -210,6 +217,14 @@ export interface Status {
   factionsData: number[];
   factionsEnabled: boolean;
   error?: string;
+}
+
+/** Lobby status as returned by transformStatusForAsymmetricQueues */
+export interface Status extends RawStatus {
+  /** Asymmetric queues are collapsed into their base queues */
+  queues: LobbyQueueData[];
+  /** accountId -> number of controlled characters, only for players queued for asymmetric subtypes */
+  numControlledCharacters: Map<number, number>;
 }
 
 export interface TextNotification {
@@ -322,7 +337,7 @@ export async function changePassword(authHeader: string, password: string) {
 export async function getStatus() {
   const ip = await getIp();
   const baseUrl = `https://${ip}`;
-  return axios.get<Status>(`${baseUrl}/api/lobby/status`);
+  return axios.get<RawStatus>(`${baseUrl}/api/lobby/status`);
 }
 
 export async function getMotd(language: string) {
@@ -611,64 +626,113 @@ export async function getProxys() {
   );
 }
 
-/**
- * Helper to process status and hide Asymmetric queues from the main queues,
- * and instead update the status of players in those queues to indicate their queue state.
- */
-export function transformStatusForAsymmetricQueues(status: Status): Status {
-  if (!status || !status.players || !status.queues || !status.groups) {
-    return status;
-  }
-
-  const asymmetricSubtypes = [
+/** Asymmetric subtypes, the subtypes of the queues they are collapsed into, and the number of characters a player queued for them controls */
+const asymmetricSubtypes = new Map<
+  string,
+  { baseSubtype: string; numControlledCharacters: number }
+>([
+  [
     'Asymmetric2Deathmatch',
+    { baseSubtype: 'Deathmatch', numControlledCharacters: 2 },
+  ],
+  [
     'Asymmetric3Deathmatch',
+    { baseSubtype: 'Deathmatch', numControlledCharacters: 3 },
+  ],
+  [
     'Asymmetric4Deathmatch',
-  ];
-  const asymmetricQueues = status.queues.filter(
-    (q) => q.subtype && asymmetricSubtypes.includes(q.subtype),
-  );
+    { baseSubtype: 'Deathmatch', numControlledCharacters: 4 },
+  ],
+  [
+    'Asymmetric2Draft',
+    { baseSubtype: 'RankedCustom', numControlledCharacters: 2 },
+  ],
+  [
+    'Asymmetric3Draft',
+    { baseSubtype: 'RankedCustom', numControlledCharacters: 3 },
+  ],
+  [
+    'Asymmetric4Draft',
+    { baseSubtype: 'RankedCustom', numControlledCharacters: 4 },
+  ],
+]);
 
-  if (asymmetricQueues.length === 0) {
-    return status;
-  }
+export function isAsymmetricSubtype(subtype: string | undefined) {
+  return subtype !== undefined && asymmetricSubtypes.has(subtype);
+}
 
-  // Map of accountId to their queue's subtype
-  const playerToQueueSubtype = new Map<number, string>();
+/**
+ * Helper to process status and collapse Asymmetric queues into their base queues,
+ * recording for each player the asymmetric subtype with the most characters they are queued for.
+ */
+export function transformStatusForAsymmetricQueues(status: RawStatus): Status {
+  const numControlledCharacters = new Map<number, number>();
+  const groups = new Map(status.groups?.map((g) => [g.groupId, g]));
+  const queues: LobbyQueueData[] = [];
+  const queuesBySubtype = new Map<string, LobbyQueueData>();
 
-  asymmetricQueues.forEach((q) => {
-    q.groupIds.forEach((groupId) => {
-      const group = status.groups.find((g) => g.groupId === groupId);
-      if (group) {
-        group.accountIds.forEach((accId) => {
-          if (q.subtype) {
-            playerToQueueSubtype.set(accId, q.subtype);
-          }
-        });
+  status.queues?.forEach((q) => {
+    if (!isAsymmetricSubtype(q.subtype)) {
+      const queue = {
+        ...q,
+        groupIds: [...q.groupIds],
+        playerAsymmetricSubtypes: new Map(),
+      };
+      queues.push(queue);
+      if (q.subtype) {
+        queuesBySubtype.set(q.subtype, queue);
       }
+    }
+  });
+
+  status.queues?.forEach((q) => {
+    const asymmetric = q.subtype && asymmetricSubtypes.get(q.subtype);
+    if (!q.subtype || !asymmetric) {
+      return;
+    }
+    const { subtype } = q;
+
+    let baseQueue = queuesBySubtype.get(asymmetric.baseSubtype);
+    if (!baseQueue) {
+      baseQueue = {
+        type: q.type,
+        subtype: asymmetric.baseSubtype,
+        groupIds: [],
+        playerAsymmetricSubtypes: new Map(),
+      };
+      queues.push(baseQueue);
+      queuesBySubtype.set(asymmetric.baseSubtype, baseQueue);
+    }
+    const { groupIds, playerAsymmetricSubtypes } = baseQueue;
+
+    q.groupIds.forEach((groupId) => {
+      if (!groupIds.includes(groupId)) {
+        groupIds.push(groupId);
+      }
+      groups.get(groupId)?.accountIds.forEach((accId) => {
+        // Keep the largest one if a player is queued for several
+        const current = playerAsymmetricSubtypes.get(accId);
+        if (
+          !current ||
+          asymmetric.numControlledCharacters >
+            (asymmetricSubtypes.get(current)?.numControlledCharacters ?? 0)
+        ) {
+          playerAsymmetricSubtypes.set(accId, subtype);
+        }
+        numControlledCharacters.set(
+          accId,
+          Math.max(
+            numControlledCharacters.get(accId) ?? 0,
+            asymmetric.numControlledCharacters,
+          ),
+        );
+      });
     });
   });
 
-  // Update players status if they are in an asymmetric queue
-  const updatedPlayers = status.players.map((player) => {
-    const queueSubtype = playerToQueueSubtype.get(player.accountId);
-    if (queueSubtype) {
-      return {
-        ...player,
-        status: queueSubtype,
-      };
-    }
-    return player;
-  });
-
-  // Filter out asymmetric queues so they don't show up in status.queues
-  const filteredQueues = status.queues.filter(
-    (q) => !q.subtype || !asymmetricSubtypes.includes(q.subtype),
-  );
-
   return {
     ...status,
-    players: updatedPlayers,
-    queues: filteredQueues,
+    queues,
+    numControlledCharacters,
   };
 }

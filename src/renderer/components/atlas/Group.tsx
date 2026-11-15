@@ -17,6 +17,8 @@ interface Props {
   info: GroupData;
   /** Map of player data indexed by account ID */
   playerData: Map<number, PlayerData>;
+  /** Map of account ID to the asymmetric subtype to show as the player's status */
+  playerAsymmetricSubtypes: Map<number, string> | undefined;
 }
 
 /**
@@ -28,15 +30,25 @@ interface Props {
  * @param props - Group component props
  * @returns A List containing player components for group members not in game
  */
-function Group({ info, playerData }: Props) {
+function Group({
+  info,
+  playerData,
+  playerAsymmetricSubtypes = undefined,
+}: Props) {
   return (
     <List style={{ padding: 0 }}>
       {info.accountIds.map((accountId) => {
-        if (playerData.get(accountId)?.status !== 'In Game') {
+        const player = playerData.get(accountId);
+        if (player?.status !== 'In Game') {
+          const asymmetricSubtype = playerAsymmetricSubtypes?.get(accountId);
           return (
             <ListItem disablePadding key={`player_${accountId}`}>
               <Player
-                info={playerData.get(accountId)}
+                info={
+                  player && asymmetricSubtype
+                    ? { ...player, status: asymmetricSubtype }
+                    : player
+                }
                 disableSkew={false}
                 characterType={undefined}
                 titleOld=""

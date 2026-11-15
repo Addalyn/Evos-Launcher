@@ -24,6 +24,8 @@ interface Props {
   playerData: Map<number, PlayerData>;
   /** Set of player account IDs to hide from display */
   hidePlayers: Set<number> | undefined;
+  /** Map of account ID to the asymmetric subtype to show as the player's status */
+  playerAsymmetricSubtypes: Map<number, string> | undefined;
 }
 
 /**
@@ -40,6 +42,7 @@ function Queue({
   groupData,
   playerData,
   hidePlayers = undefined,
+  playerAsymmetricSubtypes = undefined,
 }: Props) {
   const { t } = useTranslation();
 
@@ -144,6 +147,7 @@ function Queue({
               key={`group_${groupId}`}
               info={filteredInfo}
               playerData={playerData}
+              playerAsymmetricSubtypes={playerAsymmetricSubtypes}
             />
           );
         })}

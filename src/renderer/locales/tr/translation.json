@@ -724,6 +724,7 @@
     "Deathmatch": "Ölüm Maçı",
     "Deathmatch@SubTypes": "Ölüm Maçı",
     "AllFourCharacters@SubTypes": "Dörtlans",
+    "AllFourCharactersDraft@SubTypes": "Dörtlans Taslağı",
     "SingleGroupVsBots@SubTypes": "Tekli vs Botlar",
     "CoopWithHumans@SubTypes": "Ölüm Maçı vs Botlar",
     "UnlimitedTimer@HUDScene": "Sınırsız Zamanlayıcı",
@@ -736,7 +737,10 @@
     "RankedCustom@SubTypes": "Taslak",
     "Asymmetric2Deathmatch": "Asimetrik 2P",
     "Asymmetric3Deathmatch": "Asimetrik 3P",
-    "Asymmetric4Deathmatch": "Asimetrik 4P"
+    "Asymmetric4Deathmatch": "Asimetrik 4P",
+    "Asymmetric2Draft": "Asimetrik Taslak 2P",
+    "Asymmetric3Draft": "Asimetrik Taslak 3P",
+    "Asymmetric4Draft": "Asimetrik Taslak 4P"
   },
   "dev": {
     "title": "Geliştirici Dokümantasyon Merkezi",
